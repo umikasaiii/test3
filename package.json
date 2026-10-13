@@ -1,0 +1,13 @@
+{
+  "name": "skilltree-academy",
+  "version": "1.0.0",
+  "description": "SkillTree Academy — accademia personale offline-first (lingue, judo, mente, cultura generale)",
+  "private": true,
+  "scripts": {
+    "build": "node tools/build.js",
+    "validate": "node tools/validate-content.js",
+    "test": "node --test tests/engine.test.js",
+    "e2e": "node tests/e2e.js && node tests/e2e-smoke.js",
+    "check": "npm run build && npm run validate && npm test && git diff --exit-code index.html"
+  }
+}

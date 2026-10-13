@@ -1,0 +1,16 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: node tools/build.js
+      - run: node tools/validate-content.js
+      - run: node --test tests/engine.test.js
+      - name: index.html deve essere aggiornato rispetto ai sorgenti
+        run: git diff --exit-code index.html
