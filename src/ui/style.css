@@ -95,3 +95,5 @@ textarea{min-height:140px}
 table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:130px;background:var(--card2);border:1px solid var(--acc2);padding:10px 16px;border-radius:99px;z-index:50;max-width:90%;box-shadow:0 6px 30px #0008}
 @media (prefers-reduced-motion:no-preference){.hero .pulse{animation:p 3s ease-in-out infinite}@keyframes p{50%{opacity:.5}}}
+
+.banner.art-grp{height:min(72vw,300px);background-size:contain;background-color:#070a1c}

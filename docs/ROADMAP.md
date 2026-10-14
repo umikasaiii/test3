@@ -5,8 +5,8 @@ Priorità dettate dall'audit (`docs/AUDIT.md`). **P0** = critico, **P1** = impor
 ## P0
 1. Verifica su Android reale (voci TTS en-GB/en-US/en-AU/ja-JP, microfono, salvataggio alla chiusura, PWA).
 2. Pubblicazione su https (GitHub Pages) per persistenza e service worker.
-3. Inglese: da 14 a 60–80 argomenti (B1→B2 solido), ascolti con voci umane, lettura graduata, scrittura con griglia.
-4. Giapponese: da 12 a 60–80 argomenti, kanji in contesto (≈ 300 nel biennio), più ascolti e dialoghi.
+3. Inglese: da 42 a 60–80 argomenti (B1→B2 solido), ascolti con voci umane, lettura graduata, scrittura con griglia.
+4. Giapponese: da 42 a 60–80 argomenti, kanji in contesto (≈ 300 nel biennio), più ascolti e dialoghi.
 5. Valutazione esterna periodica (promemoria mensile con docente) e registro delle evidenze.
 
 ## P1

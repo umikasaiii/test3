@@ -5,7 +5,7 @@
   const V = ST.views, X = ST.acts;
 
   /* Immagini originali V11.2 (assets/) per materia; il bagliore del bordo indica attività recente, non padronanza. */
-  const ART = { eng: 'english-studio', jpn: 'japanese-studio', grp: 'judo-ukemi-main', cyb: 'cyber-range', prog: 'python-sandbox', sport: 'carico-biomeccanica', f1: 'f1-visual-lab', str: 'giochi-strategici', mnt: 'palestra-mentale', sec: 'bg-secondary-02' };
+  const ART = { eng: 'english-studio', jpn: 'japanese-studio', grp: 'judo-neon', cyb: 'cyber-range', prog: 'python-sandbox', sport: 'carico-biomeccanica', f1: 'f1-visual-lab', str: 'giochi-strategici', mnt: 'palestra-mentale', sec: 'bg-secondary-02' };
   const img = n => (ST.assets && ST.assets[n]) || '';
   ST.img = img; ST.ART = ART;
   // Le immagini sono definite una sola volta come classi CSS (non ripetute nell'HTML a ogni render).

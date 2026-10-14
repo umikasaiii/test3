@@ -209,21 +209,21 @@ Su tua richiesta la repo `test3` è stata svuotata (il vecchio contenuto — un 
 | Audio | Attesa delle voci asincrone, scelta voce per regione, riproduzione a frasi, `onend`/`onerror`/timeout, messaggi d'errore guidati, diagnostica (Altro → Audio), registrazione con permessi gestiti |
 | Judo | 12 tecniche **solo solitarie** (posture, spostamenti, tai sabaki, kuzushi, kumi-kata, 3 entrate a vuoto, shrimp, rialzo, tempismo, uchikomi a vuoto), scheduler settimanale (intro/consolidamento/movimento/variante/richiamo casuale/combinazioni/domenica teoria), timer 30″-2′30″-1′30″-30″ adattivo, registro completo, verifica istruttore **separata** |
 | Allenamento mentale | 7 tipi generati (calcolo, successioni, span, Corsi, elemento diverso, Stroop, logica) con livello adattivo 1–10 |
-| Contenuti | Inglese 14 argomenti (≈ 5.900 parole di lezione, 98 esercizi, 56 domande di verifica, 112 carte, 14 brani). Giapponese 12 argomenti (≈ 4.100 parole, 84 esercizi, 48 domande, 96 carte, 12 brani). Pool B2: 6 ascolti + 6 letture. 6 dialoghi ramificati. 14 pillole teoriche |
+| Contenuti | Inglese 42 argomenti (≈ 15.900 parole di lezione, 294 esercizi, 168 domande di verifica, 336 carte, 42 brani). Giapponese 42 argomenti (≈ 11.100 parole, 294 esercizi, 168 domande, 336 carte, 42 brani; 5 set di kanji in contesto). Pool B2: 6 ascolti + 6 letture. 6 dialoghi ramificati. 14 pillole teoriche |
 
 ### 9.2 Prove eseguite
 
 - **32 test unitari** (`node --test tests/engine.test.js`): SRS, curva livelli, tetto XP, regole di verifica/mantenimento, piano 60′ (mesi 1–8, 9–16, 17–24, gate B2), scheduler judo, migrazioni, generatori mentali.
 - **Simulazione di 24 mesi del judo** (sedute 6/7 giorni, 10% di giorni saltati, qualità variabile): 12 tecniche introdotte (ultima al mese 11); **tutte** ancora ripassate negli ultimi 150 giorni; gap massimo fra due ripassi della stessa tecnica: 9–18 giorni per le prime quattro, 49–77 giorni per le successive (mai oltre il tetto di 120 giorni); la tecnica più antica ha > 280 richiami. → lo scheduler **non** si limita alle ultime tecniche.
 - **E2E Chromium headless** (48 controlli): onboarding, missioni 25/20/15, lezione a pagine con ripresa dopo reload, esercizi e feedback, «test lo stesso giorno non conta», ascolto senza testo (TTS simulata), dettato, kana, furigana, ripasso giapponese in richiamo, sessione judo, mentale, backup/ripristino, diagnostica audio, nessuno scroll orizzontale a 390 px, nessun errore JS.
-- **Smoke** (`tests/e2e-smoke.js`): apertura di tutte le materie e di tutti i 40 argomenti (ogni pagina, esercizio e verifica), tutti i laboratori in EN e JA, shadowing con registrazione simulata, dialogo ramificato, prove B2.
+- **Smoke** (`tests/e2e-smoke.js`): apertura di tutte le materie e di tutti gli argomenti (ogni pagina, esercizio e verifica), tutti i laboratori in EN e JA, shadowing con registrazione simulata, dialogo ramificato, prove B2.
 - Validatore dei contenuti (`tools/validate-content.js`): id, prerequisiti, risposte, opzioni duplicate, kanji senza lettura nei testi da ascoltare, copertura.
 
 **Non eseguito:** test su un telefono Android reale (voci TTS reali, `file://`, permessi microfono, install PWA). Fino a quel test, l'audio su dispositivo è **non verificato**.
 
 ### 9.3 Limiti noti della ricostruzione (onestà)
 
-1. **Volume dei contenuti**: ≈ 14+12 argomenti di lingua sono un **nucleo**, non due anni. Servono molte più lezioni, brani e esercizi (vedi `docs/ROADMAP.md`).
+1. **Volume dei contenuti**: ≈ 42+42 argomenti di lingua sono una base solida ma ancora una **frazione** dei 24 mesi. Servono molte più lezioni, brani e esercizi (vedi `docs/ROADMAP.md`).
 2. **Materie non linguistiche**: solo pillole introduttive (≈ 130 parole ciascuna) per cyber, sport, prog/AI, F1, strategia e secondarie. Il vecchio file aveva 91 lezioni di cybersecurity: **non sono state migrate**; sono nella cronologia git e nel file originale.
 3. **Il parlato resta autovalutato**: l'app lo dice a ogni uscita; il B2 e l'autonomia in giapponese richiedono prove esterne.
 4. **Judo**: il lavoro con partner non è allenabile; la verifica di un istruttore è registrata ma non automatica; il repertorio finisce al mese 11 → dopo, mantenimento e varianti (va ampliato con un istruttore).
