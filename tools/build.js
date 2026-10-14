@@ -5,7 +5,7 @@ const root = path.join(__dirname, '..');
 const ORDER = [
   'core/util', 'core/version', 'core/srs', 'core/progress', 'core/plan', 'core/kana', 'core/cards', 'core/motor', 'core/storage', 'core/audio', 'core/mental',
   'content/registry', 'content/subjects', 'content/judo', 'content/en-l0-l1', 'content/en-l2-l3', 'content/en-l4-l5', 'content/en-gate', 'content/en-x-l0', 'content/en-x-l1', 'content/en-x-l2', 'content/en-x-l3', 'content/en-x-l4', 'content/en-x-l5',
-  'content/ja-j0-j1', 'content/ja-x-j0', 'content/ja-x-j1', 'content/ja-x-j2', 'content/ja-x-j3', 'content/ja-x-j4', 'content/ja-x-j5', 'content/ja-j2-j3', 'content/ja-j4-j5', 'content/pills', 'content/extras', 'content/dialogues', 'content/gate-more', 'content/reading-more', 'content/resources',
+  'content/ja-j0-j1', 'content/ja-x-j0', 'content/ja-x-j1', 'content/ja-x-j2', 'content/ja-x-j3', 'content/ja-x-j4', 'content/ja-x-j5', 'content/ja-j2-j3', 'content/ja-j4-j5', 'content/pills', 'content/extras', 'content/dialogues', 'content/gate-more', 'content/reading-more', 'content/en-y', 'content/ja-y', 'content/gate-more2', 'content/gate-more3', 'content/resources',
   'ui/app', 'ui/views-home', 'ui/runner', 'ui/topic', 'ui/labs', 'ui/mission', 'ui/views-other', 'ui/boot'
 ];
 exports.ORDER = ORDER;
