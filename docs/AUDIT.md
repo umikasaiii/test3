@@ -306,3 +306,10 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - palette riallineata ai token originali (`#080b16`, `#10172d`, `#171e37`, accento `#9c8eff`, ciano `#60e9eb`, font Inter).
 
 **Non ricreato:** la barra laterale desktop e altre schermate della V11.2 non presenti nei requisiti; la foto F1 non è incorporata nell'app (solo conservata); il font WOFF incorporato non è stato riutilizzato (non identificato).
+
+## Strategia (str)
+
+- Contenuti: 32 lezioni (pensiero strategico, teoria dei giochi, decisioni, scacchi base/intermedi), 9 laboratori generati con verifica indipendente, banca di 94 problemi di scacchi (93 verificati dal motore), 9 scenari di simulazione con debrief expectimax.
+- Evidenza: motore scacchi verificato con perft; problemi matto/materiale verificati con ricerca; simulazioni validate (migliore = qualità 1, casuale ≤ 0,93). Smoke test superato.
+- Limiti: contenuti non rivisti da esperti; scenari semplificati e inventati; utilità lineari senza penalità; finali di torre (Lucena/Philidor) e alfiere di colore sbagliato non verificabili via software.
+- Stima onesta del voto: ~7,5/10 (solido per lo studio autonomo, non sostituisce pratica con avversari reali).
