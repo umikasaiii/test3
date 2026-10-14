@@ -135,15 +135,22 @@ test('Kana: gli errori diventano più frequenti', () => {
 });
 
 test('Judo: i contenuti rispettano sicurezza e repertorio (solo, no sparring)', () => {
-  assert.ok(C.judo.techniques.length >= 12 && C.judo.techniques.length <= 30);
+  assert.ok(C.judo.techniques.length >= 12 && C.judo.techniques.length <= 60);
   C.judo.techniques.forEach(t => { assert.ok(t.cues.length >= 3 && t.errors.length >= 3 && t.variants.length >= 3 && t.theory.length >= 1, t.id); assert.ok(t.minMonth >= 1 && t.minMonth <= 24, t.id); });
   // ordine di introduzione coerente col mese minimo
   for (let i = 1; i < C.judo.techniques.length; i++) assert.ok(C.judo.techniques[i].minMonth >= C.judo.techniques[i - 1].minMonth, 'ordine ' + C.judo.techniques[i].id);
   // le entrate che simulano un attacco a un avversario richiedono verifica di un istruttore
-  ['single-leg-entry', 'double-leg-entry', 'ogoshi-entry', 'osoto-entry', 'seoi-entry'].forEach(id => assert.equal(C.judo.techniques.find(t => t.id === id).instructor, true, id));
+  ['single-leg-entry', 'double-leg-entry', 'ogoshi-entry', 'osoto-entry', 'seoi-entry', 'ogoshi-full', 'seoi-full', 'band-uchikomi'].forEach(id => assert.equal(C.judo.techniques.find(t => t.id === id).instructor, true, id));
   C.judo.combos.forEach(c => c.ids.forEach(id => assert.ok(C.judo.techniques.find(t => t.id === id), 'combo ' + id)));
   const txt = JSON.stringify(C.judo).toLowerCase();
-  assert.ok(!/proietta(re)? il partner|ukemi nuov|caduta nuova/.test(txt));
+  assert.ok(!/proietta(re)? il partner/.test(txt));
+  // cadute: tutte in progressione dal basso; i gradini alti richiedono istruttore
+  const uk = C.judo.techniques.filter(t => (t.tags || []).includes('ukemi'));
+  assert.ok(uk.length >= 9, 'ukemi: ' + uk.length);
+  ['ushiro-ukemi-standing', 'yoko-ukemi-standing', 'mae-ukemi-standing', 'mae-ukemi-squat', 'ushiro-ukemi-squat'].forEach(id => assert.equal(C.judo.techniques.find(t => t.id === id).instructor, true, id));
+  assert.ok(C.judo.techniques.find(t => t.id === 'ushiro-ukemi-lying').minMonth < C.judo.techniques.find(t => t.id === 'ushiro-ukemi-standing').minMonth);
+  // proiezioni solo «a vuoto»: ogni gesto completo è segnato per istruttore e menziona che si termina in piedi / nell’aria
+  C.judo.techniques.filter(t => /-full$/.test(t.id)).forEach(t => { assert.equal(t.instructor, true, t.id); assert.ok(/(in piedi|nell’aria|a quota|stance|shizentai|equilibrio)/.test(JSON.stringify(t.cues)), t.id); });
   assert.ok(C.judo.safety.some(x => /istruttore/.test(x)));
 });
 test('Judo: rotazione settimanale (domenica = riposo, nessuna tecnica fisica)', () => {

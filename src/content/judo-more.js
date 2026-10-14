@@ -92,7 +92,7 @@
       [mc('Che cosa si fa nel punto più basso dell’ingresso?', ['Ci si ferma e si torna in stance', 'Si solleva l’avversario', 'Si cade a terra', 'Si salta'], 0)], true)
   ];
 
-  more.forEach(t => J.techniques.push(Object.assign({ variants: [], theory: [] }, t)));
+  more.forEach(t => J.techniques.push(Object.assign({ variants: [], theory: [], track: 'lotta' }, t)));
   // ordine di introduzione: per mese minimo (parità: ordine originale)
   J.techniques = J.techniques.map((t, i) => [t, i]).sort((a, b) => a[0].minMonth - b[0].minMonth || a[1] - b[1]).map(x => x[0]);
 

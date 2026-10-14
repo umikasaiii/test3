@@ -10,6 +10,9 @@
   M.rec = (state, id) => state.motor[id];
   M.active = state => Object.keys(state.motor).filter(id => state.motor[id].introduced);
   M.defs = () => ST.content.judo.techniques;
+  /* Percorsi: 'judo' (sempre) e 'lotta' (no-gi, opzionale dal profilo). */
+  M.tracks = state => (state && state.profile && state.profile.judoTracks) || ['judo'];
+  M.defsFor = state => M.defs().filter(t => M.tracks(state).includes(t.track || 'judo'));
   M.def = id => ST.content.judo.techniques.find(t => t.id === id);
 
   M.mean = (rec, n) => {
@@ -24,7 +27,7 @@
     date = date || U.today();
     const mo = U.monthIndex(state.startDate || date, date);
     const act = M.active(state).map(id => state.motor[id]);
-    const next = M.defs().find(t => !state.motor[t.id] && mo >= t.minMonth);
+    const next = M.defsFor(state).find(t => !state.motor[t.id] && mo >= t.minMonth);
     if (!next) return null;
     if (act.length) {
       const lastIntro = act.map(r => r.introduced).sort().pop();

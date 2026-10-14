@@ -8,7 +8,7 @@
 
   DB.defaults = () => ({
     schema: DB.SCHEMA, created: U.today(), startDate: U.today(), onboarded: false,
-    profile: { name: '', theme: 'neon', rate: 0.9, accents: { en: 'en-GB' } },
+    profile: { name: '', theme: 'neon', rate: 0.9, accents: { en: 'en-GB' }, judoTracks: ['judo'] },
     xp: 0, xpLog: {}, xpKeys: {},
     topics: {}, cards: {}, reviewLog: [],
     kana: { items: {}, placed: false, lastSession: null },

@@ -86,7 +86,7 @@
     const prim = C.subjects.filter(s => s.primary);
     return '<h1>Percorsi</h1><p class="mute">Materia → Stage → Argomento → Attività.</p><div class="list">' + prim.map(s => {
       const c = topicCounts(s.id);
-      const sub = s.generated ? 'Esercizi generati · livello adattivo' : s.motor ? ST.motor.active(A.state).length + ' / ' + ST.content.judo.techniques.length + ' tecniche avviate' : c.total + ' argomenti · ' + c.studied + ' studiati · ' + c.verified + ' verificati';
+      const sub = s.generated ? 'Esercizi generati · livello adattivo' : s.motor ? ST.motor.active(A.state).length + ' / ' + ST.motor.defsFor(A.state).length + ' tecniche avviate' : c.total + ' argomenti · ' + c.studied + ' studiati · ' + c.verified + ' verificati';
       return '<button class="item" data-act="go" data-view="subject" data-p=\'{"id":"' + s.id + '"}\'><span class="thumb ' + bg(s.id) + '"></span><span class="tx"><b>' + E(s.title) + '</b><span>' + E(sub) + '</span></span></button>';
     }).join('') + '<button class="item" data-act="go" data-view="subject" data-p=\'{"id":"sec"}\'><span class="thumb ' + bg('sec') + '"></span><span class="tx"><b>Cultura generale (secondarie)</b><span>' + C.secondary.length + ' aree previste · pillole disponibili: ' + C.topicsOf('sec').length + '</span></span></button></div>';
   };

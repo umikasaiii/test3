@@ -114,8 +114,9 @@
     return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('grp') + '"></div><h1>🥋 Judo e lotta libera</h1><p class="mute">Stadio motorio attuale: <b>' + stg + '</b> (livello didattico interno, non una cintura).</p>' +
       '<div class="card"><h3>Che cosa questo modulo può e non può fare</h3><p class="small">' + E(J.scope) + '</p></div>' +
       '<div class="card glow"><h3>Oggi: ' + E(PL.JUDO_LABEL[PL.JUDO_SLOT[U.weekday()]]) + '</h3><p class="mute small">' + E(pick.reason || '') + '</p><button class="btn block" data-act="go" data-view="judoSession">▶ Sessione da 5 minuti</button></div>' +
+      '<div class="card"><h3>Percorsi</h3><p class="small">Judo: cadute in progressione, proiezioni a vuoto, entrate. Lotta/no-gi (sprawl, stance, ingressi alle gambe, lavoro a terra): <b>' + (M.tracks(s).includes('lotta') ? 'attivo' : 'disattivato') + '</b>.</p><button class="btn alt" data-act="j-track">' + (M.tracks(s).includes('lotta') ? 'Disattiva percorso lotta/no-gi' : 'Attiva percorso lotta/no-gi') + '</button></div>' +
       '<div class="card"><h3>Sicurezza</h3><ul class="small">' + J.safety.map(x => '<li>' + E(x) + '</li>').join('') + '</ul></div>' +
-      '<h2>Repertorio (' + act.length + ' / ' + J.techniques.length + ') · ripassi scaduti: ' + due + '</h2><div class="list">' + J.techniques.map(t => {
+      '<h2>Repertorio (' + act.length + ' / ' + M.defsFor(s).length + ') · ripassi scaduti: ' + due + '</h2><div class="list">' + J.techniques.filter(t => M.tracks(s).includes(t.track || 'judo') || s.motor[t.id]).map(t => {
         const r = s.motor[t.id];
         return '<button class="item" data-act="go" data-view="technique" data-p=\'{"id":"' + t.id + '"}\'><span class="ic">' + (r ? '🥋' : '🔒') + '</span><span class="tx"><b>' + E(t.name) + '</b><span>' + E(t.stage) + ' · ' + E(M.label(r)) + (r ? ' · prossimo: ' + r.card.due : ' · dal mese ' + t.minMonth) + '</span></span></button>';
       }).join('') + '</div>';
@@ -123,7 +124,8 @@
   V.technique = p => {
     const t = M.def(p.id), r = A.state.motor[p.id], J = C.judo;
     let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + E(t.name) + '</h1><p class="mute">' + E(t.jp) + ' · ' + E(t.stage) + ' · spazio: ' + E(t.space) + '</p>' +
-      (t.instructor ? '<p class="warn small">Questa entrata va <b>verificata da un istruttore</b>. Qui si allena solo il movimento a vuoto.</p>' : '') +
+      (t.instructor ? '<p class="warn small">Questo gesto va <b>verificato da un istruttore</b>. Qui si allena solo forma, ritmo e fluidità (a vuoto o in progressione di sicurezza).</p>' : '') +
+      (t.warn ? '<p class="warn small">⚠ ' + E(t.warn) + '</p>' : '') +
       '<div class="card"><h3>Indicazioni</h3><ol>' + t.cues.map(c => '<li>' + E(c) + '</li>').join('') + '</ol></div>' +
       '<div class="card"><h3>Errori comuni da controllare</h3><p>' + t.errors.map(e => '<span class="tag">' + E(e[1]) + '</span>').join(' ') + '</p></div>' +
       '<div class="card"><h3>Varianti</h3><ul>' + t.variants.map(v => '<li>' + E(v) + '</li>').join('') + '</ul></div>';
@@ -217,6 +219,7 @@
   };
   X.jskip = () => nextPhase();
   X.jabort = () => { if (confirm('Interrompere la sessione di judo?')) { clearInterval(jt); A.act = null; A.back(); } };
+  X['j-track'] = () => { const p = A.state.profile, on = M.tracks(A.state).includes('lotta'); p.judoTracks = on ? ['judo'] : ['judo', 'lotta']; A.save(); A.render(); A.toast(on ? 'Percorso lotta/no-gi disattivato' : 'Percorso lotta/no-gi attivato'); };
   X.jrate = el => { A.act.cur[el.dataset.k] = +el.dataset.v; A.render(); };
   X.jerr = el => { const c = A.act.cur, e = el.dataset.e; c.err = c.err.includes(e) ? c.err.filter(x => x !== e) : c.err.concat(e); A.render(); };
   X.jsave = () => {
