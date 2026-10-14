@@ -309,7 +309,7 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 
 ## Strategia (str)
 
-- Contenuti: 32 lezioni (pensiero strategico, teoria dei giochi, decisioni, scacchi base/intermedi), 9 laboratori generati con verifica indipendente, banca di 94 problemi di scacchi (93 verificati dal motore), 9 scenari di simulazione con debrief expectimax.
-- Evidenza: motore scacchi verificato con perft; problemi matto/materiale verificati con ricerca; simulazioni validate (migliore = qualità 1, casuale ≤ 0,93). Smoke test superato.
-- Limiti: contenuti non rivisti da esperti; scenari semplificati e inventati; utilità lineari senza penalità; finali di torre (Lucena/Philidor) e alfiere di colore sbagliato non verificabili via software.
-- Stima onesta del voto: ~7,5/10 (solido per lo studio autonomo, non sostituisce pratica con avversari reali).
+- Contenuti: 53 lezioni in 9 stadi (pensiero strategico, teoria dei giochi, giochi combinatori, scacchi base e posizionali, decisioni avanzate, **economia**, **strategia militare**, **ottimizzazione avanzata**), 24 laboratori generati, banca di 94 problemi di scacchi (93 verificati dal motore), 14 scenari di simulazione con debrief expectimax.
+- Evidenza: motore scacchi verificato con perft; i 24 laboratori hanno test con metodo indipendente dal generatore (enumerazione, simulazione numerica di Lanchester, taglio minimo, BFS, griglia per LP e giochi misti); simulazioni validate (migliore = qualità 1, casuale ≤ 0,93); calcoli delle lezioni di economia, militare e ottimizzazione ricontrollati a mano o con node.
+- Limiti: contenuti non rivisti da esperti; scenari semplificati e inventati (campagna, assedio, diplomazia tra stati immaginari, solo concetti); dati storici incerti espressi come ordini di grandezza; utilità lineari senza penalità; finali di torre e alfiere di colore sbagliato non verificabili via software; nessuna pratica contro avversari reali.
+- Stima onesta del voto: ~8/10 per lo studio autonomo di strategia, economia di base e ottimizzazione.
