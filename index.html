@@ -1878,8 +1878,394 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 })(window.ST = window.ST || {});
 
 /* ---- content/judo-l-base ---- */
-/* stub */
-(function (ST) { 'use strict'; })(window.ST = window.ST || {});
+/* Judo e lotta — lezioni di base (12 argomenti): postura, spostamenti, kuzushi, prese no-gi, entrate a vuoto, ritmo, lavoro a terra.
+   Tutto SOLITARIO e «a vuoto»: nessun partner, nessuna proiezione completata. Livelli = stadi interni, non gradi. */
+(function (ST) {
+  'use strict';
+  const C = ST.content, { fill, order } = C;
+  /* mc: la risposta giusta viene ruotata in una posizione variabile (0..n-1) per non avere sempre lo stesso indice */
+  let rot = 0;
+  const mc = (q, o, a, why) => { const n = o.length, k = (rot++ * 3 + 1) % n, ans = o[a], rest = o.filter((_, i) => i !== a); rest.splice(k, 0, ans); return C.mc(q, rest, k, why); };
+  const T = (o) => C.addTopic(Object.assign({ subject: 'grp', minutes: 10 }, o));
+  const INSTR = 'Le entrate sono lavoro a vuoto e non dimostrano di saper applicare la tecnica: far verificare la forma da un istruttore qualificato è consigliabile, e ogni lavoro con un partner richiede lui.';
+
+  /* ---------- 1. POSTURA ---------- */
+  T({ id: 'jud-posture', stage: 'L0', title: 'Postura: shizentai e jigotai', summary: 'Le due posture di base del judo: naturale (shizentai) e difensiva (jigotai).',
+    objectives: ['Descrivere e assumere shizentai e jigotai', 'Controllare il peso al centro del piede', 'Verificare la postura con un breve video laterale'],
+    pages: [
+      { h: 'A che cosa serve', b: 'Ogni gesto del judo parte da una **postura** stabile e pronta a muoversi. Se la base è buona, spostamenti, rotazioni ed entrate diventano più semplici da controllare. Le due posture di base sono:\n- **shizentai** (自然体): postura naturale\n- **jigotai** (自護体): postura difensiva, più bassa e più larga\n\nIn questa lezione lavori **da solo, sul posto**, senza partner.' },
+      { h: 'Il principio', b: 'Il corpo è stabile quando la proiezione del baricentro cade dentro la **base di appoggio** (l’area tra i piedi). Una base più larga e un baricentro più basso aumentano la stabilità; una base stretta e alta ti rende più mobile.\n\n- **Shizentai**: mobilità e prontezza\n- **Jigotai**: stabilità, a scapito di un po’ di mobilità\n\nLa postura non è una posa rigida: è un equilibrio che respira.' },
+      { h: 'Shizentai passo per passo', b: '- Piedi alla larghezza delle spalle, punte appena aperte.\n- Peso al **centro del piede**, né sui talloni né sulle punte.\n- Ginocchia morbide, mai bloccate.\n- Schiena lunga, bacino neutro, spalle basse e rilassate.\n- Sguardo avanti, all’orizzonte (non ai piedi).\n\n> Prova: sollevati leggermente sulle punte e ridiscendi: il peso torna al centro del piede.' },
+      { h: 'Jigotai passo per passo', b: '- Parti da shizentai e **allarga** i piedi, abbassando il bacino.\n- Ginocchia flesse, schiena eretta (non piegata in avanti).\n- Peso e baricentro più bassi, sempre al centro del piede.\n- Passa da una postura all’altra lentamente, **senza alzare le spalle**.\n\n> Un buon ritmo: 4 secondi per scendere in jigotai, 4 per tornare in shizentai.' },
+      { h: 'Errori comuni e correzioni', b: '- **Peso sui talloni** → senti le dita dei piedi sul pavimento e sposta il peso al centro.\n- **Spalle alzate o rigide** → espira e lasciale cadere.\n- **Sguardo ai piedi** → fissa un punto davanti a te all’altezza degli occhi.\n- **Ginocchia bloccate** → piegale di pochi gradi, come se fossero molle.\n- In jigotai la schiena si curva → riduci la profondità, la schiena viene prima.' },
+      { h: 'Esercizi e progressioni', b: '- Chiudi gli occhi 5 secondi e senti dove sta il peso sui piedi.\n- Alterna shizentai e jigotai a tempo di respiro (5 ripetizioni).\n- Spostati di mezzo passo mantenendo la postura, poi fermati.\n\nProgressione: aggiungi una cosa alla volta, e solo quando la precedente è stabile.' },
+      { h: 'Verificare da solo', b: 'Appoggia il telefono a un metro e mezzo, di lato, e registra **20 secondi**. Controlla tre punti:\n- l’orecchio, la spalla e l’anca sono sulla stessa linea?\n- le ginocchia sono morbide (non bloccate)?\n- le spalle sono alla stessa altezza e rilassate?\n\nSe un punto non va, correggi solo quello e registra di nuovo.' },
+      { h: 'Sicurezza', b: '- Spazio libero di almeno 2 m × 2 m, pavimento antiscivolo.\n- Movimenti lenti: in jigotai scendi solo fin dove la schiena resta lunga.\n- Dolore (non fatica) a ginocchia o schiena: fermati.\n- La domenica è riposo: solo teoria e osservazione.' },
+      { h: 'Riepilogo', b: '- **Shizentai** = naturale e mobile; **jigotai** = più bassa e più larga.\n- Peso al centro del piede, ginocchia morbide, schiena lunga, sguardo avanti.\n- Si passa dall’una all’altra con calma, senza spalle alte.\n- Autocontrollo: video laterale di 20 s e tre punti.' }
+    ],
+    exercises: [
+      mc('Quale caratteristica distingue jigotai da shizentai?', ['Si sta su una gamba sola', 'Base più larga e baricentro più basso', 'Le braccia sono incrociate', 'I piedi sono uniti'], 1, 'Jigotai è la postura difensiva: base ampia e bacino basso.'),
+      mc('Dove deve cadere il peso in shizentai?', ['Sui talloni', 'Sulle punte', 'Al centro del piede', 'Solo sul piede destro'], 2, 'Il centro del piede dà equilibrio in ogni direzione.'),
+      mc('Che cosa significa shizentai?', ['Postura naturale', 'Presa al bavero', 'Rotazione del corpo', 'Caduta laterale'], 0, 'Shizentai (自然体) = postura naturale.'),
+      fill('Completa: in shizentai le ginocchia restano ___ (non bloccate).', ['morbide', 'flesse', 'piegate'], 'Ginocchia morbide permettono di muoversi in qualsiasi direzione.'),
+      order('Metti in ordine il passaggio da shizentai a jigotai', ['Allarga', 'i', 'piedi', 'e', 'abbassa', 'il', 'bacino'], 'Si allarga la base e poi si abbassa il baricentro, con la schiena eretta.'),
+      mc('Dove va lo sguardo?', ['Ai piedi', 'Avanti, all’orizzonte', 'Al soffitto', 'Con gli occhi chiusi sempre'], 1, 'Guardare i piedi curva la schiena e sposta il peso.'),
+      mc('In jigotai senti la schiena che si curva. Che cosa fai?', ['Scendo di più', 'Riduco la profondità', 'Trattengo il respiro', 'Alzo le spalle'], 1, 'La schiena eretta ha la priorità sulla profondità.'),
+      fill('Per l’autocontrollo registri un video ___ (da quale lato?) di circa 20 secondi.', ['laterale', 'di lato'], 'La vista laterale mostra l’allineamento di orecchio, spalla e anca.')
+    ],
+    test: [
+      mc('Quale errore indica il peso sui talloni?', ['Le dita dei piedi sembrano «leggere» e il busto va indietro', 'Le ginocchia sono morbide', 'Lo sguardo è avanti', 'Le spalle sono basse'], 0, 'Con il peso sui talloni si perde prontezza.'),
+      mc('Perché le spalle restano basse e rilassate?', ['Per sembrare più alti', 'Per evitare rigidità e mantenere il respiro libero', 'Per bloccare le braccia', 'Non ha importanza'], 1, 'Spalle alte = tensione e postura rigida.'),
+      fill('Il termine giapponese della postura difensiva è ___.', ['jigotai'], 'Jigotai (自護体).'),
+      order('Metti in ordine i tre punti da controllare nel video laterale', ['Allineamento', 'ginocchia', 'spalle'], 'Allineamento orecchio-spalla-anca, ginocchia morbide, spalle rilassate.'),
+      mc('Che cosa fai se senti dolore (non fatica) alla schiena?', ['Continuo più piano', 'Mi fermo', 'Scendo di più', 'Cambio lato e proseguo'], 1, 'Il dolore è un segnale di stop.')
+    ] });
+
+  /* ---------- 2. AYUMI-ASHI E TSUGI-ASHI ---------- */
+  T({ id: 'jud-ayumi-tsugi', stage: 'L0', title: 'Spostamenti: ayumi-ashi e tsugi-ashi', summary: 'Camminare e scivolare mantenendo postura e altezza della testa.',
+    objectives: ['Distinguere ayumi-ashi (passi normali) da tsugi-ashi (piede che segue)', 'Scivolare a filo del pavimento senza oscillare', 'Controllare altezza della testa con un video'],
+    pages: [
+      { h: 'A che cosa serve', b: 'Prima di qualsiasi tecnica serve saper **muoversi** senza perdere la postura. Il judo usa due spostamenti di base:\n- **ayumi-ashi** (歩み足): passi normali, i piedi si alternano\n- **tsugi-ashi** (継ぎ足): un piede avanza e l’altro lo segue senza superarlo\n\nLavori da solo, su una linea di circa 2 m.' },
+      { h: 'Il principio', b: 'Muoversi bene significa spostare la base **tenendo il baricentro stabile**. I piedi scivolano vicino al pavimento: così non c’è un momento in cui sei appoggiato su una gamba sola e instabile.\n\nLa testa resta alla **stessa altezza**: se sale e scende, il baricentro oscilla.' },
+      { h: 'Ayumi-ashi passo per passo', b: '- Parti da shizentai.\n- Il piede avanza scivolando, poi il peso passa su di esso.\n- L’altro piede avanza allo stesso modo: i piedi **non si incrociano**.\n- Passo corto, simile a una camminata «a filo del suolo».\n\n> Ripeti: tre passi avanti, tre indietro, sempre con la stessa altezza della testa.' },
+      { h: 'Tsugi-ashi passo per passo', b: '- Il piede davanti avanza di poco.\n- Il piede dietro lo segue e si ferma **dietro o accanto**, senza superarlo.\n- La distanza tra i piedi resta quasi uguale: la base non si chiude mai del tutto.\n- Anche indietro e di lato: parte sempre il piede nella direzione del movimento.' },
+      { h: 'Errori comuni e correzioni', b: '- **Piedi che si incrociano** → passi più corti, i piedi restano in due «corsie».\n- **Testa su e giù** → immagina un libro in equilibrio sul capo.\n- **Passo troppo largo** → riduci a pochi centimetri; la qualità viene prima della distanza.\n- **Peso sui talloni** → senti il centro del piede a ogni appoggio.' },
+      { h: 'Esercizi e progressioni', b: '- Cambia direzione ogni 3 passi.\n- Passo più corto e più veloce, mantenendo la postura.\n- Avanti, lato, indietro in un quadrato di 1 m.\n\nIncrementa solo uno di questi fattori alla volta: direzione, velocità o durata.' },
+      { h: 'Verificare da solo', b: 'Registra **20 secondi** di lato con il telefono. Controlla tre punti:\n- la testa si muove in orizzontale, senza saltelli?\n- i piedi restano vicini al pavimento?\n- in tsugi-ashi il piede dietro non supera quello davanti?\n\nRivedi il video al rallentatore se il telefono lo permette.' },
+      { h: 'Sicurezza', b: '- Pavimento antiscivolo, scarpe tolte o calze antiscivolo; spazio libero di 2 m.\n- Nessuna corsa o salto: si scivola.\n- Fermati se senti dolore a ginocchia o caviglie.\n- Controlla alle spalle prima di muoverti all’indietro.' },
+      { h: 'Riepilogo', b: '- **Ayumi-ashi** = passi alternati; **tsugi-ashi** = il piede dietro segue senza superare.\n- Si scivola a filo del pavimento, testa alla stessa altezza, peso centrale.\n- Errori tipici: piedi incrociati, passo largo, testa che oscilla.\n- Autocontrollo: video di 20 s e tre punti.' }
+    ],
+    exercises: [
+      mc('In tsugi-ashi, quale piede segue?', ['Quello dietro, senza superare il piede davanti', 'Quello dietro, che supera l’altro', 'Nessuno', 'Entrambi saltano'], 0, 'Il piede dietro segue e si ferma senza superare quello davanti.'),
+      mc('Perché si scivola a filo del pavimento?', ['Per fare meno rumore', 'Per non perdere stabilità e base', 'Per correre più veloce', 'Non ha scopo'], 1, 'Così il baricentro resta stabile.'),
+      mc('Che cosa indica ayumi-ashi?', ['Passi normali alternati', 'Un salto', 'Una rotazione', 'Una presa'], 0, 'Ayumi-ashi = passi che si alternano.'),
+      fill('Completa: la testa resta alla stessa ___ durante lo spostamento.', ['altezza'], 'Se la testa sale e scende, il baricentro oscilla.'),
+      order('Metti in ordine tsugi-ashi in avanti', ['Il', 'piede', 'davanti', 'avanza', 'poi', 'il', 'dietro', 'lo', 'segue'], 'Parte il piede nella direzione del movimento, poi segue l’altro.'),
+      mc('Che cosa correggi se i piedi si incrociano?', ['Faccio passi più corti', 'Faccio passi più lunghi', 'Salto', 'Chiudo gli occhi'], 0, 'Passi corti mantengono i piedi in due corsie.'),
+      mc('Quale variante è appropriata per aumentare la difficoltà?', ['Cambio direzione ogni 3 passi', 'Corro', 'Salto su un piede', 'Alzo le spalle'], 0, 'Si varia direzione, velocità o durata, una per volta.'),
+      fill('Per l’autocontrollo conta ___ punti da verificare nel video (numero).', ['3', 'tre'], 'Testa, piedi vicino al pavimento, piede dietro che non supera.')
+    ],
+    test: [
+      mc('Se il passo è troppo largo, che cosa fai?', ['Lo riduco a pochi centimetri', 'Lo allungo ancora', 'Accelero', 'Mi fermo e salto'], 0, 'Meglio un passo corto e controllato.'),
+      mc('In quale direzione parte il piede in tsugi-ashi?', ['In quella del movimento', 'Sempre dal piede destro', 'Sempre indietro', 'In nessuna'], 0, 'Se vai di lato parte il piede laterale.'),
+      fill('L’ayumi-ashi usa passi ___ (alternati).', ['alternati', 'normali'], 'I piedi si alternano come nel camminare.'),
+      order('Metti in ordine il controllo video', ['Registra', 'rivedi', 'correggi', 'un', 'punto'], 'Registra 20 s, rivedi, correggi un punto alla volta.'),
+      mc('Quale errore mostra il baricentro che oscilla?', ['Testa su e giù', 'Postura eretta', 'Passi corti', 'Piedi vicini al suolo'], 0, 'La testa che oscilla segnala un baricentro instabile.')
+    ] });
+
+  /* ---------- 3. TAI SABAKI ---------- */
+  T({ id: 'jud-tai-sabaki', stage: 'L0', title: 'Tai sabaki: rotazioni del corpo', summary: 'Pivot e rotazioni a 90° e 180° mantenendo asse e postura.',
+    objectives: ['Eseguire mae-mawari e ushiro-mawari a 90° e a 180°', 'Ruotare bacino e spalle insieme sul piede perno', 'Chiudere la rotazione in postura equilibrata'],
+    pages: [
+      { h: 'A che cosa serve', b: '**Tai sabaki** (体捌き) significa «gestione del corpo»: cambiare orientamento o angolo ruotando sul posto. È la base di tutte le entrate che richiedono una rotazione.\n\nLe due rotazioni fondamentali:\n- **mae-mawari**: rotazione in avanti\n- **ushiro-mawari**: rotazione indietro\n\nSi eseguono a **90°** e a **180°**, da solo e lentamente.' },
+      { h: 'Il principio', b: 'Il corpo ruota attorno a un **asse verticale** che passa per il piede perno. Bacino e spalle girano **insieme**: se le spalle partono prima, l’asse si piega e perdi l’equilibrio.\n\nIl perno è la punta del piede d’appoggio, con il ginocchio morbido; l’altro piede si sposta dietro o davanti secondo la rotazione.' },
+      { h: 'Mae-mawari passo per passo', b: '- Parti da shizentai, peso centrale.\n- Pivot sulla punta del piede d’appoggio.\n- Il piede libero passa **dietro** e ruota insieme a bacino e spalle.\n- Fermati a 90° o a 180° in una postura equilibrata.\n- Verifica che la testa sia rimasta alla stessa altezza.' },
+      { h: 'Ushiro-mawari passo per passo', b: '- Parti da shizentai.\n- Pivot sul piede d’appoggio; il piede libero va **indietro** ruotando.\n- Bacino e spalle seguono insieme, sguardo nella nuova direzione.\n- Chiudi in postura, non a metà del giro.\n\n> Lenta prima di veloce: 4 secondi per ogni rotazione, poi 2.' },
+      { h: 'Errori comuni e correzioni', b: '- **Perdita di equilibrio a fine giro** → riduci l’ampiezza e fermati prima di finire.\n- **Spalle prima del bacino** → pensa a ruotare dal centro del corpo.\n- **Piedi che non pivotano** (si trascinano) → solleva appena il tallone del perno e ruota sulla punta.\n- **Sguardo ai piedi** → guarda nella direzione finale.\n- Ginocchio del perno rigido → tienilo morbido.' },
+      { h: 'Esercizi e progressioni', b: '- Aggiungi un secondo giro al contrario.\n- Rotazione a comando casuale (destra o sinistra: il comando lo dai tu a voce o da un’app).\n- Rotazione più due passi di tsugi-ashi.\n\nSali di difficoltà una variabile alla volta.' },
+      { h: 'Verificare da solo', b: 'Riprendi **20 secondi** dall’alto o di lato. Controlla tre punti:\n- bacino e spalle ruotano insieme?\n- il perno è sulla punta del piede, con ginocchio morbido?\n- chiudi in postura stabile senza fare un passo di recupero?' },
+      { h: 'Sicurezza', b: '- Ruota **sui piedi**: il ginocchio non resta mai bloccato mentre il piede è fermo e il corpo gira. Se il piede si pianta, pivota sulla punta o fai un piccolo passo.\n- Spazio di 2 m × 2 m, pavimento antiscivolo; ferma subito se senti dolore al ginocchio.\n- Movimento lento, niente salti.' },
+      { h: 'Riepilogo', b: '- Tai sabaki = gestire il corpo ruotando attorno a un asse.\n- **Mae-mawari** (avanti), **ushiro-mawari** (indietro), a 90° e 180°.\n- Bacino e spalle insieme, perno sulla punta, ginocchio morbido, chiusura in postura.\n- Verifica: video di 20 s e tre punti.' }
+    ],
+    exercises: [
+      mc('Che cosa significa tai sabaki?', ['Gestione del corpo, cambio di angolo', 'Una proiezione', 'Una presa', 'Il saluto'], 0, 'Tai sabaki = gestione del corpo.'),
+      mc('Perché bacino e spalle ruotano insieme?', ['Per mantenere un asse stabile', 'Per mostrare forza', 'Per allungare il passo', 'Per non guardare avanti'], 0, 'Un asse stabile evita lo sbilanciamento.'),
+      mc('Quale rotazione va in avanti?', ['Ushiro-mawari', 'Mae-mawari', 'Tsugi-ashi', 'Jigotai'], 1, 'Mae-mawari = rotazione in avanti.'),
+      fill('Il pivot avviene sulla ___ del piede d’appoggio.', ['punta'], 'Ruota sulla punta, non sul tallone.'),
+      order('Metti in ordine la chiusura della rotazione', ['Ruota', 'bacino', 'e', 'spalle', 'insieme', 'e', 'chiudi', 'in', 'postura'], 'Si ruota con un solo blocco e si chiude in postura.'),
+      mc('Che cosa correggi se perdi equilibrio a fine rotazione?', ['Riduco l’ampiezza e fermo il movimento prima', 'Ruoto più velocemente', 'Chiudo gli occhi', 'Salto'], 0, 'L’ampiezza si aumenta solo quando la chiusura è stabile.'),
+      mc('Quali sono le due ampiezze studiate?', ['45° e 270°', '90° e 180°', '30° e 60°', 'Solo 360°'], 1, 'Mezzo giro e quarto di giro.'),
+      fill('Il ginocchio del piede perno resta ___.', ['morbido', 'flesso', 'piegato'], 'Mai bloccato.')
+    ],
+    test: [
+      mc('Che cosa significa che i piedi «non pivotano»?', ['Restano fermi e il corpo ruota senza girare sul perno', 'Pivotano sulla punta', 'Si alzano e saltano', 'Si incrociano'], 0, 'Il piede deve girare sulla punta, non restare incollato.'),
+      mc('Dove va lo sguardo durante la rotazione?', ['Nella direzione finale', 'Ai piedi', 'Indietro sempre', 'Chiuso'], 0, 'Lo sguardo guida e la testa resta alta.'),
+      fill('La rotazione indietro si chiama ___-mawari.', ['ushiro'], 'Ushiro = dietro.'),
+      order('Metti in ordine il controllo video', ['Bacino', 'perno', 'chiusura'], 'Tre punti: bacino e spalle, perno, chiusura.'),
+      mc('Quale variante aumenta la difficoltà in modo sicuro?', ['Rotazione a comando casuale', 'Rotazione su una gamba con salto', 'Rotazione a occhi chiusi su superficie scivolosa', 'Aggiungere un partner'], 0, 'Il comando casuale allena la reattività restando sicuri.')
+    ] });
+
+  /* ---------- 4. KUZUSHI ---------- */
+  T({ id: 'jud-kuzushi', stage: 'L0', title: 'Kuzushi: le otto direzioni dell’equilibrio', summary: 'Sentire il limite di stabilità del proprio corpo nelle otto direzioni.',
+    objectives: ['Elencare le otto direzioni (happo-no-kuzushi)', 'Spostare il peso fino al limite di stabilità e tornare al centro', 'Verificare la simmetria con un video'],
+    pages: [
+      { h: 'A che cosa serve', b: '**Kuzushi** (崩し) è lo squilibrio: nel judo precede ogni tecnica, perché una tecnica funziona su un corpo che ha già perso la propria base. In solitaria non squilibri nessuno: **impari a conoscere il tuo limite di stabilità**.\n\nLe direzioni classiche sono **otto** (happo-no-kuzushi): avanti, indietro, destra, sinistra e le quattro diagonali.' },
+      { h: 'Il principio', b: 'Sei stabile finché la proiezione del baricentro resta **dentro la base di appoggio**. Se il peso va oltre i bordi, devi fare un passo per ritrovarti stabile: quel punto è il tuo **limite**.\n\nStudiare il limite in tutte le direzioni dà una mappa: da dove sei più facile da sbilanciare e dove sei più saldo.' },
+      { h: 'Passo per passo', b: '- Parti in shizentai, immagina un cerchio con otto punti intorno ai piedi.\n- Sposta lentamente il peso verso un punto, come un’oscillazione, **senza staccare i piedi**.\n- Fermati appena prima del punto in cui dovresti fare un passo.\n- Torna al centro **prima** di passare alla direzione successiva.\n- Procedi in senso orario, poi antiorario.' },
+      { h: 'Come percepire il limite', b: '- Senti la pressione delle dita e dei talloni sul pavimento.\n- Quando una parte del piede inizia a «caricare» troppo, sei vicino al limite.\n- Resta nella zona in cui potresti tornare al centro senza aiuti.\n\nIl limite è personale: dipende da base, forza e mobilità e **cambia con la postura** (in jigotai è più ampio).' },
+      { h: 'Errori comuni e correzioni', b: '- **Schiena curva** → l’oscillazione parte dalle caviglie, non dalla schiena.\n- **Bacino che resta indietro** → muovi il corpo come un blocco unico.\n- **Direzioni saltate o confuse** → ripeti la sequenza ad alta voce, una per volta.\n- **Perdita di equilibrio** → riduci l’ampiezza: non devi mai arrivare a cadere.' },
+      { h: 'Esercizi e progressioni', b: '- Direzioni a comando casuale (il comando lo dai tu a voce o da un’app).\n- Occhi chiusi solo nelle direzioni avanti e indietro, a un passo da un appoggio sicuro.\n- Ogni direzione con un piccolo passo di recupero.\n\nPrima la precisione, poi la varietà.' },
+      { h: 'Verificare da solo', b: 'Registra **20 secondi** frontali. Controlla tre punti:\n- il corpo oscilla come un blocco unico (testa, spalle, bacino)?\n- le ampiezze nelle direzioni opposte sono simili?\n- il ritorno al centro è controllato, senza passi?' },
+      { h: 'Sicurezza', b: '- **Non si va mai oltre il limite fino a cadere**: nessuna caduta in questo lavoro.\n- Spazio libero di 2 m e pavimento antiscivolo; vicino a una parete o a una sedia solida se chiudi gli occhi.\n- Fermati con vertigini o dolore alle caviglie.\n- Kuzushi su un’altra persona è lavoro da svolgere solo con un istruttore.' },
+      { h: 'Riepilogo', b: '- Kuzushi = squilibrio; qui lo studi su di te, a vuoto.\n- Otto direzioni: 4 cardinali + 4 diagonali.\n- Limite di stabilità = punto oltre cui serve un passo.\n- Sempre ritorno al centro, nessuna caduta.' }
+    ],
+    exercises: [
+      mc('Kuzushi indica…', ['Lo squilibrio come condizione della tecnica', 'Una caduta', 'Un saluto', 'Una presa'], 0, 'Kuzushi (崩し) è lo squilibrio.'),
+      mc('Quante sono le direzioni classiche?', ['Quattro', 'Sei', 'Otto', 'Dodici'], 2, 'Happo-no-kuzushi: otto direzioni.'),
+      mc('Che cosa fai raggiunto il limite?', ['Cado', 'Torno al centro', 'Salto', 'Aumento l’ampiezza'], 1, 'Si ritorna al centro prima della direzione successiva.'),
+      fill('Il limite di stabilità è il punto oltre cui serve un ___.', ['passo'], 'Oltre il limite devi fare un passo di recupero.'),
+      order('Metti in ordine il ciclo in una direzione', ['Sposta', 'il', 'peso', 'fermati', 'al', 'limite', 'torna', 'al', 'centro'], 'Spostare, fermarsi al limite, tornare.'),
+      mc('Da dove parte l’oscillazione?', ['Dalle caviglie, il corpo resta un blocco', 'Dalla schiena', 'Dal collo', 'Dalle mani'], 0, 'Schiena e testa seguono come un blocco.'),
+      mc('Cosa dovresti fare se perdi l’equilibrio durante l’esercizio?', ['Ridurre l’ampiezza', 'Aumentare l’ampiezza', 'Chiudere gli occhi', 'Accelerare'], 0, 'Non devi mai arrivare a cadere.'),
+      fill('Le direzioni sono quattro cardinali e quattro ___.', ['diagonali', 'oblique'], 'Avanti-destra, avanti-sinistra, indietro-destra, indietro-sinistra.')
+    ],
+    test: [
+      mc('Perché si studia il limite di stabilità?', ['Per conoscere i propri margini di equilibrio', 'Per cadere meglio', 'Per fare più forza', 'Non serve'], 0, 'Conoscere il proprio limite rende il movimento più sicuro.'),
+      mc('Quale variante richiede più attenzione alla sicurezza?', ['Occhi chiusi avanti/indietro', 'Comando casuale', 'Piccolo passo di recupero', 'Direzioni in senso antiorario'], 0, 'Con gli occhi chiusi serve un appoggio vicino.'),
+      fill('Il termine per «le otto direzioni» è happo-no-___.', ['kuzushi'], 'Happo-no-kuzushi.'),
+      order('Metti in ordine il controllo video', ['Blocco', 'simmetria', 'ritorno'], 'Blocco unico, simmetria, ritorno controllato.'),
+      mc('Il kuzushi su una persona va praticato…', ['Solo con un istruttore', 'Da soli in casa', 'In gara senza preparazione', 'Con gli occhi chiusi'], 0, 'Il lavoro con partner richiede un istruttore.')
+    ] });
+
+  /* ---------- 5. KUMIKATA NO-GI ---------- */
+  T({ id: 'jud-kumikata', stage: 'L1', title: 'Kumi-kata no-gi: polso, bicipite, collo e underhook', summary: 'Struttura delle prese senza judogi, simulate a vuoto.',
+    objectives: ['Riconoscere wrist control, bicep tie, collar tie e underhook', 'Simulare le prese a vuoto mantenendo postura e spalle basse', 'Cambiare presa a vuoto con un piccolo passo'],
+    pages: [
+      { h: 'A che cosa serve', b: '**Kumi-kata** (組み方) è il modo di prendere. Senza judogi non ci sono bavero e manica: le prese no-gi diventano:\n- **wrist control**: presa al polso\n- **bicep tie**: presa al bicipite\n- **collar tie**: mano sulla nuca\n- **underhook**: braccio sotto l’ascella\n\nLavori **a vuoto**: nessun partner, nessuna presa reale.' },
+      { h: 'Il principio', b: 'La presa è una **struttura**, non una morsa. Funziona se gomiti stanno dentro, spalle basse, avambracci attivi e peso al centro. La presa serve a **controllare e a creare squilibrio** (kuzushi), non a trattenere con la sola forza delle dita.\n\nSe la presa ti fa perdere postura, è sbagliata anche se «ben stretta».' },
+      { h: 'Le quattro prese passo per passo', b: '- **Wrist control**: mano sinistra al polso immaginario, gomito dentro.\n- **Bicep tie**: mano al bicipite, spalla bassa.\n- **Collar tie**: mano destra alla nuca, avambraccio attivo, gomito vicino al busto.\n- **Underhook**: braccio sotto l’ascella, spalla sotto, busto eretto.\n\nSimula **una presa alla volta**, per esempio polso sinistro + collar tie destro, poi underhook destro + polso sinistro.' },
+      { h: 'Cambiare presa', b: '- Parti in shizentai.\n- Accompagna ogni cambio con un **piccolo passo** (tsugi-ashi), non solo con le braccia.\n- Mantieni la postura: se le spalle salgono, fermati.\n- Dal collar tie all’underhook in un solo movimento fluido.\n\nAlterna destra e sinistra per non allenare un solo lato.' },
+      { h: 'Errori comuni e correzioni', b: '- **Spalle alzate** → espira e abbassale.\n- **Braccia rigide o troppo tese** → piega i gomiti e portali vicini al busto.\n- **Presa troppo lontana dal corpo** → avvicina il corpo con un piccolo passo.\n- **Postura persa mentre «prendi»** → torna in shizentai e ripeti più lentamente.' },
+      { h: 'Esercizi e progressioni', b: '- Presa destra e sinistra alternate.\n- Presa + passo + tai sabaki.\n- Respiro lento e spalle basse in ogni presa.\n- Dal collar tie all’underhook in un solo movimento.\n\nUna cosa alla volta: prima la presa, poi il passo, poi la rotazione.' },
+      { h: 'Verificare da solo', b: 'Registra **20 secondi** di lato. Tre punti:\n- le spalle restano basse durante il cambio?\n- i gomiti sono vicini al busto?\n- la schiena resta lunga e il peso al centro?' },
+      { h: 'Sicurezza e istruttore', b: '- Prese solo **simulate nell’aria**: non afferrare una persona né tirare un oggetto.\n- Niente tiri bruschi: movimenti lenti e controllati.\n- Il lavoro di presa con un partner richiede un istruttore qualificato.\n- Se senti dolore a spalle o gomiti, fermati.' },
+      { h: 'Riepilogo', b: '- Quattro prese no-gi: wrist control, bicep tie, collar tie, underhook.\n- La presa è una struttura: gomiti dentro, spalle basse, peso al centro.\n- Cambi con piccolo passo e postura intatta.\n- Autocontrollo: video di 20 s e tre punti.' }
+    ],
+    exercises: [
+      mc('Quale presa controlla la testa senza judogi?', ['Presa alla manica', 'Collar tie (mano sulla nuca)', 'Presa alla cintura', 'Presa al bavero'], 1, 'Il collar tie controlla la testa.'),
+      mc('Perché si usa il polso o il bicipite?', ['Controllano il braccio senza tessuto', 'Fanno male', 'Sono più facili da vedere', 'Non servono'], 0, 'Senza giacca servono prese dirette.'),
+      mc('Che cos’è l’underhook?', ['Braccio sotto l’ascella', 'Presa al bavero', 'Una caduta', 'Un passo'], 0, 'L’underhook passa sotto l’ascella.'),
+      fill('La presa è una struttura, non una ___.', ['morsa'], 'Non serve stringere forte, serve una struttura.'),
+      order('Metti in ordine il cambio presa', ['Piccolo', 'passo', 'cambio', 'presa', 'postura', 'intatta'], 'Il passo accompagna il cambio e la postura non cambia.'),
+      mc('Che cosa fai se le spalle si alzano durante la presa?', ['Mi fermo e le riabbasso', 'Alzo ancora', 'Stringo di più', 'Accelero'], 0, 'Spalle basse = postura mantenuta.'),
+      mc('La presa serve soprattutto a…', ['Controllare e creare squilibrio', 'Fare male', 'Stare fermi', 'Rallentare l’azione'], 0, 'Controllo e kuzushi.'),
+      fill('Il bicep tie è una presa al ___.', ['bicipite'], 'Bicipite del braccio.')
+    ],
+    test: [
+      mc('Quale errore indica la presa «troppo lontana»?', ['Braccia tese e busto proteso', 'Gomiti dentro', 'Spalle basse', 'Piccolo passo'], 0, 'Meglio avvicinare il corpo con un passo.'),
+      mc('Dove va la mano nel collar tie?', ['Sulla nuca', 'Sul gomito', 'Alla vita', 'Alla caviglia'], 0, 'Nuca = collar.'),
+      fill('Il termine giapponese per «modo di prendere» è kumi-___.', ['kata'], 'Kumi-kata.'),
+      order('Metti in ordine il controllo video', ['Spalle', 'gomiti', 'schiena'], 'Spalle basse, gomiti vicini, schiena lunga.'),
+      mc('Con un partner, le prese si praticano…', ['Solo con un istruttore', 'Da soli in autonomia', 'Con le mani tese', 'Ad alta velocità'], 0, 'Richiede un istruttore.')
+    ] });
+
+  /* ---------- 6. O-GOSHI ENTRATA ---------- */
+  T({ id: 'jud-ogoshi-entry', stage: 'L1', title: 'O-goshi no-gi: entrata a vuoto', summary: 'Solo tsukuri, lento e a vuoto: passo, rotazione e bacino sotto.',
+    objectives: ['Descrivere la sequenza di tsukuri di o-goshi', 'Eseguire l’entrata a vuoto, lenta e senza completare la tecnica', 'Uscire in controllo in shizentai'],
+    pages: [
+      { h: 'A che cosa serve', b: '**O-goshi** (大腰) è una proiezione d’anca. In questa lezione studi solo l’**entrata** (tsukuri), **a vuoto** e lentamente: nessuna proiezione, nessun partner.\n\nL’entrata dimostra la sequenza e la coordinazione del movimento, **non l’efficacia contro un avversario**. ' + INSTR },
+      { h: 'Il principio', b: 'Nell’entrata il bacino si porta **sotto il baricentro** dell’avversario immaginario, ruotando sul piede d’appoggio. Il braccio avvolge la schiena o la nuca (underhook o collar tie), l’altra mano controlla il polso o il bicipite.\n\nLa stabilità viene dalle **ginocchia flesse**, dalla schiena eretta e dal peso centrale.' },
+      { h: 'Passo per passo', b: '- Presa no-gi a vuoto: sinistra al polso o al bicipite, destro a avvolgere la schiena (underhook) o la nuca.\n- **Passo** avanti, rotazione sul piede d’appoggio.\n- **Abbassa il bacino** sotto il baricentro immaginario, ginocchia flesse.\n- **Fermati** a controllo: non estendere le gambe né ruotare le spalle in avanti.\n- Esci tornando in **shizentai**.\n\nQuattro tempi lenti: presa, passo, rotazione, uscita.' },
+      { h: 'Errori comuni e correzioni', b: '- **Ginocchia dritte** → piegale, il bacino scende «dalle ginocchia».\n- **Schiena curva** → petto alto, sguardo avanti.\n- **Piedi troppo distanti dall’asse** → avvicina il piede perno.\n- **Perdita di equilibrio** → riduci l’ampiezza e rallenta.\n- **Passi saltati** → ripeti ad alta voce i quattro tempi.' },
+      { h: 'Esercizi e progressioni', b: '- Ripeti l’entrata più lentamente, contando 4 tempi.\n- Entrata + uscita + nuova entrata dal lato opposto.\n- Entrata dopo un tai sabaki.\n\nIncrementa solo quando la forma resta pulita.' },
+      { h: 'Verificare da solo', b: 'Registra **20 secondi** di lato. Tre punti:\n- le ginocchia sono flesse e la schiena eretta?\n- il piede perno è vicino all’asse del corpo?\n- esci in shizentai senza passi di recupero?\n\nNon valutare «se funziona»: valuta la forma.' },
+      { h: 'Sicurezza e istruttore', b: '- **Nessuna proiezione**: il gesto si ferma prima di estendere e ruotare le spalle.\n- Niente carico in avanti, nessun salto.\n- Con dolore a schiena o ginocchia: stop.\n- Verifica della forma consigliata a un istruttore; il lavoro con partner e le cadute richiedono un istruttore.' },
+      { h: 'Riepilogo', b: '- Solo tsukuri, a vuoto, lenta.\n- Presa no-gi, passo, rotazione, bacino sotto, uscita in shizentai.\n- Errori: ginocchia dritte, schiena curva, piedi lontani.\n- Autocontrollo: video di 20 s; un istruttore può confermare la forma.' }
+    ],
+    exercises: [
+      mc('Un’entrata a vuoto dimostra…', ['La sequenza e la coordinazione, non l’efficacia contro un avversario', 'Che sai proiettare', 'Che sei pronto alla gara', 'Che la tecnica è perfetta'], 0, 'Senza partner si allena solo il movimento.'),
+      mc('Dove va il bacino nell’entrata?', ['Sopra il baricentro immaginario', 'Sotto il baricentro immaginario', 'Indietro', 'Fuori asse'], 1, 'Il bacino si porta sotto il baricentro.'),
+      mc('Quale parte del gesto NON esegui?', ['Il passo', 'L’estensione di gambe e rotazione finale delle spalle', 'La rotazione', 'L’uscita'], 1, 'Il gesto si ferma a controllo, senza proiezione.'),
+      fill('Il termine giapponese per la fase di entrata è ___ (tsukuri).', ['tsukuri'], 'Tsukuri = entrata e preparazione.'),
+      order('Metti in ordine l’entrata', ['Presa', 'passo', 'rotazione', 'bacino', 'sotto', 'uscita'], 'Sequenza lenta di quattro-cinque tempi.'),
+      mc('Che cosa fai con le ginocchia?', ['Le tengo dritte', 'Le fletto leggermente', 'Le blocco', 'Le divarico al massimo'], 1, 'Ginocchia flesse: stabilità e protezione.'),
+      mc('Se perdi equilibrio durante la rotazione…', ['Riduco l’ampiezza e rallento', 'Accelero', 'Mi lancio', 'Salto'], 0, 'La qualità viene prima.'),
+      fill('Al termine torni in ___ (postura naturale).', ['shizentai'], 'Uscita controllata in shizentai.')
+    ],
+    test: [
+      mc('Perché non completare la proiezione?', ['Non c’è partner e il gesto resta in sicurezza', 'Perché è proibito sempre', 'Perché è troppo facile', 'Per risparmiare tempo'], 0, 'Il lavoro è solo a vuoto.'),
+      mc('Quale presa può avvolgere la schiena?', ['Underhook', 'Presa alla cintura', 'Presa al bavero', 'Nessuna'], 0, 'Underhook o collar tie.'),
+      fill('La forma va verificata da un ___ qualificato.', ['istruttore'], 'La verifica è consigliabile.'),
+      order('Metti in ordine il controllo video', ['Ginocchia', 'perno', 'uscita'], 'Ginocchia, piede perno, uscita.'),
+      mc('Quale errore mostra le ginocchia bloccate?', ['Il bacino non scende', 'Il bacino scende bene', 'Il busto è eretto', 'Nessuno'], 0, 'Ginocchia dritte = bacino alto.')
+    ] });
+
+  /* ---------- 7. O-SOTO-GARI ---------- */
+  T({ id: 'jud-osoto-entry', stage: 'L1', title: 'O-soto-gari no-gi: avanzata e posizionamento', summary: 'Solo avanzata e posizionamento del piede d’appoggio, senza alcuna spazzata.',
+    objectives: ['Descrivere la posizione del piede d’appoggio in o-soto-gari', 'Eseguire avanzata e posizionamento a vuoto senza spazzata', 'Tornare in shizentai in modo controllato'],
+    pages: [
+      { h: 'A che cosa serve', b: '**O-soto-gari** (大外刈) è una tecnica di spazzata. In solitaria si allena **solo** avanzata e posizionamento del piede d’appoggio, a vuoto. **Non si esegue la spazzata.** ' + INSTR },
+      { h: 'Il principio', b: 'La posizione del piede d’appoggio, a fianco dell’avversario immaginario, e la postura eretta sono ciò che conta. La mano sulla nuca (collar tie) e il polso controllano il tronco e il braccio.\n\nIl ginocchio d’appoggio è **morbido**; il busto non si china.' },
+      { h: 'Passo per passo', b: '- Presa no-gi a vuoto: collar tie destro, polso sinistro.\n- Piccola avanzata di tsugi-ashi.\n- Il piede d’appoggio si **pianta a fianco** del piede dell’avversario immaginario, ginocchio morbido.\n- Il busto resta eretto, peso centrale.\n- **Fermati**: nessuna spazzata.\n- Torna in shizentai e ripeti dal lato opposto.' },
+      { h: 'Errori comuni e correzioni', b: '- **Peso sui talloni** → senti il centro del piede.\n- **Piede d’appoggio troppo lontano** → accorcia l’avanzata.\n- **Perdita di equilibrio** → riduci l’ampiezza.\n- **Testa che oscilla** → mantieni la stessa altezza.\n- Busto che si china → petto alto, sguardo avanti.' },
+      { h: 'Esercizi e progressioni', b: '- Entrata a sinistra e a destra alternate.\n- Entrata dopo uno spostamento a comando casuale.\n- Entrata + tai sabaki e ritorno.\n\nUna variabile alla volta.' },
+      { h: 'Verificare da solo', b: 'Registra **20 secondi** di lato. Tre punti:\n- il piede si ferma a fianco, non troppo lontano?\n- il busto resta eretto, il peso centrale?\n- esci in shizentai con equilibrio?' },
+      { h: 'Sicurezza e istruttore', b: '- **Nessuna spazzata**: il piede libero non si muove in aria.\n- Niente colpi contro oggetti o persone.\n- Spazio 2 m × 2 m, pavimento antiscivolo; con dolore a ginocchio o schiena: stop.\n- Le cadute e il lavoro con partner richiedono un istruttore.' },
+      { h: 'Riepilogo', b: '- Si allena solo avanzata e posizionamento.\n- Piede d’appoggio a fianco, ginocchio morbido, busto eretto.\n- Nessuna spazzata.\n- Un istruttore può verificare la forma.' }
+    ],
+    exercises: [
+      mc('In autonomia, quale parte si simula in sicurezza?', ['Solo avanzata e posizionamento a vuoto', 'La proiezione completa', 'Lo sweep contro un muro', 'Nessuna parte'], 0, 'La spazzata non si esegue.'),
+      mc('Dove si pianta il piede d’appoggio?', ['A fianco del piede dell’avversario immaginario', 'Dietro di sé', 'Molto lontano', 'In aria'], 0, 'A fianco, ginocchio morbido.'),
+      mc('Che cosa significa «gari»?', ['Spazzata/falciata', 'Presa', 'Salto', 'Caduta'], 0, 'Gari = falciare/spazzare.'),
+      fill('Il ginocchio d’appoggio resta ___.', ['morbido', 'flesso'], 'Mai bloccato.'),
+      order('Metti in ordine il movimento', ['Presa', 'avanzata', 'piede', 'a', 'fianco', 'fermo', 'ritorno'], 'Poi si torna in shizentai.'),
+      mc('Che cosa correggi se il piede è troppo lontano?', ['Accorcio l’avanzata', 'Allungo il passo', 'Salto', 'Chiudo gli occhi'], 0, 'L’avanzata corta mantiene l’equilibrio.'),
+      mc('Quale mano è il collar tie nella presa descritta?', ['Quella destra sulla nuca', 'Quella sinistra al polso', 'Entrambe alla vita', 'Nessuna'], 0, 'Destra alla nuca, sinistra al polso.'),
+      fill('Il busto resta ___.', ['eretto', 'dritto'], 'Non si china in avanti.')
+    ],
+    test: [
+      mc('Perché non si esegue la spazzata?', ['Per sicurezza e perché manca un partner', 'Perché è troppo difficile', 'Perché è inutile', 'Perché si usa un muro'], 0, 'La spazzata va ferma.'),
+      mc('Con quale presa si inizia?', ['Collar tie e polso', 'Presa alla cintura', 'Presa al bavero', 'Nessuna'], 0, 'No-gi.'),
+      fill('Il lavoro con partner richiede un ___.', ['istruttore'], 'Mai da soli.'),
+      order('Metti in ordine il controllo video', ['Piede', 'busto', 'uscita'], 'Piede, busto, uscita.'),
+      mc('Quale errore indica peso sui talloni?', ['Busto indietro', 'Busto eretto', 'Ginocchia morbide', 'Testa ferma'], 0, 'Peso sui talloni = busto indietro.')
+    ] });
+
+  /* ---------- 8. SEOI-NAGE ---------- */
+  T({ id: 'jud-seoi-entry', stage: 'L1', title: 'Seoi-nage no-gi: rotazione e ingresso a vuoto', summary: 'Solo rotazione e ingresso, lenti e a vuoto, con busto eretto.',
+    objectives: ['Descrivere pivot, ginocchia flesse e bacino sotto in seoi-nage', 'Eseguire l’ingresso a vuoto con busto eretto', 'Uscire con controllo senza caricare peso in avanti'],
+    pages: [
+      { h: 'A che cosa serve', b: '**Seoi-nage** (背負投) è una proiezione di spalla. Qui studi **solo rotazione e ingresso**, a vuoto e lentamente: nessun partner, nessuna proiezione. ' + INSTR },
+      { h: 'Il principio', b: 'Il bacino va **sotto** il baricentro dell’avversario immaginario ruotando sul piede avanzato. Presa no-gi: polso sinistro e **underhook** destro. Il busto resta **eretto**: non si flette in avanti, per proteggere la schiena e mantenere equilibrio.' },
+      { h: 'Passo per passo', b: '- Presa no-gi a vuoto: polso sinistro, underhook destro.\n- Passo avanti: pivot sul piede avanzato.\n- Ginocchia flesse, **bacino sotto**, spalla destra sotto l’ascella immaginaria.\n- Busto eretto, peso centrale.\n- **Fermati**: nessuna estensione e nessuna rotazione finale.\n- Esci con controllo in shizentai.' },
+      { h: 'Errori comuni e correzioni', b: '- **Schiena curva** → petto alto, sguardo avanti.\n- **Ginocchia dritte** → flettile prima di ruotare.\n- **Piedi lontani dall’asse** → avvicina il piede perno.\n- **Sguardo ai piedi** → fissa un punto davanti a te.\n- **Perdita di equilibrio** → riduci l’ampiezza.' },
+      { h: 'Esercizi e progressioni', b: '- Ingresso con braccio destro e sinistro.\n- Ingresso dopo kumi-kata a vuoto.\n- Ingresso + uscita + tai sabaki.\n\nPrima la forma, poi il ritmo.' },
+      { h: 'Verificare da solo', b: 'Registra **20 secondi** di lato. Tre punti:\n- il busto è eretto e la schiena lunga?\n- ginocchia flesse e bacino sotto?\n- esci in shizentai senza passi di recupero?' },
+      { h: 'Sicurezza e istruttore', b: '- **Nessuna proiezione e nessun carico in avanti**: nessuno è sulle tue spalle.\n- Busto eretto: non flettere la schiena.\n- Spazio 2 m × 2 m, pavimento antiscivolo; con dolore a schiena, ginocchia o collo: stop.\n- Verifica della forma consigliata a un istruttore; partner e cadute solo con lui.' },
+      { h: 'Riepilogo', b: '- Solo rotazione e ingresso, a vuoto, lenti.\n- Pivot, ginocchia flesse, bacino sotto, busto eretto.\n- Nessuna estensione né rotazione finale.\n- Istruttore per verifica e partner.' }
+    ],
+    exercises: [
+      mc('Perché si mantiene il busto eretto?', ['Per sembrare più alti', 'Per proteggere la schiena e mantenere equilibrio', 'Per tirare più forte', 'Non è importante'], 1, 'La schiena eretta protegge e stabilizza.'),
+      mc('Quale presa no-gi si usa?', ['Polso sinistro e underhook destro', 'Bavero e manica', 'Presa alla cintura', 'Nessuna'], 0, 'Polso + underhook.'),
+      mc('Che cosa significa «nage»?', ['Proiezione', 'Presa', 'Caduta', 'Rotazione'], 0, 'Nage = proiezione.'),
+      fill('Il pivot avviene sul piede ___.', ['avanzato', 'avanti'], 'Pivot sul piede avanzato.'),
+      order('Metti in ordine l’ingresso', ['Presa', 'passo', 'pivot', 'bacino', 'sotto', 'uscita'], 'Sequenza lenta.'),
+      mc('Che cosa NON esegui?', ['La rotazione', 'L’estensione e la rotazione finale delle spalle', 'Il pivot', 'L’uscita'], 1, 'Si ferma a controllo.'),
+      mc('Se la schiena si curva?', ['Riduco l’ampiezza e tengo il petto alto', 'Scendo più in basso', 'Chiudo gli occhi', 'Salto'], 0, 'La schiena eretta ha priorità.'),
+      fill('Le ginocchia restano ___.', ['flesse', 'morbide'], 'Né dritte né bloccate.')
+    ],
+    test: [
+      mc('Dove va la spalla destra?', ['Sotto l’ascella immaginaria', 'Sopra la testa', 'Dietro la schiena', 'Nessun posto'], 0, 'Spalla sotto l’ascella.'),
+      mc('Quale errore mostra lo sguardo ai piedi?', ['Il busto si flette in avanti', 'Il busto resta eretto', 'Le ginocchia sono morbide', 'Il piede è a fianco'], 0, 'Guarda avanti.'),
+      fill('Il lavoro con partner richiede un ___.', ['istruttore'], 'Sempre.'),
+      order('Metti in ordine il controllo video', ['Busto', 'ginocchia', 'uscita'], 'Tre punti.'),
+      mc('Perché non caricare peso in avanti?', ['Per sicurezza e stabilità', 'Perché è proibito', 'Perché sembra meglio', 'Non importa'], 0, 'Nessun carico in avanti.')
+    ] });
+
+  /* ---------- 9. DE-ASHI TIMING ---------- */
+  T({ id: 'jud-deashi-timing', stage: 'L2', title: 'De-ashi-barai: il tempismo del passo', summary: 'Solo il ritmo del passo, a vuoto, senza alcuna spazzata.',
+    objectives: ['Spiegare perché il tempismo conta più della forza', 'Eseguire un ritmo regolare di passi a vuoto e fermarsi nel punto di carico', 'Mantenere equilibrio con la gamba d’appoggio morbida'],
+    pages: [
+      { h: 'A che cosa serve', b: '**De-ashi-barai** (出足払) è una spazzata al piede che avanza. In solitaria si allena **solo il tempismo del passo, a vuoto**: nessuna spazzata contro oggetti o persone. ' + INSTR },
+      { h: 'Il principio', b: 'In questa tecnica conta il **tempismo** con il passo dell’avversario, non la forza. Nel lavoro a vuoto si allena un ritmo regolare dei propri passi e si impara a **fermare il movimento** nel punto in cui il piede sarebbe «caricato».' },
+      { h: 'Passo per passo', b: '- Muovi i piedi in ritmo regolare, per esempio in tsugi-ashi.\n- Conta mentalmente **1-2-3**.\n- Ferma il gesto al tempo 3, nel punto in cui il piede sarebbe caricato.\n- La gamba d’appoggio resta **morbida**.\n- Torna in shizentai e ricomincia.' },
+      { h: 'Errori comuni e correzioni', b: '- **Ritmo irregolare** → conta ad alta voce.\n- **Peso sui talloni** → senti il centro del piede.\n- **Piedi che si incrociano** → passi corti.\n- **Perdita di equilibrio** → rallenta.' },
+      { h: 'Esercizi e progressioni', b: '- Ritmo lento, poi veloce, poi lento.\n- Ritmo irregolare a comando casuale.\n- Aggiungi tai sabaki a metà.\n\nLa qualità viene prima della velocità.' },
+      { h: 'Verificare da solo', b: 'Registra **20 secondi** di lato. Tre punti:\n- il ritmo è regolare?\n- il gesto si ferma sempre nello stesso punto?\n- la gamba d’appoggio è morbida e l’equilibrio stabile?' },
+      { h: 'Sicurezza e istruttore', b: '- **Nessuna spazzata**: il piede non va contro oggetti o persone.\n- Pavimento antiscivolo, spazio 2 m.\n- Stop con dolore a caviglie o ginocchia.\n- Verifica consigliata a un istruttore; partner e cadute solo con lui.' },
+      { h: 'Riepilogo', b: '- De-ashi-barai = spazzata al piede che avanza.\n- Solo tempismo del passo, a vuoto.\n- Contare 1-2-3, fermarsi nel punto di carico.\n- Nessuna spazzata.' }
+    ],
+    exercises: [
+      mc('In de-ashi-barai che cosa conta di più?', ['Il tempismo con il passo', 'La forza del braccio', 'La velocità massima', 'La presa'], 0, 'Tempismo, non forza.'),
+      mc('Che cosa significa «barai»?', ['Spazzare', 'Prendere', 'Cadere', 'Ruotare'], 0, 'Barai = spazzare.'),
+      mc('Che cosa fai con la gamba d’appoggio?', ['La tengo morbida', 'La blocco', 'La alzo', 'La incrocio'], 0, 'Gamba d’appoggio morbida.'),
+      fill('Il conteggio mentale è 1-2-___.', ['3', 'tre'], 'Ferma il gesto al tempo 3.'),
+      order('Metti in ordine il ciclo', ['Ritmo', 'conta', 'fermati', 'torna', 'ricomincia'], 'Ciclo ripetuto.'),
+      mc('Se il ritmo è irregolare?', ['Conto ad alta voce', 'Accelero', 'Chiudo gli occhi', 'Salto'], 0, 'Il conteggio regolarizza il ritmo.'),
+      mc('Quale variante è appropriata?', ['Ritmo lento-veloce-lento', 'Spazzata contro un muro', 'Salto', 'Corsa'], 0, 'Variare il ritmo senza colpire.'),
+      fill('Il lavoro è solo «a ___» (senza partner).', ['vuoto'], 'A vuoto.')
+    ],
+    test: [
+      mc('Perché non si fa la spazzata?', ['Per sicurezza e perché manca un partner', 'Perché è inutile', 'Perché è troppo facile', 'Perché richiede forza'], 0, 'Solo ritmo.'),
+      mc('Che cosa significa «de-ashi»?', ['Piede che avanza', 'Piede che indietreggia', 'Salto', 'Rotazione'], 0, 'De-ashi = piede che esce/avanza.'),
+      fill('Il lavoro con partner richiede un ___.', ['istruttore'], 'Sempre.'),
+      order('Metti in ordine il controllo video', ['Ritmo', 'punto', 'equilibrio'], 'Tre punti.'),
+      mc('Quale errore indica piedi incrociati?', ['Passi troppo lunghi', 'Passi corti', 'Ritmo regolare', 'Gamba morbida'], 0, 'Passi corti evitano l’incrocio.')
+    ] });
+
+  /* ---------- 10. UCHIKOMI RITMO ---------- */
+  T({ id: 'jud-uchikomi-rhythm', stage: 'L2', title: 'Uchikomi a vuoto: ritmo di entrata e uscita', summary: 'Ripetere un’entrata già imparata a vuoto in serie di qualità.',
+    objectives: ['Descrivere l’uchikomi a vuoto e il suo scopo', 'Eseguire una serie di 5 con ritmo regolare e qualità costante', 'Fermarsi quando la postura peggiora'],
+    pages: [
+      { h: 'A che cosa serve', b: '**Uchikomi** (打込) è la ripetizione di un’entrata per fissare il movimento. In solitaria si ripete **a vuoto** un’entrata già appresa. Non simula un combattimento e non completa alcuna proiezione. ' + INSTR },
+      { h: 'Il principio', b: 'Il cervello fissa il movimento con ripetizioni **controllate** e di qualità. Se la qualità cala, la ripetizione fissa l’errore: meglio meno ripetizioni, fatte bene.\n\nRitmo regolare e respiro libero sono parte della tecnica.' },
+      { h: 'Passo per passo', b: '- Scegli **un’entrata già imparata** (per esempio o-goshi o seoi, a vuoto).\n- Serie di **5** ripetizioni, lente.\n- **Entra**, ferma il gesto, **esci** e ricomincia.\n- Ritmo regolare, respiro libero.\n- Cambia il lato a ogni serie.\n- Se la postura peggiora, fermati.' },
+      { h: 'Errori comuni e correzioni', b: '- **Ritmo irregolare** → conta ad alta voce.\n- **Qualità che cala** → riduci le ripetizioni.\n- **Spalle alzate** → espira e abbassale.\n- **Perdita di equilibrio** → rallenta.' },
+      { h: 'Esercizi e progressioni', b: '- Serie di 3 con un’entrata diversa per ogni serie.\n- Serie con pausa di un secondo tra entrata e uscita.\n- Serie a occhi chiusi solo nella fase di rientro e solo in un posto sicuro.\n\nSali solo se la qualità resta stabile.' },
+      { h: 'Verificare da solo', b: 'Registra **20 secondi** (una serie). Tre punti:\n- la quinta ripetizione ha la stessa postura della prima?\n- il ritmo è regolare?\n- le spalle restano basse?' },
+      { h: 'Sicurezza e istruttore', b: '- Nessuna proiezione completata, nessun salto.\n- Spazio libero, pavimento antiscivolo.\n- Pause tra le serie; con dolore: stop.\n- Verifica consigliata a un istruttore; partner, cadute e randori solo con lui.' },
+      { h: 'Riepilogo', b: '- Uchikomi a vuoto = ripetizione controllata dell’entrata.\n- Serie di 5, ritmo regolare, cambio lato.\n- Se la qualità cala: stop.\n- Verifica con video e istruttore.' }
+    ],
+    exercises: [
+      mc('Lo scopo dell’uchikomi a vuoto è…', ['Fissare il movimento con ripetizioni controllate', 'Fare più forza', 'Simulare un combattimento', 'Evitare errori'], 0, 'Ripetizioni di qualità.'),
+      mc('Quante ripetizioni per serie?', ['5', '50', '1', '100'], 0, 'Serie brevi.'),
+      mc('Che cosa fai se la postura peggiora?', ['Mi fermo', 'Accelero', 'Continuo', 'Chiudo gli occhi'], 0, 'Stop.'),
+      fill('Il lato si cambia a ogni ___.', ['serie'], 'Si alterna.'),
+      order('Metti in ordine il ciclo', ['Entra', 'ferma', 'esci', 'ricomincia'], 'Ciclo di una ripetizione.'),
+      mc('Quale variante è appropriata?', ['Pausa di un secondo tra entrata e uscita', 'Salto', 'Con partner senza istruttore', 'Proiezione'], 0, 'Pausa.'),
+      mc('Perché meno ripetizioni?', ['Per non fissare errori', 'Per stancarsi meno', 'Per finire prima', 'Non importa'], 0, 'La qualità viene prima.'),
+      fill('L’uchikomi si esegue «a ___».', ['vuoto'], 'Senza partner.')
+    ],
+    test: [
+      mc('Che cosa significa uchikomi?', ['Ripetizione dell’entrata', 'Caduta', 'Presa', 'Proiezione'], 0, 'Uchikomi = entrate ripetute.'),
+      mc('Con gli occhi chiusi…', ['Solo nel rientro e in un posto sicuro', 'Sempre', 'Mai e poi mai', 'Solo con partner'], 0, 'Con prudenza.'),
+      fill('Il lavoro con partner richiede un ___.', ['istruttore'], 'Sempre.'),
+      order('Metti in ordine il controllo video', ['Postura', 'ritmo', 'spalle'], 'Tre punti.'),
+      mc('Quale errore indica qualità che cala?', ['Spalle alte e postura peggiore', 'Ritmo regolare', 'Respiro libero', 'Cambio lato'], 0, 'Fermati.')
+    ] });
+
+  /* ---------- 11. SHRIMP ---------- */
+  T({ id: 'jud-shrimp', stage: 'L3', title: 'Ne-waza: lo spostamento dell’anca (shrimp)', summary: 'Spostare l’anca a terra per creare spazio, lento e a vuoto su tappeto.',
+    objectives: ['Eseguire lo shrimp sul tappeto, a vuoto e lentamente', 'Spingere con il piede e ritrarre le ginocchia', 'Mantenere il collo rilassato'],
+    pages: [
+      { h: 'A che cosa serve', b: 'Lo **shrimp** (エビ, «gambero») è uno spostamento dell’anca a terra. Serve a creare **spazio** nel lavoro di ne-waza. Qui lo alleni **da solo, a vuoto, su tappeto**, senza partner e senza sparring.' },
+      { h: 'Il principio', b: 'Spingi con il piede, **ruoti sull’anca** e **ritrai le ginocchia**: l’anca si sposta di lato come un gambero. Il movimento viene dall’anca e dal piede, non dal collo né dalla testa.' },
+      { h: 'Passo per passo', b: '- Sdraiato sulla schiena, **piedi appoggiati**, mani vicino al petto.\n- **Spingi con il piede** e sposta l’anca di lato.\n- Ritrai le ginocchia verso il petto.\n- Movimento **lento**, collo **rilassato**, senza girare la testa con forza.\n- Alterna destra e sinistra sulla lunghezza dello spazio.' },
+      { h: 'Errori comuni e correzioni', b: '- **Collo teso** → rilassa la testa sul tappeto.\n- **Gambe rigide** → piegale e ritrai le ginocchia.\n- **Spinta del piede insufficiente** → spingi dal tallone.\n- **Movimento troppo rapido** → conta 3 tempi per fase.' },
+      { h: 'Esercizi e progressioni', b: '- Shrimp con cambio di lato ogni 3 ripetizioni.\n- Shrimp + ritorno alla posizione di partenza.\n- Shrimp lento contando 3 tempi per fase.' },
+      { h: 'Verificare da solo', b: 'Registra **20 secondi**. Tre punti:\n- l’anca si sposta di lato (non solo la schiena)?\n- il collo resta rilassato?\n- il movimento è regolare, senza strappi?' },
+      { h: 'Sicurezza e istruttore', b: '- Solo su **tappeto o superficie morbida**, mai su pavimento duro.\n- Movimento lento; nessuno strappo al collo.\n- Stop con dolore a collo, schiena, anca.\n- Il lavoro a terra con partner richiede un istruttore.' },
+      { h: 'Riepilogo', b: '- Shrimp = spostamento dell’anca per creare spazio.\n- Piede spinge, anca ruota, ginocchia si ritraggono.\n- Collo rilassato, lento, su tappeto.\n- Verifica con video.' }
+    ],
+    exercises: [
+      mc('A che cosa serve lo shrimp?', ['Creare spazio spostando l’anca', 'Proiettare', 'Fare presa', 'Riscaldare solo le braccia'], 0, 'Spostamento dell’anca.'),
+      mc('Con che cosa spingi?', ['Con il piede', 'Con la testa', 'Con il collo', 'Con le mani'], 0, 'Spingi con il piede.'),
+      mc('Dove va la testa?', ['Rilassata sul tappeto', 'Girata con forza', 'Alzata', 'Contro il pavimento'], 0, 'Collo rilassato.'),
+      fill('Il movimento si esegue su ___ (superficie morbida).', ['tappeto'], 'Mai su pavimento duro.'),
+      order('Metti in ordine lo shrimp', ['Spingi', 'sposta', 'l’anca', 'ritrai', 'le', 'ginocchia'], 'Sequenza.'),
+      mc('Se il collo è teso?', ['Rallento e rilasso', 'Accelero', 'Giro la testa con forza', 'Continuo'], 0, 'Collo rilassato.'),
+      mc('Quale variante è appropriata?', ['Cambio lato ogni 3 ripetizioni', 'Con partner senza istruttore', 'Su pavimento duro', 'Strappi veloci'], 0, 'Variante lenta.'),
+      fill('Per fase conti ___ tempi.', ['3', 'tre'], 'Lento.')
+    ],
+    test: [
+      mc('Perché non su pavimento duro?', ['Per proteggere schiena e anca', 'Perché è scomodo', 'Per rumore', 'Non importa'], 0, 'Tappeto.'),
+      mc('Che cosa significa «shrimp»?', ['Gambero', 'Serpente', 'Ponte', 'Presa'], 0, 'Gambero.'),
+      fill('Il lavoro a terra con partner richiede un ___.', ['istruttore'], 'Sempre.'),
+      order('Metti in ordine il controllo video', ['Anca', 'collo', 'ritmo'], 'Tre punti.'),
+      mc('Quale errore indica spinta insufficiente?', ['L’anca non si sposta', 'L’anca si sposta', 'Il collo è rilassato', 'Il ritmo è regolare'], 0, 'Spingi dal piede.')
+    ] });
+
+  /* ---------- 12. STAND-UP ---------- */
+  T({ id: 'jud-standup', stage: 'L3', title: 'Rialzarsi in sicurezza: technical stand-up', summary: 'Tornare in piedi da seduto, con schiena neutra e mani pronte.',
+    objectives: ['Eseguire il rialzo tecnico da seduto, lentamente', 'Mantenere la schiena neutra e le mani davanti al corpo', 'Chiudere in jigotai e poi in shizentai'],
+    pages: [
+      { h: 'A che cosa serve', b: 'Il **technical stand-up** è un modo controllato di **rialzarsi** da seduto. Qui lo alleni **da solo, su tappeto, lentamente**. Nessun partner e nessuna caduta nuova: parti già seduto.' },
+      { h: 'Il principio', b: 'Il rialzo avviene con **schiena neutra** e controllo del corpo. Una mano resta dietro, il bacino si solleva, un piede passa all’indietro; le **mani rimangono davanti al corpo** e mai a sorreggere il collo.' },
+      { h: 'Passo per passo', b: '- Da seduto: **una mano dietro**, piede opposto vicino.\n- **Solleva il bacino**.\n- Passa la gamba sotto e fai **un passo all’indietro** verso la postura.\n- Schiena neutra, mani davanti al corpo.\n- Chiudi in **jigotai**, poi in **shizentai**.' },
+      { h: 'Errori comuni e correzioni', b: '- **Schiena curva** → petto alto.\n- **Mani non pronte** → portale davanti al corpo.\n- **Peso sui talloni** → senti il centro del piede.\n- **Perdita di equilibrio** → rallenta.' },
+      { h: 'Esercizi e progressioni', b: '- Alza dal lato destro e dal lato sinistro.\n- Stand-up + due passi di tsugi-ashi.\n- Stand-up a comando, più veloce ma controllato.' },
+      { h: 'Verificare da solo', b: 'Registra **20 secondi**. Tre punti:\n- la schiena è neutra?\n- le mani sono davanti al corpo?\n- chiudi in jigotai e poi in shizentai stabili?' },
+      { h: 'Sicurezza e istruttore', b: '- Solo su tappeto, lento, **da seduto**: niente cadute.\n- Mani mai a sorreggere il collo.\n- Stop con dolore a polso, collo o schiena.\n- Il lavoro con partner richiede un istruttore.' },
+      { h: 'Riepilogo', b: '- Stand-up = rialzo tecnico controllato.\n- Mano dietro, bacino su, passo indietro, mani davanti.\n- Schiena neutra, chiusura jigotai poi shizentai.\n- Verifica con video.' }
+    ],
+    exercises: [
+      mc('Quale aspetto è prioritario?', ['Schiena neutra e controllo', 'Velocità massima', 'Saltare', 'Appoggiare il collo'], 0, 'Controllo.'),
+      mc('Da quale posizione parti?', ['Seduto', 'In piedi', 'In volo', 'A testa in giù'], 0, 'Da seduto.'),
+      mc('Dove stanno le mani?', ['Davanti al corpo', 'Sul collo', 'Dietro la testa', 'Sotto le gambe'], 0, 'Mai a sorreggere il collo.'),
+      fill('Si chiude in jigotai e poi in ___.', ['shizentai'], 'Postura naturale.'),
+      order('Metti in ordine il rialzo', ['Solleva', 'il', 'bacino', 'passa', 'la', 'gamba', 'passo', 'indietro'], 'Sequenza.'),
+      mc('Se perdi l’equilibrio?', ['Rallento', 'Accelero', 'Salto', 'Chiudo gli occhi'], 0, 'Lento.'),
+      mc('Quale variante è appropriata?', ['Alzo dal lato destro e sinistro', 'Su pavimento duro', 'Con partner senza istruttore', 'Salto'], 0, 'Alternare i lati.'),
+      fill('La schiena resta ___.', ['neutra'], 'Mai curva.')
+    ],
+    test: [
+      mc('Perché non sul pavimento duro?', ['Per sicurezza', 'Perché è scomodo', 'Per rumore', 'Non importa'], 0, 'Tappeto.'),
+      mc('Che cosa significa «technical stand-up»?', ['Rialzo tecnico', 'Salto', 'Caduta', 'Presa'], 0, 'Rialzo.'),
+      fill('Il lavoro con partner richiede un ___.', ['istruttore'], 'Sempre.'),
+      order('Metti in ordine il controllo video', ['Schiena', 'mani', 'chiusura'], 'Tre punti.'),
+      mc('Quale errore indica mani non pronte?', ['Mani lontane dal corpo', 'Mani davanti', 'Schiena neutra', 'Piede a fianco'], 0, 'Mani davanti.')
+    ] });
+})(window.ST = window.ST || {});
 
 /* ---- content/judo-l-ukemi ---- */
 /* SkillTree — judo: 10 lezioni approfondite sulle cadute (ukemi) in progressione.
@@ -2410,8 +2796,265 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 })(window.ST = window.ST || {});
 
 /* ---- content/judo-l-nage2 ---- */
-/* stub */
-(function (ST) { 'use strict'; })(window.ST = window.ST || {});
+/* SkillTree — Judo e lotta libera: lezioni approfondite sulle proiezioni «a vuoto» (parte 2).
+   Tai-otoshi, harai-goshi, uchi-mata, ko-soto (gari/gake), koshi-guruma, morote-seoi (con judogi), uchikomi con elastico.
+   Solo in autonomia: nessun partner, nessuna proiezione reale, nessuna caduta; finale sempre in piedi.
+   Il modulo allena forma, ritmo ed equilibrio: non dimostra l’efficacia contro un avversario che resiste. */
+(function (ST) {
+  'use strict';
+  const C = ST.content, { mc, fill, order } = C;
+  const T = (o) => C.addTopic(Object.assign({ subject: 'grp', minutes: 12 }, o));
+
+  /* ================= TAI-OTOSHI ================= */
+  T({ id: 'jud-taiotoshi-full', stage: 'L3', title: 'Tai-otoshi no-gi: il blocco della gamba, a vuoto',
+    summary: 'Gesto completo di tai-otoshi (kuzushi–tsukuri–kake) nell’aria: presa no-gi, rotazione, gamba di blocco e ritorno in piedi.',
+    objectives: ['Descrivere le tre fasi di tai-otoshi e il ruolo della gamba tesa come «blocco»', 'Eseguire a vuoto il gesto in 4 tempi con presa no-gi, finendo sempre in piedi', 'Riconoscere e correggere gli errori più comuni (gamba non tesa, schiena curva, peso sui talloni)'],
+    pages: [
+      { h: 'Che cosa è tai-otoshi', b: '**Tai-otoshi** (体落) significa «caduta del corpo». Nella classificazione del Kodokan è una tecnica di **te-waza** (tecniche di mano/braccio): il lavoro principale lo fanno le braccia e la rotazione del busto, non l’anca come in o-goshi.\n\nÈ una proiezione in cui il partner viene fatto passare **sopra una gamba tesa** che blocca il suo piede o la sua caviglia. In questo modulo non c’è nessun partner: alleni il gesto **a vuoto**, nell’aria.' },
+      { h: 'Il principio: kuzushi–tsukuri–kake', b: 'Ogni proiezione ha tre fasi:\n- **Kuzushi**: lo squilibrio. Qui il partner immaginario viene portato **in avanti e verso il suo angolo destro** (verso la punta del suo piede destro).\n- **Tsukuri**: la costruzione dell’entrata, cioè passi e rotazione che ti portano nella posizione giusta.\n- **Kake**: l’esecuzione, il momento in cui torsione del busto e blocco della gamba si completano.\n\n> Cue: «porta, entra, ruota». Se salti una fase, il gesto diventa solo un movimento di braccia.' },
+      { h: 'La presa no-gi', b: 'Senza judogi non ci sono bavero e manica. In questo percorso usi una presa **over-under no-gi**:\n- la mano sinistra al **polso** (o al bicipite) del partner immaginario: è la mano che guida in avanti (hikite);\n- il braccio destro **sopra il braccio** o in underhook sotto l’ascella: guida la rotazione.\n\nGomiti dentro, spalle basse, avambracci attivi. Simula la presa nell’aria prima di ogni serie: la presa è una struttura, non una tirata di braccia.' },
+      { h: 'Piedi e anche, passo dopo passo', b: 'Gesto in 4 tempi, lento:\n- **1. Kuzushi**: la mano sinistra «tira» il polso immaginario in avanti e verso il lato destro.\n- **2. Primo passo**: il piede destro avanza davanti al tuo avversario immaginario, ginocchio morbido.\n- **3. Secondo passo e rotazione**: il piede sinistro arretra ruotando di circa 90°, il busto gira e il bacino resta **sotto** di te, non spinto indietro.\n- **4. Kake**: la gamba destra si **tende** davanti al suo piede (il blocco), il busto ruota e le spalle scendono leggermente verso il basso.\n\nLa gamba tesa non è un calcio: resta bassa e ferma, in contatto «immaginario» con la caviglia.' },
+      { h: 'Il finale «a vuoto»', b: 'Il finale è la parte più importante in solitaria:\n- nessuno viene proiettato e tu **non cadi mai**;\n- dopo il kake **fermati** per un secondo con la gamba di blocco tesa e il peso controllato;\n- riporta il piede a terra e torna in **shizentai** (postura naturale), in piedi, con respiro calmo.\n\nSe perdi equilibrio, interrompi e ricomincia. Qui nessuna gamba si muove in alto: il blocco resta a quota caviglia, nell’aria, senza toccare oggetti o persone.' },
+      { h: 'Errori comuni e correzioni', b: '- **Gamba di blocco non tesa** → controlla che il ginocchio si estenda davanti a te e che il piede non «cada» a terra.\n- **Schiena curva** → sguardo avanti, petto aperto, mento leggermente rientrato.\n- **Peso sui talloni** → sposta il peso sull’avampiede del piede d’appoggio.\n- **Braccia che tirano senza il busto** → la rotazione parte dal busto, le braccia accompagnano.\n- **Passi saltati o troppo grandi** → rallenta, due piccoli passi bastano.\n- **Perdita di equilibrio** → riduci l’ampiezza e riparti dalla postura.' },
+      { h: 'Progressioni e collegamenti', b: '**Progressione** (sempre a vuoto):\n- gesto in 4 tempi, lentissimo;\n- gesto in 3 tempi, più fluido;\n- gesto alternato destra e sinistra, con pausa in piedi fra una ripetizione e l’altra;\n- gesto dopo una presa a vuoto (kumi-kata no-gi).\n\n**Collegamenti** con altri lavori del percorso: la rotazione ricorda seoi-nage (stessa entrata di spalle), ma qui la gamba resta **tesa davanti**, non sotto il partner; il kuzushi in avanti è comune a o-goshi e koshi-guruma. Allenare l’entrata con l’elastico (uchikomi) aiuta a mantenere la forma.' },
+      { h: 'Autocontrollo con il video', b: 'Filma il gesto da **davanti** e da **di lato**, a bassa velocità. Controlla:\n- la gamba di blocco è tesa a fine gesto?\n- il bacino resta sotto, la schiena è dritta?\n- finisci in piedi, senza barcollare?\n\nConfronta con le indicazioni di questa lezione. Un video aiuta a vedere errori che non senti, ma **non dimostra** che la tecnica funzionerebbe su un partner reale: per verificare la forma e fare lavoro con partner serve un istruttore.' },
+      { h: 'Sicurezza e riepilogo', b: '- Spazio libero di 2 m × 2 m, pavimento non scivoloso, scarpe fuori.\n- Tempo lento, nessuna caduta e nessuna proiezione reale.\n- Fermati con dolore a ginocchia, caviglie o schiena.\n- È consigliabile far verificare la tecnica da un istruttore qualificato.\n\n**Riepilogo**: kuzushi avanti e laterale; due passi con rotazione; gamba destra tesa come blocco; finale in piedi.' }
+    ],
+    exercises: [
+      mc('Che tipo di tecnica è tai-otoshi nella classificazione del Kodokan?', ['Ashi-waza (gambe)', 'Te-waza (mano/braccio)', 'Koshi-waza (anca)', 'Sutemi-waza (sacrificio)'], 1, 'Tai-otoshi è classificato come te-waza.'),
+      mc('Che cosa fa la gamba destra in tai-otoshi nel gesto a vuoto?', ['Spazza in alto', 'Si tende davanti come blocco', 'Si piega sotto il corpo', 'Calcia verso un muro'], 1, 'È un blocco teso, a quota bassa, non un calcio.'),
+      order('Metti in ordine le fasi', ['Kuzushi', 'Tsukuri', 'Kake', 'Ritorno in shizentai'], 'Prima squilibrio, poi entrata, esecuzione e ritorno in piedi.'),
+      fill('Il blocco della gamba si fa a quota bassa, nell’aria, all’altezza della ___.', ['caviglia'], 'Il blocco è a quota caviglia, senza toccare nulla.'),
+      mc('Dove si porta il peso del piede d’appoggio?', ['Sui talloni', 'Sull’avampiede', 'Sul bordo esterno', 'Non conta'], 1, 'Peso sui talloni è un errore: sbilancia indietro.'),
+      mc('Quale presa no-gi usi con la mano sinistra?', ['Al polso o al bicipite', 'Al bavero', 'Alla cintura', 'Ai capelli'], 0, 'Senza judogi si controlla il braccio al polso o al bicipite.'),
+      order('Ordina il gesto', ['Presa', 'Kuzushi avanti', 'Due passi con rotazione', 'Blocco con la gamba tesa', 'Ritorno in piedi'], 'La sequenza parte dalla presa e termina sempre in piedi.'),
+      fill('Se perdi l’equilibrio, il comportamento corretto è ___ e ripartire dalla postura.', ['fermarsi', 'interrompere', 'fermarti'], 'Interrompere e ricominciare, mai insistere.'),
+      mc('Quale errore indica una schiena curva?', ['Sguardo ai piedi e petto chiuso', 'Piedi paralleli', 'Gomiti dentro', 'Ginocchia morbide'], 0, 'La schiena curva si accompagna a sguardo in basso e petto chiuso.'),
+      mc('Che cosa non dimostra un video del tuo gesto?', ['La forma della postura', 'L’efficacia contro un partner che resiste', 'Il ritmo', 'La stabilità finale'], 1, 'Il video mostra la forma, non l’efficacia reale.')
+    ],
+    test: [
+      mc('Che cosa significa «tai-otoshi»?', ['Caduta del corpo', 'Spazzata del piede', 'Presa della manica', 'Rotolamento in avanti'], 0, 'Tai = corpo, otoshi = caduta.'),
+      mc('Verso dove si porta il partner immaginario nel kuzushi?', ['Indietro sul tallone', 'In avanti e verso il suo lato destro', 'Verso il basso', 'Non si porta'], 1),
+      fill('Il gesto termina sempre in ___ (postura naturale).', ['shizentai', 'piedi', 'piedi in shizentai'], 'Si torna in shizentai, in piedi.'),
+      mc('Qual è la correzione per «gamba di blocco non tesa»?', ['Estendere il ginocchio davanti a te', 'Piegare di più le ginocchia', 'Chiudere gli occhi', 'Aumentare la velocità'], 0),
+      mc('Che cosa è consigliabile prima di fare lavoro con partner?', ['La verifica di un istruttore', 'Aumentare la forza', 'Saltare il riscaldamento', 'Niente'], 0),
+      order('Ordina le fasi della proiezione', ['Squilibrio', 'Entrata', 'Esecuzione'], 'Kuzushi, tsukuri, kake.')
+    ] });
+
+  /* ================= HARAI-GOSHI ================= */
+  T({ id: 'jud-harai-goshi-full', stage: 'L3', title: 'Harai-goshi no-gi: equilibrio e tempo lento',
+    summary: 'Gesto completo di harai-goshi a vuoto, con enfasi sull’equilibrio su una gamba sola e su un tempo lento e controllato.',
+    objectives: ['Spiegare il ruolo dell’anca e della gamba «spazzante» in harai-goshi', 'Eseguire il gesto a vuoto in 4 tempi, con equilibrio sul piede d’appoggio', 'Mantenere la gamba a quota moderata e terminare sempre in piedi'],
+    pages: [
+      { h: 'Che cosa è harai-goshi', b: '**Harai-goshi** (払腰), «spazzata d’anca», è una tecnica di **koshi-waza** (tecniche d’anca) del Kodokan. Il bacino entra contro il partner e una gamba **spazza** all’indietro-in alto, mentre il busto ruota.\n\nÈ una tecnica **avanzata** perché per un istante stai in **equilibrio su una gamba sola**. Per questo, nel nostro percorso, si allena soprattutto lenta e controllata. Questo modulo è solitario: tutto avviene nell’aria, senza partner.' },
+      { h: 'Il principio: kuzushi–tsukuri–kake', b: '- **Kuzushi**: porta il partner immaginario **in avanti**, verso le punte dei suoi piedi, con la mano di guida.\n- **Tsukuri**: passo con il sinistro, **rotazione sul piede d’appoggio** fino ad avere anca e petto vicini a quelli del partner immaginario.\n- **Kake**: la gamba destra **spazza all’indietro** a quota moderata mentre il busto ruota in avanti.\n\n> Regola d’oro: il piede d’appoggio e l’asse del corpo comandano; la gamba che spazza accompagna.' },
+      { h: 'La presa no-gi', b: 'Presa **no-gi**: collar tie destro (mano sulla nuca) oppure underhook, e polso sinistro. L’idea è tenere il petto e l’anca **vicini** al partner immaginario.\n\nSimula la presa nell’aria: gomiti dentro, spalle basse. Una presa troppo lontana costringe a gesti ampi e a perdere equilibrio.' },
+      { h: 'Il piede d’appoggio, il vero motore', b: 'Gran parte della qualità del gesto sta nella **gamba d’appoggio**:\n- ginocchio **morbido**, mai bloccato;\n- peso sull’**avampiede**, tallone appena leggero;\n- il piede ruota sul posto (pivot) invece di spostarsi;\n- lo sguardo resta in avanti, non ai piedi.\n\nProva senza spazzata: solo passo, pivot e stop in equilibrio per due secondi su una gamba. Se vacilli, usa una parete come appoggio mentale: sai dove sarebbe, ma non la tocchi.' },
+      { h: 'La spazzata, a quota moderata', b: 'In 4 tempi, lenti:\n- **1.** kuzushi in avanti con il polso sinistro;\n- **2.** passo con il sinistro e pivot;\n- **3.** anca vicina, busto che comincia a ruotare;\n- **4.** la gamba destra si estende all’indietro, **non oltre l’altezza dell’anca**, nell’aria, senza colpire oggetti o persone.\n\nL’altezza non è l’obiettivo: una gamba altissima fa perdere l’asse. Controllo prima di ampiezza.' },
+      { h: 'Il finale «a vuoto»', b: 'Il gesto non completa nessuna proiezione e **non cadi mai**:\n- dopo la spazzata riporta il piede **davanti** a te, a terra, con controllo;\n- ritrova la stance, peso al centro, respiro regolare;\n- torna in shizentai e fermati prima di ripetere.\n\nEsegui poche ripetizioni di qualità, poi pausa. Con affaticamento l’equilibrio cala: è il momento di fermarsi.' },
+      { h: 'Errori comuni e correzioni', b: '- **Gamba troppo alta** → riduci l’ampiezza: bassa e controllata.\n- **Schiena curva** → petto aperto, sguardo avanti.\n- **Perdita di equilibrio** → rallenta, ripeti solo passo e pivot.\n- **Peso sui talloni** → spostalo sull’avampiede d’appoggio.\n- **Ginocchio d’appoggio bloccato** → tienilo morbido.\n- **Spazzata prima della rotazione** → prima l’anca, poi la gamba.' },
+      { h: 'Progressioni e collegamenti', b: '**Progressione**:\n- solo passo, pivot e stop su una gamba (2 secondi);\n- gesto completo in 4 tempi;\n- gesto lento alternato destra e sinistra;\n- gesto dopo tai sabaki a vuoto.\n\n**Collegamenti**: l’entrata è simile a o-goshi e koshi-guruma; la spazzata della gamba è parente di uchi-mata, ma qui la gamba va **all’indietro** e non all’interno. Il lavoro con elastico (uchikomi) aiuta a ripetere l’entrata.' },
+      { h: 'Video, sicurezza e riepilogo', b: 'Filma di lato: vedi altezza della gamba, asse del busto e finale. Un video mostra la forma, **non** dimostra che la tecnica funzionerebbe contro un avversario.\n\n**Sicurezza**: tecnica avanzata a equilibrio su una gamba. Spazio libero, pavimento non scivoloso, tempo lento, fermati con dolore a ginocchio o anca. È consigliabile che un **istruttore** verifichi la forma.\n\n**Riepilogo**: kuzushi avanti; passo, pivot e anca vicina; spazzata bassa-moderata; finale in piedi.' }
+    ],
+    exercises: [
+      mc('A quale categoria del Kodokan appartiene harai-goshi?', ['Te-waza', 'Koshi-waza', 'Ma-sutemi-waza', 'Ukemi'], 1, 'Harai-goshi è una tecnica d’anca (koshi-waza).'),
+      mc('Che cosa conta di più nel gesto a vuoto?', ['L’altezza massima della gamba', 'L’equilibrio sul piede d’appoggio', 'La velocità', 'La forza delle braccia'], 1, 'Equilibrio e controllo sono prioritari.'),
+      order('Ordina il gesto', ['Kuzushi in avanti', 'Passo e pivot', 'Anca vicina', 'Spazzata bassa', 'Ritorno in shizentai'], 'La spazzata arriva dopo l’anca; il finale è sempre in piedi.'),
+      fill('La gamba che spazza va a quota ___, mai molto alta.', ['moderata'], 'Si lavora a quota moderata, controllata.'),
+      mc('Come deve essere il ginocchio della gamba d’appoggio?', ['Bloccato', 'Morbido', 'Piegato al massimo', 'Ruotato verso l’interno'], 1, 'Un ginocchio bloccato riduce l’equilibrio e stressa l’articolazione.'),
+      mc('Perché si dice che harai-goshi è «avanzata»?', ['Perché si usano molti passi', 'Perché richiede equilibrio su una gamba sola', 'Perché si fa solo con judogi', 'Perché è proibita'], 1),
+      fill('Per allenare l’equilibrio si può restare 2 secondi su una ___ dopo passo e pivot.', ['gamba', 'gamba sola'], 'Stop in equilibrio su una gamba.'),
+      mc('Che cosa succede se la gamba va troppo in alto?', ['Si guadagna forza', 'Si perde l’asse del corpo', 'Si migliora il kuzushi', 'Niente'], 1, 'L’ampiezza eccessiva sbilancia.'),
+      mc('Qual è il finale corretto del gesto?', ['Cadere sul tappeto', 'Piede a terra e ritorno in piedi in shizentai', 'Rotolare in avanti', 'Saltare'], 1, 'Nessuna caduta: si finisce sempre in piedi.'),
+      order('Ordina le parti della presa no-gi', ['Collar tie destro', 'Polso sinistro', 'Gomiti dentro', 'Petto vicino'], 'Presa compatta e vicina.')
+    ],
+    test: [
+      mc('Che cosa significa «harai» nel nome?', ['Spazzare', 'Cadere', 'Afferrare', 'Ruotare'], 0, 'Harai = spazzare.'),
+      mc('Dove va la spazzata di harai-goshi?', ['All’indietro-in alto, a quota moderata', 'All’interno, a terra', 'In avanti', 'Dietro, sopra la testa'], 0),
+      fill('Il tempo corretto di allenamento è ___ e controllato.', ['lento'], 'Tempo lento.'),
+      mc('Se vacilli sul piede d’appoggio, che cosa fai?', ['Accelero', 'Mi fermo e ripeto solo passo e pivot', 'Alzo di più la gamba', 'Chiudo gli occhi'], 1),
+      mc('Che cosa è consigliabile per verificare la forma?', ['Un istruttore qualificato', 'Un video e basta', 'Nulla', 'Solo la forza'], 0),
+      order('Metti in ordine', ['Rotazione sul piede d’appoggio', 'Spazzata', 'Piede a terra'], 'Rotazione, spazzata, ritorno.')
+    ] });
+
+  /* ================= UCHI-MATA ================= */
+  T({ id: 'jud-uchimata-full', stage: 'L3', title: 'Uchi-mata no-gi: asse e controllo della gamba',
+    summary: 'Gesto completo di uchi-mata a vuoto: spazzata interna a quota moderata, equilibrio su un piede e ritorno in piedi.',
+    objectives: ['Distinguere uchi-mata (interno coscia) da harai-goshi (spazzata dietro)', 'Eseguire a vuoto il gesto lento con asse del corpo controllato', 'Terminare in piedi, con la gamba a quota moderata e senza colpire nulla'],
+    pages: [
+      { h: 'Che cosa è uchi-mata', b: '**Uchi-mata** (内股), «all’interno della coscia», è una tecnica di **ashi-waza** (gambe) del Kodokan, spesso eseguita con forte rotazione del busto. La gamba si inserisce **all’interno** della coscia del partner e sale mentre il corpo ruota.\n\nÈ una tecnica **avanzata**: richiede equilibrio su una gamba, coordinazione e controllo dell’asse. Qui non c’è partner: si allena a vuoto, lenti.' },
+      { h: 'Il principio: kuzushi–tsukuri–kake', b: '- **Kuzushi**: porta il partner immaginario **in avanti e leggermente di lato**.\n- **Tsukuri**: passo con il sinistro, rotazione, gamba destra **pronta** all’interno della sua coscia.\n- **Kake**: la gamba destra sale **all’interno e all’indietro** a quota moderata, il busto ruota in avanti.\n\n> Il segreto è l’asse: testa, spalle e anca restano allineati sopra il piede d’appoggio.' },
+      { h: 'La presa no-gi', b: '**Over-under no-gi**: collar tie destro e polso o underhook sinistro. Il tronco del partner immaginario è vicino al tuo.\n\nSimula la presa con gomiti dentro e spalle basse; il polso sinistro tira, la mano destra guida la rotazione. Non strattonare con le braccia: il movimento nasce dai piedi e dal bacino.' },
+      { h: 'Piedi e anche, passo dopo passo', b: 'In 4 tempi:\n- **1.** kuzushi in avanti e di lato;\n- **2.** passo con il sinistro, **ginocchio morbido**;\n- **3.** pivot sul piede d’appoggio, anca che si avvicina;\n- **4.** la gamba destra sale all’interno, **non oltre l’altezza del bacino**, mentre il busto si inclina in avanti di poco.\n\nIl piede d’appoggio è sull’avampiede; il tallone è leggero; lo sguardo resta davanti. Evita i movimenti ampi: più ampiezza significa meno controllo.' },
+      { h: 'Differenza con harai-goshi', b: '- **Harai-goshi**: la gamba spazza **all’indietro**, con l’anca a contatto.\n- **Uchi-mata**: la gamba sale **all’interno** e all’indietro, in un movimento a «forbice».\n\nEntrambe richiedono equilibrio su un piede solo, ma in uchi-mata l’inserimento interno è più delicato: se la gamba parte troppo alta, si perde l’asse. Per questo l’altezza resta moderata.' },
+      { h: 'Il finale «a vuoto»', b: '- Nessuno viene proiettato e **non cadi**;\n- dopo il kake riporta il piede a terra davanti a te, in modo controllato;\n- torna in shizentai e fermati, respiro calmo;\n- la gamba non deve mai colpire oggetti, pareti o persone: nell’aria, a quota moderata.\n\nSe vacilli, interrompi subito: è meglio perdere una ripetizione che l’equilibrio.' },
+      { h: 'Errori comuni e correzioni', b: '- **Gamba troppo alta** → riduci l’ampiezza.\n- **Perdita di equilibrio** → tempo ancora più lento, solo passo e pivot.\n- **Schiena curva** → petto aperto e sguardo avanti.\n- **Sguardo ai piedi** → guarda l’orizzonte.\n- **Peso sui talloni** → sull’avampiede.\n- **Strappo con le braccia** → braccia morbide, il bacino comanda.' },
+      { h: 'Progressioni e collegamenti', b: '**Progressione**:\n- solo passo, pivot e stop su una gamba;\n- gesto in 4 tempi lentissimo;\n- gesto alternato destra-sinistra;\n- gesto dopo hikite a vuoto.\n\n**Collegamenti**: come harai-goshi, parte dal kuzushi in avanti; ricorda anche ko-uchi e o-uchi per l’idea di lavoro «all’interno». L’elastico (uchikomi) aiuta a ripetere l’entrata senza completare la tecnica.' },
+      { h: 'Video, sicurezza e riepilogo', b: 'Filma da **davanti** e di **lato** a bassa velocità. Verifica altezza della gamba, linea della schiena e finale in piedi. Il video mostra la forma, **non** prova che la tecnica funzioni contro un avversario reale.\n\n**Sicurezza**: tecnica avanzata. Spazio libero 2 m × 2 m, tempo lento, mai oltre la tua stabilità. Fermati con dolore. Una verifica da parte di un **istruttore** è consigliabile.\n\n**Riepilogo**: kuzushi avanti/laterale; passo e pivot; gamba interna a quota moderata; finale in piedi.' }
+    ],
+    exercises: [
+      mc('Che cosa significa uchi-mata?', ['All’interno della coscia', 'Sopra la spalla', 'Sotto il piede', 'Alle spalle'], 0, 'Uchi = interno, mata = coscia.'),
+      mc('Quale categoria Kodokan include uchi-mata?', ['Ashi-waza', 'Te-waza', 'Koshi-waza', 'Ne-waza'], 0, 'È una tecnica di gamba.'),
+      order('Ordina il gesto', ['Kuzushi avanti e laterale', 'Passo con il sinistro', 'Pivot e anca vicina', 'Gamba interna a quota moderata', 'Piede a terra e shizentai'], 'Il gesto termina sempre in piedi.'),
+      fill('In uchi-mata la gamba sale all’___ della coscia immaginaria.', ['interno'], 'Uchi = interno.'),
+      mc('Che cosa distingue uchi-mata da harai-goshi?', ['La gamba sale all’interno invece di spazzare dietro', 'Non c’è kuzushi', 'Si usa il judogi', 'Si cade'], 0),
+      mc('Come deve essere l’altezza della gamba?', ['Moderata, non oltre il bacino', 'Il più alta possibile', 'Sopra la testa', 'Rasoterra senza controllo'], 0, 'L’altezza moderata mantiene l’asse.'),
+      fill('Se vacilli sul piede d’appoggio, ti ___ e ripeti più lentamente.', ['fermi', 'fermi subito', 'interrompi'], 'Interrompere è la scelta sicura.'),
+      mc('Dove va lo sguardo?', ['Ai piedi', 'In avanti, all’orizzonte', 'Al soffitto', 'A terra dietro di te'], 1, 'Sguardo ai piedi è un errore.'),
+      mc('Perché si ripete il gesto in tempo lento?', ['Per mettere in sicurezza l’equilibrio su una gamba sola', 'Perché è più facile da vedere', 'Per fare più forza', 'Non c’è motivo'], 0),
+      mc('Che cosa non può dimostrare questo modulo?', ['La memoria del gesto', 'Che la tecnica funziona su un avversario che resiste', 'Il ritmo', 'L’equilibrio'], 1)
+    ],
+    test: [
+      mc('Verso dove si porta il partner immaginario?', ['In avanti e leggermente di lato', 'Indietro', 'Verso il basso', 'Non si porta'], 0),
+      fill('Il piede d’appoggio sta sull’___, con il tallone leggero.', ['avampiede'], 'Peso sull’avampiede.'),
+      mc('Qual è un errore da correggere?', ['Gamba troppo alta', 'Ginocchio morbido', 'Sguardo avanti', 'Respiro regolare'], 0),
+      mc('Che cosa è consigliabile per verificare la forma?', ['Un istruttore qualificato', 'Un’app che lo certifica', 'Niente', 'Aumentare la velocità'], 0),
+      mc('Come finisce sempre il gesto?', ['In piedi, in shizentai', 'Con una caduta', 'Con una rotazione a terra', 'Con un salto'], 0, 'Nessuna caduta.'),
+      order('Metti in ordine le fasi', ['Squilibrio', 'Entrata', 'Esecuzione'], 'Kuzushi, tsukuri, kake.')
+    ] });
+
+  /* ================= KO-SOTO-GARI / KO-SOTO-GAKE ================= */
+  T({ id: 'jud-kosoto-full', stage: 'L2', title: 'Ko-soto-gari e ko-soto-gake no-gi: spazzata e gancio',
+    summary: 'Due piccole azioni del piede contro il tallone esterno: «gari» (spazzata) e «gake» (gancio), eseguite a vuoto a quota bassissima.',
+    objectives: ['Spiegare la differenza fra spazzata (gari) e gancio (gake)', 'Eseguire a vuoto entrambe le versioni a quota bassissima', 'Controllare equilibrio e finale in piedi senza colpire nulla'],
+    pages: [
+      { h: 'Che cosa sono', b: '**Ko-soto-gari** (小外刈), «piccola spazzata esterna», è una tecnica di **ashi-waza** (gambe) del Kodokan. **Ko-soto-gake** (小外掛), «piccolo gancio esterno», è una tecnica collegata del gruppo ashi-waza, presente anch’essa nel Gokyo. In entrambe il piede agisce sul **tallone esterno** del partner. Qui non c’è partner: gesto a vuoto, in piedi.' },
+      { h: 'Gari e gake: la differenza', b: '- **Gari** (刈) = **mietere, spazzare**: il piede **striscia** e spazza via il tallone con un movimento breve e netto.\n- **Gake** (掛) = **agganciare**: il piede **aggancia** il tallone e vi resta un istante, come un gancio.\n\nEntrambi sono piccoli e bassissimi: all’altezza del **tallone**. La differenza è nel **tempo di contatto** (gari: passa e va; gake: aggancia e tiene). Nel gesto a vuoto, nel gake fai una **pausa di un secondo** a fine movimento.' },
+      { h: 'Il principio: kuzushi–tsukuri–kake', b: '- **Kuzushi**: porta il partner immaginario **all’indietro, sul tallone destro**, con collar tie e polso.\n- **Tsukuri**: piccolo passo con il sinistro a fianco del suo piede destro, ginocchio morbido, busto eretto.\n- **Kake**: la gamba destra va **all’esterno del suo tallone**, a quota bassissima: spazza (gari) oppure aggancia (gake).\n\nLa forza non arriva dal calcio ma dalla spinta del busto in avanti-giù combinata con l’azione del piede.' },
+      { h: 'La presa no-gi', b: 'No-gi: **collar tie destro** (mano sulla nuca) e **polso sinistro**. Il tronco viene guidato all’indietro, senza tirare il braccio verso di te.\n\nSimula la presa: gomiti dentro, spalle basse. Il braccio destro spinge verso il basso e all’indietro, quello sinistro mantiene il controllo del polso.' },
+      { h: 'Piedi e anche, passo dopo passo', b: 'In 4 tempi:\n- **1.** collar tie e polso a vuoto, kuzushi indietro;\n- **2.** piccolo passo con il sinistro, ginocchio morbido;\n- **3.** peso sul piede d’appoggio, busto leggermente in avanti;\n- **4.** il piede destro agisce **all’altezza del tallone**: nel gari spazza brevemente, nel gake aggancia e fa una pausa.\n\nAltezza del piede: **a pochi centimetri da terra**. Non è un calcio e non sale mai oltre il ginocchio.' },
+      { h: 'Il finale «a vuoto»', b: '- Il piede torna a terra **davanti a te**, in modo controllato;\n- ritrovi la stance, poi shizentai;\n- nessuno cade e **tu non cadi**;\n- il piede non colpisce nulla: controlla che nell’aria non ci siano sedie, pareti o persone.\n\nNel gake, fermati un secondo con il piede «agganciato» nell’aria, poi ritorna.' },
+      { h: 'Errori comuni e correzioni', b: '- **Peso sui talloni** → sposta il peso sull’avampiede d’appoggio.\n- **Gamba troppo alta** → quota bassissima, tallone.\n- **Busto che si inclina all’indietro** → petto avanti.\n- **Gesto troppo ampio** → piccolo e breve.\n- **Perdita di equilibrio** → rallenta e riduci l’ampiezza.\n- **Confondere gari e gake** → ripeti la regola: gari spazza, gake aggancia e resta.' },
+      { h: 'Progressioni e collegamenti', b: '**Progressione**:\n- gari in 4 tempi lenti;\n- gari alternato destra e sinistra;\n- gake con pausa di un secondo;\n- gari e gake nella stessa serie, alternati.\n\n**Collegamenti**: o-soto-gari lavora allo stesso modo ma in grande e a quota ginocchio; ko-uchi-gari agisce sul tallone interno. Nella combinazione «collar tie → o-soto → ko-soto» la presa è la stessa.' },
+      { h: 'Video, sicurezza e riepilogo', b: 'Filma di lato: vedi quota del piede e inclinazione del busto. Il video mostra la forma, **non** dimostra che la tecnica funzionerebbe su un partner che resiste.\n\n**Sicurezza**: spazio libero, piede basso, nessun contatto con oggetti o persone. Con dolore a ginocchio o caviglia, stop. Un **istruttore** può verificare la forma.\n\n**Riepilogo**: kuzushi indietro; piccolo passo; piede basso sul tallone esterno; gari = spazza, gake = aggancia e resta; finale in piedi.' }
+    ],
+    exercises: [
+      mc('Che cosa significa «gari»?', ['Spazzare', 'Agganciare', 'Afferrare', 'Cadere'], 0, 'Gari = spazzare.'),
+      mc('Che cosa significa «gake»?', ['Spazzare', 'Agganciare', 'Spingere', 'Ruotare'], 1, 'Gake = agganciare.'),
+      order('Ordina il gesto', ['Kuzushi indietro', 'Piccolo passo', 'Piede basso sul tallone', 'Ritorno in shizentai'], 'Il gesto termina sempre in piedi.'),
+      fill('Il piede lavora a quota ___, all’altezza del tallone.', ['bassissima', 'bassa'], 'Quota bassissima.'),
+      mc('Qual è la differenza principale fra gari e gake?', ['Il tempo di contatto: la spazzata passa, il gancio resta', 'La presa', 'La mano usata', 'Nessuna'], 0),
+      mc('Qual è la presa no-gi di questo gesto?', ['Collar tie destro e polso sinistro', 'Bavero e manica', 'Cintura', 'Nessuna presa'], 0, 'Senza judogi si usano nuca e polso.'),
+      mc('Quanto in alto sale il piede?', ['A pochi centimetri da terra', 'Sopra il ginocchio', 'All’altezza della testa', 'All’altezza del bacino'], 0),
+      fill('Nel gake si fa una pausa di un ___ a fine gesto.', ['secondo'], 'Pausa di circa un secondo.'),
+      mc('Che cosa è un errore tipico?', ['Peso sui talloni', 'Ginocchio morbido', 'Busto eretto', 'Piede basso'], 0),
+      order('Ordina le parti della presa', ['Mano destra alla nuca', 'Mano sinistra al polso', 'Gomiti dentro'], 'Presa compatta.')
+    ],
+    test: [
+      mc('A quale categoria Kodokan appartiene ko-soto-gari?', ['Ashi-waza', 'Te-waza', 'Koshi-waza', 'Sutemi-waza'], 0),
+      mc('Dove si porta il peso del partner immaginario?', ['Sul tallone destro, all’indietro', 'In avanti', 'In alto', 'Di lato'], 0),
+      fill('Il piede torna a terra ___ a te.', ['davanti'], 'Si torna in stance con controllo.'),
+      mc('Che cosa non devi mai fare con il piede?', ['Colpire oggetti o persone', 'Tenerlo basso', 'Tornare a terra', 'Usare il tallone'], 0),
+      mc('Che cosa non può dimostrare un gesto fluido a vuoto?', ['Che funzionerebbe contro un avversario', 'Che ricordi la sequenza', 'Che hai ritmo', 'Che hai equilibrio'], 0),
+      order('Metti in ordine', ['Squilibrio', 'Entrata', 'Esecuzione'], 'Kuzushi, tsukuri, kake.')
+    ] });
+
+  /* ================= KOSHI-GURUMA ================= */
+  T({ id: 'jud-koshi-guruma-full', stage: 'L3', title: 'Koshi-guruma no-gi: la ruota sull’anca',
+    summary: 'Gesto completo di koshi-guruma a vuoto: neck wrap simulato, rotazione sull’anca e ritorno in piedi.',
+    objectives: ['Descrivere koshi-guruma come tecnica d’anca con braccio al collo', 'Eseguire a vuoto il gesto in 4 tempi con rotazione stabile', 'Distinguere koshi-guruma da o-goshi e terminare sempre in piedi'],
+    pages: [
+      { h: 'Che cosa è koshi-guruma', b: '**Koshi-guruma** (腰車), «ruota dell’anca», è una tecnica di **koshi-waza** (anca) del Kodokan. Il partner viene idealmente caricato sull’anca e fatto ruotare **come una ruota** attorno al tuo asse.\n\nNel nostro percorso è no-gi: il braccio avvolge il **collo/nuca** del partner immaginario (neck wrap). Tutto è **simulato nell’aria**, senza partner e senza proiezioni reali.' },
+      { h: 'Il principio: kuzushi–tsukuri–kake', b: '- **Kuzushi**: porta il partner **in avanti, sulle punte** dei piedi, con il polso sinistro.\n- **Tsukuri**: passo avanti con il destro, rotazione fino a stare di schiena, ginocchia flesse, **bacino sotto** il suo baricentro; il braccio destro avvolge dietro il collo.\n- **Kake**: estendi ginocchia e anche e ruota le spalle in avanti come una **ruota** sull’anca.\n\n> Immagina un asse verticale: la ruota gira attorno a quell’asse, non si ribalta in avanti.' },
+      { h: 'La presa no-gi: neck wrap', b: 'Presa no-gi: braccio destro **intorno al collo/nuca** dell’avversario immaginario (neck wrap), polso sinistro a controllare il braccio.\n\n- Il braccio è **solo simulato**: non afferri nulla.\n- Gomito dentro, spalla bassa.\n- Il petto resta vicino.\n\nÈ la differenza principale rispetto a **o-goshi**, in cui il braccio avvolge la **vita**: in koshi-guruma l’avvolgimento è **al collo**, il che cambia la linea di rotazione.' },
+      { h: 'Piedi e anche, passo dopo passo', b: 'In 4 tempi, lenti:\n- **1.** kuzushi con il polso sinistro;\n- **2.** passo avanti con il destro, ginocchio morbido;\n- **3.** pivot sul piede d’appoggio, ginocchia flesse, bacino sotto, schiena dritta;\n- **4.** estensione di ginocchia e anche e rotazione delle spalle.\n\nIl bacino **non si spinge indietro**: resta sotto di te. Il peso non va in avanti: il gesto si ferma quando sei in equilibrio.' },
+      { h: 'Il finale «a vuoto»', b: '- Fermati in piedi: **mai caricare il peso in avanti** né lasciarti cadere;\n- riporta i piedi sotto il bacino e torna in shizentai;\n- il braccio al collo si «scioglie» lentamente, senza strappi;\n- respira e controlla l’equilibrio prima di ripetere.\n\nNessuna parte del corpo si muove in alto: tutto avviene a livello di anche e spalle, senza salti.' },
+      { h: 'Errori comuni e correzioni', b: '- **Ginocchia dritte** → piegale all’entrata.\n- **Schiena curva** → petto aperto.\n- **Bacino sopra il baricentro immaginario** → portalo più sotto.\n- **Passi saltati** → piccoli passi, senza salti.\n- **Perdita di equilibrio** → riduci l’ampiezza e rallenta.\n- **Spinta in avanti con la testa** → la testa resta in linea con la colonna.' },
+      { h: 'Progressioni e collegamenti', b: '**Progressione**:\n- gesto in 4 tempi lenti;\n- gesto alternato destra e sinistra;\n- gesto dopo polso e collar tie a vuoto;\n- gesto con uchikomi elastico (solo entrata, nessuna proiezione).\n\n**Collegamenti**: koshi-guruma e o-goshi condividono l’entrata; koshi-guruma e morote-seoi condividono la ricerca del bacino sotto il baricentro. La combinazione «koshi-guruma → o-goshi → postura» del percorso allena il passaggio fra le due.' },
+      { h: 'Video, sicurezza e riepilogo', b: 'Filma di lato e da dietro: verifica schiena, bacino e finale. Il video aiuta a vedere errori, **ma non dimostra** l’efficacia della tecnica su un avversario.\n\n**Sicurezza**: spazio 2 m × 2 m, tempo lento, nessuna caduta. Fermati con dolore a schiena o ginocchia. Un **istruttore** può verificare la forma.\n\n**Riepilogo**: neck wrap simulato; kuzushi avanti; bacino sotto; rotazione come ruota; finale in piedi.' }
+    ],
+    exercises: [
+      mc('Che cosa significa koshi-guruma?', ['Ruota dell’anca', 'Spazzata d’anca', 'Caduta del corpo', 'Ruota del piede'], 0, 'Koshi = anca, guruma = ruota.'),
+      mc('Che cosa avvolge il braccio destro in questa versione no-gi?', ['La vita', 'Il collo/nuca (neck wrap)', 'La gamba', 'Il braccio opposto'], 1, 'Il neck wrap è la presa caratteristica.'),
+      order('Ordina il gesto', ['Kuzushi in avanti', 'Passo avanti con il destro', 'Pivot con bacino sotto', 'Rotazione come ruota', 'Ritorno in shizentai'], 'Il finale è sempre in piedi.'),
+      fill('Koshi-guruma è una tecnica di ___-waza (tecniche d’anca).', ['koshi'], 'Koshi = anca.'),
+      mc('Qual è la differenza con o-goshi?', ['Il braccio avvolge il collo invece della vita', 'Si usano i piedi', 'Non c’è kuzushi', 'Si cade'], 0),
+      mc('Dove sta il bacino?', ['Sotto il baricentro del partner immaginario', 'Molto indietro', 'Sopra la sua testa', 'Lontano da lui'], 0),
+      mc('Come sono le ginocchia nell’entrata?', ['Flesse', 'Bloccate', 'Ruotate verso l’esterno', 'Alzate'], 0),
+      fill('Il braccio al collo è solo ___: nessuno viene afferrato.', ['simulato'], 'Si lavora a vuoto.'),
+      mc('Che cosa succede se carichi il peso in avanti?', ['Perdi equilibrio', 'Migliora la tecnica', 'Niente', 'Sei più veloce'], 0, 'Mai caricare il peso in avanti.'),
+      mc('Perché si ruota «come una ruota»?', ['Il peso passa sull’anca attorno a un asse stabile', 'Per saltare', 'Per cadere', 'Per tirare con le braccia'], 0)
+    ],
+    test: [
+      mc('A quale famiglia appartiene koshi-guruma?', ['Koshi-waza', 'Ashi-waza', 'Te-waza', 'Ne-waza'], 0),
+      mc('Qual è il finale corretto?', ['Piedi a terra, in piedi', 'Caduta', 'Rotolamento', 'Salto'], 0),
+      fill('La presa del polso sinistro serve a controllare il ___ immaginario.', ['braccio'], 'Il polso controlla il braccio.'),
+      mc('Quale errore corrisponde a «passi saltati»?', ['Passi troppo grandi e sbilanciati', 'Ginocchia morbide', 'Schiena dritta', 'Sguardo avanti'], 0),
+      mc('Che cosa è consigliabile per verificare la forma?', ['Un istruttore qualificato', 'Un video e basta', 'Nulla', 'Un’app di punteggio'], 0),
+      order('Metti in ordine le fasi', ['Squilibrio', 'Entrata', 'Esecuzione'], 'Kuzushi, tsukuri, kake.')
+    ] });
+
+  /* ================= MOROTE-SEOI-NAGE ================= */
+  T({ id: 'jud-morote-seoi-full', stage: 'L3', title: 'Morote-seoi-nage con judogi: la presa a due mani',
+    summary: 'Gesto completo di morote-seoi-nage a vuoto, con presa a due mani sul bavero: l’unica proiezione del percorso con judogi.',
+    objectives: ['Spiegare «morote» e «seoi» e la presa a due mani sul bavero', 'Eseguire a vuoto il gesto con ginocchia flesse, gomiti sotto le ascelle e finale in piedi', 'Correggere gomiti larghi, schiena curva e piedi lontani dall’asse'],
+    pages: [
+      { h: 'Che cosa è morote-seoi-nage', b: '**Morote-seoi-nage** (諸手背負投) significa «proiezione caricando sulla schiena con due mani»: **morote** = a due mani, **seoi** = caricare sulla schiena, **nage** = proiezione. Nel Kodokan è una variante di **seoi-nage** classificata fra le tecniche di **te-waza**.\n\nIn questo percorso è **l’unica proiezione con judogi**: tutte le altre sono no-gi. Qui non c’è partner: gesto a vuoto.' },
+      { h: 'Il principio: kuzushi–tsukuri–kake', b: '- **Kuzushi**: porta il partner immaginario **in avanti, sulle punte**, con le due mani sul bavero.\n- **Tsukuri**: passo avanti con il destro, pivot, ginocchia flesse, **spalle sotto le sue ascelle**, schiena contro il suo petto immaginario.\n- **Kake**: estendi le gambe e ruota le spalle in avanti; il busto si inclina al massimo di circa **20°** in avanti.\n\n> Il carico passa sulle gambe, non sulla schiena che si piega.' },
+      { h: 'La presa con judogi', b: 'Con judogi usi la **presa a due mani (morote)** sul bavero dell’avversario immaginario:\n- le due mani afferrano il bavero all’altezza del petto, con i pollici **dentro** il tessuto;\n- i gomiti stanno **sotto le ascelle**, stretti, non larghi;\n- le spalle sono basse e rilassate.\n\nNel gesto a vuoto simula la presa nell’aria: non tirare con le braccia, la forza arriva dalle gambe e dal bacino. I gomiti larghi sono l’errore più frequente.' },
+      { h: 'Piedi e anche, passo dopo passo', b: 'In 4 tempi:\n- **1. Kuzushi**: le due mani portano il tronco in avanti, sulle punte;\n- **2. Passo avanti** con il destro, ginocchio morbido;\n- **3. Pivot** sul piede d’appoggio, ginocchia flesse, spalle sotto le ascelle;\n- **4. Kake**: estensione delle gambe e rotazione delle spalle, busto inclinato di circa 20°.\n\nPiedi **vicini all’asse** del partner immaginario: piedi lontani costringono a piegarsi e a perdere equilibrio.' },
+      { h: 'Il finale «a vuoto»', b: '- Nessuno viene proiettato, **non cadi** e non ti pieghi in avanti;\n- dopo il kake torna in shizentai, in piedi, schiena dritta;\n- rilascia la presa nell’aria lentamente;\n- fermati con respiro calmo prima di ripetere.\n\nLe gambe non vanno mai in alto: nessuna spazzata, solo estensione dal basso.' },
+      { h: 'Errori comuni e correzioni', b: '- **Schiena curva** → petto aperto e sguardo avanti.\n- **Ginocchia dritte** → piegale all’entrata.\n- **Gomiti larghi** → stringili sotto le ascelle.\n- **Piedi lontani dall’asse** → piccoli passi più vicini.\n- **Perdita di equilibrio** → riduci l’ampiezza e rallenta.\n- **Busto troppo inclinato** → limite di circa 20°.' },
+      { h: 'Progressioni e collegamenti', b: '**Progressione**:\n- gesto in 4 tempi, lento;\n- gesto alternato destra e sinistra;\n- gesto dopo kumi-kata a vuoto con judogi;\n- gesto con elastico (solo entrata).\n\n**Collegamenti**: nella versione no-gi di seoi-nage si usano polso e underhook; qui la presa a due mani sul bavero è la differenza chiave. La combinazione «morote-seoi → seoi (no-gi) → tai sabaki» del percorso allena il passaggio fra le due prese.' },
+      { h: 'Video, sicurezza e riepilogo', b: 'Filma di lato e di fronte: controlla gomiti, ginocchia e finale. Il video mostra la forma, **non** dimostra che la tecnica funzioni contro un avversario che resiste.\n\n**Sicurezza**: spazio 2 m × 2 m, tempo lento, nessuna caduta. Con dolore a ginocchia o schiena, stop. È consigliabile la verifica da parte di un **istruttore**.\n\n**Riepilogo**: presa a due mani sul bavero; gomiti sotto le ascelle; ginocchia flesse; busto fino a circa 20°; finale in piedi.' }
+    ],
+    exercises: [
+      mc('Che cosa significa «morote»?', ['A una mano', 'A due mani', 'Senza mani', 'Con le gambe'], 1, 'Morote = a due mani.'),
+      mc('Che cosa significa «seoi»?', ['Spazzare', 'Caricare sulla schiena', 'Agganciare', 'Ruotare'], 1),
+      order('Ordina il gesto', ['Presa a due mani sul bavero', 'Kuzushi in avanti', 'Pivot con ginocchia flesse', 'Estensione e rotazione', 'Ritorno in shizentai'], 'Il finale è sempre in piedi.'),
+      fill('Il busto si inclina in avanti al massimo di circa ___ gradi.', ['20', 'venti'], 'Circa 20°.'),
+      mc('Dove stanno i gomiti?', ['Sotto le ascelle, stretti', 'Larghi', 'Dietro la schiena', 'Sopra la testa'], 0),
+      mc('Perché questa è la «proiezione con judogi»?', ['Usa il bavero a due mani', 'È più facile', 'Non c’è kuzushi', 'Non serve la presa'], 0),
+      mc('Che cosa è un errore tipico?', ['Gomiti larghi', 'Ginocchia flesse', 'Sguardo avanti', 'Piedi vicini all’asse'], 0),
+      fill('Il carico passa sulle ___, non sulla schiena che si piega.', ['gambe'], 'La forza è delle gambe.'),
+      mc('Quanto vicini devono essere i piedi all’asse del partner immaginario?', ['Vicini', 'Molto lontani', 'Non conta', 'Dietro di lui'], 0),
+      mc('Che cosa non dimostra questo modulo?', ['Che il gesto funzionerebbe su un avversario che resiste', 'La memoria della sequenza', 'Il ritmo', 'L’equilibrio'], 0)
+    ],
+    test: [
+      mc('Quale proiezione del percorso si fa con judogi?', ['Morote-seoi-nage', 'O-goshi', 'Koshi-guruma', 'Ko-soto-gari'], 0),
+      mc('Dove si portano le spalle nel tsukuri?', ['Sotto le ascelle del partner immaginario', 'Sopra la testa', 'Lontano', 'Dietro'], 0),
+      fill('Il gesto finisce sempre in ___.', ['piedi', 'shizentai'], 'Mai caduta.'),
+      mc('Che cosa fai se perdi equilibrio?', ['Mi fermo e riparto', 'Accelero', 'Mi piego di più', 'Chiudo gli occhi'], 0),
+      mc('Che cosa è consigliabile per verificare la forma?', ['Un istruttore qualificato', 'Solo il video', 'Nulla', 'Un punteggio'], 0),
+      order('Metti in ordine', ['Squilibrio', 'Entrata', 'Esecuzione'], 'Kuzushi, tsukuri, kake.')
+    ] });
+
+  /* ================= UCHIKOMI CON ELASTICO ================= */
+  T({ id: 'jud-band-uchikomi', stage: 'L2', title: 'Uchikomi con elastico: ripetizioni senza proiezione',
+    summary: 'Ripetere l’entrata (tsukuri) di una tecnica già nota contro la resistenza di un elastico, senza mai completare la proiezione e con ancoraggio sicuro.',
+    objectives: ['Spiegare lo scopo dell’uchikomi con elastico e perché non si completa la proiezione', 'Preparare un ancoraggio sicuro e una postazione protetta', 'Eseguire serie brevi di qualità e fermarsi quando la forma peggiora'],
+    pages: [
+      { h: 'Che cosa è uchikomi', b: '**Uchikomi** (打込) significa «entrare ripetutamente»: si ripete l’**entrata** (tsukuri) di una tecnica fino al punto di kake, **senza completare** la proiezione. Con un **elastico** al posto del partner, alleni forma, ritmo e tenuta della presa in solitaria.\n\nIl modulo non sostituisce un partner e **non dimostra** che la tecnica funzionerebbe su un avversario reale.' },
+      { h: 'Scopo e principio', b: 'L’uchikomi lavora sulle **fasi di tsukuri e sull’ingresso al kake**:\n- ripetere l’entrata migliora coordinazione di piedi, bacino e braccia;\n- l’elastico offre una **resistenza** simile al peso del partner, solo per la parte di entrata;\n- il movimento si **ferma** nel punto di kake e si ritorna lentamente.\n\nÈ lavoro di **qualità**, non di quantità: poche ripetizioni precise valgono più di tante frettolose.' },
+      { h: 'Ancoraggio e materiale', b: 'Prima di tutto, **sicurezza**:\n- usa un elastico largo (resistenza media) in buone condizioni, senza tagli o usura;\n- fissalo a un **ancoraggio solido**, all’altezza del bacino, testato (es. palo, attacco da palestra): **verifica che non possa cedere**;\n- tieni il **viso lontano dalla linea di tiro**: un elastico che cede o scivola può colpirti;\n- niente nodi improvvisati su oggetti mobili o fragili.\n\n> Controlla sempre l’ancoraggio **prima** di ogni sessione.' },
+      { h: 'La presa e la posizione', b: 'Impugna l’altra estremità con la **mano di presa** (tsurite): nel percorso no-gi simula il **polso** o la **nuca**; nel morote-seoi con judogi simula il **bavero**.\n\n- Gomiti dentro, spalle basse.\n- Piedi alla larghezza delle spalle, ginocchia morbide.\n- Spazio libero attorno a te e dietro l’elastico, pavimento non scivoloso.\n\nInizia con **poca tensione**: l’elastico non deve strattonarti.' },
+      { h: 'Come si esegue, passo dopo passo', b: 'In 4 fasi:\n- **1.** assumi la presa e verifica la tensione;\n- **2.** esegui l’entrata (passo, pivot, bacino) di una tecnica **già imparata**;\n- **3.** **fermati** nel punto di kake, senza estendere in avanti fino a perdere equilibrio;\n- **4.** rientra **lentamente** in shizentai e ripeti.\n\nL’elastico fa **resistenza**, non lo usi come appoggio. Serie di **5–8 ripetizioni**, poi pausa.' },
+      { h: 'Il finale «a vuoto»', b: '- **Nessuna proiezione viene completata**: ti fermi sempre a kake e torni in piedi;\n- non arretrare lasciando che l’elastico ti trascini;\n- rilascia la presa **lentamente**, mai di scatto;\n- se l’elastico vibra o scivola, **interrompi** e rifai la verifica dell’ancoraggio.' },
+      { h: 'Errori comuni e correzioni', b: '- **Ancoraggio non sicuro** → ferma tutto e cambia punto.\n- **Qualità che cala nelle ripetizioni** → riduci la serie.\n- **Spalle alzate** → rilassale.\n- **Perdita di equilibrio** → riduci l’ampiezza e la tensione.\n- **Elastico mollato di colpo** → rilascia gradualmente.\n- **Viso sulla linea di tiro** → spostati di lato.' },
+      { h: 'Progressioni e collegamenti', b: '**Progressione**:\n- una sola tecnica, serie di 5 con tensione leggera;\n- serie alternata destra e sinistra;\n- serie con due tecniche diverse (ad es. o-goshi e koshi-guruma);\n- serie dopo kumi-kata a vuoto.\n\n**Collegamenti**: l’elastico si applica a **qualsiasi** entrata del percorso (o-goshi, tai-otoshi, harai-goshi, uchi-mata, koshi-guruma, morote-seoi). Per harai-goshi e uchi-mata resta valido: equilibrio e tempo lento prima di tutto.' },
+      { h: 'Video, sicurezza e riepilogo', b: 'Filma di lato: controlla presa, linea di schiena e finale in piedi. Il video mostra la forma, **non** l’efficacia reale.\n\n**Sicurezza**: ancoraggio testato, viso fuori dalla linea di tiro, tensione moderata, nessuna caduta. Con dolore a spalla, schiena o ginocchia, stop. È consigliabile che un **istruttore** verifichi forma e attrezzatura.\n\n**Riepilogo**: elastico su ancoraggio solido; entrata ripetuta; stop a kake; nessuna proiezione completata; serie brevi di qualità.' }
+    ],
+    exercises: [
+      mc('Che cosa significa uchikomi?', ['Entrare ripetutamente', 'Cadere', 'Afferrare', 'Spazzare'], 0, 'Uchikomi = entrate ripetute.'),
+      mc('Qual è la prima cosa da controllare prima di usare l’elastico?', ['Il colore', 'La solidità dell’ancoraggio', 'La marca', 'La lunghezza'], 1, 'Un ancoraggio che cede è il rischio principale.'),
+      order('Ordina le fasi', ['Presa e verifica della tensione', 'Entrata della tecnica', 'Stop nel punto di kake', 'Rientro lento in shizentai'], 'Non si completa mai la proiezione.'),
+      fill('Una serie tipica è di 5–8 ripetizioni di ___.', ['qualità'], 'Qualità, non quantità.'),
+      mc('Dove si tiene il viso?', ['Sulla linea di tiro', 'Lontano dalla linea di tiro', 'Sopra l’elastico', 'Non conta'], 1),
+      mc('Che cosa succede alla proiezione?', ['Non viene mai completata', 'Si completa lentamente', 'Si completa con più forza', 'Si completa a metà'], 0),
+      fill('Se la forma peggiora, ti ___.', ['fermi', 'fermi subito', 'fermi e riposi'], 'Si interrompe quando la qualità cala.'),
+      mc('Che tipo di elastico si usa?', ['Largo, di resistenza media, in buono stato', 'Sottile e consumato', 'Con nodi', 'Qualunque'], 0),
+      mc('Quando si rilascia la presa?', ['Lentamente', 'Di scatto', 'Mai', 'Con un salto'], 0),
+      mc('Che cosa non dimostra questo allenamento?', ['L’efficacia contro un avversario reale', 'La ripetizione dell’entrata', 'La coordinazione', 'Il ritmo'], 0)
+    ],
+    test: [
+      mc('A quale altezza si fissa l’elastico?', ['All’altezza del bacino', 'Al soffitto', 'A terra', 'All’altezza dei piedi'], 0),
+      fill('Il gesto si ferma nel punto di ___.', ['kake'], 'Si ferma a kake, senza completare.'),
+      mc('Che cosa fai se l’elastico scivola?', ['Interrompo e verifico l’ancoraggio', 'Continuo', 'Tiro più forte', 'Lo annodo a un oggetto fragile'], 0),
+      mc('Che cosa è consigliabile per verificare forma e attrezzatura?', ['Un istruttore qualificato', 'Nulla', 'Solo la forza', 'Un video senza ancoraggio'], 0),
+      mc('Quale presa simuli nel morote-seoi con judogi?', ['Il bavero', 'La cintura', 'Il polso', 'La nuca'], 0),
+      order('Metti in ordine', ['Verifica l’ancoraggio', 'Esegui l’entrata', 'Fermati a kake'], 'Sicurezza prima, poi forma.')
+    ] });
+})(window.ST = window.ST || {});
 
 /* ---- content/judo-l-clinch ---- */
 /* Clinch e ginocchiate (muay thai) — 4 lezioni approfondite, SOLO a vuoto. */
@@ -2565,8 +3208,485 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 })(window.ST = window.ST || {});
 
 /* ---- content/judo-l-lotta ---- */
-/* stub */
-(function (ST) { 'use strict'; })(window.ST = window.ST || {});
+/* SkillTree — Judo e lotta libera (percorso opzionale no-gi): 15 lezioni approfondite, solo pratica SOLITARIA "a vuoto".
+   Nessun partner, nessuna proiezione: le entrate (single/double-leg) si fermano prima di qualsiasi sollevamento. */
+(function (ST) {
+  'use strict';
+  const C = ST.content, { mc, fill, order } = C;
+  // mc con la risposta giusta inserita in posizione `pos` (0-3) tra le tre errate
+  const M = (q, right, wrong, pos, why) => { const o = wrong.slice(); o.splice(pos, 0, right); return mc(q, o, pos, why); };
+  const O = (q, words, why) => order(q, words, why);
+  const F = (q, a, why) => fill(q, a, why);
+  const list = a => a.map(x => '- ' + x).join('\n');
+  const T = (id, stage, title, summary, objectives, p, exercises, test) => C.addTopic({
+    id: 'jud-' + id, subject: 'grp', stage, title, summary, objectives, minutes: 10,
+    pages: [
+      { h: 'A cosa serve', b: p.goal },
+      { h: 'Il principio', b: p.principle },
+      { h: 'Passo per passo', b: list(p.steps) + '\n\n> ' + p.example },
+      { h: 'Errori comuni e correzioni', b: p.errors.map(e => '- **' + e[0] + '** → ' + e[1]).join('\n') },
+      { h: 'Progressioni', b: 'Passa al livello successivo solo se il precedente è pulito e rilassato:\n' + list(p.prog) },
+      { h: 'Autoverifica con il video', b: 'Gira un breve video (anche col telefono appoggiato) e controlla questi punti, uno alla volta:\n' + list(p.check) + '\n\nSe un punto non torna, rallenta e correggi solo quello nella serie successiva.' },
+      { h: 'Sicurezza', b: p.safety },
+      { h: 'Ricapitolando', b: p.recap }
+    ],
+    exercises, test
+  });
+
+  /* ---------------- L0 ---------------- */
+  T('wrestle-stance', 'L0', 'Stance da lotta (no-gi) e spostamenti',
+    'La posizione di partenza di tutto il percorso: base, mani, peso e shuffle.',
+    ['Assumere una stance stabile con peso sull’avampiede e schiena neutra', 'Spostarsi con lo shuffle senza incrociare i piedi', 'Riconoscere e correggere gli errori di base dall’autoverifica video'],
+    {
+      goal: 'La **stance** (posizione di partenza) è la base di ogni altra lezione: livello, passi, sprawl e ingressi partono da qui e tornano qui. Una stance stabile ti permette di muoverti in ogni direzione senza perdere equilibrio. In questo percorso si lavora **solo a vuoto**, senza partner, e a torso libero (no-gi): niente prese al tessuto.',
+      principle: 'Il **baricentro** resta basso e dentro la base d’appoggio. Piedi un po’ più larghi delle spalle, ginocchia flesse, peso sull’**avampiede** (non sui talloni), schiena neutra con il busto leggermente inclinato in avanti. Le mani sono aperte davanti al corpo e i gomiti restano dentro, vicini al tronco. Si lavora con lo **shuffle**: il piede che guida parte per primo, l’altro lo segue riportando la distanza originale, senza incroci né salti.',
+      steps: ['Piedi paralleli, poi un piede leggermente avanti: la distanza è quella di un passo corto.', 'Piega le ginocchia come per sederti su uno sgabello basso; il bacino scende, non il busto.', 'Inclina il busto in avanti dal bacino mantenendo la schiena piatta; testa alta, sguardo davanti.', 'Mani aperte all’altezza del petto, gomiti dentro, spalle rilassate.', 'Shuffle: spingi con il piede arretrato, muovi il piede guida di 20-30 cm, poi richiama l’altro piede. Resta basso durante tutto il passo.', 'Cambia direzione (avanti, lato, indietro) senza raddrizzarti e senza incrociare i piedi.'],
+      example: 'Quadrato di 1,5 m: shuffle avanti, di lato, indietro, di lato dall’altra parte. Ripeti 5 giri tenendo la stessa altezza del bacino.',
+      errors: [['Schiena curva', 'porta il petto avanti e il bacino indietro e in basso; immagina una linea retta dalla nuca al sacro.'], ['Piedi che si incrociano', 'accorcia il passo e fai partire sempre il piede più vicino alla direzione di marcia.'], ['Peso sui talloni', 'sposta il peso sull’avampiede finché senti che potresti sollevare i talloni di un dito.'], ['Mani che scendono', 'tieni gli avambracci davanti al petto, come se reggessi un vassoio leggero.'], ['Testa che oscilla su e giù', 'fissa un punto davanti a te e fai passare l’altezza della testa su una linea orizzontale.']],
+      prog: ['Stance ferma per 20 secondi, poi 30, poi 45, senza perdere la forma.', 'Shuffle lento in linea retta, 5 passi avanti e 5 indietro.', 'Quadrato di 1,5 m con cambi di direzione a comando casuale (es. un timer o un metronomo).', 'Alterna stance bassa e alta per 30 secondi ciascuna mantenendo schiena neutra.'],
+      check: ['Linea della schiena: la nuca è allineata al bacino, senza gobba.', 'Piedi: non si incrociano mai e il passo è corto e regolare.', 'Altezza della testa: oscilla poco durante lo shuffle.', 'Mani: restano davanti al petto durante tutto il movimento.'],
+      safety: '- Superficie piana e non scivolosa; scarpe senza suola ruvida o piedi nudi su tappeto.\n- Ginocchia in linea con le punte dei piedi: non lasciarle cadere verso l’interno.\n- Se senti dolore alle ginocchia o alla schiena, alza leggermente la stance e riduci la durata.\n- Non c’è nulla da verificare con un partner: è un lavoro individuale.',
+      recap: 'Stance = base larga, ginocchia flesse, peso sull’avampiede, schiena neutra, mani davanti e gomiti dentro. Lo shuffle muove un piede alla volta senza incroci. Ogni altra tecnica del percorso parte e torna qui.'
+    }, [
+      M('Dove deve stare il peso nella stance da lotta?', 'Sull’avampiede, in modo da poter partire in ogni direzione', ['Sui talloni', 'Tutto su una gamba tesa', 'Sulle mani'], 0, 'L’avampiede permette di reagire subito.'),
+      M('Quale è la distanza corretta tra i piedi?', 'Un po’ più larghi delle spalle', ['Uniti', 'Molto ampia, oltre un metro', 'Incrociati'], 2, 'Una base larga ma gestibile dà stabilità senza bloccare il movimento.'),
+      O('Metti in ordine lo shuffle in avanti.', ['spingi con il piede arretrato', 'muovi il piede guida', 'richiama l’altro piede', 'torna alla stance'], 'Il piede guida si muove per primo e il piede arretrato lo segue.'),
+      F('Nello shuffle il piede che si muove per primo è il piede ___.', ['guida'], 'È il piede che guida la direzione.'),
+      M('Perché i gomiti stanno dentro?', 'Per mantenere la struttura del tronco e le mani davanti', ['Per sembrare più larghi', 'Per tenere le mani alte sopra la testa', 'Non c’è un motivo'], 1, 'Gomiti dentro = struttura e protezione della linea del tronco.'),
+      M('Quale errore è tipico della schiena?', 'Curvarla portando il bacino indietro', ['Tenerla neutra', 'Inclinare il busto dal bacino', 'Tenere la testa alta'], 3, 'La schiena curva sposta il peso indietro e riduce la stabilità.'),
+      F('Per correggere i piedi che si incrociano si fa un passo più ___.', ['corto'], 'Un passo corto evita l’incrocio.'),
+      O('Metti in ordine la costruzione della stance.', ['piedi larghi', 'ginocchia flesse', 'busto inclinato', 'mani davanti'], 'Prima la base, poi il busto e infine le mani.')
+    ], [
+      M('Come si cambia direzione nello shuffle?', 'Restando bassi e senza incrociare i piedi', ['Raddrizzandosi e saltando', 'Incrociando i piedi', 'Girando la schiena'], 2, 'Il cambio di direzione avviene a livello costante.'),
+      M('Quale parte del corpo si abbassa per piegare le ginocchia?', 'Il bacino', ['Solo la testa', 'Solo le spalle', 'Le mani'], 0, 'Si abbassa il bacino come per sedersi.'),
+      F('La posizione corretta del busto è inclinato in avanti ma con la schiena ___.', ['neutra', 'piatta'], 'Neutra significa senza gobba né eccessivo arco.'),
+      O('Metti in ordine l’autoverifica video.', ['guardo la schiena', 'controllo i piedi', 'osservo la testa', 'guardo le mani'], 'Un punto alla volta, dalla struttura ai dettagli.'),
+      M('Che cosa fai se senti dolore alle ginocchia?', 'Alzi la stance e riduci la durata', ['Abbassi di più', 'Acceleri', 'Salti'], 1, 'Si riduce il carico e si controlla la forma.')
+    ]);
+
+  /* ---------------- L1 ---------------- */
+  T('level-change', 'L1', 'Cambio di livello (level change)',
+    'Abbassare e alzare il bacino con la schiena neutra: la base di ogni ingresso.',
+    ['Abbassare il bacino piegando le ginocchia mantenendo la schiena neutra', 'Risalire spingendo con le gambe senza scatti', 'Controllare il tempo di discesa e risalita'],
+    {
+      goal: 'Il **level change** (cambio di livello) è l’abbassamento controllato del bacino partendo dalla stance. È il movimento che precede ogni ingresso e ogni sprawl: farlo bene significa proteggere la schiena e i ginocchi e mantenere l’equilibrio. Qui si pratica **a vuoto**, lentamente, senza partner.',
+      principle: 'Si abbassa il **bacino**, non ci si piega in vita. Le ginocchia si flettono e il busto scende insieme al bacino, con la schiena in linea e la testa alta e davanti alle mani. La risalita è una **spinta delle gambe** contro il pavimento: le ginocchia si estendono per prime, il busto segue. Un ritmo lento (circa 3 secondi in discesa, 2 in risalita) insegna al corpo la traiettoria corretta.',
+      steps: ['Parti dalla stance, mani davanti.', 'Inspira, fletti le ginocchia e porta il bacino verso il basso come per sederti.', 'Il busto resta in linea con il bacino: la distanza tra spalle e bacino non cambia.', 'Fermati in basso un istante: peso sull’avampiede, testa alta.', 'Espira e spingi con le gambe; non raddrizzare la schiena prima delle ginocchia.', 'Torna alla stance e ripeti.'],
+      example: 'Serie di 6 ripetizioni con conteggio: 1-2-3 in discesa, pausa di 1 secondo, 1-2 in risalita.',
+      errors: [['Schiena curva / piegarsi in vita', 'fletti prima le ginocchia e tieni il petto aperto; immagina di scendere lungo una parete.'], ['Ginocchia che restano dritte', 'inizia sempre il movimento flettendo le ginocchia, non il busto.'], ['Testa che cade in avanti', 'sguardo orizzontale, nuca allungata.'], ['Peso sui talloni', 'sposta il peso in avanti finché senti l’avampiede.'], ['Risalita a scatti', 'rallenta, spingi in modo continuo e senza saltare.']],
+      prog: ['Level change lento con conteggio 3-2.', 'Level change con pausa di 2 secondi nel punto basso.', 'Level change a comando casuale (basso/alto).', 'Level change + due shuffle laterali nel punto basso, senza raddrizzarti.'],
+      check: ['Schiena: resta neutra dall’inizio alla fine.', 'Testa: non scende davanti alle mani.', 'Ginocchia: seguono la direzione dei piedi.', 'Ritmo: lo stesso per tutte le ripetizioni.'],
+      safety: '- Movimento lento e controllato; niente salti in risalita.\n- Se avverti dolore al ginocchio o alla schiena, riduci la profondità.\n- Mantieni sempre le ginocchia in linea con i piedi.\n- Superficie piana e non scivolosa.',
+      recap: 'Level change = abbassare il bacino piegando le ginocchia con schiena neutra e testa alta; risalire spingendo con le gambe. Ritmo lento e continuo. È il ponte tra la stance e gli ingressi.'
+    }, [
+      M('Che cosa si abbassa nel level change?', 'Il bacino, con le ginocchia flesse', ['Solo la testa', 'Solo le spalle', 'Le mani'], 1, 'Si scende con il bacino, non piegandosi in vita.'),
+      M('Quale parte si estende per prima in risalita?', 'Le ginocchia', ['La schiena', 'Il collo', 'Le mani'], 3, 'Le gambe spingono prima del busto.'),
+      F('Il ritmo consigliato in discesa è di circa ___ secondi.', ['3', 'tre'], 'Discesa lenta di circa 3 secondi.'),
+      O('Ordina il level change.', ['stance', 'fletto le ginocchia', 'pausa in basso', 'spingo con le gambe'], 'Si scende, si ferma e si risale spingendo con le gambe.'),
+      M('Quale errore è tipico?', 'Piegarsi in vita con la schiena curva', ['Tenere la testa alta', 'Spingere con le gambe', 'Respirare'], 0, 'Va evitato: protegge schiena e equilibrio.'),
+      M('Dove guarda lo sguardo?', 'Davanti, in orizzontale', ['In basso', 'Verso il soffitto', 'Dietro'], 2, 'Testa alta, nuca allungata.'),
+      F('La risalita non deve essere a ___.', ['scatti', 'scatto'], 'La spinta deve essere continua.'),
+      O('Ordina la progressione.', ['conteggio lento', 'pausa in basso', 'comando casuale', 'shuffle nel punto basso'], 'Dal più semplice al più complesso.')
+    ], [
+      M('Qual è il vantaggio di una discesa lenta?', 'Impari la traiettoria corretta', ['Fai più velocemente', 'Non serve respirare', 'Puoi saltare'], 1, 'Il ritmo lento costruisce il movimento.'),
+      M('Quando raddrizzi la schiena?', 'Dopo aver esteso le ginocchia', ['Prima delle ginocchia', 'Mai', 'Subito all’inizio'], 0, 'La schiena segue le gambe.'),
+      F('Il busto scende insieme al ___.', ['bacino'], 'Spalle e bacino si muovono insieme.'),
+      O('Ordina l’autoverifica.', ['controllo la schiena', 'controllo la testa', 'controllo le ginocchia', 'controllo il ritmo'], 'Un punto per volta.'),
+      M('Che cosa fai se senti dolore al ginocchio?', 'Riduci la profondità', ['Aumenti la velocità', 'Salti', 'Ignori'], 3, 'Meno profondità e più controllo.')
+    ]);
+
+  T('penetration-step', 'L1', 'Passo di penetrazione (a vuoto)',
+    'Il passo lungo in avanti con ginocchio posteriore vicino al tappeto, controllato e senza impatto.',
+    ['Eseguire il passo di penetrazione con ginocchio posteriore controllato', 'Fermarsi nel punto più basso e tornare alla stance', 'Mantenere busto eretto e testa alta durante il passo'],
+    {
+      goal: 'Il **penetration step** è il passo lungo in avanti che accorcia la distanza dopo il level change. Qui lo alleni **a vuoto**, verso uno spazio vuoto, a velocità controllata: l’obiettivo è la coordinazione tra gambe e bacino, non lo slancio verso un obiettivo.',
+      principle: 'Dal level change, il piede guida avanza di un passo lungo mentre il bacino resta basso e il busto eretto sopra di esso. Il **ginocchio posteriore** scende vicino al pavimento ma non lo tocca con forza: la gamba anteriore sostiene il peso, il piede d’appoggio resta stabile. Il movimento si **ferma** nel punto più basso e si ritorna in stance con una spinta del piede anteriore e un recupero della gamba posteriore.',
+      steps: ['Parti dalla stance e fai un level change.', 'Dal punto basso, il piede guida avanza di un passo lungo senza alzarsi.', 'Il bacino segue il piede; il busto resta eretto e la testa alta.', 'Il ginocchio posteriore scende a pochi centimetri dal tappeto, senza toccarlo con forza.', 'Fermati un istante: mani davanti, peso sulla gamba anteriore.', 'Spingi con il piede anteriore, recupera la gamba posteriore e torna in stance.'],
+      example: 'Tre ripetizioni lente con il piede guida destro, tre con il sinistro, sempre fermandoti in basso per 1 secondo.',
+      errors: [['Ginocchio che sbatte a terra', 'rallenta la discesa e ferma il ginocchio a pochi cm dal tappeto.'], ['Schiena curva', 'busto eretto sopra il bacino, petto aperto.'], ['Passo troppo corto', 'allunga il passo finché il ginocchio anteriore è sopra il piede, non oltre.'], ['Peso sui talloni', 'porta il peso sull’avampiede anteriore.'], ['Perdita di equilibrio', 'riduci la velocità e allarga leggermente la base laterale.']],
+      prog: ['Passo lento con pausa di 2 secondi in basso.', 'Alternare piede guida destro e sinistro.', 'Penetration step + ritorno in stance in tre tempi.', 'Passo a comando casuale.'],
+      check: ['Ginocchio posteriore: non tocca con forza il tappeto.', 'Busto: eretto sopra il bacino.', 'Piede anteriore: stabile, ginocchio sopra la caviglia.', 'Ritorno: in stance senza scatti.'],
+      safety: '- Solo a vuoto e a velocità controllata; nessun slancio verso un obiettivo.\n- Il ginocchio posteriore non batte mai sul pavimento: usa un tappeto e fermati prima.\n- Questa è una entrata: è consigliabile una verifica con un istruttore.\n- Se senti dolore al ginocchio, interrompi.',
+      recap: 'Penetration step = passo lungo dopo il level change, bacino basso, busto eretto, ginocchio posteriore vicino al tappeto senza impatto. Si ferma in basso e si torna in stance. Solo a vuoto e con istruttore consigliato.'
+    }, [
+      M('Che cosa non si fa con il ginocchio posteriore?', 'Non lo si sbatte a terra', ['Non lo si piega', 'Non lo si sposta', 'Non lo si usa'], 2, 'Si ferma a pochi cm dal tappeto.'),
+      M('Perché ci si ferma nel punto più basso?', 'Per controllare equilibrio e ritorno', ['Per riposare', 'Per accelerare', 'Non serve'], 0, 'La pausa insegna il controllo.'),
+      F('Il busto durante il passo resta ___.', ['eretto'], 'Eretto sopra il bacino.'),
+      O('Ordina il passo.', ['level change', 'passo lungo', 'ginocchio vicino al tappeto', 'ritorno in stance'], 'Si scende, si avanza, si ferma e si torna.'),
+      M('Quale errore sposta il peso indietro?', 'Peso sui talloni', ['Passo lungo', 'Testa alta', 'Mani davanti'], 3, 'Il peso va sull’avampiede.'),
+      M('Come deve essere la velocità?', 'Controllata', ['Massima', 'Casuale', 'Esplosiva'], 1, 'Si lavora a velocità controllata.'),
+      F('Il ginocchio anteriore sta sopra la ___.', ['caviglia'], 'Sopra la caviglia, non oltre.'),
+      O('Ordina la progressione.', ['pausa 2 secondi', 'alternare i piedi', 'tre tempi', 'comando casuale'], 'Dal più semplice al più complesso.')
+    ], [
+      M('Che tipo di movimento è il penetration step?', 'Un’entrata, da praticare a vuoto', ['Una proiezione', 'Una caduta', 'Una presa'], 2, 'È un ingresso e si fa a vuoto.'),
+      M('Chi è consigliabile coinvolgere per verificarlo?', 'Un istruttore', ['Nessuno', 'Uno sconosciuto', 'Un partner senza esperienza'], 0, 'Le entrate vanno verificate con un istruttore.'),
+      F('La testa resta ___.', ['alta'], 'Testa alta e sguardo avanti.'),
+      O('Ordina l’autoverifica.', ['ginocchio', 'busto', 'piede anteriore', 'ritorno'], 'Un controllo per volta.'),
+      M('Che cosa fai se hai dolore al ginocchio?', 'Interrompi', ['Aumenti', 'Salti', 'Acceleri'], 1, 'Si interrompe e si valuta.')
+    ]);
+
+  T('hand-fighting', 'L1', 'Hand fighting a vuoto',
+    'Gesti rapidi di controllo di polsi e gomiti mantenendo la stance.',
+    ['Eseguire gesti brevi di intercettazione con mani alternate', 'Mantenere stance e bacino stabili mentre lavorano le braccia', 'Evitare spalle rigide e ritmo irregolare'],
+    {
+      goal: 'L’**hand fighting** è il lavoro di mani e braccia per controllare polsi, gomiti e linee del tronco. Qui lo alleni **a vuoto**, immaginando i polsi e i gomiti di un avversario: lavori su timing, coordinazione e stabilità, senza alcun partner e senza afferrare il tessuto (no-gi).',
+      principle: 'Le mani lavorano per **gesti brevi** e ben definiti: palmo che spinge, dita che chiudono, polso che ruota. Il lavoro resta **dentro la linea del tronco**, con gomiti vicini al corpo. Le braccia agiscono, ma la stance resta stabile: bacino basso, peso sull’avampiede. Le spalle sono rilassate: se salgono, la struttura si irrigidisce.',
+      steps: ['Assumi la stance, mani davanti.', 'Immagina il polso destro dell’avversario e intercettalo con la mano destra: gesto breve, palmo che guida.', 'Ritorna alla posizione neutra e intercetta con la sinistra.', 'Aggiungi la rotazione del polso (come per liberarti da una presa immaginaria) e la chiusura delle dita.', 'Mantieni il bacino basso: non sollevarti durante il gesto.', 'Alterna destra e sinistra con ritmo regolare, respirando.'],
+      example: 'Serie di 10 gesti lenti, poi 10 veloci; riposa 30 secondi e ripeti.',
+      errors: [['Spalle alzate', 'espira e lascia cadere le spalle; i gomiti restano vicini al corpo.'], ['Braccia rigide', 'rilassa le mani tra un gesto e l’altro, i gesti sono brevi.'], ['Stance persa', 'ricontrolla piedi e bacino a ogni serie.'], ['Ritmo irregolare', 'usa un metronomo o conta ad alta voce.']],
+      prog: ['Gesti lenti, uno alla volta.', 'Gesti veloci mantenendo la forma.', 'Hand fighting con un passo di shuffle.', 'Cambio di mano a comando casuale.'],
+      check: ['Spalle: non salgono verso le orecchie.', 'Gomiti: restano vicini al tronco.', 'Bacino: non si alza durante il gesto.', 'Ritmo: regolare tra destra e sinistra.'],
+      safety: '- Solo a vuoto: non cercare di afferrare o tirare nessuno.\n- Evita di bloccare i gomiti in iperestensione.\n- Fai pause per non affaticare spalle e polsi.\n- Se senti dolore alle spalle, riduci l’ampiezza dei gesti.',
+      recap: 'Hand fighting = gesti brevi di mani e polsi dentro la linea del tronco, con stance stabile, spalle rilassate e ritmo regolare. È un lavoro di timing e coordinazione a vuoto.'
+    }, [
+      M('Dove si concentra il lavoro?', 'Su polsi e linee del tronco, restando in stance', ['Sul tessuto', 'Solo sulle gambe', 'Solo sulla testa'], 1, 'Il lavoro è sulle braccia con stance stabile.'),
+      M('Perché evitare le spalle rigide?', 'Per muovere le braccia fluide e rapide', ['Per sembrare più forti', 'Non c’è un motivo', 'Per alzare il bacino'], 0, 'Le spalle rilassate permettono fluidità.'),
+      F('I gesti devono essere ___.', ['brevi'], 'Brevi e precisi.'),
+      O('Ordina la sequenza.', ['stance', 'intercetto con la destra', 'torno neutro', 'intercetto con la sinistra'], 'Si alternano le mani.'),
+      M('Che cosa non si deve perdere mentre lavorano le braccia?', 'La stance', ['Il ritmo respiratorio', 'La posizione dei gomiti in alto', 'La velocità massima'], 2, 'La stance resta stabile.'),
+      M('Qual è la correzione per il ritmo irregolare?', 'Usare un metronomo o contare', ['Fare più forza', 'Saltare', 'Chiudere gli occhi'], 3, 'Aiuta a regolarizzare.'),
+      F('Si evita la presa al ___.', ['tessuto'], 'Nel no-gi non si usa il tessuto.'),
+      O('Ordina la progressione.', ['gesti lenti', 'gesti veloci', 'con shuffle', 'cambio a comando'], 'Dal più semplice al più complesso.')
+    ], [
+      M('Che cosa si immagina?', 'I polsi e i gomiti dell’avversario', ['Un pallone', 'Una porta', 'Un muro'], 1, 'Si lavora a vuoto.'),
+      M('Dove restano i gomiti?', 'Vicini al tronco', ['Alti', 'Dietro', 'Larghi'], 0, 'Gomiti vicini per struttura.'),
+      F('Il bacino resta ___.', ['basso'], 'Basso e stabile.'),
+      O('Ordina l’autoverifica.', ['spalle', 'gomiti', 'bacino', 'ritmo'], 'Controlli uno per volta.'),
+      M('Se senti dolore alle spalle?', 'Riduci l’ampiezza', ['Aumenti la forza', 'Accelera', 'Ignora'], 2, 'Meno ampiezza e più controllo.')
+    ]);
+
+  /* ---------------- L2 ---------------- */
+  T('pummel-shadow', 'L2', 'Pummeling a vuoto (underhook e overhook)',
+    'Alternare underhook e overhook a vuoto, con gambe che sostengono la struttura.',
+    ['Distinguere underhook e overhook e le loro posizioni del gomito', 'Spingere con le gambe e non con le braccia', 'Alternare i lati con ritmo regolare'],
+    {
+      goal: 'Il **pummeling** è l’alternanza di **underhook** (braccio che passa sotto l’ascella) e **overhook** (braccio che passa sopra la spalla). Qui lo pratichi **a vuoto**, senza partner, per allenare coordinazione, ritmo e stance: non si ottiene alcun controllo reale, si impara solo il movimento.',
+      principle: 'L’**underhook** ha il gomito basso e vicino al fianco; l’**overhook** passa sopra la spalla opposta. La spinta nasce dalle **gambe**, non dalle braccia: il bacino resta basso e la stance non cambia. Quando cambi lato, un braccio sale e l’altro scende in modo fluido, con spalle rilassate.',
+      steps: ['Assumi la stance, mani davanti.', 'Infila la mano destra “sotto” verso l’ascella immaginaria: gomito basso e vicino al fianco.', 'Porta la sinistra “sopra” verso la spalla opposta: overhook.', 'Cambia: la destra sale (overhook), la sinistra scende (underhook).', 'Spingi con le gambe a ogni cambio, senza alzare il bacino.', 'Dopo 10 ripetizioni respira e cambia lato di partenza.'],
+      example: 'Serie di 10 cambi lenti, 10 più veloci; poi due shuffle laterali tra una serie e l’altra.',
+      errors: [['Braccia rigide', 'rilassa spalle e polsi, il movimento nasce dal bacino.'], ['Gomito che sale', 'tieni il gomito dell’underhook vicino al fianco.'], ['Stance persa', 'ferma la serie e ricontrolla la base.'], ['Ritmo irregolare', 'conta ad alta voce e usa il respiro.']],
+      prog: ['Pummeling lento.', 'Pummeling veloce.', 'Pummeling + due shuffle laterali.', 'Cambio lato a comando casuale.'],
+      check: ['Gomito dell’underhook: basso e vicino al fianco.', 'Overhook: sopra la spalla opposta.', 'Stance: stabile.', 'Respiro: regolare.'],
+      safety: '- Movimenti ampi e rilassati; evita rotazioni brusche delle spalle.\n- A vuoto non esiste resistenza: non forzare le articolazioni.\n- Se senti dolore alla spalla, fermati.\n- Nessuna verifica con partner: è un lavoro di coordinazione.',
+      recap: 'Pummeling = alternanza underhook/overhook a vuoto. Gomito basso nell’underhook, spinta dalle gambe, stance stabile, ritmo regolare. Cambia lato dopo 10 ripetizioni.'
+    }, [
+      M('Che cosa spinge nel pummeling?', 'Le gambe', ['Solo le braccia', 'La testa', 'Il collo'], 0, 'Le gambe sostengono la struttura.'),
+      M('Dove sta il gomito dell’underhook?', 'Basso e vicino al fianco', ['Sopra la testa', 'Teso in fuori', 'Dietro la schiena'], 2, 'Gomito basso.'),
+      F('L’overhook passa sopra la ___.', ['spalla'], 'Sopra la spalla opposta.'),
+      O('Ordina il cambio.', ['underhook destro', 'overhook sinistro', 'inverto i lati', 'respiro'], 'Si alternano le posizioni.'),
+      M('Quale errore è tipico?', 'Gomito che sale', ['Spinta dalle gambe', 'Spalle rilassate', 'Ritmo regolare'], 1, 'Il gomito deve restare basso.'),
+      M('Quante ripetizioni prima di cambiare lato?', 'Circa 10', ['1', '100', 'Nessuna'], 3, 'Circa 10 ripetizioni.'),
+      F('Si lavora a ___, senza partner.', ['vuoto'], 'Pratica a vuoto.'),
+      O('Ordina la progressione.', ['lento', 'veloce', 'con shuffle', 'a comando'], 'Dal semplice al complesso.')
+    ], [
+      M('Quale è la differenza tra underhook e overhook?', 'Sotto l’ascella e sopra la spalla', ['Nessuna', 'Sopra la testa e sotto il piede', 'Dietro la schiena'], 2, 'Underhook sotto, overhook sopra.'),
+      M('Che cosa non si cambia?', 'La stance', ['Il lato', 'Il braccio', 'Il piede guida'], 0, 'La stance resta stabile.'),
+      F('Il respiro deve essere ___.', ['regolare'], 'Regolare.'),
+      O('Ordina l’autoverifica.', ['gomito', 'overhook', 'stance', 'respiro'], 'Un punto per volta.'),
+      M('Se senti dolore alla spalla?', 'Ti fermi', ['Acceleri', 'Forzi', 'Ignori'], 1, 'Ci si ferma.')
+    ]);
+
+  T('snap-down-shadow', 'L2', 'Snap-down a vuoto',
+    'Gesto breve di trazione verso il basso, con tempismo e allineamento.',
+    ['Eseguire un gesto breve di snap-down mantenendo il busto eretto', 'Uscire con uno shuffle indietro tornando in stance', 'Controllare ampiezza e ritmo'],
+    {
+      goal: 'Lo **snap-down** è un gesto di trazione verso il basso della nuca di un avversario immaginario. Lo alleni **a vuoto** per sviluppare **tempismo e allineamento**, senza forza e senza partner: non c’è alcuna applicazione reale.',
+      principle: 'Il gesto è **breve e rapido**: le mani scendono a pochi centimetri, il bacino scende leggermente, il busto resta eretto. Non si allunga in avanti: il lavoro è nell’**allineamento** tra mani, spalle e bacino. Dopo il gesto si esce con **shuffle indietro** e si torna in stance.',
+      steps: ['Assumi la stance, mani davanti.', 'Immagina la nuca immaginaria davanti a te, all’altezza del petto.', 'Con un gesto breve porta le mani verso il basso di pochi cm e lascia scendere leggermente il bacino.', 'Mantieni busto eretto e testa alta, senza proiettarti in avanti.', 'Esci con uno shuffle indietro.', 'Torna in stance e ripeti.'],
+      example: 'Serie di 5 snap lenti, poi 5 veloci, con 30 secondi di pausa.',
+      errors: [['Gesto troppo ampio', 'accorcia il gesto: le mani scendono di pochi cm.'], ['Stance persa', 'ricontrolla piedi e bacino dopo ogni ripetizione.'], ['Schiena curva', 'busto eretto, petto aperto.'], ['Ritmo irregolare', 'conta e mantieni una cadenza costante.']],
+      prog: ['Snap lenti.', 'Snap veloci.', 'Snap + sprawl controllato.', 'Snap + passo indietro e cambio lato.'],
+      check: ['Ampiezza: il gesto resta breve.', 'Busto: eretto.', 'Uscita: shuffle indietro senza saltare.', 'Ritmo: costante.'],
+      safety: '- Solo a vuoto: non esiste partner e non si forza il collo di nessuno.\n- Gesti brevi e controllati; non lanciarti in avanti.\n- Se combini con lo sprawl, mantienilo a basso impatto.\n- Se senti dolore alle spalle, riduci l’ampiezza.',
+      recap: 'Snap-down a vuoto = gesto breve verso il basso con mani e bacino, busto eretto, uscita con shuffle indietro. Contano tempismo e allineamento, non la forza.'
+    }, [
+      M('Che cosa conta di più?', 'Tempismo e allineamento', ['La forza massima', 'L’ampiezza', 'La velocità senza controllo'], 1, 'Il gesto è breve e preciso.'),
+      M('Come si esce dal gesto?', 'Con shuffle indietro e ritorno in stance', ['Saltando', 'Cadendo', 'Restando fermi'], 0, 'Shuffle indietro.'),
+      F('Il gesto deve essere ___.', ['breve'], 'Breve.'),
+      O('Ordina la sequenza.', ['stance', 'gesto breve', 'shuffle indietro', 'stance'], 'Si parte e si torna in stance.'),
+      M('Quale errore è tipico?', 'Gesto troppo ampio', ['Busto eretto', 'Uscita controllata', 'Ritmo regolare'], 2, 'Il gesto va accorciato.'),
+      M('Con chi si pratica?', 'Da soli, a vuoto', ['Con un partner', 'Con un animale', 'Con un bambino'], 3, 'Solo solitaria.'),
+      F('Il busto resta ___.', ['eretto'], 'Eretto.'),
+      O('Ordina la progressione.', ['lenti', 'veloci', 'con sprawl', 'con cambio lato'], 'Dal semplice al complesso.')
+    ], [
+      M('Che cosa si abbassa leggermente?', 'Il bacino', ['La testa', 'Le spalle da sole', 'Il collo'], 0, 'Scende il bacino.'),
+      M('Che cosa si evita?', 'Allungarsi in avanti', ['Il respiro', 'La stance', 'Lo shuffle'], 1, 'Non ci si allunga.'),
+      F('Si pratica a ___.', ['vuoto'], 'A vuoto.'),
+      O('Ordina l’autoverifica.', ['ampiezza', 'busto', 'uscita', 'ritmo'], 'Un controllo alla volta.'),
+      M('Se combini con lo sprawl?', 'Basso impatto', ['Con salto', 'Con forza', 'A terra'], 2, 'Sprawl sempre a basso impatto.')
+    ]);
+
+  T('arm-drag-shadow', 'L2', 'Arm drag a vuoto',
+    'Trascinare il braccio immaginario attraverso il corpo creando un angolo con il passo laterale.',
+    ['Eseguire l’arm drag a vuoto con passo laterale', 'Tirare con le gambe e il passo, non con la schiena', 'Alternare destra e sinistra con ritmo regolare'],
+    {
+      goal: 'L’**arm drag** è un gesto in cui il braccio dell’avversario viene portato attraverso il proprio corpo per creare un **angolo**. Qui lo pratichi **a vuoto**, solo per allenare gesto, passo e tempismo: non esiste partner e non si afferma alcuna efficacia pratica.',
+      principle: 'Il gesto combina una **presa immaginaria** su polso e tricipite con un **passo laterale** che crea l’angolo. Il bacino resta basso e il busto eretto: la trazione nasce dal passo e dalle gambe, **non dalla schiena**. Le braccia accompagnano il movimento senza irrigidirsi.',
+      steps: ['Assumi la stance, mani davanti.', 'Immagina di afferrare il polso e il tricipite del braccio destro dell’avversario.', 'Porta il braccio immaginario attraverso il tuo corpo, davanti al petto.', 'Contemporaneamente fai un piccolo passo laterale per creare angolo.', 'Mantieni bacino basso e busto eretto.', 'Torna in stance e ripeti dall’altro lato.'],
+      example: 'Serie di 8 ripetizioni sul lato destro, 8 sul sinistro, ritmo lento e costante.',
+      errors: [['Schiena curva', 'busto eretto, petto aperto, tira con il passo.'], ['Stance persa', 'ricontrolla piedi e bacino a ogni ripetizione.'], ['Piedi incrociati', 'passo laterale corto, un piede alla volta.'], ['Braccia rigide', 'rilassa spalle e polsi.']],
+      prog: ['Arm drag lento.', 'Arm drag + shuffle laterale.', 'Arm drag + level change.', 'Alternare arm drag e snap-down.'],
+      check: ['Passo: laterale e corto.', 'Busto: eretto.', 'Braccia: rilassate.', 'Ritmo: regolare.'],
+      safety: '- Solo a vuoto: non si tira nessuno.\n- Passi controllati, senza salti.\n- Evita torsioni brusche della schiena.\n- Se senti dolore alle spalle, riduci l’ampiezza.',
+      recap: 'Arm drag a vuoto = gesto di trazione del braccio immaginario + passo laterale per creare angolo. Si tira con le gambe, non con la schiena. Si lavora solo su tempismo e coordinazione.'
+    }, [
+      M('Che cosa crea il passo laterale?', 'Un angolo', ['Una caduta', 'Una proiezione', 'Una presa al tessuto'], 2, 'Il passo crea angolo.'),
+      M('Con che cosa si tira?', 'Con le gambe e il passo', ['Con la schiena', 'Con il collo', 'Con la testa'], 0, 'Non con la schiena.'),
+      F('Il busto resta ___.', ['eretto'], 'Eretto.'),
+      O('Ordina il gesto.', ['stance', 'braccio attraverso il corpo', 'passo laterale', 'stance'], 'Gesto e passo insieme.'),
+      M('Quale errore è tipico?', 'Piedi incrociati', ['Passo corto', 'Busto eretto', 'Ritmo regolare'], 1, 'Evitalo con passo corto.'),
+      M('Con chi si pratica?', 'Da soli, a vuoto', ['Con un partner', 'Con un animale', 'Con un bambino'], 3, 'Solo solitaria.'),
+      F('Si afferra polso e ___ immaginari.', ['tricipite'], 'Polso e tricipite.'),
+      O('Ordina la progressione.', ['lento', 'con shuffle', 'con level change', 'con snap-down'], 'Dal semplice al complesso.')
+    ], [
+      M('Quale parte del corpo non tira?', 'La schiena', ['Le gambe', 'Il passo', 'Il bacino'], 0, 'La schiena non tira.'),
+      M('Che cosa resta basso?', 'Il bacino', ['Le spalle', 'Le mani', 'La testa'], 1, 'Il bacino.'),
+      F('Il passo è ___.', ['laterale'], 'Laterale.'),
+      O('Ordina l’autoverifica.', ['passo', 'busto', 'braccia', 'ritmo'], 'Uno alla volta.'),
+      M('Se senti dolore alle spalle?', 'Riduci l’ampiezza', ['Forza', 'Salta', 'Ignora'], 0, 'Meno ampiezza.')
+    ]);
+
+  T('single-leg-entry', 'L2', 'Single-leg: ingresso a vuoto',
+    'Solo l’ingresso del single-leg, lentamente e a vuoto, senza alcun sollevamento.',
+    ['Eseguire l’ingresso del single-leg a vuoto con passo di penetrazione controllato', 'Fermarsi prima di qualsiasi sollevamento e tornare in stance', 'Mantenere schiena neutra, testa alta e mani davanti'],
+    {
+      goal: 'Il **single-leg** è una tecnica di attacco a una gamba. In questo percorso si pratica **solo l’ingresso**, **a vuoto**, lentamente: non si solleva nessuna gamba immaginaria e non si simula alcuna proiezione o caduta. L’obiettivo è allenare passo, livello e postura.',
+      principle: 'L’ingresso combina **level change** e **penetration step**: il piede guida avanza, il bacino resta basso, il ginocchio posteriore si avvicina al tappeto **senza batterci**. Le mani restano davanti al corpo. Si **ferma il gesto** al punto più basso e si **ritorna in stance** con shuffle. Tutto il movimento è lento, in 3-4 tempi.',
+      steps: ['Parti dalla stance con piede guida destro.', 'Level change: ginocchia flesse, schiena neutra.', 'Penetration step: il piede guida avanza di un passo lungo.', 'Mani davanti al corpo, testa alta, busto eretto.', 'Fermati nel punto più basso: **non sollevare nulla**.', 'Spingi con il piede anteriore e torna in stance con shuffle.'],
+      example: 'Tre ingressi lenti con piede guida destro, tre con sinistro, 4 tempi ciascuno.',
+      errors: [['Schiena curva', 'busto eretto sopra il bacino.'], ['Ginocchio che sbatte', 'rallenta e ferma il ginocchio a pochi cm dal tappeto.'], ['Peso sui talloni', 'porta il peso sull’avampiede.'], ['Perdita di equilibrio', 'riduci la velocità e allarga leggermente la base.']],
+      prog: ['Ingresso lentissimo in 4 tempi.', 'Ingresso con piede guida destro e sinistro.', 'Ingresso dopo hand fighting a vuoto.', 'Ingresso + sprawl controllato.'],
+      check: ['Fermata: nessun sollevamento.', 'Ginocchio posteriore: non tocca con forza.', 'Schiena: neutra.', 'Ritorno: in stance senza scatti.'],
+      safety: '- **Solo ingresso**, a vuoto: nessun sollevamento, nessuna proiezione.\n- Ginocchio posteriore sempre controllato: usa un tappeto.\n- È consigliabile far verificare l’ingresso da un istruttore.\n- Se senti dolore a ginocchio o schiena, fermati.',
+      recap: 'Single-leg (solo ingresso) = level change + passo di penetrazione, ginocchio vicino al tappeto senza impatto, mani davanti, stop nel punto basso e ritorno in stance. Nessun sollevamento. Verifica con istruttore consigliata.'
+    }, [
+      M('Quale parte del single-leg si pratica?', 'Solo l’ingresso, a vuoto', ['Il sollevamento', 'La proiezione', 'La lotta a terra'], 1, 'Si pratica solo l’ingresso.'),
+      M('Che cosa si fa nel punto più basso?', 'Ci si ferma e si torna in stance', ['Si solleva', 'Si cade', 'Si salta'], 0, 'Nessun sollevamento.'),
+      F('Il ginocchio posteriore non deve ___ a terra.', ['sbattere'], 'Si ferma a pochi cm.'),
+      O('Ordina l’ingresso.', ['stance', 'level change', 'passo di penetrazione', 'ritorno in stance'], 'Si scende, avanza e torna.'),
+      M('Quale errore sposta il peso indietro?', 'Peso sui talloni', ['Mani davanti', 'Testa alta', 'Schiena neutra'], 2, 'Il peso va sull’avampiede.'),
+      M('Chi è consigliabile coinvolgere?', 'Un istruttore', ['Nessuno', 'Un passante', 'Un amico senza esperienza'], 3, 'Le entrate vanno verificate.'),
+      F('Si pratica a ___.', ['vuoto'], 'A vuoto.'),
+      O('Ordina la progressione.', ['4 tempi', 'destro e sinistro', 'dopo hand fighting', 'con sprawl'], 'Dal semplice al complesso.')
+    ], [
+      M('Che cosa non si simula?', 'Il sollevamento e la proiezione', ['Il passo', 'Il level change', 'Il ritorno'], 0, 'Mai sollevamento.'),
+      M('Come resta la schiena?', 'Neutra', ['Curva', 'Inarcata', 'Ruotata'], 0, 'Neutra.'),
+      F('Le mani restano ___ al corpo.', ['davanti'], 'Davanti.'),
+      O('Ordina l’autoverifica.', ['fermata', 'ginocchio', 'schiena', 'ritorno'], 'Uno per volta.'),
+      M('Se senti dolore?', 'Ti fermi', ['Acceleri', 'Forzi', 'Ignori'], 1, 'Ci si ferma.')
+    ]);
+
+  T('double-leg-entry', 'L2', 'Double-leg: ingresso a vuoto',
+    'Solo l’ingresso del double-leg a vuoto: livello, passo e braccia davanti, senza sollevamento.',
+    ['Eseguire l’ingresso del double-leg a vuoto con livello e passo controllati', 'Fermarsi nel punto basso senza sollevare né cadere', 'Tenere testa alta e laterale alla linea del corpo immaginario'],
+    {
+      goal: 'Il **double-leg** è un attacco a due gambe. In questo percorso si pratica **solo l’ingresso**, **a vuoto**: nessun sollevamento, nessuna proiezione, nessun impatto del ginocchio. Si allenano livello, passo e posizione della testa.',
+      principle: 'L’ingresso combina **level change** e **penetration step**, con le braccia che avvolgono lo **spazio** davanti a te (non un corpo reale). Il bacino resta basso, il busto eretto, la testa **alta e laterale** alla linea del corpo immaginario. Il movimento si **ferma** nel punto basso e si esce con shuffle indietro, tornando in stance.',
+      steps: ['Parti dalla stance, mani davanti.', 'Level change con schiena neutra.', 'Penetration step: il piede guida avanza e il ginocchio posteriore si avvicina al tappeto senza toccarlo con forza.', 'Le braccia avvolgono lo spazio davanti alle cosce immaginarie, senza forzare.', 'Fermati nel punto più basso: **non sollevare**.', 'Esci con uno shuffle indietro e torna in stance.'],
+      example: 'Quattro ingressi lenti, 4 tempi ciascuno, alternando piede guida destro e sinistro.',
+      errors: [['Ginocchio che sbatte', 'rallenta e ferma il ginocchio a pochi cm dal tappeto.'], ['Schiena curva', 'busto eretto, petto aperto.'], ['Testa che cade in avanti', 'sguardo orizzontale, testa laterale alla linea.'], ['Perdita di equilibrio', 'riduci la velocità e allarga la base.']],
+      prog: ['Ingresso lento in 4 tempi.', 'Ingresso dopo snap-down a vuoto.', 'Ingresso + uscita + cambio di livello.', 'Ingresso a comando casuale.'],
+      check: ['Fermata: nessun sollevamento.', 'Ginocchio: non sbatte.', 'Testa: alta e laterale.', 'Uscita: shuffle indietro controllato.'],
+      safety: '- **Solo ingresso**, a vuoto: nessun sollevamento, nessuna caduta.\n- Ginocchio posteriore controllato, su tappeto.\n- È consigliabile la verifica di un istruttore.\n- Se senti dolore a ginocchio o schiena, fermati.',
+      recap: 'Double-leg (solo ingresso) = level change + passo di penetrazione, braccia che avvolgono lo spazio, stop nel punto basso e uscita con shuffle. Nessun sollevamento. Verifica con istruttore consigliata.'
+    }, [
+      M('Che cosa si fa nel punto più basso?', 'Ci si ferma e si torna in stance', ['Si solleva', 'Si cade', 'Si salta'], 1, 'Nessun sollevamento.'),
+      M('Dove sta la testa?', 'Alta e laterale alla linea del corpo immaginario', ['Bassa davanti', 'Dietro', 'Ruotata verso il basso'], 0, 'Alta e laterale.'),
+      F('Il ginocchio non deve ___ a terra.', ['sbattere'], 'Si ferma a pochi cm.'),
+      O('Ordina l’ingresso.', ['level change', 'passo di penetrazione', 'stop in basso', 'shuffle indietro'], 'Si scende, avanza, ferma e esce.'),
+      M('Quale errore è tipico?', 'Testa che cade in avanti', ['Testa alta', 'Schiena neutra', 'Uscita controllata'], 2, 'La testa resta alta.'),
+      M('Chi è consigliabile coinvolgere?', 'Un istruttore', ['Nessuno', 'Un passante', 'Un amico senza esperienza'], 3, 'Verifica con istruttore.'),
+      F('Si pratica a ___.', ['vuoto'], 'A vuoto.'),
+      O('Ordina la progressione.', ['4 tempi', 'dopo snap-down', 'con cambio livello', 'a comando'], 'Dal semplice al complesso.')
+    ], [
+      M('Che cosa non si simula?', 'Il sollevamento', ['Il passo', 'Il level change', 'L’uscita'], 0, 'Mai sollevamento.'),
+      M('Come si esce?', 'Con shuffle indietro', ['Saltando', 'Cadendo', 'Restando'], 0, 'Shuffle indietro.'),
+      F('Le braccia avvolgono lo ___.', ['spazio'], 'Lo spazio davanti.'),
+      O('Ordina l’autoverifica.', ['fermata', 'ginocchio', 'testa', 'uscita'], 'Uno alla volta.'),
+      M('Se senti dolore?', 'Ti fermi', ['Acceleri', 'Forzi', 'Ignori'], 1, 'Ci si ferma.')
+    ]);
+
+  /* ---------------- L3 ---------------- */
+  T('hip-bridge', 'L3', 'Ponte di bacino (hip bridge)',
+    'Sollevare il bacino sulle spalle con collo rilassato: mai ponte sulla testa.',
+    ['Sollevare il bacino spingendo con i piedi e mantenendo spalle e capo a terra', 'Evitare ogni carico sul collo e sulla testa', 'Scendere lentamente vertebra per vertebra'],
+    {
+      goal: 'Il **ponte di bacino** (hip bridge) è un movimento di estensione dell’anca da sdraiati. Qui lo alleni come lavoro di mobilità e coordinazione **a vuoto**, appoggiandoti sulle **spalle**: non è un ponte sulla testa e non c’è alcun carico sul collo.',
+      principle: 'Sdraiato sulla schiena, piedi vicini ai glutei, braccia lungo i fianchi. **Spingi con i piedi** e solleva il bacino fino a formare una linea tra spalle e ginocchia, contraendo glutei e addome. Le **spalle restano sul tappeto** e il **collo è rilassato**, il capo appoggiato. Si scende lentamente, **vertebra per vertebra**.',
+      steps: ['Sdraiati supino su un tappeto, ginocchia flesse, piedi vicini ai glutei.', 'Braccia lungo i fianchi, palmi a terra; collo rilassato.', 'Espira e spingi con i piedi: i glutei si contraggono, il bacino sale.', 'Fermati quando spalle, bacino e ginocchia sono su una linea retta; non inarcare oltre.', 'Mantieni 1-2 secondi, spalle e capo a terra.', 'Scendi lentamente vertebra per vertebra e ripeti.'],
+      example: '3 serie da 8 ripetizioni, pausa di 2 secondi in alto, 30 secondi di riposo tra le serie.',
+      errors: [['Collo teso o carico sul capo', 'rilassa il collo, spalle e capo restano a terra: non fare mai il ponte sulla testa.'], ['Schiena inarcata oltre la linea', 'ferma il movimento quando la linea è retta; attiva l’addome.'], ['Piedi troppo lontani', 'avvicinali ai glutei: devi poterli toccare con la punta delle dita.'], ['Movimento troppo rapido', 'sali e scendi con controllo.']],
+      prog: ['Ponte con pausa di 2 secondi in alto.', 'Ponte con un piede solo, lentamente.', 'Ponte con rotazione leggera del bacino a destra e a sinistra.', 'Serie più lunghe con riposo adeguato.'],
+      check: ['Spalle e capo: restano a terra.', 'Collo: rilassato.', 'Linea: spalle-bacino-ginocchia.', 'Discesa: lenta, vertebra per vertebra.'],
+      safety: '- Lavora su tappeto o moquette.\n- **Mai ponte sulla testa o con carico sul collo**: si appoggia solo sulle spalle.\n- Se senti dolore al collo o alla schiena, fermati.\n- Movimento lento e controllato.',
+      recap: 'Hip bridge = spingere con i piedi e sollevare il bacino sulle spalle, collo rilassato, capo a terra. Mai ponte sulla testa. Sali e scendi lentamente, vertebra per vertebra.'
+    }, [
+      M('Dove si appoggia il peso nel ponte di bacino?', 'Spalle e piedi, con collo rilassato', ['Sulla testa', 'Sul collo', 'Sulle mani'], 0, 'Il peso va su spalle e piedi.'),
+      M('Quale versione NON va fatta?', 'Ponte sulla testa con carico sul collo', ['Ponte con pausa', 'Ponte con un piede', 'Ponte di bacino'], 1, 'Evita il carico sul collo.'),
+      F('Si scende vertebra per ___.', ['vertebra'], 'Discesa lenta.'),
+      O('Ordina il ponte.', ['piedi vicini ai glutei', 'spingo con i piedi', 'bacino su', 'scendo lentamente'], 'Si sale e si scende lentamente.'),
+      M('Quale errore sposta il carico sul collo?', 'Collo teso', ['Piedi vicini', 'Glutei contratti', 'Braccia lungo i fianchi'], 2, 'Il collo deve restare rilassato.'),
+      M('Fino a che punto si sale?', 'Fino alla linea spalle-ginocchia', ['Oltre, inarcando', 'Pochissimo', 'Solo con la testa'], 3, 'Non inarcare oltre.'),
+      F('Il capo resta ___ a terra.', ['appoggiato'], 'Appoggiato.'),
+      O('Ordina la progressione.', ['pausa 2 secondi', 'un piede', 'rotazione', 'serie più lunghe'], 'Dal semplice al complesso.')
+    ], [
+      M('Con che cosa si spinge?', 'Con i piedi', ['Con la testa', 'Con il collo', 'Con le mani'], 0, 'Spinta dei piedi.'),
+      M('Che cosa si contrae?', 'Glutei e addome', ['Solo il collo', 'Solo le spalle', 'Le mani'], 0, 'Glutei e addome.'),
+      F('I piedi sono vicini ai ___.', ['glutei'], 'Vicini ai glutei.'),
+      O('Ordina l’autoverifica.', ['spalle', 'collo', 'linea', 'discesa'], 'Uno per volta.'),
+      M('Se senti dolore al collo?', 'Ti fermi', ['Aumenti', 'Forzi', 'Ignori'], 1, 'Ci si ferma.')
+    ]);
+
+  T('sprawl', 'L3', 'Sprawl controllato (a basso impatto)',
+    'Allungare le gambe indietro abbassando il bacino fino a circa 10 cm dal tappeto, senza battere.',
+    ['Eseguire lo sprawl con discesa controllata del bacino', 'Fermare i fianchi a circa 10 cm dal tappeto, senza battere', 'Tornare in stance con passi di recupero, senza saltare'],
+    {
+      goal: 'Lo **sprawl** è un movimento in cui le gambe vengono spinte indietro mentre il bacino scende. Qui lo pratichi a **basso impatto**, **a vuoto**: lo scopo è coordinazione e controllo del bacino, non la reazione a un attacco reale.',
+      principle: 'Dalla stance, le mani vanno **davanti al corpo**, le gambe si allungano indietro con un passo e il **bacino scende** fino a circa **10 cm dal tappeto**, senza battere. Il collo resta neutro e lo sguardo avanti. Il ritorno è con **passi di recupero**, senza salti: lo sprawl è basso impatto per proteggere polsi, ginocchia e anche.',
+      steps: ['Assumi la stance.', 'Porta le mani davanti, poco sotto il petto.', 'Allunga le gambe indietro con un passo e abbassa il bacino.', 'Fermati a circa 10 cm dal tappeto, bacino che non batte.', 'Collo neutro, sguardo avanti, peso su avambracci o mani e punte dei piedi.', 'Recupera con un passo per gamba e torna in stance.'],
+      example: 'Sprawl lento in 4 tempi: stance, mani, gambe indietro con stop a 10 cm, recupero.',
+      errors: [['Bacino che batte a terra', 'rallenta la discesa e ferma a 10 cm; scegli un tappeto morbido.'], ['Collo teso', 'sguardo avanti, nuca allungata.'], ['Mani non pronte', 'porta le mani davanti prima di allungare le gambe.'], ['Gambe troppo aperte', 'tieni le gambe vicine, larghezza delle anche.'], ['Movimento troppo rapido', 'rallenta e controlla la discesa.']],
+      prog: ['Sprawl lento in 4 tempi.', 'Sprawl + level change + ritorno in stance.', 'Tre sprawl a comando casuale.', 'Sprawl con respirazione regolare.'],
+      check: ['Bacino: non batte, si ferma a circa 10 cm.', 'Collo: neutro.', 'Mani: davanti al corpo.', 'Ritorno: con passi, senza salto.'],
+      safety: '- **Basso impatto**: nessun salto e nessuna discesa che batte i fianchi.\n- Tappeto morbido; polsi e ginocchia non devono subire urti.\n- Se senti dolore ai polsi o alla schiena, fermati.\n- Movimento lento e controllato.',
+      recap: 'Sprawl a basso impatto = mani davanti, gambe indietro, bacino che scende fino a circa 10 cm senza battere, collo neutro, ritorno con passi. Controllo prima della velocità.'
+    }, [
+      M('A che distanza dal tappeto ci si ferma?', 'Circa 10 cm', ['Sul tappeto con forza', 'A un metro', 'Non ci si ferma'], 2, 'Circa 10 cm.'),
+      M('Che cosa si controlla per evitare urti?', 'La discesa del bacino', ['Solo la testa', 'Solo i polsi', 'La respirazione'], 0, 'Discesa controllata.'),
+      F('Il ritorno avviene con ___ di recupero.', ['passi'], 'Passi.'),
+      O('Ordina lo sprawl.', ['stance', 'mani davanti', 'gambe indietro', 'recupero'], 'Si parte e si torna in stance.'),
+      M('Quale errore danneggia polsi e ginocchia?', 'Battere il bacino con salto', ['Discesa lenta', 'Collo neutro', 'Mani davanti'], 1, 'Il basso impatto protegge le articolazioni.'),
+      M('Dove guarda lo sguardo?', 'Avanti', ['Indietro', 'Verso il basso', 'Verso il soffitto'], 3, 'Sguardo avanti.'),
+      F('Il collo resta ___.', ['neutro'], 'Neutro.'),
+      O('Ordina la progressione.', ['lento', 'con level change', 'a comando', 'con respiro'], 'Dal semplice al complesso.')
+    ], [
+      M('Che cosa significa basso impatto?', 'Si ferma il bacino senza battere', ['Si salta più alto', 'Si cade con forza', 'Si usa un materasso'], 0, 'Controllo del bacino.'),
+      M('Dove sono le mani?', 'Davanti al corpo', ['Dietro', 'Sopra la testa', 'Sui fianchi'], 0, 'Davanti.'),
+      F('Il bacino si ferma a circa ___ cm.', ['10', 'dieci'], '10 cm.'),
+      O('Ordina l’autoverifica.', ['bacino', 'collo', 'mani', 'ritorno'], 'Uno per volta.'),
+      M('Se senti dolore ai polsi?', 'Ti fermi', ['Acceleri', 'Forzi', 'Ignori'], 1, 'Ci si ferma.')
+    ]);
+
+  T('ground-locomotion', 'L3', 'Locomozione a terra (bear crawl e crab walk)',
+    'Spostamenti a quattro appoggi: bear crawl e crab walk con controllo di polsi e spalle.',
+    ['Eseguire bear crawl con mani sotto le spalle e schiena piatta', 'Eseguire crab walk con bacino alto e passi piccoli', 'Controllare tensione di polsi e spalle'],
+    {
+      goal: 'Il **bear crawl** (camminata dell’orso) e il **crab walk** (camminata del granchio) sono spostamenti a terra su quattro appoggi. Allenano coordinazione e controllo del corpo; si praticano **da soli**, su un tratto breve di tappeto.',
+      principle: 'Nel **bear crawl** le mani sono **sotto le spalle**, le ginocchia a circa 10 cm dal tappeto e la schiena piatta; si muovono insieme mano e piede opposti. Nel **crab walk** il bacino è alto, le mani dietro e i passi piccoli: non si lascia cadere il bacino. In entrambi la **respirazione** è regolare e si controlla la tensione di polsi e spalle.',
+      steps: ['Bear crawl: posizione a quattro appoggi, mani sotto le spalle, ginocchia sollevate di circa 10 cm.', 'Muovi mano destra e piede sinistro insieme, poi sinistra e destro.', 'Mantieni schiena piatta e bacino all’altezza delle spalle.', 'Crab walk: siediti, mani dietro con dita verso i piedi, solleva il bacino.', 'Fai passi piccoli alternando braccia e gambe, bacino sempre alto.', 'Respira in modo regolare; fermati se senti dolore.'],
+      example: 'Tre tratti da 3 metri di bear crawl, poi tre di crab walk, con 30 secondi di riposo.',
+      errors: [['Polsi sotto carico eccessivo', 'sposta il peso sui piedi, riduci la durata, usa la mano a pugno chiuso se i polsi dolgono.'], ['Schiena curva', 'tieni la schiena piatta, addome attivo.'], ['Bacino che cade nel crab', 'spingi con i talloni e contrai i glutei.'], ['Ritmo irregolare', 'conta i passi e procedi lentamente.']],
+      prog: ['Bear crawl avanti.', 'Bear crawl indietro e di lato.', 'Crab walk con un passo lungo ogni 3 corti.', 'Alternanza di 10 secondi di bear e 10 di crab.'],
+      check: ['Mani: sotto le spalle.', 'Schiena: piatta.', 'Bacino: alto nel crab.', 'Ritmo: regolare.'],
+      safety: '- Lavora su tappeto o moquette.\n- Se senti dolore ai polsi o alle spalle, fermati subito.\n- Tratti brevi e riposo adeguato.\n- Non aumentare il carico se la forma peggiora.',
+      recap: 'Bear crawl = mani sotto le spalle, ginocchia a circa 10 cm dal tappeto, schiena piatta. Crab walk = bacino alto, mani dietro, passi piccoli. Respiro regolare, stop in caso di dolore ai polsi o alle spalle.'
+    }, [
+      M('Dove sono le mani nel bear crawl?', 'Sotto le spalle', ['Davanti alla testa', 'Sulle ginocchia', 'Dietro la schiena'], 0, 'Mani sotto le spalle.'),
+      M('Che cosa si fa se senti dolore ai polsi?', 'Ci si ferma', ['Si accelera', 'Si aumenta il carico', 'Si cambia solo mano'], 2, 'Stop immediato.'),
+      F('Nel crab walk il bacino resta ___.', ['alto'], 'Alto.'),
+      O('Ordina il bear crawl.', ['quattro appoggi', 'mano destra piede sinistro', 'mano sinistra piede destro', 'ripeti'], 'Mano e piede opposti.'),
+      M('Quale errore è tipico del crab walk?', 'Bacino che cade', ['Passi piccoli', 'Mani dietro', 'Respiro regolare'], 1, 'Il bacino deve restare alto.'),
+      M('Quanto distano le ginocchia dal tappeto nel bear crawl?', 'Circa 10 cm', ['Sul tappeto', 'Un metro', 'Non importa'], 3, 'Circa 10 cm.'),
+      F('La schiena nel bear crawl resta ___.', ['piatta'], 'Piatta.'),
+      O('Ordina la progressione.', ['avanti', 'indietro e lato', 'passo lungo ogni 3', 'alternanza'], 'Dal semplice al complesso.')
+    ], [
+      M('Quale è la correzione per polsi doloranti?', 'Ridurre la durata e spostare il peso sui piedi', ['Aumentare il carico', 'Saltare', 'Ignorare'], 0, 'Meno carico sui polsi.'),
+      M('I passi nel crab walk sono?', 'Piccoli', ['Grandi', 'Saltati', 'Incrociati'], 0, 'Passi piccoli.'),
+      F('La respirazione deve essere ___.', ['regolare'], 'Regolare.'),
+      O('Ordina l’autoverifica.', ['mani', 'schiena', 'bacino', 'ritmo'], 'Uno per volta.'),
+      M('Quando ti fermi?', 'Se senti dolore', ['Mai', 'Sempre dopo 1 passo', 'Solo a fine allenamento'], 0, 'Dolore = stop.')
+    ]);
+
+  T('guard-frames', 'L3', 'Frame e recupero della guardia (solo)',
+    'Costruire spazio con gli avambracci e lo shrimp, a terra e da soli.',
+    ['Costruire un frame con gli avambracci davanti al petto', 'Eseguire lo shrimp portando le ginocchia verso il petto e stendendo il piede', 'Muoversi lentamente con collo rilassato e senza torsioni brusche'],
+    {
+      goal: 'Il **frame** è una struttura di avambracci davanti al petto che crea spazio e distanza. Insieme allo **shrimp** (spostamento dei fianchi a terra, detto anche hip escape) serve a recuperare spazio nella guardia. Qui è **solo lavoro individuale a vuoto**, immaginando una pressione davanti a te.',
+      principle: 'Sdraiato, gli **avambracci** formano due barre davanti al petto con i gomiti **vicini al busto**. Con lo shrimp i fianchi si spostano **lateralmente**, le ginocchia vengono portate verso il petto e un piede si **stende** per creare distanza. Il movimento è lento, il collo rilassato, senza torsioni brusche.',
+      steps: ['Sdraiato supino, ginocchia flesse, piedi a terra.', 'Porta gli avambracci davanti al petto, gomiti vicini al busto, palmi aperti.', 'Spingi con il piede e sposta i fianchi lateralmente (shrimp).', 'Porta le ginocchia verso il petto, poi stendi un piede per creare distanza.', 'Torna alla posizione di partenza.', 'Ripeti dall’altro lato.'],
+      example: 'Sequenza di 4 tempi: frame, shrimp a destra, recupero, shrimp a sinistra, ripeti 5 volte.',
+      errors: [['Collo teso', 'rilassa il collo e appoggia il capo.'], ['Gomiti troppo larghi', 'tieni i gomiti vicini al busto.'], ['Gambe rigide', 'fletti le ginocchia, usa i piedi per spingere.'], ['Spinta insufficiente', 'spingi con il piede e lascia ruotare i fianchi.']],
+      prog: ['Frame + shrimp + ritorno in 4 tempi.', 'Sequenza destra e sinistra alternate.', 'Frame da posizione di partenza diversa (anche seduto).', 'Serie più lunghe con respirazione regolare.'],
+      check: ['Gomiti: vicini al busto.', 'Collo: rilassato.', 'Fianchi: si spostano lateralmente.', 'Ritorno: alla posizione iniziale.'],
+      safety: '- Movimento lento, senza torsioni brusche di collo o schiena.\n- Lavora su tappeto o moquette.\n- Non forzare le anche; se senti dolore, riduci l’ampiezza.\n- Nessun partner: è un lavoro a vuoto.',
+      recap: 'Frame = avambracci davanti al petto, gomiti vicini. Shrimp = spostamento laterale dei fianchi con ginocchia al petto e piede teso. Lento, collo rilassato, solo a vuoto.'
+    }, [
+      M('A che cosa serve il frame?', 'A creare spazio con avambracci e struttura', ['A colpire', 'A fare presa', 'A riposare'], 0, 'Crea spazio e distanza.'),
+      M('Qual è l’errore da evitare?', 'Gomiti larghi che perdono struttura', ['Movimento lento', 'Collo rilassato', 'Respiro regolare'], 0, 'Gomiti vicini.'),
+      F('Lo shrimp sposta i ___ lateralmente.', ['fianchi'], 'I fianchi.'),
+      O('Ordina la sequenza.', ['frame', 'shrimp', 'ginocchia al petto', 'ritorno'], 'Si ripete.'),
+      M('Come deve essere il movimento?', 'Lento e controllato', ['Brusco', 'Esplosivo', 'Casuale'], 0, 'Lento.'),
+      M('Che cosa si fa con il piede?', 'Si stende per creare distanza', ['Si incrocia', 'Si blocca', 'Si ignora'], 0, 'Si stende.'),
+      F('Il collo resta ___.', ['rilassato'], 'Rilassato.'),
+      O('Ordina la progressione.', ['4 tempi', 'destra e sinistra', 'da seduto', 'serie lunghe'], 'Dal semplice al complesso.')
+    ], [
+      M('Con chi si pratica?', 'Da soli, a vuoto', ['Con un partner', 'Con un animale', 'Con un bambino'], 0, 'Solo solitaria.'),
+      M('Dove sono i gomiti?', 'Vicini al busto', ['Larghi', 'Dietro', 'Alti'], 0, 'Vicini.'),
+      F('Il frame è fatto con gli ___.', ['avambracci'], 'Avambracci.'),
+      O('Ordina l’autoverifica.', ['gomiti', 'collo', 'fianchi', 'ritorno'], 'Uno per volta.'),
+      M('Se senti dolore alle anche?', 'Riduci l’ampiezza', ['Forza', 'Salta', 'Ignora'], 0, 'Meno ampiezza.')
+    ]);
+
+  T('turtle-sit-out', 'L3', 'Sit-out e switch da quattro zampe',
+    'Passare una gamba sotto il corpo ruotando il bacino, senza carico sul collo.',
+    ['Partire da quattro zampe con mani sotto le spalle', 'Eseguire il sit-out ruotando il bacino senza girare il collo', 'Tornare a quattro zampe e ripetere dall’altro lato'],
+    {
+      goal: 'Il **sit-out** parte dalla posizione a **quattro zampe** (turtle): una gamba passa sotto il corpo mentre il bacino ruota. Qui è **solo lavoro individuale** per mobilità e coordinazione a terra, a vuoto.',
+      principle: 'Mani **sotto le spalle**, ginocchia **sotto i fianchi**. Si fa passare una gamba sotto il corpo ruotando il bacino; il piede opposto resta in appoggio. Il collo **non ruota**: si ruota il bacino. Movimento lento e fluido, **mai trascinare il peso sul collo**.',
+      steps: ['A quattro zampe, mani sotto le spalle, ginocchia sotto i fianchi.', 'Sposta il peso sulla mano e il ginocchio destro.', 'Fai passare la gamba sinistra sotto il corpo, ruotando il bacino.', 'Il piede opposto resta in appoggio; il collo resta neutro.', 'Torna a quattro zampe lentamente.', 'Ripeti dall’altro lato.'],
+      example: 'Sit-out in 4 tempi, 5 ripetizioni per lato.',
+      errors: [['Collo teso', 'guarda in avanti e non ruotare la testa.'], ['Polsi sotto carico eccessivo', 'distribuisci il peso su ginocchia e piedi.'], ['Bacino troppo alto', 'abbassa il bacino e mantieni la schiena neutra.'], ['Movimento troppo rapido', 'rallenta e controlla.']],
+      prog: ['Sit-out lento in 4 tempi.', 'Sit-out + stand-up tecnico.', 'Sit-out a comando casuale (destra/sinistra).', 'Sequenza ponte → shrimp → sit-out.'],
+      check: ['Mani: sotto le spalle.', 'Collo: neutro.', 'Bacino: ruota fluido.', 'Ritorno: controllato.'],
+      safety: '- Movimento lento, senza carico sul collo.\n- Lavora su tappeto o moquette.\n- Se senti dolore ai polsi o alle spalle, fermati.\n- Nessun partner.',
+      recap: 'Sit-out = da quattro zampe, una gamba passa sotto il corpo con rotazione del bacino, collo neutro e peso su mani e piedi. Lento, controllato e solo a vuoto.'
+    }, [
+      M('Dove si appoggia il peso?', 'Su mani e piedi, non sul collo', ['Sul capo', 'Sulle spalle', 'Sul gomito'], 0, 'Mai sul collo.'),
+      M('Che cosa ruota?', 'Il bacino, non il collo', ['Il collo', 'La testa', 'Le mani'], 0, 'Il bacino.'),
+      F('Si parte a ___ zampe.', ['quattro'], 'Quattro zampe.'),
+      O('Ordina il sit-out.', ['quattro zampe', 'gamba sotto il corpo', 'ruoto il bacino', 'torno a quattro zampe'], 'Si ripete.'),
+      M('Quale errore è tipico?', 'Collo teso', ['Mani sotto le spalle', 'Movimento lento', 'Bacino fluido'], 0, 'Collo neutro.'),
+      M('Come deve essere il movimento?', 'Lento e fluido', ['Brusco', 'Casuale', 'Esplosivo'], 0, 'Lento.'),
+      F('Le ginocchia stanno sotto i ___.', ['fianchi'], 'Sotto i fianchi.'),
+      O('Ordina la progressione.', ['lento', 'con stand-up', 'a comando', 'in sequenza'], 'Dal semplice al complesso.')
+    ], [
+      M('Con chi si pratica?', 'Da soli', ['Con un partner', 'Con un animale', 'Con un bambino'], 0, 'Solo solitaria.'),
+      M('Dove sono le mani?', 'Sotto le spalle', ['Davanti alla testa', 'Dietro', 'Sulle ginocchia'], 0, 'Sotto le spalle.'),
+      F('Il collo resta ___.', ['neutro'], 'Neutro.'),
+      O('Ordina l’autoverifica.', ['mani', 'collo', 'bacino', 'ritorno'], 'Uno per volta.'),
+      M('Se senti dolore ai polsi?', 'Ti fermi', ['Forzi', 'Salti', 'Ignori'], 0, 'Ci si ferma.')
+    ]);
+
+  T('knee-slide', 'L3', 'Knee slide: passaggio della guardia (a vuoto)',
+    'Scivolare con il ginocchio lungo una linea immaginaria, busto eretto e ginocchia controllate.',
+    ['Scivolare il ginocchio lungo la linea immaginaria mantenendo il busto eretto', 'Fermare il movimento sotto controllo, senza battere il ginocchio', 'Tornare in ginocchio e cambiare lato'],
+    {
+      goal: 'Il **knee slide** (passaggio con scivolamento del ginocchio) è un movimento di guardia passing. Qui lo pratichi **a vuoto**, immaginando una linea sul tappeto: lo scopo è coordinare ginocchia, bacino e busto, **senza partner**.',
+      principle: 'Da in ginocchio, un ginocchio avanza e **scivola** lungo una linea immaginaria sul tappeto; il **busto resta eretto**, la mano libera davanti al corpo. Il piede dietro **spinge** e il bacino segue; il movimento si **ferma** sotto controllo. Le ginocchia si appoggiano sul tappeto in modo controllato, mai sbattute.',
+      steps: ['Parti in ginocchio, busto eretto.', 'Porta un ginocchio in avanti.', 'Lascialo scivolare lungo la linea immaginaria.', 'La mano libera resta davanti al corpo; il busto resta eretto.', 'Il piede dietro spinge e il bacino segue.', 'Fermati, torna in ginocchio e cambia lato.'],
+      example: 'Knee slide lento in 4 tempi, 5 ripetizioni per lato.',
+      errors: [['Schiena curva', 'busto eretto.'], ['Ginocchio che sbatte', 'appoggia con controllo, su tappeto.'], ['Peso sui talloni', 'peso in avanti.'], ['Perdita di equilibrio', 'rallenta e allarga la base.']],
+      prog: ['Knee slide lento in 4 tempi.', 'Knee slide + ritorno in stance.', 'Knee slide a comando di lato casuale.', 'Sequenza shrimp → frame → knee slide.'],
+      check: ['Busto: eretto.', 'Ginocchio: non sbatte.', 'Mano libera: davanti.', 'Ritorno: controllato.'],
+      safety: '- Ginocchia sul tappeto, sempre in modo controllato.\n- Movimento lento; nessun salto.\n- Se senti dolore alle ginocchia, fermati.\n- Nessun partner.',
+      recap: 'Knee slide a vuoto = ginocchio che scivola lungo una linea immaginaria, busto eretto, mano libera davanti, piede dietro che spinge. Ginocchia sul tappeto con controllo, mai sbattute.'
+    }, [
+      M('Che cosa scivola?', 'Il ginocchio lungo la linea immaginaria', ['Le mani', 'La testa', 'Il piede d’appoggio'], 0, 'Il ginocchio.'),
+      M('Come resta il busto?', 'Eretto', ['Ripiegato', 'Disteso', 'Ruotato'], 0, 'Eretto.'),
+      F('Il piede dietro ___.', ['spinge'], 'Spinge.'),
+      O('Ordina il movimento.', ['in ginocchio', 'ginocchio avanti', 'scivolo', 'torno'], 'Si ripete.'),
+      M('Quale errore è tipico?', 'Ginocchio che sbatte', ['Busto eretto', 'Mano libera davanti', 'Movimento lento'], 0, 'Controllo.'),
+      M('Dove sono le ginocchia?', 'Sul tappeto, in modo controllato', ['Sul pavimento duro', 'In aria', 'Sempre battute'], 0, 'Tappeto.'),
+      F('La mano libera resta ___.', ['davanti'], 'Davanti.'),
+      O('Ordina la progressione.', ['lento', 'ritorno in stance', 'comando casuale', 'sequenza'], 'Dal semplice al complesso.')
+    ], [
+      M('Con chi si pratica?', 'Da soli', ['Con un partner', 'Con un animale', 'Con un bambino'], 0, 'Solo solitaria.'),
+      M('Che cosa si ferma?', 'Il movimento, sotto controllo', ['Il respiro', 'Il cuore', 'Il tempo'], 0, 'Controllo.'),
+      F('Il busto resta ___.', ['eretto'], 'Eretto.'),
+      O('Ordina l’autoverifica.', ['busto', 'ginocchio', 'mano', 'ritorno'], 'Uno per volta.'),
+      M('Se senti dolore alle ginocchia?', 'Ti fermi', ['Forzi', 'Salti', 'Ignori'], 0, 'Ci si ferma.')
+    ]);
+})(window.ST = window.ST || {});
 
 /* ---- content/judo-l-theory ---- */
 /* stub */
