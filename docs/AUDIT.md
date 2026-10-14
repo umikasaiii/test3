@@ -242,15 +242,18 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 |---|---:|---|---|
 | Architettura software | **7,5** | Moduli separati, stato unico, migrazioni, build riproducibile, 32+ test, nessun override di funzioni | Test su dispositivi reali, CI con coverage, modularizzazione in ES modules, firma dei backup |
 | Organizzazione UI/UX | **7,0** | Un solo sistema di navigazione a pila, tema mobile, indice/ripresa, testi leggibili; verificato solo in headless | Test su Android, accessibilità (screen reader), illustrazione dell'albero, microinterazioni |
-| Progressione didattica | **6,5** | Stage L0–L5/J0–J5, prerequisiti, 4 stati di padronanza, piano che segue il progresso | Più argomenti per stage; grafo di prerequisiti per skill |
-| Qualità dei contenuti | **5,0** | Lezioni compatte e corrette ma brevi (≈ 400 parole); poche per due anni | 5–10× contenuti, revisione da docenti madrelingua |
-| Efficacia degli esercizi | **6,0** | Varietà (scelta, scrittura, ordinamento, ascolto, dettato, shadowing, dialoghi, kana, generatori) | Banche più ampie, esercizi generativi per grammatica, feedback specifico per errore |
-| Verifiche e misurazione | **6,5** | Verifica dilazionata, ritest, gate B2 con evidenza esterna, nessuna casella | Pool B2 ≥ 50 prove, calibrazione, esami cumulativi cronometrati, esame esterno integrato |
+| Progressione didattica | **7,0** | Stage L0–L5/J0–J5, prerequisiti, 4 stati di padronanza, piano che segue il progresso | Più argomenti per stage; grafo di prerequisiti per skill |
+| Qualità dei contenuti | **6,0** | Lingue: 42+42 argomenti (≈ 27.000 parole, 5 set di kanji, 12 letture, 23 dialoghi); ma volume ≈ 1/3 del necessario per 24 mesi, materie non linguistiche quasi vuote, nessuna revisione madrelingua | 5–10× contenuti, revisione da docenti madrelingua |
+| Efficacia degli esercizi | **6,5** | Varietà (scelta, scrittura, ordinamento, ascolto, dettato, shadowing, dialoghi, kana, generatori) | Banche più ampie, esercizi generativi per grammatica, feedback specifico per errore |
+| Verifiche e misurazione | **7,0** | Verifica dilazionata, ritest, gate B2 con evidenza esterna (pool 10+10), nessuna casella | Pool B2 ≥ 50 prove, calibrazione, esami cumulativi cronometrati, esame esterno integrato |
 | Memoria e consolidamento | **7,5** | Un solo SRS, errori anticipati, richiamo attivo, simulazione 24 mesi | Parametri ottimizzati su dati reali; SRS per tutte le pillole |
-| Utilità reale per gli obiettivi | **6,0** | Struttura che trasforma 60′ in pratica tracciabile; lingue come nucleo | Volume + input autentico + feedback umano |
-| **Qualità complessiva** | **6,3** | Base solida e onesta; il valore reale dipende ora dal volume dei contenuti e dall'uso quotidiano | — |
+| Utilità reale per gli obiettivi | **6,5** | Struttura che trasforma 60′ in pratica tracciabile; lingue come nucleo | Volume + input autentico + feedback umano |
+| **Qualità complessiva** | **6,8** | Base solida e onesta; il valore reale dipende ora dal volume dei contenuti e dall'uso quotidiano | — |
 
 **Quanto è vicino SkillTree a una piattaforma «realmente eccellente»?** L'**impianto** (piano, scheduler, misurazione, onestà sulla padronanza) è ora corretto e testato. Manca soprattutto il **contenuto** e la **validazione esterna** (docente per lingue, istruttore per judo, test su dispositivo Android).
+
+
+**Voto per obiettivo (dopo l'ampliamento di inglese e giapponese)** — [STIMA]: inglese B1→B2 **6,5/10** · giapponese autonomia quotidiana **6,0/10** · judo solo/sicuro **6,0/10** (scheduler e registro solidi, ma 12 tecniche e nessuna verifica istruttore) · cybersecurity, sport, programmazione, F1, strategia **≈2/10** (la V11.2 aveva 91 lezioni di cyber, qui non migrate: regressione dichiarata) · piano da 60′ e memoria **7,5/10**.
 
 ---
 
