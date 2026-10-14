@@ -383,3 +383,43 @@ test('Allenamento mentale: sessione per dominio con jolly, difficoltà variabile
   assert.equal(s.mentalCalib.bins['95'][0], 1); assert.equal(s.mentalCalib.bins['95'][1], 2); assert.equal(s.mentalCalib.brier.length, 3);
   const c = MN.make('calib', 5); assert.ok(c.okSet.length === 3 && c.o.length === 6 && c.meta[c.o[c.a]].conf === 0.95 && c.meta[c.o[c.a]].side === c.truth);
 });
+
+test('Cyber: laboratori generati verificati in modo indipendente (sottoreti, permessi, cifrari, entropia, RSA, log, ACL, CVSS)', () => {
+  const CY = ST.cyber;
+  for (let i = 0; i < 80; i++) for (const t of CY.TYPES) for (const lv of [1, 5, 10]) { const it = CY.make(t, lv); assert.ok(it.q); if (it.t === 'mc') assert.ok(it.o.length >= 3 && it.a >= 0 && it.a < it.o.length && new Set(it.o).size === it.o.length, t); }
+  const oct = ip => ip.split('.').map(Number);
+  for (let i = 0; i < 200; i++) {   // sottoreti: ricalcolo per ottetti, senza gli operatori a 32 bit
+    const it = CY.make('subnet', 1 + (i % 10)); const m = /Host (\S+)\/(\d+)/.exec(it.q) || /Rete (\S+)\/(\d+)/.exec(it.q); if (!m || it.t !== 'fill') continue;
+    const pre = +m[2], ip = oct(m[1]), mask = [0, 1, 2, 3].map(k => Math.max(0, Math.min(8, pre - 8 * k))).map(b => 256 - Math.pow(2, 8 - b));
+    const net = ip.map((x, k) => x & mask[k]), bc = net.map((x, k) => x | (255 - mask[k]));
+    if (/BROADCAST/.test(it.q)) assert.equal(it.a[0], bc.join('.')); else if (/ULTIMO/.test(it.q)) { const l = bc.slice(); l[3] -= 1; assert.equal(it.a[0], l.join('.')); } else if (/Quanti host/.test(it.q)) assert.equal(+it.a[0], Math.pow(2, 32 - pre) - 2); else assert.equal(it.a[0], net.join('.'));
+  }
+  for (let o = 0; o <= 0o7777; o++) { const t = o.toString(8).padStart(4, '0'), sym = CY.symbolic(t); assert.equal(sym.length, 9); assert.equal(String(CY.octal(sym)).padStart(o > 0o777 ? 4 : 3, '0'), o > 0o777 ? t : t.slice(1)); }
+  for (let i = 0; i < 150; i++) {   // cifrari: la risposta ricifrata dà il testo mostrato
+    const it = CY.make('classic', 1 + (i % 10)), cip = it.q.split(': ').pop(), ans = it.a[0];
+    const k = /chiave (\d+)/.exec(it.q), v = /chiave «(\w+)»/.exec(it.q), x = /0x([0-9A-F]+)/.exec(it.q);
+    if (v) assert.equal(CY.vigenere(ans, v[1]), cip); else if (x) assert.equal(CY.xorHex(ans, parseInt(x[1], 16)), cip); else { let ok = false; for (let s = 1; s < 26; s++) if (CY.caesar(ans, s) === cip) ok = true; assert.ok(ok); }
+  }
+  for (let i = 0; i < 200; i++) {   // RSA: coerenza matematica
+    const it = CY.make('rsa', 1 + (i % 10)), p = +/p = (\d+)/.exec(it.q)[1], q = +/q = (\d+)/.exec(it.q)[1], e = +/e = (\d+)/.exec(it.q)[1], n = p * q, phi = (p - 1) * (q - 1);
+    if (/n = p·q/.test(it.q)) assert.equal(+it.a[0], n); else if (/φ\(n\) = \(p/.test(it.q)) assert.equal(+it.a[0], phi); else if (/chiave privata/.test(it.q)) assert.equal((e * +it.a[0]) % phi, 1); else { const m = +/m = (\d+)/.exec(it.q)[1]; let r = 1; for (let k = 0; k < e; k++) r = (r * m) % n; assert.equal(+it.a[0], r); }
+  }
+  for (let i = 0; i < 100; i++) {   // entropia
+    const it = CY.make('entropy', 1 + (i % 4)); const m = /(\d+) caratteri scelti fra (\d+) simboli/.exec(it.q); if (m && it.t === 'fill') assert.equal(+it.a[0], Math.round(+m[1] * Math.log2(+m[2])));
+  }
+  for (let i = 0; i < 100; i++) {   // log: ricontiamo le righe FAIL dal testo
+    const it = CY.make('log', 1 + (i % 10)), lines = it.q.split(': ')[1].split(' ⏐ ').map(x => x.replace(/\. .*$/, '')); if (!/Quanti accessi FALLITI/.test(it.q)) continue;
+    const ip = /provengono da (\S+)\?/.exec(it.q)[1]; assert.equal(+it.a[0], lines.filter(l => / FAIL /.test(l) && l.endsWith(' ' + ip)).length);
+  }
+  const ev = (rules, pk) => { for (let i = 0; i < rules.length; i++) { const r = rules[i], mt = (c, ip) => { if (c === 'any') return true; const [b, pr] = c.split('/'), bs = b.split('.').map(Number), is = ip.split('.').map(Number); let bits = +pr; for (let k = 0; k < 4; k++) { const take = Math.min(8, bits); bits -= take; if (take > 0 && (is[k] >> (8 - take)) !== (bs[k] >> (8 - take))) return false; } return true; }; if ((r.proto === pk.proto) && mt(r.src, pk.src) && mt(r.dst, pk.dst) && r.port === pk.port) return r.act + (i + 1); } return 'deny0'; };
+  for (let i = 0; i < 200; i++) { const it = CY.make('acl', 1 + (i % 10)); if (!it.rules) continue; const r = ev(it.rules, it.pk), r2 = CY.aclEval(it.rules, it.pk); assert.equal(r, r2.act + r2.idx); }
+  const V = s => { const o = {}; s.split('/').forEach(x => { const [k, w] = x.split(':'); o[k] = w; }); return o; };
+  [['AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H', 9.8], ['AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N', 6.1], ['AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H', 7.8], ['AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H', 10], ['AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N', 5.3]].forEach(([v, sc]) => assert.equal(CY.cvss(V(v)), sc, v));
+  assert.equal(CY.b64('Cyber'), 'Q3liZXI='); assert.equal(CY.b64('Man'), 'TWFu'); assert.equal(CY.b64('Ma'), 'TWE=');
+});
+test('Cyber: modello di abilità e sessione', () => {
+  const CY = ST.cyber, s = fresh();
+  for (let i = 0; i < 40; i++) CY.record(s, 'cvss', true, 1000, 100, 10); assert.ok(CY.level(s, 'cvss') >= 7);
+  for (let i = 0; i < 10; i++) CY.record(s, 'acl', false, 1000, 100, 3); assert.equal(CY.level(s, 'acl'), 1);
+  const items = CY.session(s, '2026-01-05'); assert.ok(items.length >= 5 && new Set(items.map(x => x.mtype)).size >= 4);
+});

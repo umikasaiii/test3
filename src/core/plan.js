@@ -62,7 +62,10 @@
 
   // Rotazione teorica (5′) — lunedì = 0.
   PL.THEORY = ['cyber', 'sport', 'prog', 'f1', 'cyberlab', 'strategy', 'secondary'];
-  PL.THEORY_LABEL = { cyber: 'Cybersecurity', sport: 'Scienze dello sport', prog: 'Programmazione e AI', f1: 'Formula 1', cyberlab: 'Cybersecurity pratica · scenari', strategy: 'Strategia e logica', secondary: 'Materie secondarie' };
+  // Priorità alla cybersecurity: 4 giorni su 7 (3 di teoria + 1 di laboratorio generato); il resto a rotazione.
+  PL.THEORY_CYB = ['cyber', 'sport', 'cyber', 'cyberlab', 'cyber', 'prog', 'f1'];
+  PL.theorySlot = (state, wd) => (state && state.profile && state.profile.theoryFocus === 'cyb' ? PL.THEORY_CYB : PL.THEORY)[wd];
+  PL.THEORY_LABEL = { cyber: 'Cybersecurity', sport: 'Scienze dello sport', prog: 'Programmazione e AI', f1: 'Formula 1', cyberlab: 'Cybersecurity pratica · laboratorio', strategy: 'Strategia e logica', secondary: 'Materie secondarie' };
   PL.JUDO_SLOT = ['intro', 'consolidate', 'movement', 'variant', 'random', 'combo', 'theory'];
   PL.JUDO_LABEL = {
     intro: 'Introduzione o perfezionamento di una tecnica', consolidate: 'Consolidamento del movimento',

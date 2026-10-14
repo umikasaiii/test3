@@ -61,6 +61,12 @@
   const THEORY_SUBJ = { cyber: 'cyb', sport: 'sport', prog: 'prog', f1: 'f1', cyberlab: 'cyb', strategy: 'str', secondary: 'sec' };
   const pillFor = slot => {
     const subj = THEORY_SUBJ[slot];
+    if (subj === 'cyb') {
+      if (slot === 'cyberlab') return { id: 'cyb-lab', title: 'Laboratorio generato (log, ACL, CVSS, cifrari, sottoreti…)' };
+      const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied'));
+      const nextL = C.topicsOf('cyb').filter(t => !t.pill && !t.id.startsWith('cyb-scenario')).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
+      if (nextL) return nextL;
+    }
     let list = C.topicsOf(subj).filter(t => t.pill);
     if (subj === 'cyb') list = list.filter(t => (slot === 'cyberlab') === t.id.startsWith('cyb-scenario'));
     if (!list.length) return null;
@@ -70,7 +76,7 @@
     return list.slice().sort((a, b) => ((P.topicRec(s, a.id).studied || '')).localeCompare(P.topicRec(s, b.id).studied || ''))[0];
   };
   V.general = () => {
-    const s = A.state, d = A.day(), wd = U.weekday(), slotT = PL.THEORY[wd], pill = pillFor(slotT), g = d.general;
+    const s = A.state, d = A.day(), wd = U.weekday(), slotT = PL.theorySlot(A.state, wd), pill = pillFor(slotT), g = d.general;
     const jslot = PL.JUDO_SLOT[wd], rest = wd === 6;
     return '<div class="row"><button class="btn alt sm" data-act="back">← Home</button></div><h1>🧠 Missione generale · 15 min</h1><p class="mute">Attivo oggi: ' + A.activeMin('general') + ' min</p><div class="list">' +
       '<button class="item' + (g.mental ? ' done' : '') + '" data-act="startMental"><span class="ic">🧠</span><span class="tx"><b>Allenamento mentale · 5′</b><span>' + (MN.DOMAINS[wd].id === 'boss' ? '⚔️ Sfida difficilissima · livelli sopra il tuo' : MN.DOMAINS[wd].label + ' · ' + MN.DOMAINS[wd].types.slice(0, 3).map(t => MN.LABEL[t].split(' · ').pop()).join(', ') + ' + jolly') + '</span></span><span class="tag ' + (g.mental ? 'good' : '') + '">' + (g.mental ? '✓' : 'Inizia') + '</span></button>' +
@@ -80,9 +86,10 @@
   };
   ST.statusTagText = st => P.statusLabel[st];
   X.startTheory = () => {
-    const slot = PL.THEORY[U.weekday()], pill = pillFor(slot);
+    const slot = PL.theorySlot(A.state, U.weekday()), pill = pillFor(slot);
     if (!pill) { A.toast('Nessuna pillola disponibile.'); return; }
     A.ctx = 'general'; A.pb = { general: 'theory' };
+    if (slot === 'cyberlab') { X.startCyber(); return; }
     const r = P.topicRec(A.state, pill.id);
     if (r.studied && !P.atLeast(P.topicStatus(A.state, pill.id), 'practiced')) X.startPractice(pill.id);
     else if (r.studied && P.atLeast(P.topicStatus(A.state, pill.id), 'practiced') && !P.atLeast(P.topicStatus(A.state, pill.id), 'verified') && U.diffDays(r.studied, U.today()) >= 1) X.startTest(pill.id);

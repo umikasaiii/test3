@@ -63,7 +63,7 @@
       '<div class="list">' +
       mission('en', '🇬🇧', 'Inglese', m.en, nextTopicLine('en'), d, A.activeMin('en')) +
       mission('ja', '🇯🇵', 'Giapponese', m.ja, nextTopicLine('ja'), d, A.activeMin('ja')) +
-      '<button class="item' + (genDone === 3 ? ' done' : '') + '" data-act="go" data-view="general"><span class="ic">🧠</span><span class="tx"><b>Generale · 15 min</b><span>5′ mentale · 5′ judo (' + E(PL.JUDO_LABEL[slot]) + ') · 5′ ' + E(PL.THEORY_LABEL[PL.THEORY[U.weekday()]]) + '</span></span><span class="tag ' + (genDone === 3 ? 'good' : '') + '">' + genDone + '/3</span></button>' +
+      '<button class="item' + (genDone === 3 ? ' done' : '') + '" data-act="go" data-view="general"><span class="ic">🧠</span><span class="tx"><b>Generale · 15 min</b><span>5′ mentale · 5′ judo (' + E(PL.JUDO_LABEL[slot]) + ') · 5′ ' + E(PL.THEORY_LABEL[PL.theorySlot(A.state, U.weekday())]) + '</span></span><span class="tag ' + (genDone === 3 ? 'good' : '') + '">' + genDone + '/3</span></button>' +
       '</div></div>' +
       '<div class="grid2"><button class="tile" data-act="go" data-view="review" data-p=\'{"lang":""}\'><b>🔁 Ripassi dovuti</b><span>' + due + ' elementi</span></button>' +
       '<button class="tile" data-act="tab" data-tab="progress"><b>📊 Progresso</b><span>Livelli e verifiche</span></button></div>' +
@@ -99,6 +99,7 @@
     if (s.generated) return ST.mentalHub();
     let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + bg(s.id) + '"></div><h1>' + s.icon + ' ' + E(s.title) + '</h1><p class="mute">' + E(s.goal) + '</p>' + (s.stageNote ? '<p class="warn small">' + E(s.stageNote) + '</p>' : '');
     if (p.id === 'sec') h += '<div class="card"><h3>Aree previste</h3><p class="mute small">' + C.secondary.map(E).join(' · ') + '</p><p class="small">Nucleo attuale: poche pillole introduttive a rotazione. L’espansione è pianificata.</p></div>';
+    if (s.id === 'cyb') h += ST.cyberHub();
     C.stagesOf(s.id).forEach(stg => {
       h += '<h2>' + E(stg.id) + ' — ' + E(stg.title) + '</h2>' + (stg.desc ? '<p class="mute small">' + E(stg.desc) + '</p>' : '') + '<div class="list">';
       if (!stg.topics.length) h += '<p class="mute small">Contenuti non ancora disponibili in questo stage.</p>';

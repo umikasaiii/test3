@@ -31,7 +31,7 @@
       t('⚙️', 'Grammatica generata', 'forme verbali · errori spiegati', 'p-drill') +
       (lang === 'ja' ? t('あ', 'Kana Trainer', 'riconoscimento rapido', 'p-kana') : t('🎯', 'Prova B2', 'ascolto / lettura (indicatore)', 'go', 'data-view="b2"')) +
       t('📺', 'Contenuti graduati', 'cosa ascoltare/leggere fuori dall’app', 'go', 'data-view="resources"') +
-      '</div><h2>Generale</h2><div class="grid2">' + t('🧠', 'Allenamento mentale', '5 min · adattivo', 'startMental') + t('🥋', 'Judo 5′', 'sessione di oggi', 'go', 'data-view="judoSession"') + t('📚', 'Teoria di oggi', E(PL.THEORY_LABEL[PL.THEORY[U.weekday()]]), 'startTheory') + t('🔊', 'Diagnostica audio', 'voci, microfono', 'go', 'data-view="audioTest"') + '</div>' +
+      '</div><h2>Generale</h2><div class="grid2">' + t('🧠', 'Allenamento mentale', '5 min · adattivo', 'startMental') + t('🥋', 'Judo 5′', 'sessione di oggi', 'go', 'data-view="judoSession"') + t('📚', 'Teoria di oggi', E(PL.THEORY_LABEL[PL.theorySlot(A.state, U.weekday())]), 'startTheory') + t('🔊', 'Diagnostica audio', 'voci, microfono', 'go', 'data-view="audioTest"') + '</div>' +
       '<p class="mute small" style="margin-top:12px">Tutte le attività qui sono libere: la missione giornaliera suggerisce l’ordine e i tempi.</p>';
   };
   const pl = () => A.state.profile.pl || 'en';

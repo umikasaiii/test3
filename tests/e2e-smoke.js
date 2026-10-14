@@ -79,6 +79,13 @@ const mock = () => {
     await reset();
   }
   await page.evaluate(() => ST.acts.startMentalBench()); await page.waitForTimeout(250); ok((await body()).length > 30, 'test di riferimento mentale'); await reset();
+  // laboratori cybersecurity: sessione, ogni tipo, scenari, pagina della materia e priorità della teoria
+  await step('hub cyber', () => ST.app.go('subject', { id: 'cyb' }), /Laboratori cyber/);
+  await page.evaluate(() => ST.acts.startCyber()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio cyber'); await reset();
+  for (const t of await page.evaluate(() => ST.cyber.TYPES)) { await page.evaluate(t => ST.acts.startCyberType({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio cyber ' + t); await reset(); }
+  for (const id of await page.evaluate(() => ((ST.content.cyberBank || {}).scenarios || []).map(x => x.id))) { await page.evaluate(id => ST.acts.startScenario({ dataset: { id } }), id); await page.waitForTimeout(100); ok((await body()).length > 30, 'scenario ' + id); await reset(); }
+  await step('priorità cyber', () => { ST.acts['cy-focus'](); ST.app.go('general'); }, /Missione generale/);
+  await page.evaluate(() => ST.acts['cy-focus']());
   await step('hub mentale', () => ST.app.go('subject', { id: 'mnt' }), /Allenamento mentale/);
   for (const id of await page.evaluate(() => ST.content.topicsOf('grp').map(t => t.id))) await step('lezione judo ' + id, id => { ST.app.state.topics[id] = { page: 0, studied: ST.util.addDays(ST.util.today(), -3), ex: {}, tests: [], retests: [] }; ST.acts.startTest(id); }, /Verifica/, id);
   await step('tecnica', () => ST.app.go('technique', { id: 'posture' }), /Indicazioni/);
