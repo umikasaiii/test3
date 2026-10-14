@@ -70,7 +70,9 @@ const J = C.judo.techniques; const jid = new Set(J.map(t => t.id));
 if (jid.size !== J.length) E('judo: id duplicati');
 C.judo.combos.forEach(c => c.ids.forEach(i => { if (!jid.has(i)) E('combo con tecnica sconosciuta ' + i); }));
 J.forEach(t => { if (!t.cues || t.cues.length < 3) E('judo ' + t.id + ': poche indicazioni'); if (!t.errors || !t.errors.length) E('judo ' + t.id + ': errori mancanti'); if (!t.variants || t.variants.length < 3) E('judo ' + t.id + ': varianti < 3'); });
-if (J.length < 8 || J.length > 12) W('repertorio judo fuori dall’intervallo 8–12: ' + J.length);
+if (J.length < 12) E('repertorio judo troppo piccolo: ' + J.length);
+J.forEach(t => { if (!C.topics['jud-' + t.id]) E('judo: manca la lezione approfondita jud-' + t.id); if (!t.gi) W('judo: tecnica senza campo gi: ' + t.id); });
+['ogoshi-full','osoto-full','seoi-full','ouchi-full','kouchi-full','taiotoshi-full','harai-goshi-full','uchimata-full','kosoto-full','koshi-guruma-full'].forEach(id => { const t = J.find(x => x.id === id); if (!t || t.gi !== 'no-gi') E('judo: proiezione non no-gi: ' + id); });
 // riepilogo
 const by = {}; topics.forEach(t => { const b = by[t.subject] = by[t.subject] || { n: 0, w: 0, ex: 0, test: 0, cards: 0, lis: 0 }; b.n++; b.w += JSON.stringify(t.pages).split(/\s+/).length; b.ex += t.exercises.length; b.test += t.test.length; b.cards += (t.cards || []).length; b.lis += (t.listening || []).length; });
 console.log('Argomenti:', topics.length);
