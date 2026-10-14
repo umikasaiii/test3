@@ -209,7 +209,7 @@ Su tua richiesta la repo `test3` è stata svuotata (il vecchio contenuto — un 
 | Audio | Attesa delle voci asincrone, scelta voce per regione, riproduzione a frasi, `onend`/`onerror`/timeout, messaggi d'errore guidati, diagnostica (Altro → Audio), registrazione con permessi gestiti |
 | Judo | 12 tecniche **solo solitarie** (posture, spostamenti, tai sabaki, kuzushi, kumi-kata, 3 entrate a vuoto, shrimp, rialzo, tempismo, uchikomi a vuoto), scheduler settimanale (intro/consolidamento/movimento/variante/richiamo casuale/combinazioni/domenica teoria), timer 30″-2′30″-1′30″-30″ adattivo, registro completo, verifica istruttore **separata** |
 | Allenamento mentale | 7 tipi generati (calcolo, successioni, span, Corsi, elemento diverso, Stroop, logica) con livello adattivo 1–10 |
-| Contenuti | Inglese 42 argomenti (≈ 15.900 parole di lezione, 294 esercizi, 168 domande di verifica, 336 carte, 42 brani). Giapponese 42 argomenti (≈ 11.100 parole, 294 esercizi, 168 domande, 336 carte, 42 brani; 5 set di kanji in contesto). Pool B2: 6 ascolti + 6 letture. 6 dialoghi ramificati. 14 pillole teoriche |
+| Contenuti | Inglese 42 argomenti (≈ 15.900 parole di lezione, 294 esercizi, 168 domande di verifica, 336 carte, 42 brani). Giapponese 42 argomenti (≈ 11.100 parole, 294 esercizi, 168 domande, 336 carte, 42 brani; 5 set di kanji in contesto). Pool B2: 10 ascolti + 10 letture. 23 dialoghi ramificati (11 EN, 12 JA). 12 letture graduate EN (A2–C1). 14 pillole teoriche |
 
 ### 9.2 Prove eseguite
 
