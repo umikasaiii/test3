@@ -464,12 +464,12 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   };
 
   // Rotazione teorica (5′) — lunedì = 0.
-  PL.THEORY = ['cyber', 'sport', 'prog', 'f1', 'cyberlab', 'strategy', 'secondary'];
+  PL.THEORY = ['cyber', 'sport', 'f1', 'f1', 'cyberlab', 'strategy', 'secondary'];
   // Priorità alla cybersecurity: 4 giorni su 7 (3 di teoria + 1 di laboratorio generato); il resto a rotazione.
-  PL.THEORY_CYB = ['cyber', 'sport', 'cyber', 'cyberlab', 'cyber', 'prog', 'f1'];
-  PL.THEORY_STR = ['strategy', 'sport', 'strategy', 'strategylab', 'strategy', 'prog', 'f1'];
+  PL.THEORY_CYB = ['cyber', 'sport', 'cyber', 'cyberlab', 'cyber', 'f1', 'f1'];
+  PL.THEORY_STR = ['strategy', 'sport', 'strategy', 'strategylab', 'strategy', 'f1', 'f1'];
   PL.theorySlot = (state, wd) => { const f = state && state.profile && state.profile.theoryFocus; return (f === 'cyb' ? PL.THEORY_CYB : f === 'str' ? PL.THEORY_STR : PL.THEORY)[wd]; };
-  PL.THEORY_LABEL = { cyber: 'Cybersecurity', sport: 'Scienze dello sport', prog: 'Programmazione e AI', f1: 'Formula 1', cyberlab: 'Cybersecurity pratica · laboratorio', strategylab: 'Strategia pratica · laboratorio', strategy: 'Strategia e logica', secondary: 'Materie secondarie' };
+  PL.THEORY_LABEL = { cyber: 'Cybersecurity', sport: 'Scienze dello sport', f1: 'Formula 1', cyberlab: 'Cybersecurity pratica · laboratorio', strategylab: 'Strategia pratica · laboratorio', strategy: 'Strategia e logica', secondary: 'Materie secondarie' };
   PL.JUDO_SLOT = ['intro', 'consolidate', 'movement', 'variant', 'random', 'combo', 'theory'];
   PL.JUDO_LABEL = {
     intro: 'Introduzione o perfezionamento di una tecnica', consolidate: 'Consolidamento del movimento',
@@ -2536,6 +2536,13 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   Object.keys(NEW).forEach(k => { const g = gen[k]; gen[k] = (lv, rng) => { const it = g(lv, rng); const c = x => String(x).replace(/(\d)\.(\d)/g, '$1,$2'); it.q = c(it.q); it.why = c(it.why); return it; }; });
 })(window.ST = window.ST || {});
 
+/* ---- core/f1 ---- */
+(function (ST) {
+  'use strict';
+  const U = ST.util, F = ST.f1 = {}, gen = {};
+  F.TYPES = []; F.LABEL = {}; F.EST = {}; F.GROUPS = {}; F.MAXLV = 10; F.gen = gen;
+})(window.ST = window.ST || {});
+
 /* ---- core/sim ---- */
 /* SkillTree — simulatore di strategia e pianificazione: scenari a turni con risorse, vincoli e imprevisti.
    Ogni scenario è un albero «decisione → esito probabilistico»: il motore calcola per ogni scelta il VALORE ATTESO
@@ -2651,8 +2658,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   const P = (id, title, icon, goal, extra) => C.defineSubject(Object.assign({ id, title, icon, primary: true, goal, stages: [st('L0', 'Pillole introduttive', 'Brevi lezioni distribuite nel tempo.')], pillOnly: true }, extra || {}));
   P('cyb', 'Cybersecurity', '🛡️', 'Dalle basi all’architettura: reti, sistemi, crittografia, sicurezza applicativa, difesa operativa, cloud e governance — in ottica difensiva ed etica, con laboratori generati e scenari.', { pillOnly: false, stages: [st('L0', 'Fondamenti', 'Principi, rischio, autenticazione, ingegneria sociale, malware (concetti), etica e legalità. Include le pillole introduttive.'), st('L1', 'Reti e sistemi', 'TCP/IP, DNS, TLS, firewall; Linux e Windows, hardening, container, backup.'), st('L2', 'Crittografia', 'Cifrari, hash, chiavi pubbliche, firme, PKI e gli errori più comuni.'), st('L3', 'Sicurezza applicativa e web', 'OWASP, sessioni, controllo degli accessi, API, ciclo di sviluppo sicuro.'), st('L4', 'Difesa operativa e analisi', 'Log e SIEM, rilevamento, incident response, forense, analisi statica dei malware, threat intelligence.'), st('L5', 'Architettura e avanzato', 'Threat modeling, cloud, zero trust, mitigazioni della memoria, reverse engineering (concetti), governance, test di penetrazione autorizzati, gestione delle vulnerabilità.')] });
   P('sport', 'Scienze dello sport', '🏃', 'Fisiologia, forza, potenza, resistenza, periodizzazione per vari sport e nutrizione per salute e performance, con laboratori di calcolo verificati e scenari di preparazione.', { pillOnly: false, stages: [st('L0', 'Fisiologia e adattamento', 'Sistemi energetici, muscolo e sistema nervoso, supercompensazione, recupero. Include le pillole introduttive.'), st('L1', 'Forza e ipertrofia', 'Principi di carico, volume, intensità, tecnica e programmazione.'), st('L2', 'Potenza, velocità e mobilità', 'Pliometria, velocità, cambi di direzione, mobilità e prevenzione degli infortuni.'), st('L3', 'Resistenza e condizionamento', 'Zone, soglia, VO2max, HIIT, economia di movimento.'), st('L4', 'Periodizzazione e sport specifici', 'Blocchi, tapering, monitoraggio del carico e preparazione per sport di squadra, combattimento, resistenza e potenza.'), st('L5', 'Nutrizione per la salute', 'Energia, macro e micronutrienti, pattern alimentari, idratazione, lettura critica delle evidenze.'), st('L6', 'Nutrizione per la performance', 'Carboidrati, proteine, timing, integratori con evidenza, peso e composizione corporea in modo sicuro.'), st('L7', 'Fisiologia avanzata', 'Bioenergetica, potenza critica, cinetica dell’ossigeno, segnali molecolari, effetto interferenza, caldo e altitudine.'), st('L8', 'Forza e potenza avanzate', 'Profili forza-velocità, allenamento basato sulla velocità, programmazione avanzata, tendini, eccentrico, ipertrofia e modelli di volume.'), st('L9', 'Prestazione, dati e metodo', 'Modelli di carico, monitoraggio, statistica applicata, rischio di infortunio, rientro e apprendimento motorio avanzato.'), st('L10', 'Nutrizione avanzata', 'Periodizzazione nutrizionale, carboidrati multi-trasportabili, allenamento a bassa disponibilità, ferro, ciclo mestruale, gut training, appraisal delle evidenze.'), st('L11', 'Popolazioni e discipline', 'Giovani, donne, master, sport specifici avanzati: sprint, maratona e ultra, ciclismo, nuoto, combattimento, squadra.')] });
-  P('prog', 'Programmazione e AI', '💻', 'Fondamenti di programmazione e uso consapevole dell’intelligenza artificiale.');
-  P('f1', 'Formula 1', '🏎️', 'Regolamenti, tecnica, strategia e storia della F1.');
+  P('f1', 'Formula 1', '🏎️', 'Da zero a una formazione molto approfondita: weekend di gara, regolamenti, vettura, aerodinamica, gomme, strategia, dati, storia, business e tecnica avanzata, con laboratori di calcolo e simulazioni di strategia.', { pillOnly: false, stages: [st('L0', 'Basi: capire la F1 da zero', 'Che cos’è la F1, weekend di gara, squadre e piloti, punti, bandiere, circuiti, glossario. Include le pillole introduttive.'), st('L1', 'Regolamento sportivo e tecnico', 'Qualifiche, gara, sprint, safety car, penalità, gomme e carburante, budget cap, commissari.'), st('L2', 'La monoposto', 'Telaio, power unit, ERS, trasmissione, freni, sospensioni, raffreddamento, sicurezza.'), st('L3', 'Aerodinamica', 'Carico e resistenza, effetto suolo, ali, DRS, scia, galleria del vento e CFD.'), st('L4', 'Gomme e dinamica del veicolo', 'Mescole, degrado, finestra termica, aderenza, trasferimenti di carico, assetto.'), st('L5', 'Strategia di gara', 'Soste, undercut e overcut, safety car, carburante, decisioni sotto incertezza, teoria dei giochi e simulazioni.'), st('L6', 'Dati e ingegneria di pista', 'Telemetria, schermate dei tempi, simulazione del giro, confronto piloti, analisi.'), st('L7', 'Storia e cultura', 'Ere, campioni, rivoluzioni tecniche, gare e sicurezza.'), st('L8', 'Squadre, business e carriere', 'Organizzazione, sponsor, budget cap, FIA e promotori, ruoli, la strada verso la F1.'), st('L9', 'Tecnica avanzata', 'Power unit e regolamento 2026, gestione dell’energia, aerodinamica attiva, modelli di gomma e dinamica, simulazione e ottimizzazione.')] });
   P('str', 'Strategia e logica', '♟️', 'Decisioni, teoria dei giochi, economia, strategia militare, ottimizzazione e scacchi: dal pensiero strategico al calcolo concreto, con laboratori generati e verificati.', { pillOnly: false, stages: [st('L0', 'Pensiero strategico', 'Obiettivi, vincoli, incertezza e decisioni. Include le pillole introduttive.'), st('L1', 'Teoria dei giochi', 'Minimax, matrici di payoff, equilibrio di Nash, dilemma del prigioniero, strategie miste.'), st('L2', 'Giochi combinatori e ottimizzazione', 'Nim e Grundy, alberi di gioco, euristiche, programmazione dinamica, grafi, probabilità nei giochi.'), st('L3', 'Scacchi: fondamenti e tattica', 'Principi, matti elementari, motivi tattici, finali essenziali, metodo di calcolo.'), st('L4', 'Scacchi: strategia posizionale', 'Strutture, colonne aperte, qualità, coppia degli alfieri, iniziativa, analisi delle partite.'), st('L5', 'Decisioni avanzate e competizione', 'Utilità, Bayes, Kelly, negoziazione, strategia competitiva, errori strategici.'), st('L6', 'Strategia economica', 'Costi e margini, domanda e prezzo ottimo, valore attuale, vantaggio comparato, oligopolio, aste e incentivi, strategia d’impresa.'), st('L7', 'Strategia militare e conflitto', 'Sun Tzu, Clausewitz, principi della guerra, Lanchester, logistica, OODA, deterrenza (analisi storica e concettuale).'), st('L8', 'Ottimizzazione e pianificazione avanzata', 'Programmazione lineare e dinamica, grafi e flussi, cammino critico, assegnamento, euristiche e metaeuristiche, compromessi multi-obiettivo.')] });
   C.defineSubject({ id: 'grp', title: 'Judo e lotta libera', icon: '🥋', primary: true, motor: true, goal: 'Memoria motoria, coordinazione, footwork e fluidità con pratica solitaria e sicura.', stageNote: 'Livelli L0–L5 interni, non cinture né gradi ufficiali. Ciò che richiede partner o resistenza non è allenabile qui.', stages: ['L0', 'L1', 'L2', 'L3', 'L4', 'L5'].map((id, i) => st(id, ['Fondamenta', 'Prime entrate', 'Coordinazione e meccaniche', 'Ne-waza e transizioni', 'Combinazioni e variabilità', 'Fluidità e automatizzazione'][i], '')) });
   C.defineSubject({ id: 'mnt', title: 'Allenamento mentale', icon: '🧠', primary: true, generated: true, goal: 'Memoria di lavoro, attenzione, ragionamento, calcolo, velocità decisionale — esercizi generati e adattivi.', stages: [st('L0', 'Esercizi generati', 'Livello adattivo per tipo di esercizio (1–10).'), st('L1', 'Strategie di memoria', 'Come funziona la memoria e le tecniche che migliorano davvero la ritenzione.'), st('L2', 'Calcolo e stima', 'Trucchi di calcolo mentale, percentuali, stime e ordini di grandezza.'), st('L3', 'Ragionamento', 'Logica, sillogismi, ragionamento condizionale, bias e probabilità.'), st('L4', 'Attenzione e apprendimento', 'Concentrazione, sonno, esercizio e limiti dell’allenamento cognitivo.')] });
@@ -14007,6 +14013,27 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
 
 })(window.ST = window.ST || {});
 
+/* ---- content/f1-l-basi ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/f1-l-regole ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/f1-l-vettura ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/f1-l-aero ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/f1-l-strategia ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/f1-l-storia ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/f1-l-avanzato ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
 /* ---- content/str-puzzles ---- */
 (function (ST) {
   'use strict';
@@ -16024,6 +16051,9 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     ]
   });
 })(window.ST = window.ST || {});
+
+/* ---- content/sim-g ---- */
+(function (ST) {})(window.ST = window.ST || {});
 
 /* ---- content/en-l0-l1 ---- */
 /* Inglese — stage L0 (fondamenta B1) e L1 (B1 solido). */
@@ -19356,33 +19386,6 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     mc('La fase cognitiva è quella in cui…', ['Si capisce il gesto', 'Si perfeziona', 'Si automatizza', 'Si gareggia'], 0)
   ]);
 
-  // ---- Programmazione e AI (mercoledì) ----
-  pill('prog-variables', 'prog', 'Variabili, tipi e condizioni', 'Il primo mattone: dare un nome a un dato e decidere in base ad esso.', [
-    ['Variabili', 'Una variabile è un nome associato a un valore. In Python: `eta = 30`. Il **tipo** (intero, decimale, testo, booleano) determina quali operazioni sono possibili.'],
-    ['Condizioni', 'Una condizione valuta un’espressione vera/falsa. `if eta >= 18: print("maggiorenne")`. L’indentazione definisce il blocco.'],
-    ['Ripetizione', 'Un ciclo ripete istruzioni: `for i in range(3): print(i)` stampa 0, 1, 2. Il concetto chiave: **stato** che cambia nel tempo.']
-  ], [
-    mc('Che cos’è una variabile?', ['Un nome associato a un valore', 'Un errore', 'Una funzione', 'Un file'], 0),
-    mc('Che valori produce range(3)?', ['0, 1, 2', '1, 2, 3', '0, 1, 2, 3', '3'], 0),
-    mc('Che cosa definisce un blocco in Python?', ['L’indentazione', 'Le parentesi graffe', 'Il punto e virgola', 'Il colore'], 0)
-  ], [
-    mc('Quale è un tipo booleano?', ['True', '3.14', '"ciao"', '[1,2]'], 0),
-    mc('Che cosa stampa: x = 5; if x > 3: print("sì")', ['sì', 'no', 'niente', 'errore'], 0)
-  ]);
-
-  pill('prog-llm', 'prog', 'Come funziona un modello linguistico (e i suoi limiti)', 'Che cosa fa realmente un LLM e perché può sbagliare.', [
-    ['Che cosa fa', 'Un modello linguistico di grandi dimensioni (LLM) è addestrato a prevedere il testo successivo su enormi quantità di testo. Da questo emergono capacità di sintesi, traduzione, scrittura di codice.'],
-    ['Limiti', 'Può produrre risposte plausibili ma false («allucinazioni»), non ha accesso a fatti recenti se non li riceve, e non «sa» di sapere. La sicurezza con cui scrive non indica correttezza.'],
-    ['Uso consapevole', 'Verifica le informazioni importanti con fonti affidabili, fornisci contesto chiaro, non incollare dati sensibili in strumenti non autorizzati, e tratta l’output come bozza da controllare.']
-  ], [
-    mc('Che cosa è un’allucinazione?', ['Una risposta plausibile ma falsa', 'Un errore di rete', 'Un bug di grafica', 'Una funzione'], 0),
-    mc('Come si usa un LLM in modo consapevole?', ['Verificando l’output con fonti affidabili', 'Fidandosi sempre', 'Condividendo dati sensibili', 'Evitando contesto'], 0),
-    mc('L’addestramento di base di un LLM consiste in…', ['Prevedere il testo successivo', 'Cercare su Internet in tempo reale', 'Verificare i fatti', 'Eseguire codice'], 0)
-  ], [
-    mc('La sicurezza con cui un LLM risponde indica correttezza?', ['No', 'Sì', 'Sempre', 'Solo per il codice'], 0),
-    mc('Che cosa è meglio non incollare in uno strumento non autorizzato?', ['Dati sensibili', 'Domande generali', 'Una poesia', 'Un’idea'], 0)
-  ]);
-
   // ---- Formula 1 (giovedì) ----
   pill('f1-tyres', 'f1', 'Gomme: mescole, temperatura, degrado', 'Perché la gestione delle gomme decide la strategia.', [
     ['Mescole', 'La F1 usa mescole con diversa durezza: più morbide = più aderenza ma più degrado; più dure = più durata ma meno grip. Il regolamento prevede l’uso di almeno due mescole diverse in gara asciutta.'],
@@ -22432,7 +22435,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
   const V = ST.views, X = ST.acts;
 
   /* Immagini originali V11.2 (assets/) per materia; il bagliore del bordo indica attività recente, non padronanza. */
-  const ART = { eng: 'english-studio', jpn: 'japanese-studio', grp: 'judo-neon', cyb: 'cyber-range', prog: 'python-sandbox', sport: 'carico-biomeccanica', f1: 'f1-visual-lab', str: 'giochi-strategici', mnt: 'palestra-mentale', sec: 'bg-secondary-02' };
+  const ART = { eng: 'english-studio', jpn: 'japanese-studio', grp: 'judo-neon', cyb: 'cyber-range', sport: 'carico-biomeccanica', f1: 'f1-visual-lab', str: 'giochi-strategici', mnt: 'palestra-mentale', sec: 'bg-secondary-02' };
   const img = n => (ST.assets && ST.assets[n]) || '';
   ST.img = img; ST.ART = ART;
   // Le immagini sono definite una sola volta come classi CSS (non ripetute nell'HTML a ogni render).
@@ -22448,7 +22451,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     const n = U.diffDays(d, U.today());
     return n <= 2 ? 'hot' : n <= 7 ? 'warm' : 'dim';
   };
-  const strip = () => '<div class="strip" aria-label="Le nove materie principali">' + ['eng', 'jpn', 'grp', 'cyb', 'prog', 'sport', 'f1', 'str', 'mnt'].map(id => {
+  const strip = () => '<div class="strip" aria-label="Le otto materie principali">' + ['eng', 'jpn', 'grp', 'cyb', 'sport', 'f1', 'str', 'mnt'].map(id => {
     const s = C.subject(id);
     return '<button class="sj ' + nodeClass(id) + '" data-act="go" data-view="subject" data-p=\'{"id":"' + id + '"}\'><span class="im ' + bg(id) + '"></span>' + E(s.title) + '</button>';
   }).join('') + '</div>';
@@ -22529,6 +22532,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     if (s.id === 'cyb') h += ST.cyberHub();
     if (s.id === 'str') h += ST.strategyHub();
     if (s.id === 'sport') h += ST.sportHub();
+    if (s.id === 'f1') h += ST.f1Hub();
     C.stagesOf(s.id).forEach(stg => {
       h += '<h2>' + E(stg.id) + ' — ' + E(stg.title) + '</h2>' + (stg.desc ? '<p class="mute small">' + E(stg.desc) + '</p>' : '') + '<div class="list">';
       if (!stg.topics.length) h += '<p class="mute small">Contenuti non ancora disponibili in questo stage.</p>';
@@ -23262,13 +23266,18 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
   });
 
   /* ---- missione generale ---- */
-  const THEORY_SUBJ = { cyber: 'cyb', sport: 'sport', prog: 'prog', f1: 'f1', cyberlab: 'cyb', strategy: 'str', strategylab: 'str', secondary: 'sec' };
+  const THEORY_SUBJ = { cyber: 'cyb', sport: 'sport', f1: 'f1', cyberlab: 'cyb', strategy: 'str', strategylab: 'str', secondary: 'sec' };
   const pillFor = slot => {
     const subj = THEORY_SUBJ[slot];
     if (subj === 'cyb') {
       if (slot === 'cyberlab') return { id: 'cyb-lab', title: 'Laboratorio generato (log, ACL, CVSS, cifrari, sottoreti…)' };
       const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied'));
       const nextL = C.topicsOf('cyb').filter(t => !t.pill && !t.id.startsWith('cyb-scenario')).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
+      if (nextL) return nextL;
+    }
+    if (subj === 'f1') {
+      const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied')), nextL = C.topicsOf('f1').filter(t => !t.pill).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
+      if (ST.f1 && U.parse(U.today()).getDate() % 3 === 0) return { id: 'f1-lab', title: 'Laboratorio di Formula 1 (strategia, tempi, fisica, scenari)' };
       if (nextL) return nextL;
     }
     if (subj === 'sport') {
@@ -23305,6 +23314,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     if (!pill) { A.toast('Nessuna pillola disponibile.'); return; }
     A.ctx = 'general'; A.pb = { general: 'theory' };
     if (slot === 'cyberlab') { X.startCyber(); return; }
+    if (pill.id === 'f1-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'f1' } }); else X.startF1(); return; }
     if (pill.id === 'spo-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'sport' } }); else X.startSport(); return; }
     if (slot === 'strategylab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom(); else X.startStrategy(); return; }
     const r = P.topicRec(A.state, pill.id);
@@ -23657,6 +23667,13 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       ST.simHub('sport') +
       '<div class="card"><h3>Tempo dedicato</h3><p class="small">Lezioni lette: <b>' + read + ' / ' + lessons.length + '</b>. Le lezioni non sono consulenza medica né un programma personalizzato.</p></div>';
   };
+})(window.ST = window.ST || {});
+
+/* ---- ui/f1 ---- */
+(function (ST) {
+  'use strict';
+  ST.f1Hub = () => ST.simHub('f1');
+  ST.acts.startF1 = () => {};
 })(window.ST = window.ST || {});
 
 /* ---- ui/views-other ---- */

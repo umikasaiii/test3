@@ -5,7 +5,7 @@
   const V = ST.views, X = ST.acts;
 
   /* Immagini originali V11.2 (assets/) per materia; il bagliore del bordo indica attività recente, non padronanza. */
-  const ART = { eng: 'english-studio', jpn: 'japanese-studio', grp: 'judo-neon', cyb: 'cyber-range', prog: 'python-sandbox', sport: 'carico-biomeccanica', f1: 'f1-visual-lab', str: 'giochi-strategici', mnt: 'palestra-mentale', sec: 'bg-secondary-02' };
+  const ART = { eng: 'english-studio', jpn: 'japanese-studio', grp: 'judo-neon', cyb: 'cyber-range', sport: 'carico-biomeccanica', f1: 'f1-visual-lab', str: 'giochi-strategici', mnt: 'palestra-mentale', sec: 'bg-secondary-02' };
   const img = n => (ST.assets && ST.assets[n]) || '';
   ST.img = img; ST.ART = ART;
   // Le immagini sono definite una sola volta come classi CSS (non ripetute nell'HTML a ogni render).
@@ -21,7 +21,7 @@
     const n = U.diffDays(d, U.today());
     return n <= 2 ? 'hot' : n <= 7 ? 'warm' : 'dim';
   };
-  const strip = () => '<div class="strip" aria-label="Le nove materie principali">' + ['eng', 'jpn', 'grp', 'cyb', 'prog', 'sport', 'f1', 'str', 'mnt'].map(id => {
+  const strip = () => '<div class="strip" aria-label="Le otto materie principali">' + ['eng', 'jpn', 'grp', 'cyb', 'sport', 'f1', 'str', 'mnt'].map(id => {
     const s = C.subject(id);
     return '<button class="sj ' + nodeClass(id) + '" data-act="go" data-view="subject" data-p=\'{"id":"' + id + '"}\'><span class="im ' + bg(id) + '"></span>' + E(s.title) + '</button>';
   }).join('') + '</div>';
@@ -102,6 +102,7 @@
     if (s.id === 'cyb') h += ST.cyberHub();
     if (s.id === 'str') h += ST.strategyHub();
     if (s.id === 'sport') h += ST.sportHub();
+    if (s.id === 'f1') h += ST.f1Hub();
     C.stagesOf(s.id).forEach(stg => {
       h += '<h2>' + E(stg.id) + ' — ' + E(stg.title) + '</h2>' + (stg.desc ? '<p class="mute small">' + E(stg.desc) + '</p>' : '') + '<div class="list">';
       if (!stg.topics.length) h += '<p class="mute small">Contenuti non ancora disponibili in questo stage.</p>';

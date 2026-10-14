@@ -58,13 +58,18 @@
   });
 
   /* ---- missione generale ---- */
-  const THEORY_SUBJ = { cyber: 'cyb', sport: 'sport', prog: 'prog', f1: 'f1', cyberlab: 'cyb', strategy: 'str', strategylab: 'str', secondary: 'sec' };
+  const THEORY_SUBJ = { cyber: 'cyb', sport: 'sport', f1: 'f1', cyberlab: 'cyb', strategy: 'str', strategylab: 'str', secondary: 'sec' };
   const pillFor = slot => {
     const subj = THEORY_SUBJ[slot];
     if (subj === 'cyb') {
       if (slot === 'cyberlab') return { id: 'cyb-lab', title: 'Laboratorio generato (log, ACL, CVSS, cifrari, sottoreti…)' };
       const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied'));
       const nextL = C.topicsOf('cyb').filter(t => !t.pill && !t.id.startsWith('cyb-scenario')).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
+      if (nextL) return nextL;
+    }
+    if (subj === 'f1') {
+      const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied')), nextL = C.topicsOf('f1').filter(t => !t.pill).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
+      if (ST.f1 && U.parse(U.today()).getDate() % 3 === 0) return { id: 'f1-lab', title: 'Laboratorio di Formula 1 (strategia, tempi, fisica, scenari)' };
       if (nextL) return nextL;
     }
     if (subj === 'sport') {
@@ -101,6 +106,7 @@
     if (!pill) { A.toast('Nessuna pillola disponibile.'); return; }
     A.ctx = 'general'; A.pb = { general: 'theory' };
     if (slot === 'cyberlab') { X.startCyber(); return; }
+    if (pill.id === 'f1-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'f1' } }); else X.startF1(); return; }
     if (pill.id === 'spo-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'sport' } }); else X.startSport(); return; }
     if (slot === 'strategylab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom(); else X.startStrategy(); return; }
     const r = P.topicRec(A.state, pill.id);

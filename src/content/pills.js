@@ -87,33 +87,6 @@
     mc('La fase cognitiva è quella in cui…', ['Si capisce il gesto', 'Si perfeziona', 'Si automatizza', 'Si gareggia'], 0)
   ]);
 
-  // ---- Programmazione e AI (mercoledì) ----
-  pill('prog-variables', 'prog', 'Variabili, tipi e condizioni', 'Il primo mattone: dare un nome a un dato e decidere in base ad esso.', [
-    ['Variabili', 'Una variabile è un nome associato a un valore. In Python: `eta = 30`. Il **tipo** (intero, decimale, testo, booleano) determina quali operazioni sono possibili.'],
-    ['Condizioni', 'Una condizione valuta un’espressione vera/falsa. `if eta >= 18: print("maggiorenne")`. L’indentazione definisce il blocco.'],
-    ['Ripetizione', 'Un ciclo ripete istruzioni: `for i in range(3): print(i)` stampa 0, 1, 2. Il concetto chiave: **stato** che cambia nel tempo.']
-  ], [
-    mc('Che cos’è una variabile?', ['Un nome associato a un valore', 'Un errore', 'Una funzione', 'Un file'], 0),
-    mc('Che valori produce range(3)?', ['0, 1, 2', '1, 2, 3', '0, 1, 2, 3', '3'], 0),
-    mc('Che cosa definisce un blocco in Python?', ['L’indentazione', 'Le parentesi graffe', 'Il punto e virgola', 'Il colore'], 0)
-  ], [
-    mc('Quale è un tipo booleano?', ['True', '3.14', '"ciao"', '[1,2]'], 0),
-    mc('Che cosa stampa: x = 5; if x > 3: print("sì")', ['sì', 'no', 'niente', 'errore'], 0)
-  ]);
-
-  pill('prog-llm', 'prog', 'Come funziona un modello linguistico (e i suoi limiti)', 'Che cosa fa realmente un LLM e perché può sbagliare.', [
-    ['Che cosa fa', 'Un modello linguistico di grandi dimensioni (LLM) è addestrato a prevedere il testo successivo su enormi quantità di testo. Da questo emergono capacità di sintesi, traduzione, scrittura di codice.'],
-    ['Limiti', 'Può produrre risposte plausibili ma false («allucinazioni»), non ha accesso a fatti recenti se non li riceve, e non «sa» di sapere. La sicurezza con cui scrive non indica correttezza.'],
-    ['Uso consapevole', 'Verifica le informazioni importanti con fonti affidabili, fornisci contesto chiaro, non incollare dati sensibili in strumenti non autorizzati, e tratta l’output come bozza da controllare.']
-  ], [
-    mc('Che cosa è un’allucinazione?', ['Una risposta plausibile ma falsa', 'Un errore di rete', 'Un bug di grafica', 'Una funzione'], 0),
-    mc('Come si usa un LLM in modo consapevole?', ['Verificando l’output con fonti affidabili', 'Fidandosi sempre', 'Condividendo dati sensibili', 'Evitando contesto'], 0),
-    mc('L’addestramento di base di un LLM consiste in…', ['Prevedere il testo successivo', 'Cercare su Internet in tempo reale', 'Verificare i fatti', 'Eseguire codice'], 0)
-  ], [
-    mc('La sicurezza con cui un LLM risponde indica correttezza?', ['No', 'Sì', 'Sempre', 'Solo per il codice'], 0),
-    mc('Che cosa è meglio non incollare in uno strumento non autorizzato?', ['Dati sensibili', 'Domande generali', 'Una poesia', 'Un’idea'], 0)
-  ]);
-
   // ---- Formula 1 (giovedì) ----
   pill('f1-tyres', 'f1', 'Gomme: mescole, temperatura, degrado', 'Perché la gestione delle gomme decide la strategia.', [
     ['Mescole', 'La F1 usa mescole con diversa durezza: più morbide = più aderenza ma più degrado; più dure = più durata ma meno grip. Il regolamento prevede l’uso di almeno due mescole diverse in gara asciutta.'],
