@@ -118,6 +118,7 @@
     ST.content.finalize();
     A.state = await ST.storage.load();
     A.theme();
+    if (ST.injectArt) ST.injectArt();
     ST.storage.persistRequest();
     if (window.location.protocol !== 'file:' && 'serviceWorker' in navigator) { try { navigator.serviceWorker.register('sw.js'); } catch (e) { /* ignora */ } }
     ST.audio.ready();

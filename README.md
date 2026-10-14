@@ -15,6 +15,7 @@ Accademia personale **offline-first** per Android (Chrome): inglese, giapponese,
 ```
 src/core      motore: SRS, progresso/XP, piano 60′, scheduler motorio, kana, carte, mentale, storage, audio
 src/content   contenuti: registro, materie, inglese (L0–L5), giapponese (J0–J5), judo, pillole, pool B2, dialoghi
+assets/       immagini originali della V11.2 (incorporate dal build)
 src/ui        viste e attività: home, percorsi, lezione a pagine, runner esercizi, laboratori, missioni, progresso
 tools/        build.js (→ index.html), validate-content.js
 tests/        engine.test.js (unit + simulazione 24 mesi), e2e.js, e2e-smoke.js (Chromium headless)

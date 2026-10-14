@@ -9,7 +9,14 @@ const ORDER = [
   'ui/app', 'ui/views-home', 'ui/runner', 'ui/topic', 'ui/labs', 'ui/mission', 'ui/views-other', 'ui/boot'
 ];
 exports.ORDER = ORDER;
-exports.sources = () => ORDER.map(f => ({ name: f, code: fs.readFileSync(path.join(root, 'src', f + '.js'), 'utf8') }));
+const MIME = { webp: 'image/webp', jpg: 'image/jpeg', png: 'image/png' };
+/* Immagini originali della V11.2 (cartella assets/) incorporate come data URI: ST.assets[nome]. */
+const assetsModule = () => {
+  const dir = path.join(root, 'assets'), out = {};
+  fs.readdirSync(dir).filter(f => /\.(webp|jpg|png)$/.test(f)).sort().forEach(f => { const ext = f.split('.').pop(); out[f.replace(/\.[a-z]+$/, '')] = 'data:' + MIME[ext] + ';base64,' + fs.readFileSync(path.join(dir, f)).toString('base64'); });
+  return '(function (ST) { ST.assets = ' + JSON.stringify(out) + '; })(window.ST = window.ST || {});\n';
+};
+exports.sources = () => [{ name: 'assets', code: process.env.NO_ASSETS ? '(function (ST) { ST.assets = {}; })(window.ST = window.ST || {});' : assetsModule() }].concat(ORDER.map(f => ({ name: f, code: fs.readFileSync(path.join(root, 'src', f + '.js'), 'utf8') })));
 if (require.main === module) {
   const css = fs.readFileSync(path.join(root, 'src/ui/style.css'), 'utf8');
   const js = exports.sources().map(s => '/* ---- ' + s.name + ' ---- */\n' + s.code).join('\n').replace(/<\/script/gi, '<\\/script');

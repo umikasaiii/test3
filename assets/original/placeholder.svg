@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="700" viewBox="0 0 1080 700" role="img" aria-label="Judo e lotta libera, due atleti stilizzati in stile neon blu e viola">
+<defs>
+ <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#081632"/><stop offset=".57" stop-color="#16164c"/><stop offset="1" stop-color="#0a173a"/></linearGradient>
+ <linearGradient id="gi" x2=".8" y2="1"><stop stop-color="#acccff"/><stop offset="1" stop-color="#5379d8"/></linearGradient>
+ <linearGradient id="wrestle" x2=".8" y2="1"><stop stop-color="#e39efc"/><stop offset="1" stop-color="#7464e6"/></linearGradient>
+ <radialGradient id="light"><stop stop-color="#7a7bff" stop-opacity=".48"/><stop offset="1" stop-color="#221f6f" stop-opacity="0"/></radialGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="11"/></filter>
+</defs>
+<rect width="1080" height="700" fill="url(#bg)"/>
+<circle cx="480" cy="240" r="340" fill="url(#light)"/>
+<g opacity=".32" stroke="#69adff" stroke-width="2" fill="none"><path d="M0 580 Q530 460 1080 580"/><path d="M0 636 Q540 506 1080 636"/><path d="M0 685 Q540 560 1080 685"/><path d="M110 0V700M250 0V700M390 0V700M530 0V700M670 0V700M810 0V700M950 0V700" opacity=".27"/></g>
+<path d="M130 568Q520 515 925 575" fill="none" stroke="#8395ff" stroke-width="12" opacity=".42" filter="url(#glow)"/>
+<g transform="translate(120 75) rotate(-8 365 330)" stroke-linecap="round" stroke-linejoin="round">
+ <!-- Judoka left -->
+ <circle cx="277" cy="155" r="48" fill="#f1c9bd" stroke="#6ae8ff" stroke-width="6"/>
+ <path d="M234 137 Q247 78 306 119 L317 155 Q272 124 234 143Z" fill="#1a214e"/>
+ <path d="M236 211L337 209L377 376L213 387Z" fill="url(#gi)" stroke="#81e7ff" stroke-width="7"/>
+ <path d="M270 210L292 269L321 217" fill="none" stroke="#283876" stroke-width="9"/>
+ <path d="M222 280L374 289" stroke="#1a2954" stroke-width="20"/>
+ <path d="M266 295L286 403L210 516" stroke="url(#gi)" stroke-width="38"/>
+ <path d="M331 299L364 394L437 468" stroke="url(#gi)" stroke-width="38"/>
+ <path d="M193 524L251 525M428 478L469 466" stroke="#e0efff" stroke-width="22"/>
+ <path d="M245 232L175 299L154 343" stroke="url(#gi)" stroke-width="32"/>
+ <path d="M331 234L419 287L498 273" stroke="url(#gi)" stroke-width="32"/>
+ <circle cx="147" cy="355" r="19" fill="#f4cdbf"/>
+ <circle cx="508" cy="269" r="19" fill="#f4cdbf"/>
+ <!-- Wrestler right -->
+ <circle cx="691" cy="199" r="44" fill="#ebbab0" stroke="#e4a4ff" stroke-width="6"/>
+ <path d="M646 190Q664 147 705 163L733 186" fill="none" stroke="#27274f" stroke-width="17"/>
+ <path d="M639 247Q691 221 752 266L765 382L624 366Z" fill="url(#wrestle)" stroke="#e4b1ff" stroke-width="7"/>
+ <path d="M668 257L688 312L729 263" fill="none" stroke="#5b329c" stroke-width="10"/>
+ <path d="M648 351L620 442L557 517" stroke="url(#wrestle)" stroke-width="37"/>
+ <path d="M737 355L765 440L829 504" stroke="url(#wrestle)" stroke-width="37"/>
+ <path d="M548 524L517 535M815 511L848 524" stroke="#ded7ff" stroke-width="22"/>
+ <path d="M641 274L560 281L525 276" stroke="url(#wrestle)" stroke-width="32"/>
+ <path d="M750 279L831 323L871 377" stroke="url(#wrestle)" stroke-width="32"/>
+ <circle cx="517" cy="271" r="19" fill="#ebbab0"/>
+ <circle cx="878" cy="382" r="19" fill="#ebbab0"/>
+ <path d="M420 290Q476 240 529 265" stroke="#b9b1ff" stroke-width="10" fill="none" opacity=".7"/>
+</g>
+<g fill="none" stroke-width="3" opacity=".8"><circle cx="515" cy="325" r="285" stroke="#7590ff" stroke-dasharray="8 18"/><path d="M135 99L179 99M157 77L157 121M890 185L935 185M912 162L912 208" stroke="#87e4ff"/></g>
+<path d="M0 650 Q520 591 1080 652V700H0Z" fill="#090e28" opacity=".65"/>
+</svg>

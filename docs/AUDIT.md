@@ -273,3 +273,23 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 10. Illustrazione dell'albero in WebP leggero; più temi.
 11. Statistiche avanzate (curve di ritenzione, parametri SRS per utente).
 12. Import dei contenuti da file JSON esterni (pacchetti didattici).
+
+
+---
+
+## 12. Verifica di integrità del file originale e recupero del design
+
+**File originale** (`SkillTree_Academy_V11_2_Language_Final_Studio.html`): non è mai stato modificato; ho solo letto copie derivate. Dimensione 15.417.929 byte, SHA-256 `35de6340fa18c50faf3341c1c0c5cd4e7aec58eb3e3eb7b37c7fb51b89df9103`, data di caricamento invariata [TEST].
+
+**Immagini incorporate** (21 uniche, 22 occorrenze) [CODICE]: 18 WebP della galleria (hero Home chiaro/scuro/principale, 4 sfondi secondari, 9 illustrazioni di materia, 2 foto judo), 1 JPEG di judo (1536×1536), 1 foto F1 JPEG (3254×1886, citata da Wikimedia Commons, CC BY 2.0), 1 SVG segnaposto. Più un font WOFF incorporato e nessun file audio/video.
+
+**Che cosa si era perso nella prima ricostruzione:** tutte le immagini e il design della Home (la Home usava un albero SVG semplificato). Questo era un difetto: è stato corretto.
+
+**Ripristino (commit successivo):**
+- tutte le immagini estratte **senza modifiche** in `assets/` (con `assets/README.md`), foto F1 e SVG in `assets/original/`;
+- il build le incorpora come classi CSS definite una sola volta (`index.html` ≈ 3 MB);
+- Home con l'immagine originale (versione chiara per il tema chiaro), testo originale «Ogni lezione fa crescere il tuo albero», fascia delle nove materie con le illustrazioni originali;
+- Percorsi e pagine di materia con le illustrazioni originali; judo con la foto originale;
+- palette riallineata ai token originali (`#080b16`, `#10172d`, `#171e37`, accento `#9c8eff`, ciano `#60e9eb`, font Inter).
+
+**Non ricreato:** la barra laterale desktop e altre schermate della V11.2 non presenti nei requisiti; la foto F1 non è incorporata nell'app (solo conservata); il font WOFF incorporato non è stato riutilizzato (non identificato).

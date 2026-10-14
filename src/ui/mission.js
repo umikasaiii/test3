@@ -98,7 +98,7 @@
   };
   ST.mentalHub = () => {
     const s = A.state;
-    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>🧠 Allenamento mentale</h1><p class="mute">Esercizi generati, sempre nuovi, con difficoltà che sale quando rispondi bene e scende quando sbagli.</p>' +
+    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('mnt') + '"></div><h1>🧠 Allenamento mentale</h1><p class="mute">Esercizi generati, sempre nuovi, con difficoltà che sale quando rispondi bene e scende quando sbagli.</p>' +
       '<button class="btn block" data-act="startMental">▶ Sessione da 5 minuti (oggi)</button><div class="card"><h3>Livelli per tipo</h3><table class="t">' + MN.TYPES.map(t => { const m = s.mental[t] || { level: 1, n: 0, ok: 0 }; return '<tr><td>' + E(MN.LABEL[t]) + '</td><td>Lv ' + m.level + '</td><td class="mute">' + (m.n ? Math.round(100 * m.ok / m.n) + '% su ' + m.n : '—') + '</td></tr>'; }).join('') + '</table></div>' +
       '<p class="mute small">Il miglioramento negli esercizi allenati non dimostra di per sé un aumento generale delle capacità cognitive: misura la prestazione in questi compiti.</p>';
   };
@@ -111,7 +111,7 @@
     const s = A.state, J = C.judo, act = M.active(s), stg = M.stage(s), today = U.today();
     const pick = M.pickForDay(s);
     const due = act.filter(id => s.motor[id].card.due <= today).length;
-    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>🥋 Judo e lotta libera</h1><p class="mute">Stadio motorio attuale: <b>' + stg + '</b> (livello didattico interno, non una cintura).</p>' +
+    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('grp') + '"></div><h1>🥋 Judo e lotta libera</h1><p class="mute">Stadio motorio attuale: <b>' + stg + '</b> (livello didattico interno, non una cintura).</p>' +
       '<div class="card"><h3>Che cosa questo modulo può e non può fare</h3><p class="small">' + E(J.scope) + '</p></div>' +
       '<div class="card glow"><h3>Oggi: ' + E(PL.JUDO_LABEL[PL.JUDO_SLOT[U.weekday()]]) + '</h3><p class="mute small">' + E(pick.reason || '') + '</p><button class="btn block" data-act="go" data-view="judoSession">▶ Sessione da 5 minuti</button></div>' +
       '<div class="card"><h3>Sicurezza</h3><ul class="small">' + J.safety.map(x => '<li>' + E(x) + '</li>').join('') + '</ul></div>' +

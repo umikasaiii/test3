@@ -4,23 +4,27 @@
   const U = ST.util, P = ST.progress, PL = ST.plan, C = ST.content, A = ST.app, E = U.esc;
   const V = ST.views, X = ST.acts;
 
-  const SUBJ_NODES = [['eng', 200, 80], ['jpn', 110, 100], ['grp', 290, 100], ['cyb', 70, 160], ['prog', 330, 160], ['sport', 140, 150], ['f1', 260, 150], ['str', 200, 130], ['mnt', 200, 190]];
+  /* Immagini originali V11.2 (assets/) per materia; il bagliore del bordo indica attività recente, non padronanza. */
+  const ART = { eng: 'english-studio', jpn: 'japanese-studio', grp: 'judo-ukemi-main', cyb: 'cyber-range', prog: 'python-sandbox', sport: 'carico-biomeccanica', f1: 'f1-visual-lab', str: 'giochi-strategici', mnt: 'palestra-mentale', sec: 'bg-secondary-02' };
+  const img = n => (ST.assets && ST.assets[n]) || '';
+  ST.img = img; ST.ART = ART;
+  // Le immagini sono definite una sola volta come classi CSS (non ripetute nell'HTML a ogni render).
+  ST.injectArt = () => {
+    const css = Object.keys(ART).map(k => '.art-' + k + '{background-image:url(' + img(ART[k]) + ')}').join('') + '.hero-main{background-image:url(' + img('hero-home-main') + ')}.hero-light{background-image:url(' + img('hero-home-light') + ')}';
+    const st = document.createElement('style'); st.id = 'art-css'; st.textContent = css; document.head.appendChild(st);
+  };
+  const bg = id => 'art-' + id;
+  ST.artBg = bg;
   const nodeClass = id => {
     const d = A.state.last && A.state.last[id];
     if (!d) return 'dim';
     const n = U.diffDays(d, U.today());
     return n <= 2 ? 'hot' : n <= 7 ? 'warm' : 'dim';
   };
-  const tree = () => {
-    const col = { hot: 'var(--acc2)', warm: 'var(--acc)', dim: '#55608a' };
-    const branches = SUBJ_NODES.map(n => '<path d="M200 250 C200 210 ' + n[1] + ' ' + (n[2] + 50) + ' ' + n[1] + ' ' + n[2] + '" stroke="url(#g)" stroke-width="2.2" fill="none" opacity=".65"/>').join('');
-    const nodes = SUBJ_NODES.map(n => {
-      const s = C.subject(n[0]), cl = nodeClass(n[0]);
-      return '<g class="node" data-act="go" data-view="subject" data-p=\'{"id":"' + n[0] + '"}\' role="button" aria-label="' + E(s.title) + '"><circle cx="' + n[1] + '" cy="' + n[2] + '" r="19" fill="#0d1430" stroke="' + col[cl] + '" stroke-width="2.4" ' + (cl === 'hot' ? 'class="pulse"' : '') + '/><text x="' + n[1] + '" y="' + (n[2] + 7) + '" font-size="19" text-anchor="middle">' + s.icon + '</text></g>';
-    }).join('');
-    return '<svg viewBox="0 0 400 262" role="img" aria-label="Albero delle nove materie principali"><defs><linearGradient id="g" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#37e0ff"/><stop offset="1" stop-color="#9a7bff"/></linearGradient></defs>' +
-      '<path d="M170 262 Q200 215 230 262Z" fill="#1a2250" stroke="url(#g)" stroke-width="2"/>' + branches + nodes + '</svg>';
-  };
+  const strip = () => '<div class="strip" aria-label="Le nove materie principali">' + ['eng', 'jpn', 'grp', 'cyb', 'prog', 'sport', 'f1', 'str', 'mnt'].map(id => {
+    const s = C.subject(id);
+    return '<button class="sj ' + nodeClass(id) + '" data-act="go" data-view="subject" data-p=\'{"id":"' + id + '"}\'><span class="im ' + bg(id) + '"></span>' + E(s.title) + '</button>';
+  }).join('') + '</div>';
 
   /* ---- Onboarding ---- */
   V.onboard = () => '<div class="card glow"><h1>🌳 SkillTree Academy</h1><p>Una accademia personale offline: lingue, judo, mente e cultura generale. Qui <b>XP e livelli misurano la costanza</b>; la padronanza si dichiara solo con verifiche a distanza di tempo.</p></div>' +
@@ -52,7 +56,8 @@
     const genDone = [gen.mental, gen.judo, gen.theory].filter(Boolean).length;
     const slot = PL.JUDO_SLOT[U.weekday()];
     const hi = s.profile.name ? 'Ciao ' + E(s.profile.name) + '! ' : '';
-    return '<div class="hero"><div class="cap">Il bagliore dei nodi indica attività recente, non padronanza</div>' + tree() + '</div>' +
+    const heroName = A.state.profile.theme === 'light' ? 'hero-light' : 'hero-main';
+    return '<div class="hero ' + heroName + '"><div class="shade"><span class="kick">LA TUA AVVENTURA DI APPRENDIMENTO</span><h1>Ogni lezione<br><em>fa crescere il tuo albero.</em></h1><p class="mute small" style="margin:0">Il bordo luminoso delle materie indica attività recente, non padronanza.</p></div></div>' + strip() +
       '<div class="card glow"><div class="row"><h2 style="margin:0">' + hi + 'Le tue 3 missioni</h2></div><p class="mute small">' + E(U.today()) + ' · ' + E(m.phase) + ' · mese ' + m.month + ' · piano ' + m.total + ' minuti' + (m.b2 ? ' · B2 verificato' : '') + '</p>' +
       (m.note ? '<p class="warn small">' + E(m.note) + '</p>' : '') +
       '<div class="list">' +
@@ -82,8 +87,8 @@
     return '<h1>Percorsi</h1><p class="mute">Materia → Stage → Argomento → Attività.</p><div class="list">' + prim.map(s => {
       const c = topicCounts(s.id);
       const sub = s.generated ? 'Esercizi generati · livello adattivo' : s.motor ? ST.motor.active(A.state).length + ' / ' + ST.content.judo.techniques.length + ' tecniche avviate' : c.total + ' argomenti · ' + c.studied + ' studiati · ' + c.verified + ' verificati';
-      return '<button class="item" data-act="go" data-view="subject" data-p=\'{"id":"' + s.id + '"}\'><span class="ic">' + s.icon + '</span><span class="tx"><b>' + E(s.title) + '</b><span>' + E(sub) + '</span></span></button>';
-    }).join('') + '<button class="item" data-act="go" data-view="subject" data-p=\'{"id":"sec"}\'><span class="ic">📚</span><span class="tx"><b>Cultura generale (secondarie)</b><span>' + C.secondary.length + ' aree previste · pillole disponibili: ' + C.topicsOf('sec').length + '</span></span></button></div>';
+      return '<button class="item" data-act="go" data-view="subject" data-p=\'{"id":"' + s.id + '"}\'><span class="thumb ' + bg(s.id) + '"></span><span class="tx"><b>' + E(s.title) + '</b><span>' + E(sub) + '</span></span></button>';
+    }).join('') + '<button class="item" data-act="go" data-view="subject" data-p=\'{"id":"sec"}\'><span class="thumb ' + bg('sec') + '"></span><span class="tx"><b>Cultura generale (secondarie)</b><span>' + C.secondary.length + ' aree previste · pillole disponibili: ' + C.topicsOf('sec').length + '</span></span></button></div>';
   };
 
   const statusTag = st => ({ new: '', studied: '<span class="tag">Letta</span>', practiced: '<span class="tag acc">Esercitato</span>', verified: '<span class="tag good">Verificato</span>', retained: '<span class="tag good">Mantenuto</span>' })[st];
@@ -92,7 +97,7 @@
     const s = C.subject(p.id), st = A.state;
     if (s.motor) return ST.judoHub();
     if (s.generated) return ST.mentalHub();
-    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + s.icon + ' ' + E(s.title) + '</h1><p class="mute">' + E(s.goal) + '</p>' + (s.stageNote ? '<p class="warn small">' + E(s.stageNote) + '</p>' : '');
+    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + bg(s.id) + '"></div><h1>' + s.icon + ' ' + E(s.title) + '</h1><p class="mute">' + E(s.goal) + '</p>' + (s.stageNote ? '<p class="warn small">' + E(s.stageNote) + '</p>' : '');
     if (p.id === 'sec') h += '<div class="card"><h3>Aree previste</h3><p class="mute small">' + C.secondary.map(E).join(' · ') + '</p><p class="small">Nucleo attuale: poche pillole introduttive a rotazione. L’espansione è pianificata.</p></div>';
     C.stagesOf(s.id).forEach(stg => {
       h += '<h2>' + E(stg.id) + ' — ' + E(stg.title) + '</h2>' + (stg.desc ? '<p class="mute small">' + E(stg.desc) + '</p>' : '') + '<div class="list">';
