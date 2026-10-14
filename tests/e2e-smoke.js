@@ -93,6 +93,10 @@ const mock = () => {
   await page.evaluate(() => ST.runner.start({ title: 'Scacchiera', kind: 'free', ctx: 'general', items: [{ t: 'mc', q: 'Prova', o: ['a', 'b', 'c', 'd'], a: 0, fen: ST.chess.START }] })); await page.waitForTimeout(150);
   ok(await page.evaluate(() => document.querySelectorAll('.board .sq').length === 64 && document.querySelectorAll('.board .w').length === 16 && document.querySelectorAll('.board .k').length === 16), 'scacchiera: 64 case e 32 pezzi'); await reset();
   await page.evaluate(() => { ST.acts['st-focus'](); }); await step('priorità strategia', () => ST.app.go('general'), /Missione generale/); await page.evaluate(() => ST.acts['st-focus']());
+  // scienze dello sport: hub, laboratori di calcolo
+  await step('hub sport', () => ST.app.go('subject', { id: 'sport' }), /Laboratori di calcolo/);
+  await page.evaluate(() => ST.acts.startSport()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio sport'); await reset();
+  for (const t of await page.evaluate(() => ST.sport.TYPES)) { await page.evaluate(t => ST.acts.startSportType({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio sport ' + t); await reset(); }
   // simulatore di strategia: ogni scenario viene giocato fino al debrief
   for (const id of await page.evaluate(() => ST.sim.templates.map(t => t.id))) {
     await page.evaluate(id => ST.acts.startSim({ dataset: { id } }), id); await page.waitForTimeout(80);

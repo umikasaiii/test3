@@ -313,3 +313,10 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - Evidenza: motore scacchi verificato con perft; i 24 laboratori hanno test con metodo indipendente dal generatore (enumerazione, simulazione numerica di Lanchester, taglio minimo, BFS, griglia per LP e giochi misti); simulazioni validate (migliore = qualità 1, casuale ≤ 0,93); calcoli delle lezioni di economia, militare e ottimizzazione ricontrollati a mano o con node.
 - Limiti: contenuti non rivisti da esperti; scenari semplificati e inventati (campagna, assedio, diplomazia tra stati immaginari, solo concetti); dati storici incerti espressi come ordini di grandezza; utilità lineari senza penalità; finali di torre e alfiere di colore sbagliato non verificabili via software; nessuna pratica contro avversari reali.
 - Stima onesta del voto: ~8/10 per lo studio autonomo di strategia, economia di base e ottimizzazione.
+
+## Scienze dello sport (sport)
+
+- Contenuti: 35 lezioni in 7 stadi (fisiologia e adattamento, forza e ipertrofia, potenza/velocità/mobilità, resistenza, periodizzazione e sport specifici, nutrizione per la salute, nutrizione per la performance), 14 laboratori di calcolo, 5 scenari di simulazione (gara, forza, nutrizione, stagione, rientro).
+- Evidenza: i 14 laboratori hanno test con ricalcolo indipendente; i numeri delle lezioni sono stati ricalcolati dagli autori e ricontrollati a campione; formule dichiarate (Epley, Brzycki, Karvonen, Tanaka, Mifflin-St Jeor, Cooper, Riegel, sRPE).
+- Limiti: contenuti non rivisti da esperti; molti riferimenti a studi e a linee guida (LARN, EFSA, ACSM/IOC/ISSN) sono citati a memoria e non confrontati con le fonti; intervalli di carico, volume e tapering sono ordini di grandezza individuali, non prescrizioni; nessun contenuto medico o dietetico personalizzato; doping trattato solo come rischi e regole.
+- Stima onesta del voto: ~7,5/10 come studio teorico e di calcolo; non sostituisce un allenatore, un medico dello sport o un dietista, né la pratica reale.
