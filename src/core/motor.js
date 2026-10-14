@@ -11,7 +11,7 @@
   M.active = state => Object.keys(state.motor).filter(id => state.motor[id].introduced);
   M.defs = () => ST.content.judo.techniques;
   /* Percorsi: 'judo' (sempre) e 'lotta' (no-gi, opzionale dal profilo). */
-  M.tracks = state => (state && state.profile && state.profile.judoTracks) || ['judo'];
+  M.tracks = state => { const p = (state && state.profile) || {}, base = (p.judoTracks || ['judo']).filter(t => t !== 'clinch'); return p.clinchOff ? base : base.concat('clinch'); };
   M.defsFor = state => M.defs().filter(t => M.tracks(state).includes(t.track || 'judo'));
   M.def = id => ST.content.judo.techniques.find(t => t.id === id);
 

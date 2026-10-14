@@ -720,7 +720,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   M.active = state => Object.keys(state.motor).filter(id => state.motor[id].introduced);
   M.defs = () => ST.content.judo.techniques;
   /* Percorsi: 'judo' (sempre) e 'lotta' (no-gi, opzionale dal profilo). */
-  M.tracks = state => (state && state.profile && state.profile.judoTracks) || ['judo'];
+  M.tracks = state => { const p = (state && state.profile) || {}, base = (p.judoTracks || ['judo']).filter(t => t !== 'clinch'); return p.clinchOff ? base : base.concat('clinch'); };
   M.defsFor = state => M.defs().filter(t => M.tracks(state).includes(t.track || 'judo'));
   M.def = id => ST.content.judo.techniques.find(t => t.id === id);
 
@@ -1775,6 +1775,802 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   // Il percorso lotta/no-gi (judo-more) è opzionale: va attivato dal profilo.
   J.techniques.forEach(t => { if (!t.track) t.track = 'judo'; });
 })(window.ST = window.ST || {});
+
+/* ---- content/judo-nogi ---- */
+/* SkillTree — judo NO-GI: prese senza judogi per tutte le proiezioni del percorso (eccetto morote-seoi, ammesso con judogi),
+   nuove proiezioni a vuoto (ko-soto, koshi-guruma, morote-seoi) e clinch con ginocchiate in stile muay thai (solo a vuoto).
+   Resta tutto SOLITARIO: nessun partner, nessuno sparring, finale sempre in piedi. */
+(function (ST) {
+  'use strict';
+  const C = ST.content, J = C.judo;
+  const mc = (q, o, a) => ({ q, o, a });
+  const N = (id, name, jp, stage, minMonth, tags, complexity, space, cues, errors, variants, theory, instructor, warn, track, gi) =>
+    ({ id, name, jp, stage, minMonth, tags, complexity, space, cues, errors, variants, theory, instructor: !!instructor, warn: warn || '', track: track || 'judo', gi: gi || 'no-gi' });
+  const byId = id => J.techniques.find(t => t.id === id);
+
+  /* ---- Prese no-gi: sostituiscono le istruzioni di presa al tessuto ---- */
+  const patch = (id, o) => { const t = byId(id); if (!t) throw new Error('judo-nogi: manca ' + id); Object.assign(t, o); if (!t.gi) t.gi = 'no-gi'; };
+  patch('kumikata', { name: 'Kumi-kata no-gi: polsi, collo e underhook', jp: '組み方（ノーギ）', gi: 'no-gi',
+    cues: ['Senza judogi non ci sono bavero e manica: le prese sono polso (wrist control), bicipite (bicep tie), nuca (collar tie) e underhook sotto l’ascella.', 'Simula a vuoto una presa alla volta: mano sinistra al polso, destra alla nuca; poi underhook destro con polso sinistro.', 'La presa è una struttura: gomiti dentro, spalle basse, avambracci attivi, peso al centro.', 'Cambia presa a vuoto mantenendo la postura e accompagnando con un piccolo passo.'],
+    variants: ['Presa destra e sinistra alternate.', 'Presa + passo + tai sabaki.', 'Dal collar tie all’underhook in un solo movimento.'],
+    theory: [{ q: 'Quale presa controlla la testa senza judogi?', o: ['Collar tie (mano sulla nuca)', 'Presa al bavero', 'Presa alla manica', 'Presa alla cintura'], a: 0 }, { q: 'Perché si usa il polso o il bicipite come presa?', o: ['Controllano il braccio senza tessuto', 'Fanno male', 'Sono più facili da vedere', 'Non servono'], a: 0 }] });
+  patch('ogoshi-entry', { name: 'O-goshi no-gi: entrata a vuoto', gi: 'no-gi', cues: ['Solo ENTRATA (tsukuri), a vuoto, lenta: nessuna proiezione.', 'Presa no-gi: mano sinistra al polso o al bicipite, braccio destro che avvolge la schiena (underhook) o la nuca.', 'Passo avanti, rotazione del piede d’appoggio, abbassa il bacino sotto il baricentro immaginario.', 'Esci con controllo tornando in shizentai.'] });
+  patch('osoto-entry', { name: 'O-soto-gari no-gi: avanzata e posizionamento', gi: 'no-gi', cues: ['Solo avanzata e posizionamento del piede d’appoggio, a vuoto.', 'Presa no-gi: collar tie con la mano destra, polso sinistro a controllare il braccio.', 'Il piede d’appoggio si pianta a fianco del piede dell’avversario immaginario, ginocchio morbido.', 'Non eseguire la spazzata: ferma il movimento a controllo, torna in shizentai.'] });
+  patch('seoi-entry', { name: 'Seoi-nage no-gi: rotazione e ingresso a vuoto', gi: 'no-gi', cues: ['Solo rotazione e ingresso, a vuoto, lentamente.', 'Presa no-gi: mano sinistra al polso, braccio destro in underhook sotto l’ascella.', 'Pivot sul piede avanzato, ginocchia flesse, bacino sotto, busto eretto.', 'Esci con controllo; nessun carico sul partner immaginario.'] });
+
+  const NG = {
+    'ogoshi-full': ['Presa no-gi: mano sinistra al polso o al bicipite (wrist/bicep control), braccio destro intorno alla schiena (underhook) o alla nuca.', 'Kuzushi: con il polso sinistro porta il partner immaginario in avanti, verso le punte dei piedi.', 'Tsukuri: passo avanti con il destro, rotazione fino a stare di schiena, ginocchia flesse, bacino sotto il suo baricentro.', 'Kake: estendi ginocchia e anche e ruota le spalle in avanti, con il braccio destro che avvolge la vita; fermati in piedi, mai caricare il peso in avanti.'],
+    'osoto-full': ['Presa no-gi: collar tie con la destra (mano sulla nuca) e polso sinistro: la testa e il braccio guidano il tronco all’indietro.', 'Kuzushi: porta il partner immaginario all’indietro, sul suo tallone destro.', 'Tsukuri: passo con il sinistro a fianco del suo piede destro, ginocchio morbido, busto eretto.', 'Kake: la gamba destra spazza all’indietro a quota bassa (ginocchio), nell’aria, senza colpire nulla; riporta il piede a terra davanti e torna in stance.'],
+    'seoi-full': ['Presa no-gi: polso sinistro e underhook destro (braccio sotto l’ascella), spalla destra sotto l’ascella immaginaria.', 'Kuzushi: con il polso sinistro porta il partner in avanti, sulle punte.', 'Tsukuri: passo avanti con il destro, pivot sul piede d’appoggio, ginocchia flesse, bacino sotto.', 'Kake: estendi le gambe e ruota le spalle in avanti (busto inclinato al massimo di circa 20°); torna in shizentai in piedi.'],
+    'ouchi-full': ['Presa no-gi: collar tie con la destra e polso sinistro: spingi il tronco all’indietro e di lato.', 'Kuzushi: porta il partner indietro e leggermente di lato, verso il suo tallone.', 'Tsukuri: passo con il sinistro dentro le sue gambe, ginocchio morbido, busto eretto.', 'Kake: la gamba destra spazza all’interno, a quota bassa, nell’aria, con piede flesso; riporta il piede a terra davanti.'],
+    'kouchi-full': ['Presa no-gi: polso sinistro e collar tie destro, braccia che guidano il tronco all’indietro.', 'Kuzushi: porta il partner indietro, sul suo tallone.', 'Tsukuri: piccolo passo in avanti, piede d’appoggio vicino.', 'Kake: gesto breve del piede (spazzata piccola) all’interno del tallone immaginario, a quota bassissima; torna in stance.'],
+    'taiotoshi-full': ['Presa no-gi: polso sinistro e braccio destro sopra il braccio o in underhook (over-under): il braccio guida in avanti.', 'Kuzushi: porta il partner in avanti e verso il suo lato destro.', 'Tsukuri: passo con il destro e poi con il sinistro all’indietro ruotando; gamba destra tesa come blocco.', 'Kake: ruota il busto e abbassa le spalle mentre la gamba blocca; torna in shizentai in piedi.'],
+    'harai-goshi-full': ['Presa no-gi: collar tie destro (o underhook) e polso sinistro; il petto e l’anca vicini.', 'Kuzushi: porta il partner in avanti, verso le punte.', 'Tsukuri: passo con il sinistro, rotazione sul piede d’appoggio, anca a contatto con l’anca immaginaria.', 'Kake: la gamba destra spazza all’indietro a quota moderata mentre il busto ruota in avanti; riporta il piede a terra e torna in equilibrio.'],
+    'uchimata-full': ['Presa no-gi: collar tie destro e underhook/polso sinistro (over-under): il tronco è vicino al tuo.', 'Kuzushi: porta il partner in avanti, leggermente di lato.', 'Tsukuri: passo con il sinistro, rotazione, gamba destra pronta all’interno della sua coscia.', 'Kake: la gamba destra sale all’interno e all’indietro a quota moderata mentre il busto ruota in avanti; torna in stance in equilibrio.'],
+    'band-uchikomi': ['Fissa un elastico largo a un ancoraggio solido all’altezza del bacino; verifica che non possa cedere.', 'Impugna l’altra estremità con la mano di presa: simula il polso o la nuca (no-gi) e ripeti l’entrata (tsukuri) di una tecnica già imparata.', 'Ferma il movimento nel punto di kake senza completare la proiezione, poi rientra lentamente.', 'Serie di 5–8 ripetizioni di qualità; fermati se la forma peggiora.']
+  };
+  Object.keys(NG).forEach(id => patch(id, { cues: NG[id], gi: 'no-gi' }));
+  ['ogoshi-full', 'osoto-full', 'seoi-full', 'ouchi-full', 'kouchi-full', 'taiotoshi-full', 'harai-goshi-full', 'uchimata-full', 'band-uchikomi'].forEach(id => { const t = byId(id); if (!/no-gi/i.test(t.name)) t.name = t.name.replace(/:/, ' no-gi:'); });
+
+  const T = [
+    N('kosoto-full', 'Ko-soto-gari e ko-soto-gake no-gi: gesto completo a vuoto', '小外刈・小外掛（全体）', 'L2', 11, [], 4, '2 m × 2 m',
+      ['Presa no-gi: collar tie destro (mano sulla nuca) e polso sinistro; il tronco viene guidato all’indietro.', 'Kuzushi: porta il partner immaginario all’indietro sul suo tallone destro.', 'Tsukuri: piccolo passo con il sinistro a fianco del suo piede destro, ginocchio morbido, busto eretto.', 'Kake: la gamba destra va all’esterno del suo tallone, a quota bassissima: «gari» = piccola spazzata, «gake» = piccolo gancio (il piede aggancia il tallone e resta un istante); nell’aria, senza colpire nulla; poi torna in stance.'],
+      [['peso-indietro', 'Peso sui talloni'], ['gamba-alta', 'Gamba che sale troppo'], ['perde-equilibrio', 'Perdita di equilibrio'], ['busto-indietro', 'Busto che si inclina all’indietro'], ['gesto-grande', 'Gesto troppo ampio']],
+      ['Gesto lento in 4 tempi.', 'Gesto alternato destra e sinistra.', 'Versione «gake»: aggancio del tallone con pausa di un secondo, poi ritorno.'],
+      [mc('Che differenza c’è fra «gari» e «gake»?', ['Gari = piccola spazzata; gake = piccolo gancio', 'Gari = caduta; gake = salto', 'Nessuna', 'Gari = presa; gake = passo'], 0), mc('A quale altezza si lavora il piede in ko-soto?', ['Bassissima, all’altezza del tallone', 'Sopra la testa', 'Alta', 'Contro un muro'], 0)], true,
+      'Gesto in aria: non agganciare oggetti né persone.'),
+    N('koshi-guruma-full', 'Koshi-guruma no-gi: gesto completo a vuoto', '腰車（全体）', 'L3', 15, [], 5, '2 m × 2 m',
+      ['Presa no-gi: braccio destro avvolto intorno al collo/nuca dell’avversario immaginario (neck wrap), polso sinistro a controllare il braccio.', 'Kuzushi: porta il partner in avanti, sulle punte, con il polso sinistro.', 'Tsukuri: passo avanti con il destro, rotazione fino a stare di schiena, ginocchia flesse, bacino sotto il suo baricentro; il braccio destro lo avvolge dietro il collo.', 'Kake: estendi ginocchia e anche e ruota le spalle in avanti come una «ruota» sull’anca; fermati in piedi, mai caricare il peso in avanti.'],
+      [['ginocchia-dritte', 'Ginocchia dritte'], ['schiena-curva', 'Schiena curva'], ['bacino-alto', 'Bacino sopra il baricentro immaginario'], ['salta-passi', 'Passi saltati'], ['perde-equilibrio', 'Perdita di equilibrio']],
+      ['Gesto lento in 4 tempi.', 'Gesto alternato destra e sinistra.', 'Gesto dopo polso e collar tie a vuoto.'],
+      [mc('Che cosa distingue koshi-guruma da o-goshi?', ['Il braccio avvolge il collo invece della vita', 'Si lancia con le mani', 'Non ruota il busto', 'È una spazzata'], 0), mc('Perché si ruota «come una ruota»?', ['Il peso passa sopra l’anca con asse stabile', 'Per saltare', 'Per cadere', 'Per tirare con le braccia'], 0)], true,
+      'Il braccio al collo è solo simulato: nessuno viene afferrato. Fermati se perdi equilibrio.'),
+    N('morote-seoi-full', 'Morote-seoi-nage (con judogi): gesto completo a vuoto', '諸手背負投（全体）', 'L3', 16, [], 5, '2 m × 2 m',
+      ['Con judogi: presa a due mani (morote) sul bavero dell’avversario immaginario, gomiti sotto le sue ascelle.', 'Kuzushi: porta il partner in avanti con le due mani, sulle punte.', 'Tsukuri: passo avanti con il destro, pivot, ginocchia flesse, spalle sotto le sue ascelle, schiena contro il suo petto immaginario.', 'Kake: estendi le gambe e ruota le spalle in avanti (busto inclinato al massimo di circa 20°); torna in shizentai in piedi, senza lasciarti cadere.'],
+      [['schiena-curva', 'Schiena curva'], ['ginocchia-dritte', 'Ginocchia dritte'], ['gomiti-larghi', 'Gomiti larghi'], ['piedi-lontani', 'Piedi lontani dall’asse'], ['perde-equilibrio', 'Perdita di equilibrio']],
+      ['Gesto lento in 4 tempi.', 'Gesto alternato destra e sinistra.', 'Gesto dopo kumi-kata a vuoto con judogi.'],
+      [mc('Che cosa significa «morote»?', ['A due mani', 'A una mano', 'Senza mani', 'Con le gambe'], 0), mc('Dove stanno i gomiti in morote-seoi?', ['Sotto le ascelle dell’avversario immaginario', 'Larghi', 'Dietro la schiena', 'Sopra la testa'], 0)], true,
+      'Variante con judogi: tutte le altre proiezioni del percorso sono no-gi. In aria, finale sempre in piedi.', 'judo', 'gi'),
+    // ---------- CLINCH CON GINOCCHIATE (stile muay thai), SOLO A VUOTO ----------
+    N('plum-clinch', 'Clinch plum: postura e controllo della testa (a vuoto)', 'プラム・クリンチ', 'L1', 6, [], 3, '2 m × 2 m',
+      ['Posizione: piedi alla larghezza delle spalle, ginocchia flesse, busto eretto, mento giù.', 'Mani dietro la nuca dell’avversario immaginario, dita intrecciate o a coppa, gomiti stretti e avambracci sulle clavicole.', 'Spingi i gomiti verso il basso e avanti per «chiudere» la testa; tira con la schiena dritta, non con le braccia.', 'Muoviti con piccoli passi, mantenendo la postura; la testa resta alta e il peso al centro.'],
+      [['gomiti-larghi', 'Gomiti larghi'], ['schiena-curva', 'Schiena curva'], ['peso-indietro', 'Peso sui talloni'], ['mento-alto', 'Mento alto'], ['spalle-alte', 'Spalle alzate']],
+      ['Spostamenti laterali in clinch a vuoto.', 'Clinch + level change + ritorno.', 'Alterna presa destra e sinistra (collar tie).'],
+      [mc('Dove si posizionano le mani nel clinch plum?', ['Dietro la nuca dell’avversario', 'Sulla vita', 'Sulle spalle', 'Sulle gambe'], 0), mc('Con che cosa si tira la testa verso il basso?', ['Con la schiena e i gomiti, non solo le braccia', 'Con i polsi', 'Con la testa', 'Con le gambe'], 0)], true,
+      'Postura e controllo a vuoto: nessun contatto. Verifica la forma con un istruttore.', 'clinch'),
+    N('khao-trong', 'Khao trong: ginocchiata diretta in clinch (a vuoto)', 'ヒザ蹴り・直進', 'L1', 8, [], 3, '2 m × 2 m',
+      ['Dalla postura plum (a vuoto): tira la testa immaginaria verso il basso con i gomiti, il busto leggermente indietro.', 'Spingi il bacino in avanti e porta il ginocchio in alto verso il ventre immaginario, con il piede disteso (punta in giù).', 'Il piede d’appoggio ruota sull’avampiede; il ginocchio d’appoggio resta morbido (mai bloccato).', 'Fermati all’altezza della vita, riporta il piede a terra e torna in postura; ripeti a destra e a sinistra.'],
+      [['peso-indietro', 'Peso sui talloni'], ['piede-non-teso', 'Piede non disteso'], ['ginocchio-bloccato', 'Ginocchio d’appoggio bloccato'], ['perde-equilibrio', 'Perdita di equilibrio'], ['bacino-indietro', 'Bacino che non avanza']],
+      ['Ginocchiate lente in 4 tempi.', 'Ginocchiate alternate destra e sinistra.', 'Serie di 5 con pausa e controllo della postura.'],
+      [mc('Dove va il ginocchio nella ginocchiata diretta a vuoto?', ['Verso il ventre immaginario, all’altezza della vita', 'Sopra la testa', 'Verso il suolo', 'Contro un muro'], 0), mc('Come resta il ginocchio d’appoggio?', ['Morbido', 'Bloccato', 'Piegato al massimo', 'Sollevato'], 0)], true,
+      'A vuoto, a quota vita: non colpire oggetti o persone; se il ginocchio d’appoggio duole, fermati. Sacco e partner solo con un istruttore.', 'clinch'),
+    N('khao-khong', 'Khao khong: ginocchiata curva in clinch (a vuoto)', 'ヒザ蹴り・曲線', 'L2', 12, [], 4, '2 m × 2 m',
+      ['Dalla postura plum: tira la testa immaginaria da un lato e ruota il bacino sul piede d’appoggio.', 'Il ginocchio sale in diagonale verso le costole immaginarie, con il piede disteso.', 'La rotazione parte dal bacino e dall’avampiede d’appoggio, non dalla schiena.', 'Fermati a quota costole, riporta il piede e torna in postura; ripeti dall’altro lato.'],
+      [['peso-indietro', 'Peso sui talloni'], ['ginocchio-bloccato', 'Ginocchio d’appoggio bloccato'], ['rotazione-schiena', 'Rotazione dalla schiena'], ['perde-equilibrio', 'Perdita di equilibrio']],
+      ['Ginocchiata lenta in 4 tempi.', 'Alternata destra e sinistra con rotazione.', 'Dopo una ginocchiata diretta, una curva.'],
+      [mc('Da dove parte la rotazione nella ginocchiata curva?', ['Dal bacino e dall’avampiede d’appoggio', 'Dalle mani', 'Dalla testa', 'Dal collo'], 0)], true,
+      'Gesto a vuoto: controlla la rotazione e l’equilibrio sul piede d’appoggio.', 'clinch'),
+    N('khao-noi', 'Khao noi: ginocchiata corta in clinch ravvicinato (a vuoto)', 'ヒザ蹴り・小', 'L2', 14, [], 4, '2 m × 2 m',
+      ['Dalla postura plum, con l’avversario immaginario molto vicino: gomiti stretti, testa a contatto con lo spazio davanti a te.', 'Ginocchiate brevi e rapide, a quota coscia/ventre, alternando destra e sinistra senza staccare le mani dalla postura.', 'Il bacino spinge in avanti ad ogni colpo, la schiena resta dritta.', 'Ritmo regolare e controllato: serie di 6 colpi, poi pausa; fermati se la forma peggiora.'],
+      [['ritmo-irregolare', 'Ritmo irregolare'], ['schiena-curva', 'Schiena curva'], ['gomiti-larghi', 'Gomiti larghi'], ['perde-equilibrio', 'Perdita di equilibrio'], ['ginocchio-bloccato', 'Ginocchio d’appoggio bloccato']],
+      ['Serie lente poi veloci.', 'Alternata destra e sinistra con respiro regolare.', 'Dopo un passo laterale in clinch.'],
+      [mc('Che cosa caratterizza khao noi?', ['Ginocchiate brevi e rapide in clinch ravvicinato', 'Un salto', 'Una proiezione', 'Un calcio frontale'], 0)], true,
+      'Rapidità a vuoto: la forma prima della velocità.', 'clinch')
+  ];
+  T.forEach(t => J.techniques.push(t));
+  J.techniques.forEach(t => { if (!t.gi) t.gi = (['morote-seoi-full'].includes(t.id) ? 'gi' : 'no-gi'); });
+  J.techniques = J.techniques.map((t, i) => [t, i]).sort((a, b) => a[0].minMonth - b[0].minMonth || a[1] - b[1]).map(x => x[0]);
+
+  J.safety.push('Ginocchiate (clinch): solo a vuoto, a quota vita/costole, con ginocchio d’appoggio morbido. Sacco o partner solo con un istruttore: non c’è sparring né contatto in questo percorso.');
+  J.combos.push(
+    { name: 'Collar tie → o-soto → ko-soto (no-gi)', ids: ['kumikata', 'osoto-full', 'kosoto-full'] },
+    { name: 'Koshi-guruma → o-goshi → postura (no-gi)', ids: ['koshi-guruma-full', 'ogoshi-full', 'posture'] },
+    { name: 'Morote-seoi → seoi (no-gi) → tai sabaki', ids: ['morote-seoi-full', 'seoi-full', 'tai-sabaki'] },
+    { name: 'Plum → ginocchiata diretta → curva', ids: ['plum-clinch', 'khao-trong', 'khao-khong'] },
+    { name: 'Plum → ginocchiate corte → rialzo in stance', ids: ['plum-clinch', 'khao-noi', 'posture'] }
+  );
+  J.sundayTheory.push(
+    { q: 'Quale presa controlla la testa senza judogi?', o: ['Collar tie (mano sulla nuca)', 'Presa al bavero', 'Presa alla cintura', 'Presa alla manica'], a: 0 },
+    { q: 'Quale proiezione del percorso si fa con judogi?', o: ['Morote-seoi-nage', 'O-goshi', 'Koshi-guruma', 'Ko-soto'], a: 0 },
+    { q: 'Come resta il ginocchio d’appoggio nelle ginocchiate?', o: ['Morbido', 'Bloccato', 'Sollevato', 'Piegato al massimo'], a: 0 },
+    { q: 'Dove si colpisce nelle ginocchiate a vuoto di questo percorso?', o: ['Nell’aria, a quota vita/costole', 'Sul sacco senza istruttore', 'Su un partner', 'Su un muro'], a: 0 }
+  );
+})(window.ST = window.ST || {});
+
+/* ---- content/judo-l-base ---- */
+/* stub */
+(function (ST) { 'use strict'; })(window.ST = window.ST || {});
+
+/* ---- content/judo-l-ukemi ---- */
+/* SkillTree — judo: 10 lezioni approfondite sulle cadute (ukemi) in progressione.
+   Coerente con src/content/judo-nage.js. Cadute solo autoiniziate, dal basso verso l'alto, su tappeto/tatami spesso.
+   L'app non certifica la sicurezza della caduta: i gradini alti vanno verificati con un istruttore qualificato. */
+(function (ST) {
+  'use strict';
+  const C = ST.content, { mc, fill, order } = C;
+
+  // mc con la risposta corretta in posizione `pos` (0-3)
+  const X = (q, right, wrong, pos, why) => { const o = wrong.slice(); o.splice(pos, 0, right); return mc(q, o, pos, why); };
+  const L = a => a.map(x => '- ' + x).join('\n');
+
+  const PREV_NOTE = 'Questo gradino è **da verificare con istruttore**: l’app ti aiuta a ripassare la forma, ma non può certificare che la tua caduta sia sicura. **Dopo qualsiasi errore (testa che tocca, colpo secco, perdita di controllo) torna subito al gradino precedente** e ripeti lì finché è di nuovo pulito.';
+
+  const lesson = d => {
+    const prevTxt = d.prev
+      ? '**Prerequisito:** «' + d.prevName + '» deve essere consolidato: almeno 10 ripetizioni di fila, pulite, con mento sul petto e battuta decisa, in due sessioni diverse. Se non lo è, torna lì.'
+      : '**Prerequisito:** nessun gradino precedente. Prima di cominciare fai un breve riscaldamento: rotazioni lente di collo, spalle, polsi e bacino.';
+    const flag = d.flag ? '\n\n' + PREV_NOTE : '\n\nResta sempre nella zona di comfort: se non sei sicuro, resta al gradino che padroneggi.';
+    const pages = [
+      { h: 'Perché questo gradino', b: d.why + '\n\nNel judo le cadute (**ukemi**, 受身) si imparano **dal basso verso l’alto**: prima da sdraiato, poi da seduto, accovacciato e in piedi. Cadi **solo tu, da solo, di tua iniziativa**: non esiste caduta «subita» in questo percorso.' },
+      { h: 'Prima di cominciare', b: prevTxt + '\n\n**Dove si pratica:** solo su **tatami o tappeto spesso** (' + d.space + '). **Mai su pavimento duro**: piastrelle, parquet, cemento, erba su terreno duro o tappetini sottili da yoga non vanno bene. Togli orologi e anelli, unghie corte, spazio libero intorno.' + flag },
+      { h: 'Meccanica del corpo', b: L(d.mech) + '\n\n**Costanti di ogni caduta:** mento sul petto (guardi la cintura), la testa non tocca mai il tappeto, battuta con **tutto il braccio** (non solo la mano) a **30–45°** dal corpo, palmo in giù, **espirazione** nel momento della battuta (mai respiro trattenuto).' },
+      { h: 'Passo per passo', b: d.steps.map((s, i) => (i + 1) + '. ' + s).join('\n') + '\n\n> Ritmo: lento, una ripetizione alla volta, con pausa fra l’una e l’altra.' },
+      { h: 'Errori comuni e correzioni', b: d.errors.map(e => '- **' + e[0] + '** → ' + e[1]).join('\n') },
+      { h: 'Esercizi graduati', b: d.drills.map((s, i) => '**Livello ' + (i + 1) + '.** ' + s).join('\n\n') + '\n\nPassa al livello successivo solo dopo 10 ripetizioni pulite del precedente. Una sessione breve (10 minuti) con qualità vale più di una lunga e stanca.' },
+      { h: 'Quando fermarsi', b: 'Fermati **subito** e non riprendere nella stessa sessione se compare:\n' + L(['dolore al **collo** o alla **schiena**', '**giramenti di testa**, nausea, visione offuscata', 'un **colpo alla testa**, anche lieve', 'formicolio a braccia o mani', 'stanchezza forte: la forma peggiora e il rischio sale']) + '\n\nSe i sintomi persistono, parla con un medico o con il tuo istruttore. Non «scaricare» il dolore con altre ripetizioni.' },
+      { h: 'Autoverifica con video laterale', b: 'Appoggia il telefono a terra o su un supporto, **di lato** all’area di lavoro, e riprendi 3 ripetizioni. Riguarda al rallentatore e controlla:\n' + L(d.check) + '\n\nIl video aiuta a vedere cose che non senti, ma **non sostituisce l’occhio di un istruttore** e non certifica che la caduta sia sicura.' },
+      { h: 'Riepilogo', b: L(d.recap) + '\n- Mento sul petto, battuta a 30–45° con tutto il braccio, espira.\n- Tappeto spesso, una ripetizione per volta, stop con dolore o giramenti.\n- Dopo un errore: gradino precedente.' }
+    ];
+    return { id: 'jud-' + d.id, subject: 'grp', stage: d.stage, minutes: 10, prereq: d.prev ? ['jud-' + d.prev] : [], title: d.title, summary: d.summary, objectives: d.obj, pages, exercises: d.ex, test: d.te };
+  };
+
+  const D = [];
+
+  /* 1 */ D.push({
+    id: 'ushiro-ukemi-lying', stage: 'L0', prev: null, space: '2 m × 1 m',
+    title: 'Ushiro ukemi 1: caduta indietro da sdraiato (後ろ受身①)', summary: 'Il primo gradino: battere le braccia sul tappeto restando sdraiato sulla schiena, con mento sul petto.',
+    obj: ['Tenere il mento sul petto per tutta la battuta', 'Battere con tutto il braccio a 30–45° dal corpo', 'Espirare al momento della battuta'],
+    why: 'Qui automatizzi i due gesti che proteggono ogni caduta all’indietro: **mento sul petto** e **battuta del braccio**. Sdraiato non c’è altezza, quindi puoi concentrarti solo sulla forma, senza paura.',
+    mech: ['**Testa e collo:** mento sul petto, sguardo alla cintura; il collo non si alza e non si abbassa a scatti.', '**Braccia:** partono in verticale, poi battono a **30–45°** dal corpo, palmi in giù, con tutto il braccio dal gomito alla mano.', '**Gambe:** ginocchia flesse, leggermente sollevate, rilassate.', '**Respiro:** espiri nell’istante della battuta.'],
+    steps: ['Sdraiati sulla schiena sul tappeto, ginocchia flesse.', 'Mento sul petto: guardi la cintura.', 'Solleva le braccia in verticale sopra il petto.', 'Battile sul tappeto a 30–45° con tutto il braccio, espirando.', 'Rialza le braccia e ripeti lentamente 10 volte.'],
+    errors: [['Mento che si stacca dal petto', 'guarda la cintura per tutta la serie; se serve, tieni una pallina da tennis fra mento e petto.'], ['Braccia troppo vicine al corpo', 'allargale a 30–45°, non attaccate ai fianchi.'], ['Battuta debole o ritardata', 'battila con decisione nell’istante dell’espirazione.'], ['Respiro trattenuto', 'espira con un soffio sonoro a ogni battuta.']],
+    drills: ['Battuta con entrambe le braccia insieme, 10 volte lente.', 'Battuta alternata braccio destro e sinistro.', 'Battuta più forte mantenendo il collo fermo.', 'Dieci battute di fila senza mai alzare la testa.'],
+    check: ['il mento resta vicino al petto', 'le braccia battono a 30–45°', 'la testa non si alza dal tappeto in modo brusco'],
+    recap: ['Si parte sdraiati: zero altezza, tutta la forma.', 'Si batte con tutto il braccio, non solo la mano.'],
+    ex: [
+      X('Dove guarda il mento in ushiro ukemi?', 'Sul petto, verso la cintura', ['Verso il soffitto', 'A destra', 'Indietro, con la testa all’indietro'], 0, 'Il mento sul petto protegge la nuca.'),
+      X('Con che cosa si batte sul tappeto?', 'Con tutto il braccio, a 30–45° dal corpo', ['Solo con la mano', 'Con la testa', 'Con i gomiti stretti ai fianchi'], 1, 'Batte l’intero braccio, non solo la mano.'),
+      X('Quando espiri?', 'Nel momento della battuta', ['Prima di sdraiarti', 'Trattieni il respiro', 'Dopo essersi fermato'], 2, 'L’espirazione evita di bloccare il torace.'),
+      X('Su quale superficie ti alleni?', 'Tatami o tappeto spesso', ['Parquet', 'Cemento', 'Piastrelle'], 0, 'Mai su pavimento duro.'),
+      X('Quale errore è tipico di questo gradino?', 'Il mento che si stacca dal petto', ['Guardare la cintura', 'Battere a 30–45°', 'Espirare'], 1, 'Mento alto = nuca non protetta.'),
+      order('Metti in ordine i passi', ['sdraiati', 'mento', 'braccia', 'battuta', 'espira'], 'Prima la posizione, poi il mento, poi le braccia e la battuta con espirazione.'),
+      fill('Quanti gradi (minimo) dal corpo deve avere la battuta del braccio?', ['30'], 'L’angolo corretto è 30–45°.'),
+      fill('Con la testa che cosa si fa nei confronti del tappeto? Non la ___ mai.', ['tocca', 'appoggia', 'tocco'], 'La testa non tocca mai il tappeto.')
+    ],
+    te: [
+      X('Che cosa NON fai in questo gradino?', 'Alzare la testa a scatti', ['Guardare la cintura', 'Battere con tutto il braccio', 'Espirare'], 2, 'Il collo non si alza e non si abbassa a scatti.'),
+      X('Che cosa serve per un buon ushiro ukemi da sdraiato?', 'Mento sul petto e battuta decisa', ['Gambe tese e rigide', 'Respiro bloccato', 'Braccia sotto la schiena'], 0, 'Sono le due costanti.'),
+      X('Dopo quante ripetizioni pulite sali di livello?', 'Dieci', ['Una', 'Nessuna, subito', 'Mille in una volta'], 1, 'Dieci pulite, poi si sale.'),
+      X('Che cosa fai se senti dolore al collo?', 'Ti fermi', ['Ripeti più forte', 'Vai al gradino alto', 'Trattieni il respiro'], 3 - 3 + 0, 'Dolore al collo = stop.'),
+      fill('Il mento va sul ___.', ['petto'], 'Mento sul petto, sguardo alla cintura.')
+    ]
+  });
+
+  /* 2 */ D.push({
+    id: 'yoko-ukemi-lying', stage: 'L0', prev: 'ushiro-ukemi-lying', prevName: 'Ushiro ukemi 1: caduta indietro da sdraiato', space: '2 m × 1 m',
+    title: 'Yoko ukemi 1: caduta laterale da sdraiato (横受身①)', summary: 'Battuta laterale con il braccio basso, sdraiato sul fianco, su entrambi i lati.',
+    obj: ['Battere con il braccio basso a 30–45° con tutto l’avambraccio', 'Tenere le gambe leggermente divaricate, non incrociate', 'Lavorare sui due lati in modo simmetrico'],
+    why: 'La caduta laterale (**yoko ukemi**) è la più usata nel judo. Da sdraiato sul fianco impari la battuta laterale e la posizione delle gambe senza alcuna altezza.',
+    mech: ['**Testa e collo:** mento sul petto, la testa non tocca il tappeto.', '**Braccio basso:** batte a **30–45°** dal corpo con tutto l’avambraccio, palmo in giù.', '**Braccio alto:** incrocia il petto.', '**Gambe:** leggermente divaricate e morbide, **mai incrociate né unite**.', '**Respiro:** espira alla battuta.'],
+    steps: ['Sdraiati sul fianco destro, mento sul petto.', 'Il braccio destro è disteso a terra; l’altro incrocia il petto.', 'Batti con il braccio basso a 30–45°, espirando.', 'Gambe leggermente divaricate.', 'Gira sull’altro fianco e ripeti, lentamente, 10 volte per lato.'],
+    errors: [['Mento che si stacca dal petto', 'guarda sempre verso la cintura.'], ['Braccio che batte troppo vicino', 'apri a 30–45°.'], ['Gambe unite o incrociate', 'divaricale leggermente, morbide.'], ['Spalla che sprofonda', 'batti con decisione, la spalla non si «affonda» nel tappeto.']],
+    drills: ['Battuta lenta su un lato, 10 volte.', 'Battuta su un lato poi sull’altro senza fermarti.', 'Tre battute lente e tre veloci.', 'Battuta con le gambe leggermente sollevate.'],
+    check: ['il braccio basso forma 30–45° con il corpo', 'le gambe non sono incrociate', 'il mento resta sul petto'],
+    recap: ['Si batte con il braccio basso, l’altro incrocia il petto.', 'Gambe divaricate, non unite.'],
+    ex: [
+      X('Che posizione hanno le gambe in yoko ukemi?', 'Leggermente divaricate', ['Unite e incrociate', 'Piegate sotto il corpo', 'Rigide e in aria'], 2, 'Gambe divaricate, morbide.'),
+      X('Quale braccio batte?', 'Il braccio basso, a contatto con il tappeto', ['Quello alto', 'Nessuno', 'Entrambi dietro la schiena'], 0, 'Batte il braccio basso.'),
+      X('A che angolo batte?', '30–45° dal corpo', ['0° attaccato al fianco', '90°', '180°'], 1, 'L’angolo giusto è 30–45°.'),
+      X('Dove va l’altro braccio?', 'Incrocia il petto', ['Dietro la testa', 'Sotto il corpo', 'In alto, teso'], 3 - 1, 'Incrocia il petto.'),
+      X('Dopo quale gradino si fa questo?', 'Ushiro ukemi da sdraiato consolidato', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro da in piedi'], 0, 'Prima ushiro 1.'),
+      order('Ordina', ['fianco', 'mento', 'battuta', 'espira', 'cambia lato'], 'Fianco, mento, battuta con espirazione, poi altro lato.'),
+      fill('Le gambe vanno leggermente ___ (non unite).', ['divaricate', 'aperte'], 'Divaricate.'),
+      fill('Il braccio basso batte con tutto l’___.', ['avambraccio', 'braccio'], 'Batte tutto il braccio/avambraccio.')
+    ],
+    te: [
+      X('Quale errore va corretto?', 'Gambe incrociate', ['Mento sul petto', 'Battuta a 30–45°', 'Espirazione'], 0, 'Le gambe non vanno incrociate.'),
+      X('Su quanti lati si lavora?', 'Entrambi', ['Solo il destro', 'Solo il sinistro', 'Nessuno'], 2, 'Entrambi i lati.'),
+      X('Dove guarda il mento?', 'Verso il petto', ['Al soffitto', 'Alla spalla bassa', 'Dietro'], 1, 'Mento sul petto.'),
+      X('Con dolore alla schiena che fai?', 'Ti fermi', ['Aumenti la forza', 'Salti di gradino', 'Trattieni il fiato'], 0, 'Stop.'),
+      fill('La testa non ___ il tappeto.', ['tocca'], 'Non tocca mai.')
+    ]
+  });
+
+  /* 3 */ D.push({
+    id: 'ushiro-ukemi-seated', stage: 'L0', prev: 'yoko-ukemi-lying', prevName: 'Yoko ukemi 1: caduta laterale da sdraiato', space: '2 m × 1 m',
+    title: 'Ushiro ukemi 2: caduta indietro da seduto (後ろ受身②)', summary: 'Rotolare all’indietro dalla posizione seduta sulla schiena arrotondata, battendo le braccia.',
+    obj: ['Rotolare sulla schiena arrotondata, non sulla testa', 'Battere nel momento del contatto', 'Tornare seduto con lo slancio, senza sforzare il collo'],
+    why: 'Per la prima volta c’è un piccolo movimento: passi dal seduto al sdraiato. Impari a **arrotondare la schiena** e a tempistizzare la battuta nel momento del contatto.',
+    mech: ['**Schiena:** arrotondata, il peso si distribuisce da bacino a scapole, mai sulla testa.', '**Mento:** sul petto durante tutto il movimento.', '**Braccia:** davanti a te, poi battono a 30–45° nell’istante del contatto.', '**Gambe:** stese o leggermente flesse, leggermente sollevate.', '**Respiro:** espira alla battuta.'],
+    steps: ['Siediti con gambe stese o leggermente flesse, braccia avanti.', 'Mento sul petto.', 'Rotola all’indietro sulla schiena arrotondata.', 'Batti con le braccia nel momento del contatto, espirando.', 'Con lo slancio torna seduto, spingendo con i glutei, senza forzare il collo. 5 ripetizioni, poi riposo.'],
+    errors: [['La testa tocca il tappeto', 'mento più vicino al petto e movimento più lento; torna a ushiro 1 se serve.'], ['Schiena rigida invece che arrotondata', 'immagina di «farti piccolo» come una palla.'], ['Battuta in ritardo', 'batti nell’istante del contatto, non dopo.'], ['Collo teso', 'rilassa spalle e collo, mento giù.']],
+    drills: ['Con le braccia incrociate sul petto nella prima fase, senza battere.', 'Con battuta a 30–45°.', 'Con gambe sollevate al momento della battuta.', 'Seduto-giù-battuta-su in un unico movimento fluido.'],
+    check: ['la schiena si arrotonda', 'la testa non tocca il tappeto', 'la battuta avviene al contatto'],
+    recap: ['Si rotola sulla schiena arrotondata, non sulla testa.', 'La battuta è nel momento del contatto.'],
+    ex: [
+      X('Su quale parte del corpo si rotola?', 'Sulla schiena arrotondata', ['Sulla testa', 'Sul collo', 'Sulle spalle appuntite'], 0, 'Schiena arrotondata.'),
+      X('Quando si battono le braccia?', 'Nel momento del contatto', ['Prima di partire', 'Dopo essersi fermati', 'Mai'], 1, 'Nel contatto.'),
+      X('Che cosa fai se la testa tocca il tappeto?', 'Torni al gradino precedente', ['Insisti più forte', 'Aumenti l’altezza', 'Smetti di battere'], 2, 'Dopo un errore si torna indietro.'),
+      X('Come torni seduto?', 'Con lo slancio, senza forzare il collo', ['Tirando il collo', 'Con un salto', 'Aiutandoti con la testa'], 0, 'Slancio del rotolamento.'),
+      X('Quante ripetizioni prima del riposo?', 'Circa 5', ['50', '200', 'Nessuna'], 1, 'Serie breve.'),
+      order('Ordina', ['seduto', 'mento', 'rotola', 'batti', 'torna'], 'Seduto, mento, rotolamento, battuta, ritorno.'),
+      fill('La schiena deve essere ___.', ['arrotondata', 'rotonda'], 'Arrotondata.'),
+      fill('Se senti dolore al collo, ti ___.', ['fermi', 'fermo', 'fermati'], 'Stop.')
+    ],
+    te: [
+      X('Quale è un errore?', 'Schiena rigida', ['Mento sul petto', 'Battuta al contatto', 'Espirazione'], 1, 'Schiena rigida.'),
+      X('Dove si batte?', 'Con le braccia a 30–45°', ['Con la testa', 'Con i gomiti vicini', 'Non si batte'], 0, 'Battuta a 30–45°.'),
+      X('Prerequisito di questo gradino?', 'Yoko ukemi da sdraiato consolidato', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro in piedi'], 2 - 2 + 0, 'Gradino precedente consolidato.'),
+      X('Che succede alle braccia in fase iniziale (livello 1)?', 'Sono incrociate sul petto', ['Dietro la schiena', 'Sopra la testa', 'In tasca'], 1, 'Prima senza battere.'),
+      fill('Il collo non va ___.', ['forzato', 'teso'], 'Non forzare il collo.')
+    ]
+  });
+
+  /* 4 */ D.push({
+    id: 'mae-ukemi-kneeling', stage: 'L1', prev: 'ushiro-ukemi-seated', prevName: 'Ushiro ukemi 2: caduta indietro da seduto', space: '2 m × 2 m', flag: true,
+    title: 'Mae ukemi 1: rotolamento in avanti da in ginocchio (前受身①)', summary: 'Rotolare in diagonale lungo braccio e spalla partendo in ginocchio, e battere con il braccio opposto.',
+    obj: ['Rotolare in diagonale sul braccio e sulla spalla, mai sulla colonna', 'Tenere la testa girata verso l’anca', 'Battere a 45° e tornare in controllo'],
+    why: 'Il rotolamento in avanti (**mae ukemi**, 前受身) insegna a trasformare una caduta in avanti in un rotolamento controllato. Parti dal punto più basso, in ginocchio, per imparare la linea diagonale.',
+    mech: ['**Linea:** in diagonale, lungo braccio e spalla; mai sopra la colonna o la testa.', '**Braccio d’appoggio:** forma un arco vicino alla spalla opposta.', '**Testa:** girata verso l’anca opposta, mento sul petto, non entra sotto la spalla.', '**Battuta:** braccio opposto a 45° all’arrivo sull’anca.', '**Respiro:** espira durante il rotolamento.'],
+    steps: ['In ginocchio, appoggia mano e braccio destri formando un arco vicino alla spalla sinistra.', 'Testa girata a guardare l’anca sinistra.', 'Rotola lungo braccio e spalla in diagonale.', 'Arrivo sull’anca sinistra: il braccio sinistro batte a 45°.', 'Torna in ginocchio o seduto con un movimento controllato. Una ripetizione, pausa.'],
+    errors: [['Testa che entra sotto la spalla', 'gira la testa verso l’anca, mento sul petto.'], ['Rotolamento sulla colonna', 'sposta la linea sul braccio e sulla spalla, in diagonale.'], ['Braccio rigido', 'forma un arco morbido.'], ['Movimento troppo rapido', 'rallenta in 4 tempi.']],
+    drills: ['Rotolamento lento in 4 tempi, a destra.', 'Rotolamento a sinistra.', 'Rotolamento + battuta + posizione seduta.', 'Alternando destra e sinistra, una per volta.'],
+    check: ['il percorso è diagonale, non sulla colonna', 'la testa non entra sotto la spalla', 'la battuta arriva sull’anca opposta'],
+    recap: ['Diagonale su braccio e spalla.', 'Testa verso l’anca, battuta a 45°.']
+    , ex: [
+      X('Su quale linea si rotola?', 'In diagonale, lungo braccio e spalla', ['Sulla colonna', 'Sopra la testa', 'Sul collo'], 0, 'Diagonale.'),
+      X('Dove guarda la testa?', 'Verso l’anca opposta', ['Verso il soffitto', 'Davanti', 'In basso, sotto la spalla'], 1, 'Verso l’anca.'),
+      X('Da dove si parte?', 'In ginocchio', ['In piedi in corsa', 'Da un salto', 'Da seduto'], 2, 'In ginocchio.'),
+      X('A che angolo batte il braccio?', '45°', ['0°', '180°', 'Non batte'], 0, 'Circa 45°.'),
+      X('Che gradino è consolidato prima?', 'Ushiro ukemi da seduto', ['Mae ukemi in piedi', 'Nessuno', 'Yoko in piedi'], 1, 'Gradino precedente.'),
+      X('Dopo un errore?', 'Torno al gradino precedente', ['Aumento la velocità', 'Salto di altezza', 'Proseguo uguale'], 2, 'Si torna indietro.'),
+      order('Ordina', ['ginocchio', 'arco', 'testa', 'rotola', 'batti'], 'Ginocchio, arco di braccio, testa, rotolamento, battuta.'),
+      fill('Il rotolamento non è sulla ___.', ['colonna', 'testa'], 'Non sulla colonna/testa.')
+    ],
+    te: [
+      X('Quale è un errore?', 'Rotolare sulla colonna', ['Rotolare in diagonale', 'Mento sul petto', 'Battere a 45°'], 1, 'Sulla colonna.'),
+      X('Questo gradino è?', 'Da verificare con istruttore', ['Certificato dall’app', 'Senza rischi', 'Da fare su pavimento'], 0, 'Va verificato.'),
+      X('Che superficie?', 'Tappeto spesso', ['Cemento', 'Piastrelle', 'Parquet'], 2, 'Tappeto.'),
+      X('Con giramenti di testa?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 0, 'Stop.'),
+      fill('La testa non entra sotto la ___.', ['spalla'], 'Sotto la spalla.')
+    ]
+  });
+
+  /* 5 */ D.push({
+    id: 'yoko-ukemi-low', stage: 'L1', prev: 'mae-ukemi-kneeling', prevName: 'Mae ukemi 1: rotolamento in avanti da in ginocchio', space: '2 m × 2 m', flag: true,
+    title: 'Yoko ukemi 2: caduta laterale da accovacciato (横受身②)', summary: 'Cadere di lato dalla posizione accovacciata con battuta del braccio basso.',
+    obj: ['Spostare il peso su un’anca e cadere di lato', 'Battere a 30–45° con il mento sul petto', 'Tenere le gambe divaricate e morbide'],
+    why: 'Salendo di altezza (accovacciato) la caduta laterale acquista un po’ di movimento. Qui impari a spostare il peso su un’anca mantenendo forma e controllo.',
+    mech: ['**Partenza:** accovacciato, talloni vicini al tappeto, peso centrale.', '**Peso:** si sposta su un’anca.', '**Mento:** sul petto, testa lontana dal tappeto.', '**Battuta:** braccio basso a 30–45°, nel momento del contatto.', '**Gambe:** divaricate e morbide.'],
+    steps: ['Accovacciato, mento sul petto.', 'Sposta il peso su un’anca.', 'Cadi di lato, battendo con il braccio basso a 30–45° ed espirando.', 'Gambe divaricate, morbide.', 'Riporta il peso sui piedi, ripeti dall’altro lato.'],
+    errors: [['Mento che si stacca', 'mento sul petto sempre.'], ['Partenza troppo alta', 'resta davvero accovacciato; se non ci stai, torna allo gradino precedente.'], ['Braccio che batte troppo vicino', 'apri a 30–45°.'], ['Gambe rigide', 'ammorbidisci le ginocchia.']],
+    drills: ['Caduta su un lato lentamente.', 'Caduta su un lato e sull’altro.', 'Con battuta più decisa.', 'Con un passo laterale prima della caduta.'],
+    check: ['la partenza è bassa', 'il braccio batte a 30–45°', 'le gambe non si incrociano'],
+    recap: ['Accovacciato, peso su un’anca.', 'Gambe morbide e divaricate.']
+    , ex: [
+      X('Da quale posizione si parte?', 'Accovacciato, talloni vicini al tappeto', ['In piedi', 'Da un salto', 'Da sdraiato'], 0, 'Accovacciato.'),
+      X('Che cosa si sposta?', 'Il peso su un’anca', ['La testa indietro', 'Le mani in alto', 'Nulla'], 1, 'Peso su un’anca.'),
+      X('Dove va il mento?', 'Sul petto', ['Al soffitto', 'Alla spalla', 'Indietro'], 2, 'Sul petto.'),
+      X('Le gambe sono?', 'Leggermente divaricate e morbide', ['Unite', 'Rigide', 'Incrociate'], 0, 'Divaricate.'),
+      X('Che cosa è consolidato prima?', 'Mae ukemi da in ginocchio', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro in piedi'], 1, 'Gradino precedente.'),
+      X('Se fai un errore?', 'Torno al gradino precedente', ['Insisto', 'Salgo', 'Salto'], 2, 'Torno.'),
+      order('Ordina', ['accovacciato', 'mento', 'peso', 'cadi', 'batti'], 'Sequenza corretta.'),
+      fill('Il braccio basso batte a 30–___ gradi.', ['45'], '30–45°.')
+    ],
+    te: [
+      X('Errore tipico?', 'Partenza troppo alta', ['Mento sul petto', 'Battuta a 30–45°', 'Gambe morbide'], 0, 'Partenza alta.'),
+      X('Gradino da verificare?', 'Con un istruttore', ['Con l’app soltanto', 'Mai', 'Con partner che spinge'], 1, 'Con istruttore.'),
+      X('Superficie?', 'Tappeto spesso', ['Cemento', 'Piastrelle', 'Parquet'], 2, 'Tappeto.'),
+      X('Con dolore?', 'Stop', ['Più forte', 'Più alto', 'Più veloce'], 0, 'Stop.'),
+      fill('Le gambe sono ___.', ['morbide', 'divaricate'], 'Morbide.')
+    ]
+  });
+
+  /* 6 */ D.push({
+    id: 'ushiro-ukemi-squat', stage: 'L1', prev: 'yoko-ukemi-low', prevName: 'Yoko ukemi 2: caduta laterale da accovacciato', space: '2 m × 2 m', flag: true,
+    title: 'Ushiro ukemi 3: caduta indietro da accovacciato (後ろ受身③)', summary: 'Cadere all’indietro dalla posizione accovacciata, rotolando sulla schiena arrotondata.',
+    obj: ['Lasciarsi cadere all’indietro sulla schiena arrotondata', 'Tenere le gambe sollevate e flesse, non spingere con i talloni', 'Battere a 30–45° con il mento sul petto'],
+    why: 'Qui sali di altezza rispetto al seduto. Il rischio principale è la testa che tocca e il bacino che sbatte: per questo si richiede che **ushiro ukemi da seduto sia consolidato**.',
+    mech: ['**Partenza:** accovacciato, mani avanti, ginocchia verso il petto.', '**Mento:** sul petto, sempre.', '**Schiena:** arrotondata, rotola.', '**Gambe:** sollevate e flesse; i talloni non battono.', '**Braccia:** battuta a 30–45° nel contatto, con espirazione.'],
+    steps: ['Accovacciato, mani avanti, mento sul petto.', 'Ginocchia verso il petto.', 'Lasciati cadere all’indietro rotolando sulla schiena arrotondata.', 'Batti con le braccia a 30–45°, espirando.', 'Torna alla partenza con lo slancio del rotolamento.'],
+    errors: [['La testa tocca il tappeto', 'mento sul petto, torna a ushiro da seduto.'], ['Talloni che battono', 'sollevali e fletti le gambe.'], ['Battuta in ritardo', 'batti al contatto.'], ['Schiena rigida', 'arrotonda come una palla.']],
+    drills: ['Con le braccia incrociate nella prima ripetizione.', 'Con battuta decisa.', 'Con rotazione leggera su un lato.', 'Più lenta e controllata.'],
+    check: ['la testa non tocca', 'i talloni non battono', 'la schiena è arrotondata'],
+    recap: ['Mento sul petto, schiena arrotondata.', 'Gambe sollevate, talloni leggeri.']
+    , ex: [
+      X('Quale gradino deve essere consolidato prima?', 'Ushiro ukemi da seduto', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro ukemi in piedi'], 0, 'Seduto.'),
+      X('Che cosa fanno le gambe?', 'Restano sollevate e flesse', ['Spingono con i talloni', 'Sono tese a terra', 'Si incrociano'], 1, 'Sollevate.'),
+      X('Su cosa si rotola?', 'Sulla schiena arrotondata', ['Sulla testa', 'Sul collo', 'Sui talloni'], 2, 'Schiena.'),
+      X('Dove va il mento?', 'Sul petto', ['Al soffitto', 'A destra', 'Indietro'], 0, 'Sul petto.'),
+      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto', 'Salgo', 'Salto'], 1, 'Torno.'),
+      X('Questo gradino è?', 'Da verificare con istruttore', ['Certificato dall’app', 'Senza rischi', 'Per pavimento duro'], 2, 'Da verificare.'),
+      order('Ordina', ['accovacciato', 'mento', 'cadi', 'batti', 'torna'], 'Sequenza.'),
+      fill('I ___ non battono sul tappeto.', ['talloni'], 'Talloni.')
+    ],
+    te: [
+      X('Errore?', 'Talloni che battono', ['Mento sul petto', 'Battuta a 30–45°', 'Schiena arrotondata'], 0, 'Talloni.'),
+      X('Superficie?', 'Tappeto spesso', ['Cemento', 'Piastrelle', 'Parquet'], 1, 'Tappeto.'),
+      X('Con giramenti?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 2, 'Stop.'),
+      X('Chi è assente in questo percorso?', 'Un partner che ti proietta', ['Il tappeto', 'Il mento sul petto', 'La battuta'], 1, 'Mai proiezioni subite.'),
+      fill('Il mento va sul ___.', ['petto'], 'Petto.')
+    ]
+  });
+
+  /* 7 */ D.push({
+    id: 'ushiro-ukemi-standing', stage: 'L2', prev: 'ushiro-ukemi-squat', prevName: 'Ushiro ukemi 3: caduta indietro da accovacciato', space: '2 m × 2 m, tatami', flag: true,
+    title: 'Ushiro ukemi 4: caduta indietro da in piedi (後ろ受身④)', summary: 'Gradino alto: scendere in accovacciata e cadere indietro dalla stazione eretta, con il bacino che non sbatte.',
+    obj: ['Mento sul petto prima di scendere', 'Distribuire il peso sulla schiena arrotondata, senza che il bacino sbatta', 'Una ripetizione per volta e tornare indietro dopo un errore'],
+    why: 'È il gradino più alto della caduta all’indietro. Il rischio è maggiore: il bacino e la testa. Per questo serve il gradino precedente solido e **tatami spesso**.',
+    mech: ['**Partenza:** in piedi, ginocchia morbide, mento sul petto.', '**Discesa:** rapida in accovacciata, poi cadi all’indietro.', '**Schiena:** arrotondata; il bacino non sbatte.', '**Braccia:** a 30–45°, tutto il braccio, espirando.', '**Gambe:** leggermente sollevate, ginocchia flesse.'],
+    steps: ['In piedi, ginocchia morbide, mento sul petto.', 'Scendi rapidamente in accovacciata.', 'Lasciati cadere all’indietro sulla schiena arrotondata.', 'Batti a 30–45° ed espira.', 'Una ripetizione, pausa. Se sbagli, torna al gradino precedente.'],
+    errors: [['La testa tocca il tappeto', 'mento sul petto, torna a ushiro da accovacciato.'], ['Il bacino batte', 'scendi più in basso e arrotonda la schiena.'], ['Battuta in ritardo', 'batti al contatto.'], ['Mento che si stacca', 'guarda la cintura.']],
+    drills: ['Dalla postura con un passo indietro.', 'Con battuta decisa.', 'Con un passo laterale seguito da caduta.', 'Solo una ripetizione per volta, con pausa.'],
+    check: ['la testa non tocca', 'il bacino non batte', 'la battuta è al contatto'],
+    recap: ['Alto = più rischio: tatami e istruttore.', 'Dopo un errore, gradino precedente.']
+    , ex: [
+      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto con più forza', 'Aumento l’altezza', 'Smetto di battere'], 0, 'Torno.'),
+      X('Che superficie?', 'Tatami spesso', ['Cemento', 'Piastrelle', 'Parquet'], 1, 'Tatami.'),
+      X('Che cosa non deve battere?', 'Il bacino', ['Le braccia', 'Il tappeto', 'Il respiro'], 2, 'Il bacino.'),
+      X('Quanto ripeti per volta?', 'Una ripetizione con pausa', ['Dieci di fila veloci', 'Cento', 'Nessuna'], 0, 'Una.'),
+      X('Prerequisito?', 'Ushiro ukemi da accovacciato', ['Mae ukemi in piedi', 'Nessuno', 'Yoko in piedi'], 1, 'Gradino precedente.'),
+      X('Come è questo gradino?', 'Da verificare con istruttore', ['Certificato dall’app', 'Senza rischi', 'Per pavimento duro'], 2, 'Da verificare.'),
+      order('Ordina', ['in piedi', 'mento', 'accovacciati', 'cadi', 'batti'], 'Sequenza.'),
+      fill('Il bacino non deve ___.', ['battere', 'sbattere'], 'Non sbatte.')
+    ],
+    te: [
+      X('Errore?', 'Bacino che batte', ['Mento sul petto', 'Battuta a 30–45°', 'Schiena arrotondata'], 0, 'Bacino.'),
+      X('Con un colpo alla testa?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 1, 'Stop.'),
+      X('Scendi in?', 'Accovacciata', ['Salto', 'Corsa', 'Volo'], 0, 'Accovacciata.'),
+      X('Chi certifica la sicurezza?', 'Nessuna app: serve un istruttore', ['L’app', 'Il video', 'Nessuno serve'], 2, 'L’istruttore.'),
+      fill('Il mento va sul ___ prima di scendere.', ['petto'], 'Petto.')
+    ]
+  });
+
+  /* 8 */ D.push({
+    id: 'yoko-ukemi-standing', stage: 'L2', prev: 'ushiro-ukemi-standing', prevName: 'Ushiro ukemi 4: caduta indietro da in piedi', space: '2 m × 2 m, tatami', flag: true,
+    title: 'Yoko ukemi 3: caduta laterale da in piedi (横受身③)', summary: 'Cadere di lato dalla stazione eretta, battendo con il braccio basso a 30–45°.',
+    obj: ['Passare il peso su un lato, scendere con l’anca', 'Battere a 30–45° con il mento sul petto', 'Non incrociare le gambe'],
+    why: 'È la caduta laterale dall’altezza maggiore. Si imposta la forma già consolidata a livelli più bassi: la testa non tocca mai il tappeto.',
+    mech: ['**Partenza:** in piedi, peso su un lato, mento sul petto.', '**Discesa:** scendi con l’anca.', '**Battuta:** braccio basso a 30–45°, al contatto.', '**Gambe:** leggermente divaricate, morbide.', '**Respiro:** espira alla battuta.'],
+    steps: ['In piedi, peso su un lato, mento sul petto.', 'Scendi con l’anca e cadi lateralmente.', 'Batti con il braccio basso a 30–45°.', 'Gambe divaricate, morbide.', 'Una ripetizione per lato, pausa, lentamente.'],
+    errors: [['Mento che si stacca', 'mento sul petto.'], ['Braccio vicino al corpo', 'apri a 30–45°.'], ['Gambe rigide', 'ammorbidisci.'], ['Spalla che sprofonda', 'batti con decisione.']],
+    drills: ['Con un passo laterale prima della caduta.', 'Con battuta più decisa.', 'Con rotazione leggera del bacino.', 'Una per lato, con pausa.'],
+    check: ['la testa non tocca', 'il braccio batte a 30–45°', 'le gambe non si incrociano'],
+    recap: ['Alto, forma identica ai gradini bassi.', 'Tatami, pausa e stop con dolore.']
+    , ex: [
+      X('Quale parte non deve toccare il tappeto?', 'La testa', ['Il braccio che batte', 'L’anca', 'La schiena'], 0, 'La testa.'),
+      X('Gradino consolidato prima?', 'Ushiro ukemi in piedi', ['Mae ukemi in piedi', 'Nessuno', 'Yoko sdraiato'], 1, 'Gradino precedente nella lista.'),
+      X('Come sono le gambe?', 'Divaricate e morbide', ['Incrociate', 'Rigide', 'Unite'], 2, 'Morbide.'),
+      X('A che angolo batte?', '30–45°', ['0°', '90°', '180°'], 0, '30–45°.'),
+      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto', 'Salgo', 'Salto'], 1, 'Torno.'),
+      X('Superficie?', 'Tatami', ['Cemento', 'Piastrelle', 'Parquet'], 2, 'Tatami.'),
+      order('Ordina', ['in piedi', 'mento', 'anca', 'cadi', 'batti'], 'Sequenza.'),
+      fill('Il mento va sul ___.', ['petto'], 'Petto.')
+    ],
+    te: [
+      X('Errore?', 'Gambe incrociate', ['Mento sul petto', 'Battuta a 30–45°', 'Gambe morbide'], 0, 'Incrociate.'),
+      X('Con giramenti?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 1, 'Stop.'),
+      X('Come è il gradino?', 'Da verificare con istruttore', ['Certificato dall’app', 'Senza rischi', 'Da fare su pavimento duro'], 2, 'Istruttore.'),
+      X('Con quale altezza si comincia?', 'Dal gradino più basso', ['Dalla più alta', 'Da un salto', 'Da un partner'], 0, 'Dal basso.'),
+      fill('La caduta è ___ (la fai tu).', ['autoiniziata', 'volontaria'], 'Solo autoiniziata.')
+    ]
+  });
+
+  /* 9 */ D.push({
+    id: 'mae-ukemi-squat', stage: 'L2', prev: 'yoko-ukemi-standing', prevName: 'Yoko ukemi 3: caduta laterale da in piedi', space: '2 m × 2 m', flag: true,
+    title: 'Mae ukemi 2: rotolamento in avanti da accovacciato (前受身②)', summary: 'Rotolare in diagonale su braccio e spalla da accovacciato, con battuta a 45° sull’anca opposta.',
+    obj: ['Appoggiare la mano davanti al piede opposto e formare un arco', 'Rotolare in diagonale, mai sopra la colonna', 'Battere a 45° e tornare in controllo'],
+    why: 'È il rotolamento in avanti con più altezza rispetto a «in ginocchio». Si basa sulla linea diagonale già consolidata: rischio medio-alto, da verificare con un istruttore.',
+    mech: ['**Partenza:** accovacciato, mano destra davanti al piede sinistro, braccio ad arco.', '**Testa:** guarda l’anca sinistra, mento sul petto.', '**Linea:** diagonale lungo braccio e spalla.', '**Battuta:** braccio sinistro a 45°, arrivo sull’anca sinistra.', '**Ritorno:** in piedi o in ginocchio con controllo.'],
+    steps: ['Da accovacciato, mano destra davanti al piede sinistro, braccio ad arco.', 'Testa verso l’anca sinistra.', 'Rotola diagonalmente su braccio e spalla.', 'Batti con il braccio sinistro a 45°, arrivo sull’anca sinistra.', 'Torna in piedi o in ginocchio con controllo. Alterna destra e sinistra, una ripetizione alla volta.'],
+    errors: [['Testa che entra sotto la spalla', 'gira la testa verso l’anca.'], ['Rotolamento sulla colonna', 'rimani in diagonale.'], ['Braccio rigido', 'arco morbido.'], ['Movimento troppo rapido', 'rallenta in 4 tempi.']],
+    drills: ['Più lento in 4 tempi.', 'Con battuta più decisa.', 'Rotolamento + passo + ritorno in stance.', 'Alterna destra e sinistra.'],
+    check: ['il percorso è diagonale', 'la testa non è sotto la spalla', 'l’arrivo è sull’anca'],
+    recap: ['Diagonale e arco.', 'Rischio medio-alto: istruttore.']
+    , ex: [
+      X('Come è il percorso?', 'In diagonale, sul braccio e sulla spalla', ['Sulla colonna', 'Sopra la testa', 'Sul collo'], 0, 'Diagonale.'),
+      X('Dove appoggi la mano?', 'Davanti al piede opposto', ['Dietro la schiena', 'Sulla testa', 'In tasca'], 1, 'Davanti al piede opposto.'),
+      X('A che angolo batte?', '45°', ['0°', '180°', 'Non batte'], 2, '45°.'),
+      X('Dove guarda la testa?', 'Verso l’anca opposta', ['Al soffitto', 'Davanti', 'Sotto la spalla'], 0, 'Anca.'),
+      X('Rischio?', 'Medio-alto: verifica con istruttore', ['Nullo', 'Basso', 'Non esiste'], 1, 'Verifica.'),
+      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto', 'Salgo', 'Salto'], 2, 'Torno.'),
+      order('Ordina', ['accovacciato', 'arco', 'testa', 'rotola', 'batti'], 'Sequenza.'),
+      fill('Il rotolamento è in ___.', ['diagonale'], 'Diagonale.')
+    ],
+    te: [
+      X('Errore?', 'Rotolare sulla colonna', ['In diagonale', 'Mento sul petto', 'Battuta a 45°'], 0, 'Colonna.'),
+      X('Superficie?', 'Tappeto spesso', ['Cemento', 'Piastrelle', 'Parquet'], 1, 'Tappeto.'),
+      X('Con giramenti?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 2, 'Stop.'),
+      X('Chi certifica?', 'Un istruttore, non l’app', ['L’app', 'Il video', 'Nessuno'], 0, 'Istruttore.'),
+      fill('Alterni destra e ___.', ['sinistra'], 'Sinistra.')
+    ]
+  });
+
+  /* 10 */ D.push({
+    id: 'mae-ukemi-standing', stage: 'L3', prev: 'mae-ukemi-squat', prevName: 'Mae ukemi 2: rotolamento in avanti da accovacciato', space: '2 m × 2 m, tatami', flag: true,
+    title: 'Mae ukemi 3: rotolamento in avanti da in piedi (前受身③)', summary: 'Gradino finale: rotolamento in avanti dalla stazione eretta, con tatami e verifica dell’istruttore.',
+    obj: ['Rotolare in diagonale da in piedi con atterraggio morbido', 'Tenere mento sul petto e sguardo all’anca opposta', 'Fare una ripetizione per volta con verifica del collo'],
+    why: 'È il gradino più alto: una caduta in avanti dalla posizione eretta. Si avvia **solo dopo** mae ukemi da accovacciato consolidato e **solo su tatami**.',
+    mech: ['**Partenza:** in piedi, passo avanti, mano e braccio destri ad arco.', '**Mento:** sul petto, sguardo all’anca opposta.', '**Linea:** diagonale su braccio e spalla.', '**Battuta:** a 45° con l’altro braccio; atterraggio sull’anca opposta.', '**Gambe:** non battono; ritorno in stance con un passo.'],
+    steps: ['In piedi, passo avanti, mano e braccio destri ad arco.', 'Mento sul petto, sguardo all’anca sinistra.', 'Rotola diagonalmente su braccio e spalla.', 'Batti con il braccio sinistro a 45°, atterra sull’anca.', 'Torna in stance con un passo. Una ripetizione, pausa, controlla il collo.'],
+    errors: [['Testa che entra sotto la spalla', 'gira la testa verso l’anca.'], ['Rotolamento sulla colonna', 'resta diagonale.'], ['Gambe che battono', 'atterra morbido, gambe leggere.'], ['Perdita di equilibrio', 'torna al gradino accovacciato.']],
+    drills: ['Rotolamento con passo di rincorsa breve.', 'Con battuta più decisa.', 'Rotolamento e ritorno in stance rapido.', 'Una ripetizione, pausa.'],
+    check: ['il percorso è diagonale', 'le gambe non battono', 'il ritorno in stance è controllato'],
+    recap: ['Gradino più alto: tatami e istruttore.', 'Ogni errore: gradino precedente.']
+    , ex: [
+      X('Quale precauzione serve?', 'Tatami spesso e verifica di un istruttore', ['Pavimento duro', 'Velocità massima', 'Nessuna'], 0, 'Tatami e istruttore.'),
+      X('Percorso?', 'In diagonale, su braccio e spalla', ['Sulla colonna', 'Sopra la testa', 'Sul collo'], 1, 'Diagonale.'),
+      X('A che angolo batte?', '45°', ['0°', '180°', 'Non batte'], 2, '45°.'),
+      X('Gradino consolidato?', 'Mae ukemi da accovacciato', ['Nessuno', 'Ushiro sdraiato', 'Yoko sdraiato'], 0, 'Precedente.'),
+      X('Quanto ripeti per volta?', 'Una con pausa', ['Dieci veloci', 'Cento', 'Nessuna'], 1, 'Una.'),
+      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto', 'Salgo', 'Salto'], 2, 'Torno.'),
+      order('Ordina', ['in piedi', 'arco', 'mento', 'rotola', 'batti'], 'Sequenza.'),
+      fill('Le gambe non ___.', ['battono'], 'Non battono.')
+    ],
+    te: [
+      X('Errore?', 'Gambe che battono', ['Mento sul petto', 'Battuta a 45°', 'Diagonale'], 0, 'Battono.'),
+      X('Con giramenti?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 1, 'Stop.'),
+      X('Chi certifica?', 'Un istruttore, non l’app', ['L’app', 'Il video', 'Nessuno'], 2 - 2 + 0, 'Istruttore.'),
+      X('Superficie?', 'Tatami', ['Cemento', 'Piastrelle', 'Parquet'], 1, 'Tatami.'),
+      fill('Il rotolamento è in ___.', ['diagonale'], 'Diagonale.')
+    ]
+  });
+
+  D.forEach(d => C.addTopic(lesson(d)));
+})(window.ST = window.ST || {});
+
+/* ---- content/judo-l-nage1 ---- */
+/* Judo NO-GI — lezioni approfondite sulle proiezioni a vuoto (1): O-goshi, O-soto-gari, Seoi-nage, O-uchi-gari, Ko-uchi-gari.
+   Tutto SOLITARIO: nessun partner, nessuna proiezione reale, nessuna caduta; il finale è sempre in piedi.
+   Le spazzate si eseguono solo nell'aria, a quota bassa, senza colpire oggetti o persone. */
+(function (ST) {
+  'use strict';
+  const C = ST.content, { mc, fill, order } = C;
+  const T = (o) => C.addTopic(Object.assign({ subject: 'grp', stage: 'L2', minutes: 12 }, o));
+
+  /* ---------- O-GOSHI ---------- */
+  T({ id: 'jud-ogoshi-full', title: 'O-goshi no-gi: il gesto completo a vuoto',
+    summary: 'La «grande anca» senza judogi: kuzushi, tsukuri e kake eseguiti nell’aria, con finale sempre in piedi.',
+    objectives: ['Collocare o-goshi tra le tecniche (koshi-waza) e descriverne le tre fasi', 'Eseguire a vuoto passo, rotazione e estensione con bacino sotto il baricentro immaginario', 'Riconoscere e correggere gli errori più comuni con l’autoverifica video'],
+    pages: [
+      { h: 'Che cos’è o-goshi', b: '**O-goshi** (大腰, «grande anca») appartiene ai **koshi-waza**, le tecniche d’anca del Kodokan, ed è una delle proiezioni fondamentali del judo. In questo modulo la alleni **a vuoto**: nessun partner, nessuna proiezione reale, nessuna caduta.\n\nCome tutte le proiezioni si compone di tre fasi: **kuzushi** (squilibrio), **tsukuri** (entrata, preparazione) e **kake** (esecuzione). Qui impari a collegarle in un gesto fluido e a fermarti **sempre in piedi**.' },
+      { h: 'Il principio: kuzushi–tsukuri–kake', b: 'Il principio è usare il **bacino come fulcro** sotto il baricentro dell’avversario, dopo averlo portato in avanti.\n\n- **Kuzushi**: il partner immaginario viene portato in avanti, verso le punte dei piedi.\n- **Tsukuri**: ti inserisci con un passo e una rotazione, fino a stare di schiena, con le ginocchia flesse e il bacino **più basso** del suo.\n- **Kake**: estendi ginocchia e anche e ruoti le spalle in avanti.\n\n> Senza kuzushi il bacino non è un fulcro: è solo un ostacolo.\n\nAttenzione: allenando a vuoto alleni forma e ritmo, non la capacità di proiettare qualcuno che resiste.' },
+      { h: 'Le prese no-gi', b: 'Senza judogi non esistono bavero e manica. Le prese di questa tecnica sono:\n\n- **Polso o bicipite** (wrist / bicep control) con la mano sinistra: è lo **hikite**, che porta il braccio del partner immaginario in avanti.\n- **Underhook** destro: il braccio passa sotto l’ascella e avvolge la schiena; in alternativa **neck wrap / collar tie** sulla nuca.\n\nLa presa è una struttura: **gomiti dentro, spalle basse, avambracci attivi, peso al centro**. Non tirare con le sole braccia: la forza arriva dalle gambe.\n\nNon si usano mai prese al bavero o alla manica: qui sono assenti.' },
+      { h: 'Piedi e anche, passo per passo', b: 'Versione a destra (a sinistra: specchio).\n\n1. **Postura**: shizentai, piedi alla larghezza delle spalle, ginocchia morbide.\n2. **Kuzushi**: la mano sinistra «tira» il polso immaginario in avanti, il busto resta eretto.\n3. **Primo passo**: il piede destro avanza e si pianta tra i piedi dell’avversario immaginario.\n4. **Rotazione**: ruoti sull’avampiede destro e il sinistro segue, fino a stare di schiena, piedi vicini.\n5. **Abbassamento**: ginocchia flesse, bacino **sotto** il suo; la schiena resta dritta, non curva.\n6. **Kake**: estendi ginocchia e anche e ruota le spalle in avanti; il braccio destro avvolge la vita immaginaria.\n\nIl movimento è un’unica onda: gambe, anche, spalle.' },
+      { h: 'Il finale «a vuoto»', b: 'A vuoto nulla viene proiettato. Dopo l’estensione:\n\n- **fermati** con le gambe quasi distese e il peso sull’avampiede, **in piedi**;\n- non lasciarti cadere in avanti e non caricare il peso del corpo sul vuoto;\n- riporta con un piccolo passo i piedi in **shizentai** e rimani un istante in equilibrio.\n\nSe perdi equilibrio, il gesto è finito: fermati, respira e ricomincia da capo, più lento. Nessuna caduta è prevista in questo modulo.' },
+      { h: 'Errori comuni e correzioni', b: '- **Ginocchia dritte** → piega le gambe in tsukuri: la forza nasce dall’estensione.\n- **Bacino alto, sopra il baricentro immaginario** → abbassati, come per sederti sulla sedia.\n- **Schiena curva** → petto aperto, sguardo avanti.\n- **Passi saltati** → ogni passo ha il suo appoggio: lento, poi più veloce.\n- **Perdita di equilibrio in avanti** → meno inclinazione, peso al centro dei piedi.\n\nCorreggi **un errore alla volta**: lavora su un solo dettaglio per serie.' },
+      { h: 'Progressioni', b: 'Sali di difficoltà solo quando la forma è stabile.\n\n1. **4 tempi lenti**: kuzushi, passo, rotazione, estensione; fermati in ogni tempo.\n2. **3 tempi**, poi un unico gesto fluido.\n3. **Alternando i lati**: destra, sinistra, destra.\n4. **Velocità maggiore**, ma mantenendo la forma: se peggiora, rallenta.\n\nSerie di 5–8 ripetizioni di qualità, poi pausa. La qualità conta più della quantità.' },
+      { h: 'Collegamenti con altre tecniche', b: 'O-goshi è parente stretto di **koshi-guruma** (il braccio avvolge il collo invece della vita) e di **harai-goshi** (spazza con la gamba mentre l’anca lavora). Ha la stessa logica di **seoi-nage**: entrata in rotazione con il bacino basso.\n\nUna sequenza utile a vuoto: **o-goshi → o-soto-gari → postura**, per alternare una tecnica d’anca (koshi-waza) a una di gamba (ashi-waza) e imparare a cambiare direzione senza perdere equilibrio.' },
+      { h: 'Autoverifica con il video', b: 'Registrati di **lato** e di **fronte** con il telefono e guarda il gesto a velocità ridotta.\n\n- Il bacino scende prima dell’estensione?\n- La schiena resta dritta?\n- Il piede d’appoggio ruota senza saltelli?\n- Finisci in piedi, in equilibrio?\n\nIl video aiuta a confrontarti con i tuoi riferimenti, ma **non prova** che la tecnica funzionerebbe contro un partner che resiste. È consigliabile far verificare la forma da un **istruttore qualificato**.' },
+      { h: 'Sicurezza e riepilogo', b: '**Sicurezza**: spazio libero di 2 m × 2 m, scarpe o piedi nudi su superficie non scivolosa, nessun oggetto intorno. Fermati con dolore a schiena, ginocchia o collo.\n\n**Riepilogo**\n- O-goshi: koshi-waza, il bacino è il fulcro.\n- Kuzushi in avanti, tsukuri con bacino sotto, kake con estensione.\n- Prese no-gi: polso/bicipite + underhook o neck wrap.\n- A vuoto, sempre in piedi, lenti prima che veloci.' }
+    ],
+    exercises: [
+      mc('A quale gruppo del Kodokan appartiene o-goshi?', ['Ashi-waza (gambe)', 'Koshi-waza (anca)', 'Te-waza (braccia)', 'Ne-waza (terra)'], 1, 'O-goshi è una tecnica d’anca: koshi-waza.'),
+      mc('Quale presa NON appartiene a questo modulo no-gi?', ['Polso o bicipite', 'Underhook sotto l’ascella', 'Presa al bavero', 'Neck wrap'], 2, 'Senza judogi non c’è bavero: si usano polso, bicipite, underhook o nuca.'),
+      order('Ordina le tre fasi', ['kuzushi', 'tsukuri', 'kake'], 'Prima lo squilibrio, poi l’entrata, infine l’esecuzione.'),
+      mc('Dove deve stare il bacino in tsukuri?', ['Sopra il baricentro immaginario', 'Sotto il baricentro immaginario', 'Dietro i talloni', 'Lontano dal partner'], 1, 'Il bacino fa da fulcro ed è più basso di quello dell’avversario.'),
+      order('Ordina i passi del piede (versione a destra)', ['passo destro avanti', 'rotazione sull’avampiede', 'sinistro segue', 'ginocchia flesse', 'estensione'], 'Passo, rotazione, piede che segue, abbassamento, estensione.'),
+      fill('La mano sinistra che controlla il polso e porta il braccio in avanti si chiama ___ (termine giapponese).', ['hikite'], 'L’hikite è la mano che tira; qui è un controllo a polso o bicipite.'),
+      mc('Come si conclude il gesto a vuoto?', ['Con una caduta controllata', 'Fermandosi in piedi in equilibrio', 'Con un salto', 'Sdraiandosi'], 1, 'Nessuna caduta: il finale è sempre in piedi.'),
+      mc('Che cosa correggi se hai le ginocchia dritte in tsukuri?', ['Pieghi le gambe per abbassare il bacino', 'Tiri di più con le braccia', 'Acceleri', 'Alzi lo sguardo'], 0, 'La forza nasce dall’estensione di gambe flesse.'),
+      fill('Il sinonimo di «squilibrio» nelle tre fasi è ___.', ['kuzushi'], 'Kuzushi = squilibrio.'),
+      mc('Che cosa prova il video del tuo gesto a vuoto?', ['Che la tecnica funziona contro chi resiste', 'Che sai già proiettare', 'Nulla sull’efficacia: aiuta solo a vedere la forma', 'Che puoi saltare l’istruttore'], 2, 'Il video mostra la forma; l’efficacia richiede istruttore, partner e randori.')
+    ],
+    test: [
+      mc('Che cosa significa «koshi» in koshi-waza?', ['Anca', 'Gamba', 'Mano', 'Spalla'], 0),
+      mc('Quale errore è tipico di o-goshi a vuoto?', ['Bacino sopra il baricentro', 'Finire in piedi', 'Ginocchia flesse', 'Prese no-gi'], 0),
+      order('Metti in ordine il gesto', ['presa', 'kuzushi', 'passo', 'rotazione', 'estensione'], 'Dalla presa all’estensione, con kuzushi prima dell’entrata.'),
+      fill('Il braccio destro che passa sotto l’ascella si chiama ___ (inglese).', ['underhook'], 'Underhook = braccio sotto l’ascella.'),
+      mc('Con quale velocità si inizia ad allenare il gesto?', ['Massima', 'In 4 tempi lenti', 'A occhi chiusi', 'Con salti'], 1)
+    ] });
+
+  /* ---------- O-SOTO-GARI ---------- */
+  T({ id: 'jud-osoto-full', title: 'O-soto-gari no-gi: la spazzata esterna a vuoto',
+    summary: 'La «grande falciata esterna»: kuzushi indietro, passo di fianco e spazzata nell’aria a quota bassa.',
+    objectives: ['Collocare o-soto-gari tra gli ashi-waza e descrivere kuzushi, tsukuri e kake', 'Eseguire passo e spazzata nell’aria a quota ginocchio, senza colpire nulla', 'Individuare e correggere peso sui talloni e gamba troppo alta'],
+    pages: [
+      { h: 'Che cos’è o-soto-gari', b: '**O-soto-gari** (大外刈, «grande falciata esterna») è un **ashi-waza**, tecnica di gamba del Kodokan, tra le prime proiezioni che si studiano. Qui è eseguita **a vuoto**: il gesto si compie nell’aria, nessuno viene proiettato e tu non cadi.\n\nL’idea: far arretrare il peso del partner immaginario sul suo tallone e «falciare» il suo appoggio dall’esterno. Senza partner alleni **forma, equilibrio e ritmo**, non l’efficacia reale.' },
+      { h: 'Il principio: kuzushi–tsukuri–kake', b: '- **Kuzushi**: porti il partner immaginario **all’indietro**, sul suo tallone destro.\n- **Tsukuri**: passo del piede sinistro **a fianco** del suo piede destro, ginocchio morbido, busto eretto.\n- **Kake**: la gamba destra **spazza all’indietro** seguendo l’asse del corpo.\n\n> La gamba che spazza non spinge: accompagna il busto che avanza.\n\nIl busto va avanti mentre la gamba va indietro: è questa opposizione che crea il gesto, non la forza della gamba.' },
+      { h: 'Le prese no-gi', b: 'Senza judogi:\n\n- **Collar tie** con la mano destra: mano sulla nuca dell’avversario immaginario, avambraccio attivo.\n- **Polso o bicipite** con la mano sinistra (wrist / bicep control).\n\nLa testa e il braccio guidano il tronco all’indietro. Gomiti dentro, spalle basse. Si tira con tutto il corpo, non con le sole braccia. Nessuna presa a bavero o manica.\n\nIn alternativa puoi simulare un **neck wrap**; scegli una presa e mantienila per tutta la serie.' },
+      { h: 'Piedi e anche, passo per passo', b' Versione a destra (a sinistra: specchio).\n\n1. **Postura** in shizentai, ginocchia morbide.\n2. **Kuzushi**: le mani guidano il tronco immaginario indietro, tu avanzi di poco.\n3. **Passo sinistro**: il piede sinistro si pianta a fianco del piede destro dell’avversario immaginario, punta in avanti.\n4. **Carico**: il peso passa sul sinistro, ginocchio morbido, busto eretto.\n5. **Kake**: la gamba destra parte dall’anca, tesa, e spazza all’indietro a **quota bassa** (altezza ginocchio).\n6. **Chiusura**: riporta il piede destro a terra **davanti**, in stance.\n\nLo sguardo resta avanti e il busto non si inclina all’indietro.'.trim() },
+      { h: 'Il finale «a vuoto»', b: 'La spazzata è **solo nell’aria**:\n\n- quota **bassa**, mai sopra il ginocchio;\n- **non colpire** pareti, mobili, persone o animali: lascia almeno un metro libero dietro la gamba;\n- non spingere sul vuoto: la gamba si ferma con controllo;\n- finale **sempre in piedi**, in equilibrio sul sinistro prima di riappoggiare il destro.\n\nSe l’equilibrio cede, appoggia il piede e ricomincia. Nessuna caduta, nessuna proiezione reale.' },
+      { h: 'Errori comuni e correzioni', b: '- **Peso sui talloni** → il peso va sul piede d’appoggio, tra avampiede e metà piede.\n- **Gamba che sale troppo** → resta a quota ginocchio; l’altezza non è efficacia.\n- **Busto che si inclina all’indietro** → il busto va avanti, la gamba indietro.\n- **Testa che oscilla** → sguardo fisso avanti.\n- **Perdita di equilibrio** → passo più corto, ginocchio morbido, più lentezza.\n\nUn errore alla volta, filmandoti di lato.' },
+      { h: 'Progressioni', b: '1. **Spazzata lenta in 4 tempi**: kuzushi, passo, carico, spazzata con pausa.\n2. **Spazzata alternata** destra e sinistra, riportando sempre il piede davanti.\n3. **Gesto dopo uno spostamento**: due passi, poi la tecnica.\n4. **Più veloce** solo se il piede d’appoggio non si sposta e la gamba resta bassa.\n\nSerie di 5–8 ripetizioni di qualità; fermati se la forma cala.' },
+      { h: 'Collegamenti con altre tecniche', b: 'O-soto-gari è gemello di **o-uchi-gari** (spazzata interna) e parente di **ko-soto-gari** (piccola spazzata esterna sul tallone). Una sequenza classica a vuoto: **o-uchi → o-soto → postura**, cambiando il lato di attacco senza perdere equilibrio.\n\nSi collega anche a **o-goshi**: dopo una tecnica d’anca (koshi-waza), un attacco di gamba (ashi-waza) insegna a cambiare direzione.' },
+      { h: 'Autoverifica con il video', b: 'Registrati **di lato**, a velocità ridotta.\n\n- Il busto resta eretto durante la spazzata?\n- La gamba rimane a quota ginocchio?\n- Il piede d’appoggio resta fermo, senza saltelli?\n- Finisci in equilibrio, in piedi?\n\nIl video mostra la forma ma **non dimostra l’efficacia** contro un partner. È consigliabile la verifica di un **istruttore qualificato**.' },
+      { h: 'Sicurezza e riepilogo', b: '**Sicurezza**: spazio libero dietro la gamba (almeno 1 m), niente muri o mobili vicini; superficie non scivolosa. Fermati con dolore a ginocchio, anca o schiena.\n\n**Riepilogo**\n- O-soto-gari: ashi-waza, kuzushi indietro sul tallone destro.\n- Passo sinistro a fianco, gamba destra spazza a quota bassa.\n- Prese no-gi: collar tie + polso.\n- Solo nell’aria, mai su oggetti o persone, finale in piedi.' }
+    ],
+    exercises: [
+      mc('A quale gruppo appartiene o-soto-gari?', ['Ashi-waza', 'Koshi-waza', 'Te-waza', 'Sutemi-waza'], 0, 'È una tecnica di gamba: ashi-waza.'),
+      order('Ordina le tre fasi', ['kuzushi', 'tsukuri', 'kake'], 'Squilibrio, entrata, esecuzione.'),
+      mc('Verso dove si porta il partner immaginario in kuzushi?', ['In avanti', 'All’indietro, sul tallone', 'Verso l’alto', 'Di lato in basso'], 1, 'Il peso va indietro sul tallone.'),
+      order('Ordina i passi', ['kuzushi indietro', 'passo sinistro a fianco', 'carico sul sinistro', 'spazzata destra bassa', 'piede destro davanti'], 'Dal squilibrio alla chiusura in stance.'),
+      mc('A quale altezza spazza la gamba?', ['Sopra la testa', 'Altezza ginocchio, a quota bassa', 'Altezza anca', 'Altezza spalla'], 1, 'Bassa e controllata, solo nell’aria.'),
+      fill('La presa con la mano sulla nuca si chiama ___ tie.', ['collar'], 'Collar tie: mano sulla nuca.'),
+      mc('Che cosa non si deve mai colpire con la spazzata?', ['L’aria', 'Oggetti o persone', 'Il piede d’appoggio proprio', 'Nulla di particolare'], 1, 'La spazzata è solo nell’aria.'),
+      mc('Se il busto si inclina all’indietro, che cosa correggi?', ['Il busto va avanti, la gamba indietro', 'Alzi la gamba', 'Acceleri', 'Chiudi gli occhi'], 0, 'Il busto è eretto e va avanti mentre la gamba spazza indietro.'),
+      fill('Il piede che si pianta a fianco del piede dell’avversario è il ___ (destro/sinistro) nella versione a destra.', ['sinistro'], 'Il sinistro è d’appoggio, il destro spazza.'),
+      mc('Che cosa non dimostra il tuo gesto a vuoto?', ['Che ricordi la sequenza', 'Che hai equilibrio', 'Che funziona contro chi resiste', 'Che hai buon ritmo'], 2, 'L’efficacia richiede istruttore, partner e randori.')
+    ],
+    test: [
+      mc('Che significa «gari»?', ['Falciata/spazzata', 'Presa', 'Caduta', 'Passo'], 0),
+      mc('Dove va il peso sul piede d’appoggio?', ['Sui talloni', 'Tra avampiede e metà piede', 'Sul bordo esterno', 'Sulla punta soltanto'], 1),
+      order('Metti in ordine la chiusura del gesto', ['spazzata', 'fermo', 'piede a terra davanti', 'stance'], 'Spazzata, controllo, piede a terra, stance.'),
+      fill('Il finale del gesto è sempre ___ (in piedi/sdraiato).', ['in piedi'], 'Nessuna caduta.'),
+      mc('Quale presa NON è no-gi?', ['Collar tie', 'Polso', 'Presa alla manica', 'Bicep control'], 2)
+    ] });
+
+  /* ---------- SEOI-NAGE ---------- */
+  T({ id: 'jud-seoi-full', title: 'Seoi-nage no-gi: la proiezione sulla schiena a vuoto',
+    summary: 'Rotazione, bacino basso e spalla sotto l’ascella immaginaria: il gesto completo senza judogi, finale sempre in piedi.',
+    objectives: ['Collocare seoi-nage tra i te-waza e descriverne il principio', 'Eseguire a vuoto pivot, flessione e estensione con underhook e polso', 'Correggere schiena curva, ginocchia dritte e sguardo ai piedi'],
+    pages: [
+      { h: 'Che cos’è seoi-nage', b: '**Seoi-nage** (背負投, «proiezione caricando sulla schiena») appartiene ai **te-waza**, le tecniche di braccia/mani del Kodokan. Il partner viene portato in avanti e caricato sulla schiena e sulle spalle.\n\nIn questo modulo la tecnica è **a vuoto**: nessun partner, nessun carico reale, nessuna caduta. Lavori su pivot, bacino basso e rotazione delle spalle. Le versioni con judogi (morote-seoi) sono un’altra lezione.' },
+      { h: 'Il principio: kuzushi–tsukuri–kake', b: '- **Kuzushi**: il polso sinistro porta il partner immaginario **in avanti, sulle punte**.\n- **Tsukuri**: passo avanti con il destro, **pivot** sul piede d’appoggio, ginocchia flesse, spalla destra **sotto l’ascella** immaginaria.\n- **Kake**: estendi le gambe e ruota le spalle in avanti; il busto si inclina al massimo di circa **20°**.\n\n> Si proietta con le gambe e la rotazione, non tirando con le braccia.\n\nIl bacino resta basso e vicino: se i piedi sono lontani dall’asse, il gesto perde forza.' },
+      { h: 'Le prese no-gi', b: 'Senza judogi:\n\n- **Polso o bicipite** con la sinistra (hikite): tiene il braccio e lo porta in avanti.\n- **Underhook destro**: il braccio passa **sotto l’ascella** e la spalla si posiziona sotto di essa.\n\nGomiti dentro, spalle basse. In no-gi l’underhook sostituisce la presa al bavero. Non si usano manica o bavero: non esistono in questa tecnica no-gi.\n\nNota: la versione a due mani con il bavero è **morote-seoi**, richiede il judogi e ha una lezione propria.' },
+      { h: 'Piedi e anche, passo per passo', b: 'Versione a destra (a sinistra: specchio).\n\n1. **Postura** in shizentai, ginocchia morbide.\n2. **Kuzushi**: polso sinistro in avanti, busto eretto.\n3. **Passo destro avanti**, punta leggermente verso l’interno.\n4. **Pivot**: ruoti sull’avampiede destro e il sinistro arriva vicino, piedi **vicini e paralleli**.\n5. **Abbassamento**: ginocchia flesse, bacino sotto, schiena dritta, spalla destra sotto l’ascella immaginaria.\n6. **Kake**: estendi le gambe e ruota le spalle in avanti; inclinazione massima circa 20°.\n7. **Chiusura**: fermati e riporta i piedi in shizentai.\n\nIl pivot è la parte più tecnica: lavoralo da solo a rallentatore.' },
+      { h: 'Il finale «a vuoto»', b: 'Nulla viene proiettato:\n\n- dopo l’estensione **fermati** in piedi, con le gambe quasi distese;\n- **non** lasciarti cadere in avanti e non caricare il peso sul vuoto;\n- riporta i piedi in shizentai con un piccolo passo e controlla l’equilibrio.\n\nSe perdi equilibrio, fermati e ricomincia più piano. Nessuna caduta prevista in questo modulo.' },
+      { h: 'Errori comuni e correzioni', b: '- **Schiena curva** → petto aperto, sguardo avanti.\n- **Ginocchia dritte** → piega le gambe in tsukuri: poi estendi.\n- **Piedi lontani dall’asse** → il pivot porta i piedi vicini.\n- **Sguardo ai piedi** → guarda un punto davanti a te all’altezza degli occhi.\n- **Inclinazione eccessiva** → circa 20° al massimo.\n- **Perdita di equilibrio** → meno velocità, passo più corto.' },
+      { h: 'Progressioni', b: '1. **4 tempi lenti** con pausa: kuzushi, passo, pivot, estensione.\n2. **Gesto fluido** in un unico movimento.\n3. **Destra e sinistra alternate**.\n4. **Dopo una presa a vuoto**: wrist control + underhook, poi il gesto.\n\nSerie di 5–8 ripetizioni di qualità, con pausa tra le serie. Rallenta se i piedi saltellano.' },
+      { h: 'Collegamenti con altre tecniche', b: 'Seoi-nage condivide con **o-goshi** la rotazione e il bacino basso, ma qui la spalla è **sotto l’ascella** (te-waza) invece dell’anca a contatto. Con **koshi-guruma** condivide l’ingresso con braccio avvolto.\n\nSequenza utile: **kuzushi → seoi-nage → tai sabaki**, per ricordare che il gesto parte da uno squilibrio e finisce con un riposizionamento.' },
+      { h: 'Autoverifica con il video', b: 'Registrati **di lato** e **di fronte**, a velocità ridotta.\n\n- I piedi sono vicini dopo il pivot?\n- La schiena resta dritta?\n- L’inclinazione resta sotto 20°?\n- Finisci in piedi, in equilibrio?\n\nIl video aiuta a vedere la forma, non prova l’efficacia contro chi resiste. È consigliabile far controllare la forma a un **istruttore qualificato**.' },
+      { h: 'Sicurezza e riepilogo', b: '**Sicurezza**: spazio 2 m × 2 m, superficie non scivolosa, nessun ostacolo. Il pivot carica le ginocchia: se senti dolore, fermati. Nessuna caduta.\n\n**Riepilogo**\n- Seoi-nage: te-waza, spalla sotto l’ascella.\n- Prese no-gi: polso/bicipite + underhook.\n- Kuzushi in avanti, pivot, estensione, inclinazione ≤ 20°.\n- A vuoto, finale sempre in piedi.' }
+    ],
+    exercises: [
+      mc('A quale gruppo appartiene seoi-nage?', ['Te-waza', 'Ashi-waza', 'Koshi-waza', 'Ne-waza'], 0, 'Seoi-nage è una tecnica di braccia/mani.'),
+      mc('Quale presa sostituisce il bavero in no-gi?', ['Underhook sotto l’ascella', 'Presa alla cintura', 'Presa alla caviglia', 'Nessuna'], 0, 'L’underhook sotto l’ascella.'),
+      order('Ordina le fasi', ['kuzushi', 'tsukuri', 'kake'], 'Squilibrio, entrata, esecuzione.'),
+      mc('Quanto si inclina al massimo il busto in kake?', ['Circa 20°', 'Circa 90°', 'Fino a terra', 'Per niente, all’indietro'], 0, 'Circa 20° in avanti.'),
+      order('Ordina i passi del piede', ['passo destro avanti', 'pivot sull’avampiede', 'sinistro vicino', 'ginocchia flesse', 'estensione'], 'Passo, pivot, piede vicino, abbassamento, estensione.'),
+      fill('Il movimento di rotazione sul piede d’appoggio si chiama ___ (inglese).', ['pivot'], 'Il pivot porta i piedi vicini.'),
+      mc('Dove si posiziona la spalla in tsukuri?', ['Sopra la testa', 'Sotto l’ascella immaginaria', 'Dietro la schiena', 'Sulla cintura'], 1, 'Sotto l’ascella del partner immaginario.'),
+      mc('Che cosa fai se perdi equilibrio durante il gesto?', ['Ti fermi e ricomincia più lento', 'Insisti con più forza', 'Salti', 'Ti lasci cadere'], 0, 'Fermarsi è la risposta corretta.'),
+      fill('Il finale del gesto a vuoto è sempre ___ (posizione).', ['in piedi'], 'Nessuna caduta.'),
+      mc('Che cosa fa la variante morote-seoi?', ['Usa due mani sul bavero e richiede il judogi', 'È no-gi', 'È una spazzata', 'È una caduta'], 0, 'Morote-seoi è con judogi e ha una lezione propria.')
+    ],
+    test: [
+      mc('Che cosa significa «nage»?', ['Proiezione', 'Presa', 'Caduta', 'Passo'], 0),
+      mc('Cosa porta il partner in avanti in kuzushi?', ['Il polso sinistro (hikite)', 'Il piede', 'La testa', 'Il ginocchio'], 0),
+      order('Ordina il gesto', ['presa', 'kuzushi', 'pivot', 'estensione', 'ritorno'], 'Dalla presa al ritorno in shizentai.'),
+      fill('Il braccio che passa sotto l’ascella è l’___ (inglese).', ['underhook'], 'Underhook.'),
+      mc('Quale errore sposta i piedi lontano dall’asse?', ['Pivot incompleto', 'Sguardo avanti', 'Ginocchia flesse', 'Inclinazione ≤ 20°'], 0)
+    ] });
+
+  /* ---------- O-UCHI-GARI ---------- */
+  T({ id: 'jud-ouchi-full', title: 'O-uchi-gari no-gi: la spazzata interna a vuoto',
+    summary: 'La «grande falciata interna»: passo dentro le gambe e spazzata interna nell’aria a quota bassa.',
+    objectives: ['Collocare o-uchi-gari tra gli ashi-waza e descriverne le tre fasi', 'Eseguire a vuoto passo interno e spazzata con piede flesso a quota bassa', 'Distinguere la spazzata interna da quella esterna e correggere gli errori'],
+    pages: [
+      { h: 'Che cos’è o-uchi-gari', b: '**O-uchi-gari** (大内刈, «grande falciata interna») è un **ashi-waza** del Kodokan. Mentre o-soto-gari falcia dall’**esterno**, qui la gamba lavora **all’interno** delle gambe dell’avversario immaginario.\n\nÈ eseguita **a vuoto**: la gamba spazza nell’aria, a quota bassa, senza colpire nulla; nessuno viene proiettato e tu non cadi. Alleni forma e ritmo, non l’efficacia reale.' },
+      { h: 'Il principio: kuzushi–tsukuri–kake', b: '- **Kuzushi**: porti il partner immaginario **all’indietro e leggermente di lato**, verso il suo tallone.\n- **Tsukuri**: passo del piede sinistro **dentro le sue gambe**, ginocchio morbido, busto eretto.\n- **Kake**: la gamba destra spazza **all’interno**, a quota bassa, con il **piede flesso**.\n\n> La gamba non «calcia»: ripulisce lo spazio interno mentre il busto avanza.\n\nSenza squilibrio indietro-lato la spazzata interna non ha effetto: è il tronco a guidare.' },
+      { h: 'Le prese no-gi', b: 'Senza judogi:\n\n- **Collar tie** destro: mano sulla nuca, che spinge il tronco **indietro e di lato**.\n- **Polso o bicipite** sinistro (wrist / bicep control).\n\nIn alternativa un **neck wrap** leggero. Gomiti dentro, spalle basse; il tronco del partner immaginario è vicino al tuo. Nessuna presa a manica o bavero.\n\nLa presa deve restare una struttura stabile fino alla chiusura: non mollarla prima della spazzata.' },
+      { h: 'Piedi e anche, passo per passo', b: 'Versione a destra (a sinistra: specchio).\n\n1. **Postura** in shizentai, ginocchia morbide.\n2. **Kuzushi**: le mani guidano il tronco indietro e di lato.\n3. **Passo sinistro** **tra** le gambe immaginarie: il piede si pianta all’interno, punta avanti.\n4. **Carico** sul sinistro, ginocchio morbido, busto eretto.\n5. **Kake**: il piede destro, **flesso**, spazza verso l’interno a quota bassa.\n6. **Chiusura**: riporta il destro a terra **davanti**, in stance.\n\nLa spazzata parte dall’anca, non dal ginocchio. La gamba resta vicina al corpo e bassa.' },
+      { h: 'Il finale «a vuoto»', b: 'La spazzata è **solo nell’aria**:\n\n- quota **bassa**: ginocchio o meno;\n- **non colpire** oggetti, mobili o persone: lascia almeno un metro libero;\n- la gamba si ferma con controllo, non si spinge nel vuoto;\n- finale **sempre in piedi**, equilibrio sul sinistro, poi piede a terra davanti.\n\nNessuna caduta e nessuna proiezione reale. Se perdi equilibrio, appoggia e ricomincia più lentamente.' },
+      { h: 'Errori comuni e correzioni', b: '- **Peso sui talloni** → peso sul piede d’appoggio, avampiede e metà piede.\n- **Gamba che sale troppo** → quota bassa; l’altezza non aggiunge efficacia.\n- **Schiena curva** → petto aperto, sguardo avanti.\n- **Piede non flesso** → la punta tirata verso la tibia, pulita.\n- **Perdita di equilibrio** → passo più corto, più lentezza.\n\nUn errore per volta; filmati di lato.' },
+      { h: 'Progressioni', b: '1. **Spazzata lenta** in 4 tempi: kuzushi, passo, carico, spazzata con pausa.\n2. **Spazzata alternata**, destra e sinistra.\n3. **Gesto dopo tai sabaki**: un piccolo spostamento, poi la tecnica.\n4. **Un po’ più rapida** solo se piede d’appoggio fermo e gamba bassa.\n\nSerie di 5–8 ripetizioni; fermati se la forma peggiora.' },
+      { h: 'Collegamenti con altre tecniche', b: 'O-uchi-gari e **o-soto-gari** sono «gemelle»: interna ed esterna. La combinazione classica a vuoto è **o-uchi → o-soto → postura**: dopo lo squilibrio indietro-lato, la seconda tecnica cambia lato di attacco.\n\nPer la versione più piccola e ravvicinata si passa a **ko-uchi-gari**.' },
+      { h: 'Autoverifica con il video', b: 'Registrati **di lato**, a velocità ridotta.\n\n- Il piede sinistro si pianta dentro senza saltelli?\n- Il piede destro è flesso e basso?\n- Il busto resta eretto?\n- Finisci in piedi, in equilibrio?\n\nIl video mostra la forma ma **non prova l’efficacia** contro chi resiste. Un **istruttore qualificato** può verificare la tua forma ed è consigliabile.' },
+      { h: 'Sicurezza e riepilogo', b: '**Sicurezza**: spazio 2 m × 2 m con almeno un metro libero attorno alla gamba che spazza; nessun mobile vicino; superficie non scivolosa. Fermati con dolore a ginocchio o anca.\n\n**Riepilogo**\n- O-uchi-gari: ashi-waza, spazzata interna.\n- Kuzushi indietro-lato, passo dentro, kake con piede flesso.\n- Prese no-gi: collar tie + polso.\n- Solo nell’aria, quota bassa, finale in piedi.' }
+    ],
+    exercises: [
+      mc('Che differenza c’è con o-soto-gari?', ['O-uchi spazza all’interno, o-soto all’esterno', 'O-uchi è una caduta', 'O-soto usa le braccia', 'Nessuna'], 0, 'Uchi = interno, soto = esterno.'),
+      order('Ordina le tre fasi', ['kuzushi', 'tsukuri', 'kake'], 'Squilibrio, entrata, esecuzione.'),
+      mc('Verso dove va il kuzushi?', ['In avanti', 'Indietro e leggermente di lato', 'Verso l’alto', 'Solo di lato'], 1, 'Verso il tallone, indietro e di lato.'),
+      order('Ordina i passi', ['kuzushi indietro-lato', 'passo sinistro dentro', 'carico sul sinistro', 'spazzata interna destra', 'piede destro davanti'], 'Dallo squilibrio alla chiusura.'),
+      fill('Il piede che spazza deve essere ___ (flesso/rilassato).', ['flesso'], 'Il piede flesso mantiene la gamba pulita.'),
+      mc('A quale altezza si spazza?', ['Quota bassa', 'Altezza testa', 'Altezza spalla', 'Altezza anca'], 0, 'Bassa e controllata.'),
+      mc('Che cosa non si deve colpire?', ['L’aria', 'Oggetti o persone', 'Niente di particolare', 'Il pavimento con forza'], 1, 'Solo aria.'),
+      mc('Se il peso è sui talloni, che cosa correggi?', ['Peso su avampiede e metà piede', 'Più forza nelle braccia', 'Più altezza', 'Più velocità'], 0, 'Il peso va sull’avampiede/metà piede.'),
+      fill('La presa con la mano sulla nuca si chiama collar ___ (inglese).', ['tie'], 'Collar tie.'),
+      mc('Quando è consigliabile far controllare la forma?', ['Da un istruttore qualificato', 'Mai', 'Dall’app', 'Solo con il video'], 0, 'L’istruttore è il riferimento; l’app non prova l’efficacia.')
+    ],
+    test: [
+      mc('Che significa «uchi»?', ['Interno', 'Esterno', 'Alto', 'Basso'], 0),
+      mc('Quale errore rende la spazzata troppo alta?', ['Gamba che sale troppo', 'Piede flesso', 'Busto eretto', 'Collar tie'], 0),
+      order('Ordina la chiusura', ['spazzata', 'controllo', 'piede a terra davanti', 'stance'], 'Spazzata, controllo, piede a terra, stance.'),
+      fill('Il finale del gesto è sempre ___ (in piedi/seduto).', ['in piedi'], 'Nessuna caduta.'),
+      mc('Quale sequenza a vuoto è utile?', ['O-uchi → o-soto → postura', 'O-uchi → caduta', 'O-uchi → seduta', 'Solo velocità'], 0)
+    ] });
+
+  /* ---------- KO-UCHI-GARI ---------- */
+  T({ id: 'jud-kouchi-full', title: 'Ko-uchi-gari no-gi: la piccola spazzata interna a vuoto',
+    summary: 'La «piccola falciata interna»: passo corto e gesto breve del piede sul tallone immaginario, a quota bassissima.',
+    objectives: ['Collocare ko-uchi-gari tra gli ashi-waza e descriverne il principio', 'Eseguire a vuoto un gesto breve del piede a quota bassissima', 'Evitare gesto troppo ampio, peso sui talloni e perdita di equilibrio'],
+    pages: [
+      { h: 'Che cos’è ko-uchi-gari', b: '**Ko-uchi-gari** (小内刈, «piccola falciata interna») è un **ashi-waza** del Kodokan. «Ko» significa piccolo: il gesto è **breve**, vicino al terreno, rispetto alla grande spazzata o-uchi-gari.\n\nNon è una proiezione di forza: è un piccolo spostamento del piede sul tallone dell’avversario immaginario, quando il suo peso è già sul tallone. Qui è eseguita **a vuoto**, nell’aria: nessun partner, nessuna caduta, finale in piedi.' },
+      { h: 'Il principio: kuzushi–tsukuri–kake', b: '- **Kuzushi**: porti il partner immaginario **all’indietro**, sul suo tallone.\n- **Tsukuri**: **piccolo passo** in avanti, piede d’appoggio vicino.\n- **Kake**: gesto breve del piede, **all’interno del tallone** immaginario, a quota **bassissima**.\n\n> Più il gesto è piccolo e preciso, più è controllato.\n\nLa tecnica funziona (nella logica del judo) quando il peso dell’avversario è già sul tallone: senza kuzushi non ha senso. Per questo lo squilibrio è la parte più importante da allenare anche a vuoto.' },
+      { h: 'Le prese no-gi', b: 'Senza judogi:\n\n- **Polso** sinistro (wrist control) e **collar tie** destro, mano sulla nuca.\n- In alternativa **bicep control** e neck wrap.\n\nLe braccia guidano il tronco **all’indietro**, con gomiti dentro, spalle basse. Non si usano prese al bavero o alla manica. Il corpo avanza, le braccia non tirano da sole.\n\nUna presa vicina al corpo permette gesti brevi: se le braccia sono tese, il gesto diventa grande.' },
+      { h: 'Piedi e anche, passo per passo', b: 'Versione a destra (a sinistra: specchio).\n\n1. **Postura** in shizentai, ginocchia morbide.\n2. **Kuzushi**: le mani guidano il tronco indietro.\n3. **Piccolo passo** in avanti con il sinistro, piede d’appoggio **vicino**.\n4. **Carico**: peso sul sinistro, ginocchio morbido, busto eretto.\n5. **Kake**: il piede destro fa un gesto **breve**, verso l’interno del tallone immaginario, **a pochi centimetri** da terra, nell’aria.\n6. **Chiusura**: riporta il piede a terra e torna in stance.\n\nIl movimento è piccolo: una «scorciatoia» del piede, non un calcio.' },
+      { h: 'Il finale «a vuoto»', b: 'Il gesto è **solo nell’aria**:\n\n- altezza **bassissima**, poco sopra il pavimento;\n- **non colpire** il pavimento con forza, né oggetti o persone;\n- il piede si ferma con controllo e torna a terra con leggerezza;\n- finale **sempre in piedi**, in equilibrio.\n\nNessuna caduta, nessuna proiezione. Se perdi equilibrio, appoggia e ricomincia.' },
+      { h: 'Errori comuni e correzioni', b: '- **Gesto troppo ampio** → riduci: pochi centimetri, vicino al corpo.\n- **Peso sui talloni** → peso sul piede d’appoggio, avampiede e metà piede.\n- **Schiena curva** → petto aperto, sguardo avanti.\n- **Perdita di equilibrio** → passo più corto, più lentezza.\n- **Colpire il pavimento** → controlla la quota, il piede non tocca.\n\nCorreggi un errore per volta, ripresi di lato.' },
+      { h: 'Progressioni', b: '1. **Gesto breve in 3 tempi**: kuzushi, passo, kake.\n2. **Alternando i lati**, destra e sinistra.\n3. **Dopo un passo di tsugi-ashi**: il piede segue senza incrociarsi, poi il gesto.\n4. **Più fluido**, mai più grande.\n\nSerie di 5–8 ripetizioni; fermati quando la precisione cala.' },
+      { h: 'Collegamenti con altre tecniche', b: 'Ko-uchi-gari è la versione piccola di **o-uchi-gari** e si colloca bene dopo una sequenza di spazzate: **ko-uchi → seoi (gesto) → postura** insegna a passare da un gesto breve di gamba a una rotazione con le braccia.\n\nÈ anche vicina a **ko-soto-gari** (piccola spazzata esterna): stesso gesto breve, lato diverso.' },
+      { h: 'Autoverifica con il video', b: 'Registrati **di lato**, a velocità ridotta.\n\n- Il gesto del piede è breve?\n- Il peso resta sul piede d’appoggio?\n- Il busto resta eretto?\n- Finisci in piedi, in equilibrio?\n\nIl video mostra la forma ma **non prova l’efficacia**. È consigliabile che un **istruttore qualificato** verifichi la tecnica.' },
+      { h: 'Sicurezza e riepilogo', b: '**Sicurezza**: spazio 2 m × 2 m, superficie non scivolosa, nessun oggetto vicino. Fermati con dolore a caviglia, ginocchio o anca.\n\n**Riepilogo**\n- Ko-uchi-gari: ashi-waza, piccola spazzata interna.\n- Kuzushi indietro sul tallone, gesto breve a quota bassissima.\n- Prese no-gi: polso + collar tie.\n- Solo nell’aria, mai su oggetti o persone, finale in piedi.' }
+    ],
+    exercises: [
+      mc('Che cosa significa «ko» in ko-uchi-gari?', ['Grande', 'Piccolo', 'Interno', 'Esterno'], 1, 'Ko = piccolo, o = grande.'),
+      order('Ordina le tre fasi', ['kuzushi', 'tsukuri', 'kake'], 'Squilibrio, entrata, esecuzione.'),
+      mc('Dove si porta il peso del partner immaginario?', ['Sul tallone', 'Sulle punte', 'Sulla testa', 'Sul fianco'], 0, 'All’indietro, sul tallone.'),
+      order('Ordina i passi', ['kuzushi indietro', 'piccolo passo avanti', 'carico sul sinistro', 'gesto breve del destro', 'ritorno in stance'], 'Dallo squilibrio alla chiusura.'),
+      fill('A quale quota si lavora il piede? ___ (bassissima/alta).', ['bassissima'], 'Pochi centimetri dal suolo.'),
+      mc('Quale errore rende il gesto troppo grande?', ['Gesto troppo ampio', 'Passo corto', 'Piede d’appoggio vicino', 'Busto eretto'], 0, 'Il gesto deve essere breve.'),
+      mc('Quale presa NON si usa in no-gi?', ['Polso', 'Collar tie', 'Presa al bavero', 'Bicep control'], 2, 'Non c’è bavero senza judogi.'),
+      fill('Il passo in cui il piede segue senza incrociarsi si chiama ___-ashi.', ['tsugi'], 'Tsugi-ashi.'),
+      mc('Che cosa non si deve colpire con il piede?', ['Il vuoto', 'Oggetti o persone', 'L’aria', 'Nulla'], 1, 'Solo nell’aria, senza colpire.'),
+      mc('Perché lo squilibrio è così importante in ko-uchi-gari?', ['Perché il gesto è piccolo e funziona se il peso è già sul tallone', 'Perché serve forza', 'Perché non serve', 'Perché si salta'], 0, 'Il gesto breve ha senso solo con il peso sul tallone.')
+    ],
+    test: [
+      mc('A quale gruppo appartiene ko-uchi-gari?', ['Ashi-waza', 'Koshi-waza', 'Te-waza', 'Ne-waza'], 0),
+      mc('Che differenza c’è con o-uchi-gari?', ['Il gesto è più piccolo e breve', 'È una caduta', 'È una presa', 'Nessuna'], 0),
+      order('Ordina la chiusura', ['gesto breve', 'piede a terra', 'stance', 'equilibrio'], 'Gesto, piede a terra, stance, equilibrio.'),
+      fill('Il finale del gesto è sempre ___ (in piedi/seduto).', ['in piedi'], 'Nessuna caduta.'),
+      mc('Che cosa fai se perdi equilibrio?', ['Appoggi il piede e ricominci piano', 'Accelleri', 'Allarghi il gesto', 'Ti lasci cadere'], 0)
+    ] });
+})(window.ST = window.ST || {});
+
+/* ---- content/judo-l-nage2 ---- */
+/* stub */
+(function (ST) { 'use strict'; })(window.ST = window.ST || {});
+
+/* ---- content/judo-l-clinch ---- */
+/* Clinch e ginocchiate (muay thai) — 4 lezioni approfondite, SOLO a vuoto. */
+(function (ST) {
+  'use strict';
+  const C = ST.content, { mc, fill, order } = C;
+
+  /* ---------- 1. Plum clinch ---------- */
+  C.addTopic({ id: 'jud-plum-clinch', subject: 'grp', stage: 'L1', title: 'Clinch plum: postura e controllo della testa (a vuoto)', minutes: 10,
+    summary: 'Il clinch plum del muay thai simulato da solo: mani alla nuca, gomiti, postura e spostamenti, senza alcun contatto.',
+    objectives: ['Descrivere la posizione di mani, gomiti e avambracci nel clinch plum', 'Mantenere postura eretta, ginocchia morbide e peso al centro mentre ti sposti', 'Riconoscere gli errori più comuni e correggerli con un’autoverifica video'],
+    pages: [
+      { h: 'Che cos’è il clinch plum', b: 'Nel **muay thai** il corpo a corpo si chiama **clinch**. La sua forma più nota è il **plum clinch** (in thai, *khao plam*): le due mani si chiudono dietro la nuca dell’avversario e i gomiti si stringono davanti, come a «cogliere una prugna dall’albero».\n\nIn questa lezione lo lavori **da solo, a vuoto**: simuli la posizione davanti a uno spazio libero, senza nessuno e senza oggetti. Il clinch è la base da cui poi nascono le ginocchiate: *khao trong* (diretta), *khao khong* (curva), *khao noi* (corta).' },
+      { h: 'Posizione di mani e braccia', b: 'Le mani vanno **dietro la nuca** dell’avversario immaginario, all’altezza della base del cranio:\n- dita **intrecciate** oppure **a coppa**, a seconda di ciò che risulta più comodo e senza tensione nei polsi;\n- **gomiti stretti** davanti al petto, vicini fra loro;\n- **avambracci** appoggiati idealmente sulle clavicole;\n- spalle rilassate, non sollevate verso le orecchie.\n\n> Esempio: guardati le mani. Se i gomiti sono più larghi delle spalle, hai perso la «chiusura».' },
+      { h: 'Postura e base', b: 'La struttura parte dai piedi:\n- piedi **alla larghezza delle spalle**, uno leggermente avanti all’altro;\n- **ginocchia flesse**, mai bloccate: la **gamba d’appoggio morbida** è la tua assicurazione per l’equilibrio;\n- **busto eretto**, mento leggermente rientrato, sguardo avanti;\n- **peso al centro**, sulle avampiedi, non sui talloni.\n\nUn bacino «sotto» di te, né spinto troppo indietro né troppo avanti, ti permette di cambiare direzione in ogni istante.' },
+      { h: 'Il controllo: schiena e gomiti, non solo braccia', b: 'Per «chiudere» la testa immaginaria spingi i **gomiti verso il basso e leggermente avanti**. La forza non viene dalle sole braccia: viene dalla **schiena dritta** e dal **bacino** che si abbassa di pochi centimetri.\n\n- **Livello:** abbassarti un poco (*level change*) senza curvare la schiena.\n- **Respiro:** espira mentre «chiudi», non trattenerlo.\n- Le braccia restano **attive ma non rigide**.\n\nSe senti tirare la parte alta delle spalle, stai usando troppo le braccia.' },
+      { h: 'Spostamenti a vuoto', b: 'Dalla postura plum muoviti con **piccoli passi**: avanti, indietro, laterale, in cerchio.\n\n- Il piede che parte è quello più vicino alla direzione, l’altro lo segue **senza incrociarsi**.\n- In pivot ruoti sull’**avampiede** (la **palla del piede**), mai sul tallone né a gamba bloccata.\n- La testa resta alta e la distanza fra i gomiti **non cambia** mentre ti muovi.\n\nIn una competizione le regole consentono di colpire il corpo con le ginocchia dal clinch; qui, invece, **non si colpisce nulla**: ogni gesto resta a vuoto.' },
+      { h: 'Errori comuni e correzioni', b: '- **Gomiti larghi** → riportali stretti, quasi a toccarsi davanti al petto.\n- **Schiena curva** → mento rientrato, petto aperto, sguardo avanti.\n- **Peso sui talloni** → sposta il peso sulle avampiedi; senti le dita premere il pavimento.\n- **Mento alto** → abbassalo leggermente, la nuca resta lunga.\n- **Spalle alzate** → espira e lasciale scendere.\n- **Ginocchia bloccate** → flettile sempre un poco.' },
+      { h: 'Esercizi e progressioni', b: '1. **Postura statica**: 5 respiri nella posizione plum, controllando gomiti e peso.\n2. **Passi lenti**: 4 passi avanti, 4 indietro, mantenendo la postura.\n3. **Level change**: scendi di qualche centimetro e risali con la schiena dritta (5 ripetizioni).\n4. **Pivot**: ruota di 90° sull’avampiede e torna.\n5. **Combinazione**: postura → passo laterale → pivot → ritorno.\n\nProgredisci **solo** se la forma resta pulita. Niente sacco e niente partner senza un istruttore qualificato.' },
+      { h: 'Autoverifica con il video e sicurezza', b: 'Appoggia il telefono su un supporto e registra **di fronte** e **di lato** (senza riferirti a link di altri). Controlla:\n- gomiti stretti e mani sulla nuca immaginaria;\n- schiena dritta, mento rientrato;\n- peso al centro, ginocchia morbide.\n\n**Sicurezza:** lavora solo da solo, in uno spazio libero di circa 2 m × 2 m, con scarpe da ginnastica o piedi nudi su fondo non scivoloso. **Niente sparring, niente contatto.** Sacco o partner solo con un istruttore qualificato. Questa lezione non insegna né promette efficacia in un combattimento.' },
+      { h: 'Riepilogo', b: '- Plum = mani dietro la nuca, **gomiti stretti**, avambracci sulle clavicole.\n- Piedi alla larghezza delle spalle, **ginocchia morbide**, peso al centro.\n- Il controllo viene da **schiena e bacino**, non dalle sole braccia.\n- Pivot sull’**avampiede**; passi piccoli; nessun contatto.\n- Verifica la forma con un video e, per qualunque lavoro con sacco o partner, rivolgiti a un istruttore.' }
+    ],
+    exercises: [
+      mc('Dove si posizionano le mani nel clinch plum?', ['Sui fianchi', 'Dietro la nuca dell’avversario immaginario', 'Sulle ginocchia', 'Sulle spalle in alto'], 1, 'Il plum chiude la nuca con le due mani.'),
+      mc('Come devono essere i gomiti?', ['Larghi e alti', 'Stretti, vicini davanti al petto', 'Dietro la schiena', 'Completamente tesi'], 1, 'Gomiti stretti = chiusura efficace della posizione.'),
+      mc('Come resta il ginocchio d’appoggio?', ['Bloccato', 'Morbido, leggermente flesso', 'Iperesteso', 'Sollevato da terra'], 1, 'Morbido protegge le articolazioni e l’equilibrio.'),
+      order('Metti in ordine la preparazione', ['piedi', 'ginocchia flesse', 'busto eretto', 'mani alla nuca', 'gomiti stretti'], 'Si costruisce la base dal basso verso l’alto.'),
+      fill('Il pivot si esegue sull’____ del piede (la palla).', ['avampiede', 'avampiedi'], 'Il pivot avviene sull’avampiede, non sul tallone.'),
+      mc('Quale errore indica che il peso è sbilanciato?', ['Peso sui talloni', 'Peso al centro', 'Ginocchia morbide', 'Gomiti stretti'], 0, 'Il peso va sulle avampiedi, al centro.'),
+      fill('Il clinch plum in thai si chiama khao ____.', ['plam'], 'Khao plam: «cogliere la prugna».'),
+      mc('Da dove viene principalmente il controllo?', ['Dalle sole braccia', 'Da schiena dritta e bacino', 'Dalla testa', 'Dalle dita'], 1, 'Il controllo nasce da struttura, non da forza delle braccia.'),
+      mc('Chi può introdurre sacco o partner nel lavoro di clinch?', ['Nessuno serve', 'Un istruttore qualificato', 'Un amico qualsiasi', 'Chiunque dopo una settimana'], 1, 'Sacco e partner solo con un istruttore qualificato.'),
+      order('Ordina il pivot', ['ruota', 'sull’avampiede', 'a ginocchio morbido', 'mantieni i gomiti stretti'], 'Ruota sull’avampiede, ginocchio morbido, gomiti invariati.')
+    ],
+    test: [
+      mc('Che cosa significa «level change» nel clinch a vuoto?', ['Saltare', 'Abbassarsi di poco con la schiena dritta', 'Cambiare partner', 'Chiudere gli occhi'], 1),
+      mc('Quale correzione si applica ai gomiti larghi?', ['Allargarli ancora', 'Riportarli stretti davanti al petto', 'Tenerli dietro la schiena', 'Bloccarli'], 1),
+      fill('In allenamento solitario il contatto è ____.', ['assente', 'nullo', 'escluso', 'vietato'], 'Nessun contatto: tutto a vuoto.'),
+      mc('Quale posizione dei piedi è corretta?', ['Uniti e rigidi', 'Larghezza delle spalle, uno leggermente avanti', 'Incrociati', 'Molto larghi e dritti'], 1),
+      mc('Per l’autoverifica video si registra…', ['solo da dietro', 'di fronte e di lato', 'solo i piedi', 'nessuna angolazione'], 1),
+      mc('Quale delle seguenti è una funzione del respiro?', ['Trattenerlo sempre', 'Espirare mentre si chiude la posizione', 'Respirare solo col naso chiuso', 'Fermarsi'], 1)
+    ] });
+
+  /* ---------- 2. Khao trong ---------- */
+  C.addTopic({ id: 'jud-khao-trong', subject: 'grp', stage: 'L1', title: 'Khao trong: ginocchiata diretta in clinch (a vuoto)', minutes: 10,
+    summary: 'La ginocchiata diretta del muay thai, eseguita da solo in aria a quota vita: spinta del bacino, punta del piede in giù, appoggio morbido.',
+    objectives: ['Eseguire la sequenza postura, spinta del bacino, risalita del ginocchio e ritorno a vuoto', 'Mantenere il piede d’appoggio sull’avampiede con ginocchio morbido', 'Autocorreggere errori di equilibrio, bacino e piede'],
+    pages: [
+      { h: 'Che cos’è khao trong', b: '**Khao** in thai significa «ginocchio»; **trong** significa «dritto». La **khao trong** è la **ginocchiata diretta**: il ginocchio sale in linea retta, in avanti e verso l’alto, spinto dal bacino.\n\nNel muay thai è una delle ginocchiate fondamentali, spesso usata dal clinch plum. In questa lezione la lavori **solo da solo, a vuoto, nell’aria**, per imparare movimento, equilibrio e controllo. Non si colpisce nulla.' },
+      { h: 'Il bersaglio nelle regole e il lavoro a vuoto', b: 'Nelle regole di competizione, la ginocchiata si indirizza al **corpo** dell’avversario (tronco, ventre, costole), secondo i regolamenti.\n\nNel tuo allenamento solitario l’obiettivo è **un ventre immaginario**: fermi il ginocchio **a quota vita / costole**, mai più in alto, e riporti il piede a terra. Il ginocchio non va portato verso il viso né verso il suolo.' },
+      { h: 'Postura di partenza', b: 'Parti dalla posizione plum (vedi la lezione precedente):\n- mani immaginarie dietro la nuca, **gomiti stretti**;\n- piedi alla larghezza delle spalle, ginocchia flesse;\n- busto eretto o **leggermente inclinato all’indietro** al momento del colpo;\n- peso sulle avampiedi, sguardo avanti.\n\nTira idealmente la testa verso il basso con i gomiti: è l’intenzione che organizza il corpo.' },
+      { h: 'Spinta del bacino e risalita del ginocchio', b: 'La forza non viene dalla gamba isolata: viene dal **bacino**.\n1. **Spingi il bacino in avanti**.\n2. Il **ginocchio sale** verso il ventre immaginario, in linea retta.\n3. Il **piede resta disteso, con la punta in giù** (*toe pointed*), il polpaccio rilassato.\n4. Il busto si inclina un poco all’indietro per bilanciare.\n\n> Immagina una molla: bacino avanti, ginocchio su, punta giù.' },
+      { h: 'Il piede d’appoggio', b: 'Il piede d’appoggio è il tuo motore di equilibrio:\n- ruota sull’**avampiede** (la **palla del piede**), il tallone si alza naturalmente;\n- il **ginocchio d’appoggio resta morbido**, mai bloccato;\n- il peso è centrato sulla gamba d’appoggio, ma il tronco non si «affloscia» all’indietro;\n- il piede di appoggio **non salta**.\n\nSe perdi equilibrio, la causa spesso è un ginocchio d’appoggio bloccato o il peso sui talloni.' },
+      { h: 'Errori comuni e correzioni', b: '- **Peso sui talloni** → torna sulle avampiedi.\n- **Piede non disteso** (punta in su) → disteso, punta in giù.\n- **Ginocchio d’appoggio bloccato** → piegalo sempre.\n- **Bacino che non avanza** → spingilo in avanti prima di alzare il ginocchio.\n- **Perdita di equilibrio** → riduci l’altezza, rallenta e riparti.\n- **Ginocchio troppo alto** → ferma a vita/costole.' },
+      { h: 'Esercizi e progressioni', b: '1. **4 tempi lenti**: postura, bacino, ginocchio su, ritorno.\n2. **Alternate** destra e sinistra, 5 per lato.\n3. **Pausa** di un secondo in alto per verificare l’equilibrio.\n4. **Serie di 5** con controllo della postura tra una ripetizione e l’altra.\n\nRiposa fra le serie. Se la forma peggiora, fermati. **Non usare sacco né partner** senza un istruttore qualificato: qui non c’è né sparring né contatto.' },
+      { h: 'Autoverifica con il video e sicurezza', b: 'Registra una serie **di lato**: controlla che il ginocchio salga a quota vita, la punta sia in giù e il ginocchio d’appoggio resti morbido. Di fronte: gomiti stretti e busto stabile.\n\n**Sicurezza:** spazio libero di 2 m × 2 m, superficie non scivolosa, **solo in aria**; ginocchio sempre fermo a vita/costole; se il ginocchio d’appoggio duole, **fermati**. Questa lezione non afferma alcuna efficacia in combattimento.' },
+      { h: 'Riepilogo', b: '- **Khao trong** = ginocchiata diretta (*trong* = dritto).\n- Sequenza: postura, **bacino avanti**, ginocchio su, **punta in giù**, ritorno.\n- Appoggio su **avampiede** con **ginocchio morbido**.\n- A vuoto si ferma a **quota vita/costole**.\n- Solo da soli, in aria; sacco e partner solo con un istruttore.' }
+    ],
+    exercises: [
+      mc('Che cosa significa «trong» in khao trong?', ['Curvo', 'Corto', 'Dritto', 'Alto'], 2, 'Trong = dritto.'),
+      mc('Che cosa spinge la ginocchiata diretta?', ['Il bacino', 'Il polso', 'La testa', 'Il collo'], 0, 'Il bacino guida la salita del ginocchio.'),
+      mc('Dove si ferma il ginocchio nel lavoro a vuoto?', ['Sopra la testa', 'A quota vita/costole', 'A terra', 'All’altezza del naso'], 1, 'Quota vita/costole in aria.'),
+      order('Ordina la sequenza', ['postura plum', 'spingi il bacino', 'ginocchio su', 'punta in giù', 'ritorno'], 'Dall’impostazione al ritorno controllato.'),
+      fill('Il piede d’appoggio ruota sull’____ con ginocchio morbido.', ['avampiede'], 'La palla del piede è il perno.'),
+      mc('Come deve essere il piede che sale?', ['Punta in su', 'Disteso, punta in giù', 'A martello', 'Rigido a tallone'], 1, 'Punta in giù (toe pointed).'),
+      mc('Che cosa significa «khao»?', ['Gomito', 'Pugno', 'Ginocchio', 'Calcio'], 2, 'Khao = ginocchio.'),
+      fill('Se il ginocchio d’appoggio duole, ci si ____.', ['ferma', 'si ferma', 'fermi'], 'Mai continuare con dolore.'),
+      mc('Qual è un errore comune?', ['Ginocchio d’appoggio bloccato', 'Peso al centro', 'Bacino che avanza', 'Piede disteso'], 0, 'Un appoggio bloccato compromette l’equilibrio.'),
+      order('Ordina l’autoverifica', ['registra di lato', 'controlla l’altezza', 'controlla la punta', 'correggi', 'riprova'], 'Ciclo di verifica e correzione.')
+    ],
+    test: [
+      mc('Quando fai la ginocchiata a vuoto, che cosa colpisci?', ['Nulla, solo aria', 'Un cuscino', 'Un muro', 'Un partner'], 0),
+      mc('Quale quota non si supera nell’allenamento a vuoto?', ['Vita/costole', 'Caviglia', 'Anca', 'Ginocchio d’appoggio'], 0),
+      fill('Per non perdere equilibrio si evita il ginocchio d’appoggio ____.', ['bloccato'], 'Resta morbido.'),
+      mc('Che cosa fa il busto al momento del colpo?', ['Si inclina molto avanti', 'Può inclinarsi poco indietro', 'Ruota di 180°', 'Cade'], 1),
+      mc('Chi può introdurre sacco o partner?', ['Un istruttore qualificato', 'Nessuno', 'Chiunque', 'Un amico'], 0),
+      mc('Quale rapporto c’è fra khao trong e khao khong?', ['Diretta e curva', 'Alta e bassa', 'Stesso gesto', 'Nessuno'], 0)
+    ] });
+
+  /* ---------- 3. Khao khong ---------- */
+  C.addTopic({ id: 'jud-khao-khong', subject: 'grp', stage: 'L2', title: 'Khao khong: ginocchiata curva in clinch (a vuoto)', minutes: 10,
+    summary: 'La ginocchiata curva (diagonale) del muay thai a vuoto: rotazione di bacino e avampiede, ginocchio verso le costole immaginarie.',
+    objectives: ['Eseguire la salita diagonale del ginocchio con rotazione di bacino e avampiede', 'Distinguere khao khong da khao trong per traiettoria e origine del movimento', 'Controllare equilibrio e quota (costole) con autoverifica video'],
+    pages: [
+      { h: 'Che cos’è khao khong', b: '**Khao khong** (ginocchio «curvo») è la **ginocchiata curva**: il ginocchio sale in **diagonale**, non in linea retta, mentre il bacino ruota.\n\nNel muay thai è una variante classica del clinch plum, indirizzata al fianco/costole secondo le regole di competizione. Qui è lavorata **solo a vuoto**: serve a imparare rotazione ed equilibrio.' },
+      { h: 'Differenza rispetto alla diretta', b: '- **Khao trong**: traiettoria dritta, spinta del bacino **in avanti**.\n- **Khao khong**: traiettoria **diagonale**, spinta con **rotazione** del bacino.\n\nIn entrambe il piede d’appoggio ruota sull’avampiede, la punta del piede che sale è giù e il ginocchio d’appoggio è morbido. Cambia la direzione del movimento, non la sicurezza.' },
+      { h: 'Postura e inclinazione della testa', b: 'Dal plum:\n- tira idealmente la testa immaginaria **da un lato**, con i gomiti stretti;\n- busto eretto, **non** inclinato di lato in modo marcato;\n- peso sulle avampiedi; sguardo avanti.\n\nIl corpo «si prepara» alla rotazione: spalle e bacino sono ancora allineati.' },
+      { h: 'Rotazione: bacino e avampiede', b: 'La rotazione **parte dal bacino e dall’avampiede d’appoggio, non dalla schiena**.\n1. Il piede d’appoggio ruota sull’**avampiede** (palla del piede), il tallone si alza.\n2. Il bacino ruota nella stessa direzione.\n3. Il ginocchio sale **in diagonale** verso le **costole immaginarie**, con la punta in giù.\n4. Le spalle seguono, senza torcere la colonna lombare.\n\n> Pensa a girare su un perno, non a piegarti di lato.' },
+      { h: 'Equilibrio e ginocchio morbido', b: 'La rotazione aumenta il rischio di perdere equilibrio:\n- **ginocchio d’appoggio morbido**, mai bloccato in rotazione (rischio per il legamento);\n- piede d’appoggio **ruota, non scivola né salta**;\n- se serve, **riduci l’ampiezza** della rotazione;\n- **fermati a quota costole** e riporta il piede a terra davanti a te.\n\nNel lavoro a vuoto la quota resta a vita/costole, mai oltre.' },
+      { h: 'Errori comuni e correzioni', b: '- **Peso sui talloni** → avampiedi.\n- **Ginocchio d’appoggio bloccato** → flettilo.\n- **Rotazione dalla schiena** → fai partire il movimento da bacino e piede.\n- **Perdita di equilibrio** → riduci l’ampiezza e rallenta.\n- **Ginocchio troppo alto** → stop a quota costole.\n- **Piede non disteso** → punta in giù.' },
+      { h: 'Esercizi e progressioni', b: '1. **Rotazione senza ginocchio**: solo avampiede e bacino, 5 per lato.\n2. **Ginocchiata in 4 tempi lenti**.\n3. **Alternata** destra e sinistra, 5 per lato.\n4. **Diretta + curva**: una khao trong seguita da una khao khong.\n\nProgredisci solo con forma pulita. Nessun sacco né partner senza un istruttore qualificato.' },
+      { h: 'Autoverifica con il video e sicurezza', b: 'Registra **di fronte** e **dall’alto-lato** se possibile: controlla che il bacino ruoti insieme al piede, che il ginocchio salga a quota costole e che la schiena non si pieghi.\n\n**Sicurezza:** solo in aria, a quota vita/costole, con ginocchio d’appoggio morbido; spazio libero 2 m × 2 m; **niente sparring, niente contatto**. Se avverti dolore al ginocchio o alla schiena, **fermati**. Nessuna promessa di efficacia in combattimento.' },
+      { h: 'Riepilogo', b: '- **Khao khong** = ginocchiata curva, traiettoria **diagonale**.\n- La rotazione parte da **bacino e avampiede**, non dalla schiena.\n- Ginocchio d’appoggio **morbido**, punta del piede **in giù**.\n- A vuoto stop a quota **costole**.\n- Solo da soli; sacco e partner solo con un istruttore qualificato.' }
+    ],
+    exercises: [
+      mc('Che traiettoria ha la khao khong?', ['Dritta', 'Diagonale', 'Verticale verso il basso', 'Circolare sopra la testa'], 1, 'Khong = curvo: diagonale.'),
+      mc('Da dove parte la rotazione?', ['Dalle mani', 'Dal bacino e dall’avampiede d’appoggio', 'Dalla testa', 'Dal collo'], 1, 'Non dalla schiena.'),
+      fill('Il ginocchio sale verso le ____ immaginarie.', ['costole'], 'Quota costole nel lavoro a vuoto.'),
+      order('Ordina la sequenza', ['postura plum', 'ruota l’avampiede', 'ruota il bacino', 'ginocchio in diagonale', 'ritorno'], 'La rotazione precede e guida il ginocchio.'),
+      mc('Quale errore va evitato?', ['Rotazione dalla schiena', 'Ginocchio d’appoggio morbido', 'Punta in giù', 'Avampiede come perno'], 0, 'La schiena non guida la rotazione.'),
+      fill('Il ginocchio d’appoggio non deve essere ____.', ['bloccato'], 'Morbido, soprattutto in rotazione.'),
+      mc('Differenza principale rispetto alla khao trong?', ['Direzione: diagonale invece che dritta', 'Nessuna', 'Si usa il gomito', 'Si salta'], 0, 'Cambia la traiettoria.'),
+      mc('Che cosa fai se perdi equilibrio?', ['Accelero', 'Riduco ampiezza e rallento', 'Salto', 'Alzo di più il ginocchio'], 1, 'Prima l’equilibrio, poi l’ampiezza.'),
+      mc('Quando si può usare un sacco?', ['Mai', 'Solo con un istruttore qualificato', 'Subito', 'Dopo un giorno'], 1, 'Sacco solo con istruttore.'),
+      order('Ordina l’autoverifica', ['registra', 'controlla la rotazione', 'controlla la quota', 'correggi'], 'Verifica ciclica.')
+    ],
+    test: [
+      mc('Che cosa significa «khong» in questo contesto?', ['Corto', 'Curvo', 'Veloce', 'Alto'], 1),
+      mc('A quale quota si ferma il ginocchio a vuoto?', ['Costole/vita', 'Testa', 'Caviglia', 'Spalla'], 0),
+      fill('La rotazione dalla ____ è un errore.', ['schiena'], 'Parte da bacino e avampiede.'),
+      mc('Che cosa succede al tallone d’appoggio durante la rotazione?', ['Si alza perché si ruota sull’avampiede', 'Resta piantato', 'Si sposta di lato strisciando', 'Si blocca'], 0),
+      mc('Quale combinazione è consigliata?', ['Diretta poi curva', 'Curva con salto', 'Solo salti', 'Nessuna'], 0),
+      mc('Che cosa non si fa mai in questa lezione?', ['Contatto', 'Autoverifica video', 'Respirare', 'Rallentare'], 0)
+    ] });
+
+  /* ---------- 4. Khao noi ---------- */
+  C.addTopic({ id: 'jud-khao-noi', subject: 'grp', stage: 'L2', title: 'Khao noi: ginocchiata corta in clinch ravvicinato (a vuoto)', minutes: 10,
+    summary: 'La ginocchiata corta del muay thai a vuoto: serie brevi e regolari a quota vita, schiena dritta, gomiti stretti e ritmo controllato.',
+    objectives: ['Eseguire serie brevi e regolari di ginocchiate corte a vuoto', 'Mantenere postura, gomiti stretti e ginocchio d’appoggio morbido nel ritmo', 'Valutare la qualità della serie con un video e ridurre la velocità se la forma cala'],
+    pages: [
+      { h: 'Che cos’è khao noi', b: '**Khao noi** significa «ginocchio piccolo»: è la **ginocchiata corta**, rapida, a distanza ravvicinata. Nel muay thai si usa in serie dal clinch.\n\nA vuoto è un esercizio di **ritmo e controllo**: più che la forza, conta la regolarità. Si lavora da soli, in aria, a quota **vita**; niente bersagli, niente contatto.' },
+      { h: 'Il posto nel clinch', b: 'Le tre ginocchiate si completano:\n- **khao trong**: diretta, ampia e lineare;\n- **khao khong**: curva, diagonale;\n- **khao noi**: **breve**, a corta distanza, in serie.\n\nNelle regole di competizione, le ginocchia vanno al corpo; nel tuo allenamento rimangono **in aria, a quota vita**, sempre con controllo.' },
+      { h: 'Postura molto ravvicinata', b: 'Dalla postura plum:\n- **gomiti stretti**, avambracci vicini al corpo;\n- **testa e sguardo avanti**, mento rientrato;\n- **busto eretto**, spalle rilassate;\n- piedi alla larghezza delle spalle, **ginocchia morbide**, peso sulle avampiedi.\n\nImmagina un avversario **molto vicino**: lo spazio fra te e lui è minimo, quindi i movimenti sono corti.' },
+      { h: 'Il gesto breve', b: 'Ogni ginocchiata è piccola:\n1. **Il bacino spinge un poco in avanti**.\n2. Il ginocchio sale per **pochi centimetri**, a quota coscia/vita, con la **punta del piede in giù**.\n3. Il piede torna a terra **subito**, vicino alla posizione di partenza.\n4. Si alterna **destra e sinistra** senza fermarsi.\n\nIl busto resta **dritto**; non si curva per «inseguire» il ginocchio.' },
+      { h: 'Ritmo, respiro e serie', b: 'Il ritmo è **regolare e controllato**:\n- serie di **6 colpi**, poi **pausa**;\n- **espira** a ogni ginocchiata, **non trattenere il respiro**;\n- parti **lento**, poi aumenta la velocità solo se la forma resta pulita;\n- se il ritmo diventa irregolare o la postura cede, **fermati e riparti più lento**.\n\n> La forma prima della velocità.' },
+      { h: 'Il piede d’appoggio', b: 'In serie il piede d’appoggio lavora a lungo:\n- **avampiede** come perno, tallone leggermente sollevato;\n- **ginocchio d’appoggio morbido**, mai bloccato;\n- il piede **non salta** ad ogni colpo;\n- cambia gamba **senza perdere** la postura del tronco.\n\nSe senti la gamba d’appoggio affaticata o dolorante, **interrompi** la serie.' },
+      { h: 'Errori comuni, esercizi e progressioni', b: '**Errori:** ritmo irregolare, schiena curva, gomiti larghi, perdita di equilibrio, ginocchio d’appoggio bloccato → correggi rallentando e riportando la postura.\n\n**Progressioni:**\n1. Serie lente di 4 con pausa.\n2. Alternate di 6 con respiro regolare.\n3. Dopo un passo laterale in postura plum.\n4. Diretta, curva, poi serie corta.\n\nNiente sacco né partner senza un istruttore qualificato.' },
+      { h: 'Autoverifica con il video e sicurezza', b: 'Registra di lato una serie di 6: guarda se il busto resta dritto, se il ritmo è regolare e se il ginocchio non supera quota vita. Se la serie peggiora a metà, accorcia.\n\n**Sicurezza:** solo da solo, in aria, **quota vita**; spazio libero 2 m × 2 m; **nessuno sparring, nessun contatto**; sacco o partner solo con un istruttore qualificato. Questa lezione non dichiara efficacia in combattimento: è solo lavoro tecnico di coordinazione.' },
+      { h: 'Riepilogo', b: '- **Khao noi** = ginocchiata corta, a distanza ravvicinata, in serie.\n- Gomiti stretti, schiena **dritta**, ginocchio d’appoggio **morbido**.\n- Serie di 6, **ritmo regolare**, respiro libero.\n- Quota **vita**, sempre in aria.\n- Se la forma cala: **rallenta o fermati**. Sacco e partner solo con un istruttore.' }
+    ],
+    exercises: [
+      mc('Che cosa significa «noi» in khao noi?', ['Piccolo', 'Grande', 'Veloce', 'Dritto'], 0, 'Noi = piccolo.'),
+      mc('Che cosa caratterizza khao noi?', ['Ginocchiate brevi e rapide in serie', 'Un salto', 'Una proiezione', 'Un calcio'], 0, 'Breve e ravvicinata.'),
+      fill('Una serie tipica è di ____ colpi, poi pausa.', ['6', 'sei'], 'Serie corta e controllata.'),
+      order('Ordina la serie', ['postura plum', 'bacino avanti', 'ginocchio corto', 'piede a terra', 'alterna'], 'Gesto breve e ripetuto.'),
+      mc('Che cosa si fa se il ritmo diventa irregolare?', ['Accelerare', 'Rallentare o fermarsi', 'Chiudere gli occhi', 'Aggiungere salti'], 1, 'Forma prima della velocità.'),
+      fill('Il respiro in serie va ____ a ogni colpo.', ['espirato', 'espirando', 'espirare'], 'Espira, non trattenere.'),
+      mc('Quale quota si usa a vuoto?', ['Vita', 'Testa', 'Pavimento', 'Spalle'], 0, 'Quota vita in aria.'),
+      mc('Quale errore va evitato?', ['Schiena curva', 'Gomiti stretti', 'Ginocchio morbido', 'Ritmo regolare'], 0, 'Schiena dritta.'),
+      mc('Quale ruolo ha il ginocchio d’appoggio?', ['Morbido per stabilità', 'Bloccato', 'Sollevato', 'Iperesteso'], 0, 'Morbido sempre.'),
+      order('Ordina l’autoverifica', ['registra di lato', 'conta il ritmo', 'controlla la schiena', 'correggi'], 'Verifica ciclica.')
+    ],
+    test: [
+      mc('Qual è la differenza principale fra khao noi e khao trong?', ['Noi è corta e in serie', 'Noi è curva', 'Noi è un calcio', 'Nessuna'], 0),
+      mc('Quando si può usare un sacco?', ['Con un istruttore qualificato', 'Mai', 'Sempre', 'Dopo una settimana'], 0),
+      fill('Il piede d’appoggio ruota sull’____.', ['avampiede'], 'Palla del piede.'),
+      mc('Che cosa si fa se la gamba d’appoggio duole?', ['Interrompere la serie', 'Aumentare la velocità', 'Bloccare il ginocchio', 'Continuare'], 0),
+      mc('Quale sequenza di ginocchiate è proposta come progressione?', ['Diretta, curva, serie corta', 'Salti e calci', 'Solo curve', 'Nessuna'], 0),
+      mc('Che cosa non si fa in questo percorso?', ['Sparring e contatto', 'Autoverifica', 'Respirare', 'Pausa'], 0)
+    ] });
+})(window.ST = window.ST || {});
+
+/* ---- content/judo-l-lotta ---- */
+/* stub */
+(function (ST) { 'use strict'; })(window.ST = window.ST || {});
+
+/* ---- content/judo-l-theory ---- */
+/* stub */
+(function (ST) { 'use strict'; })(window.ST = window.ST || {});
 
 /* ---- content/en-l0-l1 ---- */
 /* Inglese — stage L0 (fondamenta B1) e L1 (B1 solido). */
@@ -9010,6 +9806,18 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   const beep = () => { try { const ctx = new (window.AudioContext || window.webkitAudioContext)(); const o = ctx.createOscillator(), g = ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.frequency.value = 880; g.gain.value = 0.08; o.start(); setTimeout(() => { o.stop(); ctx.close(); }, 180); if (navigator.vibrate) navigator.vibrate(120); } catch (e) { /* ignora */ } };
   const stars = (n, name) => [1, 2, 3, 4, 5].map(i => '<button class="chip' + (i === n ? ' sel' : '') + '" data-act="jrate" data-k="' + name + '" data-v="' + i + '" style="' + (i <= n ? 'border-color:var(--acc2)' : '') + '">' + i + '</button>').join('');
 
+  /* Lezioni approfondite (argomenti della materia grp): tecniche attive per percorso + teoria. */
+  ST.judoLessons = s => {
+    const tr = M.tracks(s), P = ST.progress;
+    const techOf = t => { const m = /^jud-(?!th-)(.+)$/.exec(t.id); return m ? M.def(m[1]) : null; };
+    const topics = C.topicsOf('grp').filter(t => { const te = techOf(t); return !te || tr.includes(te.track || 'judo') || (s.topics[t.id] && s.topics[t.id].studied); });
+    if (!topics.length) return '';
+    const row = t => '<button class="item" data-act="go" data-view="topic" data-p=\'{"id":"' + t.id + '"}\'><span class="ic">📖</span><span class="tx"><b>' + E(t.title) + '</b><span>' + E(t.stage) + ' · ' + E(P.statusLabel[P.topicStatus(s, t.id)]) + ' · ~' + t.minutes + ' min</span></span></button>';
+    const th = topics.filter(t => /^jud-th-/.test(t.id)), te = topics.filter(t => !/^jud-th-/.test(t.id));
+    const done = topics.filter(t => P.atLeast(P.topicStatus(s, t.id), 'studied')).length;
+    return '<h2>Lezioni approfondite (' + done + ' / ' + topics.length + ' lette)</h2><p class="mute small">Ogni tecnica ha una lezione con principi, passi, errori e correzioni, esercizi e verifica. La teoria spiega principi, sicurezza e biomeccanica.</p>' +
+      '<h3>Teoria</h3><div class="list">' + th.map(row).join('') + '</div><h3>Tecniche</h3><div class="list">' + te.map(row).join('') + '</div>';
+  };
   ST.judoHub = () => {
     const s = A.state, J = C.judo, act = M.active(s), stg = M.stage(s), today = U.today();
     const pick = M.pickForDay(s);
@@ -9017,8 +9825,9 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('grp') + '"></div><h1>🥋 Judo e lotta libera</h1><p class="mute">Stadio motorio attuale: <b>' + stg + '</b> (livello didattico interno, non una cintura).</p>' +
       '<div class="card"><h3>Che cosa questo modulo può e non può fare</h3><p class="small">' + E(J.scope) + '</p></div>' +
       '<div class="card glow"><h3>Oggi: ' + E(PL.JUDO_LABEL[PL.JUDO_SLOT[U.weekday()]]) + '</h3><p class="mute small">' + E(pick.reason || '') + '</p><button class="btn block" data-act="go" data-view="judoSession">▶ Sessione da 5 minuti</button></div>' +
-      '<div class="card"><h3>Percorsi</h3><p class="small">Judo: cadute in progressione, proiezioni a vuoto, entrate. Lotta/no-gi (sprawl, stance, ingressi alle gambe, lavoro a terra): <b>' + (M.tracks(s).includes('lotta') ? 'attivo' : 'disattivato') + '</b>.</p><button class="btn alt" data-act="j-track">' + (M.tracks(s).includes('lotta') ? 'Disattiva percorso lotta/no-gi' : 'Attiva percorso lotta/no-gi') + '</button></div>' +
+      '<div class="card"><h3>Percorsi</h3><p class="small">Judo: cadute in progressione, proiezioni a vuoto, entrate. Lotta/no-gi (sprawl, stance, ingressi alle gambe, lavoro a terra): <b>' + (M.tracks(s).includes('lotta') ? 'attivo' : 'disattivato') + '</b>. Clinch con ginocchiate stile muay thai (a vuoto): <b>' + (M.tracks(s).includes('clinch') ? 'attivo' : 'disattivato') + '</b>.</p><div class="row"><button class="btn alt" data-act="j-clinch">' + (M.tracks(s).includes('clinch') ? 'Disattiva clinch' : 'Attiva clinch') + '</button><button class="btn alt" data-act="j-track">' + (M.tracks(s).includes('lotta') ? 'Disattiva percorso lotta/no-gi' : 'Attiva percorso lotta/no-gi') + '</button></div></div>' +
       '<div class="card"><h3>Sicurezza</h3><ul class="small">' + J.safety.map(x => '<li>' + E(x) + '</li>').join('') + '</ul></div>' +
+      ST.judoLessons(s) +
       '<h2>Repertorio (' + act.length + ' / ' + M.defsFor(s).length + ') · ripassi scaduti: ' + due + '</h2><div class="list">' + J.techniques.filter(t => M.tracks(s).includes(t.track || 'judo') || s.motor[t.id]).map(t => {
         const r = s.motor[t.id];
         return '<button class="item" data-act="go" data-view="technique" data-p=\'{"id":"' + t.id + '"}\'><span class="ic">' + (r ? '🥋' : '🔒') + '</span><span class="tx"><b>' + E(t.name) + '</b><span>' + E(t.stage) + ' · ' + E(M.label(r)) + (r ? ' · prossimo: ' + r.card.due : ' · dal mese ' + t.minMonth) + '</span></span></button>';
@@ -9026,7 +9835,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   };
   V.technique = p => {
     const t = M.def(p.id), r = A.state.motor[p.id], J = C.judo;
-    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + E(t.name) + '</h1><p class="mute">' + E(t.jp) + ' · ' + E(t.stage) + ' · spazio: ' + E(t.space) + '</p>' +
+    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + E(t.name) + '</h1><p class="mute">' + E(t.jp) + ' · ' + E(t.stage) + ' · spazio: ' + E(t.space) + '</p><p><span class="tag">' + (t.gi === 'gi' ? 'con judogi' : 'NO-GI') + '</span>' + (t.track === 'lotta' ? '<span class="tag">lotta</span>' : t.track === 'clinch' ? '<span class="tag">clinch</span>' : '') + '</p>' + (C.topic('jud-' + t.id) ? '<button class="btn alt" data-act="go" data-view="topic" data-p=\'{"id":"jud-' + t.id + '"}\'>📖 Lezione approfondita, esercizi e verifica</button>' : '') +
       (t.instructor ? '<p class="warn small">Questo gesto va <b>verificato da un istruttore</b>. Qui si allena solo forma, ritmo e fluidità (a vuoto o in progressione di sicurezza).</p>' : '') +
       (t.warn ? '<p class="warn small">⚠ ' + E(t.warn) + '</p>' : '') +
       '<div class="card"><h3>Indicazioni</h3><ol>' + t.cues.map(c => '<li>' + E(c) + '</li>').join('') + '</ol></div>' +
@@ -9065,7 +9874,8 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   };
   X.jtheory = () => {
     const s = A.state, J = C.judo;
-    const pool = J.sundayTheory.concat(M.active(s).flatMap(id => M.def(id).theory || []));
+    const lessonQ = C.topicsOf('grp').filter(t => /^jud-th-/.test(t.id) || M.active(s).includes(t.id.replace(/^jud-/, ''))).flatMap(t => (t.test || []).filter(x => x.t === 'mc'));
+    const pool = J.sundayTheory.concat(M.active(s).flatMap(id => M.def(id).theory || []), lessonQ);
     const items = U.sample(pool, Math.min(5, pool.length)).map(q => ({ t: 'mc', q: q.q, o: q.o, a: q.a, why: 'Ripassa la scheda della tecnica.' }));
     R.start({ title: 'Teoria judo', kind: 'free', items, ctx: 'general', onAnswer: (it, ok) => A.xp(ok ? 3 : 0, 'jt'), onFinish: () => { A.day().general.judo = true; A.subjectTouch('grp'); A.save(); return '<p class="mute small">Teoria registrata. Riposo fisico completo oggi.</p>'; } });
   };
@@ -9122,6 +9932,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   };
   X.jskip = () => nextPhase();
   X.jabort = () => { if (confirm('Interrompere la sessione di judo?')) { clearInterval(jt); A.act = null; A.back(); } };
+  X['j-clinch'] = () => { const p = A.state.profile; p.clinchOff = !p.clinchOff; A.save(); A.render(); A.toast(p.clinchOff ? 'Clinch con ginocchiate disattivato' : 'Clinch con ginocchiate attivato'); };
   X['j-track'] = () => { const p = A.state.profile, on = M.tracks(A.state).includes('lotta'); p.judoTracks = on ? ['judo'] : ['judo', 'lotta']; A.save(); A.render(); A.toast(on ? 'Percorso lotta/no-gi disattivato' : 'Percorso lotta/no-gi attivato'); };
   X.jrate = el => { A.act.cur[el.dataset.k] = +el.dataset.v; A.render(); };
   X.jerr = el => { const c = A.act.cur, e = el.dataset.e; c.err = c.err.includes(e) ? c.err.filter(x => x !== e) : c.err.concat(e); A.render(); };

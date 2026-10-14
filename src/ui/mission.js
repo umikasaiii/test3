@@ -107,6 +107,18 @@
   const beep = () => { try { const ctx = new (window.AudioContext || window.webkitAudioContext)(); const o = ctx.createOscillator(), g = ctx.createGain(); o.connect(g); g.connect(ctx.destination); o.frequency.value = 880; g.gain.value = 0.08; o.start(); setTimeout(() => { o.stop(); ctx.close(); }, 180); if (navigator.vibrate) navigator.vibrate(120); } catch (e) { /* ignora */ } };
   const stars = (n, name) => [1, 2, 3, 4, 5].map(i => '<button class="chip' + (i === n ? ' sel' : '') + '" data-act="jrate" data-k="' + name + '" data-v="' + i + '" style="' + (i <= n ? 'border-color:var(--acc2)' : '') + '">' + i + '</button>').join('');
 
+  /* Lezioni approfondite (argomenti della materia grp): tecniche attive per percorso + teoria. */
+  ST.judoLessons = s => {
+    const tr = M.tracks(s), P = ST.progress;
+    const techOf = t => { const m = /^jud-(?!th-)(.+)$/.exec(t.id); return m ? M.def(m[1]) : null; };
+    const topics = C.topicsOf('grp').filter(t => { const te = techOf(t); return !te || tr.includes(te.track || 'judo') || (s.topics[t.id] && s.topics[t.id].studied); });
+    if (!topics.length) return '';
+    const row = t => '<button class="item" data-act="go" data-view="topic" data-p=\'{"id":"' + t.id + '"}\'><span class="ic">📖</span><span class="tx"><b>' + E(t.title) + '</b><span>' + E(t.stage) + ' · ' + E(P.statusLabel[P.topicStatus(s, t.id)]) + ' · ~' + t.minutes + ' min</span></span></button>';
+    const th = topics.filter(t => /^jud-th-/.test(t.id)), te = topics.filter(t => !/^jud-th-/.test(t.id));
+    const done = topics.filter(t => P.atLeast(P.topicStatus(s, t.id), 'studied')).length;
+    return '<h2>Lezioni approfondite (' + done + ' / ' + topics.length + ' lette)</h2><p class="mute small">Ogni tecnica ha una lezione con principi, passi, errori e correzioni, esercizi e verifica. La teoria spiega principi, sicurezza e biomeccanica.</p>' +
+      '<h3>Teoria</h3><div class="list">' + th.map(row).join('') + '</div><h3>Tecniche</h3><div class="list">' + te.map(row).join('') + '</div>';
+  };
   ST.judoHub = () => {
     const s = A.state, J = C.judo, act = M.active(s), stg = M.stage(s), today = U.today();
     const pick = M.pickForDay(s);
@@ -114,8 +126,9 @@
     return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('grp') + '"></div><h1>🥋 Judo e lotta libera</h1><p class="mute">Stadio motorio attuale: <b>' + stg + '</b> (livello didattico interno, non una cintura).</p>' +
       '<div class="card"><h3>Che cosa questo modulo può e non può fare</h3><p class="small">' + E(J.scope) + '</p></div>' +
       '<div class="card glow"><h3>Oggi: ' + E(PL.JUDO_LABEL[PL.JUDO_SLOT[U.weekday()]]) + '</h3><p class="mute small">' + E(pick.reason || '') + '</p><button class="btn block" data-act="go" data-view="judoSession">▶ Sessione da 5 minuti</button></div>' +
-      '<div class="card"><h3>Percorsi</h3><p class="small">Judo: cadute in progressione, proiezioni a vuoto, entrate. Lotta/no-gi (sprawl, stance, ingressi alle gambe, lavoro a terra): <b>' + (M.tracks(s).includes('lotta') ? 'attivo' : 'disattivato') + '</b>.</p><button class="btn alt" data-act="j-track">' + (M.tracks(s).includes('lotta') ? 'Disattiva percorso lotta/no-gi' : 'Attiva percorso lotta/no-gi') + '</button></div>' +
+      '<div class="card"><h3>Percorsi</h3><p class="small">Judo: cadute in progressione, proiezioni a vuoto, entrate. Lotta/no-gi (sprawl, stance, ingressi alle gambe, lavoro a terra): <b>' + (M.tracks(s).includes('lotta') ? 'attivo' : 'disattivato') + '</b>. Clinch con ginocchiate stile muay thai (a vuoto): <b>' + (M.tracks(s).includes('clinch') ? 'attivo' : 'disattivato') + '</b>.</p><div class="row"><button class="btn alt" data-act="j-clinch">' + (M.tracks(s).includes('clinch') ? 'Disattiva clinch' : 'Attiva clinch') + '</button><button class="btn alt" data-act="j-track">' + (M.tracks(s).includes('lotta') ? 'Disattiva percorso lotta/no-gi' : 'Attiva percorso lotta/no-gi') + '</button></div></div>' +
       '<div class="card"><h3>Sicurezza</h3><ul class="small">' + J.safety.map(x => '<li>' + E(x) + '</li>').join('') + '</ul></div>' +
+      ST.judoLessons(s) +
       '<h2>Repertorio (' + act.length + ' / ' + M.defsFor(s).length + ') · ripassi scaduti: ' + due + '</h2><div class="list">' + J.techniques.filter(t => M.tracks(s).includes(t.track || 'judo') || s.motor[t.id]).map(t => {
         const r = s.motor[t.id];
         return '<button class="item" data-act="go" data-view="technique" data-p=\'{"id":"' + t.id + '"}\'><span class="ic">' + (r ? '🥋' : '🔒') + '</span><span class="tx"><b>' + E(t.name) + '</b><span>' + E(t.stage) + ' · ' + E(M.label(r)) + (r ? ' · prossimo: ' + r.card.due : ' · dal mese ' + t.minMonth) + '</span></span></button>';
@@ -123,7 +136,7 @@
   };
   V.technique = p => {
     const t = M.def(p.id), r = A.state.motor[p.id], J = C.judo;
-    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + E(t.name) + '</h1><p class="mute">' + E(t.jp) + ' · ' + E(t.stage) + ' · spazio: ' + E(t.space) + '</p>' +
+    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + E(t.name) + '</h1><p class="mute">' + E(t.jp) + ' · ' + E(t.stage) + ' · spazio: ' + E(t.space) + '</p><p><span class="tag">' + (t.gi === 'gi' ? 'con judogi' : 'NO-GI') + '</span>' + (t.track === 'lotta' ? '<span class="tag">lotta</span>' : t.track === 'clinch' ? '<span class="tag">clinch</span>' : '') + '</p>' + (C.topic('jud-' + t.id) ? '<button class="btn alt" data-act="go" data-view="topic" data-p=\'{"id":"jud-' + t.id + '"}\'>📖 Lezione approfondita, esercizi e verifica</button>' : '') +
       (t.instructor ? '<p class="warn small">Questo gesto va <b>verificato da un istruttore</b>. Qui si allena solo forma, ritmo e fluidità (a vuoto o in progressione di sicurezza).</p>' : '') +
       (t.warn ? '<p class="warn small">⚠ ' + E(t.warn) + '</p>' : '') +
       '<div class="card"><h3>Indicazioni</h3><ol>' + t.cues.map(c => '<li>' + E(c) + '</li>').join('') + '</ol></div>' +
@@ -162,7 +175,8 @@
   };
   X.jtheory = () => {
     const s = A.state, J = C.judo;
-    const pool = J.sundayTheory.concat(M.active(s).flatMap(id => M.def(id).theory || []));
+    const lessonQ = C.topicsOf('grp').filter(t => /^jud-th-/.test(t.id) || M.active(s).includes(t.id.replace(/^jud-/, ''))).flatMap(t => (t.test || []).filter(x => x.t === 'mc'));
+    const pool = J.sundayTheory.concat(M.active(s).flatMap(id => M.def(id).theory || []), lessonQ);
     const items = U.sample(pool, Math.min(5, pool.length)).map(q => ({ t: 'mc', q: q.q, o: q.o, a: q.a, why: 'Ripassa la scheda della tecnica.' }));
     R.start({ title: 'Teoria judo', kind: 'free', items, ctx: 'general', onAnswer: (it, ok) => A.xp(ok ? 3 : 0, 'jt'), onFinish: () => { A.day().general.judo = true; A.subjectTouch('grp'); A.save(); return '<p class="mute small">Teoria registrata. Riposo fisico completo oggi.</p>'; } });
   };
@@ -219,6 +233,7 @@
   };
   X.jskip = () => nextPhase();
   X.jabort = () => { if (confirm('Interrompere la sessione di judo?')) { clearInterval(jt); A.act = null; A.back(); } };
+  X['j-clinch'] = () => { const p = A.state.profile; p.clinchOff = !p.clinchOff; A.save(); A.render(); A.toast(p.clinchOff ? 'Clinch con ginocchiate disattivato' : 'Clinch con ginocchiate attivato'); };
   X['j-track'] = () => { const p = A.state.profile, on = M.tracks(A.state).includes('lotta'); p.judoTracks = on ? ['judo'] : ['judo', 'lotta']; A.save(); A.render(); A.toast(on ? 'Percorso lotta/no-gi disattivato' : 'Percorso lotta/no-gi attivato'); };
   X.jrate = el => { A.act.cur[el.dataset.k] = +el.dataset.v; A.render(); };
   X.jerr = el => { const c = A.act.cur, e = el.dataset.e; c.err = c.err.includes(e) ? c.err.filter(x => x !== e) : c.err.concat(e); A.render(); };
