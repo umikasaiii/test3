@@ -1941,7 +1941,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
       X('Che cosa NON fai in questo gradino?', 'Alzare la testa a scatti', ['Guardare la cintura', 'Battere con tutto il braccio', 'Espirare'], 2, 'Il collo non si alza e non si abbassa a scatti.'),
       X('Che cosa serve per un buon ushiro ukemi da sdraiato?', 'Mento sul petto e battuta decisa', ['Gambe tese e rigide', 'Respiro bloccato', 'Braccia sotto la schiena'], 0, 'Sono le due costanti.'),
       X('Dopo quante ripetizioni pulite sali di livello?', 'Dieci', ['Una', 'Nessuna, subito', 'Mille in una volta'], 1, 'Dieci pulite, poi si sale.'),
-      X('Che cosa fai se senti dolore al collo?', 'Ti fermi', ['Ripeti più forte', 'Vai al gradino alto', 'Trattieni il respiro'], 3 - 3 + 0, 'Dolore al collo = stop.'),
+      X('Che cosa fai se senti dolore al collo?', 'Ti fermi', ['Ripeti più forte', 'Vai al gradino alto', 'Trattieni il respiro'], 0, 'Dolore al collo = stop.'),
       fill('Il mento va sul ___.', ['petto'], 'Mento sul petto, sguardo alla cintura.')
     ]
   });
@@ -1961,7 +1961,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
       X('Che posizione hanno le gambe in yoko ukemi?', 'Leggermente divaricate', ['Unite e incrociate', 'Piegate sotto il corpo', 'Rigide e in aria'], 2, 'Gambe divaricate, morbide.'),
       X('Quale braccio batte?', 'Il braccio basso, a contatto con il tappeto', ['Quello alto', 'Nessuno', 'Entrambi dietro la schiena'], 0, 'Batte il braccio basso.'),
       X('A che angolo batte?', '30–45° dal corpo', ['0° attaccato al fianco', '90°', '180°'], 1, 'L’angolo giusto è 30–45°.'),
-      X('Dove va l’altro braccio?', 'Incrocia il petto', ['Dietro la testa', 'Sotto il corpo', 'In alto, teso'], 3 - 1, 'Incrocia il petto.'),
+      X('Dove va l’altro braccio?', 'Incrocia il petto', ['Dietro la testa', 'Sotto il corpo', 'In alto, teso'], 2, 'Incrocia il petto.'),
       X('Dopo quale gradino si fa questo?', 'Ushiro ukemi da sdraiato consolidato', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro da in piedi'], 0, 'Prima ushiro 1.'),
       order('Ordina', ['fianco', 'mento', 'battuta', 'espira', 'cambia lato'], 'Fianco, mento, battuta con espirazione, poi altro lato.'),
       fill('Le gambe vanno leggermente ___ (non unite).', ['divaricate', 'aperte'], 'Divaricate.'),
@@ -2000,7 +2000,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     te: [
       X('Quale è un errore?', 'Schiena rigida', ['Mento sul petto', 'Battuta al contatto', 'Espirazione'], 1, 'Schiena rigida.'),
       X('Dove si batte?', 'Con le braccia a 30–45°', ['Con la testa', 'Con i gomiti vicini', 'Non si batte'], 0, 'Battuta a 30–45°.'),
-      X('Prerequisito di questo gradino?', 'Yoko ukemi da sdraiato consolidato', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro in piedi'], 2 - 2 + 0, 'Gradino precedente consolidato.'),
+      X('Prerequisito di questo gradino?', 'Yoko ukemi da sdraiato consolidato', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro in piedi'], 0, 'Gradino precedente consolidato.'),
       X('Che succede alle braccia in fase iniziale (livello 1)?', 'Sono incrociate sul petto', ['Dietro la schiena', 'Sopra la testa', 'In tasca'], 1, 'Prima senza battere.'),
       fill('Il collo non va ___.', ['forzato', 'teso'], 'Non forzare il collo.')
     ]
@@ -2210,7 +2210,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     te: [
       X('Errore?', 'Gambe che battono', ['Mento sul petto', 'Battuta a 45°', 'Diagonale'], 0, 'Battono.'),
       X('Con giramenti?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 1, 'Stop.'),
-      X('Chi certifica?', 'Un istruttore, non l’app', ['L’app', 'Il video', 'Nessuno'], 2 - 2 + 0, 'Istruttore.'),
+      X('Chi certifica?', 'Un istruttore, non l’app', ['L’app', 'Il video', 'Nessuno'], 0, 'Istruttore.'),
       X('Superficie?', 'Tatami', ['Cemento', 'Piastrelle', 'Parquet'], 1, 'Tatami.'),
       fill('Il rotolamento è in ___.', ['diagonale'], 'Diagonale.')
     ]
@@ -2272,7 +2272,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
       { h: 'Che cos’è o-soto-gari', b: '**O-soto-gari** (大外刈, «grande falciata esterna») è un **ashi-waza**, tecnica di gamba del Kodokan, tra le prime proiezioni che si studiano. Qui è eseguita **a vuoto**: il gesto si compie nell’aria, nessuno viene proiettato e tu non cadi.\n\nL’idea: far arretrare il peso del partner immaginario sul suo tallone e «falciare» il suo appoggio dall’esterno. Senza partner alleni **forma, equilibrio e ritmo**, non l’efficacia reale.' },
       { h: 'Il principio: kuzushi–tsukuri–kake', b: '- **Kuzushi**: porti il partner immaginario **all’indietro**, sul suo tallone destro.\n- **Tsukuri**: passo del piede sinistro **a fianco** del suo piede destro, ginocchio morbido, busto eretto.\n- **Kake**: la gamba destra **spazza all’indietro** seguendo l’asse del corpo.\n\n> La gamba che spazza non spinge: accompagna il busto che avanza.\n\nIl busto va avanti mentre la gamba va indietro: è questa opposizione che crea il gesto, non la forza della gamba.' },
       { h: 'Le prese no-gi', b: 'Senza judogi:\n\n- **Collar tie** con la mano destra: mano sulla nuca dell’avversario immaginario, avambraccio attivo.\n- **Polso o bicipite** con la mano sinistra (wrist / bicep control).\n\nLa testa e il braccio guidano il tronco all’indietro. Gomiti dentro, spalle basse. Si tira con tutto il corpo, non con le sole braccia. Nessuna presa a bavero o manica.\n\nIn alternativa puoi simulare un **neck wrap**; scegli una presa e mantienila per tutta la serie.' },
-      { h: 'Piedi e anche, passo per passo', b' Versione a destra (a sinistra: specchio).\n\n1. **Postura** in shizentai, ginocchia morbide.\n2. **Kuzushi**: le mani guidano il tronco immaginario indietro, tu avanzi di poco.\n3. **Passo sinistro**: il piede sinistro si pianta a fianco del piede destro dell’avversario immaginario, punta in avanti.\n4. **Carico**: il peso passa sul sinistro, ginocchio morbido, busto eretto.\n5. **Kake**: la gamba destra parte dall’anca, tesa, e spazza all’indietro a **quota bassa** (altezza ginocchio).\n6. **Chiusura**: riporta il piede destro a terra **davanti**, in stance.\n\nLo sguardo resta avanti e il busto non si inclina all’indietro.'.trim() },
+      { h: 'Piedi e anche, passo per passo', b: 'Versione a destra (a sinistra: specchio).\n\n1. **Postura** in shizentai, ginocchia morbide.\n2. **Kuzushi**: le mani guidano il tronco immaginario indietro, tu avanzi di poco.\n3. **Passo sinistro**: il piede sinistro si pianta a fianco del piede destro dell’avversario immaginario, punta in avanti.\n4. **Carico**: il peso passa sul sinistro, ginocchio morbido, busto eretto.\n5. **Kake**: la gamba destra parte dall’anca, tesa, e spazza all’indietro a **quota bassa** (altezza ginocchio).\n6. **Chiusura**: riporta il piede destro a terra **davanti**, in stance.\n\nLo sguardo resta avanti e il busto non si inclina all’indietro.' },
       { h: 'Il finale «a vuoto»', b: 'La spazzata è **solo nell’aria**:\n\n- quota **bassa**, mai sopra il ginocchio;\n- **non colpire** pareti, mobili, persone o animali: lascia almeno un metro libero dietro la gamba;\n- non spingere sul vuoto: la gamba si ferma con controllo;\n- finale **sempre in piedi**, in equilibrio sul sinistro prima di riappoggiare il destro.\n\nSe l’equilibrio cede, appoggia il piede e ricomincia. Nessuna caduta, nessuna proiezione reale.' },
       { h: 'Errori comuni e correzioni', b: '- **Peso sui talloni** → il peso va sul piede d’appoggio, tra avampiede e metà piede.\n- **Gamba che sale troppo** → resta a quota ginocchio; l’altezza non è efficacia.\n- **Busto che si inclina all’indietro** → il busto va avanti, la gamba indietro.\n- **Testa che oscilla** → sguardo fisso avanti.\n- **Perdita di equilibrio** → passo più corto, ginocchio morbido, più lentezza.\n\nUn errore alla volta, filmandoti di lato.' },
       { h: 'Progressioni', b: '1. **Spazzata lenta in 4 tempi**: kuzushi, passo, carico, spazzata con pausa.\n2. **Spazzata alternata** destra e sinistra, riportando sempre il piede davanti.\n3. **Gesto dopo uno spostamento**: due passi, poi la tecnica.\n4. **Più veloce** solo se il piede d’appoggio non si sposta e la gamba resta bassa.\n\nSerie di 5–8 ripetizioni di qualità; fermati se la forma cala.' },
@@ -2405,7 +2405,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
       mc('Che differenza c’è con o-uchi-gari?', ['Il gesto è più piccolo e breve', 'È una caduta', 'È una presa', 'Nessuna'], 0),
       order('Ordina la chiusura', ['gesto breve', 'piede a terra', 'stance', 'equilibrio'], 'Gesto, piede a terra, stance, equilibrio.'),
       fill('Il finale del gesto è sempre ___ (in piedi/seduto).', ['in piedi'], 'Nessuna caduta.'),
-      mc('Che cosa fai se perdi equilibrio?', ['Appoggi il piede e ricominci piano', 'Accelleri', 'Allarghi il gesto', 'Ti lasci cadere'], 0)
+      mc('Che cosa fai se perdi equilibrio?', ['Appoggi il piede e ricominci piano', 'Acceleri', 'Allarghi il gesto', 'Ti lasci cadere'], 0)
     ] });
 })(window.ST = window.ST || {});
 

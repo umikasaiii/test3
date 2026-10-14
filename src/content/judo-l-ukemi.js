@@ -57,7 +57,7 @@
       X('Che cosa NON fai in questo gradino?', 'Alzare la testa a scatti', ['Guardare la cintura', 'Battere con tutto il braccio', 'Espirare'], 2, 'Il collo non si alza e non si abbassa a scatti.'),
       X('Che cosa serve per un buon ushiro ukemi da sdraiato?', 'Mento sul petto e battuta decisa', ['Gambe tese e rigide', 'Respiro bloccato', 'Braccia sotto la schiena'], 0, 'Sono le due costanti.'),
       X('Dopo quante ripetizioni pulite sali di livello?', 'Dieci', ['Una', 'Nessuna, subito', 'Mille in una volta'], 1, 'Dieci pulite, poi si sale.'),
-      X('Che cosa fai se senti dolore al collo?', 'Ti fermi', ['Ripeti più forte', 'Vai al gradino alto', 'Trattieni il respiro'], 3 - 3 + 0, 'Dolore al collo = stop.'),
+      X('Che cosa fai se senti dolore al collo?', 'Ti fermi', ['Ripeti più forte', 'Vai al gradino alto', 'Trattieni il respiro'], 0, 'Dolore al collo = stop.'),
       fill('Il mento va sul ___.', ['petto'], 'Mento sul petto, sguardo alla cintura.')
     ]
   });
@@ -77,7 +77,7 @@
       X('Che posizione hanno le gambe in yoko ukemi?', 'Leggermente divaricate', ['Unite e incrociate', 'Piegate sotto il corpo', 'Rigide e in aria'], 2, 'Gambe divaricate, morbide.'),
       X('Quale braccio batte?', 'Il braccio basso, a contatto con il tappeto', ['Quello alto', 'Nessuno', 'Entrambi dietro la schiena'], 0, 'Batte il braccio basso.'),
       X('A che angolo batte?', '30–45° dal corpo', ['0° attaccato al fianco', '90°', '180°'], 1, 'L’angolo giusto è 30–45°.'),
-      X('Dove va l’altro braccio?', 'Incrocia il petto', ['Dietro la testa', 'Sotto il corpo', 'In alto, teso'], 3 - 1, 'Incrocia il petto.'),
+      X('Dove va l’altro braccio?', 'Incrocia il petto', ['Dietro la testa', 'Sotto il corpo', 'In alto, teso'], 2, 'Incrocia il petto.'),
       X('Dopo quale gradino si fa questo?', 'Ushiro ukemi da sdraiato consolidato', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro da in piedi'], 0, 'Prima ushiro 1.'),
       order('Ordina', ['fianco', 'mento', 'battuta', 'espira', 'cambia lato'], 'Fianco, mento, battuta con espirazione, poi altro lato.'),
       fill('Le gambe vanno leggermente ___ (non unite).', ['divaricate', 'aperte'], 'Divaricate.'),
@@ -116,7 +116,7 @@
     te: [
       X('Quale è un errore?', 'Schiena rigida', ['Mento sul petto', 'Battuta al contatto', 'Espirazione'], 1, 'Schiena rigida.'),
       X('Dove si batte?', 'Con le braccia a 30–45°', ['Con la testa', 'Con i gomiti vicini', 'Non si batte'], 0, 'Battuta a 30–45°.'),
-      X('Prerequisito di questo gradino?', 'Yoko ukemi da sdraiato consolidato', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro in piedi'], 2 - 2 + 0, 'Gradino precedente consolidato.'),
+      X('Prerequisito di questo gradino?', 'Yoko ukemi da sdraiato consolidato', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro in piedi'], 0, 'Gradino precedente consolidato.'),
       X('Che succede alle braccia in fase iniziale (livello 1)?', 'Sono incrociate sul petto', ['Dietro la schiena', 'Sopra la testa', 'In tasca'], 1, 'Prima senza battere.'),
       fill('Il collo non va ___.', ['forzato', 'teso'], 'Non forzare il collo.')
     ]
@@ -326,7 +326,7 @@
     te: [
       X('Errore?', 'Gambe che battono', ['Mento sul petto', 'Battuta a 45°', 'Diagonale'], 0, 'Battono.'),
       X('Con giramenti?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 1, 'Stop.'),
-      X('Chi certifica?', 'Un istruttore, non l’app', ['L’app', 'Il video', 'Nessuno'], 2 - 2 + 0, 'Istruttore.'),
+      X('Chi certifica?', 'Un istruttore, non l’app', ['L’app', 'Il video', 'Nessuno'], 0, 'Istruttore.'),
       X('Superficie?', 'Tatami', ['Cemento', 'Piastrelle', 'Parquet'], 1, 'Tatami.'),
       fill('Il rotolamento è in ___.', ['diagonale'], 'Diagonale.')
     ]
