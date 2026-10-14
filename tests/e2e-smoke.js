@@ -71,6 +71,7 @@ const mock = () => {
   await step('percorso lotta on', () => { ST.acts['j-track'](); ST.app.go('subject', { id: 'grp' }); }, /disattiva percorso lotta/i);
   await step('percorso lotta off', () => { ST.acts['j-track'](); ST.app.go('subject', { id: 'grp' }); }, /attiva percorso lotta/i);
   await step('hub mentale', () => ST.app.go('subject', { id: 'mnt' }), /Allenamento mentale/);
+  for (const id of await page.evaluate(() => ST.content.topicsOf('grp').map(t => t.id))) await step('lezione judo ' + id, id => { ST.app.state.topics[id] = { page: 0, studied: ST.util.addDays(ST.util.today(), -3), ex: {}, tests: [], retests: [] }; ST.acts.startTest(id); }, /Verifica/, id);
   await step('tecnica', () => ST.app.go('technique', { id: 'posture' }), /Indicazioni/);
   for (const id of await page.evaluate(() => ST.content.judo.techniques.map(t => t.id))) await step('tecnica ' + id, id => ST.app.go('technique', { id }), /Indicazioni/, id);
   await step('theory', () => ST.acts.startTheory());

@@ -286,3 +286,15 @@ test('Esercizi generati: coniugazioni giapponesi corrette e diagnosi degli error
   if (past) assert.match(past.diag('gone'), /participio/);
   en.forEach(x => assert.ok(x.a[0] && x.why));
 });
+
+test('Judo: ogni tecnica ha una lezione approfondita; proiezioni no-gi (morote-seoi con judogi)', () => {
+  C.judo.techniques.forEach(t => {
+    const l = C.topic('jud-' + t.id);
+    assert.ok(l, 'lezione mancante: ' + t.id);
+    assert.ok(l.pages.length >= 7 && l.exercises.length >= 8 && l.test.length >= 5, t.id);
+  });
+  assert.ok(C.topicsOf('grp').filter(t => /^jud-th-/.test(t.id)).length >= 12);
+  C.judo.techniques.filter(t => /-full$/.test(t.id)).forEach(t => assert.equal(t.gi, t.id === 'morote-seoi-full' ? 'gi' : 'no-gi', t.id));
+  assert.ok(!JSON.stringify(C.judo.techniques.filter(t => /-full$/.test(t.id) && t.id !== 'morote-seoi-full').map(t => t.cues)).match(/bavero|manica|hikite|tsurite/i), 'prese al tessuto nelle proiezioni no-gi');
+  ['kosoto-full', 'koshi-guruma-full', 'morote-seoi-full', 'khao-trong', 'khao-khong', 'khao-noi', 'plum-clinch'].forEach(id => assert.ok(C.judo.techniques.find(t => t.id === id), id));
+});
