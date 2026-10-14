@@ -1126,22 +1126,34 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   'use strict';
   const U = ST.util;
   const MN = ST.mental = {};
-  MN.TYPES = ['calc', 'seq', 'span', 'corsi', 'odd', 'stroop', 'logic'];
-  MN.LABEL = { calc: 'Calcolo mentale', seq: 'Riconoscimento di schemi', span: 'Memoria di lavoro · cifre', corsi: 'Memoria spaziale', odd: 'Velocità decisionale', stroop: 'Attenzione e controllo', logic: 'Ragionamento logico' };
+  MN.TYPES = ['calc', 'seq', 'span', 'corsi', 'odd', 'stroop', 'logic', 'nback', 'recall', 'estimate', 'order', 'syllo', 'switch'];
+  MN.LABEL = { calc: 'Calcolo mentale', seq: 'Riconoscimento di schemi', span: 'Memoria di lavoro · cifre', corsi: 'Memoria spaziale', odd: 'Velocità decisionale', stroop: 'Attenzione e controllo', logic: 'Ragionamento logico', nback: 'Memoria di lavoro · n-back', recall: 'Memoria · liste di parole', estimate: 'Stima e ordini di grandezza', order: 'Ragionamento · ordinamenti', syllo: 'Ragionamento · sillogismi', switch: 'Flessibilità cognitiva' };
   // Giorno della settimana → tipi in evidenza (lun=0). Tutti i tipi ricorrono nella settimana.
-  MN.WEEK = [['calc', 'span', 'logic'], ['seq', 'odd', 'corsi'], ['stroop', 'calc', 'logic'], ['span', 'seq', 'odd'], ['corsi', 'calc', 'stroop'], ['logic', 'seq', 'span'], ['odd', 'corsi', 'calc']];
+  MN.WEEK = [['calc', 'nback', 'syllo'], ['seq', 'recall', 'odd'], ['estimate', 'span', 'order'], ['switch', 'corsi', 'calc'], ['stroop', 'nback', 'logic'], ['syllo', 'seq', 'recall'], ['order', 'estimate', 'switch']];
 
   MN.level = (state, type) => (state.mental[type] && state.mental[type].level) || 1;
-  MN.record = (state, type, ok) => {
+  /* Registra un esito. ms/limitSec facoltativi: una risposta giusta ma oltre il tempo vale mezzo punto (non fa salire di livello da sola). */
+  MN.record = (state, type, ok, ms, limitSec) => {
     const m = (state.mental[type] = state.mental[type] || { level: 1, hist: [], n: 0, ok: 0 });
-    m.hist.push(ok ? 1 : 0); if (m.hist.length > 12) m.hist.shift();
-    m.n++; m.ok += ok ? 1 : 0;
+    const slow = !!(ok && limitSec && ms && ms > limitSec * 1000);
+    m.hist.push(ok ? (slow ? 0.5 : 1) : 0); if (m.hist.length > 12) m.hist.shift();
+    m.n++; m.ok += ok ? 1 : 0; if (slow) m.slow = (m.slow || 0) + 1;
+    if (ms) m.ms = m.ms ? Math.round(m.ms * 0.8 + ms * 0.2) : ms;
     if (m.hist.length >= 6) {
       const r = m.hist.slice(-6).reduce((a, b) => a + b, 0) / 6;
       if (r >= 0.83 && m.level < 10) { m.level++; m.hist = []; }
       else if (r <= 0.5 && m.level > 1) { m.level--; m.hist = []; }
     }
+    m.max = Math.max(m.max || 1, m.level);
   };
+  /* Storico sessioni e test di riferimento (per vedere l'andamento nel tempo). */
+  MN.logSession = (state, kind, res, date) => {
+    state.mentalLog = state.mentalLog || [];
+    const n = res.length, ok = res.filter(x => x.ok).length, ms = n ? Math.round(res.reduce((a, x) => a + (x.ms || 0), 0) / n) : 0;
+    state.mentalLog.push({ d: date || U.today(), kind, n, ok, ms });
+    if (state.mentalLog.length > 200) state.mentalLog.shift();
+  };
+  MN.trend = (state, kind, k) => (state.mentalLog || []).filter(x => x.kind === kind).slice(-(k || 10));
 
   const LOGIC = [
     { q: 'Tutti i falchi sono uccelli. Alcuni uccelli non volano. Quale conclusione è SICURA?', o: ['Alcuni falchi non volano', 'Tutti i falchi sono uccelli', 'Nessun uccello vola', 'Tutti gli uccelli sono falchi'], a: 1 },
@@ -1161,6 +1173,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   ];
   MN.logicCount = LOGIC.length;
 
+  const WORDS = ['albero', 'tavolo', 'finestra', 'montagna', 'orologio', 'chitarra', 'cucchiaio', 'bicicletta', 'lampada', 'giardino', 'ponte', 'nuvola', 'scarpa', 'libro', 'cavallo', 'fiume', 'pennello', 'sedia', 'campana', 'farfalla', 'zaino', 'specchio', 'barca', 'formaggio', 'telefono', 'candela', 'tenda', 'moneta', 'ombrello', 'valigia', 'bottiglia', 'pianeta', 'treno', 'cappello', 'chiave', 'martello', 'isola', 'arancia', 'tamburo', 'scala', 'coltello', 'faro', 'lenzuolo', 'pecora', 'cerchio', 'quaderno', 'miele', 'vulcano', 'paracadute', 'collana'];
   const COL = [['ROSSO', '#e5484d'], ['BLU', '#3b82f6'], ['VERDE', '#22a06b'], ['GIALLO', '#d6a40a']];
 
   /* Genera un esercizio di un dato tipo al livello indicato. rng opzionale per i test. */
@@ -1210,6 +1223,79 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
       const w = U.pick(COL, rng); let c = U.pick(COL, rng);
       if (lv >= 3) while (c[0] === w[0]) c = U.pick(COL, rng);
       return { t: 'stroop', mtype: type, word: w[0], color: c[1], opts: COL.map(x => x[0]), a: COL.findIndex(x => x[1] === c[1]), q: 'Tocca il COLORE dell’inchiostro, non la parola', timed: Math.max(3, 9 - lv), why: 'Il colore dell’inchiostro era ' + c[0] };
+    }
+
+    if (type === 'nback') {
+      const n = lv <= 3 ? 1 : lv <= 7 ? 2 : 3, len = 10 + lv, pool = 'BCDFGHKLMNPRSTVZ'.split('');
+      const seq = [];
+      for (let i = 0; i < len; i++) {
+        if (i >= n && rng() < 0.3) seq.push(seq[i - n]);
+        else { let c; do { c = U.pick(pool, rng); } while (i >= n && c === seq[i - n]); seq.push(c); }
+      }
+      const targets = seq.map((c, i) => i >= n && c === seq[i - n]);
+      return { t: 'nback', mtype: type, n, seq, targets, ms: Math.max(900, 2000 - lv * 100), q: 'Tocca «Uguale» quando la lettera è la stessa di ' + n + (n === 1 ? ' posto' : ' posti') + ' fa', why: 'Bersagli: ' + targets.map((x, i) => x ? i + 1 : null).filter(Boolean).join(', ') };
+    }
+    if (type === 'recall') {
+      const N = Math.min(12, 4 + Math.ceil(lv * 0.8)), ws = U.sample(WORDS, N + 3, rng), list = ws.slice(0, N), out = ws.slice(N);
+      const pos = ri(0, N - 1);
+      let q, a, o;
+      if (lv <= 4) { q = 'Quale di queste parole era nella lista?'; o = U.shuffle([list[pos]].concat(out), rng); a = o.indexOf(list[pos]); }
+      else { q = 'Quale parola era in posizione ' + (pos + 1) + '?'; const others = U.sample(list.filter((_, i) => i !== pos), 3, rng); o = U.shuffle([list[pos]].concat(others), rng); a = o.indexOf(list[pos]); }
+      return { t: 'flash', mtype: type, show: list.join(' · '), ms: N * (900 - Math.min(lv, 8) * 50), q, o, a, why: 'Lista: ' + list.join(', ') };
+    }
+    if (type === 'estimate') {
+      let x, y, sym, exact;
+      if (lv <= 3) { x = ri(21, 89); y = ri(3, 9); sym = '×'; exact = x * y; }
+      else if (lv <= 6) { x = ri(31, 98); y = ri(21, 79); sym = '×'; exact = x * y; }
+      else if (lv <= 8) { x = ri(300, 980); y = ri(12, 48); sym = '÷'; exact = x / y; }
+      else { x = ri(1200, 9800); y = ri(12, 48); sym = '×'; exact = x * y; }
+      const sig = v => { const e = Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - 1); return Math.round(v / e) * e; };
+      const val = sig(exact), cands = [val, sig(val * 0.5), sig(val * 2), sig(val * 1.3), sig(val * 0.75)];
+      const uniq = [...new Set(cands)].slice(0, 4);
+      const o = U.shuffle(uniq.map(v => 'circa ' + String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, '.')), rng);
+      const ansTxt = 'circa ' + String(Math.round(val)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      return { t: 'mc', mtype: type, q: 'Stima: ' + x + ' ' + sym + ' ' + y + ' è…', o, a: o.indexOf(ansTxt), why: 'Arrotonda i fattori: il risultato esatto è ' + (sym === '÷' ? exact.toFixed(1) : exact) + ' → ' + ansTxt, timed: 20 };
+    }
+    if (type === 'order') {
+      const NAMES = ['Anna', 'Bea', 'Carlo', 'Dario', 'Elisa', 'Fabio'], cnt = lv <= 3 ? 3 : lv <= 6 ? 4 : lv <= 8 ? 5 : 6;
+      const people = U.sample(NAMES, cnt, rng); // people[0] è il primo
+      const attrs = [['più forte', 'più forti'], ['più veloce', 'più veloci'], ['più giovane', 'più giovani']];
+      const at = U.pick(attrs, rng);
+      const rel = []; for (let i = 0; i < cnt - 1; i++) rel.push(people[i] + ' è ' + at[0] + ' di ' + people[i + 1] + '.');
+      const shown = U.shuffle(rel, rng);
+      const kind = lv <= 3 ? 0 : lv <= 6 ? ri(0, 1) : ri(1, 2);
+      let q, a, base;
+      if (kind === 0) { q = 'Chi è il ' + at[0] + ' di tutti?'; a = people[0]; base = people; }
+      else if (kind === 1) { const k = ri(1, cnt - 2); q = 'Chi è in posizione ' + (k + 1) + ' (partendo dal ' + at[0] + ')?'; a = people[k]; base = people; }
+      else { const k = ri(1, cnt - 1); q = 'Quante persone sono ' + at[1] + ' di ' + people[k] + '?'; a = String(k); base = ['0', '1', '2', '3', '4', '5'].slice(0, cnt); }
+      const o = U.shuffle([a].concat(U.sample(base.filter(x => x !== a), 3, rng)), rng);
+      return { t: 'mc', mtype: type, q: shown.join(' ') + ' ' + q, o, a: o.indexOf(a), why: 'Ordine: ' + people.join(' > '), timed: 30 + cnt * 5 };
+    }
+    if (type === 'syllo') {
+      const real = [['gatti', 'mammiferi', 'animali'], ['quadrati', 'rettangoli', 'poligoni'], ['violinisti', 'musicisti', 'artisti'], ['rose', 'fiori', 'piante']];
+      const nons = ['zak', 'fol', 'mim', 'tur', 'bel', 'dax', 'pon', 'rix'];
+      const tri = lv <= 3 ? U.pick(real, rng) : U.sample(nons, 3, rng);
+      const [S, M, P] = tri; // S: soggetto, M: medio, P: predicato
+      const forms = [
+        { p1: ['all', M, P], p2: ['all', S, M], c: ['all', S, P] },
+        { p1: ['no', M, P], p2: ['all', S, M], c: ['no', S, P] },
+        { p1: ['all', M, P], p2: ['some', S, M], c: ['some', S, P] },
+        { p1: ['no', M, P], p2: ['some', S, M], c: ['somenot', S, P] }
+      ];
+      const f = U.pick(forms, rng);
+      const txt = x => x[0] === 'all' ? 'Tutti i ' + x[1] + ' sono ' + x[2] : x[0] === 'no' ? 'Nessun ' + x[1] + ' è ' + x[2] : x[0] === 'some' ? 'Alcuni ' + x[1] + ' sono ' + x[2] : 'Alcuni ' + x[1] + ' non sono ' + x[2];
+      const valid = txt(f.c);
+      const INV = { all: [['all', P, S], ['somenot', S, P], ['no', S, P]], no: [['all', S, P], ['some', S, P], ['all', P, S]], some: [['all', S, P], ['no', S, P], ['all', P, S]], somenot: [['all', S, P], ['no', S, P], ['some', S, P]] };
+      const dist = INV[f.c[0]].map(txt);
+      const o = U.shuffle([valid].concat(dist), rng);
+      return { t: 'mc', mtype: type, q: 'Premesse: «' + txt(f.p1) + '». «' + txt(f.p2) + '». Quale conclusione segue NECESSARIAMENTE?', o, a: o.indexOf(valid), why: 'Forma valida: ' + txt(f.p1) + ', ' + txt(f.p2) + ' ⇒ ' + valid + '.', timed: 40 };
+    }
+    if (type === 'switch') {
+      const n = ri(1, 9), colorA = rng() < 0.5, num = n === 5 ? 6 : n;
+      const ruleA = 'Sfondo BLU → pari o dispari', ruleB = 'Sfondo ROSSO → maggiore o minore di 5';
+      const ans = colorA ? (num % 2 === 0 ? 'Pari' : 'Dispari') : (num > 5 ? 'Maggiore di 5' : 'Minore di 5');
+      const o = ['Pari', 'Dispari', 'Maggiore di 5', 'Minore di 5'];
+      return { t: 'mc', mtype: type, q: ruleA + ' · ' + ruleB + '. Ora: numero ' + num + ' su sfondo ' + (colorA ? 'BLU' : 'ROSSO') + '.', o, a: o.indexOf(ans), why: (colorA ? 'Blu: parità' : 'Rosso: confronto con 5') + ' → ' + ans, timed: Math.max(4, 11 - lv) };
     }
     const p = LOGIC[Math.floor(rng() * LOGIC.length)];
     return { t: 'mc', mtype: 'logic', q: p.q, o: p.o, a: p.a, why: 'Ragiona sulle premesse: la risposta corretta è «' + p.o[p.a] + '».' };
@@ -1387,7 +1473,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   P('f1', 'Formula 1', '🏎️', 'Regolamenti, tecnica, strategia e storia della F1.');
   P('str', 'Strategia e logica', '♟️', 'Pensiero strategico, decisioni e ragionamento formale.');
   C.defineSubject({ id: 'grp', title: 'Judo e lotta libera', icon: '🥋', primary: true, motor: true, goal: 'Memoria motoria, coordinazione, footwork e fluidità con pratica solitaria e sicura.', stageNote: 'Livelli L0–L5 interni, non cinture né gradi ufficiali. Ciò che richiede partner o resistenza non è allenabile qui.', stages: ['L0', 'L1', 'L2', 'L3', 'L4', 'L5'].map((id, i) => st(id, ['Fondamenta', 'Prime entrate', 'Coordinazione e meccaniche', 'Ne-waza e transizioni', 'Combinazioni e variabilità', 'Fluidità e automatizzazione'][i], '')) });
-  C.defineSubject({ id: 'mnt', title: 'Allenamento mentale', icon: '🧠', primary: true, generated: true, goal: 'Memoria di lavoro, attenzione, ragionamento, calcolo, velocità decisionale — esercizi generati e adattivi.', stages: [st('L0', 'Esercizi generati', 'Livello adattivo per tipo di esercizio (1–10).')] });
+  C.defineSubject({ id: 'mnt', title: 'Allenamento mentale', icon: '🧠', primary: true, generated: true, goal: 'Memoria di lavoro, attenzione, ragionamento, calcolo, velocità decisionale — esercizi generati e adattivi.', stages: [st('L0', 'Esercizi generati', 'Livello adattivo per tipo di esercizio (1–10).'), st('L1', 'Strategie di memoria', 'Come funziona la memoria e le tecniche che migliorano davvero la ritenzione.'), st('L2', 'Calcolo e stima', 'Trucchi di calcolo mentale, percentuali, stime e ordini di grandezza.'), st('L3', 'Ragionamento', 'Logica, sillogismi, ragionamento condizionale, bias e probabilità.'), st('L4', 'Attenzione e apprendimento', 'Concentrazione, sonno, esercizio e limiti dell’allenamento cognitivo.')] });
 
   C.secondary = [
     'Storia essenziale', 'Geografia del mondo', 'Economia e finanza', 'Diritto, Costituzione e istituzioni', 'Psicologia e comportamento', 'Filosofia e pensiero critico',
@@ -4099,6 +4185,446 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     flush();
     out.forEach(p => { delete p._w; });
     if (out.length >= 3) t.pages = out;
+  });
+})(window.ST = window.ST || {});
+
+/* ---- content/mnt-l-memoria ---- */
+/* Allenamento mentale — L1 Strategie di memoria, L4 Attenzione e apprendimento. */
+(function (ST) {
+  'use strict';
+  const C = ST.content, { mc, fill, order } = C;
+
+  /* ---------- 1. Come funziona la memoria ---------- */
+  C.addTopic({
+    id: 'mnt-memoria-come-funziona', subject: 'mnt', stage: 'L1', minutes: 12,
+    title: 'Come funziona la memoria (e come studiare meglio)',
+    summary: 'Codifica, immagazzinamento, recupero, curva dell’oblio e le strategie di studio che hanno prove solide.',
+    objectives: ['Distinguere codifica, immagazzinamento e recupero', 'Usare ripasso distanziato e richiamo attivo al posto della sola rilettura', 'Riconoscere l’illusione di conoscere un testo solo perché è familiare'],
+    pages: [
+      { h: 'Tre fasi, non un registratore', b: 'La memoria non registra la realtà come una telecamera. Funziona in tre fasi:\n\n- **Codifica**: trasformi ciò che percepisci in una traccia di memoria. Più elabori il significato, più la traccia è solida.\n- **Immagazzinamento**: la traccia si conserva nel tempo e si consolida.\n- **Recupero**: la ritrovi quando serve.\n\nUn ricordo può mancare perché non è stato codificato bene, perché si è indebolito, o perché non trovi il «percorso» per raggiungerlo. Spesso il problema è la codifica: se leggi distratto, non c’è molto da recuperare.' },
+      { h: 'La curva dell’oblio', b: 'Alla fine dell’Ottocento Hermann Ebbinghaus memorizzò sillabe senza senso e misurò quante ne dimenticava. Il risultato, ripetuto in molti studi: **si dimentica in fretta all’inizio, poi sempre più lentamente**.\n\nI tempi precisi dipendono dal materiale, da quanto è significativo e da come lo hai studiato: non esiste un «dopo 24 ore resta il 30%» valido per tutto.\n\nConseguenza pratica: il momento in cui un ricordo è più fragile è subito dopo l’apprendimento. Un ripasso breve in quel periodo costa poco e rallenta molto l’oblio successivo.' },
+      { h: 'Ripasso distanziato', b: 'Uno dei risultati più solidi della psicologia della memoria è l’**effetto di distanziamento**: a parità di tempo totale, **ripassare in più sessioni separate** funziona meglio che concentrare tutto in una sola.\n\nNon serve una formula esatta. Uno schema ragionevole è ripassare **dopo un giorno, poi dopo qualche giorno, poi dopo una settimana**, allungando gli intervalli man mano che il ricordo regge.\n\n> Dieci minuti oggi, dieci fra due giorni e dieci fra una settimana battono trenta minuti di fila la sera prima della verifica.\n\nIl «ripasso a ridosso dell’esame» funziona per l’esame, ma lascia poco dopo.' },
+      { h: 'Richiamo attivo', b: 'Provare a **tirare fuori** un’informazione dalla memoria la rafforza più che rileggerla. È l’**effetto del test** (testing effect), confermato in decine di studi con studenti di ogni età.\n\nCome si applica:\n- chiudi il libro e **scrivi o racconta** ciò che ricordi;\n- usa domande, flashcard, esercizi senza guardare la soluzione;\n- solo dopo controlla e correggi.\n\nNon serve che il tentativo riesca: anche un richiamo parziale o sbagliato, **seguito dalla correzione**, aiuta. Ricordare con un po’ di fatica è un segnale che stai imparando, non che stai sbagliando.' },
+      { h: 'Perché rileggere è debole', b: 'Rileggere e sottolineare sono le strategie più usate e tra le meno efficaci. Il motivo è l’**illusione di fluidità**: il testo ti sembra familiare, scorre bene, e concludi «lo so». Ma **riconoscere** non è **ricordare**: davanti a una pagina bianca la stessa informazione può non venire fuori.\n\nLa rilettura non è inutile, specie come primo contatto con un testo. Diventa debole quando **sostituisce** il richiamo.\n\n**Interleaving**: alternare tipi di problema o argomenti diversi (A-B-C-A-B-C invece di A-A-A-B-B-B) è più faticoso, ma di solito migliora la capacità di scegliere il metodo giusto, soprattutto in matematica e nelle abilità.' },
+      { h: 'Un metodo di studio in 4 passi', b: 'Metti insieme le prove in una routine:\n\n1. **Leggi** una sezione con attenzione, cercando il significato (perché? come si collega a ciò che so?).\n2. **Chiudi e richiama**: scrivi 3-5 punti senza guardare.\n3. **Controlla** e annota ciò che mancava o era sbagliato.\n4. **Rivedi a intervalli**: domani, fra 3-4 giorni, fra una settimana, richiamando di nuovo.\n\nAlterna argomenti diversi quando puoi. Cosa **non** è provato: le promesse di «imparare tutto in un’ora» o di una memoria «fotografica» allenabile. Le tecniche delle prossime lezioni (chunking, palazzo della memoria, associazioni) servono a codificare meglio; il richiamo e il ripasso distanziato servono a conservare.' }
+    ],
+    exercises: [
+      mc('Hai 60 minuti da dedicare a un capitolo in vista di una verifica fra due settimane. Quale piano è più efficace?', ['Un’unica sessione da 60 minuti la sera prima', 'Quattro sessioni da 15 minuti in giorni diversi, con richiamo', 'Sessione unica da 60 minuti oggi e basta', 'Rileggere tre volte il capitolo il giorno stesso'], 1, 'Stesso tempo totale, ma sessioni distanziate con richiamo battono la sessione unica.'),
+      mc('Drill: leggi un paragrafo di un libro, poi chiudilo e scrivi tutto ciò che ricordi. Qual è il passo successivo più utile?', ['Passare subito a un altro paragrafo', 'Confrontare con il testo e annotare ciò che mancava', 'Rileggere il paragrafo cinque volte', 'Cancellare quello che hai scritto'], 1, 'La correzione dopo il tentativo di richiamo completa l’effetto del test.'),
+      order('Metti le fasi della memoria nell’ordine corretto.', ['Codifica', 'Immagazzinamento', 'Recupero'], 'Prima si codifica, poi si conserva, infine si recupera.'),
+      fill('Provare a ricordare senza guardare rafforza la memoria: è l’effetto del ___ (una parola).', ['test'], 'Si chiama effetto del test o richiamo attivo.'),
+      mc('Hai riletto più volte un capitolo e ti sembra «familiare». Che cosa NON puoi concludere?', ['Che riconosci le frasi', 'Che sai spiegarlo senza il libro', 'Che il testo è scritto in modo chiaro', 'Che l’hai letto più volte'], 1, 'La familiarità non garantisce il richiamo: serve metterlo alla prova.'),
+      mc('Ripassi geometria: quale sequenza applica l’interleaving?', ['10 problemi di triangoli, poi 10 di cerchi, poi 10 di solidi', 'Un problema di triangoli, uno di cerchi, uno di solidi, poi si ripete', 'Solo i problemi che ti riescono già', 'Rileggere le formule per mezz’ora'], 1, 'Alternare i tipi costringe a scegliere il metodo ogni volta.'),
+      order('Ordina un ripasso distanziato dal più vicino al più lontano.', ['Subito dopo lo studio', 'Dopo un giorno', 'Dopo qualche giorno', 'Dopo una settimana'], 'Gli intervalli si allungano man mano che il ricordo regge.'),
+      mc('Che cosa descrive meglio la curva dell’oblio?', ['L’oblio è costante nel tempo', 'Si dimentica molto all’inizio, poi più lentamente', 'Si dimentica solo dopo un mese', 'Dimentichi tutto in 24 ore'], 1, 'La perdita è rapida all’inizio e poi rallenta; i tempi esatti dipendono dal materiale.'),
+      fill('Il ripasso a intervalli crescenti sfrutta l’effetto di ___ (una parola: distanziamento).', ['distanziamento', 'spaziatura'], 'Effetto di distanziamento (spacing effect).')
+    ],
+    test: [
+      mc('Perché sottolineare e rileggere sono strategie deboli se usate da sole?', ['Danno l’impressione di sapere senza verificare il richiamo', 'Sono vietate dagli insegnanti', 'Stancano troppo la vista', 'Funzionano solo con i testi brevi'], 0),
+      mc('A parità di tempo totale, quale distribuzione è di solito migliore?', ['Tutto in un’unica sessione', 'Più sessioni brevi distanziate', 'Solo la sera prima dell’esame', 'Una sessione lunga con molte pause di telefono'], 1),
+      fill('Le tre fasi della memoria sono codifica, immagazzinamento e ___ (una parola).', ['recupero'], 'Il recupero è la fase in cui ritrovi il ricordo.'),
+      mc('Quale affermazione sulla memoria è ben supportata?', ['Funziona come una telecamera che registra tutto', 'Il richiamo con correzione rafforza il ricordo', 'Si può imparare qualsiasi cosa durante il sonno senza sforzo', 'Si dimentica sempre dopo esattamente 24 ore'], 1),
+      mc('Perché l’interleaving può sembrare più difficile ma funzionare meglio?', ['Obbliga a scegliere ogni volta il metodo giusto', 'Riduce il numero di esercizi', 'Elimina la necessità del ripasso', 'Rende gli esercizi tutti uguali'], 0)
+    ]
+  });
+
+  /* ---------- 2. Chunking e numeri ---------- */
+  C.addTopic({
+    id: 'mnt-chunking-e-numeri', subject: 'mnt', stage: 'L1', minutes: 12, prereq: ['mnt-memoria-come-funziona'],
+    title: 'Chunking e memoria dei numeri (sistema fonetico)',
+    summary: 'Raggruppare l’informazione in blocchi e trasformare i numeri in parole con il sistema fonetico.',
+    objectives: ['Raggruppare cifre e dati in blocchi significativi', 'Conoscere la tabella cifra-suono del sistema fonetico', 'Trasformare un numero in una parola o immagine concreta'],
+    pages: [
+      { h: 'Il limite della memoria di lavoro', b: 'La **memoria di lavoro** tiene attive poche informazioni per pochi secondi. Negli anni ’50 George Miller parlò di «7 ± 2» elementi; studi successivi (Cowan) suggeriscono che, quando si impedisce di ripetere mentalmente, il limite reale sia più vicino a **3-5 blocchi**. L’esatto numero è discusso, ma l’idea è chiara: il limite riguarda i **blocchi**, non le cifre singole.\n\nSe i blocchi sono ricchi di significato, in ciascuno puoi mettere molta informazione. Per questo conta **come** raggruppi, non quanti elementi hai.' },
+      { h: 'Chunking: raggruppare', b: 'Il **chunking** è unire più elementi in un’unità con significato.\n\n> **1 4 9 2 1 7 7 6 2 0 0 1** sono 12 cifre. Come **1492 - 1776 - 2001**, tre date note, sono 3 blocchi.\n\nPer un numero di telefono, **347 123 45 67** è più facile di 3471234567. Sono bloccate anche le sigle: **FBI-CIA-NASA** invece di 11 lettere sparse.\n\nCome fare:\n- raggruppa a **3-4 cifre**, con un ritmo costante quando lo ripeti;\n- cerca **significati personali**: anni, date, prezzi, età, prefissi;\n- parti sempre dalla struttura che già conosci.\n\nIl chunking aiuta a mantenere e a ricordare; non aumenta la capacità, la usa meglio.' },
+      { h: 'Il sistema fonetico: la tabella', b: 'Per numeri senza significato si può trasformarli in **suoni**, poi in parole. Nel **sistema fonetico** (major system) ogni cifra corrisponde a un suono consonantico; **le vocali non contano**, quindi puoi inserirle liberamente.\n\n- **0** = s, z\n- **1** = t, d\n- **2** = n\n- **3** = m\n- **4** = r\n- **5** = l\n- **6** = c e g dolci (ci, gi), sc\n- **7** = c e g dure (k, g), q\n- **8** = f, v\n- **9** = p, b\n\nTrucchi: **1** ha una sola asta come la **t**; **3** ha tre gambe come la **m**; **9** somiglia a una **p** capovolta.' },
+      { h: 'Esempi svolti', b: 'Conta il **suono**, non la lettera: «gatto» è g-tt = **71**, «cena» è c dolce-n = **62**.\n\n- **32** → m-n → **mano**, **mina**, **menu**\n- **14** → t-r → **toro**, **dare**\n- **55** → l-l → **lilla**, **lolla**\n- **71** → g-t → **gatto**, **cotto**\n- **90** → p-s → **pizza**, **base**\n- **901** → p-s-t → **pasta**\n\nProcedura: scrivi le cifre, converti in consonanti, aggiungi vocali per ottenere una parola **concreta**, poi **visualizzala**. Per numeri lunghi si fanno più parole e una piccola storia.' },
+      { h: 'Usarlo davvero', b: 'Un esempio: ricordare il codice **3 2 5 4** → m-n-l-r. Due parole: **mina** (m-n) e **lira** (l-r). Scena: una **mina** gigante che sbuca da una **lira** d’oro gigante. Più l’immagine è strana e concreta, meglio funziona.\n\nQuando conviene: date storiche, codici, PIN a bassa sicurezza, numeri di una lista. Quando no: per un numero che userai una volta sola, **scrivilo**. E non usare il metodo per password sensibili in modo da renderle facili da indovinare.\n\nIl sistema richiede **qualche ora di pratica** prima di diventare veloce: all’inizio sembra lento. Chi lo usa regolarmente lo fa diventare quasi automatico.' },
+      { h: 'Esercizio guidato', b: 'Prova con **8 3 6 1** (data o codice): due coppie, 83 e 61.\n\n1. Converti: 8=f/v, 3=m, 6=c dolce/sc, 1=t/d.\n2. Costruisci due parole: **fumo** (f-m = 83) e **sciata** (sc-t = 61).\n3. Immagina: un **fumo** nero che esce da una lunga **sciata** su una pista.\n4. Dopo cinque minuti: copri, richiama la scena, rifai la conversione.\n\nIl bello è che esistono **molte** soluzioni giuste: scegli le parole che per te sono più immagini. Tieni un elenco personale di parole per le coppie **00-99**: facilita molto i numeri lunghi.' }
+    ],
+    exercises: [
+      mc('Hai il numero 149217762001. Quale suddivisione è più facile da ricordare?', ['1492 1776 2001 (tre date note)', '1 4 9 2 1 7 7 6 2 0 0 1', '14 92 17 76 20 01 senza significato', 'Ripeterlo più volte a voce alta senza raggruppare'], 0, 'Date note formano blocchi con significato: sono 3 unità invece di 12.'),
+      fill('Drill: nel sistema fonetico, quale cifra corrisponde al suono «m»?', ['3', 'tre'], 'M = 3 (ha tre gambe).'),
+      mc('Quale numero codifica la parola «toro» (t-r)?', ['14', '41', '15', '34'], 0, 't = 1, r = 4, quindi 14.'),
+      mc('Quale numero corrisponde a «gatto» (g dura + t)?', ['71', '61', '91', '17'], 0, 'g dura = 7, t = 1: 71.'),
+      order('Metti in ordine i passi del sistema fonetico.', ['Scrivi le cifre', 'Converti in consonanti', 'Aggiungi vocali per fare una parola', 'Visualizza l’immagine'], 'Dai numeri ai suoni, poi alla parola e all’immagine.'),
+      mc('Perché «cena» corrisponde a 62 e non a 72?', ['La c è dolce (/tʃ/), quindi 6', 'Perché c vale sempre 7', 'Perché la vocale conta come cifra', 'Perché la n vale 6'], 0, 'Conta il suono: c dolce = 6, n = 2.'),
+      fill('Drill: che numero rappresenta la parola «luna» (suoni l-n)?', ['52', 'cinquantadue'], 'L = 5, n = 2.'),
+      mc('Come si raggruppa meglio 3471234567 per memorizzarlo?', ['347 123 45 67', '3 4 7 1 2 3 4 5 6 7', '34 7 12 3 4 56 7', '3471 2 34567'], 0, 'Blocchi regolari da 3-4 cifre con ritmo costante.'),
+      mc('Che cosa rappresenta in realtà il limite della memoria di lavoro?', ['Pochi blocchi di informazione', 'Esattamente 7 cifre sempre', 'Un numero illimitato di blocchi', 'Solo cose visive'], 0, 'Il limite è in blocchi, e non è fisso: dipende dal significato.')
+    ],
+    test: [
+      mc('Che cos’è il chunking?', ['Unire elementi in blocchi con significato', 'Ripetere più volte la stessa cosa', 'Dormire dopo lo studio', 'Imparare a memoria senza capire'], 0),
+      mc('Nel sistema fonetico, quale cifra corrisponde a «l»?', ['4', '5', '3', '8'], 1),
+      fill('Nel sistema fonetico «r» corrisponde alla cifra ___.', ['4', 'quattro'], 'R = 4.'),
+      mc('Quale parola può codificare 90?', ['pizza (p-zz)', 'toro', 'mano', 'gatto'], 0, 'p = 9, z = 0.'),
+      mc('Nel sistema fonetico, le vocali:', ['Non hanno valore e si inseriscono liberamente', 'Valgono sempre 0', 'Valgono 1', 'Sono più importanti delle consonanti'], 0)
+    ]
+  });
+
+  /* ---------- 3. Palazzo della memoria ---------- */
+  C.addTopic({
+    id: 'mnt-palazzo-della-memoria', subject: 'mnt', stage: 'L1', minutes: 12, prereq: ['mnt-memoria-come-funziona'],
+    title: 'Il palazzo della memoria (metodo dei loci)',
+    summary: 'Come costruire un percorso familiare, collocarvi immagini vivide e richiamare liste in ordine.',
+    objectives: ['Scegliere e fissare un percorso con 10 punti (loci)', 'Creare immagini vivide e collocarle nei loci', 'Richiamare una lista in ordine camminando mentalmente il percorso'],
+    pages: [
+      { h: 'Un metodo antico che funziona', b: 'Il **metodo dei loci** (o palazzo della memoria) è descritto già dagli autori latini. L’idea: associare ciò che vuoi ricordare a **luoghi che conosci bene**, in un ordine fisso. Per richiamare, **cammini mentalmente** il percorso e «guardi» cosa hai lasciato in ogni punto.\n\nPerché funziona: usa la **memoria spaziale** e visiva, che per noi è molto forte, e ti dà **un ordine già pronto** e un indizio di recupero per ogni elemento. Studi sulle persone che si allenano nelle gare di memoria lo indicano come uno degli strumenti principali.\n\nÈ ottimo per **liste ordinate**, discorsi, elenchi di concetti. Non sostituisce la comprensione.' },
+      { h: 'Passo 1: scegli il percorso', b: 'Scegli un luogo che conosci **a occhi chiusi**: casa tua, il tragitto per la scuola, l’ufficio.\n\nRegole pratiche:\n- **Ordine fisso**, senza ritorni: ingresso, corridoio, cucina…\n- **Punti distinti** (loci): oggetti o zone ben diverse, non due sedie uguali.\n- Non troppo vicini: circa **un passo o un oggetto grande** l’uno dall’altro.\n- Inizia con **10 loci**; aggiungine con il tempo.\n\n> Esempio: 1 zerbino, 2 attaccapanni, 3 specchio, 4 divano, 5 televisore, 6 tavolo, 7 frigorifero, 8 lavello, 9 letto, 10 armadio.\n\nCammina il percorso **due volte nella mente**, in ordine, finché non lo ripercorri senza esitare.' },
+      { h: 'Passo 2: immagini vivide', b: 'Trasforma ogni elemento in un’**immagine concreta** e collocala nel locus. Funzionano immagini:\n\n- **visive e specifiche** (colori, dimensioni);\n- **in azione**, che interagiscono con il luogo;\n- **insolite o esagerate**: ciò che è strano si nota;\n- che usano **più sensi** (odore, suono, tatto).\n\nPer una parola astratta usa un **sostituto** per suono o significato: «giustizia» → una bilancia; «inflazione» → un palloncino che si gonfia.\n\n> Lista: latte, chiavi, pane. Locus 1 (zerbino): una **mucca** (latte) che sta in piedi sullo zerbino; locus 2 (attaccapanni): le **chiavi** gigantesche al posto dei cappotti; locus 3 (specchio): il **pane** che ti guarda e fa le smorfie.' },
+      { h: 'Passo 3: richiamo e ripasso', b: 'Per richiamare, **riparti dal locus 1**, guarda l’immagine e traduci in elemento. Procedi in ordine. Se ti blocchi, **non saltare**: rivedi il locus, ricostruisci la scena.\n\nPoi:\n1. **Ripercorri subito** una volta in senso inverso: controllo dell’ordine.\n2. **Rivedi dopo qualche ora** e il giorno dopo (ripasso distanziato).\n3. Se i loci si **mescolano** (immagini vecchie), usa un percorso diverso per liste nuove, oppure «ripulisci» il percorso immaginando le vecchie immagini che si dissolvono.\n\nUn percorso si può **riusare** molte volte, ma è meglio avere più percorsi.' },
+      { h: 'Pratica: lista di 10 elementi', b: 'Memorizza questa lista con il tuo percorso da 10 loci:\n\n**1 ombrello, 2 chitarra, 3 pesce, 4 orologio, 5 scala, 6 limone, 7 telefono, 8 cappello, 9 luna, 10 candela**\n\nEsempi di immagini: un **ombrello** che si apre di colpo sullo zerbino; una **chitarra** appesa che suona da sola all’attaccapanni; un **pesce** enorme nello specchio.\n\nDedica **30-40 secondi** a ogni locus. Poi copri la lista e **richiamala** in ordine. Controlla, e ripeti dopo un’ora. Chi lo prova la prima volta spesso ricorda **tutti e 10** dopo un solo passaggio: la sorpresa è proprio questa.' },
+      { h: 'Limiti e consigli', b: 'Cosa sappiamo: il metodo è **molto efficace** per ricordare elenchi ordinati e fatti discreti, anche in persone senza capacità fuori dal comune. Cosa **non** dimostra: che «allena» la memoria in generale. Migliora quel compito, **non** la memoria di tutti i giorni.\n\nConsigli:\n- **Qualità sopra quantità**: poche immagini nitide battono molte vaghe.\n- Usa luoghi **reali** e familiari, non inventati.\n- Per studiare, associa **parole chiave** di un discorso ai loci, non intere frasi.\n- L’**effort** all’inizio è normale: il tempo si recupera con la pratica.\n\nÈ un buon alleato dello studio, insieme al richiamo e al ripasso distanziato della prima lezione.' }
+    ],
+    exercises: [
+      mc('Quale percorso è più adatto come palazzo della memoria?', ['La tua casa, con 10 punti distinti in ordine fisso', 'Un luogo mai visto, immaginato da zero', 'Una stanza con 10 sedie identiche', 'Un percorso con continui ritorni indietro'], 0, 'Serve un luogo familiare, con punti distinti e un ordine fisso.'),
+      mc('Quale immagine è migliore per ricordare la parola «pane» nel locus «specchio»?', ['Un pane gigante nello specchio che ti fa le smorfie', 'La parola «pane» scritta in piccolo', 'Un pane normale sul tavolo', 'Pensare solo a «pane» due volte'], 0, 'Un’immagine vivida, insolita e in interazione con il luogo si ricorda meglio.'),
+      order('Metti in ordine i passi del metodo dei loci.', ['Scegli un percorso familiare', 'Fissa i loci in ordine', 'Associa un’immagine vivida a ogni locus', 'Richiama camminando il percorso'], 'Prima il percorso, poi le immagini, infine il richiamo.'),
+      fill('Drill: costruisci 10 loci a casa tua e ripercorrili senza esitare. Quanti loci consiglia la lezione per iniziare? (numero)', ['10', 'dieci'], 'Si inizia con 10 loci.'),
+      mc('Come puoi ricordare la parola astratta «giustizia»?', ['Con un’immagine sostitutiva, come una bilancia', 'Ripetendola più volte a voce alta', 'Evitando di usarla nel palazzo', 'Cambiandola con la parola «legge» senza immagine'], 0, 'Le parole astratte si convertono in un’immagine concreta collegata.'),
+      mc('Ti blocchi sul locus 4 durante il richiamo. Che cosa fai?', ['Ricostruisci la scena nel locus 4 senza saltare', 'Passi al locus 5 e dimentichi il 4', 'Ricominci con un altro percorso', 'Ripeti la lista dall’inizio senza guardare i loci'], 0, 'Rivedi il locus: l’ordine e l’indizio spaziale ti aiutano.'),
+      fill('Drill: memorizza ombrello, chitarra, pesce. Nell’ordine dei loci, qual è il TERZO elemento?', ['pesce'], 'Ombrello (1), chitarra (2), pesce (3).'),
+      mc('Perché il metodo dei loci funziona bene per liste ordinate?', ['Sfrutta la memoria spaziale e dà un ordine già pronto', 'Perché evita la necessità di ripassare', 'Perché riduce il numero di elementi', 'Perché funziona senza immagini'], 0, 'Lo spazio fornisce una sequenza e un indizio per ogni elemento.'),
+      mc('Che cosa NON si può affermare sul metodo dei loci?', ['Che migliora in generale la memoria di tutti i giorni', 'Che aiuta a ricordare liste ordinate', 'Che usa immagini vivide', 'Che richiede pratica iniziale'], 0, 'L’effetto è specifico del compito, non una memoria generale migliore.')
+    ],
+    test: [
+      mc('Qual è l’idea di base del metodo dei loci?', ['Associare elementi a luoghi familiari in ordine fisso', 'Ripetere ad alta voce per dieci volte', 'Scrivere l’elenco tre volte', 'Imparare solo prima di dormire'], 0),
+      mc('Quale caratteristica rende un’immagine più memorabile?', ['È vivida, insolita e interagisce con il luogo', 'È piccola e simile alle altre', 'È astratta e scritta', 'È uguale per tutti i loci'], 0),
+      fill('Un percorso con punti troppo simili crea ___ (una parola: confusione).', ['confusione', 'ambiguità', 'errori'], 'Punti simili si confondono tra loro.'),
+      mc('Dopo aver imparato una lista, quando conviene ripassarla?', ['Dopo qualche ora e il giorno dopo', 'Mai', 'Solo dopo un mese', 'Solo cambiando percorso'], 0),
+      mc('Per studiare un discorso con il metodo dei loci è meglio associare:', ['Parole chiave a ogni locus', 'Le frasi intere', 'Solo i numeri', 'Una sola immagine all’intero discorso'], 0)
+    ]
+  });
+
+  /* ---------- 4. Nomi e liste ---------- */
+  C.addTopic({
+    id: 'mnt-nomi-e-liste', subject: 'mnt', stage: 'L1', minutes: 12, prereq: ['mnt-palazzo-della-memoria'],
+    title: 'Ricordare nomi, volti e liste',
+    summary: 'Metodo della storia, collegamenti per associazione e sistema dei pioli (1-10).',
+    objectives: ['Ricordare un nome associandolo a un tratto del volto e a un’immagine', 'Collegare una lista con una storia o con il metodo dei collegamenti', 'Usare il sistema dei pioli per le posizioni 1-10'],
+    pages: [
+      { h: 'Perché i nomi sfuggono', b: 'Un nome è un’etichetta **arbitraria**: non ha legami con il volto, quindi la traccia è debole. Spesso il problema non è la memoria ma l’**attenzione** in quel momento: stai già pensando a cosa dire.\n\nTre strategie per codificare meglio:\n- **Ascolta davvero** e, se serve, chiedi di ripetere: «Scusa, come hai detto?»\n- **Ripeti il nome** subito, in modo naturale: «Piacere, Marco».\n- **Collegalo** a qualcosa che già conosci.\n\nNon c’è bisogno di «allenamento speciale»: bastano 5-10 secondi di elaborazione in più al momento dell’incontro.' },
+      { h: 'Nome, volto, immagine', b: 'Il procedimento classico in tre passi:\n\n1. **Trasforma il nome** in un’immagine concreta: *Marco* → un **marchio**; *Bianca* → qualcosa di **bianco**; *Rossi* → **rosso**.\n2. **Scegli un tratto del volto** distintivo: sopracciglia folte, fossette, occhiali.\n3. **Collega** l’immagine al tratto con una scena vivida: un marchio a fuoco sulle sopracciglia folte.\n\nUsa anche i **contesti**: dove l’hai conosciuta, di cosa si occupa, chi te l’ha presentata. Più legami, più indizi di recupero.\n\n> Ricordare nome **e** volto riesce meglio se rivedi mentalmente la scena dopo un’ora e il giorno dopo.' },
+      { h: 'Il metodo dei collegamenti', b: 'Per liste informali, senza luoghi: **colleghi ogni elemento al successivo** con una scena.\n\n> Lista: **pane, chiave, cane, ombrello**.\n> Un **pane** gigante apre la porta con una **chiave**; la chiave viene morsa da un **cane**; il cane tiene in bocca un **ombrello** aperto.\n\nRegole:\n- ogni immagine deve **interagire** con la successiva;\n- azioni **esagerate e specifiche**;\n- ripassa la catena **subito** e poi dopo un po’.\n\nIl punto debole: se perdi un anello, la catena si spezza. Per liste lunghe o in cui serve la posizione esatta è più sicuro il palazzo della memoria o il sistema dei pioli.' },
+      { h: 'Il metodo della storia', b: 'Variante della catena: **inventi una storia** con gli elementi **nell’ordine della lista**. È efficace perché una narrazione ha causa ed effetto, e noi ricordiamo bene le storie.\n\n> Lista: **gelato, scala, tigre, libro, mare**.\n> «Mangio un **gelato** mentre salgo una **scala**; in cima trovo una **tigre** che legge un **libro** sulla riva del **mare**.»\n\nTrucchi:\n- usa **personaggi** e azioni, non descrizioni astratte;\n- mantieni la storia **breve** (10-12 elementi, poi nuova storia);\n- se un elemento è astratto, sostituiscilo con un’immagine.\n\nStudi classici (Bower e Clark, 1969) mostrarono che chi costruiva storie ricordava molte più parole in ordine di chi ripeteva soltanto.' },
+      { h: 'Il sistema dei pioli', b: 'Il **sistema dei pioli** (peg system) usa una lista fissa di «ganci» da imparare una volta: ogni numero è associato a un’**immagine che rima o somiglia**. Poi appendi gli elementi ai pioli.\n\n- **1** = **uno** → **tuono** o **tronco** (a forma di 1)\n- **2** = **due** → **bue**\n- **3** = **tre** → **re**\n- **4** = **quattro** → **gatto** (4 zampe) / **teatro**\n- **5** = **cinque** → **mano** (5 dita)\n- **6** = **sei** → **dei** / **sedia**\n- **7** = **sette** → **vette** (montagne)\n- **8** = **otto** → **biscotto**\n- **9** = **nove** → **uova**\n- **10** = **dieci** → **pesci**\n\nPuoi scegliere **i tuoi** ganci: l’importante è che siano chiari e stabili. A differenza della catena, puoi richiamare **l’elemento numero 7** direttamente.' },
+      { h: 'Scegliere il metodo', b: '- **Nome nuovo**: immagine del nome + tratto del volto + ripeti.\n- **Poche cose in ordine, subito**: catena o storia.\n- **Posizione numerata**: pioli 1-10.\n- **Lista lunga o da ripetere nel tempo**: palazzo della memoria.\n\nTutti i metodi condividono tre ingredienti: **significato**, **immagini concrete**, **ripasso**. Per ricordare **dopo giorni**, ripassa a intervalli, come visto nella prima lezione.\n\nSii onesto sui limiti: non si ricordano **tutti** i nomi di una sala piena al primo colpo. Ma ricordarne alcuni in più è un risultato reale. Conta sul fatto di **riascoltare** il nome durante la conversazione.' }
+    ],
+    exercises: [
+      mc('Incontri Bianca, che ha occhiali dalla montatura rossa. Quale collegamento è più efficace?', ['Una grande tovaglia bianca che esce dagli occhiali rossi', 'Ripetere «Bianca» una volta', 'Pensare solo al colore degli occhi', 'Annotare «Bianca» senza rivederlo'], 0, 'Immagine concreta del nome collegata a un tratto del volto con una scena vivida.'),
+      order('Ordina i passi per ricordare un nome.', ['Ascolta e ripeti il nome', 'Trasformalo in un’immagine', 'Scegli un tratto del volto', 'Collegali con una scena vivida'], 'Ripeti, immagina, scegli il tratto e collega.'),
+      mc('Drill: collega pane, chiave, cane in una catena. Quale scena è meglio?', ['Un pane gigante apre la porta con una chiave, e un cane la morde', 'Tre oggetti uno accanto all’altro', 'Pane, chiave, cane scritti in colonna', 'Un cane da solo'], 0, 'Ogni immagine deve interagire con la successiva.'),
+      fill('Nel sistema dei pioli, quale parola rima con «due» e può servire per il 2?', ['bue'], 'Due → bue.'),
+      mc('Quale metodo è più adatto per richiamare direttamente l’elemento numero 7?', ['Sistema dei pioli', 'Catena senza ordine', 'Ripetere la lista', 'Rileggere'], 0, 'I pioli sono numerati, quindi si accede a qualsiasi posizione.'),
+      mc('Quale svantaggio ha il metodo dei collegamenti?', ['Se perdi un anello, la catena si spezza', 'Non usa immagini', 'È troppo semplice', 'Serve un palazzo'], 0, 'Ogni elemento dipende dal precedente.'),
+      fill('Drill: crea una storia con gelato, scala, tigre. Qual è il TERZO elemento?', ['tigre'], 'Gelato, scala, tigre.'),
+      mc('Perché una storia aiuta a ricordare una lista?', ['Ha causa ed effetto e un ordine naturale', 'Elimina la necessità di immagini', 'Riduce il numero di elementi', 'Funziona solo con parole astratte'], 0, 'La narrazione dà struttura e significato.'),
+      mc('Ti presentano una persona e subito pensi a cosa dire. Qual è il rischio?', ['Non codifichi il nome, quindi non ti resta nulla da recuperare', 'Ricordi meglio il nome', 'Hai troppi pioli', 'Il nome si trasforma in immagine'], 0, 'Se l’attenzione è altrove, la codifica manca.')
+    ],
+    test: [
+      mc('Quale azione immediata aiuta a ricordare un nome?', ['Ripeterlo in modo naturale nella conversazione', 'Ignorarlo', 'Scriverlo dopo una settimana', 'Pensare ad altro'], 0),
+      mc('Che cosa distingue il sistema dei pioli dalla catena?', ['Ha posizioni fisse e numerate', 'Non usa immagini', 'Non richiede ripasso', 'Si usa solo per i nomi'], 0),
+      fill('Nel sistema dei pioli, il «5» può essere la ___ (cinque dita).', ['mano'], 'Cinque dita: la mano.'),
+      mc('Per una lista lunga da ripassare nel tempo conviene di più:', ['Il palazzo della memoria', 'Una catena di 50 elementi', 'La sola rilettura', 'Nessun metodo'], 0),
+      mc('Quale affermazione sui nomi è realistica?', ['Alcune strategie ne fanno ricordare di più, ma non tutti', 'Si ricordano tutti i nomi al primo colpo', 'I nomi non si possono migliorare', 'Basta sentirli una volta'], 0)
+    ]
+  });
+
+  /* ---------- 5. Concentrazione e attenzione ---------- */
+  C.addTopic({
+    id: 'mnt-concentrazione-e-attenzione', subject: 'mnt', stage: 'L4', minutes: 12,
+    title: 'Concentrazione e attenzione',
+    summary: 'Attenzione selettiva, carico cognitivo, costo del multitasking, interruzioni, sessioni brevi e ambiente.',
+    objectives: ['Spiegare perché l’attenzione è limitata e selettiva', 'Riconoscere il costo del multitasking e delle interruzioni', 'Organizzare sessioni brevi, pause e ambiente favorevoli'],
+    pages: [
+      { h: 'Attenzione: una risorsa limitata', b: 'L’attenzione è ciò che seleziona fra le informazioni disponibili quelle da elaborare. È **selettiva**: ne usi una parte e filtri il resto. Un esempio noto è l’**effetto cocktail party**: in una stanza rumorosa senti il tuo nome pronunciato lontano, anche se non seguivi quella conversazione.\n\nCi sono anche i limiti: nel famoso esperimento del «gorilla invisibile» (Simons e Chabris, 1999) molte persone, concentrate a contare i passaggi di palla, **non notavano** una persona in costume da gorilla. Si chiama **cecità attentiva**.\n\nConsiderazione utile: ciò a cui non presti attenzione **non viene codificato bene**. L’attenzione è il primo passo della memoria.' },
+      { h: 'Carico cognitivo', b: 'La **memoria di lavoro** è piccola. La teoria del **carico cognitivo** (Sweller) distingue:\n\n- **carico intrinseco**: la difficoltà del contenuto;\n- **carico estraneo**: lo sforzo inutile, dovuto a come il materiale è presentato (appunti confusi, rumore, schermate piene);\n- **carico utile**: lo sforzo che costruisce la comprensione.\n\nIl metodo: **riduci il carico estraneo** per lasciare spazio al resto. Esempi: un foglio di appunti ordinato, un solo problema per volta, spiegazioni con schema e testo vicini. Per un argomento difficile: **dividilo in parti** e procedi per gradi (è il chunking della lezione 2).' },
+      { h: 'Il costo del multitasking', b: 'Quando credi di fare due cose insieme, in realtà **passi rapidamente dall’una all’altra**. Ogni passaggio ha un **costo di commutazione** (switch cost): più lentezza e più errori.\n\nGli studi (Rubinstein, Meyer, Evans 2001; Ophir, Nass, Wagner 2009) mostrano che **alternare compiti rallenta** e che gli **utilizzatori frequenti** di più media insieme tendono a sbagliare di più nei compiti di filtro. Per un compito semplice e automatico (camminare e ascoltare musica) il costo è basso; per due compiti che richiedono pensiero (studiare e rispondere ai messaggi) è alto.\n\nPrudenza: i dati mostrano un **costo di prestazione**, non danni permanenti. Non servono diagnosi: serve una regola, **un compito per volta**.' },
+      { h: 'Interruzioni e notifiche', b: 'Un’interruzione breve fa perdere più del tempo dell’interruzione stessa: devi **ricaricare il contesto**. Studi sul lavoro d’ufficio (Mark e colleghi) indicano che riprendere un compito dopo un’interruzione può richiedere **diversi minuti**. Anche solo il telefono **visibile** sulla scrivania può ridurre l’attenzione disponibile, secondo alcuni studi (ma i risultati non sono tutti concordi).\n\nStrategie semplici:\n- metti il telefono **in un’altra stanza** o in modalità silenziosa;\n- chiudi le schede inutili;\n- scegli **due o tre momenti al giorno** per messaggi e mail;\n- annota subito un pensiero distraente su un foglio e **torna** al compito.\n\nSono accorgimenti pratici, non una «cura»: prova e adatta.' },
+      { h: 'Sessioni brevi e pause', b: 'L’attenzione sostenuta cala con il tempo. Per studiare conviene **dividere il lavoro in blocchi** di 25-50 minuti con **pause brevi** (5-10 minuti) lontane dallo schermo. La «tecnica del pomodoro» (25 minuti + 5) è un esempio popolare: è una **buona convenzione**, non una legge; ognuno trova la sua durata.\n\nCosa si sa: sessioni distribuite aiutano l’apprendimento; le pause riducono l’affaticamento e consentono di riprendere con più attenzione. Cosa è meno certo: le durate «ottimali» in minuti.\n\nUna pausa efficace: alzarsi, bere, camminare, guardare fuori. Evita di riempirla con **altri input intensi**, come social o notizie, che affaticano ancora.' },
+      { h: 'Ambiente e abitudini', b: 'Piccole scelte riducono la distrazione:\n\n- **Spazio**: una scrivania con solo ciò che serve. Un luogo abituale per studiare crea un’associazione utile.\n- **Rumore**: il silenzio è in genere preferibile per compiti di lettura e scrittura; la musica **con testo** tende a disturbare, mentre musica strumentale o rumore di fondo può andare bene per alcuni compiti semplici.\n- **Obiettivo chiaro**: prima di iniziare scrivi **cosa farai** («3 esercizi e 1 pagina di ripasso»).\n- **Tempo**: studia quando sei più sveglio.\n\nNon esiste un ambiente perfetto uguale per tutti. Se ti distrai molto o l’attenzione ti crea difficoltà persistenti, è ragionevole parlarne con un professionista: qui diamo solo consigli di studio generali.' }
+    ],
+    exercises: [
+      mc('Stai studiando e ti arriva una notifica: che cosa è meglio fare?', ['Ignorarla e rispondere nella pausa programmata', 'Rispondere subito e poi riprendere', 'Rispondere a più chat insieme', 'Guardare solo un attimo il social'], 0, 'Ogni cambio di compito ha un costo: meglio rimandare.'),
+      order('Ordina una sessione di studio efficace.', ['Scrivi l’obiettivo', 'Silenzia il telefono', 'Studia 25-50 minuti', 'Fai una pausa breve'], 'Obiettivo e ambiente prima, poi blocco di lavoro e pausa.'),
+      mc('Che cosa è il carico cognitivo estraneo?', ['Sforzo inutile dovuto a come il materiale è presentato', 'La difficoltà intrinseca dell’argomento', 'La fatica fisica', 'Il tempo di studio'], 0, 'Si può ridurre con ordine e semplificazione.'),
+      fill('Drill: scrivi A-1, B-2, C-3… alternando lettere e numeri, poi A, B, C… solo lettere. Quale versione è più lenta: alternare o non alternare? (una parola)', ['alternare', 'alternando'], 'Alternare tra due regole ha un costo di commutazione.'),
+      mc('Che cosa dimostra l’esperimento del gorilla invisibile?', ['Che l’attenzione è selettiva e possiamo non notare cose evidenti', 'Che il multitasking funziona', 'Che la memoria è perfetta', 'Che il rumore migliora la memoria'], 0, 'Si parla di cecità attentiva.'),
+      mc('Quale compito è meno penalizzato dal fare due cose insieme?', ['Camminare mentre ascolti musica', 'Scrivere un saggio mentre rispondi ai messaggi', 'Studiare matematica mentre guardi un film', 'Guidare mentre scrivi un messaggio'], 0, 'Un compito automatico lascia più risorse.'),
+      mc('Ti distrai spesso con pensieri e promemoria. Qual è un trucco utile?', ['Scriverli subito su un foglio e tornare al compito', 'Provare a ricordarli tutti', 'Interrompere lo studio ogni volta', 'Sommarli per fare tutto insieme'], 0, 'Annotare libera la mente senza interrompere il compito.'),
+      mc('Che cosa vale per le durate «ottimali» delle sessioni di studio?', ['Sono convenzioni: ognuno trova la propria', 'Sono esattamente 25 minuti per tutti', 'Sono sempre 3 ore', 'Non servono pause'], 0, 'Le prove su durate esatte sono limitate.'),
+      fill('Drill: metti il telefono in un’altra stanza per 25 minuti di studio. Il rischio ridotto è l’___ (una parola: interruzione).', ['interruzione', 'distrazione'], 'Si riducono interruzioni e distrazioni.')
+    ],
+    test: [
+      mc('Perché il multitasking tra due compiti impegnativi è svantaggioso?', ['Passare da un compito all’altro ha un costo di commutazione', 'Perché allena troppo il cervello', 'Perché richiede troppo silenzio', 'Perché abbassa la vista'], 0),
+      mc('Che cos’è l’effetto cocktail party?', ['Notare il proprio nome in un ambiente rumoroso', 'Imparare meglio con la musica', 'Ricordare i nomi delle persone alle feste', 'Un tipo di multitasking'], 0),
+      fill('Dopo un’interruzione devi «ricaricare» il ___ (una parola: contesto).', ['contesto'], 'Il costo è ripristinare il contesto del compito.'),
+      mc('Quale scelta è più prudente riguardo ai benefici delle pause?', ['Riducono l’affaticamento, ma le durate esatte sono convenzioni', 'Garantiscono di raddoppiare la memoria', 'Sono inutili', 'Devono durare un’ora'], 0),
+      mc('Quale ambiente favorisce di più la lettura impegnativa?', ['Silenzioso, ordinato, con il telefono lontano', 'Con la TV accesa', 'Con musica con testo ad alto volume', 'Con molte schede aperte'], 0)
+    ]
+  });
+
+  /* ---------- 6. Sonno, esercizio e limiti ---------- */
+  C.addTopic({
+    id: 'mnt-sonno-esercizio-e-limiti', subject: 'mnt', stage: 'L4', minutes: 12, prereq: ['mnt-concentrazione-e-attenzione'],
+    title: 'Sonno, esercizio, stress e limiti dell’allenamento mentale',
+    summary: 'Che cosa dicono le prove su sonno, movimento e stress, e che cosa può (e non può) promettere un allenamento cerebrale.',
+    objectives: ['Spiegare il ruolo del sonno nel consolidamento della memoria', 'Descrivere con cautela i legami tra esercizio fisico, stress e apprendimento', 'Distinguere trasferimento vicino e lontano e valutare le promesse del «brain training»'],
+    pages: [
+      { h: 'Sonno e consolidamento', b: 'Durante il sonno il cervello **riattiva e riorganizza** le tracce di memoria. Il **consolidamento** è il processo che rende un ricordo più stabile. Le prove sono solide: dopo l’apprendimento, chi dorme ricorda **in media meglio** di chi resta sveglio lo stesso tempo, e il sonno aiuta anche a collegare le informazioni.\n\nIl sonno ha un ruolo anche **prima** dell’apprendimento: dopo una notte molto corta l’attenzione e la codifica peggiorano.\n\nCosa **non** significa: non si impara una lingua «dormendo con le cuffie». Il sonno **consolida** ciò che hai già studiato da sveglio. Un buon uso: studia nel pomeriggio o in serata, ripassa al mattino, e non sacrificare la notte prima di una verifica.' },
+      { h: 'Consigli pratici sul sonno', b: 'Indicazioni generali, non mediche:\n\n- **Orari regolari**: andare a letto e alzarsi a ore simili.\n- Molti adulti stanno meglio con **circa 7-9 ore**; i giovani ne hanno spesso bisogno di più. Il bisogno individuale varia.\n- **Luce e schermi**: ridurli nell’ultima ora aiuta alcune persone.\n- **Caffeina** nel tardo pomeriggio può disturbare il sonno.\n- Un **breve richiamo prima di dormire** di ciò che hai studiato è un’abitudine pratica.\n\nSe hai problemi di sonno persistenti, parlane con un medico: qui non si danno diagnosi o terapie. Dormire poco per studiare di più è quasi sempre un cattivo scambio.' },
+      { h: 'Esercizio fisico', b: 'L’attività fisica è associata a **benefici per salute e cognizione**. Alcune **ricerche** sugli adulti mostrano che l’esercizio aerobico regolare si accompagna a piccoli miglioramenti nell’attenzione e nelle funzioni esecutive, e una singola sessione moderata può migliorare brevemente la concentrazione. Negli studi ci sono però **effetti modesti**, risultati non sempre concordi e difficoltà nel separare l’esercizio da altri fattori.\n\nConclusione prudente: muoversi è **buono per tutto**, dunque anche per studiare meglio, ma non è una scorciatoia sicura per i voti.\n\nUn uso pratico: una **camminata** di 10-15 minuti nelle pause. Per programmi di allenamento o condizioni di salute, è giusto chiedere a un professionista.' },
+      { h: 'Stress e memoria', b: 'Un po’ di **attivazione** può aiutare, ma lo **stress intenso o prolungato** tende a peggiorare attenzione e richiamo: è la sensazione del «vuoto» durante un esame. Lo stress cronico è associato a più difficoltà di memoria, anche se la relazione è complessa.\n\nCosa può aiutare (per lo studio, non come terapia):\n- **pianificare** con anticipo, così da evitare l’ansia dell’ultimo minuto;\n- **esercitarsi nelle condizioni dell’esame**: fare prove a tempo, con richiamo attivo, riduce la sorpresa;\n- **respirare lentamente** per qualche minuto prima di iniziare;\n- dormire e muoversi.\n\nSe ansia o stress sono forti e frequenti, un medico o psicologo è la persona giusta con cui parlarne.' },
+      { h: 'Brain training: cosa sappiamo', b: 'I giochi di «allenamento cerebrale» promettono di migliorare memoria e intelligenza. Le prove dicono questo:\n\n- **Trasferimento vicino**: ti alleni su un compito e migliori in compiti **molto simili**. Questo è ben documentato (se ripeti un esercizio di memoria, migliori in quell’esercizio).\n- **Trasferimento lontano**: migliorare in compiti **diversi** o nella vita quotidiana (studio, lavoro). Qui le prove sono **deboli**: revisioni sistematiche (Simons e colleghi, 2016) e meta-analisi hanno trovato effetti piccoli o assenti, e difficoltà di replicazione.\n\nNel 2014 un gruppo di molti scienziati scrisse una dichiarazione contro le promesse eccessive di queste applicazioni. Una buona regola: diffida di chi garantisce risultati generali.' },
+      { h: 'Cosa possono e non possono promettere gli esercizi di questa app', b: 'Siamo onesti sulle **aspettative**.\n\n**Possono**:\n- insegnarti **strategie** (chunking, loci, associazioni) che usi **consapevolmente**: sono abilità apprese, con effetti reali sui compiti per cui servono;\n- farti **allenare** richiamo e ripasso, che funzionano sullo studio;\n- darti **pratica** e fiducia.\n\n**Non possono**:\n- aumentare l’«intelligenza» o la memoria in generale;\n- prevenire o curare malattie o declino cognitivo;\n- sostituire sonno, movimento, o un aiuto professionale.\n\nIl vero valore sta nel **trasferire le strategie** nello studio e nella vita: applicale a un argomento reale e misura da solo se funzionano. Un test affidabile è semplice: confronta quanto ricordi **prima e dopo**, a distanza di giorni.' }
+    ],
+    exercises: [
+      mc('Hai studiato per ore e vuoi consolidare. Quale scelta è migliore?', ['Dormire a sufficienza e ripassare il giorno dopo', 'Restare svegli fino all’alba per ripassare', 'Dormire con le cuffie e la registrazione', 'Evitare il ripasso'], 0, 'Il sonno consolida; la veglia notturna peggiora codifica e attenzione.'),
+      mc('Che cosa significa «trasferimento vicino»?', ['Migliorare in compiti molto simili a quello allenato', 'Migliorare in ogni aspetto della vita', 'Non migliorare mai', 'Trasferirsi vicino alla scuola'], 0, 'Il trasferimento vicino è ben documentato.'),
+      mc('Che cosa significa «trasferimento lontano»?', ['Migliorare in compiti diversi da quello allenato', 'Migliorare solo nell’esercizio allenato', 'Allenarsi in un luogo lontano', 'Peggiorare nei compiti nuovi'], 0, 'Le prove di trasferimento lontano sono deboli.'),
+      order('Ordina una routine di studio che usa le prove su sonno e movimento.', ['Studia con richiamo attivo', 'Cammina 10 minuti nella pausa', 'Ripassa brevemente prima di dormire', 'Dormi a sufficienza'], 'Studio e pausa attiva, breve ripasso e poi sonno.'),
+      fill('Il processo con cui il sonno rende i ricordi più stabili si chiama ___ (una parola).', ['consolidamento'], 'Consolidamento della memoria.'),
+      mc('Un’app promette: «Cinque minuti al giorno e raddoppi la memoria in tutto». Che cosa fai?', ['Diffidi: la promessa generale non è supportata', 'La accetti senza dubbi', 'Smetti di dormire', 'La consigli a tutti'], 0, 'Gli effetti generali non sono ben documentati.'),
+      mc('Drill: dopo una settimana di tecniche di memoria, come verifichi se ti servono davvero?', ['Confronti quanto ricordi di un argomento reale prima e dopo, a distanza di giorni', 'Chiedi a un amico se sembri più intelligente', 'Fai lo stesso esercizio mille volte', 'Non verifichi'], 0, 'Un test sul materiale reale e a distanza è più affidabile.'),
+      mc('Che cosa si può dire sull’esercizio fisico?', ['Fa bene alla salute e può aiutare l’attenzione, con effetti modesti sullo studio', 'Garantisce voti più alti', 'Cura i problemi di memoria', 'Non ha alcun effetto sul corpo'], 0, 'Le prove indicano benefici modesti e non universali.'),
+      mc('Che cosa non può fare un’app di esercizi di memoria?', ['Sostituire un aiuto medico o psicologico quando serve', 'Insegnare strategie utili', 'Offrire pratica di richiamo', 'Mostrare tecniche di studio'], 0, 'Non è uno strumento medico.')
+    ],
+    test: [
+      mc('Qual è la relazione tra sonno e apprendimento meglio supportata?', ['Il sonno aiuta a consolidare ciò che si è appreso', 'Dormire annulla ciò che si è studiato', 'Si impara una lingua dormendo', 'Il sonno non influisce sulla memoria'], 0),
+      mc('Quale tra queste è un esempio di trasferimento lontano?', ['Un gioco di memoria che migliora i voti in storia', 'Migliorare dopo aver ripetuto lo stesso gioco', 'Fare meglio un esercizio identico', 'Conoscere le regole del gioco'], 0),
+      fill('Le prove di trasferimento ___ (vicino o lontano) dei giochi di brain training sono deboli.', ['lontano'], 'Il trasferimento lontano è poco supportato.'),
+      mc('Quale affermazione sullo stress e sulla memoria è prudente?', ['Stress intenso e prolungato tende a peggiorare attenzione e richiamo', 'Lo stress migliora sempre la memoria', 'Lo stress non ha effetti', 'Lo stress cura i problemi di memoria'], 0),
+      mc('Che cosa possono onestamente promettere le strategie di questa app?', ['Aiutare a ricordare meglio in compiti per cui sono applicate', 'Raddoppiare l’intelligenza', 'Prevenire malattie', 'Eliminare la necessità di dormire'], 0)
+    ]
+  });
+})(window.ST = window.ST || {});
+
+/* ---- content/mnt-l-calcolo ---- */
+/* Allenamento mentale — L2 Calcolo e stima, L3 Ragionamento: 6 lezioni approfondite. */
+(function (ST) {
+  'use strict';
+  const C = ST.content, { mc, fill, order } = C;
+
+  /* ---------- L2 · Calcolo e stima ---------- */
+  C.addTopic({
+    id: 'mnt-calcolo-trucchi-1', subject: 'mnt', stage: 'L2', minutes: 12,
+    title: 'Calcolo mentale: scomporre, compensare, moltiplicare',
+    summary: 'Somme, differenze e prodotti veloci con scomposizione, compensazione e scorciatoie.',
+    objectives: ['Sommare e sottrarre a mente scomponendo e compensando', 'Moltiplicare per 5, 9, 11 e 25 con regole rapide', 'Calcolare quadrati di numeri in 5 e prodotti (a+b)(a−b)'],
+    pages: [
+      { h: 'Scomporre per sommare', b: `Il calcolo a mente non richiede memoria prodigiosa: richiede di **spezzare** i numeri in pezzi comodi e tenere in testa un solo risultato parziale.\n\nSi lavora **da sinistra a destra**, partendo dalle decine, come si legge.\n\n> 47 + 38 → 47 + 30 = 77, poi 77 + 8 = **85**\n> 58 + 67 → 58 + 2 = 60 (arrivo a una decina), poi 60 + 65 = **125**\n> 246 + 135 → 246 + 100 = 346, + 30 = 376, + 5 = **381**\n\nTrucco: se un addendo è vicino a una decina, **completala** e porta il resto nell’altro addendo.\n\nLa sottrazione si fa allo stesso modo: sottrai prima le decine, poi le unità.\n\n> 83 − 47 → 83 − 40 = 43, poi 43 − 7 = **36**` },
+      { h: 'Compensare', b: `Quando un numero è **quasi** tondo, arrotondalo e poi correggi la differenza: è la **compensazione**.\n\n- Somma: arrotondi per eccesso un addendo, poi **sottrai** l’eccesso.\n- Sottrazione: arrotondi il sottraendo per eccesso, poi **aggiungi** quanto hai tolto in più.\n\n> 396 + 247 → 400 + 247 = 647, meno 4 = **643**\n> 82 − 39 → 82 − 40 = 42, più 1 = **43**\n> 7 × 49 → 7 × 50 = 350, meno 7 = **343**\n\nPer sottrarre da una potenza di 10 usa i **complementi a 9** (e l’ultima cifra a 10):\n\n> 1000 − 387 → 9−3 = 6, 9−8 = 1, 10−7 = 3 → **613**\n\nServe un solo controllo mentale: il risultato deve avere lo stesso ordine di grandezza dell’arrotondamento.` },
+      { h: 'Per 5 e per 9', b: `**×5 = ×10 diviso 2** (oppure: dimezza e aggiungi uno zero).\n\n> 48 × 5 → 480 : 2 = **240**\n> 74 × 5 → 74 : 2 = 37, poi ×10 = **370**\n\nPerché funziona: 5 = 10 : 2. Se il numero è pari dimezza prima, è più facile.\n\n**×9 = ×10 meno il numero stesso.**\n\n> 37 × 9 → 370 − 37 = **333**\n> 64 × 9 → 640 − 64 = **576**\n\nStessa idea per ×99 (×100 − n) e ×19 (×20 − n).\n\n> 23 × 19 → 460 − 23 = **437**\n\nOgni trucco trasforma una moltiplicazione difficile in una moltiplicazione per 10 (o per 100) più una sottrazione semplice.` },
+      { h: 'Per 11 e per 25', b: `**×11 di un numero a due cifre**: tieni le cifre agli estremi e **metti in mezzo la loro somma**.\n\n> 34 × 11 → 3 · (3+4) · 4 = **374**\n> 58 × 11 → 5 · (5+8) · 8 → la somma è 13, **riporti 1**: 5+1 = 6, poi 3, poi 8 → **638**\n\nPerché: n × 11 = n × 10 + n, quindi ogni cifra si somma alla sua vicina.\n\n**×25 = ×100 diviso 4** (dimezza due volte).\n\n> 36 × 25 → 3600 : 4 = **900**\n> 48 × 25 → 4800 : 4 = **1200**\n> 18 × 25 → 1800 : 4 = **450**\n\nSe non sai dividere per 4, dimezza due volte: 1800 → 900 → 450.\n\nSimmetrico: ×50 = ×100 : 2 e ×125 = ×1000 : 8.` },
+      { h: 'Quadrati dei numeri che finiscono per 5', b: `Per elevare al quadrato un numero che termina per 5:\n\n1. prendi le cifre davanti al 5, chiamale **n**;\n2. calcola **n × (n+1)**;\n3. **scrivi 25** in coda.\n\n> 35² → n = 3 → 3 × 4 = 12 → **1225**\n> 75² → 7 × 8 = 56 → **5625**\n> 85² → 8 × 9 = 72 → **7225**\n> 115² → 11 × 12 = 132 → **13225**\n\nPerché funziona: (10n + 5)² = 100n² + 100n + 25 = 100·n(n+1) + 25.\n\nPuoi usarlo anche come base per numeri vicini: 47² ≈ 45² + 2·45·2 + 4 = 2025 + 180 + 4 = 2209 (esatto).` },
+      { h: 'Differenza di quadrati', b: `L’identità **(a + b)(a − b) = a² − b²** trasforma due fattori simmetrici attorno a un numero tondo in due quadrati facili.\n\nCerca la **media** dei due fattori (a) e la loro distanza dalla media (b).\n\n> 52 × 48 → a = 50, b = 2 → 2500 − 4 = **2496**\n> 63 × 57 → a = 60, b = 3 → 3600 − 9 = **3591**\n> 41 × 39 → 1600 − 1 = **1599**\n> 99 × 101 → 10000 − 1 = **9999**\n> 71 × 69 → 4900 − 1 = **4899**\n\nFunziona anche se la media non è tonda ma è un numero che finisce per 5:\n\n> 17 × 13 → a = 15 → 225 − 4 = **221**\n\n**Come scegliere il trucco**: guarda i numeri prima di calcolare. Vicino a una decina? Compensa. Fattore 5, 9, 11, 25? Regola dedicata. Due fattori simmetrici? Differenza di quadrati.` }
+    ],
+    exercises: [
+      mc('Calcola a mente 47 + 38.', ['85', '75', '86', '95'], 0, '47 + 30 = 77, poi + 8 = 85.'),
+      fill('63 − 28 = ?', ['35'], '63 − 30 = 33, poi + 2 (avevi tolto 2 di troppo) = 35.'),
+      mc('Con la compensazione, 396 + 247 vale:', ['643', '633', '653', '743'], 0, '400 + 247 = 647, meno 4 = 643.'),
+      fill('48 × 5 = ?', ['240'], '×10 poi dimezzi: 480 : 2 = 240.'),
+      fill('64 × 9 = ?', ['576'], '×10 − il numero: 640 − 64 = 576.'),
+      fill('58 × 11 = ?', ['638'], 'Cifre 5 e 8, in mezzo 5+8 = 13: scrivi 5, 13, 8 con riporto → 638.'),
+      fill('36 × 25 = ?', ['900'], '×100 poi : 4: 3600 : 4 = 900.'),
+      fill('65² = ?', ['4225'], '6 × 7 = 42, poi si scrive 25: 4225.'),
+      fill('52 × 48 = ?', ['2496'], '50² − 2² = 2500 − 4 = 2496.'),
+      mc('Quale scorciatoia rende facile 71 × 69?', ['70² − 1² = 4899', '70² + 1² = 4901', '71² − 69² = 280', '70 × 70 = 4900'], 0, 'I fattori sono simmetrici rispetto a 70: (70+1)(70−1) = 4900 − 1 = 4899.'),
+      order('Metti in ordine il calcolo di 45²', ['4 × 5', '=', '20', 'poi', 'aggiungo', '25', '→', '2025'], 'n = 4, n·(n+1) = 4·5 = 20, in coda 25: 2025.')
+    ],
+    test: [
+      mc('83 − 47 = ?', ['36', '46', '34', '37'], 0, '83 − 40 = 43, 43 − 7 = 36.'),
+      fill('74 × 5 = ?', ['370'], '74 : 2 = 37, ×10 = 370.'),
+      mc('37 × 9 = ?', ['333', '343', '324', '363'], 0, '370 − 37 = 333.'),
+      fill('72 × 11 = ?', ['792'], '7, (7+2) = 9, 2 → 792.'),
+      mc('44 × 25 = ?', ['1100', '1000', '1111', '1010'], 0, '4400 : 4 = 1100.'),
+      fill('95² = ?', ['9025'], '9 × 10 = 90, poi 25: 9025.'),
+      mc('63 × 57 = ?', ['3591', '3600', '3581', '3571'], 0, '60² − 3² = 3600 − 9 = 3591.')
+    ]
+  });
+
+  C.addTopic({
+    id: 'mnt-calcolo-trucchi-2', subject: 'mnt', stage: 'L2', minutes: 12,
+    title: 'Percentuali, frazioni, divisibilità e prova del nove',
+    summary: 'Percentuali con il 10% e l’1%, conversioni frazione-decimale, criteri di divisibilità e verifica dei calcoli.',
+    objectives: ['Calcolare percentuali partendo dal 10% e dall’1%', 'Convertire a mente frazioni, decimali e percentuali comuni', 'Usare i criteri di divisibilità e la prova del nove'],
+    pages: [
+      { h: 'Il 10% e l’1% come mattoni', b: `**Percento** significa «su cento». Due percentuali si calcolano senza fatica e sono i mattoni di tutte le altre:\n\n- **10%** = dividi per 10 (sposta la virgola di un posto a sinistra);\n- **1%** = dividi per 100 (sposta di due posti).\n\n> 10% di 340 = **34**\n> 1% di 2500 = **25**, quindi 3% di 2500 = **75**\n\nPoi si **compone**:\n\n- **5%** = metà del 10%: 5% di 340 = 17\n- **15%** = 10% + 5%: 34 + 17 = **51**\n- **20%** = doppio del 10%: 68\n- **50%** = metà; **25%** = metà della metà.\n\nPer percentuali come 12%: 10% + 2 × 1%. Prima il blocco grande, poi il resto.` },
+      { h: 'Comporre percentuali', b: `Qualunque percentuale si costruisce da 10%, 5% e 1%.\n\n> 35% di 240 → 10% = 24, ×3 = 72, più 5% = 12 → **84**\n> 12% di 450 → 10% = 45, 1% = 4,5, 2% = 9 → 45 + 9 = **54**\n> Sconto 25% su 80 € → 25% = 80 : 4 = 20 → paghi 80 − 20 = **60 €**\n\n**Scambio utile**: x% di y = y% di x. Se il numero più piccolo è più comodo, scambia.\n\n> 8% di 50 = 50% di 8 = **4**\n\nSe una percentuale ti sembra scomoda, trasformala in frazione: 25% = 1/4, 20% = 1/5, 75% = 3/4, 40% = 2/5.\n\nControllo rapido: il 50% di un numero è la metà; il 10% è molto meno della metà. Se il risultato non rispetta queste soglie hai sbagliato.` },
+      { h: 'Aumenti e riduzioni', b: `Un aumento del 20% equivale a **moltiplicare per 1,2**; una riduzione del 20% a moltiplicare per **0,8**.\n\n> Prezzo 50 € + IVA 22%: 22% di 50 = 11 → **61 €**\n\nAttenzione: le variazioni percentuali **non si annullano** in coppia, perché la base cambia.\n\n> 100 → +20% = 120 → −20% di 120 (cioè 24) = **96**, non 100\n\nPer la variazione tra due valori: **(nuovo − vecchio) : vecchio**.\n\n> Da 80 a 100: 20 : 80 = **+25%**\n> Da 100 a 80: −20 : 100 = **−20%**\n\nStesso scarto di 20, percentuali diverse: conta la base di partenza, cioè il valore **da cui parti**. Quando senti «+50% e poi −50%» ricorda che finisci a 75, non a 100.` },
+      { h: 'Frazioni e decimali', b: `Impara a memoria poche conversioni: coprono quasi tutti i casi pratici.\n\n- 1/2 = 0,5 = 50%\n- 1/4 = 0,25 = 25%; 3/4 = 0,75\n- 1/5 = 0,2 = 20%; 1/10 = 0,1\n- 1/8 = 0,125 = 12,5%; 3/8 = 0,375; 5/8 = 0,625\n- 1/3 = 0,333… ≈ 33%; 2/3 = 0,666… ≈ 67%\n\nPer una frazione qualsiasi: **numeratore : denominatore**, oppure porta il denominatore a 100.\n\n> 7/20 → ×5 sopra e sotto → 35/100 = **0,35**\n> 3/8 → 1/8 = 0,125, ×3 = **0,375**\n\nPer gli ottavi parti da 1/8 = 0,125 e moltiplica: due ottavi sono 0,25, quattro ottavi 0,5.\n\nIl 12,5% di un numero è quindi **un ottavo**: 12,5% di 80 = 10.` },
+      { h: 'Criteri di divisibilità', b: `Servono per semplificare frazioni e scomporre numeri senza dividere.\n\n- **2**: ultima cifra pari.\n- **5**: ultima cifra 0 o 5. **10**: ultima cifra 0.\n- **3**: somma delle cifre multipla di 3. **9**: somma delle cifre multipla di 9.\n- **4**: le ultime **due** cifre formano un multiplo di 4.\n- **11**: somma delle cifre in posizione pari **meno** somma di quelle in posizione dispari = 0 o multiplo di 11.\n- **6**: divisibile per 2 e per 3.\n\n> 1728 → 1+7+2+8 = 18 → divisibile per 9 (1728 : 9 = 192)\n> 3124 → 24 è multiplo di 4 → divisibile per 4\n> 2717 → (2+1) − (7+7) = −11 → divisibile per 11 (2717 = 11 × 247)\n\nSe la somma delle cifre è 12 il numero è divisibile per 3 ma **non** per 9.` },
+      { h: 'La prova del nove', b: `Un numero ha lo stesso resto, nella divisione per 9, della **somma delle sue cifre**. Somma le cifre finché resta una sola cifra (la «radice digitale»).\n\nOgni operazione si può controllare lavorando solo con queste cifre.\n\n> 238 × 47 = 11186?\n> 238 → 2+3+8 = 13 → 4; 47 → 11 → 2; 4 × 2 = **8**\n> 11186 → 1+1+1+8+6 = 17 → **8** ✓ torna\n\n> 586 + 797 = 1383? 586 → 1; 797 → 5; 1 + 5 = **6**; 1383 → 15 → **6** ✓\n\nSe il risultato scritto fosse 11286: 1+1+2+8+6 = 18 → 0, diverso da 8: **errore sicuro**.\n\n**Limiti**: la prova scopre molti errori ma non tutti. Non vede lo scambio di due cifre (11186 ↔ 11168) né un errore che sia multiplo di 9. «Torna» significa quindi solo «probabilmente giusto».` }
+    ],
+    exercises: [
+      fill('15% di 340 = ?', ['51'], '10% = 34, 5% = 17, quindi 34 + 17 = 51.'),
+      fill('35% di 240 = ?', ['84'], '10% = 24, ×3 = 72, + 5% (12) = 84.'),
+      mc('Un cappotto da 80 € è scontato del 25%. Quanto costa?', ['60 €', '20 €', '55 €', '75 €'], 0, '25% = un quarto = 20 €; 80 − 20 = 60 €.'),
+      fill('8% di 50 = ?', ['4'], 'Scambio: 8% di 50 = 50% di 8 = 4.'),
+      mc('Un prezzo di 100 € sale del 20% e poi scende del 20%. Il prezzo finale è:', ['96 €', '100 €', '104 €', '98 €'], 0, '100 → 120; il 20% di 120 è 24; 120 − 24 = 96.'),
+      fill('Scrivi 3/8 come numero decimale.', ['0,375', '0.375'], '1/8 = 0,125 e 0,125 × 3 = 0,375.'),
+      mc('Quale numero è divisibile per 9?', ['2718', '2719', '2728', '2738'], 0, 'Solo 2+7+1+8 = 18 è multiplo di 9.'),
+      mc('Quale numero è divisibile per 4?', ['3124', '3126', '3142', '3214'], 0, 'Le ultime due cifre 24 sono multiplo di 4; 26, 42 e 14 no.'),
+      mc('Quale numero è multiplo di 11?', ['2717', '2719', '2727', '2771'], 0, '(2+1) − (7+7) = −11, multiplo di 11. Gli altri non danno multipli di 11: 2719 → −13, 2727 → −10, 2771 → 1.'),
+      mc('Prova del nove su 345 × 28 = 9760: cosa emerge?', ['Errore: 3 ≠ 4', 'Torna: entrambi 3', 'Torna: entrambi 4', 'Non si può applicare'], 0, '345 → 3, 28 → 1, prodotto 3. 9760 → 22 → 4. Diversi: errore (il valore giusto è 9660).'),
+      order('Ordina i passi per il 15% di 340', ['10% = 34', 'poi 5% = 17', 'somma', '34 + 17', '= 51'], 'Costruisci il 15% da 10% e 5%.')
+    ],
+    test: [
+      mc('20% di 350 = ?', ['70', '35', '7', '75'], 0, '10% = 35, doppio = 70.'),
+      fill('12% di 450 = ?', ['54'], '10% = 45, 2% = 9, totale 54.'),
+      fill('7/20 come decimale (0,…)?', ['0,35', '0.35'], '7/20 = 35/100 = 0,35.'),
+      mc('1/8 espresso in percentuale è:', ['12,5%', '18%', '8%', '1,25%'], 0, '1 : 8 = 0,125 = 12,5%.'),
+      mc('Quale numero è divisibile per 3 ma NON per 9?', ['1236', '1233', '1224', '1235'], 0, '1+2+3+6 = 12: multiplo di 3, non di 9. 1233 e 1224 hanno somma 9; 1235 ha somma 11.'),
+      mc('5148 è divisibile per 11?', ['Sì: (5+4) − (1+8) = 0', 'No: la somma delle cifre è 18', 'No: termina per 8', 'Sì: è divisibile per 5'], 0, 'La differenza alternata è 0, quindi è multiplo di 11 (5148 = 11 × 468).'),
+      fill('Radice digitale di 4736 (somma le cifre fino a una sola)?', ['2'], '4+7+3+6 = 20, poi 2+0 = 2.'),
+      fill('50 € più IVA 22% = ? (solo numero in euro)', ['61'], '22% di 50 = 11; 50 + 11 = 61.')
+    ]
+  });
+
+  C.addTopic({
+    id: 'mnt-stima-fermi', subject: 'mnt', stage: 'L2', minutes: 12,
+    title: 'Stima, ordini di grandezza e problemi di Fermi',
+    summary: 'Arrotondare con criterio, ragionare in potenze di 10 e scomporre domande impossibili in stime semplici.',
+    objectives: ['Stimare prodotti e rapporti arrotondando in modo bilanciato', 'Ragionare in ordini di grandezza con le potenze di 10', 'Risolvere un problema di Fermi in passi espliciti'],
+    pages: [
+      { h: 'Arrotondare con criterio', b: `Stimare non è calcolare male: è calcolare **abbastanza bene, in fretta**. Arrotonda a numeri «comodi» (1, 2, 5, 10 e loro multipli).\n\n> 487 × 21 ≈ 500 × 20 = **10 000** (esatto: 10 227)\n> 6142 : 7,9 ≈ 6000 : 8 = **750** (esatto: circa 777)\n\nRegola d’oro: **bilancia gli errori**. Se arrotondi un fattore per eccesso, arrotonda l’altro per difetto.\n\n> 38 × 52 ≈ 40 × 50 = 2000 (esatto: 1976): i due errori quasi si annullano.\n\nSe invece arrotondi entrambi per eccesso, il risultato sarà **troppo alto**: 19 × 21 con entrambi sopra darebbe 20 × 22 = 440, mentre il valore esatto è 399.\n\nL’errore relativo di una buona stima è di pochi punti percentuali: per decidere spesso basta.` },
+      { h: 'Ordini di grandezza e potenze di 10', b: `L’**ordine di grandezza** è la potenza di 10 più vicina: dice «di che taglia» è un numero.\n\nCon le potenze di 10 i prodotti diventano somme di esponenti, i rapporti sottrazioni:\n\n> 3000 × 20 000 = (3 × 10³) × (2 × 10⁴) = 6 × 10⁷ = **60 000 000**\n> 8 000 000 : 4000 = (8 : 4) × 10⁶⁻³ = **2000**\n\nValori di riferimento ben noti:\n\n- popolazione italiana ≈ 59 milioni (6 × 10⁷);\n- popolazione mondiale ≈ 8 miliardi (8 × 10⁹);\n- circonferenza della Terra ≈ 40 000 km;\n- un giorno = 86 400 s; un anno ≈ 3 × 10⁷ s;\n- cuore a riposo ≈ 70 battiti al minuto.\n\nUn milione di secondi sono circa 11,6 giorni; un miliardo di secondi quasi 32 anni. Allenare queste intuizioni dà un senso alle grandi cifre.` },
+      { h: 'Stimare prodotti e rapporti', b: `Tre scorciatoie per la vita quotidiana:\n\n1. **Scomponi il tempo in frazioni**: 3 h 40 min = 11/3 h.\n\n> Auto a 90 km/h per 3 h 40: 90 × 11/3 = 30 × 11 = **330 km**\n\n2. **Conta le cifre**: un numero di 3 cifre per uno di 2 cifre dà un risultato di 4 o 5 cifre (487 × 21 = 10 227: 5 cifre).\n\n3. **Controlla l’ultima cifra**: 487 × 21 termina con 7 × 1 = 7. ✓\n\n> Quanti anni sono un milione di giorni? 1 000 000 : 365 ≈ 1 000 000 : 400 = 2500; con 365 viene circa **2740 anni**\n\nUna cifra palesemente fuori scala è il segnale d’allarme: se qualcuno dice 6142 : 7,9 = 77,7, sai subito che manca uno zero (il risultato è circa 777).` },
+      { h: 'Problemi di Fermi: il metodo', b: `Un **problema di Fermi** pone una domanda apparentemente impossibile («quanti…?»). Si risolve scomponendola in stime semplici. Il metodo in cinque passi:\n\n1. **Definisci** con precisione la quantità richiesta.\n2. **Scomponi** in un prodotto di fattori che sai stimare.\n3. **Stima** ogni fattore con un numero tondo, dichiarando l’ipotesi.\n4. **Moltiplica** (meglio con le potenze di 10).\n5. **Verifica** la plausibilità e il margine d’errore.\n\n> Quanti battiti fa un cuore in una vita di 80 anni?\n> 70 al minuto × 60 × 24 = 100 800 al giorno ≈ **10⁵**\n> 10⁵ × 365 ≈ 3,7 × 10⁷ all’anno\n> 3,7 × 10⁷ × 80 ≈ **3 × 10⁹**: circa 3 miliardi.\n\nIl risultato giusto è nell’ordine dei miliardi: è esattamente ciò che chiede una stima di Fermi.` },
+      { h: 'Un secondo esempio', b: `> Quanta acqua beve una persona in tutta la vita?\n\n**Ipotesi dichiarate**:\n- circa 2 litri al giorno (bevande comprese);\n- 80 anni di vita;\n- 365 giorni all’anno.\n\n**Calcolo**:\n> 2 × 365 = 730 litri all’anno\n> 730 × 80 = **58 400 litri**, cioè circa **6 × 10⁴ L** (circa 58 m³)\n\nSono quasi 60 metri cubi. L’ordine di grandezza (decine di migliaia di litri) resta lo stesso se la media è 1,5 L o 2,5 L al giorno.\n\nUn pregio dei problemi di Fermi: gli **errori si compensano**. Se un fattore è sovrastimato e un altro sottostimato, l’errore totale è spesso minore di quello di ciascuno. Ecco perché conviene scomporre in **molti** fattori indipendenti, ciascuno plausibile, anziché tirare a indovinare il totale.` },
+      { h: 'Plausibilità e margini', b: `Una stima è utile solo se sai **quanto ti puoi fidare**.\n\n- **Limiti**: trova un valore sicuramente troppo basso e uno sicuramente troppo alto; la risposta sta in mezzo (spesso si usa la media geometrica).\n- **Due strade**: risolvi il problema in due modi diversi; se i risultati sono nello stesso ordine di grandezza, ti puoi fidare.\n- **Unità di misura**: scrivile sempre; metà degli errori nasce da litri confusi con millilitri o minuti con ore.\n\n> Esempio di limiti: quanti metri percorre a piedi una persona in un anno? Minimo 2 km al giorno (730 km), massimo 15 km (5 500 km). Una stima di 3 000 km è plausibile.\n\nSe non conosci un dato non rinunciare: **stimalo con un numero tondo**, dichiaralo e vai avanti. Il ragionamento conta più della cifra esatta.` }
+    ],
+    exercises: [
+      mc('Stima 487 × 21:', ['circa 10 000', 'circa 1 000', 'circa 100 000', 'circa 4 000'], 0, '500 × 20 = 10 000.'),
+      fill('Arrotondando a 40 × 50, quanto vale la stima di 38 × 52?', ['2000', '2 000', '2.000'], '40 × 50 = 2000; il valore esatto è 1976.'),
+      fill('30 000 × 2 000 = ?', ['60000000', '60 000 000', '60.000.000'], '3 × 2 = 6 e 10⁴ × 10³ = 10⁷: 60 000 000.'),
+      mc('8 000 000 : 4 000 = ?', ['2000', '200', '20 000', '2 000 000'], 0, '8 : 4 = 2 e 10⁶ : 10³ = 10³.'),
+      mc('Un milione di secondi sono circa:', ['11–12 giorni', '1 giorno', '1 mese', '3 anni'], 0, '1 000 000 : 86 400 ≈ 11,6.'),
+      fill('Con 70 battiti al minuto, quanti battiti in un giorno (circa)?', ['100800', '100 800', '100000', '100 000', '100.800', '100.000'], '70 × 60 × 24 = 100 800 ≈ 10⁵.'),
+      mc('6142 : 7,9 = ?', ['circa 777', 'circa 77,7', 'circa 7770', 'circa 7,77'], 0, '6000 : 8 = 750: l’ordine di grandezza è le centinaia.'),
+      mc('Un’auto viaggia a 90 km/h per 3 h 40 min. Quanti km?', ['330', '270', '300', '360'], 0, '3 h 40 = 11/3 h; 90 × 11 : 3 = 330.'),
+      order('Ordina i passi di un problema di Fermi', ['Definisco', 'la grandezza', 'scompongo', 'in fattori', 'stimo', 'ogni fattore', 'moltiplico', 'e verifico'], 'Definire, scomporre, stimare, moltiplicare, verificare.')
+    ],
+    test: [
+      mc('19 × 21 è circa:', ['400', '40', '4 000', '800'], 0, '20 × 20 = 400 (esatto: 399).'),
+      fill('400 000 : 2 000 = ?', ['200'], '4 : 2 = 2 e 10⁵ : 10³ = 10².'),
+      mc('2 L di acqua al giorno per 80 anni sono circa:', ['58 000 L', '5 800 L', '580 000 L', '5 800 000 L'], 0, '2 × 365 × 80 = 58 400 L.'),
+      mc('Un milione di giorni corrispondono a circa:', ['2 700 anni', '27 anni', '270 anni', '27 000 anni'], 0, '1 000 000 : 365 ≈ 2 740.'),
+      mc('Non conosci un dato in un problema di Fermi. Cosa fai?', ['Lo stimi con un numero tondo plausibile e lo dichiari', 'Rinunci al problema', 'Scegli 0 per semplificare', 'Cerchi una cifra esatta a più decimali'], 0, 'Un’ipotesi esplicita e plausibile permette di andare avanti e di controllare il risultato.'),
+      fill('6 000 × 500 = ?', ['3000000', '3 000 000', '3.000.000'], '6 × 5 = 30 e 10³ × 10² = 10⁵: 30 × 10⁵ = 3 000 000.')
+    ]
+  });
+
+  /* ---------- L3 · Ragionamento ---------- */
+  C.addTopic({
+    id: 'mnt-logica-sillogismi', subject: 'mnt', stage: 'L3', minutes: 12,
+    title: 'Sillogismi: validità, cerchi di Eulero e errori tipici',
+    summary: 'Riconoscere sillogismi categorici validi e non validi, anche con i diagrammi di Eulero-Venn.',
+    objectives: ['Distinguere premesse, termine medio e conclusione', 'Verificare la validità con diagrammi di Eulero-Venn e controesempi', 'Riconoscere errori come il medio non distribuito'],
+    pages: [
+      { h: 'Che cos’è un sillogismo', b: `Un **sillogismo categorico** ha due **premesse** e una **conclusione**, e tre termini:\n\n- **S** (minore): soggetto della conclusione;\n- **P** (maggiore): predicato della conclusione;\n- **M** (medio): compare nelle premesse, mai nella conclusione, e fa da ponte.\n\n> Tutti i mammiferi (M) respirano con i polmoni (P).\n> Le balene (S) sono mammiferi (M).\n> Dunque le balene (S) respirano con i polmoni (P).\n\nForma: *Tutti gli M sono P; tutti gli S sono M; dunque tutti gli S sono P*. È la forma detta **Barbara**.\n\nLa **validità** riguarda solo la struttura: se le premesse fossero vere, la conclusione dovrebbe esserlo per forza. Una conclusione può essere vera e il ragionamento non valido, o viceversa.` },
+      { h: 'Le quattro forme di proposizione', b: `Ogni enunciato categorico è di uno di quattro tipi:\n\n- **A** universale affermativa: *Tutti gli S sono P*\n- **E** universale negativa: *Nessun S è P*\n- **I** particolare affermativa: *Alcuni S sono P*\n- **O** particolare negativa: *Alcuni S non sono P*\n\n**Alcuni** in logica vuol dire **almeno uno** (ed eventualmente tutti), non «solo alcuni».\n\nConversione, cioè scambiare soggetto e predicato:\n\n- **E** e **I** sono convertibili: *Nessun S è P* ⇔ *Nessun P è S*; *Alcuni S sono P* ⇔ *Alcuni P sono S*;\n- **A** e **O** **non** lo sono.\n\n> «Tutti i cani sono mammiferi» è vero; «tutti i mammiferi sono cani» è falso.\n\nLa conversione indebita di A è uno degli errori più frequenti.` },
+      { h: 'Cerchi di Eulero e Venn', b: `Per controllare un sillogismo **disegna insiemi**.\n\n- *Tutti gli S sono M*: il cerchio S sta **dentro** M.\n- *Nessun M è P*: i cerchi M e P sono **separati**.\n- *Alcuni S sono M*: S e M hanno una **parte in comune**.\n\nMetodo del **controesempio**: disegna le premesse nel modo più sfavorevole alla conclusione. Se esiste almeno un disegno in cui le premesse valgono e la conclusione no, il sillogismo **non è valido**. Se in ogni disegno la conclusione vale, è valido.\n\n> Tutti i gatti sono felini; alcuni felini sono domestici. Alcuni gatti sono domestici?\n> Posso disegnare i felini domestici tutti fuori dal cerchio dei gatti: le premesse restano vere ma la conclusione no. Dunque la conclusione non è obbligata: **non valido.**\n\nIl disegno sostituisce l’intuizione, che spesso inganna.` },
+      { h: 'Forme valide classiche', b: `Tre schemi sicuri:\n\n**Barbara** (A, A → A)\n> Tutti i corvi sono uccelli; tutti gli uccelli hanno le ali ⇒ **tutti i corvi hanno le ali**.\n\n**Celarent** (E, A → E)\n> Nessun rettile ha il pelo; tutti i serpenti sono rettili ⇒ **nessun serpente ha il pelo**.\n\n**Darii** (A, I → I)\n> Tutti i metalli conducono elettricità; alcuni oggetti di cucina sono metalli ⇒ **alcuni oggetti di cucina conducono elettricità**.\n\nUna variante utile, **Cesare** (E, A → E), si riduce a Celarent invertendo la prima premessa:\n> Nessun insetto ha otto zampe; tutti i ragni hanno otto zampe ⇒ **nessun ragno è un insetto**.\n\nIn tutti i casi il medio è «agganciato» in modo che la sua estensione colleghi S a P. Se riesci a riscrivere il ragionamento in una di queste forme, è valido.` },
+      { h: 'Gli errori classici', b: `**Medio non distribuito**: il medio non è mai considerato «per intero» in nessuna premessa.\n\n> Tutti i cani sono mammiferi.\n> Tutti i gatti sono mammiferi.\n> Dunque tutti i gatti sono cani. ✗\n\nQui M (mammiferi) è predicato di due A: non è distribuito. I gatti e i cani sono soltanto due sottoinsiemi di M.\n\n**Due premesse negative**: non permettono alcuna conclusione.\n> Nessun pesce è mammifero; nessun delfino è pesce ⇒ *nulla di necessario* sui delfini (infatti i delfini sono mammiferi, ma non lo si deduce da qui).\n\n**Due premesse particolari**: nemmeno.\n> Alcuni medici sono musicisti; alcuni musicisti sono atleti ⇒ nessun legame necessario tra medici e atleti.\n\n**Conversione indebita**: da «Tutti gli S sono P» a «Tutti i P sono S».` },
+      { h: 'Validità, verità e pregiudizio', b: `Valido non significa vero, e vero non significa valido.\n\n> Tutti i gatti sono rettili; tutti i rettili hanno le piume ⇒ tutti i gatti hanno le piume.\n\nStruttura **valida** (Barbara), ma premesse false e conclusione falsa. Un ragionamento **solido** richiede struttura valida **e** premesse vere.\n\n> Tutti i cani sono mammiferi; alcuni mammiferi sono domestici ⇒ alcuni cani sono domestici.\n\nLa conclusione è vera (tanti cani sono domestici), ma il ragionamento **non è valido**: M è il predicato di A e il soggetto di I, quindi non è distribuito.\n\nIl **pregiudizio di credenza** (belief bias) ci fa accettare sillogismi con conclusione plausibile e rifiutare quelli con conclusione assurda, a prescindere dalla struttura.\n\nCome difesa: **ignora la plausibilità**, disegna gli insiemi e chiediti se la conclusione è *forzata* dalle premesse.` }
+    ],
+    exercises: [
+      mc('Tutti i pittori sono artisti; Marco è un pittore. Cosa segue?', ['Marco è un artista', 'Marco non è un artista', 'Tutti gli artisti sono pittori', 'Nulla'], 0, 'Barbara con un individuo: se P allora A, e Marco è P.'),
+      mc('Tutti i cani sono mammiferi; tutti i gatti sono mammiferi. Quale conclusione segue necessariamente su gatti e cani?', ['Nessuna', 'Tutti i gatti sono cani', 'Alcuni gatti sono cani', 'Nessun gatto è cane'], 0, 'Il medio (mammiferi) non è distribuito: non si può dire nulla di necessario.'),
+      mc('Quale enunciato è equivalente a «Nessun serpente è un mammifero»?', ['Nessun mammifero è un serpente', 'Tutti i mammiferi sono serpenti', 'Alcuni serpenti sono mammiferi', 'Alcuni mammiferi non sono serpenti'], 0, 'Le proposizioni E sono convertibili.'),
+      mc('Nessun rettile ha il pelo; tutti i serpenti sono rettili. Dunque:', ['Nessun serpente ha il pelo', 'Alcuni serpenti hanno il pelo', 'Tutti i serpenti hanno il pelo', 'Nessun rettile è serpente'], 0, 'Celarent: da E e A segue E.'),
+      mc('Tutti i cani sono mammiferi; alcuni mammiferi sono domestici ⇒ alcuni cani sono domestici. Il ragionamento è:', ['Non valido, anche se la conclusione è vera', 'Valido perché la conclusione è vera', 'Valido perché le premesse sono vere', 'Non valido perché la conclusione è falsa'], 0, 'Medio non distribuito: la validità è indipendente dalla verità della conclusione.'),
+      order('Metti in ordine il sillogismo', ['Tutti i corvi sono uccelli;', 'tutti gli uccelli hanno le ali;', 'dunque tutti i corvi hanno le ali.'], 'Barbara: M→P, S→M, quindi S→P (qui con catena).'),
+      fill('Come si chiama il termine presente nelle due premesse ma non nella conclusione?', ['medio', 'termine medio', 'il medio', 'il termine medio'], 'Il termine medio fa da ponte tra soggetto e predicato.'),
+      mc('Alcuni medici sono musicisti; alcuni musicisti sono atleti. Si può concludere che alcuni medici sono atleti?', ['No, non necessariamente', 'Sì, sempre', 'Sì, ma solo se tutti i medici sono musicisti', 'È falso: nessun medico è atleta'], 0, 'Due particolari: nessuna conclusione necessaria.'),
+      mc('Nessun pesce è un mammifero; nessun delfino è un pesce. Cosa si può dedurre su delfini e mammiferi?', ['Nulla di necessario', 'Nessun delfino è un mammifero', 'Tutti i delfini sono mammiferi', 'Alcuni delfini sono mammiferi'], 0, 'Con due premesse negative non segue nulla.'),
+      fill('Quante sono le forme categoriche standard (A, E, I, O)? Scrivi il numero.', ['4', 'quattro'], 'A: tutti; E: nessuno; I: alcuni; O: alcuni non.')
+    ],
+    test: [
+      mc('Nessun insetto ha otto zampe; tutti i ragni hanno otto zampe. Dunque:', ['Nessun ragno è un insetto', 'Tutti i ragni sono insetti', 'Alcuni insetti sono ragni', 'Nulla di necessario'], 0, 'Schema Cesare: E, A → E.'),
+      mc('Da «Tutti i gatti sono felini» NON segue:', ['Tutti i felini sono gatti', 'Un animale non felino non è un gatto', 'Se è un gatto, è un felino', 'Nessun gatto è non-felino'], 0, 'La conversione di A è un errore; la contrapposizione è valida.'),
+      mc('Tutti gli S sono M; alcuni M non sono P. Cosa si può concludere su S e P?', ['Nulla di necessario', 'Alcuni S non sono P', 'Nessun S è P', 'Tutti gli S sono P'], 0, 'Gli M che non sono P potrebbero essere tutti fuori da S.'),
+      mc('Tutti i gatti sono rettili; tutti i rettili hanno le piume ⇒ tutti i gatti hanno le piume. Questo ragionamento è:', ['Valido ma con premesse false', 'Non valido', 'Solido', 'Valido perché la conclusione è plausibile'], 0, 'La forma è Barbara; la solidità richiede anche premesse vere.'),
+      fill('Che lettera indica «Alcuni S non sono P»?', ['O', 'o'], 'È la particolare negativa.'),
+      mc('Tutti i metalli conducono elettricità; alcuni oggetti sono metalli. Dunque:', ['Alcuni oggetti conducono elettricità', 'Tutti gli oggetti conducono elettricità', 'Nessun oggetto conduce elettricità', 'Nulla di necessario'], 0, 'Darii: A, I → I.'),
+      mc('Un ragionamento valido con premesse vere ha sempre una conclusione:', ['Vera', 'Falsa', 'Plausibile ma incerta', 'Dipendente dalle opinioni'], 0, 'È la definizione di ragionamento solido.')
+    ]
+  });
+
+  C.addTopic({
+    id: 'mnt-ragionamento-condizionale', subject: 'mnt', stage: 'L3', minutes: 12,
+    title: 'Ragionamento condizionale: se–allora, Wason e negazione',
+    summary: 'Modus ponens e tollens, fallacie, condizioni necessarie e sufficienti, selezione di Wason, negazione corretta.',
+    objectives: ['Applicare modus ponens e modus tollens ed evitare le fallacie', 'Distinguere condizione necessaria e sufficiente', 'Negare correttamente enunciati e risolvere il compito di Wason'],
+    pages: [
+      { h: 'Il condizionale «se P allora Q»', b: `In «**se P allora Q**», P è l’**antecedente** e Q il **conseguente**.\n\nL’enunciato è falso in **un solo caso**: P vero e Q falso.\n\n- P vero, Q vero: il condizionale è **vero**\n- P vero, Q falso: il condizionale è **falso**\n- P falso, Q vero: **vero**\n- P falso, Q falso: **vero**\n\nPensa a una promessa: «Se prendi 30, ti regalo la bici». La rompo solo se prendi 30 e non te la regalo. Se non prendi 30 non ho violato niente, anche se ti regalo comunque la bici.\n\nSe l’antecedente è falso, il condizionale **non è smentito**. Per questo «se piove, la strada è bagnata» non ci dice nulla nei giorni di sole.` },
+      { h: 'Modus ponens e modus tollens', b: `Due inferenze valide:\n\n**Modus ponens** (affermo l’antecedente)\n> Se P allora Q. P. ⇒ **Q**.\n> Se un numero è divisibile per 6, è pari. 18 è divisibile per 6 ⇒ **18 è pari**.\n\n**Modus tollens** (nego il conseguente)\n> Se P allora Q. Non Q. ⇒ **non P**.\n> Se è un uccello, ha le piume. La lucertola non ha le piume ⇒ **non è un uccello**.\n\nLa **contrapposta** «se non Q allora non P» è **sempre equivalente** all’originale: dire una cosa equivale a dire l’altra.\n\n> «Se è un quadrato, ha quattro lati» ≡ «se non ha quattro lati, non è un quadrato».\n\nUn trucco: davanti a un «se…allora» chiediti **quale parte è stata data**: l’antecedente (puoi concludere Q) o la negazione del conseguente (puoi negare P).` },
+      { h: 'Le fallacie', b: `Due errori somigliano alle inferenze valide:\n\n**Affermazione del conseguente** (non valida)\n> Se piove, il prato è bagnato. Il prato è bagnato ⇒ ha piovuto? **No**: potrebbe esserci l’irrigatore.\n\n**Negazione dell’antecedente** (non valida)\n> Se studio, passo. Non ho studiato ⇒ non passo? **No**: potrei passare comunque.\n\nSono i legami della **conversa** («se Q allora P») e dell’**inversa** («se non P allora non Q»): sono equivalenti **tra loro**, ma **non** all’originale.\n\n> «Se è un quadrato, è un rettangolo» è vero; la conversa «se è un rettangolo, è un quadrato» è falsa.\n\nIn sintesi: tra le quattro forme (diretta, contrapposta, conversa, inversa) la diretta e la contrapposta sono equivalenti; conversa e inversa pure, ma i due gruppi sono distinti.` },
+      { h: 'Necessario e sufficiente', b: `In «P → Q»:\n\n- P è **sufficiente** per Q (basta P per avere Q);\n- Q è **necessario** per P (senza Q non c’è P).\n\n> Essere a Roma è **sufficiente** per essere in Italia, ma non necessario.\n> Essere in Italia è **necessario** per essere a Roma, ma non sufficiente.\n\nTraduzioni utili:\n\n- «P **solo se** Q» = P → Q.\n- «P **se** Q» = Q → P.\n- «P **se e solo se** Q» = P → Q **e** Q → P (equivalenza).\n\n> «Entri solo se hai il biglietto» = se entri, hai il biglietto. Avere il biglietto è **necessario**, non sufficiente: potresti essere respinto per altri motivi.\n\nFai attenzione ai problemi quotidiani: «solo se» non vuol dire «se». Nei contratti e nelle regole questa distinzione cambia chi ha ragione.` },
+      { h: 'Il compito di selezione di Wason', b: `Quattro carte mostrano **E**, **K**, **4**, **7**. Ogni carta ha una lettera su un lato e un numero sull’altro. Regola: «**se c’è una vocale, sull’altro lato c’è un numero pari**». Quali carte vanno girate per **verificare** la regola?\n\nLa regola è violata solo da una carta con **vocale e dispari**. Cerca le carte che potrebbero nasconderla:\n\n- **E**: sì, dietro potrebbe esserci un numero dispari;\n- **K**: no, la regola non dice nulla sulle consonanti;\n- **4**: no, un pari dietro a una consonante o a una vocale non viola la regola;\n- **7**: **sì**, se dietro c’è una vocale la regola è violata.\n\nRisposta corretta: **E e 7**. Molti scelgono E e 4 (cercano conferme).\n\nNella versione sociale con le bevande — «se bevi alcolici devi essere maggiorenne» — la maggioranza risponde bene: controlli chi beve birra e chi ha 16 anni.` },
+      { h: 'Negare correttamente', b: `Negare non vuol dire «dire il contrario»: vuol dire dire ciò che è vero quando l’originale è falso.\n\n- «**Tutti** hanno superato» → nego con «**almeno uno** non ha superato» (non «nessuno ha superato»).\n- «**Nessuno** è arrivato» → «**almeno uno** è arrivato».\n- «P **e** Q» → «**non P o non Q**» (De Morgan).\n- «P **o** Q» → «**non P e non Q**».\n- «**Se P allora Q**» → «**P e non Q**».\n\n> «Piove e fa freddo» → nego: **non piove oppure non fa freddo**.\n> «Non sono stanco o affamato» (non è vero che sono stanco o affamato) → **non sono stanco e non sono affamato**.\n> «Se studi, passi» → nego: **studi e non passi**.\n\nIl test mentale: cerca il **singolo caso** che smentirebbe l’affermazione: quello è la negazione.` }
+    ],
+    exercises: [
+      mc('Se un numero è divisibile per 6, è pari. 18 è divisibile per 6. Dunque:', ['18 è pari', '18 non è pari', '6 è pari solo se 18 lo è', 'Non si può dire'], 0, 'Modus ponens.'),
+      mc('Se un numero è multiplo di 4, è pari. Il numero 9 non è pari. Cosa segue?', ['9 non è multiplo di 4', '9 è multiplo di 4', '9 è multiplo di 2', 'Nulla'], 0, 'Modus tollens.'),
+      mc('«Se piove, il prato è bagnato. Il prato è bagnato. Dunque ha piovuto.» Che errore è?', ['Affermazione del conseguente', 'Negazione dell’antecedente', 'Modus tollens', 'Nessuno: è valido'], 0, 'Il prato può essere bagnato per altre cause.'),
+      mc('«Se studio, passo. Non ho studiato. Dunque non passo.» È:', ['Una fallacia (negazione dell’antecedente)', 'Un modus ponens', 'Un modus tollens', 'Valido'], 0, 'Passare è possibile anche senza studiare.'),
+      mc('«Puoi entrare solo se hai il biglietto» significa:', ['Se entri, hai il biglietto', 'Se hai il biglietto, entri', 'Entri se e solo se non hai il biglietto', 'Non serve il biglietto'], 0, '«P solo se Q» = P → Q.'),
+      mc('Regola: «se una carta ha un lato rosso, l’altro lato è un cerchio». Carte: rosso, blu, cerchio, quadrato. Quali giri?', ['Rosso e quadrato', 'Rosso e cerchio', 'Blu e cerchio', 'Tutte e quattro'], 0, 'Il rosso potrebbe avere un non-cerchio; il quadrato potrebbe avere dietro il rosso.'),
+      mc('La negazione di «Tutti i miei amici sono arrivati» è:', ['Almeno un amico non è arrivato', 'Nessun amico è arrivato', 'Tutti i miei amici sono assenti', 'Alcuni amici sono arrivati'], 0, 'Basta un controesempio.'),
+      mc('La negazione di «Piove e fa freddo» è:', ['Non piove o non fa freddo', 'Non piove e non fa freddo', 'Piove e non fa freddo', 'Non piove ma fa freddo'], 0, 'De Morgan.'),
+      fill('Se un animale è un uccello, ha le piume. Una lucertola non ha le piume. Dunque non è un… (una parola)', ['uccello', 'un uccello'], 'Modus tollens.'),
+      mc('La contrapposta di «se P allora Q» è:', ['Se non Q allora non P', 'Se Q allora P', 'Se non P allora non Q', 'P e non Q'], 0, 'La contrapposta è equivalente all’originale.'),
+      order('Ordina una frase condizionale', ['Se', 'piove,', 'allora', 'la strada', 'è bagnata'], 'Antecedente, poi conseguente.')
+    ],
+    test: [
+      mc('Regola: «se una carta ha una vocale, dietro c’è un numero pari». Carte: E, K, 4, 7. Quali giri?', ['E e 7', 'E e 4', 'K e 4', 'E e K'], 0, 'E e 7 possono nascondere vocale + dispari.'),
+      mc('Essere a Torino rispetto a essere in Piemonte è:', ['Sufficiente ma non necessario', 'Necessario ma non sufficiente', 'Necessario e sufficiente', 'Né necessario né sufficiente'], 0, 'Torino ⊂ Piemonte: basta Torino, ma si può essere in Piemonte altrove.'),
+      mc('La negazione di «Se studi, passi» è:', ['Studi e non passi', 'Non studi e non passi', 'Non studi e passi', 'Se non studi, non passi'], 0, 'Un condizionale è falso solo con antecedente vero e conseguente falso.'),
+      mc('«Se è un quadrato, è un rettangolo». La conversa è:', ['Falsa: esistono rettangoli non quadrati', 'Vera', 'Equivalente all’originale', 'Una contrapposta'], 0, 'Un rettangolo 2 × 3 non è un quadrato.'),
+      mc('Il motore parte solo se c’è benzina. Il motore è partito. Dunque:', ['C’è benzina', 'Non c’è benzina', 'Potrebbe non esserci benzina', 'La benzina è sufficiente'], 0, '«Solo se» = parte → benzina, quindi modus ponens.'),
+      mc('La negazione di «Nessun candidato ha superato la prova» è:', ['Almeno un candidato ha superato la prova', 'Tutti i candidati hanno superato la prova', 'Ogni candidato ha fallito', 'Pochi candidati hanno superato'], 0, 'Basta un caso positivo.'),
+      mc('Non è vero che sono stanco o affamato. Significa:', ['Non sono stanco e non sono affamato', 'Non sono stanco o non sono affamato', 'Sono stanco e affamato', 'Sono stanco ma non affamato'], 0, 'De Morgan: ¬(A o B) = ¬A e ¬B.')
+    ]
+  });
+
+  C.addTopic({
+    id: 'mnt-bias-cognitivi-e-probabilita', subject: 'mnt', stage: 'L3', minutes: 12,
+    title: 'Bias cognitivi e probabilità intuitiva',
+    summary: 'Tasso base, congiunzione, errore del giocatore, conferma e test di riflessione cognitiva, con frequenze naturali.',
+    objectives: ['Applicare il tasso base con le frequenze naturali', 'Riconoscere fallacia della congiunzione e del giocatore', 'Rallentare davanti ai trabocchetti e verificare le risposte intuitive'],
+    pages: [
+      { h: 'Trascurare il tasso base', b: `Un test medico è affidabile, ma la malattia è rara: se risulti positivo, quanto è probabile che sei malato? L’intuito dice «quasi certo», il conto dice altro.\n\nUsa le **frequenze naturali**: immagina 1000 persone.\n\n> Prevalenza 1%: **10 malati**, 990 sani.\n> Sensibilità 90%: dei 10 malati, **9** risultano positivi.\n> Falsi positivi 10%: dei 990 sani, **99** risultano positivi.\n> Totale positivi: 9 + 99 = **108**; i veri malati sono 9.\n> Probabilità = 9/108 ≈ **8%**.\n\nOltre 9 positivi su 10 sono falsi allarmi! La causa è il **tasso base** basso: pochi malati, tanti sani, quindi anche un piccolo errore sui sani pesa molto.\n\nL’errore («trascuratezza del tasso base») nasce dal guardare solo l’accuratezza del test, ignorando **quanto è comune** ciò che cerchi.` },
+      { h: 'Applicare il metodo', b: `Il metodo vale ovunque: **popolazione → casi veri → casi segnalati → confronto**.\n\n> Un filtro antispam: il 20% della posta è spam. Blocca il 95% dello spam e segnala per errore il 5% della posta legittima. Una mail segnalata è davvero spam?\n> Su 1000 mail: 200 spam e 800 legittime.\n> Spam segnalato: 95% di 200 = **190**.\n> Legittime segnalate: 5% di 800 = **40**.\n> Segnalate in tutto: 230; spam tra queste: 190/230 ≈ **83%**.\n\nStesso filtro, tasso base molto più alto di prima (20% contro 1%): ora il segnale è affidabile.\n\n**Regola pratica**: davanti a una percentuale di «affidabilità», chiediti **«su quanti, in totale?»** e riscrivi con numeri interi. Dire «9 su 108» è molto più chiaro che «0,083» e riduce gli errori anche tra gli esperti.` },
+      { h: 'La fallacia della congiunzione', b: `Una congiunzione «A **e** B» non può mai essere più probabile di A da sola, perché include solo una parte dei casi di A: P(A e B) ≤ P(A).\n\nIl caso classico di Linda: attivista, laureata in filosofia. Molti giudicano più probabile «cassiera **e** femminista» che «cassiera». Impossibile: le cassiere femministe sono un sottoinsieme delle cassiere.\n\nPerché ci caschiamo? Un dettaglio in più rende la storia **più verosimile**, non più **probabile**.\n\n> Dado: «esce un numero pari» (2, 4, 6) ha probabilità 3/6 = **1/2**; «esce un pari maggiore di 4» (solo 6) ha **1/6**.\n\nTest rapido: ogni aggiunta di «e…» **restringe** l’insieme. Più una descrizione è ricca di particolari, meno è probabile. Questo vale anche per piani, previsioni e preventivi: scenari molto dettagliati sono meno probabili di quelli generici.` },
+      { h: 'L’errore del giocatore', b: `Dopo cinque teste di fila, «ora **deve** uscire croce»? No. I lanci sono **indipendenti**: la moneta non ha memoria. La probabilità di testa al sesto lancio resta **1/2**.\n\nAttenzione a non confondere due domande:\n\n- Prima di lanciare: sei teste di fila su sei lanci → (1/2)⁶ = **1/64** (circa 1,6%).\n- Dopo cinque teste: la sesta ha comunque probabilità 1/2.\n\nOgni sequenza esatta di sei lanci ha la stessa probabilità, 1/64: «TCTCTC» come «TTTTTT». Quella con tutte teste ci sembra strana solo perché è un **pattern**.\n\nVale al lotto (i «numeri ritardatari» non sono più probabili) e alla roulette (dopo sei rossi, rosso ha la stessa probabilità di prima).\n\nUna proprietà vera: la frequenza media tende al 50% con **moltissimi** lanci, ma non perché il caso «compensi» i lanci passati.` },
+      { h: 'Il pregiudizio di conferma', b: `Tendiamo a cercare, ricordare e valutare le informazioni che **confermano** ciò che già crediamo.\n\nNel compito 2-4-6 di Wason, la regola nascosta è «**qualunque sequenza crescente**». Chi vede 2-4-6 pensa «numeri pari che salgono di 2» e prova 8-10-12, 20-22-24… tutte risposte «sì». Non scopre mai di essersi sbagliato, perché non prova casi che violerebbero la sua idea (per esempio 1-3-7 o 5-4-3).\n\nIl problema è lo stesso della selezione delle carte: si cerca la **conferma**, non la **smentita**.\n\n**Contromisure**:\n- scrivi la tua ipotesi e cerca **un caso che la smentirebbe**;\n- chiediti «che cosa mi farebbe cambiare idea?» prima di cercare prove;\n- guarda anche le prove contrarie con lo stesso impegno.\n\nUn’ipotesi che non può essere smentita da nessun dato non è forte: è solo comoda.` },
+      { h: 'Il test di riflessione cognitiva', b: `Sono domande con una risposta intuitiva **sbagliata**: servono a riconoscere quando conviene rallentare.\n\n> Una mazza e una palla costano 1,10 € in tutto. La mazza costa 1 € **più** della palla. Quanto costa la palla?\n> Intuito: 0,10 €. Verifica: 0,10 + 1,10 = 1,20 ✗. Giusto: **0,05 €** (0,05 + 1,05 = 1,10).\n\n> 5 macchine producono 5 pezzi in 5 minuti. Quanti minuti servono a 100 macchine per 100 pezzi?\n> Ogni macchina fa 1 pezzo in 5 minuti ⇒ **5 minuti**.\n\n> Una macchia d’alga raddoppia ogni giorno e copre il lago in 48 giorni. Quando ne copre metà?\n> Il giorno prima: **47**, non 24.\n\n**Strategia**: se la risposta ti viene troppo in fretta, **sostituiscila nel testo** e verifica. Rallentare di 10 secondi è il metodo più efficace.` }
+    ],
+    exercises: [
+      fill('Prevalenza 1%, falsi positivi 10%. Su 1000 persone, quanti sani risultano positivi? (990 sani)', ['99'], '10% di 990 = 99.'),
+      mc('Nello stesso test (1% malati, 90% sensibilità, 10% falsi positivi), se risulti positivo la probabilità di essere malato è circa:', ['8%', '90%', '50%', '1%'], 0, '9 veri positivi su 108 positivi totali ≈ 8%.'),
+      fill('Spam 20% di 1000 mail; il 5% delle legittime viene segnalato. Quante legittime segnalate?', ['40'], '800 legittime × 5% = 40.'),
+      mc('Lanci un dado. Cosa è più probabile?', ['Esce un numero pari', 'Esce un pari maggiore di 4', 'Sono ugualmente probabili', 'Dipende dal dado'], 0, '3/6 contro 1/6.'),
+      mc('Hai ottenuto 5 teste di fila. La probabilità di testa al lancio successivo è:', ['1/2', '1/64', 'Minore di 1/2', 'Maggiore di 1/2'], 0, 'I lanci sono indipendenti.'),
+      fill('Quante sequenze diverse sono possibili in 6 lanci di una moneta?', ['64'], '2⁶ = 64.'),
+      mc('Palla e mazza costano 1,10 €; la mazza costa 1 € più della palla. La palla costa:', ['0,05 €', '0,10 €', '0,15 €', '1 €'], 0, '0,05 + 1,05 = 1,10.'),
+      fill('5 macchine fanno 5 pezzi in 5 minuti. Minuti per 100 pezzi con 100 macchine?', ['5'], 'Ogni macchina fa un pezzo ogni 5 minuti.'),
+      mc('Alga che raddoppia ogni giorno e copre il lago in 48 giorni: ne copre metà al giorno:', ['47', '24', '46', '40'], 0, 'Il giorno dopo raddoppia a copertura totale.'),
+      mc('Nel compito 2-4-6, quale strategia scopre meglio la regola?', ['Provare sequenze che violerebbero la tua ipotesi', 'Provare solo sequenze di pari', 'Ripetere le sequenze che hanno ricevuto «sì»', 'Provare solo 2-4-6'], 0, 'La smentita informa più della conferma.'),
+      order('Metti in ordine il metodo delle frequenze naturali', ['Immagino 1000 persone', 'conto i malati', 'conto i veri positivi', 'conto i falsi positivi', 'confronto veri e totali'], 'Dalla popolazione ai positivi totali.')
+    ],
+    test: [
+      fill('Prevalenza 2%, sensibilità 90%, falsi positivi 10%. Su 1000 persone, quanti test positivi in tutto?', ['116'], '20 malati → 18 positivi; 980 sani → 98 falsi positivi; 18 + 98 = 116.'),
+      mc('Con quei dati (2%, 90%, 10%), chi risulta positivo è malato con probabilità circa:', ['16%', '90%', '2%', '50%'], 0, '18/116 ≈ 15,5%.'),
+      mc('Alla roulette sono usciti 6 rossi di fila. Il prossimo colpo:', ['Ha le stesse probabilità di prima', 'Ha più probabilità di nero', 'Ha più probabilità di rosso', 'Dipende dalla serie'], 0, 'Eventi indipendenti.'),
+      mc('Da un mazzo di 52 carte, cosa è più probabile?', ['Un asso', 'Un asso di cuori', 'Sono ugualmente probabili', 'Dipende dal mazzo'], 0, '4/52 contro 1/52: l’evento più specifico è incluso nel generale.'),
+      fill('3 gatti catturano 3 topi in 3 minuti. Quanti minuti servono a 100 gatti per catturare 100 topi?', ['3'], 'Ogni gatto cattura un topo ogni 3 minuti.'),
+      mc('Una macchia raddoppia ogni ora e copre lo stagno in 30 ore. A metà copertura sono passate:', ['29 ore', '15 ore', '28 ore', '25 ore'], 0, 'Un’ora prima della copertura totale.'),
+      mc('Il pregiudizio di conferma è:', ['Cercare e privilegiare prove che confermano ciò che già crediamo', 'Credere che il caso compensi gli eventi passati', 'Ignorare quanto è comune un evento', 'Preferire una storia più dettagliata'], 0, 'Definizione.'),
+      mc('Quale sequenza di 6 lanci è più probabile?', ['Sono tutte ugualmente probabili (1/64)', 'TCTCTC', 'TTTTTT', 'TCCTCT'], 0, 'Ogni sequenza esatta ha probabilità (1/2)⁶ = 1/64.')
+    ]
   });
 })(window.ST = window.ST || {});
 
@@ -10638,7 +11164,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   const prep = () => {
     const r = A.run, it = r.items[r.i];
     const cur = Object.assign({}, it);
-    if (it.t === 'mc') {
+    if (it.t === 'mc' || it.t === 'flash') {
       const order = U.shuffle(it.o.map((_, i) => i));
       cur.o2 = order.map(i => it.o[i]); cur.a2 = order.indexOf(it.a);
     }
@@ -10654,7 +11180,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     clearTimers();
     if (r.phase === 'done') return summary();
     const it = r.cur, n = r.items.length;
-    let h = '<div class="row"><button class="btn alt sm" data-act="run-quit">✕ Esci</button><span class="sp"></span><span class="mute small">' + E(r.title) + ' · ' + (r.i + 1) + '/' + n + '</span>' + (r.deadline ? '<span class="pill" id="clk" style="margin-left:8px">⏱</span>' : '') + '</div>' +
+    let h = '<div class="row"><button class="btn alt sm" data-act="run-quit">✕ Esci</button><span class="sp"></span><span class="mute small">' + E(r.title) + ' · ' + (r.i + 1) + '/' + n + '</span>' + (r.deadline ? '<span class="pill" id="clk" style="margin-left:8px">⏱</span>' : '') + (it.timed ? '<span class="pill" id="itclk" style="margin-left:8px">⏱ ' + it.timed + 's</span>' : '') + '</div>' +
       '<div class="prog" style="margin:8px 0"><i style="width:' + Math.round(100 * r.i / n) + '%"></i></div>';
     h += '<div class="card">' + (it.srcLabel ? '<div class="mute small">' + E(it.srcLabel) + '</div>' : '');
     h += '<h2 style="margin-top:4px">' + (it.hideText && it.say ? 'Ascolta e rispondi' : '') + (it.q ? (it.hideText && it.say ? '' : U.ruby(it.q)) : '') + '</h2>';
@@ -10673,6 +11199,10 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
       h += '<div class="center big" id="spanbox" style="min-height:70px;margin:20px 0">Preparati…</div><div id="spanin" hidden><input type="text" id="fill" inputmode="numeric" autocomplete="off" placeholder="cifre"><button class="btn block" style="margin-top:10px" data-act="run-fill">Verifica</button></div>';
     } else if (it.t === 'corsi') {
       h += '<div class="grid9" id="corsi">' + Array.from({ length: 9 }, (_, i) => '<button data-act="run-corsi" data-i="' + i + '" disabled aria-label="Casella ' + (i + 1) + '"></button>').join('') + '</div><p class="center mute small" id="corsimsg">Osserva la sequenza…</p>';
+    } else if (it.t === 'flash') {
+      h += '<div class="center big" id="flashbox" style="min-height:90px;margin:16px 0;line-height:1.5">Preparati…</div><div id="flashopts" hidden>' + it.o2.map((o, i) => '<button class="opt" data-act="run-opt" data-i="' + i + '">' + U.ruby(o) + '</button>').join('') + '</div>';
+    } else if (it.t === 'nback') {
+      h += '<div class="center big" id="nbox" style="min-height:110px;margin:16px 0;font-size:56px">Preparati…</div><button class="btn block" id="nbtn" data-act="run-nb" disabled>Uguale</button><p class="mute small center" id="nbmsg">Le lettere compaiono una alla volta.</p>';
     } else if (it.t === 'odd') {
       h += '<div class="oddgrid">' + it.cells.map((c, i) => '<button data-act="run-odd" data-i="' + i + '">' + E(c) + '</button>').join('') + '</div>';
     } else if (it.t === 'stroop') {
@@ -10692,6 +11222,26 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
         else { box.textContent = '?'; A.$('#spanin').hidden = false; const f = A.$('#fill'); if (f) f.focus(); }
       };
       timers.push(setTimeout(step, 700));
+    }
+    if (it.timed) { const tick = () => { const c = A.$('#itclk'); if (!c) return; const left = Math.round(it.timed - (Date.now() - r.t0) / 1000); c.textContent = left >= 0 ? '⏱ ' + left + 's' : '⏱ lento'; c.style.color = left < 0 ? 'var(--bad, #ff5c7a)' : ''; }; tick(); timers.push(setInterval(tick, 500)); }
+    if (it.t === 'flash') {
+      const box = A.$('#flashbox'), opts = A.$('#flashopts');
+      timers.push(setTimeout(() => { box.textContent = it.show; timers.push(setTimeout(() => { box.textContent = '— — —'; opts.hidden = false; r.t0 = Date.now(); }, it.ms)); }, 700));
+    }
+    if (it.t === 'nback') {
+      const box = A.$('#nbox'), btn = A.$('#nbtn'); r.nb = { taps: {}, i: -1 };
+      const stepFn = () => {
+        r.nb.i++;
+        if (r.nb.i >= it.seq.length) {
+          let errs = 0, tot = 0;
+          it.seq.forEach((c, i) => { if (i >= it.n) { tot++; if (!!r.nb.taps[i] !== !!it.targets[i]) errs++; } });
+          box.textContent = '✓'; btn.disabled = true;
+          R.answer(errs <= Math.floor(tot * 0.25), errs + ' errori su ' + tot); return;
+        }
+        box.textContent = it.seq[r.nb.i]; btn.disabled = r.nb.i < it.n;
+        timers.push(setTimeout(() => { box.textContent = ''; btn.disabled = true; timers.push(setTimeout(stepFn, 250)); }, it.ms));
+      };
+      timers.push(setTimeout(stepFn, 900));
     }
     if (it.t === 'corsi') {
       const cells = [...document.querySelectorAll('#corsi button')]; let k = 0; r.corsiIn = [];
@@ -10740,14 +11290,15 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     if (r.phase !== 'q') return;
     r.phase = 'fb';
     clearTimers();
-    const late = !!(r.deadline && Date.now() > r.deadline);
+    const late = !!((r.deadline && Date.now() > r.deadline) || (it.timed && Date.now() - r.t0 > it.timed * 1000));
     r.res.push({ item: r.items[r.i], ok, val, ms: Date.now() - r.t0, late });
-    if (r.onAnswer) r.onAnswer(r.items[r.i], ok, r.i);
+    if (r.onAnswer) r.onAnswer(r.items[r.i], ok, r.i, r.res[r.res.length - 1]);
     const fb = A.$('#fb');
     fb.innerHTML = '<div class="fb ' + (ok ? 'ok' : 'no') + '"><b>' + (ok ? '✓ Corretto' : '✗ Non corretto') + '</b>' + (it.t === 'dict' ? '<div>Precisione: <b>' + Math.round((r.lastScore || 0) * 100) + '%</b></div><div class="diff">' + (r.lastDiff ? r.lastDiff.ops.map(o => o.ok ? E(o.w) : o.missing ? '<span class="m">' + E(o.w) + '</span>' : '<span class="x">' + E(o.w) + '</span>').join(' ') : '') + '</div><div>Testo: <b>' + U.ruby(it.text) + '</b></div>' : ok ? '' : '<div>Risposta: <b>' + U.ruby(answerText(it)) + '</b></div>') + (!ok && it.diag ? (() => { const d = it.diag(it.t === 'mc' ? it.o2[val] : val); return d ? '<div class="small" style="margin-top:4px">⚠ ' + U.ruby(d) + '</div>' : ''; })() : '') + (it.why ? '<div class="mute small" style="margin-top:4px">' + U.ruby(it.why) + '</div>' : '') + '</div>' +
       '<button class="btn block" style="margin-top:10px" data-act="run-next">' + (r.i + 1 >= r.items.length ? 'Concludi' : 'Avanti') + '</button>';
     fb.scrollIntoView({ block: 'nearest' });
   };
+  X['run-nb'] = () => { const r = A.run; if (!r || !r.nb || r.nb.i < 0) return; r.nb.taps[r.nb.i] = true; const b = A.$('#nbtn'); if (b) b.disabled = true; };
   X['run-opt'] = el => {
     const r = A.run; if (r.phase !== 'q') return;
     const it = r.cur, i = +el.dataset.i, ok = i === it.a2;
@@ -11318,18 +11869,48 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     else if (r.studied) X.startPractice(pill.id);
     else A.go('lesson', { id: pill.id });
   };
+  const mentalSummary = (s, res) => { const by = {}; res.forEach(x => { const t = x.item.mtype; by[t] = by[t] || [0, 0, 0]; by[t][1]++; if (x.ok) by[t][0]++; if (x.late) by[t][2]++; }); return '<p class="mute small">' + Object.keys(by).map(t => E(MN.LABEL[t]) + ' ' + by[t][0] + '/' + by[t][1] + (by[t][2] ? ' (' + by[t][2] + ' lente)' : '') + ' · livello ' + MN.level(s, t)).join('<br>') + '</p>'; };
+  const mentalRecord = s => (it, ok, i, r) => { const ms = r && r.ms; MN.record(s, it.mtype, ok, ms, it.timed); A.xp(ok ? (r && r.late ? 2 : 3) : 0, 'mental:' + it.mtype); };
   X.startMental = () => {
     const s = A.state; A.ctx = 'general'; A.pb = { general: 'mental' };
     const items = MN.session(s, U.today(), null, 8);
-    R.start({ title: 'Allenamento mentale · 5 min', kind: 'mental', items, ctx: 'general',
-      onAnswer: (it, ok) => { MN.record(s, it.mtype, ok); A.xp(ok ? 3 : 0, 'mental:' + it.mtype); },
-      onFinish: res => { A.subjectTouch('mnt'); A.save(); const by = {}; res.forEach(x => { const t = x.item.mtype; by[t] = by[t] || [0, 0]; by[t][1]++; if (x.ok) by[t][0]++; }); return '<p class="mute small">' + Object.keys(by).map(t => E(MN.LABEL[t]) + ' ' + by[t][0] + '/' + by[t][1] + ' (livello ' + MN.level(s, t) + ')').join('<br>') + '</p>'; } });
+    R.start({ title: 'Allenamento mentale · 5 min', kind: 'mental', items, ctx: 'general', onAnswer: mentalRecord(s),
+      onFinish: res => { MN.logSession(s, 'daily', res); A.subjectTouch('mnt'); A.save(); return mentalSummary(s, res); } });
+  };
+  X.startMentalType = el => {
+    const s = A.state, t = el.dataset.t; A.ctx = 'general';
+    const items = Array.from({ length: 8 }, () => MN.make(t, MN.level(s, t)));
+    R.start({ title: MN.LABEL[t], kind: 'mental', items, ctx: 'general', onAnswer: mentalRecord(s),
+      onFinish: res => { MN.logSession(s, 'type', res); A.subjectTouch('mnt'); A.save(); return mentalSummary(s, res); } });
+  };
+  X.startMentalBench = () => {
+    const s = A.state; A.ctx = 'general';
+    const items = MN.TYPES.map(t => MN.make(t, 4));
+    R.start({ title: 'Test di riferimento (livello fisso)', kind: 'mental', items, ctx: 'general', onAnswer: (it, ok) => A.xp(ok ? 2 : 0, 'mental-bench'),
+      onFinish: res => {
+        const prev = MN.trend(s, 'bench', 1)[0];
+        MN.logSession(s, 'bench', res); A.subjectTouch('mnt'); A.save();
+        const ok = res.filter(x => x.ok).length, n = res.length, ms = Math.round(res.reduce((a, x) => a + (x.ms || 0), 0) / n / 1000);
+        return '<p><b>' + ok + '/' + n + '</b> corrette · tempo medio ' + ms + ' s' + (prev ? '<br><span class="mute small">Volta scorsa (' + prev.d + '): ' + prev.ok + '/' + prev.n + ', ' + Math.round(prev.ms / 1000) + ' s</span>' : '<br><span class="mute small">Prima misura: ripeti fra qualche settimana per vedere l’andamento.</span>') + '</p><p class="mute small">Il test usa sempre lo stesso livello: serve a confrontare te stesso nel tempo, non a misurare l’intelligenza.</p>';
+      } });
+  };
+  ST.mentalLessons = s => {
+    const P = ST.progress, topics = C.topicsOf('mnt');
+    if (!topics.length) return '';
+    const done = topics.filter(t => P.atLeast(P.topicStatus(s, t.id), 'studied')).length;
+    return '<h2>Lezioni di strategia (' + done + ' / ' + topics.length + ' lette)</h2><p class="mute small">Tecniche che funzionano davvero: memoria, calcolo, ragionamento, attenzione. Gli esercizi generati misurano la prestazione; le strategie la rendono trasferibile.</p><div class="list">' +
+      topics.map(t => '<button class="item" data-act="go" data-view="topic" data-p=\'{"id":"' + t.id + '"}\'><span class="ic">📖</span><span class="tx"><b>' + E(t.title) + '</b><span>' + E(t.stage) + ' · ' + E(P.statusLabel[P.topicStatus(s, t.id)]) + ' · ~' + t.minutes + ' min</span></span></button>').join('') + '</div>';
   };
   ST.mentalHub = () => {
-    const s = A.state;
-    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('mnt') + '"></div><h1>🧠 Allenamento mentale</h1><p class="mute">Esercizi generati, sempre nuovi, con difficoltà che sale quando rispondi bene e scende quando sbagli.</p>' +
-      '<button class="btn block" data-act="startMental">▶ Sessione da 5 minuti (oggi)</button><div class="card"><h3>Livelli per tipo</h3><table class="t">' + MN.TYPES.map(t => { const m = s.mental[t] || { level: 1, n: 0, ok: 0 }; return '<tr><td>' + E(MN.LABEL[t]) + '</td><td>Lv ' + m.level + '</td><td class="mute">' + (m.n ? Math.round(100 * m.ok / m.n) + '% su ' + m.n : '—') + '</td></tr>'; }).join('') + '</table></div>' +
-      '<p class="mute small">Il miglioramento negli esercizi allenati non dimostra di per sé un aumento generale delle capacità cognitive: misura la prestazione in questi compiti.</p>';
+    const s = A.state, bench = MN.trend(s, 'bench', 6), daily = MN.trend(s, 'daily', 8);
+    const pct = x => Math.round(100 * x.ok / Math.max(1, x.n)) + '%';
+    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('mnt') + '"></div><h1>🧠 Allenamento mentale</h1><p class="mute">13 tipi di esercizi generati, sempre nuovi. La difficoltà sale quando rispondi bene <b>e in tempo</b>, scende quando sbagli.</p>' +
+      '<button class="btn block" data-act="startMental">▶ Sessione da 5 minuti (oggi)</button>' +
+      '<div class="card"><h3>Allena un tipo</h3><table class="t">' + MN.TYPES.map(t => { const m = s.mental[t] || { level: 1, n: 0, ok: 0 }; return '<tr><td>' + E(MN.LABEL[t]) + '</td><td>Lv ' + m.level + (m.max > m.level ? ' <span class="mute small">(max ' + m.max + ')</span>' : '') + '</td><td class="mute">' + (m.n ? Math.round(100 * m.ok / m.n) + '%' + (m.ms ? ' · ' + (m.ms / 1000).toFixed(1) + ' s' : '') : '—') + '</td><td><button class="btn alt sm" data-act="startMentalType" data-t="' + t + '">▶</button></td></tr>'; }).join('') + '</table></div>' +
+      '<div class="card"><h3>Andamento</h3>' + (daily.length ? '<p class="small">Ultime sessioni: ' + daily.map(pct).join(' · ') + '</p>' : '<p class="mute small">Nessuna sessione ancora.</p>') +
+      '<p class="small">Test di riferimento (13 esercizi, livello fisso): ' + (bench.length ? bench.map(x => x.ok + '/' + x.n).join(' · ') : 'non ancora eseguito') + '</p><button class="btn alt" data-act="startMentalBench">▶ Esegui il test di riferimento</button></div>' +
+      ST.mentalLessons(s) +
+      '<p class="mute small">Il miglioramento negli esercizi allenati misura la prestazione in questi compiti: non dimostra di per sé un aumento generale delle capacità cognitive. Le strategie delle lezioni sono ciò che si trasferisce meglio alla vita reale.</p>';
   };
 
   /* ---- Judo ---- */

@@ -298,3 +298,38 @@ test('Judo: ogni tecnica ha una lezione approfondita; proiezioni no-gi (morote-s
   assert.ok(!JSON.stringify(C.judo.techniques.filter(t => /-full$/.test(t.id) && t.id !== 'morote-seoi-full').map(t => t.cues)).match(/bavero|manica|hikite|tsurite/i), 'prese al tessuto nelle proiezioni no-gi');
   ['kosoto-full', 'koshi-guruma-full', 'morote-seoi-full', 'khao-trong', 'khao-khong', 'khao-noi', 'plum-clinch'].forEach(id => assert.ok(C.judo.techniques.find(t => t.id === id), id));
 });
+
+test('Allenamento mentale: 13 tipi generano esercizi validi (fuzz) e i sillogismi sono corretti per verifica a modelli', () => {
+  const MN = ST.mental;
+  assert.equal(MN.TYPES.length, 13);
+  for (let i = 0; i < 120; i++) for (const t of MN.TYPES) for (const lv of [1, 3, 6, 10]) {
+    const it = MN.make(t, lv);
+    assert.ok(it && it.q, t);
+    if (it.t === 'mc' || it.t === 'flash') { assert.ok(it.o.length >= 3 && it.a >= 0 && it.a < it.o.length && new Set(it.o).size === it.o.length, t + ' ' + lv); }
+    if (it.t === 'fill') assert.ok(it.a[0] !== undefined && it.a[0] !== 'NaN', t);
+    if (it.t === 'nback') { assert.ok(it.seq.length >= 11 && it.targets.some(Boolean) || it.seq.length >= 11); }
+  }
+  // sillogismi: la conclusione indicata segue in TUTTI i modelli, le altre cadono in almeno uno
+  const parse = x => { let m; if ((m = /^Tutti i (\S+) sono (\S+)$/.exec(x))) return ['all', m[1], m[2]]; if ((m = /^Nessun (\S+) è (\S+)$/.exec(x))) return ['no', m[1], m[2]]; if ((m = /^Alcuni (\S+) non sono (\S+)$/.exec(x))) return ['somenot', m[1], m[2]]; if ((m = /^Alcuni (\S+) sono (\S+)$/.exec(x))) return ['some', m[1], m[2]]; throw new Error('parse ' + x); };
+  const holds = (p, mod) => { const A = mod[p[1]], B = mod[p[2]]; const inter = A.filter(x => B.includes(x)); return p[0] === 'all' ? A.every(x => B.includes(x)) : p[0] === 'no' ? inter.length === 0 : p[0] === 'some' ? inter.length > 0 : A.some(x => !B.includes(x)); };
+  for (let k = 0; k < 150; k++) {
+    const it = MN.make('syllo', 1 + (k % 10));
+    const m = /Premesse: «([^»]+)»\. «([^»]+)»\./.exec(it.q), prem = [parse(m[1]), parse(m[2])], terms = [...new Set(prem.flatMap(p => [p[1], p[2]]))];
+    const concl = it.o.map(parse), allTerms = [...new Set(terms.concat(concl.flatMap(p => [p[1], p[2]])))];
+    const subsets = []; for (let b = 0; b < 16; b++) subsets.push([0, 1, 2, 3].filter(i => b >> i & 1));
+    const models = []; const rec = (i, cur) => { if (i === allTerms.length) { models.push(Object.assign({}, cur)); return; } for (const sb of subsets) { cur[allTerms[i]] = sb; if (i < 2 || Math.random() < 0.35) rec(i + 1, cur); } };
+    rec(0, {});
+    const sat = models.filter(mod => prem.every(p => holds(p, mod)));
+    assert.ok(sat.length > 0);
+    concl.forEach((c, i) => { const necessary = sat.every(mod => holds(c, mod)); assert.equal(necessary, i === it.a, it.q + ' → ' + it.o[i]); });
+  }
+});
+test('Allenamento mentale: risposta giusta ma lenta non fa salire di livello da sola; storico e andamento', () => {
+  const s = fresh();
+  for (let i = 0; i < 6; i++) ST.mental.record(s, 'calc', true, 20000, 10);   // giuste ma oltre il tempo
+  assert.equal(ST.mental.level(s, 'calc'), 1);
+  for (let i = 0; i < 6; i++) ST.mental.record(s, 'calc', true, 3000, 10);    // giuste e rapide
+  assert.ok(ST.mental.level(s, 'calc') >= 2 && s.mental.calc.max >= 2);
+  ST.mental.logSession(s, 'bench', [{ ok: true, ms: 2000 }, { ok: false, ms: 4000 }], '2026-02-01');
+  const tr = ST.mental.trend(s, 'bench'); assert.equal(tr.length, 1); assert.equal(tr[0].ok, 1); assert.equal(tr[0].ms, 3000);
+});

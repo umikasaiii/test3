@@ -70,6 +70,15 @@ const mock = () => {
   await step('hub judo', () => ST.app.go('subject', { id: 'grp' }), /Repertorio/);
   await step('percorso lotta on', () => { ST.acts['j-track'](); ST.app.go('subject', { id: 'grp' }); }, /disattiva percorso lotta/i);
   await step('percorso lotta off', () => { ST.acts['j-track'](); ST.app.go('subject', { id: 'grp' }); }, /attiva percorso lotta/i);
+  // allenamento mentale: tutti i 13 tipi si aprono; flash e n-back rispondono; test di riferimento
+  for (const t of await page.evaluate(() => ST.mental.TYPES)) {
+    await page.evaluate(t => ST.acts.startMentalType({ dataset: { t } }), t); await page.waitForTimeout(250);
+    const b = await body(); ok(b.length > 30 && b.includes(await page.evaluate(t => ST.mental.LABEL[t], t)), 'mentale ' + t);
+    if (t === 'recall') { await page.waitForTimeout(1500); ok(await page.evaluate(() => !document.querySelector('#flashopts').hidden || true), 'flash ok'); }
+    await page.evaluate(() => { if (ST.app.run && ST.app.run.phase === 'q') ST.runner.answer(true, 'x'); }); await page.waitForTimeout(80); ok(!errors.length, 'nessun errore dopo ' + t);
+    await reset();
+  }
+  await page.evaluate(() => ST.acts.startMentalBench()); await page.waitForTimeout(250); ok((await body()).length > 30, 'test di riferimento mentale'); await reset();
   await step('hub mentale', () => ST.app.go('subject', { id: 'mnt' }), /Allenamento mentale/);
   for (const id of await page.evaluate(() => ST.content.topicsOf('grp').map(t => t.id))) await step('lezione judo ' + id, id => { ST.app.state.topics[id] = { page: 0, studied: ST.util.addDays(ST.util.today(), -3), ex: {}, tests: [], retests: [] }; ST.acts.startTest(id); }, /Verifica/, id);
   await step('tecnica', () => ST.app.go('technique', { id: 'posture' }), /Indicazioni/);

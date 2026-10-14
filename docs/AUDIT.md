@@ -261,6 +261,8 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 
 **Voto judo — solo ciò che SkillTree può fare da solo (senza partner, istruttore o sparring)** — [STIMA]: **8,0/10** (teoria, lezioni e struttura ≈ 8,5; efficacia motoria ≈ 7). 65 lezioni con esercizi e verifica, tutte le proiezioni no-gi (morote-seoi con judogi), cadute in progressione, ginocchiate di clinch a vuoto, scheduler con ripasso dilazionato. Tetto dichiarato: nessuna verifica della forma, nessun partner né resistenza; le cadute dalle altezze superiori espongono a rischio reale se eseguite male. Il clinch è costruito su principi generali del muay thai: il video indicato dall'utente non è stato visionato.
 
+**Voto allenamento mentale — solo ciò che SkillTree può fare da solo** — [STIMA]: **7,5/10**. 13 tipi di esercizi generati (calcolo, schemi, cifre, blocchi di Corsi, elemento diverso, Stroop, logica, n-back, liste di parole, stime, ordinamenti, sillogismi verificati per modelli, flessibilità cognitiva); difficoltà adattiva che tiene conto anche della velocità; storico sessioni e test di riferimento a livello fisso; 12 lezioni di strategia (memoria, calcolo, stima, logica, bias, attenzione, sonno, limiti dell'allenamento cognitivo). Tetto dichiarato: il miglioramento misura la prestazione nei compiti allenati, il trasferimento a capacità generali (far transfer) è debole o non dimostrato; le strategie delle lezioni si trasferiscono meglio dei punteggi.
+
 ---
 
 ## 11. Proposte di miglioramento prioritarie

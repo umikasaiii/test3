@@ -89,18 +89,48 @@
     else if (r.studied) X.startPractice(pill.id);
     else A.go('lesson', { id: pill.id });
   };
+  const mentalSummary = (s, res) => { const by = {}; res.forEach(x => { const t = x.item.mtype; by[t] = by[t] || [0, 0, 0]; by[t][1]++; if (x.ok) by[t][0]++; if (x.late) by[t][2]++; }); return '<p class="mute small">' + Object.keys(by).map(t => E(MN.LABEL[t]) + ' ' + by[t][0] + '/' + by[t][1] + (by[t][2] ? ' (' + by[t][2] + ' lente)' : '') + ' · livello ' + MN.level(s, t)).join('<br>') + '</p>'; };
+  const mentalRecord = s => (it, ok, i, r) => { const ms = r && r.ms; MN.record(s, it.mtype, ok, ms, it.timed); A.xp(ok ? (r && r.late ? 2 : 3) : 0, 'mental:' + it.mtype); };
   X.startMental = () => {
     const s = A.state; A.ctx = 'general'; A.pb = { general: 'mental' };
     const items = MN.session(s, U.today(), null, 8);
-    R.start({ title: 'Allenamento mentale · 5 min', kind: 'mental', items, ctx: 'general',
-      onAnswer: (it, ok) => { MN.record(s, it.mtype, ok); A.xp(ok ? 3 : 0, 'mental:' + it.mtype); },
-      onFinish: res => { A.subjectTouch('mnt'); A.save(); const by = {}; res.forEach(x => { const t = x.item.mtype; by[t] = by[t] || [0, 0]; by[t][1]++; if (x.ok) by[t][0]++; }); return '<p class="mute small">' + Object.keys(by).map(t => E(MN.LABEL[t]) + ' ' + by[t][0] + '/' + by[t][1] + ' (livello ' + MN.level(s, t) + ')').join('<br>') + '</p>'; } });
+    R.start({ title: 'Allenamento mentale · 5 min', kind: 'mental', items, ctx: 'general', onAnswer: mentalRecord(s),
+      onFinish: res => { MN.logSession(s, 'daily', res); A.subjectTouch('mnt'); A.save(); return mentalSummary(s, res); } });
+  };
+  X.startMentalType = el => {
+    const s = A.state, t = el.dataset.t; A.ctx = 'general';
+    const items = Array.from({ length: 8 }, () => MN.make(t, MN.level(s, t)));
+    R.start({ title: MN.LABEL[t], kind: 'mental', items, ctx: 'general', onAnswer: mentalRecord(s),
+      onFinish: res => { MN.logSession(s, 'type', res); A.subjectTouch('mnt'); A.save(); return mentalSummary(s, res); } });
+  };
+  X.startMentalBench = () => {
+    const s = A.state; A.ctx = 'general';
+    const items = MN.TYPES.map(t => MN.make(t, 4));
+    R.start({ title: 'Test di riferimento (livello fisso)', kind: 'mental', items, ctx: 'general', onAnswer: (it, ok) => A.xp(ok ? 2 : 0, 'mental-bench'),
+      onFinish: res => {
+        const prev = MN.trend(s, 'bench', 1)[0];
+        MN.logSession(s, 'bench', res); A.subjectTouch('mnt'); A.save();
+        const ok = res.filter(x => x.ok).length, n = res.length, ms = Math.round(res.reduce((a, x) => a + (x.ms || 0), 0) / n / 1000);
+        return '<p><b>' + ok + '/' + n + '</b> corrette · tempo medio ' + ms + ' s' + (prev ? '<br><span class="mute small">Volta scorsa (' + prev.d + '): ' + prev.ok + '/' + prev.n + ', ' + Math.round(prev.ms / 1000) + ' s</span>' : '<br><span class="mute small">Prima misura: ripeti fra qualche settimana per vedere l’andamento.</span>') + '</p><p class="mute small">Il test usa sempre lo stesso livello: serve a confrontare te stesso nel tempo, non a misurare l’intelligenza.</p>';
+      } });
+  };
+  ST.mentalLessons = s => {
+    const P = ST.progress, topics = C.topicsOf('mnt');
+    if (!topics.length) return '';
+    const done = topics.filter(t => P.atLeast(P.topicStatus(s, t.id), 'studied')).length;
+    return '<h2>Lezioni di strategia (' + done + ' / ' + topics.length + ' lette)</h2><p class="mute small">Tecniche che funzionano davvero: memoria, calcolo, ragionamento, attenzione. Gli esercizi generati misurano la prestazione; le strategie la rendono trasferibile.</p><div class="list">' +
+      topics.map(t => '<button class="item" data-act="go" data-view="topic" data-p=\'{"id":"' + t.id + '"}\'><span class="ic">📖</span><span class="tx"><b>' + E(t.title) + '</b><span>' + E(t.stage) + ' · ' + E(P.statusLabel[P.topicStatus(s, t.id)]) + ' · ~' + t.minutes + ' min</span></span></button>').join('') + '</div>';
   };
   ST.mentalHub = () => {
-    const s = A.state;
-    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('mnt') + '"></div><h1>🧠 Allenamento mentale</h1><p class="mute">Esercizi generati, sempre nuovi, con difficoltà che sale quando rispondi bene e scende quando sbagli.</p>' +
-      '<button class="btn block" data-act="startMental">▶ Sessione da 5 minuti (oggi)</button><div class="card"><h3>Livelli per tipo</h3><table class="t">' + MN.TYPES.map(t => { const m = s.mental[t] || { level: 1, n: 0, ok: 0 }; return '<tr><td>' + E(MN.LABEL[t]) + '</td><td>Lv ' + m.level + '</td><td class="mute">' + (m.n ? Math.round(100 * m.ok / m.n) + '% su ' + m.n : '—') + '</td></tr>'; }).join('') + '</table></div>' +
-      '<p class="mute small">Il miglioramento negli esercizi allenati non dimostra di per sé un aumento generale delle capacità cognitive: misura la prestazione in questi compiti.</p>';
+    const s = A.state, bench = MN.trend(s, 'bench', 6), daily = MN.trend(s, 'daily', 8);
+    const pct = x => Math.round(100 * x.ok / Math.max(1, x.n)) + '%';
+    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('mnt') + '"></div><h1>🧠 Allenamento mentale</h1><p class="mute">13 tipi di esercizi generati, sempre nuovi. La difficoltà sale quando rispondi bene <b>e in tempo</b>, scende quando sbagli.</p>' +
+      '<button class="btn block" data-act="startMental">▶ Sessione da 5 minuti (oggi)</button>' +
+      '<div class="card"><h3>Allena un tipo</h3><table class="t">' + MN.TYPES.map(t => { const m = s.mental[t] || { level: 1, n: 0, ok: 0 }; return '<tr><td>' + E(MN.LABEL[t]) + '</td><td>Lv ' + m.level + (m.max > m.level ? ' <span class="mute small">(max ' + m.max + ')</span>' : '') + '</td><td class="mute">' + (m.n ? Math.round(100 * m.ok / m.n) + '%' + (m.ms ? ' · ' + (m.ms / 1000).toFixed(1) + ' s' : '') : '—') + '</td><td><button class="btn alt sm" data-act="startMentalType" data-t="' + t + '">▶</button></td></tr>'; }).join('') + '</table></div>' +
+      '<div class="card"><h3>Andamento</h3>' + (daily.length ? '<p class="small">Ultime sessioni: ' + daily.map(pct).join(' · ') + '</p>' : '<p class="mute small">Nessuna sessione ancora.</p>') +
+      '<p class="small">Test di riferimento (13 esercizi, livello fisso): ' + (bench.length ? bench.map(x => x.ok + '/' + x.n).join(' · ') : 'non ancora eseguito') + '</p><button class="btn alt" data-act="startMentalBench">▶ Esegui il test di riferimento</button></div>' +
+      ST.mentalLessons(s) +
+      '<p class="mute small">Il miglioramento negli esercizi allenati misura la prestazione in questi compiti: non dimostra di per sé un aumento generale delle capacità cognitive. Le strategie delle lezioni sono ciò che si trasferisce meglio alla vita reale.</p>';
   };
 
   /* ---- Judo ---- */

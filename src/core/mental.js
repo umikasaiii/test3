@@ -5,22 +5,34 @@
   'use strict';
   const U = ST.util;
   const MN = ST.mental = {};
-  MN.TYPES = ['calc', 'seq', 'span', 'corsi', 'odd', 'stroop', 'logic'];
-  MN.LABEL = { calc: 'Calcolo mentale', seq: 'Riconoscimento di schemi', span: 'Memoria di lavoro · cifre', corsi: 'Memoria spaziale', odd: 'Velocità decisionale', stroop: 'Attenzione e controllo', logic: 'Ragionamento logico' };
+  MN.TYPES = ['calc', 'seq', 'span', 'corsi', 'odd', 'stroop', 'logic', 'nback', 'recall', 'estimate', 'order', 'syllo', 'switch'];
+  MN.LABEL = { calc: 'Calcolo mentale', seq: 'Riconoscimento di schemi', span: 'Memoria di lavoro · cifre', corsi: 'Memoria spaziale', odd: 'Velocità decisionale', stroop: 'Attenzione e controllo', logic: 'Ragionamento logico', nback: 'Memoria di lavoro · n-back', recall: 'Memoria · liste di parole', estimate: 'Stima e ordini di grandezza', order: 'Ragionamento · ordinamenti', syllo: 'Ragionamento · sillogismi', switch: 'Flessibilità cognitiva' };
   // Giorno della settimana → tipi in evidenza (lun=0). Tutti i tipi ricorrono nella settimana.
-  MN.WEEK = [['calc', 'span', 'logic'], ['seq', 'odd', 'corsi'], ['stroop', 'calc', 'logic'], ['span', 'seq', 'odd'], ['corsi', 'calc', 'stroop'], ['logic', 'seq', 'span'], ['odd', 'corsi', 'calc']];
+  MN.WEEK = [['calc', 'nback', 'syllo'], ['seq', 'recall', 'odd'], ['estimate', 'span', 'order'], ['switch', 'corsi', 'calc'], ['stroop', 'nback', 'logic'], ['syllo', 'seq', 'recall'], ['order', 'estimate', 'switch']];
 
   MN.level = (state, type) => (state.mental[type] && state.mental[type].level) || 1;
-  MN.record = (state, type, ok) => {
+  /* Registra un esito. ms/limitSec facoltativi: una risposta giusta ma oltre il tempo vale mezzo punto (non fa salire di livello da sola). */
+  MN.record = (state, type, ok, ms, limitSec) => {
     const m = (state.mental[type] = state.mental[type] || { level: 1, hist: [], n: 0, ok: 0 });
-    m.hist.push(ok ? 1 : 0); if (m.hist.length > 12) m.hist.shift();
-    m.n++; m.ok += ok ? 1 : 0;
+    const slow = !!(ok && limitSec && ms && ms > limitSec * 1000);
+    m.hist.push(ok ? (slow ? 0.5 : 1) : 0); if (m.hist.length > 12) m.hist.shift();
+    m.n++; m.ok += ok ? 1 : 0; if (slow) m.slow = (m.slow || 0) + 1;
+    if (ms) m.ms = m.ms ? Math.round(m.ms * 0.8 + ms * 0.2) : ms;
     if (m.hist.length >= 6) {
       const r = m.hist.slice(-6).reduce((a, b) => a + b, 0) / 6;
       if (r >= 0.83 && m.level < 10) { m.level++; m.hist = []; }
       else if (r <= 0.5 && m.level > 1) { m.level--; m.hist = []; }
     }
+    m.max = Math.max(m.max || 1, m.level);
   };
+  /* Storico sessioni e test di riferimento (per vedere l'andamento nel tempo). */
+  MN.logSession = (state, kind, res, date) => {
+    state.mentalLog = state.mentalLog || [];
+    const n = res.length, ok = res.filter(x => x.ok).length, ms = n ? Math.round(res.reduce((a, x) => a + (x.ms || 0), 0) / n) : 0;
+    state.mentalLog.push({ d: date || U.today(), kind, n, ok, ms });
+    if (state.mentalLog.length > 200) state.mentalLog.shift();
+  };
+  MN.trend = (state, kind, k) => (state.mentalLog || []).filter(x => x.kind === kind).slice(-(k || 10));
 
   const LOGIC = [
     { q: 'Tutti i falchi sono uccelli. Alcuni uccelli non volano. Quale conclusione è SICURA?', o: ['Alcuni falchi non volano', 'Tutti i falchi sono uccelli', 'Nessun uccello vola', 'Tutti gli uccelli sono falchi'], a: 1 },
@@ -40,6 +52,7 @@
   ];
   MN.logicCount = LOGIC.length;
 
+  const WORDS = ['albero', 'tavolo', 'finestra', 'montagna', 'orologio', 'chitarra', 'cucchiaio', 'bicicletta', 'lampada', 'giardino', 'ponte', 'nuvola', 'scarpa', 'libro', 'cavallo', 'fiume', 'pennello', 'sedia', 'campana', 'farfalla', 'zaino', 'specchio', 'barca', 'formaggio', 'telefono', 'candela', 'tenda', 'moneta', 'ombrello', 'valigia', 'bottiglia', 'pianeta', 'treno', 'cappello', 'chiave', 'martello', 'isola', 'arancia', 'tamburo', 'scala', 'coltello', 'faro', 'lenzuolo', 'pecora', 'cerchio', 'quaderno', 'miele', 'vulcano', 'paracadute', 'collana'];
   const COL = [['ROSSO', '#e5484d'], ['BLU', '#3b82f6'], ['VERDE', '#22a06b'], ['GIALLO', '#d6a40a']];
 
   /* Genera un esercizio di un dato tipo al livello indicato. rng opzionale per i test. */
@@ -89,6 +102,79 @@
       const w = U.pick(COL, rng); let c = U.pick(COL, rng);
       if (lv >= 3) while (c[0] === w[0]) c = U.pick(COL, rng);
       return { t: 'stroop', mtype: type, word: w[0], color: c[1], opts: COL.map(x => x[0]), a: COL.findIndex(x => x[1] === c[1]), q: 'Tocca il COLORE dell’inchiostro, non la parola', timed: Math.max(3, 9 - lv), why: 'Il colore dell’inchiostro era ' + c[0] };
+    }
+
+    if (type === 'nback') {
+      const n = lv <= 3 ? 1 : lv <= 7 ? 2 : 3, len = 10 + lv, pool = 'BCDFGHKLMNPRSTVZ'.split('');
+      const seq = [];
+      for (let i = 0; i < len; i++) {
+        if (i >= n && rng() < 0.3) seq.push(seq[i - n]);
+        else { let c; do { c = U.pick(pool, rng); } while (i >= n && c === seq[i - n]); seq.push(c); }
+      }
+      const targets = seq.map((c, i) => i >= n && c === seq[i - n]);
+      return { t: 'nback', mtype: type, n, seq, targets, ms: Math.max(900, 2000 - lv * 100), q: 'Tocca «Uguale» quando la lettera è la stessa di ' + n + (n === 1 ? ' posto' : ' posti') + ' fa', why: 'Bersagli: ' + targets.map((x, i) => x ? i + 1 : null).filter(Boolean).join(', ') };
+    }
+    if (type === 'recall') {
+      const N = Math.min(12, 4 + Math.ceil(lv * 0.8)), ws = U.sample(WORDS, N + 3, rng), list = ws.slice(0, N), out = ws.slice(N);
+      const pos = ri(0, N - 1);
+      let q, a, o;
+      if (lv <= 4) { q = 'Quale di queste parole era nella lista?'; o = U.shuffle([list[pos]].concat(out), rng); a = o.indexOf(list[pos]); }
+      else { q = 'Quale parola era in posizione ' + (pos + 1) + '?'; const others = U.sample(list.filter((_, i) => i !== pos), 3, rng); o = U.shuffle([list[pos]].concat(others), rng); a = o.indexOf(list[pos]); }
+      return { t: 'flash', mtype: type, show: list.join(' · '), ms: N * (900 - Math.min(lv, 8) * 50), q, o, a, why: 'Lista: ' + list.join(', ') };
+    }
+    if (type === 'estimate') {
+      let x, y, sym, exact;
+      if (lv <= 3) { x = ri(21, 89); y = ri(3, 9); sym = '×'; exact = x * y; }
+      else if (lv <= 6) { x = ri(31, 98); y = ri(21, 79); sym = '×'; exact = x * y; }
+      else if (lv <= 8) { x = ri(300, 980); y = ri(12, 48); sym = '÷'; exact = x / y; }
+      else { x = ri(1200, 9800); y = ri(12, 48); sym = '×'; exact = x * y; }
+      const sig = v => { const e = Math.pow(10, Math.floor(Math.log10(Math.abs(v))) - 1); return Math.round(v / e) * e; };
+      const val = sig(exact), cands = [val, sig(val * 0.5), sig(val * 2), sig(val * 1.3), sig(val * 0.75)];
+      const uniq = [...new Set(cands)].slice(0, 4);
+      const o = U.shuffle(uniq.map(v => 'circa ' + String(Math.round(v)).replace(/\B(?=(\d{3})+(?!\d))/g, '.')), rng);
+      const ansTxt = 'circa ' + String(Math.round(val)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      return { t: 'mc', mtype: type, q: 'Stima: ' + x + ' ' + sym + ' ' + y + ' è…', o, a: o.indexOf(ansTxt), why: 'Arrotonda i fattori: il risultato esatto è ' + (sym === '÷' ? exact.toFixed(1) : exact) + ' → ' + ansTxt, timed: 20 };
+    }
+    if (type === 'order') {
+      const NAMES = ['Anna', 'Bea', 'Carlo', 'Dario', 'Elisa', 'Fabio'], cnt = lv <= 3 ? 3 : lv <= 6 ? 4 : lv <= 8 ? 5 : 6;
+      const people = U.sample(NAMES, cnt, rng); // people[0] è il primo
+      const attrs = [['più forte', 'più forti'], ['più veloce', 'più veloci'], ['più giovane', 'più giovani']];
+      const at = U.pick(attrs, rng);
+      const rel = []; for (let i = 0; i < cnt - 1; i++) rel.push(people[i] + ' è ' + at[0] + ' di ' + people[i + 1] + '.');
+      const shown = U.shuffle(rel, rng);
+      const kind = lv <= 3 ? 0 : lv <= 6 ? ri(0, 1) : ri(1, 2);
+      let q, a, base;
+      if (kind === 0) { q = 'Chi è il ' + at[0] + ' di tutti?'; a = people[0]; base = people; }
+      else if (kind === 1) { const k = ri(1, cnt - 2); q = 'Chi è in posizione ' + (k + 1) + ' (partendo dal ' + at[0] + ')?'; a = people[k]; base = people; }
+      else { const k = ri(1, cnt - 1); q = 'Quante persone sono ' + at[1] + ' di ' + people[k] + '?'; a = String(k); base = ['0', '1', '2', '3', '4', '5'].slice(0, cnt); }
+      const o = U.shuffle([a].concat(U.sample(base.filter(x => x !== a), 3, rng)), rng);
+      return { t: 'mc', mtype: type, q: shown.join(' ') + ' ' + q, o, a: o.indexOf(a), why: 'Ordine: ' + people.join(' > '), timed: 30 + cnt * 5 };
+    }
+    if (type === 'syllo') {
+      const real = [['gatti', 'mammiferi', 'animali'], ['quadrati', 'rettangoli', 'poligoni'], ['violinisti', 'musicisti', 'artisti'], ['rose', 'fiori', 'piante']];
+      const nons = ['zak', 'fol', 'mim', 'tur', 'bel', 'dax', 'pon', 'rix'];
+      const tri = lv <= 3 ? U.pick(real, rng) : U.sample(nons, 3, rng);
+      const [S, M, P] = tri; // S: soggetto, M: medio, P: predicato
+      const forms = [
+        { p1: ['all', M, P], p2: ['all', S, M], c: ['all', S, P] },
+        { p1: ['no', M, P], p2: ['all', S, M], c: ['no', S, P] },
+        { p1: ['all', M, P], p2: ['some', S, M], c: ['some', S, P] },
+        { p1: ['no', M, P], p2: ['some', S, M], c: ['somenot', S, P] }
+      ];
+      const f = U.pick(forms, rng);
+      const txt = x => x[0] === 'all' ? 'Tutti i ' + x[1] + ' sono ' + x[2] : x[0] === 'no' ? 'Nessun ' + x[1] + ' è ' + x[2] : x[0] === 'some' ? 'Alcuni ' + x[1] + ' sono ' + x[2] : 'Alcuni ' + x[1] + ' non sono ' + x[2];
+      const valid = txt(f.c);
+      const INV = { all: [['all', P, S], ['somenot', S, P], ['no', S, P]], no: [['all', S, P], ['some', S, P], ['all', P, S]], some: [['all', S, P], ['no', S, P], ['all', P, S]], somenot: [['all', S, P], ['no', S, P], ['some', S, P]] };
+      const dist = INV[f.c[0]].map(txt);
+      const o = U.shuffle([valid].concat(dist), rng);
+      return { t: 'mc', mtype: type, q: 'Premesse: «' + txt(f.p1) + '». «' + txt(f.p2) + '». Quale conclusione segue NECESSARIAMENTE?', o, a: o.indexOf(valid), why: 'Forma valida: ' + txt(f.p1) + ', ' + txt(f.p2) + ' ⇒ ' + valid + '.', timed: 40 };
+    }
+    if (type === 'switch') {
+      const n = ri(1, 9), colorA = rng() < 0.5, num = n === 5 ? 6 : n;
+      const ruleA = 'Sfondo BLU → pari o dispari', ruleB = 'Sfondo ROSSO → maggiore o minore di 5';
+      const ans = colorA ? (num % 2 === 0 ? 'Pari' : 'Dispari') : (num > 5 ? 'Maggiore di 5' : 'Minore di 5');
+      const o = ['Pari', 'Dispari', 'Maggiore di 5', 'Minore di 5'];
+      return { t: 'mc', mtype: type, q: ruleA + ' · ' + ruleB + '. Ora: numero ' + num + ' su sfondo ' + (colorA ? 'BLU' : 'ROSSO') + '.', o, a: o.indexOf(ans), why: (colorA ? 'Blu: parità' : 'Rosso: confronto con 5') + ' → ' + ans, timed: Math.max(4, 11 - lv) };
     }
     const p = LOGIC[Math.floor(rng() * LOGIC.length)];
     return { t: 'mc', mtype: 'logic', q: p.q, o: p.o, a: p.a, why: 'Ragiona sulle premesse: la risposta corretta è «' + p.o[p.a] + '».' };

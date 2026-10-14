@@ -18,7 +18,7 @@
   const prep = () => {
     const r = A.run, it = r.items[r.i];
     const cur = Object.assign({}, it);
-    if (it.t === 'mc') {
+    if (it.t === 'mc' || it.t === 'flash') {
       const order = U.shuffle(it.o.map((_, i) => i));
       cur.o2 = order.map(i => it.o[i]); cur.a2 = order.indexOf(it.a);
     }
@@ -34,7 +34,7 @@
     clearTimers();
     if (r.phase === 'done') return summary();
     const it = r.cur, n = r.items.length;
-    let h = '<div class="row"><button class="btn alt sm" data-act="run-quit">✕ Esci</button><span class="sp"></span><span class="mute small">' + E(r.title) + ' · ' + (r.i + 1) + '/' + n + '</span>' + (r.deadline ? '<span class="pill" id="clk" style="margin-left:8px">⏱</span>' : '') + '</div>' +
+    let h = '<div class="row"><button class="btn alt sm" data-act="run-quit">✕ Esci</button><span class="sp"></span><span class="mute small">' + E(r.title) + ' · ' + (r.i + 1) + '/' + n + '</span>' + (r.deadline ? '<span class="pill" id="clk" style="margin-left:8px">⏱</span>' : '') + (it.timed ? '<span class="pill" id="itclk" style="margin-left:8px">⏱ ' + it.timed + 's</span>' : '') + '</div>' +
       '<div class="prog" style="margin:8px 0"><i style="width:' + Math.round(100 * r.i / n) + '%"></i></div>';
     h += '<div class="card">' + (it.srcLabel ? '<div class="mute small">' + E(it.srcLabel) + '</div>' : '');
     h += '<h2 style="margin-top:4px">' + (it.hideText && it.say ? 'Ascolta e rispondi' : '') + (it.q ? (it.hideText && it.say ? '' : U.ruby(it.q)) : '') + '</h2>';
@@ -53,6 +53,10 @@
       h += '<div class="center big" id="spanbox" style="min-height:70px;margin:20px 0">Preparati…</div><div id="spanin" hidden><input type="text" id="fill" inputmode="numeric" autocomplete="off" placeholder="cifre"><button class="btn block" style="margin-top:10px" data-act="run-fill">Verifica</button></div>';
     } else if (it.t === 'corsi') {
       h += '<div class="grid9" id="corsi">' + Array.from({ length: 9 }, (_, i) => '<button data-act="run-corsi" data-i="' + i + '" disabled aria-label="Casella ' + (i + 1) + '"></button>').join('') + '</div><p class="center mute small" id="corsimsg">Osserva la sequenza…</p>';
+    } else if (it.t === 'flash') {
+      h += '<div class="center big" id="flashbox" style="min-height:90px;margin:16px 0;line-height:1.5">Preparati…</div><div id="flashopts" hidden>' + it.o2.map((o, i) => '<button class="opt" data-act="run-opt" data-i="' + i + '">' + U.ruby(o) + '</button>').join('') + '</div>';
+    } else if (it.t === 'nback') {
+      h += '<div class="center big" id="nbox" style="min-height:110px;margin:16px 0;font-size:56px">Preparati…</div><button class="btn block" id="nbtn" data-act="run-nb" disabled>Uguale</button><p class="mute small center" id="nbmsg">Le lettere compaiono una alla volta.</p>';
     } else if (it.t === 'odd') {
       h += '<div class="oddgrid">' + it.cells.map((c, i) => '<button data-act="run-odd" data-i="' + i + '">' + E(c) + '</button>').join('') + '</div>';
     } else if (it.t === 'stroop') {
@@ -72,6 +76,26 @@
         else { box.textContent = '?'; A.$('#spanin').hidden = false; const f = A.$('#fill'); if (f) f.focus(); }
       };
       timers.push(setTimeout(step, 700));
+    }
+    if (it.timed) { const tick = () => { const c = A.$('#itclk'); if (!c) return; const left = Math.round(it.timed - (Date.now() - r.t0) / 1000); c.textContent = left >= 0 ? '⏱ ' + left + 's' : '⏱ lento'; c.style.color = left < 0 ? 'var(--bad, #ff5c7a)' : ''; }; tick(); timers.push(setInterval(tick, 500)); }
+    if (it.t === 'flash') {
+      const box = A.$('#flashbox'), opts = A.$('#flashopts');
+      timers.push(setTimeout(() => { box.textContent = it.show; timers.push(setTimeout(() => { box.textContent = '— — —'; opts.hidden = false; r.t0 = Date.now(); }, it.ms)); }, 700));
+    }
+    if (it.t === 'nback') {
+      const box = A.$('#nbox'), btn = A.$('#nbtn'); r.nb = { taps: {}, i: -1 };
+      const stepFn = () => {
+        r.nb.i++;
+        if (r.nb.i >= it.seq.length) {
+          let errs = 0, tot = 0;
+          it.seq.forEach((c, i) => { if (i >= it.n) { tot++; if (!!r.nb.taps[i] !== !!it.targets[i]) errs++; } });
+          box.textContent = '✓'; btn.disabled = true;
+          R.answer(errs <= Math.floor(tot * 0.25), errs + ' errori su ' + tot); return;
+        }
+        box.textContent = it.seq[r.nb.i]; btn.disabled = r.nb.i < it.n;
+        timers.push(setTimeout(() => { box.textContent = ''; btn.disabled = true; timers.push(setTimeout(stepFn, 250)); }, it.ms));
+      };
+      timers.push(setTimeout(stepFn, 900));
     }
     if (it.t === 'corsi') {
       const cells = [...document.querySelectorAll('#corsi button')]; let k = 0; r.corsiIn = [];
@@ -120,14 +144,15 @@
     if (r.phase !== 'q') return;
     r.phase = 'fb';
     clearTimers();
-    const late = !!(r.deadline && Date.now() > r.deadline);
+    const late = !!((r.deadline && Date.now() > r.deadline) || (it.timed && Date.now() - r.t0 > it.timed * 1000));
     r.res.push({ item: r.items[r.i], ok, val, ms: Date.now() - r.t0, late });
-    if (r.onAnswer) r.onAnswer(r.items[r.i], ok, r.i);
+    if (r.onAnswer) r.onAnswer(r.items[r.i], ok, r.i, r.res[r.res.length - 1]);
     const fb = A.$('#fb');
     fb.innerHTML = '<div class="fb ' + (ok ? 'ok' : 'no') + '"><b>' + (ok ? '✓ Corretto' : '✗ Non corretto') + '</b>' + (it.t === 'dict' ? '<div>Precisione: <b>' + Math.round((r.lastScore || 0) * 100) + '%</b></div><div class="diff">' + (r.lastDiff ? r.lastDiff.ops.map(o => o.ok ? E(o.w) : o.missing ? '<span class="m">' + E(o.w) + '</span>' : '<span class="x">' + E(o.w) + '</span>').join(' ') : '') + '</div><div>Testo: <b>' + U.ruby(it.text) + '</b></div>' : ok ? '' : '<div>Risposta: <b>' + U.ruby(answerText(it)) + '</b></div>') + (!ok && it.diag ? (() => { const d = it.diag(it.t === 'mc' ? it.o2[val] : val); return d ? '<div class="small" style="margin-top:4px">⚠ ' + U.ruby(d) + '</div>' : ''; })() : '') + (it.why ? '<div class="mute small" style="margin-top:4px">' + U.ruby(it.why) + '</div>' : '') + '</div>' +
       '<button class="btn block" style="margin-top:10px" data-act="run-next">' + (r.i + 1 >= r.items.length ? 'Concludi' : 'Avanti') + '</button>';
     fb.scrollIntoView({ block: 'nearest' });
   };
+  X['run-nb'] = () => { const r = A.run; if (!r || !r.nb || r.nb.i < 0) return; r.nb.taps[r.nb.i] = true; const b = A.$('#nbtn'); if (b) b.disabled = true; };
   X['run-opt'] = el => {
     const r = A.run; if (r.phase !== 'q') return;
     const it = r.cur, i = +el.dataset.i, ok = i === it.a2;
