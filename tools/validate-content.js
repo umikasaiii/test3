@@ -83,6 +83,20 @@ const CB = C.cyberBank || { code: [], stride: [], attack: [], scenarios: [] };
 CB.scenarios.forEach(sc => { if (!sc.title || !sc.intro || !sc.steps || sc.steps.length < 5) E('scenario ' + sc.id + ': incompleto'); (sc.steps || []).forEach((st, i) => { if (!st.q || !st.o || st.o.length !== 4 || new Set(st.o).size !== 4 || !(st.a >= 0 && st.a < 4) || !st.why) E('scenario ' + sc.id + ' passo ' + (i + 1) + ': incompleto'); }); });
 if (CB.code.length < 40 || CB.stride.length < 20 || CB.attack.length < 20 || CB.scenarios.length < 8) E('cyberBank sotto le soglie minime');
 console.log('Cyber: code', CB.code.length, 'stride', CB.stride.length, 'attack', CB.attack.length, 'scenari', CB.scenarios.length);
+// simulatore di strategia: scenari a carte e generati
+const SIMT = ST.sim ? ST.sim.templates : [];
+SIMT.forEach(t => {
+  const w = 'sim ' + t.id; const vk = Object.keys(t.vars || {});
+  if (!t.title || !t.intro || !vk.length) E(w + ': incompleto');
+  if (!t.build) {
+    if (!t.cards || t.cards.length < 10) E(w + ': servono ≥10 carte'); if (!(t.turns >= 4 && t.turns <= 6)) E(w + ': turns 4–6');
+    const ids = new Set(); (t.cards || []).forEach(c => { if (ids.has(c.id)) E(w + ': id carta duplicato ' + c.id); ids.add(c.id); if (!c.text || !c.choices || c.choices.length < 2 || c.choices.length > 4) E(w + ' ' + c.id + ': scelte 2–4'); (c.choices || []).forEach((ch, i) => { if (!ch.label || !ch.out || !ch.out.length) E(w + ' ' + c.id + '/' + i + ': esiti mancanti'); const sp = (ch.out || []).reduce((a, o) => a + o.p, 0); if (Math.abs(sp - 1) > 0.011) E(w + ' ' + c.id + '/' + i + ': probabilità ≠ 1 (' + sp + ')'); (ch.out || []).forEach(o => { Object.keys(typeof o.fx === 'function' ? {} : o.fx || {}).forEach(k => { if (!vk.includes(k)) E(w + ' ' + c.id + ': variabile ignota ' + k); }); }); }); });
+    const lvs = new Set((t.cards || []).map(c => c.lv || 1)); if (!(lvs.has(1) && Math.max(...lvs) >= 7)) E(w + ': livelli carte da 1 a ≥7');
+    Object.keys(t.weights || {}).forEach(k => { if (!vk.includes(k)) E(w + ': peso su variabile ignota ' + k); });
+  }
+  [2, 6, 10].forEach(lv => { try { const inst = ST.sim.make(t.id, lv), t0 = Date.now(), best = ST.sim.debrief(inst, ST.sim.autoplay(inst, 'best')), worst = ST.sim.debrief(inst, ST.sim.autoplay(inst, 'worst')); if (best.quality < 0.999 || worst.quality > 0.001 || best.range <= 1e-6) E(w + ' lv' + lv + ': giudizio incoerente (range ' + best.range.toFixed(2) + ')'); if (Date.now() - t0 > 3000) E(w + ' lv' + lv + ': troppo lento'); if (inst.cards.length < 4) E(w + ' lv' + lv + ': poche carte'); } catch (e) { E(w + ' lv' + lv + ': ' + e.message); } });
+});
+console.log('Simulazioni:', SIMT.map(t => t.id).join(', '));
 console.log('Gate B2: ascolto', C.gate.listening.length, 'lettura', C.gate.reading.length, '· Dialoghi', C.dialogues.length, '· Lettura pratica EN', C.readingPractice.en.length);
 warns.forEach(w => console.log('ATTENZIONE', w));
 errs.forEach(e => console.log('ERRORE', e));
