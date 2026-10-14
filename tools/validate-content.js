@@ -62,6 +62,9 @@ if (C.gate.listening.length < 6) W('pool ascolto B2 con meno di 6 prove: il gate
 if (C.gate.reading.length < 6) W('pool lettura B2 con meno di 6 prove (' + C.gate.reading.length + '): il gate lettura in-app non è raggiungibile finché non si aggiungono prove');
 // dialoghi
 C.dialogues.forEach(d => { Object.entries(d.nodes).forEach(([k, n]) => n.c.forEach(c => { if (c.next !== 'end' && !d.nodes[c.next]) E('dialogo ' + d.id + ': nodo ' + c.next + ' mancante'); })); });
+['en', 'ja'].forEach(l => { const n = C.dialogues.filter(d => d.lang === l).length; if (n < 8) E('dialoghi ' + l + ' < 8'); });
+C.dialogues.forEach(d => { const ok = d.lang === 'en' ? ['B1', 'B1+', 'B2'] : ['J1', 'J2', 'J3', 'J4', 'J5']; if (!ok.includes(d.level)) E('dialogo ' + d.id + ': livello ' + d.level); Object.values(d.nodes).forEach(n => { if (n.c.length < 3 || !n.c.some(c => c.q === 2)) E('dialogo ' + d.id + ': nodo senza scelta migliore'); }); });
+['en', 'ja'].forEach(l => { if (C.resources.items.filter(x => x.lang === l).length < 12) E('risorse ' + l + ' < 12'); });
 // judo
 const J = C.judo.techniques; const jid = new Set(J.map(t => t.id));
 if (jid.size !== J.length) E('judo: id duplicati');

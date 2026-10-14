@@ -239,9 +239,13 @@
 
   /* ---------- Conversazione ramificata ---------- */
   X.startConvo = (lang, opts) => {
-    const pool = C.dialogues.filter(d => d.lang === lang);
+    const all = C.dialogues.filter(d => d.lang === lang);
+    const idx = Math.max(0, ...L.studied(lang).map(t => C.STAGES.indexOf(t.stage)));   // stage più alto con lezione letta
+    const rank = d => lang === 'en' ? ({ B1: 0, 'B1+': 2, B2: 3 })[d.level] : (+String(d.level).slice(1));
+    const maxRank = lang === 'en' ? idx : idx + 1;
+    const pool = all.filter(d => rank(d) <= maxRank);
     const seen = A.state.convoSeen = A.state.convoSeen || {};
-    const d = leastUsed(pool, 'id', seen);
+    const d = leastUsed(pool.length ? pool : all, 'id', seen);
     A.act = { kind: 'convo', d, node: d.start, score: 0, max: 0, lang, opts, fb: null, log: [] };
     A.go('convo');
   };
@@ -253,11 +257,12 @@
     }
     return '<div class="row"><button class="btn alt sm" data-act="back">← Esci</button></div><h1>🗨️ ' + E(a.d.title) + '</h1><p class="mute small">Livello ' + E(a.d.level) + ' · scegli la risposta migliore e poi <b>pronunciala ad alta voce</b>.</p>' +
       '<div class="card"><p><button class="btn alt sm" data-act="convo-say">🔊</button> <b>' + U.ruby(n.p) + '</b></p></div>' +
-      (a.fb ? '<div class="fb info">' + E(a.fb) + '</div><button class="btn block" style="margin-top:10px" data-act="convo-next">Continua →</button>' : n.c.map((c, i) => '<button class="opt" data-act="convo-pick" data-i="' + i + '">' + U.ruby(c.t) + '</button>').join(''));
+      (a.fb ? '<div class="fb info">' + E(a.fb) + '</div><p class="mute small">Ora di’ ad alta voce la risposta scelta (o una tua variante), poi confrontala col modello.</p><button class="btn alt sm" data-act="convo-sayc">🔊 Modello della tua risposta</button><button class="btn block" style="margin-top:10px" data-act="convo-next">Continua →</button>' : n.c.map((c, i) => '<button class="opt" data-act="convo-pick" data-i="' + i + '">' + U.ruby(c.t) + '</button>').join(''));
   };
   X['convo-say'] = () => { const a = A.act; if (!a || a.kind !== 'convo' || A.view().name !== 'convo') return; const n = a.d.nodes[a.node]; if (!n) return; ST.audio.speak(n.p, { lang: ttsLang(a.lang, a.d.accent) }).then(r => { if (!r.ok) A.toast(ST.audio.explain(r.reason), 4500); }); };
   ST.after.convo = () => { const a = A.act; if (a && a.node !== 'end' && !a.fb) setTimeout(() => X['convo-say'](), 300); };
-  X['convo-pick'] = el => { const a = A.act, n = a.d.nodes[a.node], c = n.c[+el.dataset.i]; a.score += c.q; a.max += 2; a.fb = '(' + c.q + '/2) ' + c.fb; a.pending = c.next; a.log.push({ t: c.t, fb: c.fb }); A.render(); };
+  X['convo-pick'] = el => { const a = A.act, n = a.d.nodes[a.node], c = n.c[+el.dataset.i]; a.score += c.q; a.max += 2; a.fb = '(' + c.q + '/2) ' + c.fb; a.pending = c.next; a.last = c.t; a.log.push({ t: c.t, fb: c.fb }); A.render(); };
+  X['convo-sayc'] = () => { const a = A.act; ST.audio.speak(a.last, { lang: ttsLang(a.lang, a.d.accent) }).then(r => { if (!r.ok) A.toast(ST.audio.explain(r.reason), 4500); }); };
   X['convo-next'] = () => { const a = A.act; a.node = a.pending; a.fb = null; A.render(); };
   X['convo-close'] = () => {
     const a = A.act, m = A.state.convoSeen; m[a.d.id] = { n: ((m[a.d.id] || {}).n || 0) + 1, last: U.today() };

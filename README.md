@@ -40,4 +40,6 @@ Un argomento è un oggetto registrato con `ST.content.addTopic({...})` (vedi `sr
 
 Il modulo propone **solo** esercizi solitari a vuoto. Nessuna proiezione, nessuna caduta nuova, nessuna tecnica su partner senza istruttore. Vedi `src/content/judo.js`.
 
+Conversazione simulata: 17 dialoghi ramificati scritti (nessuna IA), a livelli, pianificati due volte a settimana nella missione linguistica. Contenuti graduati: `src/content/resources.js` (Pratica → Contenuti graduati).
+
 Stato dell'audit e limiti noti: [`docs/AUDIT.md`](docs/AUDIT.md).

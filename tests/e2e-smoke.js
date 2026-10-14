@@ -75,6 +75,7 @@ const mock = () => {
     await page.evaluate(([l, k]) => { const d = ST.app.day(); d[l] = { _plan: [{ kind: k, minutes: 5, label: k, topic: ST.plan.currentTopic(ST.app.state, l === 'en' ? 'eng' : 'jpn') && ST.plan.currentTopic(ST.app.state, l === 'en' ? 'eng' : 'jpn').id || 'eng-l0-habits' }], _n: 1 }; ST.app.render(); const el = document.createElement('div'); el.dataset.lang = l; el.dataset.i = 0; ST.acts.mblock(el); }, [l, k]).catch(e => errors.push('blocco ' + l + ' ' + k + ': ' + e.message));
     await page.waitForTimeout(100); await reset();
   }
+  for (const l of ['en', 'ja']) { await page.evaluate(l => { ST.app.state.profile.pl = l; }, l); await step('contenuti graduati ' + l, () => ST.app.go('resources'), /Come usarli/); }
   await step('audio test', () => ST.app.go('audioTest'), /Diagnostica/);
   const fatal = errors.filter(e => !/play\(\)|NotAllowed/.test(e));
   ok(fatal.length === 0, 'nessun errore JS' + (fatal.length ? ': ' + fatal.slice(0, 5).join(' | ') : ''));

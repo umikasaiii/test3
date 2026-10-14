@@ -28,6 +28,7 @@
       t('✏️', 'Scrittura', 'testo libero', 'p-write') +
       t('🧪', 'Mini-esame', 'richiamo cumulativo', 'p-mini') +
       (lang === 'ja' ? t('あ', 'Kana Trainer', 'riconoscimento rapido', 'p-kana') : t('🎯', 'Prova B2', 'ascolto / lettura (indicatore)', 'go', 'data-view="b2"')) +
+      t('📺', 'Contenuti graduati', 'cosa ascoltare/leggere fuori dall’app', 'go', 'data-view="resources"') +
       '</div><h2>Generale</h2><div class="grid2">' + t('🧠', 'Allenamento mentale', '5 min · adattivo', 'startMental') + t('🥋', 'Judo 5′', 'sessione di oggi', 'go', 'data-view="judoSession"') + t('📚', 'Teoria di oggi', E(PL.THEORY_LABEL[PL.THEORY[U.weekday()]]), 'startTheory') + t('🔊', 'Diagnostica audio', 'voci, microfono', 'go', 'data-view="audioTest"') + '</div>' +
       '<p class="mute small" style="margin-top:12px">Tutte le attività qui sono libere: la missione giornaliera suggerisce l’ordine e i tempi.</p>';
   };
@@ -43,6 +44,21 @@
   X['p-write'] = () => { A.pb = null; X.startWrite(pl()); };
   X['p-mini'] = () => { A.pb = null; X.startMini(pl()); };
   X['p-kana'] = () => { A.pb = null; X.startKana(); };
+
+  /* ---- Contenuti graduati ---- */
+  V.resources = () => {
+    const lang = A.state.profile.pl || 'en', R = C.resources;
+    const idx = Math.max(0, ...L_studied(lang).map(t => C.STAGES.indexOf(t.stage)));
+    const bandNow = lang === 'en' ? (idx <= 1 ? 'B1' : idx === 2 ? 'B1+' : idx === 3 ? 'B2' : 'B2+') : 'J' + Math.min(5, idx);
+    const inBand = (b, cur) => lang === 'en' ? b === cur : (b.match(/J\d/g) || []).some(x => Math.abs(+x[1] - +cur[1]) <= 0) || (b.includes('–') && +cur[1] >= +b.match(/J(\d)/)[1] && +cur[1] <= +b.match(/–J(\d)/)[1]);
+    const items = R.items.filter(x => x.lang === lang);
+    const bands = [...new Set(items.map(x => x.band))];
+    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>📺 Contenuti graduati</h1><div class="seg"><button class="' + (lang === 'en' ? 'on' : '') + '" data-act="plang" data-l="en">🇬🇧 Inglese</button><button class="' + (lang === 'ja' ? 'on' : '') + '" data-act="plang" data-l="ja">🇯🇵 Giapponese</button></div>' +
+      '<div class="card"><h3>Come usarli</h3><ul class="small">' + R.method[lang].map(E).map(x => '<li>' + x + '</li>').join('') + '</ul></div>' +
+      '<p class="mute small">Livello suggerito dai tuoi progressi: <b>' + bandNow + '</b> (indicativo, non è una certificazione). I materiali sono indicati per nome: verifica disponibilità e lingua dei sottotitoli la prima volta.</p>' +
+      bands.map(b => '<h2>' + E(b) + (inBand(b, bandNow) ? ' <span class="tag good">per te ora</span>' : '') + '</h2><div class="list">' + items.filter(x => x.band === b).map(x => '<div class="item" style="align-items:flex-start"><span class="ic">' + ({ Podcast: '🎧', Video: '▶️', 'Video / TV': '📺', TV: '📺', Serie: '🎬', Anime: '🎬', Dorama: '🎬', Lettura: '📖', 'Notizie lente': '📰' })[x.type] + '</span><span class="tx"><b>' + E(x.title) + '</b><span>' + E(x.type) + (x.accent ? ' · ' + E(x.accent) : '') + ' · ' + E(x.where) + ' · sottotitoli: ' + E(x.subs) + '</span><span style="display:block;margin-top:4px">' + E(x.how) + '</span></span></div>').join('') + '</div>').join('');
+  };
+  const L_studied = lang => ST.labs.studied(lang);
 
   /* ---- Prove B2 (ascolto/lettura) ---- */
   V.b2 = () => {

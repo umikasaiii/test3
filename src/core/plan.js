@@ -78,7 +78,7 @@
   };
   PL.FOCUS_LABEL = {
     lesson: 'Lezione e applicazione', listening: 'Ascolto senza trascrizione', grammar: 'Grammatica applicata e lessico',
-    speaking: 'Shadowing e risposta orale', dictation: 'Dettato e lettura', writing: 'Scrittura autonoma e mini-verifica',
+    speaking: 'Shadowing e conversazione simulata', dictation: 'Dettato e lettura', writing: 'Scrittura autonoma e mini-verifica',
     reading: 'Lettura e scrittura funzionale', conversation: 'Conversazione ramificata e ripasso'
   };
 
@@ -107,8 +107,9 @@
       lesson: lessonT ? [{ kind: 'lesson', topic: lessonT.id, minutes: l1, label: lessonT.title }, { kind: 'practice', topic: lessonT.id, minutes: l2, label: 'Esercizi: ' + lessonT.title }]
         : pracT ? [{ kind: 'practice', topic: pracT.id, minutes: g1, label: 'Esercizi: ' + pracT.title }, { kind: 'cards', minutes: g2, label: 'Lessico a recupero attivo' }] : [{ kind: 'cards', minutes: left, label: 'Lessico a recupero attivo' }],
       listening: [{ kind: 'listening', minutes: Math.round(left * 0.75), label: 'Ascolto attivo' }, { kind: 'speaking', minutes: left - Math.round(left * 0.75), label: 'Risposta orale' }],
-      grammar: pracT ? [{ kind: 'practice', topic: pracT.id, minutes: g1, label: 'Grammatica: ' + pracT.title }, { kind: 'cards', minutes: g2, label: 'Lessico a recupero attivo' }] : [{ kind: 'cards', minutes: left, label: 'Lessico a recupero attivo' }],
-      speaking: [{ kind: 'shadowing', minutes: s1, label: 'Shadowing e pronuncia' }, { kind: 'speaking', minutes: s2, label: 'Risposta spontanea' }],
+      grammar: pracT ? [{ kind: 'practice', topic: pracT.id, minutes: g1, label: 'Grammatica: ' + pracT.title }, { kind: 'cards', minutes: g2, label: 'Lessico a recupero attivo' }]
+        : lessonT ? [{ kind: 'lesson', topic: lessonT.id, minutes: l1, label: lessonT.title }, { kind: 'practice', topic: lessonT.id, minutes: l2, label: 'Esercizi: ' + lessonT.title }] : [{ kind: 'cards', minutes: left, label: 'Lessico a recupero attivo' }],
+      speaking: [{ kind: 'shadowing', minutes: s1, label: 'Shadowing e pronuncia' }, { kind: 'conversation', minutes: s2, label: 'Conversazione simulata (a voce)' }],
       dictation: [{ kind: 'dictation', minutes: d1, label: 'Dettato' }, { kind: 'listening', minutes: d2, label: 'Ascolto' }],
       writing: [{ kind: 'writing', minutes: s1, label: 'Scrittura autonoma' }, { kind: 'test', topic: testT ? testT.id : undefined, minutes: s2, label: testT ? (P.topicStatus(state, testT.id) === 'verified' ? 'Ritest a distanza: ' : 'Verifica: ') + testT.title : 'Mini-verifica cumulativa' }],
       reading: [{ kind: 'reading', minutes: d1, label: 'Lettura funzionale' }, { kind: 'writing', minutes: d2, label: 'Scrittura funzionale' }],

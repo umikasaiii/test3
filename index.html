@@ -462,7 +462,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   };
   PL.FOCUS_LABEL = {
     lesson: 'Lezione e applicazione', listening: 'Ascolto senza trascrizione', grammar: 'Grammatica applicata e lessico',
-    speaking: 'Shadowing e risposta orale', dictation: 'Dettato e lettura', writing: 'Scrittura autonoma e mini-verifica',
+    speaking: 'Shadowing e conversazione simulata', dictation: 'Dettato e lettura', writing: 'Scrittura autonoma e mini-verifica',
     reading: 'Lettura e scrittura funzionale', conversation: 'Conversazione ramificata e ripasso'
   };
 
@@ -491,8 +491,9 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
       lesson: lessonT ? [{ kind: 'lesson', topic: lessonT.id, minutes: l1, label: lessonT.title }, { kind: 'practice', topic: lessonT.id, minutes: l2, label: 'Esercizi: ' + lessonT.title }]
         : pracT ? [{ kind: 'practice', topic: pracT.id, minutes: g1, label: 'Esercizi: ' + pracT.title }, { kind: 'cards', minutes: g2, label: 'Lessico a recupero attivo' }] : [{ kind: 'cards', minutes: left, label: 'Lessico a recupero attivo' }],
       listening: [{ kind: 'listening', minutes: Math.round(left * 0.75), label: 'Ascolto attivo' }, { kind: 'speaking', minutes: left - Math.round(left * 0.75), label: 'Risposta orale' }],
-      grammar: pracT ? [{ kind: 'practice', topic: pracT.id, minutes: g1, label: 'Grammatica: ' + pracT.title }, { kind: 'cards', minutes: g2, label: 'Lessico a recupero attivo' }] : [{ kind: 'cards', minutes: left, label: 'Lessico a recupero attivo' }],
-      speaking: [{ kind: 'shadowing', minutes: s1, label: 'Shadowing e pronuncia' }, { kind: 'speaking', minutes: s2, label: 'Risposta spontanea' }],
+      grammar: pracT ? [{ kind: 'practice', topic: pracT.id, minutes: g1, label: 'Grammatica: ' + pracT.title }, { kind: 'cards', minutes: g2, label: 'Lessico a recupero attivo' }]
+        : lessonT ? [{ kind: 'lesson', topic: lessonT.id, minutes: l1, label: lessonT.title }, { kind: 'practice', topic: lessonT.id, minutes: l2, label: 'Esercizi: ' + lessonT.title }] : [{ kind: 'cards', minutes: left, label: 'Lessico a recupero attivo' }],
+      speaking: [{ kind: 'shadowing', minutes: s1, label: 'Shadowing e pronuncia' }, { kind: 'conversation', minutes: s2, label: 'Conversazione simulata (a voce)' }],
       dictation: [{ kind: 'dictation', minutes: d1, label: 'Dettato' }, { kind: 'listening', minutes: d2, label: 'Ascolto' }],
       writing: [{ kind: 'writing', minutes: s1, label: 'Scrittura autonoma' }, { kind: 'test', topic: testT ? testT.id : undefined, minutes: s2, label: testT ? (P.topicStatus(state, testT.id) === 'verified' ? 'Ritest a distanza: ' : 'Verifica: ') + testT.title : 'Mini-verifica cumulativa' }],
       reading: [{ kind: 'reading', minutes: d1, label: 'Lettura funzionale' }, { kind: 'writing', minutes: d2, label: 'Scrittura funzionale' }],
@@ -2749,6 +2750,107 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   ];
 })(window.ST = window.ST || {});
 
+/* ---- content/dialogues ---- */
+/* Dialoghi ramificati aggiuntivi (nessuna IA: percorsi scritti, valutazione guidata sulle scelte). */
+(function (ST) {
+  'use strict';
+  const C = ST.content;
+  const ch = (t, next, q, fb) => ({ t, next, q, fb });
+  const D = (id, lang, level, title, accent, nodes) => C.dialogues.push({ id, lang, level, title, accent, start: 'n1', nodes });
+
+  D('dl-en-4', 'en', 'B1', 'At the doctor’s', 'en-GB', {
+    n1: { p: 'Good morning. What seems to be the problem?', c: [ch('I’ve had a sore throat and a fever since Monday.', 'n2', 2, 'Chiaro: sintomi + durata con present perfect.'), ch('I am sick since Monday.', 'n2', 0, 'Meglio «I’ve been ill / I’ve had… since Monday».'), ch('My throat hurts.', 'n2', 1, 'Corretto, ma manca la durata.')] },
+    n2: { p: 'I see. Are you taking any medication at the moment?', c: [ch('No, I’m not taking anything, but I’m allergic to penicillin.', 'n3', 2, 'Informazione importante e ben formulata.'), ch('No.', 'n3', 1, 'Va bene, ma qui conviene dire delle allergie.'), ch('Yes, I take pills.', 'n3', 0, 'Troppo vago: quali farmaci?')] },
+    n3: { p: 'Right. I’ll prescribe something. You should rest and drink plenty of water.', c: [ch('Thank you, doctor. How long should I stay at home?', 'end', 2, 'Domanda utile e cortese.'), ch('Okay, thanks.', 'end', 1, 'Corretto.'), ch('I must work tomorrow.', 'end', 0, 'Non risponde: spiega o chiedi un consiglio.')] } });
+  D('dl-en-5', 'en', 'B1', 'Booking a hotel room by phone', 'en-US', {
+    n1: { p: 'Grand Hotel, how can I help you?', c: [ch('Hello, I’d like to book a double room for two nights, please.', 'n2', 2, 'Formula naturale con dettagli.'), ch('I want a room.', 'n2', 0, 'Troppo diretto e senza dettagli.'), ch('Do you have any rooms available?', 'n2', 1, 'Corretto, ma rimanda i dettagli.')] },
+    n2: { p: 'Certainly. For which dates, and would you like breakfast included?', c: [ch('From the fifth to the seventh of May, and yes, breakfast included, please.', 'n3', 2, 'Date e richiesta chiare.'), ch('May five. Breakfast yes.', 'n3', 0, 'Costruisci frasi complete.'), ch('The fifth of May for two nights.', 'n3', 1, 'Chiaro, manca la colazione.')] },
+    n3: { p: 'That’s 180 dollars in total. Could I have a name for the reservation?', c: [ch('Of course. It’s Rossi, R-O-S-S-I.', 'end', 2, 'Hai fatto lo spelling: ottimo.'), ch('Rossi.', 'end', 1, 'Va bene, ma lo spelling aiuta.'), ch('My name is difficult.', 'end', 0, 'Non risponde alla richiesta.')] } });
+  D('dl-en-6', 'en', 'B1+', 'Making plans with a friend', 'en-AU', {
+    n1: { p: 'Hey! Are you free this weekend? A few of us are going hiking.', c: [ch('That sounds great! What time are you leaving?', 'n2', 2, 'Reazione naturale e domanda utile.'), ch('Yes. I go.', 'n2', 0, 'Struttura da correggere: «I’d love to come».'), ch('Maybe. I’m not sure yet.', 'n2', 1, 'Va bene, ma spiega perché.')] },
+    n2: { p: 'We’re meeting at eight at the station. Bring some water and good shoes.', c: [ch('Eight is a bit early for me, but I’ll be there. Should I bring lunch too?', 'n3', 2, 'Esprimi una difficoltà e confermi.'), ch('Okay.', 'n3', 1, 'Corretto.'), ch('No, too early.', 'n3', 0, 'Brusco: proponi un’alternativa.')] },
+    n3: { p: 'Yes, please. And if it rains, we’ll go to the museum instead.', c: [ch('Perfect. If it rains, I’ll bring an umbrella, just in case.', 'end', 2, 'First conditional usato bene.'), ch('Fine, thanks.', 'end', 1, 'Corretto.'), ch('If it will rain, I stay home.', 'end', 0, 'Dopo «if»: present simple; «I’ll stay home».')] } });
+  D('dl-en-7', 'en', 'B2', 'A job interview', 'en-GB', {
+    n1: { p: 'Thank you for coming in. Could you tell me why you’re interested in this position?', c: [ch('I’ve been working in this field for five years, and this role would let me take on more responsibility.', 'n2', 2, 'Concreto e collegato all’esperienza.'), ch('I need a job.', 'n2', 0, 'Troppo diretto e poco professionale.'), ch('I like your company.', 'n2', 1, 'Corretto ma generico.')] },
+    n2: { p: 'And what would you say is your biggest weakness?', c: [ch('I sometimes take on too much, but I’ve learned to prioritise and to ask for help.', 'n3', 2, 'Onesto, con strategia di miglioramento.'), ch('I have no weaknesses.', 'n3', 0, 'Poco credibile.'), ch('I’m shy.', 'n3', 1, 'Onesto, ma manca la soluzione.')] },
+    n3: { p: 'Thank you. Do you have any questions for us?', c: [ch('Yes, I’d like to know what the first three months would look like in this role.', 'end', 2, 'Domanda mirata e professionale.'), ch('How much is the salary?', 'end', 1, 'Lecito, ma meglio più tardi.'), ch('No.', 'end', 0, 'Occasione persa: preparati una domanda.')] } });
+  D('dl-en-8', 'en', 'B2', 'Complaining about a faulty product', 'en-US', {
+    n1: { p: 'Customer service, how can I help?', c: [ch('I bought a vacuum cleaner from you last week, and it stopped working after two days. I’d like a refund or a replacement.', 'n2', 2, 'Problema, tempi e richiesta chiari.'), ch('Your product is terrible!', 'n2', 0, 'Aggressivo: non aiuta a risolvere.'), ch('It doesn’t work.', 'n2', 1, 'Troppo vago.')] },
+    n2: { p: 'I’m sorry to hear that. Do you have the receipt?', c: [ch('Yes, I have it here. Would you like me to send you a copy by email?', 'n3', 2, 'Collaborativo e proattivo.'), ch('I lost it.', 'n3', 1, 'Onesto, ma proponi un’alternativa (conferma d’ordine).'), ch('Why do you need it?', 'n3', 0, 'Suona ostile.')] },
+    n3: { p: 'That would be great. We can send a replacement within five working days.', c: [ch('Thank you. Could you confirm that by email, please?', 'end', 2, 'Cortese e ottieni una conferma scritta.'), ch('Okay.', 'end', 1, 'Corretto.'), ch('Five days is too long!', 'end', 0, 'Meglio chiedere un’alternativa.')] } });
+
+  D('dl-ja-4', 'ja', 'J1', 'In un negozio', null, {
+    n1: { p: 'いらっしゃいませ。なにを おさがしですか。', c: [ch('この シャツを みせて ください。', 'n2', 2, 'Richiesta cortese e chiara.'), ch('シャツ。', 'n2', 0, 'Troppo breve e brusco.'), ch('シャツが ほしいです。', 'n2', 1, 'Corretto, ma meno cortese.')] },
+    n2: { p: 'こちらは いかがですか。あおと しろが あります。', c: [ch('あおを ください。いくらですか。', 'n3', 2, 'Scelta e domanda sul prezzo.'), ch('いいです。', 'n3', 1, 'Ambiguo: sì o no?'), ch('わかりません。', 'n3', 0, 'Non risponde alla domanda.')] },
+    n3: { p: 'ごせんえんです。', c: [ch('はい、おねがいします。', 'end', 2, 'Cortese e chiaro.'), ch('たかいですね。', 'end', 1, 'Naturale ma non conclude.'), ch('いりません。', 'end', 1, 'Secco: meglio «すみません、また こんど».')] } });
+  D('dl-ja-5', 'ja', 'J1', 'Chiedere la strada', null, {
+    n1: { p: 'どうしましたか。', c: [ch('すみません、えきは どこですか。', 'n2', 2, 'Naturale e cortese.'), ch('えき？', 'n2', 0, 'Troppo breve.'), ch('えきに いきたいです。', 'n2', 1, 'Corretto, ma meno diretto.')] },
+    n2: { p: 'まっすぐ いって、みぎに まがって ください。', c: [ch('まっすぐ いって、みぎですね。ありがとうございます。', 'n3', 2, 'Ripeti per confermare.'), ch('はい。', 'n3', 1, 'Va bene ma non confermi.'), ch('もういちど おねがいします。', 'n3', 2, 'Chiedi di ripetere: ottimo.')] },
+    n3: { p: 'ここから ごふんぐらいです。', c: [ch('ごふんですね。たすかります。', 'end', 2, 'Confermi e ringrazi.'), ch('ありがとう。', 'end', 1, 'Corretto.'), ch('とおいですね。', 'end', 0, 'Non è la reazione adatta.')] } });
+  D('dl-ja-6', 'ja', 'J2', 'Prenotare un tavolo', null, {
+    n1: { p: 'はい、さくらレストランです。', c: [ch('すみません、あした よじに ふたり よやくしたいんですが…。', 'n2', 2, 'Naturale e cortese.'), ch('よやく おねがい。', 'n2', 0, 'Troppo informale e incompleto.'), ch('あした いきます。', 'n2', 1, 'Non dici ora e persone.')] },
+    n2: { p: 'あしたの よじですね。おなまえを おねがいします。', c: [ch('ロッシです。よろしく おねがいします。', 'n3', 2, 'Cortese e completo.'), ch('ロッシ。', 'n3', 0, 'Troppo secco.'), ch('マルコです。', 'n3', 1, 'Corretto.')] },
+    n3: { p: 'かしこまりました。おまちして おります。', c: [ch('ありがとうございます。よろしく おねがいします。', 'end', 2, 'Chiusura cortese.'), ch('はい。', 'end', 1, 'Breve.'), ch('じゃあね。', 'end', 0, 'Troppo informale.')] } });
+  D('dl-ja-7', 'ja', 'J3', 'Spiegare un ritardo', null, {
+    n1: { p: 'どうして おくれたんですか。', c: [ch('すみません、でんしゃが とまっていたので、おくれました。', 'n2', 2, 'Scusa + motivo con ので.'), ch('でんしゃです。', 'n2', 1, 'Si capisce, ma è secco.'), ch('しりません。', 'n2', 0, 'Non risponde e suona scortese.')] },
+    n2: { p: 'そうですか。れんらくは できませんでしたか。', c: [ch('でんわを しようと おもったんですが、バッテリーが なくて…。', 'n3', 2, 'Spiegazione con ～ようと思う.'), ch('できませんでした。', 'n3', 1, 'Corretto ma non spieghi.'), ch('わすれました。', 'n3', 0, 'Troppo diretto.')] },
+    n3: { p: 'わかりました。つぎは まえもって れんらくして ください。', c: [ch('はい、わかりました。きを つけます。', 'end', 2, 'Cortese, assumi l’impegno.'), ch('はい。', 'end', 1, 'Breve.'), ch('でも わたしのせいじゃ ないです。', 'end', 0, 'Difensivo.')] } });
+  D('dl-ja-8', 'ja', 'J4', 'Fare un piano condizionale', null, {
+    n1: { p: 'こんどの にちようび、どこか いきませんか。', c: [ch('いいですね。てんきが よかったら、うみへ いきましょう。', 'n2', 2, 'Proposta con たら.'), ch('いいです。', 'n2', 1, 'Ambiguo.'), ch('いきません。', 'n2', 0, 'Rifiuto senza motivo.')] },
+    n2: { p: 'あめが ふったら どうしますか。', c: [ch('あめが ふったら、えいがを みに いきませんか。', 'n3', 2, 'Piano B chiaro.'), ch('わかりません。', 'n3', 0, 'Non contribuisci.'), ch('うちに いましょう。', 'n3', 1, 'Va bene.')] },
+    n3: { p: 'いいですね。じゃあ、あさ てんきを かくにんしましょう。', c: [ch('はい、あさ れんらくします。', 'end', 2, 'Impegno chiaro.'), ch('はい。', 'end', 1, 'Breve.'), ch('めんどうですね。', 'end', 0, 'Poco collaborativo.')] } });
+  D('dl-ja-9', 'ja', 'J5', 'Tra amici (informale)', null, {
+    n1: { p: 'ねえ、きのうの ドラマ みた？', c: [ch('みたよ！さいごが びっくりした。', 'n2', 2, 'Naturale e informale.'), ch('みました。', 'n2', 1, 'Troppo formale con un amico.'), ch('なんですか。', 'n2', 0, 'Non risponde.')] },
+    n2: { p: 'わかる！ はんにんが あの ひとだとは おもわなかった。', c: [ch('ほんと？ ぼく、さいしょから あやしいと おもってた。', 'n3', 2, 'Reazione naturale con と思ってた.'), ch('そうですか。', 'n3', 1, 'Troppo formale.'), ch('ふうん。', 'n3', 1, 'Va bene ma freddo.')] },
+    n3: { p: 'すごい！ こんど いっしょに つぎの シーズン みようよ。', c: [ch('いいね！ たのしみ！', 'end', 2, 'Entusiasta e naturale.'), ch('はい、おねがいします。', 'end', 0, 'Formale: fuori registro.'), ch('うん。', 'end', 1, 'Breve.')] } });
+})(window.ST = window.ST || {});
+
+/* ---- content/resources ---- */
+/* Contenuti graduati: materiali reali da consumare fuori dall'app, divisi per livello.
+   Indicati per NOME (non per URL, che possono cambiare): verifica disponibilità e licenze la prima volta. */
+(function (ST) {
+  'use strict';
+  const C = ST.content;
+  const r = (lang, band, type, title, where, subs, how, accent) => ({ lang, band, type, title, where, subs, how, accent: accent || '' });
+  C.resources = {
+    method: {
+      en: ['Scegli UNA fonte per accento (britannico, americano, australiano) e restaci per settimane.', 'Primo ascolto senza sottotitoli: solo il senso generale. Secondo ascolto: dettagli.', 'Sottotitoli in INGLESE (non in italiano) solo dopo; poi riascolta senza.', 'Scegli un frammento di 2–3 minuti e fai shadowing: ripeti a mezza frase di distanza.', 'Ripeti lo stesso frammento dopo 1, 3 e 7 giorni: la ripetizione consolida.'],
+      ja: ['Prima di guardare: leggi la trama in italiano, così il testo italiano non serve durante la visione.', 'Scena di 2–3 minuti: 1° ascolto senza sottotitoli, 2° con sottotitoli giapponesi (se li leggi), 3° senza.', 'I sottotitoli italiani durante la visione tolgono allenamento all’orecchio: usali solo per controllare dopo.', 'Scegli serie con parlato quotidiano e chiaro; evita all’inizio fantasy e dialetti marcati.', 'Fai shadowing su 5–10 battute al giorno e riascolta la stessa scena più volte.']
+    },
+    items: [
+      r('en', 'B1', 'Podcast', '6 Minute English (BBC Learning English)', 'App o sito BBC Learning English', 'Trascrizione inglese sul sito', 'Ascolta senza testo, poi con la trascrizione; ripeti 3 frasi in shadowing.', 'BrE'),
+      r('en', 'B1', 'Notizie lente', 'Learning English (VOA)', 'Sito / YouTube VOA Learning English', 'Sottotitoli inglesi', 'Notizie con lessico controllato e ritmo lento: ottimo per iniziare a sentire l’americano.', 'AmE'),
+      r('en', 'B1', 'Video', 'ELLLO (Easy Listening)', 'Sito ELLLO', 'Trascrizione e quiz', 'Interviste brevi con molti accenti, tra cui australiano.', 'misti'),
+      r('en', 'B1', 'Video', 'Easy English (YouTube)', 'YouTube', 'Sottotitoli inglesi', 'Interviste per strada con sottotitoli doppi: allena l’ascolto del parlato reale.', 'misti'),
+      r('en', 'B1', 'Lettura', 'Graded readers (Oxford Bookworms, Cambridge Readers, Penguin Readers)', 'Biblioteca / libreria', '—', 'Leggi libri del tuo livello (B1) in sequenza; con l’audiolibro abbinato ascolti e leggi insieme.', ''),
+      r('en', 'B1+', 'Video / TV', 'Bluey', 'Streaming', 'Sottotitoli inglesi', 'Cartone animato australiano di 7 minuti: lessico quotidiano familiare, ottimo per l’orecchio all’accento australiano.', 'AusE'),
+      r('en', 'B1+', 'Podcast', 'The English We Speak (BBC)', 'App BBC Learning English', 'Trascrizione', 'Espressioni idiomatiche in 3 minuti: aggiungile alle carte lessicali.', 'BrE'),
+      r('en', 'B1+', 'Video', 'TED-Ed', 'YouTube', 'Sottotitoli inglesi', 'Spiegazioni brevi di 5 minuti su argomenti vari.', 'misti'),
+      r('en', 'B2', 'Podcast', 'BBC Learning English News Review', 'App BBC Learning English', 'Trascrizione', 'Notizie discusse con lessico B2 e commenti; ascolta una puntata a settimana.', 'BrE'),
+      r('en', 'B2', 'Video', 'TED Talks', 'ted.com / YouTube', 'Sottotitoli inglesi', 'Scegli talk di 8–12 minuti su argomenti che ti interessano.', 'misti'),
+      r('en', 'B2', 'Podcast', 'Planet Money (NPR)', 'App podcast', 'Trascrizioni sul sito NPR', 'Economia raccontata con storie; parlato americano naturale.', 'AmE'),
+      r('en', 'B2', 'Podcast', 'ABC Radio National (Australia)', 'ABC listen', 'Trascrizioni per alcuni programmi', 'Accento australiano in contesti informativi.', 'AusE'),
+      r('en', 'B2', 'Serie', 'Serie comedy o drammatiche in inglese con sottotitoli inglesi', 'Streaming', 'Inglesi', 'Una puntata, una scena alla volta; non guardare più di 20 minuti: riguarda le scene.', 'misti'),
+      r('en', 'B2+', 'Podcast', 'In Our Time (BBC Radio 4)', 'App BBC Sounds', '—', 'Discussioni accademiche di 40 minuti: allena comprensione prolungata e lessico astratto.', 'BrE'),
+      r('en', 'B2+', 'Lettura', 'Giornali e saggi (The Guardian, BBC News, The Economist)', 'Siti', '—', 'Un articolo al giorno; sottolinea collocazioni e connettori.', 'misti'),
+
+      r('ja', 'J0–J1', 'Podcast', 'Nihongo con Teppei (livello principiante)', 'App podcast / YouTube', 'Trascrizione sul sito', 'Giapponese lento e comprensibile; ascolta una puntata, poi rifai la prima metà in shadowing.', ''),
+      r('ja', 'J0–J1', 'Video', 'Japanese Ammo with Misa (principianti)', 'YouTube', 'Sottotitoli', 'Lezioni di frasi quotidiane con pronuncia chiara.', ''),
+      r('ja', 'J0–J1', 'Lettura', 'Graded readers di Tadoku (livello 0–1)', 'Sito Tadoku (gratuiti)', 'Con furigana', 'Racconti brevi con vocabolario controllato.', ''),
+      r('ja', 'J0–J1', 'TV', 'NHK World-JAPAN: Easy Japanese', 'Sito NHK WORLD', 'Sottotitoli giapponesi/inglesi', 'Brevi dialoghi di situazioni quotidiane con spiegazioni.', ''),
+      r('ja', 'J1–J2', 'Anime', 'Doraemon', 'Streaming / TV', 'Giapponesi se disponibili', 'Linguaggio semplice, frasi brevi: scene da 3 minuti.', ''),
+      r('ja', 'J1–J2', 'Anime', 'Shirokuma Cafe / Chibi Maruko-chan', 'Streaming', 'Giapponesi se disponibili', 'Vita quotidiana, parlato lento: ottimo per riconoscere formule ricorrenti.', ''),
+      r('ja', 'J2–J3', 'Anime', 'Yuru Camp△ (campeggio)', 'Streaming', 'Giapponesi se disponibili', 'Dialoghi tranquilli e chiari; vocabolario ripetuto.', ''),
+      r('ja', 'J2–J3', 'Video', 'NHK for School (clip brevi)', 'Sito NHK', 'Giapponesi', 'Spiegazioni per ragazzi con linguaggio semplice.', ''),
+      r('ja', 'J3–J4', 'Dorama', 'Midnight Diner (Shinya Shokudō)', 'Streaming', 'Giapponesi', 'Episodi brevi, dialoghi calmi e quotidiani, molti ripetuti.', ''),
+      r('ja', 'J3–J4', 'Lettura', 'NHK News Web Easy', 'Sito NHK', 'Con furigana', 'Notizie in giapponese semplificato: una notizia al giorno.', ''),
+      r('ja', 'J4–J5', 'Anime', 'Slice of life moderni (es. serie scolastiche o di lavoro)', 'Streaming', 'Giapponesi', 'Parlato informale e contrazioni (てる, ちゃう): usa le scene brevi e rivedile.', ''),
+      r('ja', 'J4–J5', 'Podcast', 'Podcast di conversazione per livello intermedio', 'App podcast', 'Trascrizioni se presenti', 'Dialoghi naturali; prima un ascolto senza testo, poi controllo.', ''),
+      r('ja', 'J5', 'TV', 'Notiziari e programmi di cucina/viaggio NHK', 'Sito NHK', 'Giapponesi', 'Parlato più veloce ma con supporto visivo.', '')
+    ]
+  };
+})(window.ST = window.ST || {});
+
 /* ---- ui/app ---- */
 /* SkillTree — guscio dell'app: stato, navigazione a pila, barra superiore, eventi, tempo attivo. */
 (function (ST) {
@@ -3500,9 +3602,13 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 
   /* ---------- Conversazione ramificata ---------- */
   X.startConvo = (lang, opts) => {
-    const pool = C.dialogues.filter(d => d.lang === lang);
+    const all = C.dialogues.filter(d => d.lang === lang);
+    const idx = Math.max(0, ...L.studied(lang).map(t => C.STAGES.indexOf(t.stage)));   // stage più alto con lezione letta
+    const rank = d => lang === 'en' ? ({ B1: 0, 'B1+': 2, B2: 3 })[d.level] : (+String(d.level).slice(1));
+    const maxRank = lang === 'en' ? idx : idx + 1;
+    const pool = all.filter(d => rank(d) <= maxRank);
     const seen = A.state.convoSeen = A.state.convoSeen || {};
-    const d = leastUsed(pool, 'id', seen);
+    const d = leastUsed(pool.length ? pool : all, 'id', seen);
     A.act = { kind: 'convo', d, node: d.start, score: 0, max: 0, lang, opts, fb: null, log: [] };
     A.go('convo');
   };
@@ -3514,11 +3620,12 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     }
     return '<div class="row"><button class="btn alt sm" data-act="back">← Esci</button></div><h1>🗨️ ' + E(a.d.title) + '</h1><p class="mute small">Livello ' + E(a.d.level) + ' · scegli la risposta migliore e poi <b>pronunciala ad alta voce</b>.</p>' +
       '<div class="card"><p><button class="btn alt sm" data-act="convo-say">🔊</button> <b>' + U.ruby(n.p) + '</b></p></div>' +
-      (a.fb ? '<div class="fb info">' + E(a.fb) + '</div><button class="btn block" style="margin-top:10px" data-act="convo-next">Continua →</button>' : n.c.map((c, i) => '<button class="opt" data-act="convo-pick" data-i="' + i + '">' + U.ruby(c.t) + '</button>').join(''));
+      (a.fb ? '<div class="fb info">' + E(a.fb) + '</div><p class="mute small">Ora di’ ad alta voce la risposta scelta (o una tua variante), poi confrontala col modello.</p><button class="btn alt sm" data-act="convo-sayc">🔊 Modello della tua risposta</button><button class="btn block" style="margin-top:10px" data-act="convo-next">Continua →</button>' : n.c.map((c, i) => '<button class="opt" data-act="convo-pick" data-i="' + i + '">' + U.ruby(c.t) + '</button>').join(''));
   };
   X['convo-say'] = () => { const a = A.act; if (!a || a.kind !== 'convo' || A.view().name !== 'convo') return; const n = a.d.nodes[a.node]; if (!n) return; ST.audio.speak(n.p, { lang: ttsLang(a.lang, a.d.accent) }).then(r => { if (!r.ok) A.toast(ST.audio.explain(r.reason), 4500); }); };
   ST.after.convo = () => { const a = A.act; if (a && a.node !== 'end' && !a.fb) setTimeout(() => X['convo-say'](), 300); };
-  X['convo-pick'] = el => { const a = A.act, n = a.d.nodes[a.node], c = n.c[+el.dataset.i]; a.score += c.q; a.max += 2; a.fb = '(' + c.q + '/2) ' + c.fb; a.pending = c.next; a.log.push({ t: c.t, fb: c.fb }); A.render(); };
+  X['convo-pick'] = el => { const a = A.act, n = a.d.nodes[a.node], c = n.c[+el.dataset.i]; a.score += c.q; a.max += 2; a.fb = '(' + c.q + '/2) ' + c.fb; a.pending = c.next; a.last = c.t; a.log.push({ t: c.t, fb: c.fb }); A.render(); };
+  X['convo-sayc'] = () => { const a = A.act; ST.audio.speak(a.last, { lang: ttsLang(a.lang, a.d.accent) }).then(r => { if (!r.ok) A.toast(ST.audio.explain(r.reason), 4500); }); };
   X['convo-next'] = () => { const a = A.act; a.node = a.pending; a.fb = null; A.render(); };
   X['convo-close'] = () => {
     const a = A.act, m = A.state.convoSeen; m[a.d.id] = { n: ((m[a.d.id] || {}).n || 0) + 1, last: U.today() };
@@ -3828,6 +3935,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
       t('✏️', 'Scrittura', 'testo libero', 'p-write') +
       t('🧪', 'Mini-esame', 'richiamo cumulativo', 'p-mini') +
       (lang === 'ja' ? t('あ', 'Kana Trainer', 'riconoscimento rapido', 'p-kana') : t('🎯', 'Prova B2', 'ascolto / lettura (indicatore)', 'go', 'data-view="b2"')) +
+      t('📺', 'Contenuti graduati', 'cosa ascoltare/leggere fuori dall’app', 'go', 'data-view="resources"') +
       '</div><h2>Generale</h2><div class="grid2">' + t('🧠', 'Allenamento mentale', '5 min · adattivo', 'startMental') + t('🥋', 'Judo 5′', 'sessione di oggi', 'go', 'data-view="judoSession"') + t('📚', 'Teoria di oggi', E(PL.THEORY_LABEL[PL.THEORY[U.weekday()]]), 'startTheory') + t('🔊', 'Diagnostica audio', 'voci, microfono', 'go', 'data-view="audioTest"') + '</div>' +
       '<p class="mute small" style="margin-top:12px">Tutte le attività qui sono libere: la missione giornaliera suggerisce l’ordine e i tempi.</p>';
   };
@@ -3843,6 +3951,21 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   X['p-write'] = () => { A.pb = null; X.startWrite(pl()); };
   X['p-mini'] = () => { A.pb = null; X.startMini(pl()); };
   X['p-kana'] = () => { A.pb = null; X.startKana(); };
+
+  /* ---- Contenuti graduati ---- */
+  V.resources = () => {
+    const lang = A.state.profile.pl || 'en', R = C.resources;
+    const idx = Math.max(0, ...L_studied(lang).map(t => C.STAGES.indexOf(t.stage)));
+    const bandNow = lang === 'en' ? (idx <= 1 ? 'B1' : idx === 2 ? 'B1+' : idx === 3 ? 'B2' : 'B2+') : 'J' + Math.min(5, idx);
+    const inBand = (b, cur) => lang === 'en' ? b === cur : (b.match(/J\d/g) || []).some(x => Math.abs(+x[1] - +cur[1]) <= 0) || (b.includes('–') && +cur[1] >= +b.match(/J(\d)/)[1] && +cur[1] <= +b.match(/–J(\d)/)[1]);
+    const items = R.items.filter(x => x.lang === lang);
+    const bands = [...new Set(items.map(x => x.band))];
+    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>📺 Contenuti graduati</h1><div class="seg"><button class="' + (lang === 'en' ? 'on' : '') + '" data-act="plang" data-l="en">🇬🇧 Inglese</button><button class="' + (lang === 'ja' ? 'on' : '') + '" data-act="plang" data-l="ja">🇯🇵 Giapponese</button></div>' +
+      '<div class="card"><h3>Come usarli</h3><ul class="small">' + R.method[lang].map(E).map(x => '<li>' + x + '</li>').join('') + '</ul></div>' +
+      '<p class="mute small">Livello suggerito dai tuoi progressi: <b>' + bandNow + '</b> (indicativo, non è una certificazione). I materiali sono indicati per nome: verifica disponibilità e lingua dei sottotitoli la prima volta.</p>' +
+      bands.map(b => '<h2>' + E(b) + (inBand(b, bandNow) ? ' <span class="tag good">per te ora</span>' : '') + '</h2><div class="list">' + items.filter(x => x.band === b).map(x => '<div class="item" style="align-items:flex-start"><span class="ic">' + ({ Podcast: '🎧', Video: '▶️', 'Video / TV': '📺', TV: '📺', Serie: '🎬', Anime: '🎬', Dorama: '🎬', Lettura: '📖', 'Notizie lente': '📰' })[x.type] + '</span><span class="tx"><b>' + E(x.title) + '</b><span>' + E(x.type) + (x.accent ? ' · ' + E(x.accent) : '') + ' · ' + E(x.where) + ' · sottotitoli: ' + E(x.subs) + '</span><span style="display:block;margin-top:4px">' + E(x.how) + '</span></span></div>').join('') + '</div>').join('');
+  };
+  const L_studied = lang => ST.labs.studied(lang);
 
   /* ---- Prove B2 (ascolto/lettura) ---- */
   V.b2 = () => {

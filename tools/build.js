@@ -5,7 +5,7 @@ const root = path.join(__dirname, '..');
 const ORDER = [
   'core/util', 'core/version', 'core/srs', 'core/progress', 'core/plan', 'core/kana', 'core/cards', 'core/motor', 'core/storage', 'core/audio', 'core/mental',
   'content/registry', 'content/subjects', 'content/judo', 'content/en-l0-l1', 'content/en-l2-l3', 'content/en-l4-l5', 'content/en-gate',
-  'content/ja-j0-j1', 'content/ja-j2-j3', 'content/ja-j4-j5', 'content/pills', 'content/extras',
+  'content/ja-j0-j1', 'content/ja-j2-j3', 'content/ja-j4-j5', 'content/pills', 'content/extras', 'content/dialogues', 'content/resources',
   'ui/app', 'ui/views-home', 'ui/runner', 'ui/topic', 'ui/labs', 'ui/mission', 'ui/views-other', 'ui/boot'
 ];
 exports.ORDER = ORDER;
