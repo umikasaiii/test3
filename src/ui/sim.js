@@ -10,7 +10,7 @@
     A.act = { kind: 'sim', inst, st: SIM.start(inst), last: null, debrief: null };
     A.go('sim');
   };
-  X.startSimRandom = () => X.startSim({ dataset: { id: U.pick(SIM.templates).id } });
+  X.startSimRandom = el => { const sj = el && el.dataset && el.dataset.subj || 'str'; X.startSim({ dataset: { id: U.pick(SIM.templates.filter(t => (t.subject || 'str') === sj)).id } }); };
   X['sim-pick'] = el => {
     const a = A.act; if (!a || a.kind !== 'sim' || a.debrief) return; const before = a.st;
     a.st = SIM.apply(a.inst, a.st, +el.dataset.i); a.last = { text: a.st.outcome.text, delta: Object.keys(a.inst.defs).map(k => [k, a.st.vars[k] - before.vars[k]]).filter(x => Math.abs(x[1]) > 1e-9), label: a.inst.cards[before.i].choices[+el.dataset.i].label };
@@ -19,7 +19,7 @@
       r.n++; r.best = Math.max(r.best, Math.round(d.quality * 100)); r.last = Math.round(d.quality * 100);
       if (d.quality >= 0.85 && r.level < 10) r.level++; else if (d.quality < 0.55 && r.level > 1) r.level--;
       s.simLog = (s.simLog || []).concat({ d: U.today(), tpl: a.inst.tpl, lv: a.inst.level, q: Math.round(d.quality * 100), final: Math.round(d.final) }).slice(-60);
-      A.xp(Math.round(d.quality * 20), 'sim'); A.subjectTouch('str'); A.save();
+      A.xp(Math.round(d.quality * 20), 'sim'); A.subjectTouch((SIM.templates.find(t => t.id === a.inst.tpl) || {}).subject || 'str'); A.save();
     }
     A.render();
   };
@@ -48,10 +48,10 @@
     return h;
   };
 
-  ST.simHub = () => {
-    const s = A.state, log = (s.simLog || []).slice(-8);
-    return '<h2>Simulazioni: applica la strategia in scenari inventati</h2><p class="mute small">Partite a turni con risorse e imprevisti. Dopo l’ultima decisione vedi quanto le tue scelte si avvicinano a quelle a valore atteso massimo (qualità delle decisioni). La difficoltà si adatta a te.</p><div class="list">' +
-      SIM.templates.map(t => { const r = (s.sim || {})[t.id]; return '<button class="item" data-act="startSim" data-id="' + E(t.id) + '"><span class="ic">' + t.icon + '</span><span class="tx"><b>' + E(t.title) + '</b><span>livello ' + (r ? r.level : 1) + (r && r.n ? ' · ' + r.n + ' partite · miglior qualità ' + r.best + '%' : ' · mai giocata') + '</span></span></button>'; }).join('') + '</div>' +
-      '<button class="btn alt" data-act="startSimRandom" style="margin-top:8px">🎲 Scenario a sorpresa</button>' + (log.length ? '<p class="small mute">Ultime partite: ' + log.map(x => x.q + '%').join(' · ') + '</p>' : '');
+  ST.simHub = (subj) => {
+    subj = subj || 'str'; const s = A.state, log = (s.simLog || []).filter(x => ((SIM.templates.find(t => t.id === x.tpl) || {}).subject || 'str') === subj).slice(-8);
+    return '<h2>Simulazioni: applica le decisioni in scenari inventati</h2><p class="mute small">Partite a turni con risorse e imprevisti. Dopo l’ultima decisione vedi quanto le tue scelte si avvicinano a quelle a valore atteso massimo (qualità delle decisioni). La difficoltà si adatta a te.</p><div class="list">' +
+      SIM.templates.filter(t => (t.subject || 'str') === subj).map(t => { const r = (s.sim || {})[t.id]; return '<button class="item" data-act="startSim" data-id="' + E(t.id) + '"><span class="ic">' + t.icon + '</span><span class="tx"><b>' + E(t.title) + '</b><span>livello ' + (r ? r.level : 1) + (r && r.n ? ' · ' + r.n + ' partite · miglior qualità ' + r.best + '%' : ' · mai giocata') + '</span></span></button>'; }).join('') + '</div>' +
+      '<button class="btn alt" data-act="startSimRandom" data-subj="' + subj + '" style="margin-top:8px">🎲 Scenario a sorpresa</button>' + (log.length ? '<p class="small mute">Ultime partite: ' + log.map(x => x.q + '%').join(' · ') + '</p>' : '');
   };
 })(window.ST = window.ST || {});

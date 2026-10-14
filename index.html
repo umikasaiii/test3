@@ -2423,7 +2423,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 
   const P = (id, title, icon, goal, extra) => C.defineSubject(Object.assign({ id, title, icon, primary: true, goal, stages: [st('L0', 'Pillole introduttive', 'Brevi lezioni distribuite nel tempo.')], pillOnly: true }, extra || {}));
   P('cyb', 'Cybersecurity', '🛡️', 'Dalle basi all’architettura: reti, sistemi, crittografia, sicurezza applicativa, difesa operativa, cloud e governance — in ottica difensiva ed etica, con laboratori generati e scenari.', { pillOnly: false, stages: [st('L0', 'Fondamenti', 'Principi, rischio, autenticazione, ingegneria sociale, malware (concetti), etica e legalità. Include le pillole introduttive.'), st('L1', 'Reti e sistemi', 'TCP/IP, DNS, TLS, firewall; Linux e Windows, hardening, container, backup.'), st('L2', 'Crittografia', 'Cifrari, hash, chiavi pubbliche, firme, PKI e gli errori più comuni.'), st('L3', 'Sicurezza applicativa e web', 'OWASP, sessioni, controllo degli accessi, API, ciclo di sviluppo sicuro.'), st('L4', 'Difesa operativa e analisi', 'Log e SIEM, rilevamento, incident response, forense, analisi statica dei malware, threat intelligence.'), st('L5', 'Architettura e avanzato', 'Threat modeling, cloud, zero trust, mitigazioni della memoria, reverse engineering (concetti), governance, test di penetrazione autorizzati, gestione delle vulnerabilità.')] });
-  P('sport', 'Scienze dello sport', '🏃', 'Fisiologia, allenamento, recupero e apprendimento motorio.');
+  P('sport', 'Scienze dello sport', '🏃', 'Fisiologia, forza, potenza, resistenza, periodizzazione per vari sport e nutrizione per salute e performance, con laboratori di calcolo verificati e scenari di preparazione.', { pillOnly: false, stages: [st('L0', 'Fisiologia e adattamento', 'Sistemi energetici, muscolo e sistema nervoso, supercompensazione, recupero. Include le pillole introduttive.'), st('L1', 'Forza e ipertrofia', 'Principi di carico, volume, intensità, tecnica e programmazione.'), st('L2', 'Potenza, velocità e mobilità', 'Pliometria, velocità, cambi di direzione, mobilità e prevenzione degli infortuni.'), st('L3', 'Resistenza e condizionamento', 'Zone, soglia, VO2max, HIIT, economia di movimento.'), st('L4', 'Periodizzazione e sport specifici', 'Blocchi, tapering, monitoraggio del carico e preparazione per sport di squadra, combattimento, resistenza e potenza.'), st('L5', 'Nutrizione per la salute', 'Energia, macro e micronutrienti, pattern alimentari, idratazione, lettura critica delle evidenze.'), st('L6', 'Nutrizione per la performance', 'Carboidrati, proteine, timing, integratori con evidenza, peso e composizione corporea in modo sicuro.')] });
   P('prog', 'Programmazione e AI', '💻', 'Fondamenti di programmazione e uso consapevole dell’intelligenza artificiale.');
   P('f1', 'Formula 1', '🏎️', 'Regolamenti, tecnica, strategia e storia della F1.');
   P('str', 'Strategia e logica', '♟️', 'Decisioni, teoria dei giochi, economia, strategia militare, ottimizzazione e scacchi: dal pensiero strategico al calcolo concreto, con laboratori generati e verificati.', { pillOnly: false, stages: [st('L0', 'Pensiero strategico', 'Obiettivi, vincoli, incertezza e decisioni. Include le pillole introduttive.'), st('L1', 'Teoria dei giochi', 'Minimax, matrici di payoff, equilibrio di Nash, dilemma del prigioniero, strategie miste.'), st('L2', 'Giochi combinatori e ottimizzazione', 'Nim e Grundy, alberi di gioco, euristiche, programmazione dinamica, grafi, probabilità nei giochi.'), st('L3', 'Scacchi: fondamenti e tattica', 'Principi, matti elementari, motivi tattici, finali essenziali, metodo di calcolo.'), st('L4', 'Scacchi: strategia posizionale', 'Strutture, colonne aperte, qualità, coppia degli alfieri, iniziativa, analisi delle partite.'), st('L5', 'Decisioni avanzate e competizione', 'Utilità, Bayes, Kelly, negoziazione, strategia competitiva, errori strategici.'), st('L6', 'Strategia economica', 'Costi e margini, domanda e prezzo ottimo, valore attuale, vantaggio comparato, oligopolio, aste e incentivi, strategia d’impresa.'), st('L7', 'Strategia militare e conflitto', 'Sun Tzu, Clausewitz, principi della guerra, Lanchester, logistica, OODA, deterrenza (analisi storica e concettuale).'), st('L8', 'Ottimizzazione e pianificazione avanzata', 'Programmazione lineare e dinamica, grafi e flussi, cammino critico, assegnamento, euristiche e metaeuristiche, compromessi multi-obiettivo.')] });
@@ -10733,6 +10733,18 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
 
 })(window.ST = window.ST || {});
 
+/* ---- content/spo-l-fisiologia ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/spo-l-forza ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/spo-l-resistenza ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/spo-l-nutrizione ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
 /* ---- content/str-puzzles ---- */
 (function (ST) {
   'use strict';
@@ -11875,6 +11887,9 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     ]
   });
 })(window.ST = window.ST || {});
+
+/* ---- content/sim-e ---- */
+(function (ST) {})(window.ST = window.ST || {});
 
 /* ---- content/en-l0-l1 ---- */
 /* Inglese — stage L0 (fondamenta B1) e L1 (B1 solido). */
@@ -19121,6 +19136,11 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       const nextL = C.topicsOf('cyb').filter(t => !t.pill && !t.id.startsWith('cyb-scenario')).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
       if (nextL) return nextL;
     }
+    if (subj === 'sport') {
+      const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied')), nextL = C.topicsOf('sport').filter(t => !t.pill).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
+      if (ST.sport && Math.floor(U.diffDays('2026-01-05', U.today()) / 7) % 2 === 1) return { id: 'spo-lab', title: 'Laboratorio di scienze dello sport (carichi, calcoli, nutrizione, scenari)' };
+      if (nextL) return nextL;
+    }
     if (subj === 'str') {
       if (slot === 'strategylab') return { id: 'str-lab', title: 'Laboratorio di strategia (Nash, minimax, scacchi, ottimizzazione…)' };
       const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied'));
@@ -19150,6 +19170,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     if (!pill) { A.toast('Nessuna pillola disponibile.'); return; }
     A.ctx = 'general'; A.pb = { general: 'theory' };
     if (slot === 'cyberlab') { X.startCyber(); return; }
+    if (pill.id === 'spo-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'sport' } }); else X.startSport(); return; }
     if (slot === 'strategylab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom(); else X.startStrategy(); return; }
     const r = P.topicRec(A.state, pill.id);
     if (r.studied && !P.atLeast(P.topicStatus(A.state, pill.id), 'practiced')) X.startPractice(pill.id);
@@ -19437,7 +19458,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     A.act = { kind: 'sim', inst, st: SIM.start(inst), last: null, debrief: null };
     A.go('sim');
   };
-  X.startSimRandom = () => X.startSim({ dataset: { id: U.pick(SIM.templates).id } });
+  X.startSimRandom = el => { const sj = el && el.dataset && el.dataset.subj || 'str'; X.startSim({ dataset: { id: U.pick(SIM.templates.filter(t => (t.subject || 'str') === sj)).id } }); };
   X['sim-pick'] = el => {
     const a = A.act; if (!a || a.kind !== 'sim' || a.debrief) return; const before = a.st;
     a.st = SIM.apply(a.inst, a.st, +el.dataset.i); a.last = { text: a.st.outcome.text, delta: Object.keys(a.inst.defs).map(k => [k, a.st.vars[k] - before.vars[k]]).filter(x => Math.abs(x[1]) > 1e-9), label: a.inst.cards[before.i].choices[+el.dataset.i].label };
@@ -19446,7 +19467,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       r.n++; r.best = Math.max(r.best, Math.round(d.quality * 100)); r.last = Math.round(d.quality * 100);
       if (d.quality >= 0.85 && r.level < 10) r.level++; else if (d.quality < 0.55 && r.level > 1) r.level--;
       s.simLog = (s.simLog || []).concat({ d: U.today(), tpl: a.inst.tpl, lv: a.inst.level, q: Math.round(d.quality * 100), final: Math.round(d.final) }).slice(-60);
-      A.xp(Math.round(d.quality * 20), 'sim'); A.subjectTouch('str'); A.save();
+      A.xp(Math.round(d.quality * 20), 'sim'); A.subjectTouch((SIM.templates.find(t => t.id === a.inst.tpl) || {}).subject || 'str'); A.save();
     }
     A.render();
   };
@@ -19475,11 +19496,11 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     return h;
   };
 
-  ST.simHub = () => {
-    const s = A.state, log = (s.simLog || []).slice(-8);
-    return '<h2>Simulazioni: applica la strategia in scenari inventati</h2><p class="mute small">Partite a turni con risorse e imprevisti. Dopo l’ultima decisione vedi quanto le tue scelte si avvicinano a quelle a valore atteso massimo (qualità delle decisioni). La difficoltà si adatta a te.</p><div class="list">' +
-      SIM.templates.map(t => { const r = (s.sim || {})[t.id]; return '<button class="item" data-act="startSim" data-id="' + E(t.id) + '"><span class="ic">' + t.icon + '</span><span class="tx"><b>' + E(t.title) + '</b><span>livello ' + (r ? r.level : 1) + (r && r.n ? ' · ' + r.n + ' partite · miglior qualità ' + r.best + '%' : ' · mai giocata') + '</span></span></button>'; }).join('') + '</div>' +
-      '<button class="btn alt" data-act="startSimRandom" style="margin-top:8px">🎲 Scenario a sorpresa</button>' + (log.length ? '<p class="small mute">Ultime partite: ' + log.map(x => x.q + '%').join(' · ') + '</p>' : '');
+  ST.simHub = (subj) => {
+    subj = subj || 'str'; const s = A.state, log = (s.simLog || []).filter(x => ((SIM.templates.find(t => t.id === x.tpl) || {}).subject || 'str') === subj).slice(-8);
+    return '<h2>Simulazioni: applica le decisioni in scenari inventati</h2><p class="mute small">Partite a turni con risorse e imprevisti. Dopo l’ultima decisione vedi quanto le tue scelte si avvicinano a quelle a valore atteso massimo (qualità delle decisioni). La difficoltà si adatta a te.</p><div class="list">' +
+      SIM.templates.filter(t => (t.subject || 'str') === subj).map(t => { const r = (s.sim || {})[t.id]; return '<button class="item" data-act="startSim" data-id="' + E(t.id) + '"><span class="ic">' + t.icon + '</span><span class="tx"><b>' + E(t.title) + '</b><span>livello ' + (r ? r.level : 1) + (r && r.n ? ' · ' + r.n + ' partite · miglior qualità ' + r.best + '%' : ' · mai giocata') + '</span></span></button>'; }).join('') + '</div>' +
+      '<button class="btn alt" data-act="startSimRandom" data-subj="' + subj + '" style="margin-top:8px">🎲 Scenario a sorpresa</button>' + (log.length ? '<p class="small mute">Ultime partite: ' + log.map(x => x.q + '%').join(' · ') + '</p>' : '');
   };
 })(window.ST = window.ST || {});
 

@@ -67,6 +67,11 @@
       const nextL = C.topicsOf('cyb').filter(t => !t.pill && !t.id.startsWith('cyb-scenario')).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
       if (nextL) return nextL;
     }
+    if (subj === 'sport') {
+      const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied')), nextL = C.topicsOf('sport').filter(t => !t.pill).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
+      if (ST.sport && Math.floor(U.diffDays('2026-01-05', U.today()) / 7) % 2 === 1) return { id: 'spo-lab', title: 'Laboratorio di scienze dello sport (carichi, calcoli, nutrizione, scenari)' };
+      if (nextL) return nextL;
+    }
     if (subj === 'str') {
       if (slot === 'strategylab') return { id: 'str-lab', title: 'Laboratorio di strategia (Nash, minimax, scacchi, ottimizzazione…)' };
       const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied'));
@@ -96,6 +101,7 @@
     if (!pill) { A.toast('Nessuna pillola disponibile.'); return; }
     A.ctx = 'general'; A.pb = { general: 'theory' };
     if (slot === 'cyberlab') { X.startCyber(); return; }
+    if (pill.id === 'spo-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'sport' } }); else X.startSport(); return; }
     if (slot === 'strategylab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom(); else X.startStrategy(); return; }
     const r = P.topicRec(A.state, pill.id);
     if (r.studied && !P.atLeast(P.topicStatus(A.state, pill.id), 'practiced')) X.startPractice(pill.id);
