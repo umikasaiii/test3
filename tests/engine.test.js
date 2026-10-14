@@ -471,3 +471,19 @@ test('Strategia: laboratori verificati in modo indipendente (Nash, EV, minimax, 
   for (let i = 0; i < 100; i++) { const it = SG.make('sched', 1 + (i % 10)); let best = 0; const n = it.iv.length; for (let m = 0; m < (1 << n); m++) { const ch = it.iv.filter((_, k) => m >> k & 1).sort((a, b) => a[0] - b[0]); if (ch.every((x, k) => k === 0 || ch[k - 1][1] <= x[0])) best = Math.max(best, ch.length); } assert.equal(+it.a[0], best); }
   for (let i = 0; i < 100; i++) { const it = SG.make('path', 1 + (i % 10)), n = it.n, D = Array.from({ length: n }, (_, a) => Array.from({ length: n }, (_, b) => a === b ? 0 : Infinity)); it.edges.forEach(([a, b, w]) => { D[a][b] = Math.min(D[a][b], w); D[b][a] = Math.min(D[b][a], w); }); for (let k = 0; k < n; k++) for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) if (D[a][k] + D[k][b] < D[a][b]) D[a][b] = D[a][k] + D[k][b]; assert.equal(+it.a[0], D[0][n - 1]); }
 });
+
+test('Simulatore di strategia: expectimax coerente con la simulazione Monte Carlo, rimpianto e qualità ben definiti', () => {
+  const SIM = ST.sim; assert.ok(SIM.templates.length >= 3);
+  for (const tpl of SIM.templates) for (const lv of [2, 7]) {
+    const inst = SIM.make(tpl.id, lv, U.rng(11 + lv)), top = SIM.value(inst, 0, inst.vars0); let sum = 0, sq = 0; const N = 1500, rng = U.rng(99);
+    for (let k = 0; k < N; k++) { const f = SIM.utility(inst, SIM.autoplay(inst, 'best', rng).vars); sum += f; sq += f * f; }
+    const mean = sum / N, se = Math.sqrt(Math.max(0, sq / N - mean * mean) / N);
+    assert.ok(Math.abs(mean - top) <= 4 * se + 0.02 * Math.abs(top) + 0.5, tpl.id + ' lv' + lv + ': MC ' + mean.toFixed(1) + ' vs EV ' + top.toFixed(1));
+    let rnd = 0; for (let k = 0; k < 400; k++) rnd += SIM.utility(inst, SIM.autoplay(inst, 'random', rng).vars); assert.ok(rnd / 400 <= top + 0.5, 'la politica ottima batte quella casuale');
+    const b = SIM.debrief(inst, SIM.autoplay(inst, 'best', rng)); let wq = 0, rq = 0; for (let k = 0; k < 150; k++) { wq += SIM.debrief(inst, SIM.autoplay(inst, 'worst', rng)).quality; rq += SIM.debrief(inst, SIM.autoplay(inst, 'random', rng)).quality; }
+    assert.ok(b.quality > 0.999 && b.range > 0 && wq / 150 < rq / 150 + 0.02 && rq / 150 < 0.95, tpl.id + ' qualità worst ' + (wq / 150).toFixed(2) + ' random ' + (rq / 150).toFixed(2));
+    inst.cards.forEach(c => c.choices.forEach(ch => assert.ok(Math.abs(ch.out.reduce((s, o) => s + o.p, 0) - 1) < 0.011)));
+  }
+  const a = SIM.make('blotto', 5, U.rng(5)), b2 = SIM.make('blotto', 5, U.rng(5)); assert.equal(a.cards.map(c => c.text).join('|'), b2.cards.map(c => c.text).join('|'));
+  const r = SIM.make('rischio', 5, U.rng(3)); let st = SIM.start(r); st = SIM.apply(r, st, 3, U.rng(1), 1); assert.ok(st.vars.capitale >= 0 && st.vars.capitale < 100);
+});

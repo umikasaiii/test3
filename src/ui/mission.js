@@ -96,7 +96,7 @@
     if (!pill) { A.toast('Nessuna pillola disponibile.'); return; }
     A.ctx = 'general'; A.pb = { general: 'theory' };
     if (slot === 'cyberlab') { X.startCyber(); return; }
-    if (slot === 'strategylab') { X.startStrategy(); return; }
+    if (slot === 'strategylab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom(); else X.startStrategy(); return; }
     const r = P.topicRec(A.state, pill.id);
     if (r.studied && !P.atLeast(P.topicStatus(A.state, pill.id), 'practiced')) X.startPractice(pill.id);
     else if (r.studied && P.atLeast(P.topicStatus(A.state, pill.id), 'practiced') && !P.atLeast(P.topicStatus(A.state, pill.id), 'verified') && U.diffDays(r.studied, U.today()) >= 1) X.startTest(pill.id);

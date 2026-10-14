@@ -93,6 +93,12 @@ const mock = () => {
   await page.evaluate(() => ST.runner.start({ title: 'Scacchiera', kind: 'free', ctx: 'general', items: [{ t: 'mc', q: 'Prova', o: ['a', 'b', 'c', 'd'], a: 0, fen: ST.chess.START }] })); await page.waitForTimeout(150);
   ok(await page.evaluate(() => document.querySelectorAll('.board .sq').length === 64 && document.querySelectorAll('.board .w').length === 16 && document.querySelectorAll('.board .k').length === 16), 'scacchiera: 64 case e 32 pezzi'); await reset();
   await page.evaluate(() => { ST.acts['st-focus'](); }); await step('priorità strategia', () => ST.app.go('general'), /Missione generale/); await page.evaluate(() => ST.acts['st-focus']());
+  // simulatore di strategia: ogni scenario viene giocato fino al debrief
+  for (const id of await page.evaluate(() => ST.sim.templates.map(t => t.id))) {
+    await page.evaluate(id => ST.acts.startSim({ dataset: { id } }), id); await page.waitForTimeout(80);
+    let guard = 0; while (guard++ < 12 && !/qualità delle decisioni/.test(await body())) { await page.click('[data-act="sim-pick"]'); await page.waitForTimeout(40); }
+    ok(/qualità delle decisioni/.test(await body()) && !errors.length, 'simulazione ' + id + ' giocata fino al debrief'); await page.evaluate(() => ST.acts['sim-close']()); await reset();
+  }
   await step('hub mentale', () => ST.app.go('subject', { id: 'mnt' }), /Allenamento mentale/);
   for (const id of await page.evaluate(() => ST.content.topicsOf('grp').map(t => t.id))) await step('lezione judo ' + id, id => { ST.app.state.topics[id] = { page: 0, studied: ST.util.addDays(ST.util.today(), -3), ex: {}, tests: [], retests: [] }; ST.acts.startTest(id); }, /Verifica/, id);
   await step('tecnica', () => ST.app.go('technique', { id: 'posture' }), /Indicazioni/);

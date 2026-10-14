@@ -9587,16 +9587,589 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
 })(window.ST = window.ST || {});
 
 /* ---- content/sim-a ---- */
-/* stub */
-(function (ST) { 'use strict'; })(window.ST = window.ST || {});
+/* SkillTree — scenari di strategia a carte (serie A): lancio di un prodotto e gestione di una crisi. Tutto inventato e didattico. */
+(function (ST) {
+  'use strict';
+  const SIM = ST.sim;
+  const o = (p, fx, text) => ({ p, fx, text });
+  const ch = (label, principle, out, hint) => hint ? { label, principle, hint, out } : { label, principle, out };
+
+  /* ---- 1) Lanciare un prodotto in 12 settimane ---- */
+  SIM.register({
+    id: 'progetto', title: 'Lanciare un prodotto in 12 settimane', icon: '🚀',
+    intro: 'Guidi il lancio di un’app gestionale per piccoli studi professionali: hai un budget limitato e 12 settimane di tempo. Ogni turno porta una decisione (assunzioni, funzionalità, test, marketing, imprevisti). L’obiettivo è arrivare al lancio con un prodotto solido e una buona reputazione, senza esaurire budget e tempo: qualità e reputazione contano di più, budget e settimane residue sono un margine di sicurezza, e restare a secco o sfondare la scadenza è penalizzato.',
+    vars: {
+      budget: { label: 'Budget', start: 100, min: -150, max: 300, unit: 'k€', tight: true },
+      tempo: { label: 'Tempo residuo', start: 12, min: -15, max: 30, unit: 'settimane', tight: true },
+      qualita: { label: 'Qualità del prodotto', start: 55, min: -100, max: 200 },
+      reputazione: { label: 'Reputazione', start: 45, min: -100, max: 200 }
+    },
+    weights: { budget: 0.5, tempo: 4, qualita: 1, reputazione: 0.9 },
+    penalties: [],
+    turns: 5,
+    utilText: '0,5 × budget + 4 × settimane residue + qualità + 0,9 × reputazione; sforare budget o scadenza (valori negativi) fa perdere punti in modo proporzionale',
+    cards: [
+      { id: 'pr-team', lv: 1, text: 'Serve un secondo sviluppatore backend: il lavoro previsto è di circa 20 settimane-persona. Un’assunzione costa 18 k€ ma richiede 2 settimane di inserimento; un’agenzia costa 28 k€ ed è subito operativa; un freelance costa 10 k€ ma l’affidabilità è incerta.', choices: [
+        ch('Assumi uno sviluppatore', 'Costo opportunità', [o(1, { budget: -18, tempo: -2, qualita: 10 }, 'Si inserisce bene ma l’onboarding costa due settimane.')], 'Investi in capacità stabile, pagando in tempo.'),
+        ch('Affidi il backend a un’agenzia', 'Collo di bottiglia', [o(1, { budget: -28, tempo: -0.5, qualita: 6 }, 'Parte subito, ma costa tanto e conosce poco il prodotto.')]),
+        ch('Prendi un freelance', 'Informazione prima di decidere', [o(0.7, { budget: -10, tempo: -1, qualita: 5 }, 'Il freelance consegna in tempo.'), o(0.3, { budget: -10, tempo: -2.5, qualita: -4, reputazione: -3 }, 'Consegne in ritardo e codice da rifare.')])
+      ] },
+      { id: 'pr-mvp', lv: 1, text: 'Il backlog ha 30 funzionalità. Un MVP con le 8 essenziali richiede poco tempo; fare tutto richiede molto di più; una via di mezzo con 15 funzioni è un compromesso.', choices: [
+        ch('Solo MVP essenziale', 'Reversibilità', [o(1, { budget: -4, tempo: -1, qualita: 4, reputazione: 1 }, 'Prodotto snello, pronto presto: si può ampliare dopo il lancio.')]),
+        ch('Tutte le funzionalità', 'Costo opportunità', [o(1, { budget: -10, tempo: -3, qualita: 12, reputazione: 3 }, 'Prodotto ricco, ma settimane preziose consumate.')]),
+        ch('15 funzionalità', 'Anticipare il secondo ordine', [o(0.75, { budget: -7, tempo: -2, qualita: 8, reputazione: 2 }, 'Equilibrio buono.'), o(0.25, { budget: -8, tempo: -3, qualita: 5 }, 'Le integrazioni si rivelano più lunghe del previsto.')])
+      ] },
+      { id: 'pr-beta', lv: 2, text: 'Il prodotto è quasi pronto. Una beta chiusa con 40 studi richiede due settimane e un po’ di supporto; saltarla fa risparmiare tempo ma lascia i bug alla produzione.', choices: [
+        ch('Beta chiusa di 2 settimane', 'Informazione prima di decidere', [o(1, { budget: -3, tempo: -2, qualita: 8, reputazione: 3 }, 'I tester trovano e fanno correggere i difetti peggiori.')]),
+        ch('Mini-beta con 15 utenti, 1 settimana', 'Ridondanza/buffer', [o(1, { budget: -2, tempo: -1, qualita: 4, reputazione: 1 }, 'Qualche difetto emerge, non tutti.')]),
+        ch('Salta la beta', 'Rischio asimmetrico', [o(0.65, { tempo: 0.5, qualita: 0 }, 'Nessun problema evidente: hai guadagnato tempo.'), o(0.35, { qualita: -12, reputazione: -10, budget: -4 }, 'Bug grave al lancio, utenti scontenti e hotfix urgenti.')])
+      ] },
+      { id: 'pr-prezzo', lv: 2, text: 'Devi fissare il prezzo. Un piano premium a 49 €/mese dà margini ma meno clienti; 19 €/mese conquista quota ma sacrifica ricavi; un piano gratuito limitato attira utenti ma costa supporto.', choices: [
+        ch('Premium 49 €/mese', 'Costo opportunità', [o(0.7, { budget: 10, reputazione: 3 }, 'Gli studi più strutturati accettano e il margine è buono.'), o(0.3, { budget: 2, reputazione: -2 }, 'Poche iscrizioni nei primi giorni.')]),
+        ch('Penetrazione a 19 €/mese', 'Anticipare il secondo ordine', [o(1, { budget: -4, reputazione: 8 }, 'Molti iscritti ma costi di supporto maggiori.')]),
+        ch('Freemium con limiti', 'Reversibilità', [o(0.75, { budget: -8, reputazione: 10, tempo: -0.5 }, 'Buon passaparola: i gratuiti portano nuovi clienti.'), o(0.25, { budget: -8, reputazione: 2, tempo: -1 }, 'Pochi passano al piano a pagamento.')])
+      ] },
+      { id: 'pr-stampa', lv: 3, text: 'Un blog di settore ti invita a un’intervista esclusiva tra tre giorni. Il prodotto non è del tutto stabile: una demo dal vivo può impressionare o fallire.', choices: [
+        ch('Accetti con demo dal vivo', 'Rischio asimmetrico', [o(0.7, { reputazione: 12, tempo: -0.5 }, 'La demo funziona: grande visibilità.'), o(0.3, { reputazione: -10, tempo: -1 }, 'La demo si blocca in diretta: pessima figura.')]),
+        ch('Mandi un comunicato e video registrato', 'Reversibilità', [o(1, { reputazione: 4, budget: -2 }, 'Visibilità modesta ma controllata.')]),
+        ch('Rifiuti e prosegui con lo sviluppo', 'Costo opportunità', [o(1, { tempo: 0.5, reputazione: -1 }, 'Più tempo per lavorare, occasione persa.')])
+      ] },
+      { id: 'pr-debito', lv: 3, text: 'Il codice scritto in fretta ha accumulato debito tecnico: ogni modifica è più lenta e i difetti aumentano. Un refactoring completo richiede una settimana e mezza.', choices: [
+        ch('Refactoring completo', 'Ridondanza/buffer', [o(1, { tempo: -1.5, budget: -5, qualita: 9 }, 'Il codice è più pulito e stabile.')]),
+        ch('Refactoring solo dei moduli critici', 'Collo di bottiglia', [o(1, { tempo: -0.5, budget: -2, qualita: 4 }, 'Risolti i punti più a rischio.')]),
+        ch('Rimandi a dopo il lancio', 'Anticipare il secondo ordine', [o(0.7, { qualita: -2 }, 'Per ora regge.'), o(0.3, { qualita: -12, tempo: -1 }, 'Il sistema diventa instabile e perdi giorni a correggerlo.')])
+      ] },
+      { id: 'pr-marketing', lv: 4, text: 'Quando far partire il marketing? Lanciare la campagna ora crea attesa (15 k€) ma se il prodotto slitta perde credibilità; farlo a ridosso del lancio costa meno ma rende meno; una lista d’attesa organica costa poco.', choices: [
+        ch('Campagna anticipata', 'Anticipare il secondo ordine', [o(0.75, { budget: -15, reputazione: 10 }, 'Molta attesa: la lista d’attesa cresce.'), o(0.25, { budget: -15, reputazione: -8, tempo: -0.5 }, 'Il prodotto slitta e l’attesa si trasforma in critica.')]),
+        ch('Campagna a ridosso del lancio', 'Costo opportunità', [o(1, { budget: -10, reputazione: 6 }, 'Effetto buono e senza rischi di ritardo.')]),
+        ch('Lista d’attesa organica', 'Ridondanza/buffer', [o(1, { budget: -2, reputazione: 3, tempo: -0.5 }, 'Pochi costi, poco impatto.')])
+      ] },
+      { id: 'pr-fornitore', lv: 5, text: 'Il fornitore dell’infrastruttura per la sicurezza dei dati annuncia un ritardo di due settimane. Un fornitore alternativo premium costa 14 k€ ed è pronto subito; una soluzione cloud temporanea costa meno ma va poi migrata.', choices: [
+        ch('Attendi il fornitore', 'Collo di bottiglia', [o(1, { tempo: -2 }, 'Perdi due settimane ma nessuna spesa.')]),
+        ch('Passi al fornitore alternativo premium', 'Costo opportunità', [o(1, { budget: -14, tempo: -0.5 }, 'Attivo quasi subito, ma costoso.')]),
+        ch('Soluzione cloud temporanea', 'Reversibilità', [o(0.7, { budget: -6, tempo: -1, qualita: -2 }, 'Funziona, con un po’ di lavoro di migrazione.'), o(0.3, { budget: -8, tempo: -2, qualita: -5 }, 'La migrazione è più complessa del previsto.')])
+      ] },
+      { id: 'pr-dev', lv: 5, text: 'La sviluppatrice chiave comunica che si dimetterà tra due settimane per un’offerta migliore. Conosce a fondo il codice del modulo di fatturazione.', choices: [
+        ch('Controfferta (+12 k€)', 'Costo opportunità', [o(0.8, { budget: -12 }, 'Accetta e resta fino al lancio.'), o(0.2, { budget: -12, tempo: -2, qualita: -6 }, 'Se ne va comunque e il budget è sprecato.')]),
+        ch('Passaggio di consegne e sostituto', 'Reversibilità', [o(1, { budget: -8, tempo: -2, qualita: -3 }, 'Perdi tempo ma la conoscenza si trasferisce.')]),
+        ch('Redistribuisci il carico sul team', 'Collo di bottiglia', [o(1, { tempo: -1, qualita: -8 }, 'Il team regge ma la qualità cala.')])
+      ] },
+      { id: 'pr-reclamo', lv: 6, text: 'Uno studio pilota, tra i più influenti nel settore, segnala per iscritto un difetto nel calcolo dei compensi. Minaccia di sospendere l’utilizzo.', choices: [
+        ch('Correzione immediata dedicata', 'Informazione prima di decidere', [o(1, { tempo: -1, budget: -3, reputazione: 6, qualita: 3 }, 'Lo studio apprezza la rapidità e lo racconta ad altri.')]),
+        ch('Rispondi e metti in roadmap', 'Reversibilità', [o(0.7, { reputazione: 1 }, 'Lo studio accetta di aspettare.'), o(0.3, { reputazione: -10 }, 'Lo studio scrive pubblicamente della delusione.')]),
+        ch('Rimborso e scuse', 'Costo opportunità', [o(1, { budget: -6, reputazione: 4 }, 'Lo studio resta, ma il difetto non è risolto.')])
+      ] },
+      { id: 'pr-concorrente', lv: 6, text: 'Un concorrente annuncia che lancerà un prodotto simile tra tre settimane, prima di te. Hai ancora margine di preparazione.', choices: [
+        ch('Accelera il lancio tagliando funzionalità', 'Collo di bottiglia', [o(1, { tempo: 1.5, qualita: -8, reputazione: 2 }, 'Arrivi in contemporanea, con meno funzioni.')]),
+        ch('Differenzia con una funzione esclusiva', 'Anticipare il secondo ordine', [o(0.7, { budget: -12, tempo: -1.5, qualita: 6, reputazione: 4 }, 'Il tuo prodotto spicca rispetto al concorrente.'), o(0.3, { budget: -12, tempo: -2, qualita: 2, reputazione: -4 }, 'La funzione non convince e hai perso tempo.')]),
+        ch('Mantieni la rotta', 'Informazione prima di decidere', [o(0.5, { reputazione: 0 }, 'Il mercato non si accorge dell’anticipo.'), o(0.5, { reputazione: -8 }, 'Il concorrente cattura l’attenzione e sembri secondo.')])
+      ] },
+      { id: 'pr-investitore', lv: 7, text: 'Un investitore propone 30 k€ aggiuntivi se anticipi il lancio di due settimane. Il prodotto è fragile e anticipare significa tagliare test.', choices: [
+        ch('Accetti l’offerta', 'Rischio asimmetrico', [o(0.6, { budget: 30, tempo: 2, qualita: -10 }, 'Lanci in anticipo con fondi extra ma qualità più bassa.'), o(0.4, { budget: 30, tempo: 1, qualita: -14, reputazione: -8 }, 'Lancio frettoloso, bug e proteste.')]),
+        ch('Rifiuti e mantieni il piano', 'Reversibilità', [o(1, {}, 'Niente cambia.')]),
+        ch('Negozi 15 k€ per un anticipo di una settimana', 'Informazione prima di decidere', [o(0.5, { budget: 15, tempo: 1, qualita: -4 }, 'L’investitore accetta il compromesso.'), o(0.5, { reputazione: -4, tempo: -0.5 }, 'La trattativa ti distrae e l’investitore si raffredda.')])
+      ] },
+      { id: 'pr-audit', lv: 8, text: 'Il tuo prodotto tratta dati sensibili di clienti. Un audit di sicurezza esterno costa 10 k€ e richiede una settimana e mezza; una checklist interna è rapida ma meno sicura.', choices: [
+        ch('Audit esterno completo', 'Ridondanza/buffer', [o(1, { budget: -10, tempo: -1.5, qualita: 6, reputazione: 3 }, 'Vulnerabilità corrette: dormi tranquillo.')]),
+        ch('Checklist interna', 'Costo opportunità', [o(0.8, { budget: -1, tempo: -0.5, qualita: 2 }, 'Nessun problema rilevato.'), o(0.2, { qualita: -10, reputazione: -20, tempo: -1 }, 'Si scopre una falla dopo il lancio: grave danno di immagine.')]),
+        ch('Rimanda dopo il lancio', 'Rischio asimmetrico', [o(0.55, { tempo: 0.5 }, 'Nulla di grave, hai guadagnato tempo.'), o(0.45, { reputazione: -18, qualita: -8, budget: -6 }, 'Un incidente di sicurezza costa tanto.')])
+      ] },
+      { id: 'pr-straordinari', lv: 9, text: 'Mancano pochi giorni e il team è indietro. Puoi chiedere straordinari pagati (6 k€), spostare la data o tagliare ulteriormente.', choices: [
+        ch('Straordinari pagati', 'Collo di bottiglia', [o(0.65, { budget: -6, tempo: 2 }, 'Il team recupera due settimane.'), o(0.35, { budget: -6, tempo: 1, qualita: -12 }, 'Stanchezza e errori: qualità in calo.')]),
+        ch('Sposti la data di una settimana', 'Reversibilità', [o(1, { tempo: -1, reputazione: -3 }, 'Il team lavora con calma ma perdi un po’ di credibilità.')]),
+        ch('Tagli altre funzionalità', 'Costo opportunità', [o(1, { tempo: 1.5, qualita: -7, reputazione: -2 }, 'Prodotto più asciutto, lancio in tempo.')])
+      ] },
+      { id: 'pr-enterprise', lv: 10, text: 'Un grande gruppo propone un contratto da 25 k€ per personalizzazioni ad hoc; ti richiederebbe tre settimane di lavoro. In alternativa propone un contratto standard da 10 k€.', choices: [
+        ch('Accetti le personalizzazioni', 'Rischio asimmetrico', [o(0.7, { budget: 25, tempo: -3, qualita: -6, reputazione: 6 }, 'Incassi ma consumi quasi tutto il margine di tempo.'), o(0.3, { budget: 10, tempo: -3.5, qualita: -8, reputazione: -4 }, 'Le richieste crescono e il contratto si riduce.')]),
+        ch('Offri il contratto standard', 'Costo opportunità', [o(1, { budget: 10, tempo: -0.5, reputazione: 2 }, 'Incasso modesto, poco impatto sul piano.')]),
+        ch('Declini per concentrarti sul lancio', 'Reversibilità', [o(1, { tempo: 0.5, reputazione: -1 }, 'Il piano resta intatto.')])
+      ] }
+    ]
+  });
+
+  /* ---- 2) Gestire una crisi: blackout in un centro congressi ---- */
+  SIM.register({
+    id: 'crisi', title: 'Gestire una crisi: blackout in un centro congressi con 800 persone', icon: '🚨',
+    intro: 'Sei il responsabile dell’evento: un blackout improvviso ha lasciato al buio un centro congressi con 800 partecipanti, tra cui un ospite istituzionale. Hai a disposizione squadre e mezzi (steward, medici, tecnici) e una finestra di tempo limitata prima che le batterie di emergenza si esauriscano. L’obiettivo è mantenere alta la sicurezza e la fiducia dei presenti spendendo con giudizio squadre e minuti: sicurezza e fiducia sono ciò che conta, restare senza squadre o senza tempo è penalizzato.',
+    vars: {
+      risorse: { label: 'Squadre e mezzi', start: 12, min: -20, max: 30, unit: 'squadre', tight: true },
+      tempo: { label: 'Tempo disponibile', start: 70, min: -100, max: 200, unit: 'min', tight: true },
+      sicurezza: { label: 'Sicurezza', start: 70, min: -100, max: 200 },
+      fiducia: { label: 'Fiducia dei presenti', start: 70, min: -100, max: 200 }
+    },
+    weights: { risorse: 2, tempo: 0.5, sicurezza: 1.3, fiducia: 0.7 },
+    penalties: [],
+    turns: 5,
+    utilText: '2 × squadre + 0,5 × minuti + 1,3 × sicurezza + 0,7 × fiducia; esaurire squadre o minuti (valori negativi) fa perdere punti in modo proporzionale',
+    cards: [
+      { id: 'cr-comm', lv: 1, text: 'Sono passati 30 secondi dal blackout, la sala è al buio con le luci di emergenza deboli. Come comunichi ai presenti?', choices: [
+        ch('Annuncio al microfono con batteria', 'Anticipare il secondo ordine', [o(0.8, { tempo: -2, fiducia: 8 }, 'Voce calma, la sala si tranquillizza.'), o(0.2, { tempo: -4, fiducia: -2 }, 'Il microfono non funziona: messaggio perso.')]),
+        ch('Staff in sala con megafoni e cartelli', 'Ridondanza/buffer', [o(1, { risorse: -2, tempo: -5, fiducia: 5, sicurezza: 3 }, 'Comunicazione capillare ma impegna due squadre.')]),
+        ch('Attendi notizie dai tecnici', 'Informazione prima di decidere', [o(0.6, { tempo: -3, fiducia: 2 }, 'Il tecnico conferma presto un guasto semplice.'), o(0.4, { tempo: -4, fiducia: -10, sicurezza: -8 }, 'Il silenzio genera ansia e movimenti disordinati.')])
+      ] },
+      { id: 'cr-triage', lv: 1, text: 'In sala 3 una persona è svenuta, altre cinque hanno malori lievi (agitazione, calore). Hai a disposizione medici e volontari.', choices: [
+        ch('Squadra medica sul caso grave', 'Collo di bottiglia', [o(1, { risorse: -2, tempo: -3, sicurezza: 8 }, 'Il caso grave è stabilizzato, i lievi restano da seguire.')]),
+        ch('Infermeria mobile centralizzata', 'Ridondanza/buffer', [o(1, { risorse: -3, tempo: -6, sicurezza: 12, fiducia: 3 }, 'Tutti sono seguiti, ma impegna molte risorse.')]),
+        ch('Volontari per i lievi, medico sul grave', 'Costo opportunità', [o(0.75, { risorse: -1, tempo: -4, sicurezza: 9 }, 'Gestione efficiente.'), o(0.25, { risorse: -1, tempo: -5, sicurezza: 3, fiducia: -5 }, 'Un malore lieve peggiora e si perde tempo.')])
+      ] },
+      { id: 'cr-delega', lv: 2, text: 'Il capo della sicurezza chiede di avere piena autonomia sui settori nord e sud mentre tu coordini il resto.', choices: [
+        ch('Delega totale ai capi settore', 'Anticipare il secondo ordine', [o(0.75, { tempo: -2, sicurezza: 6 }, 'I settori lavorano in parallelo, decisioni rapide.'), o(0.25, { tempo: -3, sicurezza: -8, fiducia: -4 }, 'Ordini contraddittori generano confusione.')]),
+        ch('Centralizzi ogni decisione', 'Collo di bottiglia', [o(1, { tempo: -6, sicurezza: 4 }, 'Coerenza assicurata ma tutto passa da te.')]),
+        ch('Delega con verifica ogni 10 minuti', 'Ridondanza/buffer', [o(1, { risorse: -1, tempo: -4, sicurezza: 7 }, 'Coordinamento buono, costo moderato.')])
+      ] },
+      { id: 'cr-buio', lv: 2, text: 'Nel corridoio centrale il buio è quasi totale e la gente si accalca verso le scale. Puoi posizionare steward con torce, usare i telefoni dei partecipanti come luce, oppure chiedere di restare seduti.', choices: [
+        ch('Steward con torce lungo le scale', 'Ridondanza/buffer', [o(1, { risorse: -2, tempo: -3, sicurezza: 8, fiducia: 3 }, 'Percorso illuminato e flusso ordinato.')]),
+        ch('Chiedi di usare le torce dei telefoni', 'Anticipare il secondo ordine', [o(0.75, { tempo: -2, sicurezza: 6, fiducia: 4 }, 'La gente collabora e il corridoio si illumina.'), o(0.25, { tempo: -3, sicurezza: -4, fiducia: -3 }, 'I telefoni si scaricano e si crea confusione.')]),
+        ch('Chiedi di restare seduti', 'Reversibilità', [o(0.6, { tempo: -1, sicurezza: 3, fiducia: 2 }, 'La maggior parte resta ferma.'), o(0.4, { tempo: -2, sicurezza: -6, fiducia: -5 }, 'Alcuni si alzano comunque e il caos cresce.')])
+      ] },
+      { id: 'cr-ascensore', lv: 3, text: 'Tre persone sono bloccate nell’ascensore 3, una è claustrofobica. Un tecnico interno può tentare lo sblocco manuale.', choices: [
+        ch('Vigili del fuoco specializzati', 'Informazione prima di decidere', [o(1, { risorse: -2, tempo: -5, sicurezza: 6, fiducia: 2 }, 'Intervento sicuro ma lento.')]),
+        ch('Sblocco manuale del tecnico', 'Rischio asimmetrico', [o(0.7, { risorse: -1, tempo: -3, sicurezza: 5, fiducia: 3 }, 'Sblocco riuscito.'), o(0.3, { risorse: -1, tempo: -4, sicurezza: -10 }, 'La cabina si muove: infortunio.')]),
+        ch('Rassicuri via interfono e attendi il ripristino', 'Reversibilità', [o(0.5, { tempo: -1, fiducia: 2, sicurezza: 2 }, 'La luce torna presto e l’ascensore riparte.'), o(0.5, { tempo: -2, sicurezza: -6, fiducia: -4 }, 'La persona claustrofobica va in panico.')])
+      ] },
+      { id: 'cr-evac', lv: 3, text: 'Al minuto 10 la luce non è tornata. Le batterie di emergenza durano ancora circa 40 minuti. Decidi se evacuare.', choices: [
+        ch('Evacuazione immediata di tutti', 'Costo opportunità', [o(0.8, { risorse: -4, tempo: -12, sicurezza: 10, fiducia: -3 }, 'Evacuazione ordinata ma costosa.'), o(0.2, { risorse: -4, tempo: -12, sicurezza: -15, fiducia: -6 }, 'Calca nelle uscite: feriti.')]),
+        ch('Attendi altri 10 minuti', 'Informazione prima di decidere', [o(0.6, { tempo: -3, sicurezza: 5, fiducia: 3 }, 'La luce torna in tempo: evacuazione evitata.'), o(0.4, { tempo: -5, sicurezza: -8, fiducia: -6 }, 'Il buio persiste: peggio di prima.')]),
+        ch('Evacuazione progressiva per settori', 'Reversibilità', [o(1, { risorse: -2, tempo: -8, sicurezza: 8, fiducia: 2 }, 'Flusso ordinato, senza panico.')])
+      ] },
+      { id: 'cr-voce', lv: 4, text: 'Sui social circola una voce: «incendio nel centro congressi». Parenti e giornalisti stanno già chiamando.', choices: [
+        ch('Smentita ufficiale con foto e aggiornamenti', 'Anticipare il secondo ordine', [o(1, { tempo: -2, fiducia: 8, sicurezza: 2 }, 'La voce si ferma e i presenti si tranquillizzano.')]),
+        ch('Ignori e ti concentri sulla sala', 'Costo opportunità', [o(0.5, {}, 'La voce si spegne da sola.'), o(0.5, { sicurezza: -10, fiducia: -12 }, 'Arrivano persone dall’esterno, panico.')]),
+        ch('Staff nei corridoi a smentire a voce', 'Ridondanza/buffer', [o(1, { risorse: -2, tempo: -4, fiducia: 5, sicurezza: 4 }, 'Messaggio chiaro, ma impegna personale.')])
+      ] },
+      { id: 'cr-escalation', lv: 4, text: 'Hai la possibilità di chiamare subito la protezione civile e i vigili del fuoco, ma l’allarme potrebbe spaventare la sala. Il guasto potrebbe essere semplice.', choices: [
+        ch('Chiami subito i rinforzi', 'Ridondanza/buffer', [o(1, { risorse: 4, tempo: -2, fiducia: -2, sicurezza: 3 }, 'Arrivano mezzi e personale: più margine.')]),
+        ch('Attendi la diagnosi tecnica (10 min)', 'Informazione prima di decidere', [o(0.6, { tempo: -5, fiducia: 3 }, 'Era un guasto semplice.'), o(0.4, { tempo: -5, sicurezza: -8, risorse: 2 }, 'Il guasto è grave e i rinforzi arrivano in ritardo.')]),
+        ch('Allerta preventiva (stand-by)', 'Reversibilità', [o(1, { risorse: 2, tempo: -1 }, 'I soccorsi sono avvisati ma non mobilitati.')])
+      ] },
+      { id: 'cr-quadro', lv: 5, text: 'Il tecnico propone di riavviare subito il quadro elettrico: in 8 minuti torna la luce, ma c’è rischio di sovraccarico. Una verifica completa richiede 15 minuti; un generatore mobile può dare luce parziale.', choices: [
+        ch('Riavvio immediato', 'Rischio asimmetrico', [o(0.7, { tempo: -3, sicurezza: 10, fiducia: 6 }, 'La luce torna: l’evento riparte.'), o(0.3, { tempo: -6, risorse: -2, sicurezza: -15 }, 'Corto circuito e fumo: situazione peggiorata.')]),
+        ch('Verifica completa prima', 'Informazione prima di decidere', [o(1, { tempo: -12, sicurezza: 6, fiducia: 1 }, 'Riavvio sicuro ma lento.')]),
+        ch('Generatore mobile', 'Reversibilità', [o(1, { risorse: -3, tempo: -7, sicurezza: 9, fiducia: 3 }, 'Luce parziale e sicura, a costo di risorse.')])
+      ] },
+      { id: 'cr-vip', lv: 5, text: 'L’ospite istituzionale, con il suo staff, vuole lasciare subito l’edificio dall’ingresso riservato: «non possiamo stare al buio».', choices: [
+        ch('Scorta dedicata fuori dall’ingresso riservato', 'Collo di bottiglia', [o(1, { risorse: -2, tempo: -2, fiducia: -3 }, 'L’ospite è al sicuro, ma gli altri notano il trattamento di favore.')]),
+        ch('Lo inviti a restare con tutti e spieghi', 'Informazione prima di decidere', [o(0.7, { fiducia: 4, tempo: -1 }, 'Accetta e dà il buon esempio.'), o(0.3, { fiducia: -10, tempo: -2 }, 'Polemica pubblica: critiche all’organizzazione.')]),
+        ch('Area protetta con un operatore dedicato', 'Ridondanza/buffer', [o(1, { risorse: -1, tempo: -2, fiducia: 2, sicurezza: 2 }, 'L’ospite è tranquillo e non si sente trascurato.')])
+      ] },
+      { id: 'cr-cardiaco', lv: 6, text: 'Un partecipante di 62 anni ha un dolore al petto e perde i sensi. Sono disponibili un defibrillatore e volontari formati; i medici sono già impegnati.', choices: [
+        ch('Squadra medica, DAE e ambulanza', 'Collo di bottiglia', [o(0.85, { risorse: -3, tempo: -6, sicurezza: 10, fiducia: 4 }, 'Rianimato e trasportato.'), o(0.15, { risorse: -3, tempo: -6, sicurezza: -4, fiducia: -3 }, 'Il paziente è grave nonostante l’intervento.')]),
+        ch('Volontari con DAE, medico richiamato in seguito', 'Rischio asimmetrico', [o(0.6, { risorse: -1, tempo: -3, sicurezza: 8 }, 'I volontari intervengono bene.'), o(0.4, { risorse: -1, tempo: -4, sicurezza: -12, fiducia: -8 }, 'L’intervento è tardivo e inefficace.')]),
+        ch('Ambulanza dedicata e continui l’evacuazione', 'Costo opportunità', [o(1, { risorse: -2, tempo: -2, sicurezza: 6, fiducia: 1 }, 'L’ambulanza interviene mentre tutto procede.')])
+      ] },
+      { id: 'cr-stampa', lv: 7, text: 'Fuori dall’ingresso una troupe televisiva chiede dichiarazioni: se non rispondi, potrebbe riprendere la folla e diffondere immagini fuori contesto.', choices: [
+        ch('Portavoce con aggiornamento controllato', 'Anticipare il secondo ordine', [o(1, { risorse: -1, tempo: -3, fiducia: 8 }, 'Messaggio chiaro e rassicurante.')]),
+        ch('Nessun commento', 'Rischio asimmetrico', [o(0.7, { fiducia: -2 }, 'Nessuna conseguenza.'), o(0.3, { fiducia: -14, sicurezza: -3 }, 'Un video virale mostra la confusione e amplifica l’ansia.')]),
+        ch('Rimandi tutto a fine crisi', 'Reversibilità', [o(1, { fiducia: 3 }, 'Dichiarazione breve: «tutto sotto controllo».')])
+      ] },
+      { id: 'cr-uscita', lv: 8, text: 'Un’uscita di emergenza è ostruita da stand non rimossi. La folla in coda si ammassa sulle altre uscite.', choices: [
+        ch('Squadra per rimuovere gli stand', 'Collo di bottiglia', [o(1, { risorse: -2, tempo: -6, sicurezza: 10 }, 'Uscita libera, flusso migliorato.')]),
+        ch('Reindirizzi la folla sulle altre uscite', 'Rischio asimmetrico', [o(0.65, { tempo: -2, sicurezza: 4 }, 'Il flusso regge.'), o(0.35, { tempo: -3, sicurezza: -12, fiducia: -4 }, 'Ingorgo: spinte e malori.')]),
+        ch('Apri il cancello ovest con due squadre', 'Ridondanza/buffer', [o(1, { risorse: -3, tempo: -4, sicurezza: 8, fiducia: 2 }, 'Nuova via di uscita aperta.')])
+      ] },
+      { id: 'cr-fumo', lv: 9, text: 'Dalla sala tecnica proviene odore di bruciato. Potrebbe essere un cavo surriscaldato o un principio di incendio.', choices: [
+        ch('Isoli la zona ed evacui l’area adiacente', 'Ridondanza/buffer', [o(1, { risorse: -3, tempo: -5, sicurezza: 10, fiducia: -2 }, 'Area messa in sicurezza.')]),
+        ch('Ispezione con un solo tecnico', 'Informazione prima di decidere', [o(0.55, { risorse: -1, tempo: -3, sicurezza: 4, fiducia: 3 }, 'Falso allarme: era un cavo caldo.'), o(0.45, { risorse: -1, tempo: -6, sicurezza: -14 }, 'Principio di incendio: intervento in ritardo.')]),
+        ch('Estintori pronti e attesa', 'Costo opportunità', [o(0.5, { risorse: -1, tempo: -1, sicurezza: 2 }, 'L’odore svanisce.'), o(0.5, { risorse: -2, tempo: -3, sicurezza: -12, fiducia: -6 }, 'Il fumo aumenta e l’area va comunque evacuata.')])
+      ] },
+      { id: 'cr-chiusura', lv: 10, text: 'La luce è tornata a metà, ma gli impianti non sono tutti verificati. Puoi dichiarare chiuso l’evento e rimborsare i biglietti o tentare di riprendere il programma.', choices: [
+        ch('Chiudi l’evento e rimborsa', 'Reversibilità', [o(1, { risorse: -2, tempo: -3, sicurezza: 8, fiducia: 5 }, 'Decisione prudente, apprezzata dai presenti.')]),
+        ch('Riprendi il programma ridotto', 'Rischio asimmetrico', [o(0.6, { risorse: -1, tempo: -4, fiducia: 8, sicurezza: 2 }, 'L’evento riparte e la sala applaude.'), o(0.4, { risorse: -2, tempo: -6, sicurezza: -12, fiducia: -8 }, 'Un nuovo guasto interrompe tutto.')]),
+        ch('Rinvii la decisione di 10 minuti', 'Informazione prima di decidere', [o(1, { tempo: -10, sicurezza: 4, fiducia: 2 }, 'Hai più informazioni, ma il tempo è finito.')])
+      ] }
+    ]
+  });
+})(window.ST = window.ST || {});
 
 /* ---- content/sim-b ---- */
-/* stub */
-(function (ST) { 'use strict'; })(window.ST = window.ST || {});
+/* SkillTree — scenari di strategia (carte): preparazione di una prova e organizzazione di un evento. Tutto inventato e didattico. */
+(function (ST) {
+  'use strict';
+  const SIM = ST.sim;
+  const o = (p, fx, text) => ({ p, fx, text });
+
+  /* ---- 1) Prepararsi a una prova importante in 8 settimane ---- */
+  SIM.register({
+    id: 'esame', title: 'Prepararsi a una prova importante in 8 settimane', icon: '📚',
+    intro: 'Hai 8 settimane per prepararti a una prova importante e un monte di circa 130 ore di studio utilizzabili. Ogni scelta consuma ore, energia o fiducia, e conta quanto sei preparato davvero, non quanto ti senti. Il punteggio premia preparazione, energia e fiducia a fine percorso, un po\' di ore residue e conta come perdita ogni debito di energia o di ore.',
+    vars: {
+      preparazione: { label: 'Preparazione', start: 10, min: 0, max: 200 },
+      energia: { label: 'Energia (negativa = debito di stanchezza)', start: 80, min: -80, max: 200 },
+      tempo: { label: 'Ore di studio disponibili (negative = notti rubate)', start: 130, min: -80, max: 200, unit: 'h', tight: true },
+      fiducia: { label: 'Fiducia', start: 50, min: -80, max: 200 }
+    },
+    weights: { preparazione: 1, energia: 0.4, tempo: 0.3, fiducia: 0.4 },
+    penalties: [],
+    turns: 5, utilText: 'preparazione + 0,4 × energia + 0,4 × fiducia + 0,3 × ore residue (energia e ore negative contano come debito e pesano sul punteggio)',
+    cards: [
+      { id: 'es-metodo', lv: 1, text: 'Inizi il ciclo di studio dei primi capitoli (circa 12 ore). Hai tre modi di impiegarle: rileggere e sottolineare, rifare riassunti ordinati, oppure chiudere il libro e richiamare a memoria quello che ricordi.',
+        choices: [
+          { label: 'Rileggere e sottolineare', principle: 'Illusione di competenza', hint: 'Dà sensazione di fluidità, ma testa poco la memoria.', out: [o(1, { preparazione: 5, tempo: -10, energia: -4, fiducia: 6 }, 'Ti sembra di sapere tutto, ma i test veri mostreranno lacune.')] },
+          { label: 'Riassunti belli e schemi colorati', principle: 'Attività utile vs attività visibile', out: [o(1, { preparazione: 6, tempo: -15, energia: -6, fiducia: 4 }, 'Materiale ordinato, ma consumi ore a impaginare.')] },
+          { label: 'Richiamo attivo: libro chiuso, domande e risposta a memoria', principle: 'Richiamo attivo', hint: 'Più faticoso ora, molto più efficace per ricordare.', out: [o(0.8, { preparazione: 13, tempo: -12, energia: -12, fiducia: -2 }, 'Scopri subito cosa non sai e lo fissi.'), o(0.2, { preparazione: 9, tempo: -12, energia: -16, fiducia: -8 }, 'Giornata dura: ricordi poco, morale in calo, ma hai mappato le lacune.')] }
+        ] },
+      { id: 'es-spacing', lv: 2, text: 'Hai già studiato la prima parte. Puoi ripassarla subito per fissarla, programmare ripassi distanziati (dopo 3, poi 10 giorni) oppure lasciarla e concentrarti solo sul nuovo.',
+        choices: [
+          { label: 'Ripasso immediato, due ore di fila', principle: 'Spaziatura', out: [o(1, { preparazione: 5, tempo: -8, energia: -6, fiducia: 3 }, 'Ricordi bene oggi, ma tra due settimane sarà svanito.')] },
+          { label: 'Ripassi brevi distanziati nel calendario', principle: 'Spaziatura', hint: 'Richiedono pianificazione ma fissano più a lungo.', out: [o(0.85, { preparazione: 11, tempo: -9, energia: -5, fiducia: 3 }, 'I ripassi spaziati consolidano: la curva dell\'oblio si appiattisce.'), o(0.15, { preparazione: 6, tempo: -11, energia: -5 }, 'Salti un ripasso per un imprevisto: il beneficio si riduce.')] },
+          { label: 'Solo materiale nuovo, ripasso alla fine', principle: 'Costo opportunità', out: [o(0.5, { preparazione: 10, tempo: -6, energia: -8 }, 'Avanzi veloce nel programma.'), o(0.5, { preparazione: 4, tempo: -6, energia: -8, fiducia: -4 }, 'Il materiale iniziale ti sfugge e dovrai rifarlo.')] }
+        ] },
+      { id: 'es-temi', lv: 2, text: 'Servono materiali di esercizio. Puoi usare i temi degli anni passati (10 ore), leggere un secondo manuale integrale (20 ore) o chiedere a un compagno che ha già dato la prova com\'è fatta davvero.',
+        choices: [
+          { label: 'Fare i temi degli anni passati', principle: 'Informazione prima di decidere', out: [o(1, { preparazione: 9, tempo: -10, energia: -8, fiducia: 3 }, 'Capisci lo stile delle domande e dove sbagli.')] },
+          { label: 'Secondo manuale, lettura integrale', principle: 'Costo opportunità', out: [o(1, { preparazione: 4, tempo: -20, energia: -10, fiducia: 2 }, 'Molta lettura, poco aggancio con ciò che verrà chiesto.')] },
+          { label: 'Chiedere a chi l\'ha già sostenuta', principle: 'Informazione prima di decidere', hint: 'Costa pochissimo, ma l\'informazione può essere datata.', out: [o(0.75, { preparazione: 5, tempo: -2, fiducia: 4 }, 'Ottimi consigli su cosa conta e cosa no.'), o(0.25, { preparazione: 0, tempo: -2, fiducia: -2 }, 'Le informazioni erano obsolete: nessun vantaggio.')] }
+        ] },
+      { id: 'es-pausa', lv: 2, text: 'Dopo tre settimane intense senti il calo. Puoi inserire movimento quotidiano (45 minuti), prenderti un weekend completo senza studio, o tirare dritto.',
+        choices: [
+          { label: 'Camminata o sport 45 minuti al giorno', principle: 'Ridondanza/buffer', out: [o(1, { energia: 12, tempo: -4, fiducia: 2, preparazione: 1 }, 'Più lucidità e sonno migliore, ore sottratte contenute.')] },
+          { label: 'Weekend completo di stacco', principle: 'Ridondanza/buffer', out: [o(1, { energia: 25, tempo: -12, fiducia: 3 }, 'Ricarichi, ma perdi un blocco di ore.')] },
+          { label: 'Tirare dritto', principle: 'Costo opportunità', hint: 'Risparmi ore ora, ma il debito di energia si accumula.', out: [o(0.6, { preparazione: 6, energia: -12, tempo: -8 }, 'Avanzi, ma sei stanco.'), o(0.4, { preparazione: 2, energia: -20, tempo: -8, fiducia: -5 }, 'Il rendimento crolla: studi ma non trattieni.')] }
+        ] },
+      { id: 'es-simula', lv: 3, text: 'A metà percorso puoi fare una simulazione completa cronometrata (3 ore più correzione): ti dirà a che punto sei, ma può demoralizzare. In alternativa una simulazione parziale, o rimandare.',
+        choices: [
+          { label: 'Simulazione completa cronometrata', principle: 'Informazione prima di decidere', hint: 'Misura reale della preparazione e anche allenamento al recupero.', out: [o(0.6, { preparazione: 10, tempo: -8, energia: -10, fiducia: 8 }, 'Va meglio del previsto e correggi gli errori con precisione.'), o(0.4, { preparazione: 10, tempo: -8, energia: -10, fiducia: -10 }, 'Voto basso: duro, ma ora sai dove lavorare.')] },
+          { label: 'Simulazione parziale (un terzo)', principle: 'Informazione prima di decidere', out: [o(1, { preparazione: 6, tempo: -4, energia: -5, fiducia: 2 }, 'Informazione parziale, impatto emotivo contenuto.')] },
+          { label: 'Rimandare, studiare ancora un po\'', principle: 'Anticipare il secondo ordine', out: [o(0.7, { preparazione: 6, tempo: -8, energia: -8, fiducia: 2 }, 'Avanzi, ma senza sapere dove sei.'), o(0.3, { preparazione: 2, tempo: -8, energia: -8, fiducia: -3 }, 'Studi cose già sapute e trascuri le lacune.')] }
+        ] },
+      { id: 'es-festa', lv: 3, text: 'Un amico organizza una festa di compleanno importante sabato sera, e in famiglia c\'è un pranzo lungo domenica. Rischi di perdere un intero fine settimana di studio.',
+        choices: [
+          { label: 'Andare a entrambe', principle: 'Costo opportunità', out: [o(1, { energia: 8, fiducia: 8, tempo: -14, preparazione: 0 }, 'Serate belle, ma il weekend è perso per lo studio.')] },
+          { label: 'Andare solo alla festa e studiare domenica', principle: 'Reversibilità', out: [o(1, { energia: 6, fiducia: 6, tempo: -7, preparazione: 5 }, 'Compromesso: un po\' di vita sociale senza perdere tutto.')] },
+          { label: 'Declinare entrambi e studiare', principle: 'Costo opportunità', hint: 'Guadagni ore ma paghi in morale e relazioni.', out: [o(1, { preparazione: 8, energia: -8, fiducia: -4, tempo: -10 }, 'Studi, ma ti senti isolato.')] }
+        ] },
+      { id: 'es-malato', lv: 4, text: 'Svegli con la febbre a 38,2 a cinque settimane dalla prova. Hai un capitolo importante da finire. Cosa fai?',
+        choices: [
+          { label: 'Riposo completo due giorni', principle: 'Ridondanza/buffer', out: [o(1, { energia: 20, tempo: -8, preparazione: 0, fiducia: -2 }, 'Guarisci in fretta, ma restano indietro alcune pagine.')] },
+          { label: 'Studio leggero: schede e rilettura a letto', principle: 'Reversibilità', out: [o(1, { energia: 5, tempo: -8, preparazione: 5 }, 'Recuperi senza forzare e mantieni il ritmo.')] },
+          { label: 'Forzare, studio normale', principle: 'Anticipare il secondo ordine', hint: 'Il corpo malato rende poco e la guarigione si allunga.', out: [o(0.7, { preparazione: 7, energia: -18, tempo: -12, fiducia: 0 }, 'Passi la giornata sui libri, ma ricordi poco.'), o(0.3, { preparazione: 2, energia: -30, tempo: -16, fiducia: -6 }, 'Ricaduta: perdi giorni e morale.')] }
+        ] },
+      { id: 'es-gruppo', lv: 4, text: 'Un gruppo di sei compagni propone sessioni di studio collettive (10 ore). Potrebbe essere molto utile oppure trasformarsi in chiacchiere. In alternativa, puoi spiegare un capitolo a un amico oppure studiare da solo.',
+        choices: [
+          { label: 'Unirsi al gruppo di sei', principle: 'Informazione prima di decidere', out: [o(0.6, { preparazione: 12, tempo: -10, fiducia: 6, energia: -5 }, 'Spiegarvi a vicenda fa emergere lacune e fissa i concetti.'), o(0.4, { preparazione: 2, tempo: -10, fiducia: 1, energia: -3 }, 'Troppa dispersione: ore passate a parlare d\'altro.')] },
+          { label: 'Un compagno fidato: spiegarsi a turno', principle: 'Richiamo attivo', out: [o(0.85, { preparazione: 10, tempo: -8, fiducia: 4, energia: -8 }, 'Insegnare ti obbliga a organizzare le idee.'), o(0.15, { preparazione: 4, tempo: -8, energia: -8 }, 'L\'amico è poco preparato: scambio sterile.')] },
+          { label: 'Studiare da solo', principle: 'Collo di bottiglia', out: [o(1, { preparazione: 8, tempo: -10, energia: -9, fiducia: -1 }, 'Lavoro regolare e senza distrazioni, ma senza feedback.')] }
+        ] },
+      { id: 'es-debole', lv: 5, text: 'Dal conteggio dei temi emerge un argomento ostico che pesa circa il 30% della prova e che non hai capito. Hai tre strade: dedicarci 20 ore, ignorarlo e consolidare il resto, oppure chiedere un chiarimento al docente.',
+        choices: [
+          { label: 'Dedicarci 20 ore', principle: 'Collo di bottiglia', hint: 'Alto costo, alto valore se riesce.', out: [o(0.7, { preparazione: 16, tempo: -20, energia: -14, fiducia: 5 }, 'Finalmente il nodo si scioglie.'), o(0.3, { preparazione: 6, tempo: -20, energia: -14, fiducia: -6 }, 'Non riesci a venirne a capo da solo.')] },
+          { label: 'Ignorarlo, consolidare il resto', principle: 'Costo opportunità', out: [o(0.6, { preparazione: 8, tempo: -10, energia: -8, fiducia: 2 }, 'Il resto è solido e l\'argomento debole pesa poco.'), o(0.4, { preparazione: 3, tempo: -10, energia: -8, fiducia: -4 }, 'L\'argomento debole è nel tema in modo determinante.')] },
+          { label: 'Chiedere un chiarimento al docente (ricevimento)', principle: 'Informazione prima di decidere', out: [o(0.8, { preparazione: 10, tempo: -6, energia: -4, fiducia: 4 }, 'In mezz\'ora ti spiega il punto chiave.'), o(0.2, { preparazione: 4, tempo: -6, energia: -4 }, 'Risposta vaga, poco guadagno.')] }
+        ] },
+      { id: 'es-sonno', lv: 5, text: 'Tre giorni prima della prova hai ancora 150 pagine da rivedere. Puoi studiare di notte per coprirle tutte, dormire regolarmente e studiare solo i punti più probabili, o chiedere aiuto a un tutor.',
+        choices: [
+          { label: 'Nottata di studio', principle: 'Anticipare il secondo ordine', hint: 'La privazione di sonno peggiora memoria e attenzione.', out: [o(0.5, { preparazione: 14, energia: -30, tempo: -14, fiducia: 2 }, 'Copri tutto, ma sei distrutto.'), o(0.5, { preparazione: 6, energia: -32, tempo: -14, fiducia: -6 }, 'Dopo le 2 non fissi più nulla.')] },
+          { label: 'Sonno regolare e studio selettivo', principle: 'Ridondanza/buffer', out: [o(1, { preparazione: 8, energia: 6, tempo: -10, fiducia: 3 }, 'Ripassi solo i punti chiave, ma la mente funziona.')] },
+          { label: 'Tutor a pagamento per 6 ore', principle: 'Collo di bottiglia', out: [o(0.7, { preparazione: 14, tempo: -8, energia: -6, fiducia: 5 }, 'Ti indica i punti decisivi e chiarisce i dubbi.'), o(0.3, { preparazione: 5, tempo: -8, energia: -6, fiducia: -2 }, 'Non è all\'altezza: tempo sprecato.')] }
+        ] },
+      { id: 'es-ansia', lv: 6, text: 'A una settimana dalla prova l\'ansia sale e il confronto con i compagni ti agita. Puoi lavorare sulla gestione dell\'ansia, confrontarti con i più preparati, o ignorare il problema.',
+        choices: [
+          { label: 'Respirazione, scrittura dei pensieri, visualizzazione', principle: 'Ridondanza/buffer', out: [o(1, { fiducia: 8, energia: 4, tempo: -3 }, 'Riduci il carico emotivo e dormi meglio.')] },
+          { label: 'Confrontarti con i più preparati', principle: 'Informazione prima di decidere', hint: 'Può motivare o demoralizzare.', out: [o(0.5, { fiducia: 6, preparazione: 3, tempo: -3 }, 'Ti rassicurano e scambiate dritte utili.'), o(0.5, { fiducia: -12, preparazione: 2, tempo: -3, energia: -4 }, 'Ti sembra di sapere molto meno degli altri.')] },
+          { label: 'Ignorare e studiare di più', principle: 'Anticipare il secondo ordine', out: [o(0.5, { preparazione: 6, tempo: -8, energia: -8, fiducia: -2 }, 'Studi, ma con il cuore in gola.'), o(0.5, { preparazione: 3, tempo: -8, energia: -10, fiducia: -8 }, 'L\'ansia ti blocca e rende le ore meno produttive.')] }
+        ] },
+      { id: 'es-ultima', lv: 7, text: 'Ultima settimana: restano 35 ore. Puoi ripassare tutto il programma, concentrarti sui punti deboli individuati dai temi, oppure ridurre al minimo e riposare con un formulario.',
+        choices: [
+          { label: 'Ripasso completo di tutto', principle: 'Collo di bottiglia', out: [o(0.8, { preparazione: 12, energia: -18, tempo: -25, fiducia: 2 }, 'Copri tutto, ma arrivi stanco.'), o(0.2, { preparazione: 7, energia: -22, tempo: -28, fiducia: -4 }, 'Non riesci a chiudere tutto: restano buchi.')] },
+          { label: 'Solo i punti deboli emersi dai temi', principle: 'Collo di bottiglia', hint: 'Efficace se la diagnosi è giusta.', out: [o(0.75, { preparazione: 14, energia: -12, tempo: -18, fiducia: 5 }, 'Trasformi i punti deboli in punti di forza.'), o(0.25, { preparazione: 6, energia: -12, tempo: -18, fiducia: -2 }, 'La diagnosi era parziale: ne esce un altro punto debole.')] },
+          { label: 'Minimo indispensabile e riposo', principle: 'Ridondanza/buffer', out: [o(1, { preparazione: 4, energia: 15, tempo: -8, fiducia: 6 }, 'Arrivi lucido, ma con qualche lacuna in più.')] }
+        ] },
+      { id: 'es-giorno', lv: 8, text: 'Giorno della prova: hai 120 minuti e dieci domande di difficoltà variabile. Puoi iniziare dalle facili e gestire il tempo, partire dalla più difficile, oppure arrivare con due ore d\'anticipo a ripassare ancora.',
+        choices: [
+          { label: 'Prima le facili, poi le difficili, tempo diviso', principle: 'Reversibilità', out: [o(1, { preparazione: 6, fiducia: 5, energia: -6 }, 'Accumuli punti sicuri e sfrutti il tempo per le difficili.')] },
+          { label: 'Partire dalla più difficile', principle: 'Costo opportunità', hint: 'Alto rischio di bloccarsi e perdere tempo.', out: [o(0.4, { preparazione: 12, fiducia: 5, energia: -10 }, 'La affronti a mente fresca e ti sblocchi.'), o(0.6, { preparazione: -6, fiducia: -10, energia: -12 }, 'Ti blocchi e perdi minuti preziosi per le altre.')] },
+          { label: 'Arrivare due ore prima per ripassare', principle: 'Anticipare il secondo ordine', out: [o(1, { preparazione: 3, fiducia: -5, energia: -10 }, 'L\'ansia aumenta e non fissi nulla di nuovo.')] }
+        ] }
+    ]
+  });
+
+  /* ---- 2) Organizzare un evento con 300 partecipanti ---- */
+  SIM.register({
+    id: 'evento', title: 'Organizzare un evento con 300 partecipanti', icon: '🎪',
+    intro: 'Devi organizzare in 50 giorni un convegno-festa per 300 persone con un budget di circa 80 mila euro. Ogni decisione costa giorni di lavoro e budget, può far crescere la soddisfazione degli ospiti e può alzare o abbassare il rischio operativo. Il punteggio premia soddisfazione e budget residuo, penalizza il rischio (più basso è meglio) e conta come perdita ogni sforamento di budget o ritardo.',
+    vars: {
+      budget: { label: 'Budget (negativo = sforamento)', start: 80, min: -60, max: 200, unit: 'k€', tight: true },
+      tempo: { label: 'Giorni disponibili (negativi = ritardo)', start: 50, min: -40, max: 80, unit: 'giorni', tight: true },
+      soddisfazione: { label: 'Soddisfazione attesa', start: 40, min: -50, max: 200 },
+      rischio: { label: 'Rischio operativo (più basso è meglio)', start: 40, min: -50, max: 200 }
+    },
+    weights: { soddisfazione: 1, rischio: -0.8, budget: 0.8, tempo: 0.5 },
+    penalties: [],
+    turns: 5, utilText: 'soddisfazione − 0,8 × rischio + 0,8 × budget residuo + 0,5 × giorni residui (budget e giorni negativi, cioè sforamenti e ritardi, pesano come perdita)',
+    cards: [
+      { id: 'ev-sede', lv: 1, text: 'Devi scegliere la sede per 300 persone. Un teatro centrale costa 18 k€ ed è ben collegato, un ex capannone industriale 9 k€ ma richiede allestimenti, un centro congressi in periferia costa 12 k€ ed è già attrezzato.',
+        choices: [
+          { label: 'Teatro centrale (18 k€)', principle: 'Costo opportunità', out: [o(1, { budget: -18, tempo: -4, soddisfazione: 16, rischio: -6 }, 'Sede prestigiosa e semplice da raggiungere.')] },
+          { label: 'Ex capannone (9 k€ + allestimenti)', principle: 'Collo di bottiglia', hint: 'Costa meno ma consuma giorni e può nascondere imprevisti.', out: [o(0.6, { budget: -13, tempo: -9, soddisfazione: 14, rischio: 4 }, 'Atmosfera originale, lavoro extra ma riuscito.'), o(0.4, { budget: -16, tempo: -12, soddisfazione: 8, rischio: 14 }, 'Impianti e uscite di sicurezza richiedono interventi.')] },
+          { label: 'Centro congressi periferico (12 k€)', principle: 'Ridondanza/buffer', out: [o(1, { budget: -12, tempo: -3, soddisfazione: 7, rischio: -4 }, 'Tutto funziona, ma l\'ambiente è anonimo.')] }
+        ] },
+      { id: 'ev-sopral', lv: 2, text: 'Prima di firmare i contratti puoi fare un sopralluogo tecnico dettagliato (3 giorni, 1 k€) con un professionista, oppure fidarti delle schede dei fornitori.',
+        choices: [
+          { label: 'Sopralluogo tecnico dettagliato', principle: 'Informazione prima di decidere', out: [o(0.6, { budget: -1, tempo: -3, rischio: -10, soddisfazione: 3 }, 'Individui in anticipo due criticità e le risolvi.'), o(0.4, { budget: -1, tempo: -3, rischio: -3 }, 'Nessuna sorpresa: costo piccolo, tranquillità minima.')] },
+          { label: 'Fidarsi delle schede', principle: 'Informazione prima di decidere', out: [o(0.7, { tempo: 0, rischio: 2 }, 'Nessun problema evidente per ora.'), o(0.3, { budget: -4, tempo: -4, rischio: 12, soddisfazione: -4 }, 'Emergono limiti tecnici a ridosso dell\'evento.')] },
+          { label: 'Un check rapido di mezza giornata', principle: 'Reversibilità', out: [o(1, { budget: -0.3, tempo: -1, rischio: -4 }, 'Copri i punti principali con poco sforzo.')] }
+        ] },
+      { id: 'ev-comunic', lv: 2, text: 'Serve far arrivare le persone. Puoi pagare una campagna social e stampa (7 k€), affidarti a rete personale e newsletter (1 k€, più lenta), o coinvolgere associazioni partner con scambio visibilità.',
+        choices: [
+          { label: 'Campagna a pagamento (7 k€)', principle: 'Costo opportunità', out: [o(0.8, { budget: -7, tempo: -3, soddisfazione: 12, rischio: -2 }, 'Buone iscrizioni e ottima visibilità.'), o(0.2, { budget: -7, tempo: -3, soddisfazione: 5, rischio: 4 }, 'Campagna sotto le attese: pochi nuovi iscritti.')] },
+          { label: 'Rete personale e newsletter', principle: 'Reversibilità', out: [o(0.6, { budget: -1, tempo: -5, soddisfazione: 7 }, 'Arrivano i fedeli: partecipazione stabile.'), o(0.4, { budget: -1, tempo: -5, soddisfazione: 1, rischio: 6 }, 'Iscrizioni scarse: rischio di sala semivuota.')] },
+          { label: 'Partnership con associazioni', principle: 'Collo di bottiglia', out: [o(0.7, { budget: -2, tempo: -6, soddisfazione: 11, rischio: -3 }, 'Le associazioni portano un pubblico motivato.'), o(0.3, { budget: -2, tempo: -9, soddisfazione: 4, rischio: 3 }, 'Coordinamento lento e promesse vaghe.')] }
+        ] },
+      { id: 'ev-catering', lv: 2, text: 'Per il catering hai tre offerte: un servizio premium (15 k€), uno standard (9 k€), oppure buffet con tre piccoli fornitori locali (7 k€ ma più coordinamento).',
+        choices: [
+          { label: 'Catering premium (15 k€)', principle: 'Costo opportunità', out: [o(1, { budget: -15, tempo: -2, soddisfazione: 14, rischio: -4 }, 'Qualità alta e fornitore affidabile.')] },
+          { label: 'Catering standard (9 k€)', principle: 'Ridondanza/buffer', out: [o(1, { budget: -9, tempo: -2, soddisfazione: 8, rischio: -2 }, 'Nulla di eccezionale, nulla di sbagliato.')] },
+          { label: 'Tre fornitori locali (7 k€)', principle: 'Collo di bottiglia', hint: 'Risparmi ma spezzi la filiera: più punti di guasto.', out: [o(0.6, { budget: -7, tempo: -7, soddisfazione: 13, rischio: 4 }, 'Cibo apprezzato, ma coordinamento faticoso.'), o(0.4, { budget: -8, tempo: -8, soddisfazione: 3, rischio: 14 }, 'Un fornitore salta le consegne: buchi nel buffet.')] }
+        ] },
+      { id: 'ev-prezzo', lv: 3, text: 'Come fissare il prezzo dei biglietti? Ingresso gratuito su iscrizione (nessun incasso, massima partecipazione), 25 € (circa 7,5 k€ se si riempie la sala) o 45 € con sconti (potenziale 11 k€ ma sala più vuota).',
+        choices: [
+          { label: 'Ingresso gratuito', principle: 'Costo opportunità', out: [o(0.7, { soddisfazione: 12, rischio: 4 }, 'Sala piena, ma con molti iscritti che poi non vengono.'), o(0.3, { soddisfazione: 6, rischio: 10 }, 'No-show alto: sala semivuota e immagine debole.')] },
+          { label: 'Biglietto a 25 €', principle: 'Reversibilità', out: [o(0.7, { budget: 7, soddisfazione: 8, rischio: -2 }, 'Incassi buoni e presenze affidabili.'), o(0.3, { budget: 4, soddisfazione: 4, rischio: 2 }, 'Vendite sotto le attese.')] },
+          { label: 'Biglietto a 45 € con sconti', principle: 'Costo opportunità', hint: 'Più margine per biglietto, ma meno persone e più polemica.', out: [o(0.5, { budget: 11, soddisfazione: 3, rischio: 0 }, 'Incasso alto, pubblico selezionato.'), o(0.5, { budget: 5, soddisfazione: -4, rischio: 6 }, 'Vendite lente: devi tagliare i costi.')] }
+        ] },
+      { id: 'ev-volont', lv: 3, text: 'Ti serve personale per accoglienza e logistica. Puoi ingaggiare un\'agenzia di staff (8 k€), reclutare volontari motivati (2 k€ di rimborsi, ma da formare) o fare con pochi collaboratori interni.',
+        choices: [
+          { label: 'Agenzia di staff (8 k€)', principle: 'Ridondanza/buffer', out: [o(1, { budget: -8, tempo: -2, soddisfazione: 6, rischio: -10 }, 'Personale professionale e coordinato.')] },
+          { label: 'Volontari formati (2 k€)', principle: 'Collo di bottiglia', out: [o(0.65, { budget: -2, tempo: -8, soddisfazione: 9, rischio: -6 }, 'Entusiasmo e buona accoglienza.'), o(0.35, { budget: -2, tempo: -10, soddisfazione: 2, rischio: 6 }, 'Qualche volontario non si presenta.')] },
+          { label: 'Solo collaboratori interni', principle: 'Anticipare il secondo ordine', out: [o(1, { tempo: -4, soddisfazione: -3, rischio: 10 }, 'Pochi occhi e troppo da fare nei momenti di picco.')] }
+        ] },
+      { id: 'ev-assic', lv: 4, text: 'Hai la possibilità di assicurare l\'evento per cancellazione e responsabilità civile: polizza completa 4 k€, base 1,5 k€, nessuna copertura.',
+        choices: [
+          { label: 'Polizza completa (4 k€)', principle: 'Ridondanza/buffer', out: [o(1, { budget: -4, tempo: -1, rischio: -14 }, 'Dormi tranquillo: gli imprevisti pesano molto meno.')] },
+          { label: 'Copertura base (1,5 k€)', principle: 'Ridondanza/buffer', out: [o(1, { budget: -1.5, tempo: -1, rischio: -6 }, 'Coperti solo i danni più gravi.')] },
+          { label: 'Nessuna copertura', principle: 'Anticipare il secondo ordine', hint: 'Risparmi, ma una coda grave diventa insostenibile.', out: [o(0.8, { rischio: 3 }, 'Per ora non succede nulla.'), o(0.2, { budget: -8, rischio: 16, soddisfazione: -4 }, 'Un danno improvviso ricade interamente sul tuo budget.')] }
+        ] },
+      { id: 'ev-meteo', lv: 4, text: 'Parte del programma è all\'aperto (cortile). Previsioni incerte. Puoi affittare tensostrutture di riserva (6 k€), tenere pronto un piano B interno (poco costoso ma meno spazio) o puntare solo sul bel tempo.',
+        choices: [
+          { label: 'Tensostrutture di riserva (6 k€)', principle: 'Ridondanza/buffer', out: [o(1, { budget: -6, tempo: -2, soddisfazione: 6, rischio: -14 }, 'Qualunque meteo, il programma regge.')] },
+          { label: 'Piano B interno ridotto', principle: 'Reversibilità', out: [o(0.7, { budget: -1, tempo: -3, rischio: -8, soddisfazione: 1 }, 'Il piano B ti salva senza grandi spese.'), o(0.3, { budget: -1, tempo: -3, rischio: -4, soddisfazione: -4 }, 'Spazio stretto: ospiti stipati, ma tutto si fa.')] },
+          { label: 'Puntare sul bel tempo', principle: 'Anticipare il secondo ordine', hint: 'Zero costo, ma esposto a una coda pesante.', out: [o(0.65, { soddisfazione: 6, rischio: 2 }, 'Bel tempo: evento splendido.'), o(0.35, { budget: -6, soddisfazione: -14, rischio: 22 }, 'Pioggia: improvvisi rimedi costosi e ospiti scontenti.')] }
+        ] },
+      { id: 'ev-sponsor', lv: 5, text: 'Un\'azienda ti offre 12 k€ di sponsorizzazione, ma chiede uno slot di 40 minuti sul palco principale e il logo ovunque. Un\'altra offre 5 k€ con solo uno stand. Potresti anche non avere sponsor.',
+        choices: [
+          { label: 'Sponsor da 12 k€ con slot sul palco', principle: 'Costo opportunità', hint: 'Soldi subito, ma il programma diventa meno puro.', out: [o(0.6, { budget: 12, tempo: -5, soddisfazione: -2, rischio: 0 }, 'Lo slot è accettabile e il budget respira.'), o(0.4, { budget: 12, tempo: -7, soddisfazione: -12, rischio: 4 }, 'Il pubblico percepisce la pubblicità invadente.')] },
+          { label: 'Sponsor da 5 k€ con stand', principle: 'Reversibilità', out: [o(1, { budget: 5, tempo: -3, soddisfazione: 2 }, 'Aiuto contenuto, programma intatto.')] },
+          { label: 'Nessuno sponsor, ridurre i costi altrove', principle: 'Anticipare il secondo ordine', out: [o(1, { tempo: -1, soddisfazione: 3, rischio: 4 }, 'Programma libero, ma sei più esposto sul budget.')] }
+        ] },
+      { id: 'ev-permessi', lv: 5, text: 'Per 300 persone servono permessi: agibilità, piano di sicurezza antincendio, occupazione suolo. Puoi seguire la pratica tu stesso (12 giorni, rischio di errori), affidarti a un consulente (3 k€, 4 giorni) o chiedere una deroga rapida.',
+        choices: [
+          { label: 'Pratica fai-da-te (12 giorni)', principle: 'Collo di bottiglia', out: [o(0.6, { tempo: -12, rischio: -8 }, 'Pratica a posto, ma tempo mangiato.'), o(0.4, { tempo: -14, rischio: 8, budget: -1 }, 'Errori nei moduli: la pratica va rifatta.')] },
+          { label: 'Consulente (3 k€, 4 giorni)', principle: 'Costo opportunità', out: [o(0.9, { budget: -3, tempo: -4, rischio: -12 }, 'Documenti in regola e consegnati in tempo.'), o(0.1, { budget: -3, tempo: -7, rischio: -6 }, 'Ritardi burocratici, ma si chiude.')] },
+          { label: 'Chiedere deroga rapida', principle: 'Anticipare il secondo ordine', hint: 'Veloce ma può essere negata: vuoi davvero scommettere sulla sicurezza?', out: [o(0.5, { tempo: -2, rischio: -2 }, 'La deroga è concessa, ma con limiti di capienza.'), o(0.5, { tempo: -8, budget: -2, rischio: 14 }, 'Deroga negata: ricominci a ridosso dell\'evento.')] }
+        ] },
+      { id: 'ev-relatore', lv: 6, text: 'Il relatore principale, quello che attirava metà dei partecipanti, cancella per motivi di salute a dieci giorni dall\'evento. Puoi chiamare una sostituta nota ma costosa (9 k€), riorganizzare il programma con relatori interni, oppure rinviare l\'evento.',
+        choices: [
+          { label: 'Sostituta nota (9 k€)', principle: 'Reversibilità', out: [o(0.8, { budget: -9, tempo: -3, soddisfazione: 6, rischio: -2 }, 'La nuova ospite convince e il programma regge.'), o(0.2, { budget: -9, tempo: -4, soddisfazione: -2, rischio: 6 }, 'Si libera all\'ultimo e arriva stanca: intervento scialbo.')] },
+          { label: 'Programma con relatori interni', principle: 'Costo opportunità', out: [o(0.5, { tempo: -6, soddisfazione: -2, rischio: 4 }, 'Il programma regge, ma senza grande richiamo.'), o(0.5, { tempo: -6, soddisfazione: -12, rischio: 10 }, 'Richieste di rimborso e pubblico deluso.')] },
+          { label: 'Rinviare di tre settimane', principle: 'Anticipare il secondo ordine', hint: 'Evita il peggio ma costa giorni e contratti da rinegoziare.', out: [o(1, { budget: -6, tempo: -14, soddisfazione: -3, rischio: -4 }, 'Rinvio ordinato, ma costi e logistica da rifare.')] }
+        ] },
+      { id: 'ev-ritardo', lv: 6, text: 'Il fornitore di audio e luci avvisa che le attrezzature arriveranno con 5 giorni di ritardo. Puoi affittare impianto sostitutivo (7 k€), aspettare e comprimere il montaggio, o cambiare fornitore.',
+        choices: [
+          { label: 'Affittare impianto sostitutivo (7 k€)', principle: 'Ridondanza/buffer', out: [o(1, { budget: -7, tempo: -2, rischio: -6 }, 'Problema risolto subito.')] },
+          { label: 'Aspettare e comprimere il montaggio', principle: 'Collo di bottiglia', out: [o(0.55, { tempo: -4, rischio: 4 }, 'Montaggio in extremis ma riuscito.'), o(0.45, { tempo: -5, rischio: 16, soddisfazione: -6, budget: -2 }, 'Prove tecniche saltate: l\'audio gracchia il giorno dell\'apertura.')] },
+          { label: 'Cambiare fornitore', principle: 'Reversibilità', out: [o(0.65, { budget: -5, tempo: -8, rischio: -2, soddisfazione: 2 }, 'Il nuovo fornitore è più affidabile, ma perdi giorni.'), o(0.35, { budget: -8, tempo: -10, rischio: 8 }, 'Nuovo contratto e nuove incognite.')] }
+        ] },
+      { id: 'ev-headcount', lv: 7, text: 'A due settimane dall\'evento le iscrizioni salgono a 380, ma la sede regge 340. Puoi chiudere le iscrizioni (lista d\'attesa), aggiungere una sala video collegata (6 k€) o ampliare con tensostruttura e personale (10 k€).',
+        choices: [
+          { label: 'Chiudere le iscrizioni a 340', principle: 'Collo di bottiglia', out: [o(1, { tempo: -2, soddisfazione: -6, rischio: -4 }, 'Sede in regola, ma resta fuori chi voleva venire.')] },
+          { label: 'Sala video collegata (6 k€)', principle: 'Ridondanza/buffer', out: [o(0.75, { budget: -6, tempo: -4, soddisfazione: 6, rischio: 0 }, 'Tutti dentro; la seconda sala funziona bene.'), o(0.25, { budget: -7, tempo: -5, soddisfazione: -2, rischio: 8 }, 'Collegamento instabile e lamentele.')] },
+          { label: 'Ampliare con tensostruttura (10 k€)', principle: 'Costo opportunità', hint: 'Costa molto e richiede nuovi permessi: valuta tempo e rischio.', out: [o(0.6, { budget: -10, tempo: -8, soddisfazione: 10, rischio: 2 }, 'Tutti accolti e clima eccellente.'), o(0.4, { budget: -12, tempo: -10, soddisfazione: 2, rischio: 16 }, 'Nuovi permessi in ritardo: si apre all\'ultimo.')] }
+        ] },
+      { id: 'ev-sciopero', lv: 8, text: 'Annunciato lo sciopero dei mezzi pubblici nel giorno dell\'evento: molti ospiti arrivano in treno. Puoi organizzare navette (8 k€), spostare l\'inizio del programma di due ore, o confidare che il disagio sia contenuto.',
+        choices: [
+          { label: 'Navette dalla stazione (8 k€)', principle: 'Ridondanza/buffer', out: [o(0.85, { budget: -8, tempo: -4, soddisfazione: 6, rischio: -8 }, 'Gli ospiti arrivano regolarmente.'), o(0.15, { budget: -8, tempo: -5, soddisfazione: 0, rischio: 0 }, 'Le navette sono insufficienti nei momenti di punta.')] },
+          { label: 'Spostare l\'inizio di due ore', principle: 'Reversibilità', out: [o(0.7, { tempo: -3, soddisfazione: -3, rischio: -3 }, 'Si recupera sulla puntualità, a scapito del programma.'), o(0.3, { tempo: -4, soddisfazione: -9, rischio: 6 }, 'Slittano contratti di relatori e catering: confusione.')] },
+          { label: 'Confidare nel buon senso', principle: 'Anticipare il secondo ordine', out: [o(0.5, { soddisfazione: 0, rischio: 2 }, 'Quasi tutti arrivano in qualche modo.'), o(0.5, { soddisfazione: -14, rischio: 14, budget: -2 }, 'Sala mezza vuota e inizio caotico.')] }
+        ] },
+      { id: 'ev-allergie', lv: 7, text: 'Dalle iscrizioni emergono 28 richieste di menù speciali (allergie gravi, celiachia, vegani). Puoi far gestire tutto dal catering con etichettatura rigorosa (3 k€), tenere un unico menù con alternativa generica o chiedere a ognuno di portare il proprio cibo.',
+        choices: [
+          { label: 'Menù dedicati con etichette e procedure (3 k€)', principle: 'Ridondanza/buffer', out: [o(1, { budget: -3, tempo: -3, soddisfazione: 6, rischio: -12 }, 'Allergie sotto controllo e ospiti rassicurati.')] },
+          { label: 'Un menù con alternativa generica', principle: 'Anticipare il secondo ordine', out: [o(0.7, { tempo: -1, soddisfazione: -2, rischio: 4 }, 'Il pasto scorre senza incidenti.'), o(0.3, { budget: -5, tempo: -2, soddisfazione: -10, rischio: 22 }, 'Una reazione allergica richiede l\'ambulanza: immagine rovinata.')] },
+          { label: 'Ognuno porta il proprio cibo', principle: 'Costo opportunità', out: [o(1, { tempo: -1, soddisfazione: -8, rischio: 0 }, 'Poco costoso ma poco ospitale: molti brontolano.')] }
+        ] }
+    ]
+  });
+})(window.ST = window.ST || {});
 
 /* ---- content/sim-c ---- */
-/* stub */
-(function (ST) { 'use strict'; })(window.ST = window.ST || {});
+/* SkillTree — scenari di strategia a carte (parte C): guidare una squadra e gestire una piccola attività. Tutto inventato e didattico. */
+(function (ST) {
+  'use strict';
+  const SIM = ST.sim;
+  const o = (p, fx, text) => ({ p, fx, text });
+  const ch = (label, principle, out, hint) => hint ? { label, principle, hint, out } : { label, principle, out };
+  const card = (id, lv, text, choices) => ({ id, lv, text, choices });
+
+  /* ---- 1) Guidare una squadra di sei persone verso una consegna ---- */
+  SIM.register({
+    id: 'team', title: 'Guidare una squadra di sei persone verso una consegna', icon: '👥',
+    intro: 'Guidi sei persone che devono consegnare un progetto a un cliente fra 30 giorni. Ogni decisione costa o libera tempo e muove produttività, morale e fiducia del gruppo. Il punteggio premia i giorni di margine rimasti (sforare conta come perdita) e la salute della squadra a fine progetto: morale, fiducia e produttività.',
+    vars: {
+      produttivita: { label: 'Produttività', start: 50, min: 0, max: 100 },
+      morale: { label: 'Morale', start: 65, min: 0, max: 100 },
+      fiducia: { label: 'Fiducia nel leader', start: 60, min: 0, max: 100 },
+      scadenza: { label: 'Giorni residui (negativi = ritardo)', start: 30, min: -40, max: 40, unit: 'gg', tight: true }
+    },
+    weights: { produttivita: 0.6, morale: 0.4, fiducia: 0.4, scadenza: 1.6 },
+    penalties: [],
+    turns: 5, utilText: '1,6 × giorni residui (negativi se in ritardo) + 0,6 × produttività + 0,4 × morale + 0,4 × fiducia',
+    cards: [
+      card('t-conflitto', 1, 'Marta (backend) e Luca (frontend) litigano da una settimana su chi debba adattare l’interfaccia: si rispondono a monosillabi e il lavoro si blocca. Mancano 30 giorni.', [
+        ch('Li metti a un tavolo e arbitri subito, decidendo tu', 'Collo di bottiglia', [o(0.75, { scadenza: -1, morale: 3, produttivita: 5 }, 'Decisione chiara, il lavoro riparte; uno dei due borbotta ma accetta.'), o(0.25, { scadenza: -1, morale: -6, fiducia: -4 }, 'Chi perde si sente scavalcato e lo dice agli altri.')]),
+        ch('Lasci che si accordino da soli, intervieni solo se peggiora', 'Costo opportunità', [o(0.45, { scadenza: -1, produttivita: 3, fiducia: 3 }, 'Trovano un compromesso e ne escono rafforzati.'), o(0.55, { scadenza: -4, produttivita: -6, morale: -6 }, 'Si ignorano per altri tre giorni e il blocco si allarga.')]),
+        ch('Mediazione strutturata: ascolti entrambi separatamente, poi insieme', 'Informazione prima di decidere', [o(1, { scadenza: -3, morale: 5, fiducia: 5 }, 'Costa tre giorni di attenzione ma emerge il vero problema (un requisito ambiguo) e viene risolto.')])
+      ]),
+      card('t-star', 3, 'Sara, la tua sviluppatrice migliore, lavora da due settimane fino a mezzanotte. Produce il doppio degli altri, ma ieri ha risposto male a un collega e ha l’aria stanca.', [
+        ch('Le chiedi di mantenere il ritmo: il progetto lo richiede', 'Ridondanza/buffer', [o(0.55, { produttivita: 8, scadenza: 1, morale: -3 }, 'Regge ancora, guadagni qualche giorno.'), o(0.45, { produttivita: -14, morale: -8, scadenza: -4 }, 'Crolla: tre giorni di malattia e il suo lavoro resta incompiuto.')]),
+        ch('La obblighi a staccare due giorni e redistribuisci il suo carico', 'Reversibilità', [o(1, { produttivita: -4, scadenza: -2, morale: 6, fiducia: 5 }, 'Rallenti ora, ma Sara torna lucida e il gruppo vede che ti prendi cura di loro.')]),
+        ch('Parli con lei e concordate un orario sostenibile con un obiettivo preciso', 'Informazione prima di decidere', [o(0.7, { produttivita: 2, morale: 4, fiducia: 4, scadenza: -1 }, 'Capisce, riduce le ore senza perdere la qualità.'), o(0.3, { produttivita: -3, morale: 1, scadenza: -2 }, 'Annuisce ma continua a strafare di nascosto.')])
+      ]),
+      card('t-scope', 4, 'Il cliente chiede una funzione aggiuntiva “piccola”: la stima onesta è 6 giorni di lavoro. Ha già dato segnali di scontento per una consegna precedente.', [
+        ch('Accetti senza discutere per tenerlo contento', 'Costo opportunità', [o(0.6, { scadenza: -6, fiducia: -3, morale: -4 }, 'Il cliente è felice, ma la squadra si ritrova sommersa.'), o(0.4, { scadenza: -8, fiducia: -5, morale: -6, produttivita: -4 }, 'La funzione si rivela più complessa del previsto.')]),
+        ch('Dici no e proponi di rinviarla a una seconda fase', 'Saper dire di no', [o(0.7, { scadenza: 0, fiducia: 4, morale: 3 }, 'Il cliente accetta la seconda fase, la squadra respira.'), o(0.3, { scadenza: -2, fiducia: -2, morale: -2 }, 'Il cliente si irrita e richiede riunioni di chiarimento.')]),
+        ch('Accetti solo in cambio di più tempo e un budget extra', 'Anticipare il secondo ordine', [o(0.5, { scadenza: 3, fiducia: 3, produttivita: 2 }, 'Ottieni una settimana di proroga: il lavoro extra è coperto.'), o(0.5, { scadenza: -3, fiducia: -2, morale: -2 }, 'La trattativa fallisce e perdi due giorni in negoziati.')])
+      ]),
+      card('t-onboard', 5, 'A due settimane dalla fine il direttore ti assegna un nuovo collega, Davide, bravo ma che non conosce il progetto. Ti chiede di inserirlo subito.', [
+        ch('Lo inserisci subito e lo affianchi a Marta', 'Costo opportunità', [o(0.5, { produttivita: -8, scadenza: -3, morale: 2 }, 'Marta perde mezze giornate per spiegare; Davide rende solo alla fine.'), o(0.5, { produttivita: 4, scadenza: 1, morale: 3 }, 'Davide impara in fretta e prende un modulo isolato.')]),
+        ch('Gli assegni un compito autonomo e ben circoscritto (documentazione e test)', 'Ridondanza/buffer', [o(0.8, { produttivita: 3, scadenza: -1, morale: 2 }, 'Un compito utile che non intasa nessuno.'), o(0.2, { produttivita: -2, scadenza: -2 }, 'Il compito risulta meno utile del previsto.')]),
+        ch('Chiedi al direttore di rinviare il suo arrivo a dopo la consegna', 'Saper dire di no', [o(0.6, { fiducia: 2, morale: 2, scadenza: 0 }, 'Il direttore capisce: nessuna distrazione.'), o(0.4, { fiducia: -5, scadenza: 0 }, 'Il direttore la prende male: sembri poco collaborativo.')])
+      ]),
+      card('t-delega', 2, 'Hai sei sotto-compiti da distribuire. Carlo, junior, ha chiesto di guidare il modulo di reportistica. Finora ha sempre consegnato in ritardo.', [
+        ch('Gli affidi il modulo e non controlli', 'Reversibilità', [o(0.4, { morale: 6, fiducia: 5, produttivita: 4 }, 'Carlo si sente valorizzato e consegna bene.'), o(0.6, { scadenza: -5, produttivita: -5, fiducia: -2 }, 'Consegna in ritardo e il modulo va rifatto in parte.')]),
+        ch('Gli affidi il modulo con controlli brevi ogni due giorni', 'Informazione prima di decidere', [o(0.8, { morale: 3, fiducia: 3, produttivita: 3, scadenza: -1 }, 'Il modulo procede, i problemi emergono presto.'), o(0.2, { morale: -2, produttivita: -2, scadenza: -2 }, 'Carlo vive i controlli come sfiducia.')]),
+        ch('Tieni il modulo a Marta e gli dai solo compiti di supporto', 'Collo di bottiglia', [o(1, { produttivita: 2, scadenza: -2, morale: -4, fiducia: -2 }, 'Marta è già sovraccarica; Carlo si demotiva.')])
+      ]),
+      card('t-errore', 7, 'Durante i test scopri che un errore di calcolo, introdotto tre settimane fa, falsa i totali nei report. Il cliente non se n’è ancora accorto e la consegna è tra 12 giorni.', [
+        ch('Lo correggi in silenzio, senza dirlo al cliente', 'Anticipare il secondo ordine', [o(0.65, { scadenza: -3, produttivita: -2, fiducia: 1 }, 'Corretto senza clamore; nessuno se ne accorge.'), o(0.35, { scadenza: -4, fiducia: -12, morale: -6 }, 'Il cliente trova lo scarto nei dati vecchi e si sente ingannato.')]),
+        ch('Lo segnali subito al cliente con un piano di correzione', 'Informazione prima di decidere', [o(0.8, { scadenza: -4, fiducia: 6, morale: 2 }, 'Il cliente apprezza la trasparenza e concede tempo per il controllo.'), o(0.2, { scadenza: -6, fiducia: -2, morale: -4 }, 'Il cliente si arrabbia e pretende una verifica completa.')]),
+        ch('Cerchi chi ha introdotto l’errore e lo richiami davanti a tutti', 'Anticipare il secondo ordine', [o(1, { scadenza: -4, morale: -10, fiducia: -8, produttivita: -3 }, 'La squadra smette di segnalare i propri sbagli.')])
+      ]),
+      card('t-remoto', 3, 'Metà della squadra vorrebbe lavorare da remoto nelle ultime settimane. La sala riunioni è libera solo tre giorni a settimana e i problemi di integrazione si risolvono meglio di persona.', [
+        ch('Tutti in presenza fino alla consegna', 'Reversibilità', [o(0.75, { produttivita: 6, scadenza: 1, morale: -6 }, 'Si decide più in fretta, ma il malumore cresce.'), o(0.25, { produttivita: 2, morale: -10, fiducia: -4 }, 'Due persone si lamentano apertamente degli spostamenti.')]),
+        ch('Remoto libero, con un check-in quotidiano di 15 minuti', 'Ridondanza/buffer', [o(0.6, { morale: 5, produttivita: 2, fiducia: 3 }, 'La libertà viene ripagata con puntualità.'), o(0.4, { produttivita: -6, scadenza: -2, morale: 2 }, 'Qualche incomprensione si trascina per giorni.')]),
+        ch('Presenza solo per i giorni di integrazione e remoto per il resto', 'Collo di bottiglia', [o(1, { produttivita: 4, morale: 2, fiducia: 2, scadenza: 0 }, 'Un compromesso che tiene insieme le esigenze.')])
+      ]),
+      card('t-riconoscimento', 1, 'La squadra ha chiuso un modulo difficile con tre giorni di anticipo. Hai un budget minimo di 200 euro e puoi concedere mezza giornata libera.', [
+        ch('Offri una cena e ringrazi pubblicamente uno per uno', 'Anticipare il secondo ordine', [o(1, { morale: 9, fiducia: 4, scadenza: -1 }, 'Atmosfera ottima, si perde un pomeriggio.')]),
+        ch('Mezza giornata libera per tutti', 'Costo opportunità', [o(0.8, { morale: 6, fiducia: 2, scadenza: -2 }, 'Il gruppo ricarica le energie.'), o(0.2, { morale: 6, scadenza: -2, produttivita: -2 }, 'Il ritmo si perde per un paio di giorni.')]),
+        ch('Un semplice grazie in chat e subito al modulo seguente', 'Costo opportunità', [o(0.6, { scadenza: 1, produttivita: 3, morale: -3 }, 'Si guadagna tempo, ma senza entusiasmo.'), o(0.4, { scadenza: 1, morale: -8, fiducia: -3 }, 'Qualcuno nota che il suo sforzo è passato inosservato.')])
+      ]),
+      card('t-riunioni', 2, 'Il calendario è invaso da riunioni: 11 ore a settimana tra aggiornamenti, sincronizzazioni con il cliente e call interne. Il gruppo comincia a lamentarsene.', [
+        ch('Tagli tutto tranne un aggiornamento da 20 minuti al giorno', 'Collo di bottiglia', [o(0.7, { produttivita: 8, scadenza: 2, morale: 3 }, 'Più ore di lavoro vero, meno interruzioni.'), o(0.3, { produttivita: 3, scadenza: 1, fiducia: -5 }, 'Il cliente si sente trascurato e chiede chiarimenti.')]),
+        ch('Mantieni tutto per non perdere informazioni', 'Informazione prima di decidere', [o(1, { produttivita: -4, scadenza: -2, morale: -3, fiducia: 2 }, 'Tutti informati, ma il lavoro avanza poco.')]),
+        ch('Sposti gli aggiornamenti per iscritto e tieni solo una riunione settimanale', 'Reversibilità', [o(0.65, { produttivita: 6, scadenza: 1, morale: 2 }, 'Funziona bene dopo un paio di giorni di assestamento.'), o(0.35, { produttivita: 1, scadenza: -1, fiducia: -3 }, 'I messaggi scritti vengono letti male e nascono equivoci.')])
+      ]),
+      card('t-bus', 6, 'Hai notato che solo Marta conosce il modulo di pagamento. Se si ammalasse in questi ultimi giorni il progetto si fermerebbe. Documentare e farlo imparare a un secondo richiede almeno 3 giorni.', [
+        ch('Ignori il rischio: c’è troppo da fare', 'Ridondanza/buffer', [o(0.8, { produttivita: 3, scadenza: 0 }, 'Per fortuna Marta resta in salute.'), o(0.2, { produttivita: -12, scadenza: -6, morale: -4 }, 'Marta si ammala per cinque giorni: nessuno sa dove mettere le mani.')]),
+        ch('Fai fare un affiancamento a Davide: 3 giorni di Marta dedicati', 'Ridondanza/buffer', [o(1, { scadenza: -3, produttivita: -3, fiducia: 4, morale: 2 }, 'Il rischio è coperto, ma paghi in tempo e in velocità.')]),
+        ch('Chiedi a Marta di scrivere una guida in mezza giornata', 'Reversibilità', [o(0.6, { scadenza: -1, fiducia: 2, produttivita: 1 }, 'Una guida sintetica che basta a evitare il disastro.'), o(0.4, { scadenza: -2, morale: -3 }, 'La guida è troppo vaga e Marta si sente messa sotto pressione.')])
+      ]),
+      card('t-straordinari', 8, 'Mancano 9 giorni e il lavoro accumulato è superiore alla capacità: senza intervento sforerai di 5 giorni. Il direttore ti suggerisce di imporre straordinari per due settimane.', [
+        ch('Imponi gli straordinari a tutti', 'Anticipare il secondo ordine', [o(0.55, { scadenza: 4, produttivita: 8, morale: -14, fiducia: -8 }, 'Recuperi i giorni, ma la squadra è esausta.'), o(0.45, { scadenza: 1, produttivita: -4, morale: -18, fiducia: -12 }, 'Gli errori aumentano e due persone minacciano di andarsene.')]),
+        ch('Tagli le funzioni non essenziali dopo averle concordate con il cliente', 'Informazione prima di decidere', [o(0.6, { scadenza: 5, morale: 3, fiducia: 2, produttivita: 3 }, 'Il cliente accetta di togliere due funzioni: il resto è fattibile.'), o(0.4, { scadenza: 2, fiducia: -6, morale: -2 }, 'Il cliente rifiuta di tagliare e perdi due giorni nella discussione.')]),
+        ch('Chiedi volontari per straordinari limitati e compensati', 'Reversibilità', [o(0.7, { scadenza: 3, produttivita: 5, morale: -3, fiducia: 3 }, 'Tre persone si offrono e il resto tiene il ritmo.'), o(0.3, { scadenza: 1, produttivita: 1, morale: -5, fiducia: -2 }, 'Pochi volontari e qualche tensione.')])
+      ]),
+      card('t-formazione', 2, 'Un corso interno di due giorni su uno strumento di test automatici potrebbe far risparmiare tempo nelle fasi finali, ma ora ogni giorno conta.', [
+        ch('Fai fare il corso a tutta la squadra', 'Costo opportunità', [o(0.65, { scadenza: -2, produttivita: 9, morale: 3 }, 'I test automatici abbreviano le verifiche finali.'), o(0.35, { scadenza: -2, produttivita: 1, morale: 1 }, 'Il corso è troppo generico e serve a poco.')]),
+        ch('Mandi solo una persona e lei insegna agli altri a spizzichi', 'Collo di bottiglia', [o(0.7, { scadenza: -1, produttivita: 4, fiducia: 1 }, 'Un buon compromesso.'), o(0.3, { scadenza: -1, produttivita: -1 }, 'Il tempo del formatore pesa sul suo lavoro.')]),
+        ch('Rinvii: non c’è tempo per imparare ora', 'Costo opportunità', [o(1, { scadenza: 0, produttivita: -2, morale: -1 }, 'Si va avanti con i metodi consueti.')])
+      ]),
+      card('t-demo', 4, 'Il cliente chiede una demo intermedia entro tre giorni. Prepararla costa un giorno e mezzo di lavoro, ma farebbe emergere eventuali fraintendimenti prima della fine.', [
+        ch('Fai la demo con la versione attuale, anche se incompleta', 'Informazione prima di decidere', [o(0.7, { scadenza: -2, fiducia: 5, produttivita: 3 }, 'Il cliente corregge subito due richieste fraintese: evitati rifacimenti.'), o(0.3, { scadenza: -4, fiducia: -3, morale: -3 }, 'Il cliente chiede cambiamenti sostanziali.')]),
+        ch('Rifiuti la demo e consegni tutto alla fine', 'Reversibilità', [o(0.55, { scadenza: 1, produttivita: 3 }, 'Nessun intoppo: guadagni tempo.'), o(0.45, { scadenza: -6, fiducia: -6, morale: -4 }, 'A fine lavoro emerge un fraintendimento grosso: rifacimenti.')]),
+        ch('Offri una breve presentazione su diapositive', 'Costo opportunità', [o(1, { scadenza: -1, fiducia: 2 }, 'Il cliente si tranquillizza solo in parte.')])
+      ]),
+      card('t-uscita', 9, 'Luca ha ricevuto un’offerta da un’altra azienda e te lo confida. Vorrebbe restare, ma chiede un aumento che non puoi concedere da solo; è l’unico a conoscere il frontend.', [
+        ch('Prometti di battertelo con la direzione dopo la consegna', 'Anticipare il secondo ordine', [o(0.55, { fiducia: 4, morale: 2, produttivita: 2 }, 'Luca si fida e resta fino alla consegna.'), o(0.45, { fiducia: -8, morale: -4, produttivita: -10, scadenza: -4 }, 'Luca non ci crede, accetta l’offerta e lascia a metà lavoro.')]),
+        ch('Porti subito la richiesta alla direzione, anche a costo di sembrare insistente', 'Informazione prima di decidere', [o(0.6, { fiducia: 7, morale: 4, scadenza: -1 }, 'La direzione concede un riconoscimento e Luca resta.'), o(0.4, { fiducia: 1, morale: -3, scadenza: -2 }, 'La direzione rifiuta; Luca resta controvoglia.')]),
+        ch('Cominci subito a farlo affiancare da un collega', 'Ridondanza/buffer', [o(1, { produttivita: -4, scadenza: -3, fiducia: -2, morale: -2 }, 'Il rischio si riduce ma Luca si sente sostituito.')])
+      ])
+    ]
+  });
+
+  /* ---- 2) Gestire una piccola attività per un trimestre ---- */
+  SIM.register({
+    id: 'impresa', title: 'Gestire una piccola attività per un trimestre', icon: '🏪',
+    intro: 'Gestisci un negozio di quartiere (un bar-gastronomia) per tre mesi, con 40 mila euro di cassa. Ogni decisione sposta cassa, clienti, reputazione e scorte. Alla fine il punteggio premia la cassa e la solidità dell’attività (clienti e reputazione), e la cassa può andare in rosso (scoperto), che pesa come perdita secca.',
+    vars: {
+      cassa: { label: 'Cassa', start: 40, min: -30, max: 120, unit: 'k€', tight: true },
+      clienti: { label: 'Clienti', start: 50, min: 0, max: 100 },
+      reputazione: { label: 'Reputazione', start: 60, min: 0, max: 100 },
+      scorte: { label: 'Scorte', start: 50, min: 0, max: 100 }
+    },
+    weights: { cassa: 2, clienti: 0.8, reputazione: 0.8, scorte: 0.3 },
+    penalties: [],
+    turns: 5, utilText: '2 × cassa (negativa se in rosso) + 0,8 × clienti + 0,8 × reputazione + 0,3 × scorte',
+    cards: [
+      card('i-prezzi', 1, 'I costi sono saliti e il margine sui piatti del giorno è sceso al 18%. Puoi ritoccare i prezzi: i clienti abituali sono sensibili ai cambi.', [
+        ch('Alzi i prezzi del 10% su tutto', 'Anticipare il secondo ordine', [o(0.5, { cassa: 6, clienti: -6, reputazione: -2 }, 'I clienti accettano con qualche protesta: margini migliori.'), o(0.5, { cassa: 2, clienti: -14, reputazione: -4 }, 'Diversi clienti passano alla concorrenza.')]),
+        ch('Ritocchi solo i prodotti a margine basso e tieni fermi i best seller', 'Costo opportunità', [o(0.8, { cassa: 3, clienti: -2 }, 'Piccolo recupero senza scossoni.'), o(0.2, { cassa: 1, clienti: -5, reputazione: -1 }, 'Il cambio si nota comunque.')]),
+        ch('Tieni i prezzi e riduci le porzioni del 5%', 'Informazione prima di decidere', [o(0.55, { cassa: 4, clienti: 0, reputazione: 0 }, 'Nessuno se ne accorge.'), o(0.45, { cassa: 3, clienti: -4, reputazione: -8 }, 'Un cliente lo nota e lo scrive online.')])
+      ]),
+      card('i-promo', 2, 'Una settimana di calo. Pensi a una promozione: due caffè al prezzo di uno per tre giorni, che costa circa 1,5 k€ in margini ma porta traffico.', [
+        ch('Lanci la promo su tutto il menu', 'Costo opportunità', [o(0.55, { cassa: -3, clienti: 12, reputazione: 3, scorte: -10 }, 'Il locale si riempie e molti tornano.'), o(0.45, { cassa: -5, clienti: 4, scorte: -8 }, 'Arrivano cacciatori di sconti che non tornano.')]),
+        ch('Promo mirata solo alle fasce orarie vuote', 'Collo di bottiglia', [o(0.7, { cassa: -1, clienti: 7, scorte: -4 }, 'Riempi le ore morte con un costo contenuto.'), o(0.3, { cassa: -1, clienti: 2, scorte: -2 }, 'Effetto debole.')]),
+        ch('Nessuna promo, aspetti che il traffico torni', 'Reversibilità', [o(0.6, { cassa: 2, clienti: 2 }, 'La settimana successiva si riprende.'), o(0.4, { cassa: -1, clienti: -6, reputazione: -1 }, 'Il calo si prolunga.')])
+      ]),
+      card('i-ordine', 5, 'Un’azienda del quartiere chiede un catering per 120 persone, tra una settimana: incasso 6 k€, ma servono 30 punti di scorte e due giorni di lavoro extra del personale. Le tue scorte sono già basse.', [
+        ch('Accetti e compri subito le scorte necessarie', 'Costo opportunità', [o(0.7, { cassa: 4, reputazione: 8, scorte: -25, clienti: 3 }, 'Il catering riesce bene e arrivano nuovi contatti.'), o(0.3, { cassa: -1, reputazione: -6, scorte: -25 }, 'Un ritardo nelle consegne rovina la serata.')]),
+        ch('Accetti con un menu ridotto che usa meno scorte', 'Ridondanza/buffer', [o(0.85, { cassa: 3, reputazione: 4, scorte: -12 }, 'Il cliente è soddisfatto e il margine tiene.'), o(0.15, { cassa: 2, reputazione: -2, scorte: -12 }, 'Il cliente avrebbe voluto più scelta.')]),
+        ch('Rifiuti: preferisci concentrarti sul negozio', 'Saper dire di no', [o(1, { cassa: 0, reputazione: -1, clienti: -1 }, 'Perdi l’occasione ma nessun rischio.')])
+      ]),
+      card('i-concorrente', 4, 'Una catena di bar sta aprendo a 200 metri. Il personale è inquieto e alcuni clienti chiedono se resterai aperto.', [
+        ch('Lanci una campagna di fedeltà: tessera con ogni decimo caffè gratis', 'Anticipare il secondo ordine', [o(0.65, { cassa: -2, clienti: 9, reputazione: 4 }, 'I clienti abituali si legano al locale.'), o(0.35, { cassa: -3, clienti: 3, reputazione: 1 }, 'Pochi la usano e il costo pesa.')]),
+        ch('Tagli i prezzi per competere', 'Costo opportunità', [o(0.4, { cassa: -3, clienti: 8, reputazione: 1 }, 'Tieni i clienti, ma con margini sottili.'), o(0.6, { cassa: -6, clienti: 3, reputazione: -2 }, 'La catena può permettersi prezzi più bassi: guerra persa.')]),
+        ch('Punti sulla qualità: nuovi prodotti locali e servizio curato', 'Informazione prima di decidere', [o(0.6, { cassa: -3, clienti: 4, reputazione: 9, scorte: -5 }, 'Il locale si differenzia e tiene la clientela.'), o(0.4, { cassa: -4, clienti: -3, reputazione: 3, scorte: -5 }, 'La clientela occasionale se ne va.')])
+      ]),
+      card('i-assenza', 1, 'La tua cameriera più esperta si ammala per due settimane. Il turno del weekend resta scoperto.', [
+        ch('Assumi un sostituto a giornata', 'Ridondanza/buffer', [o(0.8, { cassa: -2, reputazione: -1, clienti: 0 }, 'Servizio senza intoppi.'), o(0.2, { cassa: -2, reputazione: -4, clienti: -3 }, 'Il sostituto è inesperto e sbaglia ordinazioni.')]),
+        ch('Copri tu il turno, riducendo gli orari serali', 'Collo di bottiglia', [o(1, { cassa: -1, clienti: -5, reputazione: -2 }, 'Perdi la clientela serale per qualche giorno.')]),
+        ch('Chiedi a tutto il personale di fare qualche ora in più', 'Reversibilità', [o(0.6, { cassa: -1, reputazione: 0 }, 'Si tiene botta con un po’ di buona volontà.'), o(0.4, { cassa: -1, reputazione: -5, clienti: -2 }, 'Stanchezza e servizio più lento.')])
+      ]),
+      card('i-fornitore', 3, 'Il fornitore principale di caffè e farine annuncia un rincaro del 12% dal mese prossimo. Un altro fornitore propone prezzi più bassi, ma non lo conosci.', [
+        ch('Resti col fornitore storico e accetti il rincaro', 'Costo opportunità', [o(1, { cassa: -3, reputazione: 1 }, 'Nessun rischio ma margini erosi.')]),
+        ch('Passi subito al nuovo fornitore', 'Anticipare il secondo ordine', [o(0.55, { cassa: 3, scorte: 3 }, 'La qualità è ottima e risparmi.'), o(0.45, { cassa: 1, scorte: -12, reputazione: -6 }, 'Consegne in ritardo e qualità discontinua.')]),
+        ch('Ordini un campione al nuovo e fai un piccolo ordine di prova mantenendo il vecchio', 'Informazione prima di decidere', [o(1, { cassa: -2, scorte: 3, reputazione: 0 }, 'Costo di doppia gestione, ma ora hai un’alternativa verificata.')]),
+        ch('Compri scorte extra ora al vecchio prezzo', 'Ridondanza/buffer', [o(0.75, { cassa: -4, scorte: 18 }, 'Hai magazzino a prezzo basso.'), o(0.25, { cassa: -5, scorte: 12, reputazione: -1 }, 'Parte della merce si deteriora.')])
+      ]),
+      card('i-recensione', 6, 'Una recensione online molto dura (“sporco e personale scortese”) è diventata virale nel quartiere. Alcuni clienti non vengono più.', [
+        ch('Rispondi pubblicamente con scuse e un invito a tornare', 'Informazione prima di decidere', [o(0.65, { reputazione: 8, clienti: 4, cassa: -1 }, 'La risposta cortese viene apprezzata.'), o(0.35, { reputazione: -3, clienti: 0 }, 'Il recensore replica e la polemica continua.')]),
+        ch('Ignori la recensione e aspetti che passi', 'Reversibilità', [o(0.4, { reputazione: -3, clienti: -3 }, 'Si spegne da sola.'), o(0.6, { reputazione: -12, clienti: -8 }, 'Altre recensioni la seguono.')]),
+        ch('Offri una cena gratuita al recensore e un ricontrollo dei locali', 'Costo opportunità', [o(0.55, { cassa: -2, reputazione: 10, clienti: 5 }, 'Il recensore cambia il giudizio.'), o(0.45, { cassa: -2, reputazione: 2, clienti: 0 }, 'Non risponde.')])
+      ]),
+      card('i-prestito', 7, 'La banca ti offre un prestito di 20 k€ al 6% annuo, rimborsabile in 12 mesi. Potresti usarlo come cuscinetto o per rinnovare le attrezzature.', [
+        ch('Accetti e tieni tutto in cassa come cuscinetto', 'Ridondanza/buffer', [o(1, { cassa: 17, reputazione: 0 }, 'Cassa rinforzata, al netto di interessi e rate.')]),
+        ch('Accetti e investi in un nuovo banco frigo', 'Costo opportunità', [o(0.6, { cassa: 5, clienti: 8, reputazione: 5, scorte: 8 }, 'Il banco migliora conservazione e presentazione.'), o(0.4, { cassa: 3, clienti: 2, scorte: 5 }, 'L’effetto sulle vendite è modesto.')]),
+        ch('Rifiuti: non vuoi debiti', 'Reversibilità', [o(1, { cassa: 0 }, 'Nessun debito, nessun margine di manovra.')])
+      ]),
+      card('i-stagione', 3, 'Arrivano le settimane di punta (feste e mercatini). Se ti prepari, puoi servire molti più clienti; se sbagli le previsioni, rischi di restare con la merce invenduta o di rimanere a secco.', [
+        ch('Fai un grosso ordine di scorte (+30 punti)', 'Ridondanza/buffer', [o(0.6, { cassa: -8, scorte: 28, clienti: 10, reputazione: 3 }, 'Il picco c’è e sei pronto: incassi alti.'), o(0.4, { cassa: -10, scorte: 14, clienti: 3 }, 'Il picco è debole e resta merce.')]),
+        ch('Ordini la metà e riordini se serve', 'Informazione prima di decidere', [o(0.7, { cassa: -4, scorte: 14, clienti: 6 }, 'Un buon equilibrio.'), o(0.3, { cassa: -5, scorte: 8, clienti: -2, reputazione: -4 }, 'Finisci i prodotti nel momento migliore.')]),
+        ch('Assumi un extra e ordini il minimo', 'Collo di bottiglia', [o(1, { cassa: -3, scorte: 6, clienti: 3, reputazione: 2 }, 'Servizio regolare senza rischi di magazzino.')])
+      ]),
+      card('i-guasto', 5, 'Il forno principale si rompe: la riparazione costa 1,5 k€ e richiede due giorni; un forno nuovo costerebbe 6 k€ e sarebbe più efficiente.', [
+        ch('Ripari il forno', 'Reversibilità', [o(0.65, { cassa: -2, clienti: -3 }, 'Forno di nuovo operativo.'), o(0.35, { cassa: -4, clienti: -6, reputazione: -2 }, 'Il guasto si ripresenta dopo pochi giorni.')]),
+        ch('Compri il forno nuovo', 'Costo opportunità', [o(1, { cassa: -6, clienti: -1, reputazione: 2, scorte: 0 }, 'Spesa alta, ma affidabilità e consumi migliori.')]),
+        ch('Noleggi un forno per un mese', 'Ridondanza/buffer', [o(0.8, { cassa: -3, clienti: -1 }, 'Il noleggio ti dà tempo.'), o(0.2, { cassa: -4, clienti: -3 }, 'Il noleggio arriva in ritardo.')])
+      ]),
+      card('i-espansione', 8, 'Si libera il locale accanto: affitto 1,2 k€ al mese, lavori 10 k€. Potresti raddoppiare i posti a sedere, ma la clientela attuale basta appena per il locale che hai.', [
+        ch('Prendi il locale e avvii i lavori', 'Anticipare il secondo ordine', [o(0.4, { cassa: -10, clienti: 18, reputazione: 6, scorte: -6 }, 'L’espansione attira nuova clientela.'), o(0.6, { cassa: -14, clienti: 4, reputazione: -2, scorte: -6 }, 'Il locale resta mezzo vuoto e pesano i costi.')]),
+        ch('Rifiuti ora e rinvii a dopo il trimestre', 'Reversibilità', [o(1, { cassa: 1, clienti: 0 }, 'Resti con il locale attuale.')]),
+        ch('Chiedi di usare il locale solo nel weekend, a prova', 'Informazione prima di decidere', [o(0.6, { cassa: -3, clienti: 7, reputazione: 3 }, 'Il test conferma una domanda reale.'), o(0.4, { cassa: -4, clienti: 1, reputazione: 0 }, 'Poca affluenza: la prova ti evita un grosso errore.')])
+      ]),
+      card('i-evento', 2, 'La pro loco ti propone di avere uno stand alla sagra del paese: 800 euro per l’iscrizione, con buone possibilità di far conoscere il locale.', [
+        ch('Partecipi con uno stand completo', 'Costo opportunità', [o(0.6, { cassa: -1, clienti: 10, reputazione: 5, scorte: -8 }, 'Ottimo ritorno di immagine.'), o(0.4, { cassa: -2, clienti: 3, reputazione: 1, scorte: -8 }, 'Poca gente, giornata faticosa.')]),
+        ch('Partecipi solo con un piccolo banco di assaggi', 'Ridondanza/buffer', [o(0.8, { cassa: 0, clienti: 5, reputazione: 3, scorte: -3 }, 'Visibilità a costo contenuto.'), o(0.2, { cassa: 0, clienti: 1, scorte: -3 }, 'Passa inosservato.')]),
+        ch('Salti la sagra e investi nella vetrina del negozio', 'Reversibilità', [o(1, { cassa: -1, clienti: 3, reputazione: 2 }, 'Più attrattiva sulla via.')])
+      ]),
+      card('i-credito', 6, 'Un cliente aziendale importante chiede di pagare a 60 giorni un fornitura da 8 k€. Se rifiuti, probabilmente si rivolge altrove.', [
+        ch('Accetti il pagamento a 60 giorni', 'Anticipare il secondo ordine', [o(0.8, { cassa: -2, clienti: 5, reputazione: 3 }, 'Cliente fedele; incasso rimandato.'), o(0.2, { cassa: -8, clienti: 2, reputazione: -3 }, 'Il cliente ritarda ulteriormente.')]),
+        ch('Chiedi un acconto del 50% e saldo a 30 giorni', 'Collo di bottiglia', [o(0.6, { cassa: 4, clienti: 3, reputazione: 1 }, 'Il cliente accetta.'), o(0.4, { cassa: 0, clienti: -4, reputazione: -1 }, 'Il cliente rifiuta e se ne va.')]),
+        ch('Rifiuti la fornitura', 'Saper dire di no', [o(1, { cassa: 0, clienti: -3, reputazione: -2 }, 'Nessun rischio ma perdi il contatto.')])
+      ])
+    ]
+  });
+})(window.ST = window.ST || {});
 
 /* ---- content/en-l0-l1 ---- */
 /* Inglese — stage L0 (fondamenta B1) e L1 (B1 solido). */
@@ -16872,7 +17445,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     if (!pill) { A.toast('Nessuna pillola disponibile.'); return; }
     A.ctx = 'general'; A.pb = { general: 'theory' };
     if (slot === 'cyberlab') { X.startCyber(); return; }
-    if (slot === 'strategylab') { X.startStrategy(); return; }
+    if (slot === 'strategylab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom(); else X.startStrategy(); return; }
     const r = P.topicRec(A.state, pill.id);
     if (r.studied && !P.atLeast(P.topicStatus(A.state, pill.id), 'practiced')) X.startPractice(pill.id);
     else if (r.studied && P.atLeast(P.topicStatus(A.state, pill.id), 'practiced') && !P.atLeast(P.topicStatus(A.state, pill.id), 'verified') && U.diffDays(r.studied, U.today()) >= 1) X.startTest(pill.id);
@@ -17141,7 +17714,67 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     const s = A.state, P = ST.progress, focus = s.profile.theoryFocus === 'str', lessons = C.topicsOf('str').filter(t => !t.pill), read = lessons.filter(t => P.atLeast(P.topicStatus(s, t.id), 'studied')).length, np = SG.puzzles().length;
     return '<div class="card glow"><h3>Laboratori di strategia · generati e verificati</h3><p class="small mute">Equilibri di Nash, valore atteso, minimax e alpha-beta, numeri di Grundy, zaino, intervalli, cammini minimi, probabilità' + (np ? ' e ' + np + ' problemi di scacchi controllati dal motore' : '') + '. Le risposte sono calcolate dal programma, non copiate.</p>' +
       '<button class="btn block" data-act="startStrategy">▶ Laboratorio da 5 minuti</button><table class="t" style="margin-top:8px">' + SG.TYPES.map(t => { const m = (s.strategy || {})[t], acc = SG.accuracy(s, t); return '<tr><td>' + E(SG.LABEL[t]) + '</td><td>Lv ' + SG.level(s, t) + '</td><td class="mute">' + (m && m.n ? Math.round(100 * (acc || 0)) + '%' : '—') + '</td><td><button class="btn alt sm" data-act="startStrategyType" data-t="' + t + '">▶</button></td></tr>'; }).join('') + '</table></div>' +
+      ST.simHub() +
       '<div class="card"><h3>Tempo dedicato</h3><p class="small">Lezioni lette: <b>' + read + ' / ' + lessons.length + '</b>. La teoria ha 1 slot al giorno a rotazione fra le materie (la priorità sostituisce quella della cybersecurity).</p><button class="btn alt" data-act="st-focus">' + (focus ? 'Torna alla rotazione equilibrata' : 'Dai priorità alla strategia (4 giorni su 7)') + '</button></div>';
+  };
+})(window.ST = window.ST || {});
+
+/* ---- ui/sim ---- */
+/* SkillTree — simulatore di strategia: partite a turni con risorse e imprevisti, debrief per qualità delle decisioni. */
+(function (ST) {
+  'use strict';
+  const U = ST.util, A = ST.app, E = U.esc, V = ST.views, X = ST.acts, SIM = ST.sim;
+  const rec = (s, id) => { s.sim = s.sim || {}; return (s.sim[id] = s.sim[id] || { level: 1, n: 0, best: 0 }); };
+
+  X.startSim = el => {
+    const s = A.state, id = el && el.dataset && el.dataset.id, tpl = SIM.templates.find(t => t.id === id) || U.pick(SIM.templates), r = rec(s, tpl.id);
+    const inst = SIM.make(tpl.id, r.level); A.ctx = 'general';
+    A.act = { kind: 'sim', inst, st: SIM.start(inst), last: null, debrief: null };
+    A.go('sim');
+  };
+  X.startSimRandom = () => X.startSim({ dataset: { id: U.pick(SIM.templates).id } });
+  X['sim-pick'] = el => {
+    const a = A.act; if (!a || a.kind !== 'sim' || a.debrief) return; const before = a.st;
+    a.st = SIM.apply(a.inst, a.st, +el.dataset.i); a.last = { text: a.st.outcome.text, delta: Object.keys(a.inst.defs).map(k => [k, a.st.vars[k] - before.vars[k]]).filter(x => Math.abs(x[1]) > 1e-9), label: a.inst.cards[before.i].choices[+el.dataset.i].label };
+    if (SIM.done(a.inst, a.st)) {
+      const d = a.debrief = SIM.debrief(a.inst, a.st), s = A.state, r = rec(s, a.inst.tpl);
+      r.n++; r.best = Math.max(r.best, Math.round(d.quality * 100)); r.last = Math.round(d.quality * 100);
+      if (d.quality >= 0.85 && r.level < 10) r.level++; else if (d.quality < 0.55 && r.level > 1) r.level--;
+      s.simLog = (s.simLog || []).concat({ d: U.today(), tpl: a.inst.tpl, lv: a.inst.level, q: Math.round(d.quality * 100), final: Math.round(d.final) }).slice(-60);
+      A.xp(Math.round(d.quality * 20), 'sim'); A.subjectTouch('str'); A.save();
+    }
+    A.render();
+  };
+  X['sim-close'] = () => { const a = A.act; A.act = null; if (a && a.debrief) A.blockComplete('practice'); A.back(); };
+
+  const bar = (inst, k, v) => { const d = inst.defs[k], span = (d.max != null && d.min != null && d.max - d.min <= 1000) ? (d.max - d.min) : 0, pc = span ? Math.round(100 * (v - d.min) / span) : null; return '<div class="row" style="margin:3px 0"><span class="small" style="min-width:120px">' + E(d.label) + '</span><b>' + E(SIM.fmtVar(inst, k, v)) + '</b>' + (pc != null ? '<div class="prog" style="flex:1;margin-left:8px"><i style="width:' + U.clamp(pc, 0, 100) + '%"></i></div>' : '') + '</div>'; };
+  V.sim = () => {
+    const a = A.act; if (!a || a.kind !== 'sim') return '<p>Nessuna simulazione attiva.</p>';
+    const inst = a.inst, st = a.st;
+    let h = '<div class="row"><button class="btn alt sm" data-act="sim-close">' + (a.debrief ? 'Chiudi' : '✕ Esci') + '</button><span class="sp"></span><span class="mute small">Livello ' + inst.level + '</span></div><h1>' + inst.icon + ' ' + E(inst.title) + '</h1>';
+    if (a.debrief) {
+      const d = a.debrief, q = Math.round(d.quality * 100);
+      h += '<div class="card glow center"><div class="big">' + q + '%</div><p class="mute">qualità delle decisioni (rimpianto atteso totale: ' + d.regret.toFixed(1) + ')</p><p class="small">Punteggio finale <b>' + Math.round(d.final) + '</b> · politica ottimale in media ' + Math.round(d.top) + ' · peggiore ' + Math.round(d.bottom) + '</p></div>' +
+        '<div class="card"><h3>Stato finale</h3>' + Object.keys(inst.defs).map(k => bar(inst, k, st.vars[k])).join('') + '</div>' +
+        '<h2>Le tue decisioni</h2>' + d.rows.map((r, i) => { const lvl = r.regret / d.range, tag = lvl < 0.005 ? '<span class="tag good">ottima</span>' : lvl < 0.04 ? '<span class="tag acc">accettabile</span>' : '<span class="tag">da rivedere</span>', best = r.card.choices[r.best], mine = r.card.choices[r.chosen];
+          return '<div class="card"><div class="mute small">Decisione ' + (i + 1) + ' ' + tag + '</div><p class="small">' + E(r.card.text) + '</p><p><b>Hai scelto:</b> ' + E(mine.label) + '<br><span class="mute small">Esito: ' + E(r.text) + '</span></p>' + (r.chosen !== r.best ? '<p><b>Migliore (valore atteso):</b> ' + E(best.label) + '</p><p class="mute small">Idea chiave: ' + E(best.principle || '—') + ' · differenza attesa ' + r.regret.toFixed(1) + '</p>' : '<p class="mute small">Idea chiave: ' + E(mine.principle || '—') + '</p>') + '</div>'; }).join('') +
+        '<p class="mute small">Giudica le decisioni dal processo, non solo dall’esito: una buona scelta può andare male per sfortuna (e viceversa). Qui il «migliore» è la scelta con il valore atteso più alto, calcolato su tutti i seguiti possibili. Lo scenario è inventato e semplificato.</p>' +
+        '<div class="row"><button class="btn" data-act="startSim" data-id="' + E(inst.tpl) + '">↻ Nuova partita (stesso scenario, eventi diversi)</button><button class="btn alt" data-act="sim-close">Chiudi</button></div>';
+      return h;
+    }
+    const card = SIM.card(inst, st);
+    h += (st.i === 0 ? '<div class="card"><p>' + E(inst.intro) + '</p><p class="mute small">Punteggio: ' + E(inst.utilText || 'somma pesata delle variabili') + '</p></div>' : '') +
+      '<div class="card"><h3>Situazione</h3>' + Object.keys(inst.defs).map(k => bar(inst, k, st.vars[k])).join('') + '</div>';
+    if (a.last) h += '<div class="card"><div class="mute small">Hai scelto: ' + E(a.last.label) + '</div><p>' + E(a.last.text) + '</p><p class="small">' + a.last.delta.map(x => E(inst.defs[x[0]].label) + ' ' + (x[1] > 0 ? '+' : '') + Math.round(x[1] * 10) / 10).join(' · ') + '</p></div>';
+    h += '<div class="card"><div class="mute small">Decisione ' + (st.i + 1) + ' / ' + inst.cards.length + '</div><p><b>' + E(card.text) + '</b></p>' + card.choices.map((ch, i) => '<button class="opt" data-act="sim-pick" data-i="' + i + '">' + E(ch.label) + (ch.hint ? '<br><span class="mute small">' + E(ch.hint) + '</span>' : '') + '</button>').join('') + '</div>';
+    return h;
+  };
+
+  ST.simHub = () => {
+    const s = A.state, log = (s.simLog || []).slice(-8);
+    return '<h2>Simulazioni: applica la strategia in scenari inventati</h2><p class="mute small">Partite a turni con risorse e imprevisti. Dopo l’ultima decisione vedi quanto le tue scelte si avvicinano a quelle a valore atteso massimo (qualità delle decisioni). La difficoltà si adatta a te.</p><div class="list">' +
+      SIM.templates.map(t => { const r = (s.sim || {})[t.id]; return '<button class="item" data-act="startSim" data-id="' + E(t.id) + '"><span class="ic">' + t.icon + '</span><span class="tx"><b>' + E(t.title) + '</b><span>livello ' + (r ? r.level : 1) + (r && r.n ? ' · ' + r.n + ' partite · miglior qualità ' + r.best + '%' : ' · mai giocata') + '</span></span></button>'; }).join('') + '</div>' +
+      '<button class="btn alt" data-act="startSimRandom" style="margin-top:8px">🎲 Scenario a sorpresa</button>' + (log.length ? '<p class="small mute">Ultime partite: ' + log.map(x => x.q + '%').join(' · ') + '</p>' : '');
   };
 })(window.ST = window.ST || {});
 
