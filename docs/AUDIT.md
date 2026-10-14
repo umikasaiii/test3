@@ -209,7 +209,7 @@ Su tua richiesta la repo `test3` è stata svuotata (il vecchio contenuto — un 
 | Audio | Attesa delle voci asincrone, scelta voce per regione, riproduzione a frasi, `onend`/`onerror`/timeout, messaggi d'errore guidati, diagnostica (Altro → Audio), registrazione con permessi gestiti |
 | Judo | 12 tecniche **solo solitarie** (posture, spostamenti, tai sabaki, kuzushi, kumi-kata, 3 entrate a vuoto, shrimp, rialzo, tempismo, uchikomi a vuoto), scheduler settimanale (intro/consolidamento/movimento/variante/richiamo casuale/combinazioni/domenica teoria), timer 30″-2′30″-1′30″-30″ adattivo, registro completo, verifica istruttore **separata** |
 | Allenamento mentale | 7 tipi generati (calcolo, successioni, span, Corsi, elemento diverso, Stroop, logica) con livello adattivo 1–10 |
-| Contenuti | Inglese 42 argomenti (≈ 15.900 parole di lezione, 294 esercizi, 168 domande di verifica, 336 carte, 42 brani). Giapponese 42 argomenti (≈ 11.100 parole, 294 esercizi, 168 domande, 336 carte, 42 brani; 5 set di kanji in contesto). Pool B2: 10 ascolti + 10 letture. 23 dialoghi ramificati (11 EN, 12 JA). 12 letture graduate EN (A2–C1). 14 pillole teoriche |
+| Contenuti | Inglese 54 argomenti (≈ 21.300 parole di lezione, 378 esercizi, 217 domande di verifica, 440 carte, 54 brani). Giapponese 54 argomenti (≈ 14.800 parole, 390 esercizi, 216 domande, 461 carte, 54 brani; 9 set di kanji in contesto, ≈ 110 kanji). Pool B2: 25 ascolti + 25 letture. 23 dialoghi ramificati (11 EN, 12 JA). 12 letture graduate EN (A2–C1). 14 pillole teoriche |
 
 ### 9.2 Prove eseguite
 
@@ -223,7 +223,7 @@ Su tua richiesta la repo `test3` è stata svuotata (il vecchio contenuto — un 
 
 ### 9.3 Limiti noti della ricostruzione (onestà)
 
-1. **Volume dei contenuti**: ≈ 42+42 argomenti di lingua sono una base solida ma ancora una **frazione** dei 24 mesi. Servono molte più lezioni, brani e esercizi (vedi `docs/ROADMAP.md`).
+1. **Volume dei contenuti**: ≈ 54+54 argomenti di lingua sono una base ampia ma ancora una **frazione** dei 24 mesi. Servono molte più lezioni, brani e esercizi (vedi `docs/ROADMAP.md`).
 2. **Materie non linguistiche**: solo pillole introduttive (≈ 130 parole ciascuna) per cyber, sport, prog/AI, F1, strategia e secondarie. Il vecchio file aveva 91 lezioni di cybersecurity: **non sono state migrate**; sono nella cronologia git e nel file originale.
 3. **Il parlato resta autovalutato**: l'app lo dice a ogni uscita; il B2 e l'autonomia in giapponese richiedono prove esterne.
 4. **Judo**: il lavoro con partner non è allenabile; la verifica di un istruttore è registrata ma non automatica; il repertorio finisce al mese 11 → dopo, mantenimento e varianti (va ampliato con un istruttore).
@@ -253,7 +253,10 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 **Quanto è vicino SkillTree a una piattaforma «realmente eccellente»?** L'**impianto** (piano, scheduler, misurazione, onestà sulla padronanza) è ora corretto e testato. Manca soprattutto il **contenuto** e la **validazione esterna** (docente per lingue, istruttore per judo, test su dispositivo Android).
 
 
-**Voto per obiettivo (dopo l'ampliamento di inglese e giapponese)** — [STIMA]: inglese B1→B2 **6,5/10** · giapponese autonomia quotidiana **6,0/10** · judo solo/sicuro **6,0/10** (scheduler e registro solidi, ma 12 tecniche e nessuna verifica istruttore) · cybersecurity, sport, programmazione, F1, strategia **≈2/10** (la V11.2 aveva 91 lezioni di cyber, qui non migrate: regressione dichiarata) · piano da 60′ e memoria **7,5/10**.
+**Voto per obiettivo (dopo l'ampliamento di inglese e giapponese)** — [STIMA]: inglese B1→B2 **6,5/10** · giapponese autonomia quotidiana **6,0/10** (prima dell'ultimo ampliamento; vedi sotto) · judo solo/sicuro **6,0/10** (scheduler e registro solidi, ma 12 tecniche e nessuna verifica istruttore) · cybersecurity, sport, programmazione, F1, strategia **≈2/10** (la V11.2 aveva 91 lezioni di cyber, qui non migrate: regressione dichiarata) · piano da 60′ e memoria **7,5/10**.
+
+
+**Voto finale delle lingue (solo curriculum in-app, esclusi conversazione dal vivo e contenuti esterni)** — [STIMA]: **inglese 7,5/10** · **giapponese 7,0/10**. Ragioni: 54 argomenti ciascuno con pagine, esercizi, verifiche dilazionate, ascolto, dettato, shadowing, parlato guidato; pool B2 25+25 con cancello multi-abilità; SRS unico; 23 dialoghi ramificati; kanji in contesto. Tetto dichiarato: senza revisione di madrelingua, con sola voce sintetica e con parlato/scrittura autovalutati, non si va oltre ≈ 8/10; il giapponese resta sotto l'inglese per il minor volume di kanji (≈ 110 su ≈ 300 previsti) e di ascolto.
 
 ---
 
