@@ -552,3 +552,34 @@ test('Scienze dello sport avanzate: laboratori verificati con ricalcolo indipend
     { const it = SP.make('gly', lv), q = it.q, m = /(\d+) ore con (\d+) g\/ora|a (\d+) g\/ora per (\d+) ore/.exec(q); if (/gel/.test(q)) near(A(it), +m[1] * +m[2] / 30, 0); else near(A(it), +m[3] * +m[4] / 3, 0); }
   }
 });
+test('Formula 1: laboratori di calcolo verificati con ricalcolo indipendente', () => {
+  const F = ST.f1, A = it => +it.a[0].replace(',', '.'), N = s => (s.match(/\d+(?:,\d+)?/g) || []).map(x => +x.replace(',', '.')), near = (x, y, e) => assert.ok(Math.abs(x - y) <= e, x + ' vs ' + y);
+  for (const t of F.TYPES) for (let i = 0; i < 80; i++) { const it = F.make(t, 1 + (i % 10)); assert.ok(it.q && /^-?\d+([.,]\d+)?$/.test(it.a[0]) && !/undefined|NaN/.test(it.q + it.why), t + ' ' + it.q); }
+  const RACE = [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], SPR = [8, 7, 6, 5, 4, 3, 2, 1];
+  for (let i = 0; i < 100; i++) {
+    const lv = 1 + (i % 10);
+    { const it = F.make('time', lv), q = it.q; let m;
+      if ((m = /Circuito da ([\d,]+) km/.exec(q))) { const len = +m[1].replace(',', '.'); let n = 0; while (n * len <= 305) n++; assert.equal(A(it), n); }
+      else if ((m = /Giro di ([\d,]+) km percorso in (\d+):([\d,]+)/.exec(q))) near(A(it), +m[1].replace(",", ".") / (+m[2] * 60 + +m[3].replace(",", ".")) * 3600, 0.51);
+      else if (/Tempi di settore/.test(q)) { const n = N(q).slice(0, 3); near(A(it), n[0] + n[1] + n[2], 0.051); }
+      else { const m2 = /(\d+) giri a un ritmo medio di ([\d,]+) s/.exec(q); near(A(it), +m2[1] * +m2[2].replace(',', '.') / 60, 0.51); } }
+    { const it = F.make('points', lv), q = it.q; let m;
+      if ((m = /posizioni ([\d°, ]+) \(in/.exec(q))) near(A(it), m[1].split('°').map(x => +x.replace(/[^\d]/g, '')).filter(Boolean).reduce((a, p) => a + RACE[p - 1], 0), 0);
+      else if ((m = /leader (\d+) punti, inseguitore (\d+)\. Restano (\d+) gare/.exec(q))) { const [L, R, n] = m.slice(1).map(Number); let x = 0; while (L + x <= R + 25 * n) x++; assert.equal(A(it), x); }
+      else { const m2 = /è (\d)° nella sprint e (\d+)° in gara/.exec(q); near(A(it), SPR[m2[1] - 1] + RACE[m2[2] - 1], 0); } }
+    { const it = F.make('gap', lv), q = it.q; let m;
+      if ((m = /Sei a (\d+) s dall’auto davanti e vai ([\d,]+) s al giro/.exec(q))) { let g = Math.round(+m[1] * 100), n = 0; const d = Math.round(+m[2].replace(',', '.') * 100); while (g > 0) { g -= d; n++; } assert.equal(A(it), n); }
+      else { m = /gap dall’auto davanti è ([\d,]+) s.*guadagni ([\d,]+) s al giro/.exec(q); let g = Math.round(+m[1].replace(',', '.') * 100), n = 0; const d = Math.round(+m[2].replace(',', '.') * 100); while (g >= 100) { g -= d; n++; } assert.equal(A(it), n); } }
+    { const it = F.make('stint', lv), q = it.q, n = N(q); let m;
+      if ((m = /t0 = ([\d,]+) s e d = ([\d,]+) s\/giro, quanto dura il giro numero (\d+)/.exec(q))) near(A(it), +m[1].replace(',', '.') + +m[2].replace(',', '.') * (+m[3] - 1), 0.006);
+      else { m = /t0 = ([\d,]+) s, d = ([\d,]+) s\/giro, stint di (\d+) giri/.exec(q); let tot = 0; for (let k = 0; k < +m[3]; k++) tot += +m[1].replace(',', '.') + +m[2].replace(',', '.') * k; near(A(it), tot, 0.06); } }
+    { const it = F.make('pitstrat', lv); if (/Strategia A/.test(it.q)) { const m = /Gara di (\d+) giri.*= ([\d,]+) \+ ([\d,]+)·k.*perdita per ogni sosta ([\d,]+) s.*stint di (\d+) e (\d+) giri.*stint di (\d+), (\d+), (\d+) giri/.exec(it.q), laps = +m[1], t0 = +m[2].replace(',', '.'), d = +m[3].replace(',', '.'), loss = +m[4].replace(',', '.'); const run = ss => { let tot = 0; ss.forEach(n => { for (let k = 0; k < n; k++) tot += t0 + d * k; }); return tot + loss * (ss.length - 1); }; const a = run([+m[5], +m[6]]), b = run([+m[7], +m[8], +m[9]]); assert.equal(+m[5] + +m[6], laps); near(A(it), Math.abs(a - b), 0.06); } }
+    { const it = F.make('undercut', lv); if (/Rivale a/.test(it.q)) { const m = /vecchie di (\d+) giri e degrado ([\d,]+) s\/giro.*costa ([\d,]+) s/.exec(it.q); near(A(it), +m[2].replace(',', '.') * +m[1] - +m[3].replace(',', '.'), 0.006); } }
+    { const it = F.make('fuel', lv); if (/Ogni kg/.test(it.q)) { const m = /costa ([\d,]+) s al giro.*brucia ([\d,]+) kg a giro.*giro (\d+) rispetto/.exec(it.q); near(A(it), +m[1].replace(',', '.') * +m[2].replace(',', '.') * (+m[3] - 1), 0.006); } }
+    { const it = F.make('gear', lv); if (/giri\/min × 2π/.test(it.q)) { const m = /Motore a (\d+) giri\/min, raggio ruota ([\d,]+) m, rapporto totale \(cambio × finale\) ([\d,]+)/.exec(it.q); near(A(it), +m[1] * 2 * Math.PI * +m[2].replace(',', '.') / (+m[3].replace(',', '.') * 60) * 3.6, 0.51); } }
+    { const it = F.make('brake', lv); if (/d = v²/.test(it.q)) { const m = /Velocità iniziale (\d+) km\/h, decelerazione ([\d,]+) g/.exec(it.q), v = +m[1] / 3.6; near(A(it), v * v / (2 * +m[2].replace(',', '.') * 9.81), 0.51); } }
+    { const it = F.make('corner', lv); if (/√\(a_lat/.test(it.q)) { const m = /massima ([\d,]+) g, raggio (\d+) m/.exec(it.q); near(A(it), Math.sqrt(+m[1].replace(',', '.') * 9.81 * +m[2]) * 3.6, 0.51); } }
+    { const it = F.make('aero', lv), q = it.q, m = /A (\d+) km\/h una vettura genera (\d+) N di carico\. Quanto a (\d+) km\/h/.exec(q); if (m) near(A(it), +m[2] * (+m[3] / +m[1]) ** 2, 0.5); else { const m2 = /CdA = ([\d,]+) m², velocità (\d+) km\/h/.exec(q), v = +m2[2] / 3.6; near(A(it), 0.5 * 1.2 * +m2[1].replace(',', '.') * v ** 3 / 1000, 0.51); } }
+    { const it = F.make('ers', lv), q = it.q; let m; if ((m = /potenza di deploy costante di (\d+) kW/.exec(q))) near(A(it), 4000 / +m[1], 1e-6); else { m = /a (\d+) kW per (\d+) s/.exec(q); near(A(it), +m[1] * +m[2], 0); } }
+  }
+});
