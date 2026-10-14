@@ -435,3 +435,39 @@ test('Cybersecurity: curriculum L0–L5, ogni lezione completa, banche e scenari
   // nessun payload operativo nei contenuti
   assert.ok(!/<script>alert|union\s+select|or\s+1\s*=\s*1|rm\s+-rf|msfvenom|nc\s+-e/i.test(JSON.stringify(T) + JSON.stringify(B)));
 });
+
+test('Scacchi: il motore rispetta le regole (perft su posizioni di riferimento)', () => {
+  const CH = ST.chess, cases = [
+    [CH.START, [20, 400, 8902]], ['r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1', [48, 2039]], ['8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - - 0 1', [14, 191, 2812]],
+    ['r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1', [6, 264, 9467]], ['rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8', [44, 1486]]];
+  cases.forEach(([fen, exp]) => exp.forEach((n, i) => assert.equal(CH.perft(CH.parse(fen), i + 1), n, fen + ' depth ' + (i + 1))));
+  assert.equal(CH.fen(CH.parse(CH.START)), CH.START);
+  assert.ok(CH.isMate(CH.parse('rnb1kbnr/pppp1ppp/8/4p3/6Pq/5P2/PPPPP2P/RNBQKBNR w KQkq - 1 3')));   // matto del barbiere
+  assert.ok(CH.isStalemate(CH.parse('7k/5Q2/6K1/8/8/8/8/8 b - - 0 1')));
+  assert.ok(CH.mateIn(CH.parse('6k1/5ppp/8/8/8/8/8/R5K1 w - - 0 1'), 1));                           // matto del corridoio
+});
+test('Strategia: laboratori verificati in modo indipendente (Nash, EV, minimax, Grundy, zaino, intervalli, cammini, probabilità)', () => {
+  const SG = ST.strategy;
+  for (let i = 0; i < 60; i++) for (const t of SG.TYPES) for (const lv of [1, 5, 10]) { const it = SG.make(t, lv); assert.ok(it.q); if (it.t === 'mc') assert.ok(it.o.length >= 3 && it.a >= 0 && it.a < it.o.length && new Set(it.o).size === it.o.length, t); }
+  for (let i = 0; i < 150; i++) {   // Nash: ricalcolo dalla matrice stampata
+    const it = SG.make('payoff', 1 + (i % 10)), rows = it.q.match(/[ABC]: (?:\(\d,\d\) ?)+/g).map(r => r.slice(3).trim().split(' ').map(c => c.slice(1, -1).split(',').map(Number)));
+    let ne = []; rows.forEach((r, a) => r.forEach((c, b) => { const bestR = rows.every(rr => rr[b][0] <= c[0]), bestC = r.every(cc => cc[1] <= c[1]); if (bestR && bestC) ne.push('ABC'[a] + 'XYZ'[b]); }));
+    if (it.t === 'fill') assert.equal(+it.a[0], ne.length); else { assert.equal(ne.length, 1); assert.equal(it.o[it.a], ne[0]); }
+  }
+  for (let i = 0; i < 150; i++) {   // valore atteso
+    const it = SG.make('ev', 1 + (i % 10)); if (it.t === 'fill') continue; const ev = [...it.q.matchAll(/Opzione [ABC]: (\d+)% di (-?\d+), altrimenti (-?\d+)/g)].map(m => (+m[1] * +m[2] + (100 - +m[1]) * +m[3]) / 100);
+    assert.equal(it.o[it.a], 'Opzione ' + 'ABC'[ev.indexOf(Math.max(...ev))]);
+  }
+  const mmx = (t, max) => Array.isArray(t) ? t.map(x => mmx(x, !max)).reduce((a, b) => max ? Math.max(a, b) : Math.min(a, b)) : t;
+  for (let i = 0; i < 150; i++) {   // minimax e conteggio foglie alpha-beta
+    const it = SG.make('tree', 1 + (i % 10)); if (/valore minimax/.test(it.q)) assert.equal(+it.a[0], mmx(it.tree, true)); else { let n = 0; const ab = (t, max, al, be) => { if (!Array.isArray(t)) { n++; return t; } let v = max ? -Infinity : Infinity; for (const c of t) { const x = ab(c, !max, al, be); if (max) { v = Math.max(v, x); al = Math.max(al, v); } else { v = Math.min(v, x); be = Math.min(be, v); } if (al >= be) break; } return v; }; ab(it.tree, true, -Infinity, Infinity); assert.equal(+it.a[0], n); }
+  }
+  for (let i = 0; i < 100; i++) {   // Grundy: ricorsione indipendente
+    const it = SG.make('grundy', 1 + (i % 10)), S = it.q.match(/\{([\d, ]+)\}/)[1].split(', ').map(Number), N = +/n = (\d+)/.exec(it.q)[1];
+    const g = function f(n) { const s = new Set(S.filter(x => x <= n).map(x => f(n - x))); let m = 0; while (s.has(m)) m++; return m; };
+    if (it.t === 'fill') assert.equal(+it.a[0], g(N)); else assert.equal(/perdente/.test(it.o[it.a]), g(N) === 0);
+  }
+  for (let i = 0; i < 100; i++) { const it = SG.make('knap', 1 + (i % 10)); let best = 0; for (let m = 0; m < (1 << it.items.length); m++) { let w = 0, v = 0; it.items.forEach((x, k) => { if (m >> k & 1) { w += x[0]; v += x[1]; } }); if (w <= it.cap) best = Math.max(best, v); } assert.equal(+it.a[0], best); }
+  for (let i = 0; i < 100; i++) { const it = SG.make('sched', 1 + (i % 10)); let best = 0; const n = it.iv.length; for (let m = 0; m < (1 << n); m++) { const ch = it.iv.filter((_, k) => m >> k & 1).sort((a, b) => a[0] - b[0]); if (ch.every((x, k) => k === 0 || ch[k - 1][1] <= x[0])) best = Math.max(best, ch.length); } assert.equal(+it.a[0], best); }
+  for (let i = 0; i < 100; i++) { const it = SG.make('path', 1 + (i % 10)), n = it.n, D = Array.from({ length: n }, (_, a) => Array.from({ length: n }, (_, b) => a === b ? 0 : Infinity)); it.edges.forEach(([a, b, w]) => { D[a][b] = Math.min(D[a][b], w); D[b][a] = Math.min(D[b][a], w); }); for (let k = 0; k < n; k++) for (let a = 0; a < n; a++) for (let b = 0; b < n; b++) if (D[a][k] + D[k][b] < D[a][b]) D[a][b] = D[a][k] + D[k][b]; assert.equal(+it.a[0], D[0][n - 1]); }
+});

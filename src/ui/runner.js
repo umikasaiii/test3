@@ -39,6 +39,7 @@
     h += '<div class="card">' + (it.srcLabel ? '<div class="mute small">' + E(it.srcLabel) + '</div>' : '');
     h += '<h2 style="margin-top:4px">' + (it.hideText && it.say ? 'Ascolta e rispondi' : '') + (it.q ? (it.hideText && it.say ? '' : U.ruby(it.q)) : '') + '</h2>';
     if (it.hideText && it.say) h += '<p>' + U.ruby(it.q) + '</p>';
+    if (it.fen) h += ST.boardHtml(it.fen);
     if (it.say) h += '<p>' + sayBtn(it.say) + '<span class="mute small">' + (it.hideText ? 'Il testo non è mostrato. Puoi riascoltare.' : '') + '</span></p>';
     if (it.t === 'mc') {
       h += it.o2.map((o, i) => '<button class="opt" data-act="run-opt" data-i="' + i + '">' + U.ruby(o) + '</button>').join('');

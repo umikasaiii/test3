@@ -86,6 +86,13 @@ const mock = () => {
   for (const id of await page.evaluate(() => ((ST.content.cyberBank || {}).scenarios || []).map(x => x.id))) { await page.evaluate(id => ST.acts.startScenario({ dataset: { id } }), id); await page.waitForTimeout(100); ok((await body()).length > 30, 'scenario ' + id); await reset(); }
   await step('priorità cyber', () => { ST.acts['cy-focus'](); ST.app.go('general'); }, /Missione generale/);
   await page.evaluate(() => ST.acts['cy-focus']());
+  // laboratori di strategia, scacchiera e priorità della teoria
+  await step('hub strategia', () => ST.app.go('subject', { id: 'str' }), /Laboratori di strategia/);
+  await page.evaluate(() => ST.acts.startStrategy()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio strategia'); await reset();
+  for (const t of await page.evaluate(() => ST.strategy.TYPES)) { await page.evaluate(t => ST.acts.startStrategyType({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio strategia ' + t); await reset(); }
+  await page.evaluate(() => ST.runner.start({ title: 'Scacchiera', kind: 'free', ctx: 'general', items: [{ t: 'mc', q: 'Prova', o: ['a', 'b', 'c', 'd'], a: 0, fen: ST.chess.START }] })); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => document.querySelectorAll('.board .sq').length === 64 && document.querySelectorAll('.board .w').length === 16 && document.querySelectorAll('.board .k').length === 16), 'scacchiera: 64 case e 32 pezzi'); await reset();
+  await page.evaluate(() => { ST.acts['st-focus'](); }); await step('priorità strategia', () => ST.app.go('general'), /Missione generale/); await page.evaluate(() => ST.acts['st-focus']());
   await step('hub mentale', () => ST.app.go('subject', { id: 'mnt' }), /Allenamento mentale/);
   for (const id of await page.evaluate(() => ST.content.topicsOf('grp').map(t => t.id))) await step('lezione judo ' + id, id => { ST.app.state.topics[id] = { page: 0, studied: ST.util.addDays(ST.util.today(), -3), ex: {}, tests: [], retests: [] }; ST.acts.startTest(id); }, /Verifica/, id);
   await step('tecnica', () => ST.app.go('technique', { id: 'posture' }), /Indicazioni/);

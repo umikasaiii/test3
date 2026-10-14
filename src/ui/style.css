@@ -97,3 +97,10 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 @media (prefers-reduced-motion:no-preference){.hero .pulse{animation:p 3s ease-in-out infinite}@keyframes p{50%{opacity:.5}}}
 
 .banner.art-grp{height:min(72vw,300px);background-size:contain;background-color:#070a1c}
+/* scacchiera dei problemi di strategia */
+.board{display:grid;grid-template-columns:repeat(8,1fr);width:min(100%,336px);margin:10px auto;border:2px solid var(--line,#2a3358);border-radius:8px;overflow:hidden;aspect-ratio:1}
+.board .sq{display:flex;align-items:center;justify-content:center;font-size:clamp(20px,8vw,34px);line-height:1;position:relative;background:#2b345c}
+.board .sq.l{background:#46508a}
+.board .sq i{position:absolute;left:2px;bottom:0;font-size:9px;opacity:.55;font-style:normal}
+.board .w{color:#fff;text-shadow:0 0 3px #000,0 0 3px #000}
+.board .k{color:#0a0d1c;text-shadow:0 0 2px #fff,0 0 2px #fff}

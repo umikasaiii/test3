@@ -58,13 +58,19 @@
   });
 
   /* ---- missione generale ---- */
-  const THEORY_SUBJ = { cyber: 'cyb', sport: 'sport', prog: 'prog', f1: 'f1', cyberlab: 'cyb', strategy: 'str', secondary: 'sec' };
+  const THEORY_SUBJ = { cyber: 'cyb', sport: 'sport', prog: 'prog', f1: 'f1', cyberlab: 'cyb', strategy: 'str', strategylab: 'str', secondary: 'sec' };
   const pillFor = slot => {
     const subj = THEORY_SUBJ[slot];
     if (subj === 'cyb') {
       if (slot === 'cyberlab') return { id: 'cyb-lab', title: 'Laboratorio generato (log, ACL, CVSS, cifrari, sottoreti…)' };
       const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied'));
       const nextL = C.topicsOf('cyb').filter(t => !t.pill && !t.id.startsWith('cyb-scenario')).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
+      if (nextL) return nextL;
+    }
+    if (subj === 'str') {
+      if (slot === 'strategylab') return { id: 'str-lab', title: 'Laboratorio di strategia (Nash, minimax, scacchi, ottimizzazione…)' };
+      const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied'));
+      const nextL = C.topicsOf('str').filter(t => !t.pill).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
       if (nextL) return nextL;
     }
     let list = C.topicsOf(subj).filter(t => t.pill);
@@ -90,6 +96,7 @@
     if (!pill) { A.toast('Nessuna pillola disponibile.'); return; }
     A.ctx = 'general'; A.pb = { general: 'theory' };
     if (slot === 'cyberlab') { X.startCyber(); return; }
+    if (slot === 'strategylab') { X.startStrategy(); return; }
     const r = P.topicRec(A.state, pill.id);
     if (r.studied && !P.atLeast(P.topicStatus(A.state, pill.id), 'practiced')) X.startPractice(pill.id);
     else if (r.studied && P.atLeast(P.topicStatus(A.state, pill.id), 'practiced') && !P.atLeast(P.topicStatus(A.state, pill.id), 'verified') && U.diffDays(r.studied, U.today()) >= 1) X.startTest(pill.id);
