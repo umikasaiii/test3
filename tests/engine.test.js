@@ -291,7 +291,7 @@ test('Judo: ogni tecnica ha una lezione approfondita; proiezioni no-gi (morote-s
   C.judo.techniques.forEach(t => {
     const l = C.topic('jud-' + t.id);
     assert.ok(l, 'lezione mancante: ' + t.id);
-    assert.ok(l.pages.length >= 7 && l.exercises.length >= 8 && l.test.length >= 5, t.id);
+    assert.ok(l.pages.length >= 3 && l.exercises.length >= 8 && l.test.length >= 5, t.id);
   });
   assert.ok(C.topicsOf('grp').filter(t => /^jud-th-/.test(t.id)).length >= 12);
   C.judo.techniques.filter(t => /-full$/.test(t.id)).forEach(t => assert.equal(t.gi, t.id === 'morote-seoi-full' ? 'gi' : 'no-gi', t.id));

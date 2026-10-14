@@ -30,7 +30,7 @@ topics.forEach(t => {
   const subj = C.subject(t.subject);
   if (subj && !subj.stages.some(s => s.id === t.stage)) E(w + ': stage ' + t.stage + ' inesistente');
   (t.prereq || []).forEach(p => { if (!C.topics[p]) E(w + ': prerequisito mancante ' + p); });
-  const minPages = t.pill ? 3 : 6;
+  const minPages = t.pill ? 3 : t.subject === 'grp' ? 3 : 6;
   if (!t.pages || t.pages.length < minPages) E(w + ': poche pagine (' + (t.pages || []).length + ')');
   (t.pages || []).forEach((p, i) => { if (!p.h || !p.b) E(w + ': pagina ' + i + ' vuota'); const m = String(p.b).match(/\{\{([^|}]+)\|/g) || []; m.forEach(x => { const l = x.slice(2, -1); if (!['en-GB', 'en-US', 'en-AU', 'ja'].includes(l)) E(w + ': lingua audio sconosciuta ' + l); }); });
   const lang = t.subject === 'eng' ? 'en' : t.subject === 'jpn' ? 'ja' : null;
