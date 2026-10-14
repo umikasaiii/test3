@@ -515,7 +515,7 @@ test('Strategia 2: economia, conflitto e ottimizzazione — verifica con metodi 
 });
 test('Scienze dello sport: laboratori di calcolo verificati con ricalcolo indipendente', () => {
   const SP = ST.sport, A = it => +it.a[0], rnd = Math.round, nums = s => (s.match(/\d+(?:,\d+)?/g) || []).map(x => +x.replace(',', '.'));
-  for (const t of SP.TYPES) for (let i = 0; i < 80; i++) { const it = SP.make(t, 1 + (i % 10)); assert.ok(it.q && it.a && it.a[0] !== 'NaN' && /^-?\d+$/.test(it.a[0]), t + ' ' + it.a); }
+  for (const t of SP.TYPES) for (let i = 0; i < 80; i++) { const it = SP.make(t, 1 + (i % 10)); assert.ok(it.q && it.a && it.a[0] !== 'NaN' && /^-?\d+([.,]\d+)?$/.test(it.a[0]), t + ' ' + it.a); }
   for (let i = 0; i < 80; i++) {
     const lv = 1 + (i % 10);
     { const it = SP.make('orm', lv), q = it.q; let m;
@@ -532,5 +532,23 @@ test('Scienze dello sport: laboratori di calcolo verificati con ricalcolo indipe
     { const it = SP.make('hydr', lv), m = /Prima (\d+) kg, dopo ([\d.]+) kg, bevuti (\d+) ml in (\d+) h/.exec(it.q); if (m) assert.equal(A(it), rnd(((+m[1] - +m[2]) * 1000 + +m[3]) / +m[4])); }
     { const it = SP.make('peri', lv), m = /settimana 1 ha (\d+) serie/.exec(it.q); if (m) { const B = +m[1], w = [B, 1.1 * B, 1.2 * B, 1.3 * B]; assert.equal(A(it), rnd(w.reduce((a, b) => a + b, 0) + w[3] / 2)); } }
     { const it = SP.make('load', lv), m = /Sessioni della settimana \(RPE × minuti\): ([\d×, ]+)\./.exec(it.q); if (m) assert.equal(A(it), m[1].split(', ').reduce((a, x) => a + x.split('×').reduce((p, q) => p * q), 0)); }
+  }
+});
+test('Scienze dello sport avanzate: laboratori verificati con ricalcolo indipendente', () => {
+  const SP = ST.sport, A = it => +it.a[0].replace(',', '.'), P = s => (s.match(/\d+(?:,\d+)?/g) || []).map(x => +x.replace(',', '.')), near = (x, y, e) => assert.ok(Math.abs(x - y) <= e, x + ' vs ' + y);
+  for (let i = 0; i < 120; i++) {
+    const lv = 1 + (i % 10);
+    { const it = SP.make('cp', lv), n = it.q.match(/(\d+) W per (\d+) s e (\d+) W per (\d+) s/), [p1, t1, p2, t2] = n.slice(1).map(Number); const CP = (p1 * t1 - p2 * t2) / (t1 - t2), W = (p1 - CP) * t1; near((p2 - CP) * t2, W, 1e-6);
+      if (/Quanto vale W/.test(it.q)) near(A(it), W / 1000, 1e-9); else if (/potenza critica CP/.test(it.q)) near(A(it), CP, 1e-9); else { const P3 = +/resistono a (\d+) W/.exec(it.q)[1]; near(A(it), W / (P3 - CP), 1e-9); } }
+    { const it = SP.make('vbt', lv), m = /con (\d+) kg la velocità è ([\d,]+) m\/s, con (\d+) kg è ([\d,]+) m\/s.*= ([\d,]+) m\/s/.exec(it.q), [L1, v1, L2, v2, mvt] = m.slice(1).map(x => +x.replace(',', '.')), s = (v2 - v1) / (L2 - L1); near(A(it), (mvt - v1) / s + L1, 0.5); }
+    { const it = SP.make('fv', lv), n = P(it.q); if (/Pmax = F₀·V₀\/4/.test(it.q)) near(A(it), n[0] * n[1] / 4, 0.5 + 1e-9); else if (/Quanto vale F₀/.test(it.q)) near(A(it), 4 * n[0] / n[1], 0.5); else near(A(it), n[1] / 2, 0.01); }
+    { const it = SP.make('banister', lv); if (/fitness-fatica discreto/.test(it.q)) { const ls = /Carichi dei \d+ giorni: ([\d, ]+)\./.exec(it.q)[1].split(', ').map(Number); let f = 0, g = 0; ls.forEach(w => { f = 0.9 * f + w; g = 0.6 * g + w; }); near(A(it), Math.round(f - 2 * g), 1); } }
+    { const it = SP.make('trimp', lv), q = it.q; if (/Edwards/.test(q)) { const z = /Minuti per zona: ([\d, ]+)\./.exec(q)[1].split(', ').map(Number); near(A(it), z.reduce((a, m, k) => a + m * (k + 1), 0), 0); } else if (/TSS =/.test(q)) { const m = /di (\d+) minuti, FTP (\d+) W, potenza normalizzata (\d+) W/.exec(q); const [min, ftp, np] = m.slice(1).map(Number); near(A(it), min * 60 * np * (np / ftp) / (ftp * 3600) * 100, 0.51); } }
+    { const it = SP.make('ewma', lv); if (/Media mobile esponenziale/.test(it.q)) { const m = /N = (\d+)\. Valore iniziale (\d+), carichi dei prossimi due giorni (\d+) e (\d+)/.exec(it.q), [N, e0, x1, x2] = m.slice(1).map(Number), l = 2 / (N + 1); let e = l * x1 + (1 - l) * e0; e = l * x2 + (1 - l) * e; near(A(it), e, 0.51); } }
+    { const it = SP.make('stats', lv), q = it.q, n = P(q); if (/MDC/.test(q)) near(A(it), 1.96 * Math.SQRT2 * n[n.length - 1 - 0] , 0.06 + 1e-9) ; }
+    { const it = SP.make('alt', lv), m = /circa (\d+) mmHg/.exec(it.q); near(A(it), (+m[1] - 47) * 0.2093, 0.51); }
+    { const it = SP.make('sprint', lv); if (/Modello esponenziale dello sprint/.test(it.q)) { const m = /vmax = ([\d,]+) m\/s, τ = ([\d,]+) s\. Velocità dopo (\d+) s/.exec(it.q), [vm, tau, t] = [+m[1].replace(',', '.'), +m[2].replace(',', '.'), +m[3]]; near(A(it), vm * (1 - Math.exp(-t / tau)), 0.06); } }
+    { const it = SP.make('aero', lv); if (/Ciclista in pianura/.test(it.q)) { const m = /v = (\d+) m\/s, CdA = ([\d,]+) m², massa totale (\d+) kg/.exec(it.q), v = +m[1], cda = +m[2].replace(',', '.'), mm = +m[3]; near(A(it), 0.5 * 1.2 * cda * v ** 3 + 0.004 * mm * 9.81 * v, 0.51); } }
+    { const it = SP.make('gly', lv), q = it.q, m = /(\d+) ore con (\d+) g\/ora|a (\d+) g\/ora per (\d+) ore/.exec(q); if (/gel/.test(q)) near(A(it), +m[1] * +m[2] / 30, 0); else near(A(it), +m[3] * +m[4] / 3, 0); }
   }
 });
