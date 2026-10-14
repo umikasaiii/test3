@@ -513,3 +513,24 @@ test('Strategia 2: economia, conflitto e ottimizzazione — verifica con metodi 
     { const it = SG.make('auction', lv); if (/Vickrey|secondo prezzo/.test(it.q)) { const v = [...it.q.matchAll(/[A-F]=(\d+)/g)].map(x => +x[1]).sort((a, b) => b - a); assert.equal(A(it), /surplus/.test(it.q) ? v[0] - v[1] : v[1]); } }
   }
 });
+test('Scienze dello sport: laboratori di calcolo verificati con ricalcolo indipendente', () => {
+  const SP = ST.sport, A = it => +it.a[0], rnd = Math.round, nums = s => (s.match(/\d+(?:,\d+)?/g) || []).map(x => +x.replace(',', '.'));
+  for (const t of SP.TYPES) for (let i = 0; i < 80; i++) { const it = SP.make(t, 1 + (i % 10)); assert.ok(it.q && it.a && it.a[0] !== 'NaN' && /^-?\d+$/.test(it.a[0]), t + ' ' + it.a); }
+  for (let i = 0; i < 80; i++) {
+    const lv = 1 + (i % 10);
+    { const it = SP.make('orm', lv), q = it.q; let m;
+      if ((m = /Epley.*hai sollevato (\d+) kg per (\d+) ripetizioni/.exec(q))) assert.equal(A(it), rnd(+m[1] * (1 + +m[2] / 30)));
+      else if ((m = /Brzycki.*hai sollevato (\d+) kg per (\d+)/.exec(q))) assert.equal(A(it), rnd(+m[1] * 36 / (37 - +m[2])));
+      else if ((m = /1RM nello squat è (\d+) kg.*al (\d+)%/.exec(q))) assert.equal(A(it), rnd(+m[1] * +m[2] / 100));
+      else if ((m = /1RM = (\d+) kg. Una serie a (\d+)% e una a (\d+)%/.exec(q))) assert.equal(A(it), rnd(+m[1] * (+m[3] - +m[2]) / 100)); else assert.fail(q); }
+    { const it = SP.make('plates', lv); if (it.mtype === 'plates') { const m = /dischi disponibili \(kg\): ([\d., ]+) \(.*caricare ([\d.]+) kg/.exec(it.q), set = m[1].split(', ').map(x => +x), per = (+m[2] - 20) / 2; let best = Infinity; const go = (rem, idx, n) => { if (rem < -1e-9 || n >= best) return; if (Math.abs(rem) < 1e-9) { best = n; return; } for (let j = idx; j < set.length; j++) go(rem - set[j], j, n + 1); }; go(per, 0, 0); assert.equal(A(it), 2 * best); } }
+    { const it = SP.make('hrz', lv), q = it.q, n = nums(q); if (/Tanaka/.test(q)) assert.equal(A(it), rnd(208 - 0.7 * n[n.length - 1])); }
+    { const it = SP.make('bal', lv), m = /Deficit medio di (\d+) kcal.*perdono (\d+) kg/.exec(it.q); assert.equal(A(it), 7700 * +m[2] / (7 * +m[1])); }
+    { const it = SP.make('macro', lv), q = it.q; let m; if ((m = /(\d+) g di proteine, (\d+) g di carboidrati, (\d+) g di grassi/.exec(q))) assert.equal(A(it), 4 * m[1] + 4 * m[2] + 9 * m[3]); else if ((m = /Dieta da (\d+) kcal con il (\d+)%/.exec(q))) assert.equal(A(it), rnd(m[1] * m[2] / 100 / 4)); }
+    { const it = SP.make('tdee', lv), m = /(Uomo|Donna), (\d+) kg, (\d+) cm, (\d+) anni/.exec(it.q), b = 10 * m[2] + 6.25 * m[3] - 5 * m[4] + (m[1] === 'Uomo' ? 5 : -161), f = /attività ([\d.]+)\./.exec(it.q.replace(',', '.')); assert.equal(A(it), f ? rnd(b * +f[1]) : b); }
+    { const it = SP.make('pace', lv), q = it.q, m = /(\d+) min\/km\. Qual è la velocità/.exec(q); if (m) assert.equal(A(it), 60 / +m[1]); }
+    { const it = SP.make('hydr', lv), m = /Prima (\d+) kg, dopo ([\d.]+) kg, bevuti (\d+) ml in (\d+) h/.exec(it.q); if (m) assert.equal(A(it), rnd(((+m[1] - +m[2]) * 1000 + +m[3]) / +m[4])); }
+    { const it = SP.make('peri', lv), m = /settimana 1 ha (\d+) serie/.exec(it.q); if (m) { const B = +m[1], w = [B, 1.1 * B, 1.2 * B, 1.3 * B]; assert.equal(A(it), rnd(w.reduce((a, b) => a + b, 0) + w[3] / 2)); } }
+    { const it = SP.make('load', lv), m = /Sessioni della settimana \(RPE × minuti\): ([\d×, ]+)\./.exec(it.q); if (m) assert.equal(A(it), m[1].split(', ').reduce((a, x) => a + x.split('×').reduce((p, q) => p * q), 0)); }
+  }
+});
