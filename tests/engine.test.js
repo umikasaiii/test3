@@ -301,8 +301,8 @@ test('Judo: ogni tecnica ha una lezione approfondita; proiezioni no-gi (morote-s
 
 test('Allenamento mentale: 13 tipi generano esercizi validi (fuzz) e i sillogismi sono corretti per verifica a modelli', () => {
   const MN = ST.mental;
-  assert.equal(MN.TYPES.length, 13);
-  for (let i = 0; i < 120; i++) for (const t of MN.TYPES) for (const lv of [1, 3, 6, 10]) {
+  assert.equal(MN.TYPES.length, 23);
+  for (let i = 0; i < 40; i++) for (const t of MN.TYPES) for (const lv of [1, 3, 6, 10, 15, 20]) {
     const it = MN.make(t, lv);
     assert.ok(it && it.q, t);
     if (it.t === 'mc' || it.t === 'flash') { assert.ok(it.o.length >= 3 && it.a >= 0 && it.a < it.o.length && new Set(it.o).size === it.o.length, t + ' ' + lv); }
@@ -328,8 +328,58 @@ test('Allenamento mentale: risposta giusta ma lenta non fa salire di livello da 
   const s = fresh();
   for (let i = 0; i < 6; i++) ST.mental.record(s, 'calc', true, 20000, 10);   // giuste ma oltre il tempo
   assert.equal(ST.mental.level(s, 'calc'), 1);
-  for (let i = 0; i < 6; i++) ST.mental.record(s, 'calc', true, 3000, 10);    // giuste e rapide
+  for (let i = 0; i < 14; i++) ST.mental.record(s, 'calc', true, 3000, 10);   // giuste e rapide
   assert.ok(ST.mental.level(s, 'calc') >= 2 && s.mental.calc.max >= 2);
   ST.mental.logSession(s, 'bench', [{ ok: true, ms: 2000 }, { ok: false, ms: 4000 }], '2026-02-01');
   const tr = ST.mental.trend(s, 'bench'); assert.equal(tr.length, 1); assert.equal(tr[0].ok, 1); assert.equal(tr[0].ms, 3000);
+});
+
+test('Allenamento mentale: enigmi e giochi risolti per verifica indipendente (cavalieri, crittoaritmetica, sudoku, Nim, tris)', () => {
+  const MN = ST.mental;
+  for (let i = 0; i < 60; i++) {   // cavalieri e furfanti: soluzione unica = quella dichiarata
+    const it = MN.make('knights', 1 + (i % 20)); if (!it.stmts) continue;
+    const sols = []; for (let m = 0; m < (1 << it.n); m++) { const a = Array.from({ length: it.n }, (_, k) => !!(m >> k & 1)); if (it.stmts.every(([w, f]) => f(a) === a[w])) sols.push(a); }
+    assert.equal(sols.length, 1); assert.equal(sols[0].join(), it.sol.join());
+  }
+  for (let i = 0; i < 12; i++) {   // crittoaritmetica: una sola assegnazione di cifre (forza bruta)
+    const it = MN.make('crypt', 1 + (i % 12)); if (!it.puzzle) continue;
+    const { w1, w2, w3 } = it.puzzle, L = [...new Set((w1 + w2 + w3).split(''))], lead = new Set([w1[0], w2[0], w3[0]]); let n = 0;
+    const val = (w, m) => +w.split('').map(c => m[c]).join('');
+    const rec = (k, m, used) => { if (k === L.length) { if (val(w1, m) + val(w2, m) === val(w3, m)) n++; return; } for (let d = 0; d <= 9; d++) { if (used.has(d) || (d === 0 && lead.has(L[k]))) continue; m[L[k]] = d; used.add(d); rec(k + 1, m, used); used.delete(d); } };
+    rec(0, {}, new Set()); assert.equal(n, 1, w1 + '+' + w2 + '=' + w3);
+  }
+  for (let i = 0; i < 40; i++) {   // sudoku: soluzione unica della griglia proposta
+    const it = MN.make('sudoku', 1 + (i % 20)), N = it.N, g = it.grid.map(r => r.slice()); let n = 0;
+    const ok = (r, c, v) => { for (let k = 0; k < N; k++) if (g[r][k] === v || g[k][c] === v) return false; const r0 = r - r % it.bh, c0 = c - c % it.bw; for (let a = 0; a < it.bh; a++) for (let b = 0; b < it.bw; b++) if (g[r0 + a][c0 + b] === v) return false; return true; };
+    const rec = () => { if (n > 1) return; for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) if (!g[r][c]) { for (let v = 1; v <= N; v++) if (ok(r, c, v)) { g[r][c] = v; rec(); g[r][c] = 0; } return; } n++; };
+    rec(); assert.equal(n, 1);
+  }
+  for (let i = 0; i < 80; i++) {   // Nim: la mossa indicata porta a XOR 0; sottrazione: lascia un multiplo di k+1
+    const it = MN.make('nim', 1 + (i % 20));
+    if (it.sub) assert.equal((it.sub.n - it.sub.take) % (it.sub.k + 1), 0);
+    else { const p = it.piles.slice(), [pi, k] = it.good; p[pi] -= k; assert.equal(p.reduce((a, b) => a ^ b, 0), 0); }
+  }
+  const mm = (b, turn) => { const L = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]; for (const [a, c, d] of L) if (b[a] && b[a] === b[c] && b[a] === b[d]) return b[a] === 'X' ? 1 : -1; if (b.every(x => x)) return 0; let best = turn === 'X' ? -2 : 2; for (let k = 0; k < 9; k++) if (!b[k]) { b[k] = turn; const v = mm(b, turn === 'X' ? 'O' : 'X'); b[k] = null; best = turn === 'X' ? Math.max(best, v) : Math.min(best, v); } return best; };
+  for (let i = 0; i < 40; i++) {   // tris: la mossa indicata è l'UNICA migliore (minimax indipendente)
+    const it = MN.make('ttt', 1 + (i % 20)); if (!it.board) continue;
+    const vals = {}; it.board.forEach((v, k) => { if (!v) { const b = it.board.slice(); b[k] = 'X'; vals[k] = mm(b, 'O'); } });
+    const best = Math.max(...Object.values(vals)); assert.deepEqual(Object.keys(vals).filter(k => vals[k] === best).map(Number), [it.best]);
+  }
+});
+test('Allenamento mentale: sessione per dominio con jolly, difficoltà variabile, sfida della domenica e calibrazione', () => {
+  const MN = ST.mental, s = fresh();
+  for (let wd = 0; wd < 7; wd++) {
+    const date = U.addDays('2026-01-05', wd), items = MN.session(s, date);
+    assert.ok(items.length >= 6 && items.length <= 30, 'n=' + items.length);
+    const est = items.reduce((a, it) => a + (MN.EST[it.mtype] || 20), 0); assert.ok(est >= 250 && est <= 400, 'tempo stimato ' + est);
+    const types = new Set(items.map(x => x.mtype)); if (wd < 6) assert.ok(types.size >= 3);
+    if (wd === 6) assert.ok(items.every(x => x.boss));
+  }
+  s.mental.calc = { level: 8, r: 8, hist: [], n: 0, ok: 0 };
+  const lv = new Set(); for (let i = 0; i < 300; i++) lv.add(MN.pickLevel(s, 'calc')); assert.ok(lv.size >= 5 && Math.max(...lv) >= 10 && Math.min(...lv) <= 7);
+  MN.record(s, 'calc', 1, 3000, 10, 12); MN.record(s, 'calc', 0, 3000, 10, 4);
+  for (let i = 0; i < 40; i++) MN.record(s, 'matrix', true, 1000, 60, 20); assert.ok(MN.level(s, 'matrix') >= 15);
+  MN.calibRecord(s, 0.95, true); MN.calibRecord(s, 0.95, false); MN.calibRecord(s, 0.55, true);
+  assert.equal(s.mentalCalib.bins['95'][0], 1); assert.equal(s.mentalCalib.bins['95'][1], 2); assert.equal(s.mentalCalib.brier.length, 3);
+  const c = MN.make('calib', 5); assert.ok(c.okSet.length === 3 && c.o.length === 6 && c.meta[c.o[c.a]].conf === 0.95 && c.meta[c.o[c.a]].side === c.truth);
 });

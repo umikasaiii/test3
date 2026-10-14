@@ -5,25 +5,52 @@
   'use strict';
   const U = ST.util;
   const MN = ST.mental = {};
-  MN.TYPES = ['calc', 'seq', 'span', 'corsi', 'odd', 'stroop', 'logic', 'nback', 'recall', 'estimate', 'order', 'syllo', 'switch'];
-  MN.LABEL = { calc: 'Calcolo mentale', seq: 'Riconoscimento di schemi', span: 'Memoria di lavoro · cifre', corsi: 'Memoria spaziale', odd: 'Velocità decisionale', stroop: 'Attenzione e controllo', logic: 'Ragionamento logico', nback: 'Memoria di lavoro · n-back', recall: 'Memoria · liste di parole', estimate: 'Stima e ordini di grandezza', order: 'Ragionamento · ordinamenti', syllo: 'Ragionamento · sillogismi', switch: 'Flessibilità cognitiva' };
-  // Giorno della settimana → tipi in evidenza (lun=0). Tutti i tipi ricorrono nella settimana.
-  MN.WEEK = [['calc', 'nback', 'syllo'], ['seq', 'recall', 'odd'], ['estimate', 'span', 'order'], ['switch', 'corsi', 'calc'], ['stroop', 'nback', 'logic'], ['syllo', 'seq', 'recall'], ['order', 'estimate', 'switch']];
+  MN.TYPES = ['calc', 'seq', 'matrix', 'estimate', 'span', 'corsi', 'nback', 'recall', 'pairs', 'odd', 'stroop', 'switch', 'react', 'subit', 'logic', 'syllo', 'order', 'knights', 'sudoku', 'crypt', 'nim', 'ttt', 'calib'];
+  MN.MAXLV = 20;
+  MN.LABEL = { calc: 'Calcolo mentale', seq: 'Riconoscimento di schemi', span: 'Memoria di lavoro · cifre', corsi: 'Memoria spaziale', odd: 'Velocità decisionale', stroop: 'Attenzione e controllo', logic: 'Ragionamento logico', nback: 'Memoria di lavoro · n-back', recall: 'Memoria · liste di parole', estimate: 'Stima e ordini di grandezza', order: 'Ragionamento · ordinamenti', syllo: 'Ragionamento · sillogismi', switch: 'Flessibilità cognitiva', matrix: 'Intelligenza fluida · matrici', pairs: 'Memoria · coppie associate', react: 'Reattività', subit: 'Velocità percettiva · quanti punti?', knights: 'Enigmi · cavalieri e furfanti', sudoku: 'Enigmi · sudoku', crypt: 'Enigmi · crittoaritmetica', nim: 'Strategia · Nim', ttt: 'Strategia · tris', calib: 'Predizione · calibrazione' };
+  // Un dominio per giorno (lun=0): tutto ruota nella settimana; la domenica è la sfida difficilissima.
+  MN.DOMAINS = [
+    { id: 'fluid', label: 'Intelligenza fluida', types: ['matrix', 'seq', 'knights', 'odd'] },
+    { id: 'mem', label: 'Memoria', types: ['span', 'corsi', 'recall', 'pairs', 'nback'] },
+    { id: 'calc', label: 'Calcolo e stima', types: ['calc', 'estimate', 'crypt', 'seq'] },
+    { id: 'speed', label: 'Velocità e reattività', types: ['react', 'subit', 'stroop', 'switch', 'odd'] },
+    { id: 'strat', label: 'Strategia e predizione', types: ['nim', 'ttt', 'calib', 'order'] },
+    { id: 'puzzle', label: 'Enigmi e ragionamento', types: ['knights', 'sudoku', 'syllo', 'logic', 'crypt'] },
+    { id: 'boss', label: 'Sfida difficilissima', types: [] }
+  ];
+  MN.WEEK = MN.DOMAINS.map(d => d.types.slice(0, 3));
+  // Secondi stimati per esercizio (per riempire i ~300 s di una sessione)
+  MN.EST = { calc: 14, seq: 18, matrix: 30, estimate: 18, span: 20, corsi: 22, nback: 32, recall: 22, pairs: 24, odd: 9, stroop: 7, switch: 9, react: 18, subit: 10, logic: 26, syllo: 30, order: 28, knights: 45, sudoku: 40, crypt: 45, nim: 35, ttt: 25, calib: 12 };
 
-  MN.level = (state, type) => (state.mental[type] && state.mental[type].level) || 1;
-  /* Registra un esito. ms/limitSec facoltativi: una risposta giusta ma oltre il tempo vale mezzo punto (non fa salire di livello da sola). */
-  MN.record = (state, type, ok, ms, limitSec) => {
-    const m = (state.mental[type] = state.mental[type] || { level: 1, hist: [], n: 0, ok: 0 });
-    const slow = !!(ok && limitSec && ms && ms > limitSec * 1000);
-    m.hist.push(ok ? (slow ? 0.5 : 1) : 0); if (m.hist.length > 12) m.hist.shift();
-    m.n++; m.ok += ok ? 1 : 0; if (slow) m.slow = (m.slow || 0) + 1;
+  /* Modello di abilità: ogni tipo ha una valutazione r (1–20). Ogni esercizio ha una difficoltà d.
+     Probabilità attesa di successo p = 1/(1+e^-(r-d)); la valutazione si aggiorna di K·(esito−p).
+     Gli esercizi vengono generati attorno a r con offset variabili (alcuni facili, alcuni molto difficili):
+     il successo medio resta alto (~80%: zona di apprendimento efficace), ma il tetto viene sempre sondato. */
+  MN.rating = (state, type) => { const m = state.mental[type]; return m ? (m.r != null ? m.r : m.level || 1) : 1; };
+  MN.level = (state, type) => U.clamp(Math.round(MN.rating(state, type)), 1, MN.MAXLV);
+  MN.OFFSETS = [-2, -1, -1, 0, 0, 0, 1, 1, 2, 3];
+  MN.pickLevel = (state, type, rng, boss) => { const r = MN.rating(state, type); const off = boss ? 3 + Math.floor((rng || U.rand)() * 3) : MN.OFFSETS[Math.floor((rng || U.rand)() * MN.OFFSETS.length)]; return U.clamp(Math.round(r + off), 1, MN.MAXLV); };
+  /* outcome: true/false oppure un numero 0–1; d = difficoltà dell'esercizio; ms/limitSec = tempo. */
+  MN.record = (state, type, outcome, ms, limitSec, d, date) => {
+    const m = (state.mental[type] = state.mental[type] || { level: 1, r: 1, hist: [], n: 0, ok: 0 });
+    if (m.r == null) m.r = m.level || 1;
+    let o = typeof outcome === 'number' ? outcome : (outcome ? 1 : 0);
+    const slow = !!(o > 0 && limitSec && ms && ms > limitSec * 1000);
+    if (slow) { o *= 0.6; m.slow = (m.slow || 0) + 1; }
+    const dd = d != null ? d : MN.level(state, type), p = 1 / (1 + Math.exp(-(m.r - dd)));
+    m.r = U.clamp(m.r + 0.45 * (o - p), 1, MN.MAXLV);
+    m.level = MN.level(state, type); m.max = Math.max(m.max || 1, m.level);
+    m.hist.push(o); if (m.hist.length > 20) m.hist.shift();
+    m.n++; m.ok += o >= 0.99 ? 1 : 0;
     if (ms) m.ms = m.ms ? Math.round(m.ms * 0.8 + ms * 0.2) : ms;
-    if (m.hist.length >= 6) {
-      const r = m.hist.slice(-6).reduce((a, b) => a + b, 0) / 6;
-      if (r >= 0.83 && m.level < 10) { m.level++; m.hist = []; }
-      else if (r <= 0.5 && m.level > 1) { m.level--; m.hist = []; }
-    }
-    m.max = Math.max(m.max || 1, m.level);
+    m.last = date || U.today();
+  };
+  MN.accuracy = (state, type, k) => { const m = state.mental[type]; if (!m || !m.hist.length) return null; const h = m.hist.slice(-(k || 10)); return h.reduce((a, b) => a + b, 0) / h.length; };
+  /* Statistiche di calibrazione (predizione): per fascia di sicurezza, quante volte avevi ragione. */
+  MN.calibRecord = (state, conf, correct) => {
+    const c = (state.mentalCalib = state.mentalCalib || { bins: {}, brier: [] });
+    const k = String(Math.round(conf * 100)); const b = (c.bins[k] = c.bins[k] || [0, 0]); b[1]++; if (correct) b[0]++;
+    c.brier.push(+((conf - (correct ? 1 : 0)) ** 2).toFixed(3)); if (c.brier.length > 200) c.brier.shift();
   };
   /* Storico sessioni e test di riferimento (per vedere l'andamento nel tempo). */
   MN.logSession = (state, kind, res, date) => {
@@ -56,8 +83,13 @@
   const COL = [['ROSSO', '#e5484d'], ['BLU', '#3b82f6'], ['VERDE', '#22a06b'], ['GIALLO', '#d6a40a']];
 
   /* Genera un esercizio di un dato tipo al livello indicato. rng opzionale per i test. */
+  MN.gen = {};   // generatori dei tipi aggiunti (mental-extra.js)
+  MN.hard = {};  // varianti difficilissime (livelli 11–20) dei tipi base
   MN.make = (type, level, rng) => {
     rng = rng || U.rand;
+    const L = U.clamp(Math.round(level), 1, MN.MAXLV);
+    if (MN.gen[type]) return MN.gen[type](L, rng);
+    if (L > 10 && MN.hard[type]) return MN.hard[type](L, rng);
     const ri = (a, b) => a + Math.floor(rng() * (b - a + 1));
     const lv = U.clamp(level, 1, 10);
     if (type === 'calc') {
@@ -180,11 +212,27 @@
     return { t: 'mc', mtype: 'logic', q: p.q, o: p.o, a: p.a, why: 'Ragiona sulle premesse: la risposta corretta è «' + p.o[p.a] + '».' };
   };
 
-  /* Sessione di ~5 minuti: 8 esercizi dai tipi del giorno, a livello adattivo per tipo. */
+  /* Sessione di ~5 minuti: dominio del giorno + un tipo «jolly» (il meno allenato di recente), fino a ~290 s stimati.
+     Difficoltà variabile attorno al livello di ciascun tipo. La domenica: sfida difficilissima (+3…+5 sopra il livello). */
   MN.session = (state, date, rng, n) => {
-    const types = MN.WEEK[U.weekday(date || U.today())];
-    const items = [];
-    for (let i = 0; i < (n || 8); i++) { const t = types[i % types.length]; items.push(MN.make(t, MN.level(state, t), rng)); }
+    rng = rng || U.rand; date = date || U.today();
+    const wd = U.weekday(date), dom = MN.DOMAINS[wd], boss = dom.id === 'boss';
+    const last = t => (state.mental[t] && state.mental[t].last) || '0000-00-00';
+    let pool;
+    if (boss) pool = MN.TYPES.slice().sort((a, b) => MN.rating(state, b) - MN.rating(state, a)).slice(0, 8);
+    else {
+      pool = dom.types.slice();
+      const wild = MN.TYPES.filter(t => !dom.types.includes(t)).sort((a, b) => last(a).localeCompare(last(b)))[0];
+      if (wild) pool.push(wild);
+    }
+    const items = []; let t = 0, i = 0;
+    const budget = boss ? 330 : 290, maxN = n || 30;
+    while (t < budget && items.length < maxN) {
+      const ty = pool[i % pool.length]; i++;
+      const lv = MN.pickLevel(state, ty, rng, boss);
+      const it = MN.make(ty, lv, rng); it.lv = lv; it.boss = boss;
+      items.push(it); t += MN.EST[ty] || 20;
+    }
     return items;
   };
 })(window.ST = window.ST || {});

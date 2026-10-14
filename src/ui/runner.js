@@ -55,6 +55,8 @@
       h += '<div class="grid9" id="corsi">' + Array.from({ length: 9 }, (_, i) => '<button data-act="run-corsi" data-i="' + i + '" disabled aria-label="Casella ' + (i + 1) + '"></button>').join('') + '</div><p class="center mute small" id="corsimsg">Osserva la sequenza…</p>';
     } else if (it.t === 'flash') {
       h += '<div class="center big" id="flashbox" style="min-height:90px;margin:16px 0;line-height:1.5">Preparati…</div><div id="flashopts" hidden>' + it.o2.map((o, i) => '<button class="opt" data-act="run-opt" data-i="' + i + '">' + U.ruby(o) + '</button>').join('') + '</div>';
+    } else if (it.t === 'react') {
+      h += '<div class="center big" id="rbox" style="min-height:150px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:#1c2340;margin:12px 0;font-size:40px">Preparati…</div>' + (it.choice ? '<div class="grid2"><button class="btn block" data-act="run-react" data-d="L">◀ Sinistra</button><button class="btn block" data-act="run-react" data-d="R">Destra ▶</button></div>' : '<button class="btn block" style="min-height:70px" data-act="run-react">TOCCA</button>') + '<p class="mute small center" id="rmsg"></p>';
     } else if (it.t === 'nback') {
       h += '<div class="center big" id="nbox" style="min-height:110px;margin:16px 0;font-size:56px">Preparati…</div><button class="btn block" id="nbtn" data-act="run-nb" disabled>Uguale</button><p class="mute small center" id="nbmsg">Le lettere compaiono una alla volta.</p>';
     } else if (it.t === 'odd') {
@@ -82,6 +84,20 @@
       const box = A.$('#flashbox'), opts = A.$('#flashopts');
       timers.push(setTimeout(() => { box.textContent = it.show; timers.push(setTimeout(() => { box.textContent = '— — —'; opts.hidden = false; r.t0 = Date.now(); }, it.ms)); }, 700));
     }
+    if (it.t === 'react') {
+      const box = A.$('#rbox'), msg = A.$('#rmsg'), rx = r.rx = { i: -1, shown: false, t0: 0, res: [], tm: null };
+      const finish = () => { const succ = rx.res.filter(x => x.ok).length, n = it.trials.length, rts = rx.res.filter(x => x.rt).map(x => x.rt); box.textContent = '✓'; R.answer(succ / n >= 0.7, (rts.length ? Math.round(rts.reduce((a, b) => a + b, 0) / rts.length) : 0) + ' ms', succ / n); };
+      const next = () => {
+        rx.i++; rx.shown = false; if (rx.i >= it.trials.length) { finish(); return; }
+        const tr = it.trials[rx.i]; box.style.background = '#1c2340'; box.textContent = 'Attendi…';
+        rx.tm = setTimeout(() => {
+          rx.shown = true; rx.t0 = Date.now();
+          box.style.background = tr.go ? '#1f9d55' : '#c0392b'; box.textContent = tr.go ? (it.choice ? (tr.dir === 'L' ? '◀' : '▶') : '●') : '✕ NON toccare';
+          rx.tm = setTimeout(() => { if (!rx.shown) return; rx.shown = false; rx.res.push({ ok: !tr.go }); msg.textContent = tr.go ? 'Troppo lento' : 'Bene: non hai toccato'; rx.tm = setTimeout(next, 500); }, tr.go ? 1100 : 900);
+        }, tr.delay);
+      };
+      rx.next = next; timers.push(setTimeout(next, 800)); r.rxClear = () => clearTimeout(rx.tm);
+    }
     if (it.t === 'nback') {
       const box = A.$('#nbox'), btn = A.$('#nbtn'); r.nb = { taps: {}, i: -1 };
       const stepFn = () => {
@@ -90,7 +106,7 @@
           let errs = 0, tot = 0;
           it.seq.forEach((c, i) => { if (i >= it.n) { tot++; if (!!r.nb.taps[i] !== !!it.targets[i]) errs++; } });
           box.textContent = '✓'; btn.disabled = true;
-          R.answer(errs <= Math.floor(tot * 0.25), errs + ' errori su ' + tot); return;
+          R.answer(errs <= Math.floor(tot * 0.25), errs + ' errori su ' + tot, Math.max(0, (tot - errs) / tot)); return;
         }
         box.textContent = it.seq[r.nb.i]; btn.disabled = r.nb.i < it.n;
         timers.push(setTimeout(() => { box.textContent = ''; btn.disabled = true; timers.push(setTimeout(stepFn, 250)); }, it.ms));
@@ -139,23 +155,30 @@
   };
   const answerText = it => it.t === 'dict' ? it.text : it.t === 'mc' ? it.o2[it.a2] : it.t === 'order' ? it.words.join(' ') : (it.a || []).join(' / ');
 
-  R.answer = (ok, val) => {
+  R.answer = (ok, val, score) => {
     const r = A.run, it = r.cur;
     if (r.phase !== 'q') return;
     r.phase = 'fb';
     clearTimers();
     const late = !!((r.deadline && Date.now() > r.deadline) || (it.timed && Date.now() - r.t0 > it.timed * 1000));
-    r.res.push({ item: r.items[r.i], ok, val, ms: Date.now() - r.t0, late });
+    r.res.push({ item: r.items[r.i], ok, val, ms: Date.now() - r.t0, late, score });
     if (r.onAnswer) r.onAnswer(r.items[r.i], ok, r.i, r.res[r.res.length - 1]);
     const fb = A.$('#fb');
     fb.innerHTML = '<div class="fb ' + (ok ? 'ok' : 'no') + '"><b>' + (ok ? '✓ Corretto' : '✗ Non corretto') + '</b>' + (it.t === 'dict' ? '<div>Precisione: <b>' + Math.round((r.lastScore || 0) * 100) + '%</b></div><div class="diff">' + (r.lastDiff ? r.lastDiff.ops.map(o => o.ok ? E(o.w) : o.missing ? '<span class="m">' + E(o.w) + '</span>' : '<span class="x">' + E(o.w) + '</span>').join(' ') : '') + '</div><div>Testo: <b>' + U.ruby(it.text) + '</b></div>' : ok ? '' : '<div>Risposta: <b>' + U.ruby(answerText(it)) + '</b></div>') + (!ok && it.diag ? (() => { const d = it.diag(it.t === 'mc' ? it.o2[val] : val); return d ? '<div class="small" style="margin-top:4px">⚠ ' + U.ruby(d) + '</div>' : ''; })() : '') + (it.why ? '<div class="mute small" style="margin-top:4px">' + U.ruby(it.why) + '</div>' : '') + '</div>' +
       '<button class="btn block" style="margin-top:10px" data-act="run-next">' + (r.i + 1 >= r.items.length ? 'Concludi' : 'Avanti') + '</button>';
     fb.scrollIntoView({ block: 'nearest' });
   };
+  X['run-react'] = el => {
+    const r = A.run; if (!r || !r.rx || r.phase !== 'q') return; const rx = r.rx, it = r.cur, tr = it.trials[rx.i]; if (!tr) return;
+    const msg = A.$('#rmsg'); clearTimeout(rx.tm);
+    if (!rx.shown) { rx.res.push({ ok: false }); msg.textContent = 'Troppo presto!'; }
+    else { const rt = Date.now() - rx.t0; rx.shown = false; const right = tr.go && (!it.choice || el.dataset.d === tr.dir); const ok = right && rt <= it.thr; rx.res.push({ ok, rt: right ? rt : 0 }); msg.textContent = !tr.go ? 'Era rosso: non toccare' : !right ? 'Lato sbagliato' : (ok ? rt + ' ms ✓' : rt + ' ms (troppo lento)'); }
+    rx.tm = setTimeout(() => { if (A.run === r && r.phase === 'q') { const b = A.$('#rbox'); if (b) { b.style.background = '#1c2340'; } rx.next && rx.next(); } }, 600);
+  };
   X['run-nb'] = () => { const r = A.run; if (!r || !r.nb || r.nb.i < 0) return; r.nb.taps[r.nb.i] = true; const b = A.$('#nbtn'); if (b) b.disabled = true; };
   X['run-opt'] = el => {
     const r = A.run; if (r.phase !== 'q') return;
-    const it = r.cur, i = +el.dataset.i, ok = i === it.a2;
+    const it = r.cur, i = +el.dataset.i, ok = it.okSet ? it.okSet.includes(it.o2[i]) : i === it.a2;
     document.querySelectorAll('.opt').forEach((b, k) => { b.disabled = true; if (k === it.a2) b.classList.add('ok'); else if (k === i) b.classList.add('no'); });
     R.answer(ok, i);
   };
