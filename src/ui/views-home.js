@@ -98,7 +98,7 @@
     if (s.motor) return ST.judoHub();
     if (s.generated) return ST.mentalHub();
     let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + bg(s.id) + '"></div><h1>' + s.icon + ' ' + E(s.title) + '</h1><p class="mute">' + E(s.goal) + '</p>' + (s.stageNote ? '<p class="warn small">' + E(s.stageNote) + '</p>' : '');
-    if (p.id === 'sec') h += '<div class="card"><h3>Aree previste</h3><p class="mute small">' + C.secondary.map(E).join(' · ') + '</p><p class="small">Nucleo attuale: poche pillole introduttive a rotazione. L’espansione è pianificata.</p></div>';
+    if (p.id === 'sec') h += ST.culHub();
     if (s.id === 'cyb') h += ST.cyberHub();
     if (s.id === 'str') h += ST.strategyHub();
     if (s.id === 'sport') h += ST.sportHub();

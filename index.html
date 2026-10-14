@@ -464,10 +464,10 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   };
 
   // Rotazione teorica (5′) — lunedì = 0.
-  PL.THEORY = ['cyber', 'sport', 'f1', 'f1', 'cyberlab', 'strategy', 'secondary'];
+  PL.THEORY = ['cyber', 'sport', 'f1', 'secondary', 'cyberlab', 'strategy', 'secondary'];
   // Priorità alla cybersecurity: 4 giorni su 7 (3 di teoria + 1 di laboratorio generato); il resto a rotazione.
-  PL.THEORY_CYB = ['cyber', 'sport', 'cyber', 'cyberlab', 'cyber', 'f1', 'f1'];
-  PL.THEORY_STR = ['strategy', 'sport', 'strategy', 'strategylab', 'strategy', 'f1', 'f1'];
+  PL.THEORY_CYB = ['cyber', 'sport', 'cyber', 'cyberlab', 'cyber', 'f1', 'secondary'];
+  PL.THEORY_STR = ['strategy', 'sport', 'strategy', 'strategylab', 'strategy', 'f1', 'secondary'];
   PL.theorySlot = (state, wd) => { const f = state && state.profile && state.profile.theoryFocus; return (f === 'cyb' ? PL.THEORY_CYB : f === 'str' ? PL.THEORY_STR : PL.THEORY)[wd]; };
   PL.THEORY_LABEL = { cyber: 'Cybersecurity', sport: 'Scienze dello sport', f1: 'Formula 1', cyberlab: 'Cybersecurity pratica · laboratorio', strategylab: 'Strategia pratica · laboratorio', strategy: 'Strategia e logica', secondary: 'Materie secondarie' };
   PL.JUDO_SLOT = ['intro', 'consolidate', 'movement', 'variant', 'random', 'combo', 'theory'];
@@ -2656,6 +2656,9 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   F.make = (type, level, rng) => { rng = rng || U.rand; const lv = U.clamp(Math.round(level), 1, F.MAXLV), it = gen[type](lv, rng); it.mtype = type; it.lv = lv; return it; };
   F.session = (s, rng) => { rng = rng || U.rand; const last = t => (store(s)[t] && store(s)[t].last) || '0000', order = F.TYPES.slice().sort((a, b) => last(a).localeCompare(last(b)) || (rng() - 0.5)), items = []; let t = 0, i = 0; while (t < 290 && items.length < 8) { const ty = order[i % 6]; i++; items.push(F.make(ty, F.pickLevel(s, ty, rng), rng)); t += F.EST[ty] || 50; } return items; };
 })(window.ST = window.ST || {});
+
+/* ---- core/cul ---- */
+(function (ST) { 'use strict'; const F = ST.cul = { gen: {}, TYPES: [], LABEL: {}, EST: {}, GROUPS: {}, MAXLV: 10 }; })(window.ST = window.ST || {});
 
 /* ---- core/sim ---- */
 /* SkillTree — simulatore di strategia e pianificazione: scenari a turni con risorse, vincoli e imprevisti.
@@ -18334,6 +18337,39 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
 
 })(window.ST = window.ST || {});
 
+/* ---- content/cul-l-storia ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/cul-l-mondo ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/cul-l-economia ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/cul-l-psicologia ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/cul-l-scienze1 ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/cul-l-scienze2 ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/cul-l-filosofia ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/cul-l-arte ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/cul-l-salute ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/cul-l-casa ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
+/* ---- content/cul-l-motori ---- */
+(function (ST) {})(window.ST = window.ST || {});
+
 /* ---- content/str-puzzles ---- */
 (function (ST) {
   'use strict';
@@ -20887,6 +20923,9 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
     ]
   });
 })(window.ST = window.ST || {});
+
+/* ---- content/sim-h ---- */
+(function (ST) {})(window.ST = window.ST || {});
 
 /* ---- content/en-l0-l1 ---- */
 /* Inglese — stage L0 (fondamenta B1) e L1 (B1 solido). */
@@ -24300,7 +24339,8 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
     mc('1000 € al 5% annuo composto per 10 anni valgono circa…', ['1629 €', '1500 €', '1050 €', '2000 €'], 0)
   ]);
 
-  C.defineSubject({ id: 'sec', title: 'Materie secondarie', icon: '📚', primary: false, goal: 'Cultura generale distribuita: pillole a rotazione la domenica.', stages: [{ id: 'L0', title: 'Pillole introduttive', desc: '', topics: [] }], pillOnly: true });
+  const cst = (id, title, desc) => ({ id, title, desc, topics: [] });
+  C.defineSubject({ id: 'sec', title: 'Cultura e abilità generali', icon: '📚', primary: false, goal: 'Cultura generale e abilità pratiche, dalla storia alle scienze, dall’economia alla cucina e al fai da te: lezioni, laboratori di calcolo e scenari di decisione, sempre in italiano e da zero.', pillOnly: false, stages: [cst('L0', 'Pillole introduttive', 'Brevi lezioni distribuite nel tempo.'), cst('L1', 'Storia', 'Dalla preistoria al mondo contemporaneo, con l’Italia al centro.'), cst('L2', 'Geografia, mondo e orientamento', 'Geografia fisica e umana, geopolitica, cartografia, coordinate e fusi orari.'), cst('L3', 'Economia, diritto e società', 'Economia e finanza personale, Costituzione e istituzioni, psicologia, comunicazione.'), cst('L4', 'Matematica e scienze', 'Matematica e statistica, fisica, chimica, biologia, astronomia e scienze della Terra.'), cst('L5', 'Filosofia, letteratura e arti', 'Pensiero critico, letteratura, arte e architettura, musica.'), cst('L6', 'Salute, corpo e tecnologia', 'Primo soccorso, nutrizione di base, alfabetizzazione digitale e sicurezza online.'), cst('L7', 'Abilità pratiche: cucina e casa', 'Cucinare bene e in sicurezza, gestire la casa, riparazioni e fai da te.'), cst('L8', 'Abilità pratiche: motori, outdoor e manualità', 'Meccanica di base, bicicletta e auto, orientamento, vita all’aperto, cucito e giardinaggio.')] });
 })(window.ST = window.ST || {});
 
 /* ---- content/extras ---- */
@@ -27361,7 +27401,7 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
     if (s.motor) return ST.judoHub();
     if (s.generated) return ST.mentalHub();
     let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + bg(s.id) + '"></div><h1>' + s.icon + ' ' + E(s.title) + '</h1><p class="mute">' + E(s.goal) + '</p>' + (s.stageNote ? '<p class="warn small">' + E(s.stageNote) + '</p>' : '');
-    if (p.id === 'sec') h += '<div class="card"><h3>Aree previste</h3><p class="mute small">' + C.secondary.map(E).join(' · ') + '</p><p class="small">Nucleo attuale: poche pillole introduttive a rotazione. L’espansione è pianificata.</p></div>';
+    if (p.id === 'sec') h += ST.culHub();
     if (s.id === 'cyb') h += ST.cyberHub();
     if (s.id === 'str') h += ST.strategyHub();
     if (s.id === 'sport') h += ST.sportHub();
@@ -28108,6 +28148,11 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       const nextL = C.topicsOf('cyb').filter(t => !t.pill && !t.id.startsWith('cyb-scenario')).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
       if (nextL) return nextL;
     }
+    if (subj === 'sec') {
+      const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied')), nextL = C.topicsOf('sec').filter(t => !t.pill).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
+      if (ST.cul && U.parse(U.today()).getDate() % 4 === 0) return { id: 'cul-lab', title: 'Laboratorio di cultura e abilità (calcoli, tempi, scenari)' };
+      if (nextL) return nextL;
+    }
     if (subj === 'f1') {
       const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied')), nextL = C.topicsOf('f1').filter(t => !t.pill).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
       if (ST.f1 && U.parse(U.today()).getDate() % 3 === 0) return { id: 'f1-lab', title: 'Laboratorio di Formula 1 (strategia, tempi, fisica, scenari)' };
@@ -28147,6 +28192,7 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
     if (!pill) { A.toast('Nessuna pillola disponibile.'); return; }
     A.ctx = 'general'; A.pb = { general: 'theory' };
     if (slot === 'cyberlab') { X.startCyber(); return; }
+    if (pill.id === 'cul-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'sec' } }); else X.startCul(); return; }
     if (pill.id === 'f1-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'f1' } }); else X.startF1(); return; }
     if (pill.id === 'spo-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'sport' } }); else X.startSport(); return; }
     if (slot === 'strategylab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom(); else X.startStrategy(); return; }
@@ -28520,6 +28566,9 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       '<div class="card"><h3>Tempo dedicato</h3><p class="small">Lezioni lette: <b>' + read + ' / ' + lessons.length + '</b>. I regolamenti cambiano ogni anno: le lezioni indicano il periodo di riferimento.</p></div>';
   };
 })(window.ST = window.ST || {});
+
+/* ---- ui/cul ---- */
+(function (ST) { 'use strict'; ST.culHub = () => ST.simHub('sec'); ST.acts.startCul = () => {}; })(window.ST = window.ST || {});
 
 /* ---- ui/views-other ---- */
 /* SkillTree — Pratica, Progresso, Altro e reindirizzamenti dall'hub dell'argomento. */

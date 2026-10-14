@@ -67,6 +67,11 @@
       const nextL = C.topicsOf('cyb').filter(t => !t.pill && !t.id.startsWith('cyb-scenario')).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
       if (nextL) return nextL;
     }
+    if (subj === 'sec') {
+      const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied')), nextL = C.topicsOf('sec').filter(t => !t.pill).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
+      if (ST.cul && U.parse(U.today()).getDate() % 4 === 0) return { id: 'cul-lab', title: 'Laboratorio di cultura e abilità (calcoli, tempi, scenari)' };
+      if (nextL) return nextL;
+    }
     if (subj === 'f1') {
       const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied')), nextL = C.topicsOf('f1').filter(t => !t.pill).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
       if (ST.f1 && U.parse(U.today()).getDate() % 3 === 0) return { id: 'f1-lab', title: 'Laboratorio di Formula 1 (strategia, tempi, fisica, scenari)' };
@@ -106,6 +111,7 @@
     if (!pill) { A.toast('Nessuna pillola disponibile.'); return; }
     A.ctx = 'general'; A.pb = { general: 'theory' };
     if (slot === 'cyberlab') { X.startCyber(); return; }
+    if (pill.id === 'cul-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'sec' } }); else X.startCul(); return; }
     if (pill.id === 'f1-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'f1' } }); else X.startF1(); return; }
     if (pill.id === 'spo-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'sport' } }); else X.startSport(); return; }
     if (slot === 'strategylab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom(); else X.startStrategy(); return; }
