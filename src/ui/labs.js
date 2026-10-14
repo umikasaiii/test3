@@ -293,6 +293,35 @@
       after: () => done(opts) });
   };
   V.gateRead = () => { const ps = A.act.passage; return '<div class="row"><button class="btn alt sm" data-act="back">← Esci</button></div><h1>📰 Prova B2 · lettura</h1><div class="card"><h3>' + E(ps.title) + '</h3><p style="font-size:1.08rem;line-height:1.8">' + E(ps.text) + '</p></div><button class="btn block" data-act="gate-go">Rispondi alle domande →</button>'; };
+  /* ---------- Esame di stadio cronometrato ---------- */
+  X.startStageExam = (lang, opts) => {
+    const subj = subjOf(lang), stages = C.stagesOf(subj);
+    // stadio più avanzato in cui almeno 3 argomenti sono stati studiati; altrimenti il primo con studio
+    const studiedIn = st => st.topics.filter(id => P.atLeast(P.topicStatus(A.state, id), 'studied'));
+    const cand = stages.filter(st => studiedIn(st).length >= 3);
+    const st = cand[cand.length - 1] || stages.find(x => studiedIn(x).length >= 1);
+    if (!st) { A.toast('Studia almeno una lezione prima dell’esame di stadio.'); return; }
+    const pool = studiedIn(st).flatMap(id => { const t = C.topic(id); return (t.test || []).concat(t.exercises.filter(e => e.t === 'mc' || e.t === 'fill')).map(x => Object.assign({ srcLabel: t.title }, x)); });
+    if (pool.length < 8) { A.toast('Argomenti studiati insufficienti per l’esame di stadio.'); return; }
+    const items = U.sample(pool, Math.min(20, pool.length)), limit = items.length * 45;
+    R.start({ title: 'Esame di stadio ' + st.id, kind: 'stage', items, ctx: lang, deadline: Date.now() + limit * 1000,
+      onAnswer: (it, ok) => A.xp(ok ? 6 : 0, 'stage'),
+      onFinish: res => {
+        const valid = res.filter(x => x.ok && !x.late).length, score = valid / res.length, late = res.filter(x => x.late).length;
+        A.state.exams.push({ lang, level: st.id, skill: 'mixed', kind: 'stage', date: U.today(), score, late, n: res.length });
+        A.subjectTouch(subj); A.save();
+        return '<p><b>' + (score >= 0.75 ? 'Stadio superato' : 'Stadio non ancora superato') + '</b> (soglia 75%, solo risposte nel tempo: ' + valid + '/' + res.length + ')' + (late ? '<br><span class="mute small">' + late + ' risposte oltre il tempo (' + Math.round(limit / 60) + ' min) non contano.</span>' : '') + '</p><p class="mute small">L’esame misura richiamo e riconoscimento sui contenuti del corso: non è una certificazione.</p>';
+      }, after: () => done(opts) });
+  };
+
+  /* ---------- Esercizi grammaticali generati (con diagnosi dell'errore) ---------- */
+  X.startDrill = (lang, opts) => {
+    const items = ST.drills.generate(lang, 12);
+    R.start({ title: 'Grammatica generata', kind: 'drill', items, ctx: lang, onAnswer: (it, ok) => A.xp(ok ? 3 : 0, 'drill'),
+      onFinish: res => { const score = res.filter(x => x.ok).length / res.length; A.state.exams.push({ lang, level: 'drill', skill: 'grammar', kind: 'drill', date: U.today(), score }); A.subjectTouch(subjOf(lang)); A.save(); return '<p class="mute small">Ogni errore spiega quale forma hai scritto al posto di quella richiesta. Le domande cambiano a ogni sessione.</p>'; },
+      after: () => done(opts) });
+  };
+
   X['gate-go'] = () => { const ps = A.act.passage; A.stack.pop(); R.start({ title: 'Prova B2 · lettura', kind: 'gate', ctx: 'en', items: ps.qs.map(q => ({ t: 'mc', q: q.q, o: q.o, a: q.a, why: q.why || '', srcLabel: q.kind === 'implicit' ? 'Inferenza' : 'Informazione esplicita' })), onFinish: res => { const score = res.filter(x => x.ok).length / res.length; A.state.exams.push({ lang: 'en', level: 'B2', skill: 'reading', kind: 'gate', item: ps.id, date: U.today(), score }); A.save(); return '<p class="mute small">Prova B2 di lettura registrata come indicatore in-app.</p>'; } }); };
   // La lettura B2 mostra prima il testo, poi le domande.
   X.startGate = (skill) => {

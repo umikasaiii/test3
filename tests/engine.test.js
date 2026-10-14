@@ -251,3 +251,25 @@ test('Pillole: raggiungono «esercitato» con i loro 3 esercizi', () => {
   C.topic(id).exercises.forEach((e, i) => { r.ex[i] = { ok: true }; });
   assert.equal(P.topicStatus(s, id), 'practiced');
 });
+
+test('Esercizi generati: coniugazioni giapponesi corrette e diagnosi degli errori', () => {
+  const D = ST.drills, c = D.conj;
+  assert.equal(JSON.stringify(c('かく', 1)), JSON.stringify({ masu: 'かきます', te: 'かいて', nai: 'かかない', ta: 'かいた' }));
+  assert.equal(c('いく', 1).te, 'いって');
+  assert.equal(c('よむ', 1).te, 'よんで');
+  assert.equal(c('かう', 1).nai, 'かわない');
+  assert.equal(c('およぐ', 1).ta, 'およいだ');
+  assert.equal(c('はなす', 1).te, 'はなして');
+  assert.equal(c('たべる', 2).nai, 'たべない');
+  assert.equal(JSON.stringify(c('くる', 3)), JSON.stringify({ masu: 'きます', te: 'きて', nai: 'こない', ta: 'きた' }));
+  // ogni verbo della tabella produce 4 forme non vuote e distinte
+  D.JV.forEach(([kj, d, g]) => { const f = c(d, g); assert.equal(new Set(Object.values(f)).size, 4, d); });
+  // diagnosi: forma sbagliata dello stesso verbo
+  const q = D.generate('ja', 40).find(x => /forma て di/.test(x.q) && /のむ/.test(x.q)) || null;
+  if (q) assert.match(q.diag('のみます'), /ます/);
+  const en = D.generate('en', 30);
+  assert.equal(en.length, 30);
+  const past = en.find(x => /^Past simple di «go»/.test(x.q));
+  if (past) assert.match(past.diag('gone'), /participio/);
+  en.forEach(x => assert.ok(x.a[0] && x.why));
+});

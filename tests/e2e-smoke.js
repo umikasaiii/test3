@@ -57,6 +57,12 @@ const mock = () => {
   // dialogo ramificato completo
   await page.evaluate(() => ST.acts.startConvo('en')); for (let i = 0; i < 3; i++) { await page.waitForSelector('[data-act="convo-pick"]'); await page.click('[data-act="convo-pick"]'); await page.click('[data-act="convo-next"]'); }
   await page.waitForSelector('[data-act="convo-close"]'); ok(true, 'dialogo ramificato concluso'); await page.click('[data-act="convo-close"]'); await reset();
+  // esame di stadio cronometrato e grammatica generata
+  await page.evaluate(() => ['eng', 'jpn'].forEach(sid => ST.content.topicsOf(sid).forEach(t => { ST.app.state.topics[t.id] = { page: 0, studied: ST.util.addDays(ST.util.today(), -3), ex: {}, tests: [], retests: [] }; })));
+  for (const l of ['en', 'ja']) {
+    await page.evaluate(l => ST.acts.startStageExam(l), l); await page.waitForTimeout(150); const b = await body(); ok(/Esame di stadio/.test(b) && /⏱/.test(b), 'esame di stadio con timer ' + l); await reset();
+    await page.evaluate(l => ST.acts.startDrill(l), l); await page.waitForSelector('#fill'); await page.fill('#fill', 'zzz'); await page.keyboard.press('Enter'); await page.waitForTimeout(100); ok(/Risposta/.test(await body()), 'grammatica generata con correzione ' + l); await reset();
+  }
   // gate B2
   for (const sk of ['listening', 'reading']) { await page.evaluate(sk => ST.acts.startGate(sk), sk); await page.waitForTimeout(100); ok((await body()).length > 20, 'gate ' + sk); await reset(); }
   await step('b2 view', () => ST.app.go('b2'), /Prove B2/);

@@ -27,6 +27,8 @@
       t('📰', 'Lettura', 'testi e domande', 'p-read') +
       t('✏️', 'Scrittura', 'testo libero', 'p-write') +
       t('🧪', 'Mini-esame', 'richiamo cumulativo', 'p-mini') +
+      t('⏱️', 'Esame di stadio', 'cronometrato · soglia 75%', 'p-stage') +
+      t('⚙️', 'Grammatica generata', 'forme verbali · errori spiegati', 'p-drill') +
       (lang === 'ja' ? t('あ', 'Kana Trainer', 'riconoscimento rapido', 'p-kana') : t('🎯', 'Prova B2', 'ascolto / lettura (indicatore)', 'go', 'data-view="b2"')) +
       t('📺', 'Contenuti graduati', 'cosa ascoltare/leggere fuori dall’app', 'go', 'data-view="resources"') +
       '</div><h2>Generale</h2><div class="grid2">' + t('🧠', 'Allenamento mentale', '5 min · adattivo', 'startMental') + t('🥋', 'Judo 5′', 'sessione di oggi', 'go', 'data-view="judoSession"') + t('📚', 'Teoria di oggi', E(PL.THEORY_LABEL[PL.THEORY[U.weekday()]]), 'startTheory') + t('🔊', 'Diagnostica audio', 'voci, microfono', 'go', 'data-view="audioTest"') + '</div>' +
@@ -43,6 +45,8 @@
   X['p-read'] = () => { A.pb = null; X.startReading(pl()); };
   X['p-write'] = () => { A.pb = null; X.startWrite(pl()); };
   X['p-mini'] = () => { A.pb = null; X.startMini(pl()); };
+  X['p-stage'] = () => { A.pb = null; X.startStageExam(pl()); };
+  X['p-drill'] = () => { A.pb = null; X.startDrill(pl()); };
   X['p-kana'] = () => { A.pb = null; X.startKana(); };
 
   /* ---- Contenuti graduati ---- */

@@ -34,7 +34,7 @@
     clearTimers();
     if (r.phase === 'done') return summary();
     const it = r.cur, n = r.items.length;
-    let h = '<div class="row"><button class="btn alt sm" data-act="run-quit">✕ Esci</button><span class="sp"></span><span class="mute small">' + E(r.title) + ' · ' + (r.i + 1) + '/' + n + '</span></div>' +
+    let h = '<div class="row"><button class="btn alt sm" data-act="run-quit">✕ Esci</button><span class="sp"></span><span class="mute small">' + E(r.title) + ' · ' + (r.i + 1) + '/' + n + '</span>' + (r.deadline ? '<span class="pill" id="clk" style="margin-left:8px">⏱</span>' : '') + '</div>' +
       '<div class="prog" style="margin:8px 0"><i style="width:' + Math.round(100 * r.i / n) + '%"></i></div>';
     h += '<div class="card">' + (it.srcLabel ? '<div class="mute small">' + E(it.srcLabel) + '</div>' : '');
     h += '<h2 style="margin-top:4px">' + (it.hideText && it.say ? 'Ascolta e rispondi' : '') + (it.q ? (it.hideText && it.say ? '' : U.ruby(it.q)) : '') + '</h2>';
@@ -81,6 +81,7 @@
       };
       timers.push(setTimeout(flash, 700));
     }
+    if (r.deadline) { const tick = () => { const c = A.$('#clk'); if (!c) return; const left = Math.round((r.deadline - Date.now()) / 1000); c.textContent = left >= 0 ? '⏱ ' + Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0') : '⏱ tempo scaduto'; c.style.color = left < 0 ? 'var(--bad, #ff5c7a)' : ''; }; tick(); timers.push(setInterval(tick, 1000)); }
     const f = A.$('#fill'); if (f && it.t === 'fill') { f.focus(); f.addEventListener('keydown', e => { if (e.key === 'Enter') X['run-fill'](); }); }
   };
 
@@ -119,10 +120,11 @@
     if (r.phase !== 'q') return;
     r.phase = 'fb';
     clearTimers();
-    r.res.push({ item: r.items[r.i], ok, val, ms: Date.now() - r.t0 });
+    const late = !!(r.deadline && Date.now() > r.deadline);
+    r.res.push({ item: r.items[r.i], ok, val, ms: Date.now() - r.t0, late });
     if (r.onAnswer) r.onAnswer(r.items[r.i], ok, r.i);
     const fb = A.$('#fb');
-    fb.innerHTML = '<div class="fb ' + (ok ? 'ok' : 'no') + '"><b>' + (ok ? '✓ Corretto' : '✗ Non corretto') + '</b>' + (it.t === 'dict' ? '<div>Precisione: <b>' + Math.round((r.lastScore || 0) * 100) + '%</b></div><div class="diff">' + (r.lastDiff ? r.lastDiff.ops.map(o => o.ok ? E(o.w) : o.missing ? '<span class="m">' + E(o.w) + '</span>' : '<span class="x">' + E(o.w) + '</span>').join(' ') : '') + '</div><div>Testo: <b>' + U.ruby(it.text) + '</b></div>' : ok ? '' : '<div>Risposta: <b>' + U.ruby(answerText(it)) + '</b></div>') + (it.why ? '<div class="mute small" style="margin-top:4px">' + U.ruby(it.why) + '</div>' : '') + '</div>' +
+    fb.innerHTML = '<div class="fb ' + (ok ? 'ok' : 'no') + '"><b>' + (ok ? '✓ Corretto' : '✗ Non corretto') + '</b>' + (it.t === 'dict' ? '<div>Precisione: <b>' + Math.round((r.lastScore || 0) * 100) + '%</b></div><div class="diff">' + (r.lastDiff ? r.lastDiff.ops.map(o => o.ok ? E(o.w) : o.missing ? '<span class="m">' + E(o.w) + '</span>' : '<span class="x">' + E(o.w) + '</span>').join(' ') : '') + '</div><div>Testo: <b>' + U.ruby(it.text) + '</b></div>' : ok ? '' : '<div>Risposta: <b>' + U.ruby(answerText(it)) + '</b></div>') + (!ok && it.diag ? (() => { const d = it.diag(it.t === 'mc' ? it.o2[val] : val); return d ? '<div class="small" style="margin-top:4px">⚠ ' + U.ruby(d) + '</div>' : ''; })() : '') + (it.why ? '<div class="mute small" style="margin-top:4px">' + U.ruby(it.why) + '</div>' : '') + '</div>' +
       '<button class="btn block" style="margin-top:10px" data-act="run-next">' + (r.i + 1 >= r.items.length ? 'Concludi' : 'Avanti') + '</button>';
     fb.scrollIntoView({ block: 'nearest' });
   };
