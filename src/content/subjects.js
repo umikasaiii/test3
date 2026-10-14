@@ -28,7 +28,7 @@
     ] });
 
   const P = (id, title, icon, goal, extra) => C.defineSubject(Object.assign({ id, title, icon, primary: true, goal, stages: [st('L0', 'Pillole introduttive', 'Brevi lezioni distribuite nel tempo.')], pillOnly: true }, extra || {}));
-  P('cyb', 'Cybersecurity', '🛡️', 'Competenze teoriche e pratiche in sicurezza informatica, con scenari difensivi.');
+  P('cyb', 'Cybersecurity', '🛡️', 'Dalle basi all’architettura: reti, sistemi, crittografia, sicurezza applicativa, difesa operativa, cloud e governance — in ottica difensiva ed etica, con laboratori generati e scenari.', { pillOnly: false, stages: [st('L0', 'Fondamenti', 'Principi, rischio, autenticazione, ingegneria sociale, malware (concetti), etica e legalità. Include le pillole introduttive.'), st('L1', 'Reti e sistemi', 'TCP/IP, DNS, TLS, firewall; Linux e Windows, hardening, container, backup.'), st('L2', 'Crittografia', 'Cifrari, hash, chiavi pubbliche, firme, PKI e gli errori più comuni.'), st('L3', 'Sicurezza applicativa e web', 'OWASP, sessioni, controllo degli accessi, API, ciclo di sviluppo sicuro.'), st('L4', 'Difesa operativa e analisi', 'Log e SIEM, rilevamento, incident response, forense, analisi statica dei malware, threat intelligence.'), st('L5', 'Architettura e avanzato', 'Threat modeling, cloud, zero trust, mitigazioni della memoria, reverse engineering (concetti), governance, test di penetrazione autorizzati, gestione delle vulnerabilità.')] });
   P('sport', 'Scienze dello sport', '🏃', 'Fisiologia, allenamento, recupero e apprendimento motorio.');
   P('prog', 'Programmazione e AI', '💻', 'Fondamenti di programmazione e uso consapevole dell’intelligenza artificiale.');
   P('f1', 'Formula 1', '🏎️', 'Regolamenti, tecnica, strategia e storia della F1.');
