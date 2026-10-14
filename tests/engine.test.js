@@ -134,8 +134,14 @@ test('Kana: gli errori diventano più frequenti', () => {
   assert.ok(hits > 300 * 5 / 92 * 1.5);
 });
 
-test('Judo: i contenuti rispettano sicurezza e repertorio 8–12', () => {
-  assert.ok(C.judo.techniques.length >= 8 && C.judo.techniques.length <= 12);
+test('Judo: i contenuti rispettano sicurezza e repertorio (solo, no sparring)', () => {
+  assert.ok(C.judo.techniques.length >= 12 && C.judo.techniques.length <= 30);
+  C.judo.techniques.forEach(t => { assert.ok(t.cues.length >= 3 && t.errors.length >= 3 && t.variants.length >= 3 && t.theory.length >= 1, t.id); assert.ok(t.minMonth >= 1 && t.minMonth <= 24, t.id); });
+  // ordine di introduzione coerente col mese minimo
+  for (let i = 1; i < C.judo.techniques.length; i++) assert.ok(C.judo.techniques[i].minMonth >= C.judo.techniques[i - 1].minMonth, 'ordine ' + C.judo.techniques[i].id);
+  // le entrate che simulano un attacco a un avversario richiedono verifica di un istruttore
+  ['single-leg-entry', 'double-leg-entry', 'ogoshi-entry', 'osoto-entry', 'seoi-entry'].forEach(id => assert.equal(C.judo.techniques.find(t => t.id === id).instructor, true, id));
+  C.judo.combos.forEach(c => c.ids.forEach(id => assert.ok(C.judo.techniques.find(t => t.id === id), 'combo ' + id)));
   const txt = JSON.stringify(C.judo).toLowerCase();
   assert.ok(!/proietta(re)? il partner|ukemi nuov|caduta nuova/.test(txt));
   assert.ok(C.judo.safety.some(x => /istruttore/.test(x)));
@@ -199,11 +205,11 @@ test('Judo: SIMULAZIONE 24 MESI — le tecniche vecchie continuano a tornare', (
     });
   }
   const act = M.active(s);
-  assert.ok(act.length >= 8, 'tecniche introdotte: ' + act.length);
+  assert.ok(act.length >= 24, 'tecniche introdotte: ' + act.length);
   act.forEach(id => {
     const gap = U.diffDays(lastSeen[id], '2027-12-31');
     assert.ok(gap <= 150, id + ' non ripassata da ' + gap + ' giorni');
-    assert.ok((maxGap[id] || 0) <= 160, id + ' gap massimo ' + maxGap[id]);
+    assert.ok((maxGap[id] || 0) <= 140, id + ' gap massimo ' + maxGap[id]);
   });
   // le prime tecniche sono state riviste molte volte dopo l'introduzione delle nuove
   assert.ok(s.motor.posture.card.reps >= 12, 'posture richiami: ' + s.motor.posture.card.reps);

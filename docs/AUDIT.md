@@ -52,7 +52,7 @@ Letto in `todayPage()` / `generalPage()` (V10.8) [CODICE]:
 | Rotazione settimanale judo | Presente come 7 testi fissi, senza tecniche | [CODICE] |
 | SRS motorio (1-3-7-14-30, adattivo, errori prima) | **Assente** | [NON IMPL.] |
 | Registro per tecnica (ultimo allenamento, richiami, qualità, errori, prossima data, stato, istruttore) | **Assente** | [NON IMPL.] |
-| Repertorio 8–12 tecniche approfondite | **Assente** | [NON IMPL.] |
+| Repertorio 8–12 tecniche approfondite | **Assente** (ora 27 in SkillTree 1.x) | [NON IMPL. nella V11.2] |
 | Materia a rotazione (lun–dom) | Solo testo | [CODICE] |
 | Livelli L0–L5 / J0–J5 | Presenti come etichette; prerequisiti reali solo in parte | [CODICE] |
 | Navigazione Materia→Stage→Argomento→Attività | Introdotta da livelli V11.1 «stage-topic» sopra l'interfaccia precedente | [CODICE] |
@@ -174,7 +174,7 @@ Classificazione: **realistico / possibile / improbabile / non verificabile**.
 
 ## 8. Judo: che cosa può dare davvero 5′ al giorno
 
-Tempo: ≈ 44–52 h in 24 mesi (≈ 3.000 minuti di gesto controllato).
+Tempo: ≈ 44–52 h in 24 mesi (≈ 3.000 minuti di gesto controllato). Repertorio: 27 gesti solitari (no-gi: lotta in piedi e a terra), nessuno sparring.
 
 | Capacità | Giudizio | Note |
 |---|---|---|
@@ -207,14 +207,14 @@ Su tua richiesta la repo `test3` è stata svuotata (il vecchio contenuto — un 
 | Ripasso | Un solo motore SRS per carte, errori, kana, tecniche: 1-3-7-14-30(-60-120), errore → domani, richiamo attivo dai 7 giorni |
 | Kana Trainer | Placement, errori riproposti più spesso, risposta in kana o romaji |
 | Audio | Attesa delle voci asincrone, scelta voce per regione, riproduzione a frasi, `onend`/`onerror`/timeout, messaggi d'errore guidati, diagnostica (Altro → Audio), registrazione con permessi gestiti |
-| Judo | 12 tecniche **solo solitarie** (posture, spostamenti, tai sabaki, kuzushi, kumi-kata, 3 entrate a vuoto, shrimp, rialzo, tempismo, uchikomi a vuoto), scheduler settimanale (intro/consolidamento/movimento/variante/richiamo casuale/combinazioni/domenica teoria), timer 30″-2′30″-1′30″-30″ adattivo, registro completo, verifica istruttore **separata** |
+| Judo | 27 tecniche **solo solitarie**: 12 di base (posture, spostamenti, tai sabaki, kuzushi, kumi-kata, 3 entrate a vuoto, shrimp, rialzo, tempismo, uchikomi a vuoto) + 15 **no-gi** (stance da lotta, cambio di livello, passo di penetrazione, ponte di bacino, sprawl a basso impatto, hand fighting, bear/crab, pummeling, frame, sit-out, snap-down, knee slide, arm drag, ingressi single/double-leg a vuoto). Scheduler settimanale (intro/consolidamento/movimento/variante/richiamo casuale/combinazioni/domenica teoria), timer adattivo, registro completo, verifica istruttore **separata** |
 | Allenamento mentale | 7 tipi generati (calcolo, successioni, span, Corsi, elemento diverso, Stroop, logica) con livello adattivo 1–10 |
 | Contenuti | Inglese 70 argomenti (≈ 29.300 parole di lezione, 498 esercizi, 297 domande di verifica, 587 carte, 70 brani). Giapponese 76 argomenti (≈ 22.800 parole, 576 esercizi, 316 domande, 706 carte, 76 brani; 21 argomenti di kanji in contesto, ≈ 250 kanji insegnati in set dedicati, ≈ 680 incontrati in parole con lettura). Esame di stadio cronometrato (soglia 75%) e grammatica generata con diagnosi dell'errore (verbi giapponesi, verbi irregolari e gradi dell'aggettivo inglesi). Pool B2: 50 ascolti + 50 letture. 23 dialoghi ramificati (11 EN, 12 JA). 12 letture graduate EN (A2–C1). 14 pillole teoriche |
 
 ### 9.2 Prove eseguite
 
 - **32 test unitari** (`node --test tests/engine.test.js`): SRS, curva livelli, tetto XP, regole di verifica/mantenimento, piano 60′ (mesi 1–8, 9–16, 17–24, gate B2), scheduler judo, migrazioni, generatori mentali.
-- **Simulazione di 24 mesi del judo** (sedute 6/7 giorni, 10% di giorni saltati, qualità variabile): 12 tecniche introdotte (ultima al mese 11); **tutte** ancora ripassate negli ultimi 150 giorni; gap massimo fra due ripassi della stessa tecnica: 9–18 giorni per le prime quattro, 49–77 giorni per le successive (mai oltre il tetto di 120 giorni); la tecnica più antica ha > 280 richiami. → lo scheduler **non** si limita alle ultime tecniche.
+- **Simulazione di 24 mesi del judo** (sedute 6/7 giorni, 10% di giorni saltati, qualità variabile; 3 seed): 27 tecniche introdotte (ultima al mese 20); **tutte** ancora ripassate negli ultimi 150 giorni; gap massimo fra due ripassi della stessa tecnica ≤ 124 giorni (tetto SRS 120). → lo scheduler non si limita alle ultime tecniche.
 - **E2E Chromium headless** (48 controlli): onboarding, missioni 25/20/15, lezione a pagine con ripresa dopo reload, esercizi e feedback, «test lo stesso giorno non conta», ascolto senza testo (TTS simulata), dettato, kana, furigana, ripasso giapponese in richiamo, sessione judo, mentale, backup/ripristino, diagnostica audio, nessuno scroll orizzontale a 390 px, nessun errore JS.
 - **Smoke** (`tests/e2e-smoke.js`): apertura di tutte le materie e di tutti gli argomenti (ogni pagina, esercizio e verifica), tutti i laboratori in EN e JA, shadowing con registrazione simulata, dialogo ramificato, prove B2.
 - Validatore dei contenuti (`tools/validate-content.js`): id, prerequisiti, risposte, opzioni duplicate, kanji senza lettura nei testi da ascoltare, copertura.
@@ -257,6 +257,9 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 
 
 **Voto finale delle lingue — solo ciò che SkillTree può fare da solo** (offline, senza AI, senza persone, senza contenuti esterni; esclusi conversazione dal vivo e consumo di materiali fuori app) — [STIMA]: **inglese 8,5/10** · **giapponese 8,0/10**. Tutti i miglioramenti interni previsti sono stati realizzati: curriculum esteso (EN 70, JA 76 argomenti), pool B2 50+50, esame di stadio cronometrato, esercizi grammaticali generati con diagnosi dell'errore, ≈ 250 kanji in set dedicati. Cosa impedisce il 10: i testi sono scritti dall'assistente e non revisionati da madrelingua (rischio d'errore non misurato); la voce è sintetica; parlato e scrittura restano in autovalutazione; il giapponese non copre per intero N3 e i kanji dedicati sono sotto i ≈ 370 di N3; nessuna prova su dispositivo reale.
+
+
+**Voto judo/lotta no-gi — solo ciò che SkillTree può fare da solo (senza sparring, partner o istruttore)** — [STIMA]: **7,5/10**. Punti forti: 27 gesti, scheduler che li ripassa tutti entro 124 giorni, errori ricorrenti che accorciano l'intervallo, sicurezza esplicita (nessuna caduta, nessun ponte sul collo, ingressi a vuoto segnati «da istruttore»). Tetto dichiarato: la qualità biomeccanica non è verificabile da soli (si possono consolidare errori), la variabilità è solitaria e non c'è resistenza di un avversario; sopra ≈ 8/10 servono video-feedback o un istruttore.
 
 ---
 

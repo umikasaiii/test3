@@ -70,6 +70,7 @@ const mock = () => {
   await step('hub judo', () => ST.app.go('subject', { id: 'grp' }), /Repertorio/);
   await step('hub mentale', () => ST.app.go('subject', { id: 'mnt' }), /Allenamento mentale/);
   await step('tecnica', () => ST.app.go('technique', { id: 'posture' }), /Indicazioni/);
+  for (const id of await page.evaluate(() => ST.content.judo.techniques.map(t => t.id))) await step('tecnica ' + id, id => ST.app.go('technique', { id }), /Indicazioni/, id);
   await step('theory', () => ST.acts.startTheory());
   await step('general', () => ST.app.go('general'), /Missione generale/);
   await step('missione en', () => ST.app.go('mission', { lang: 'en' }), /Inglese/);
