@@ -97,6 +97,10 @@ const mock = () => {
   await step('hub sport', () => ST.app.go('subject', { id: 'sport' }), /Laboratori di calcolo/);
   await page.evaluate(() => ST.acts.startSport()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio sport'); await reset();
   for (const t of await page.evaluate(() => ST.sport.TYPES)) { await page.evaluate(t => ST.acts.startSportType({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio sport ' + t); await reset(); }
+  // Formula 1: hub e laboratori di calcolo
+  await step('hub F1', () => ST.app.go('subject', { id: 'f1' }), /Laboratori di Formula 1/);
+  await page.evaluate(() => ST.acts.startF1()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio F1'); await reset();
+  for (const t of await page.evaluate(() => ST.f1.TYPES)) { await page.evaluate(t => ST.acts.startF1Type({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio F1 ' + t); await reset(); }
   // simulatore di strategia: ogni scenario viene giocato fino al debrief
   for (const id of await page.evaluate(() => ST.sim.templates.map(t => t.id))) {
     await page.evaluate(id => ST.acts.startSim({ dataset: { id } }), id); await page.waitForTimeout(80);
