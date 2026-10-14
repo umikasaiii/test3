@@ -120,6 +120,7 @@
     return gen.ev(lv, rng);
   };
 
+  SG.gen = gen;
   SG.make = (type, level, rng) => { rng = rng || U.rand; const lv = U.clamp(Math.round(level), 1, SG.MAXLV), it = gen[type](lv, rng); it.mtype = type; it.lv = lv; return it; };
   SG.EST = { payoff: 60, ev: 45, tree: 55, grundy: 50, knap: 60, sched: 45, path: 60, prob: 35, chess: 60 };
   SG.session = (s, rng) => { rng = rng || U.rand; const last = t => (store(s)[t] && store(s)[t].last) || '0000', order = SG.TYPES.slice().sort((a, b) => last(a).localeCompare(last(b)) || (rng() - 0.5)), items = []; let t = 0, i = 0; while (t < 290 && items.length < 8) { const ty = order[i % 6]; i++; items.push(SG.make(ty, SG.pickLevel(s, ty, rng), rng)); t += SG.EST[ty] || 50; } return items; };

@@ -2158,9 +2158,155 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     return gen.ev(lv, rng);
   };
 
+  SG.gen = gen;
   SG.make = (type, level, rng) => { rng = rng || U.rand; const lv = U.clamp(Math.round(level), 1, SG.MAXLV), it = gen[type](lv, rng); it.mtype = type; it.lv = lv; return it; };
   SG.EST = { payoff: 60, ev: 45, tree: 55, grundy: 50, knap: 60, sched: 45, path: 60, prob: 35, chess: 60 };
   SG.session = (s, rng) => { rng = rng || U.rand; const last = t => (store(s)[t] && store(s)[t].last) || '0000', order = SG.TYPES.slice().sort((a, b) => last(a).localeCompare(last(b)) || (rng() - 0.5)), items = []; let t = 0, i = 0; while (t < 290 && items.length < 8) { const ty = order[i % 6]; i++; items.push(SG.make(ty, SG.pickLevel(s, ty, rng), rng)); t += SG.EST[ty] || 50; } return items; };
+})(window.ST = window.ST || {});
+
+/* ---- core/strategy2 ---- */
+/* SkillTree — laboratori di strategia, parte 2: economia, conflitto (modelli astratti) e ottimizzazione avanzata.
+   Ogni generatore produce istanze con soluzione unica; i risolutori sono verificati nei test con metodi indipendenti. */
+(function (ST) {
+  'use strict';
+  const U = ST.util, SG = ST.strategy, gen = SG.gen, ri = (rng, a, b) => a + Math.floor(rng() * (b - a + 1));
+  const NEW = {
+    cournot: ['Economia · oligopolio di Cournot', 60], npv: ['Economia · valore attuale netto', 60], auction: ['Economia · aste', 50], adv: ['Economia · vantaggio comparato', 50], price: ['Economia · prezzo ottimo', 55],
+    lanch: ['Conflitto · legge quadratica di Lanchester', 60], logi: ['Conflitto · logistica e rifornimenti', 50], mixed: ['Giochi · strategia mista 2×2', 70],
+    lp: ['Ottimizzazione · programmazione lineare', 80], cpm: ['Pianificazione · cammino critico', 65], mst: ['Grafi · albero di copertura minimo', 70], assign: ['Ottimizzazione · assegnamento', 70], flow: ['Grafi · flusso massimo', 80], tsp: ['Ottimizzazione · commesso viaggiatore', 80], coin: ['Programmazione dinamica · monete', 55]
+  };
+  Object.keys(NEW).forEach(k => { SG.TYPES.push(k); SG.LABEL[k] = NEW[k][0]; SG.EST[k] = NEW[k][1]; });
+  SG.GROUPS = { 'Teoria dei giochi e decisioni': ['payoff', 'ev', 'tree', 'grundy', 'prob', 'mixed'], 'Economia': ['cournot', 'npv', 'auction', 'adv', 'price'], 'Conflitto e logistica': ['lanch', 'logi'], 'Ottimizzazione e grafi': ['knap', 'sched', 'path', 'coin', 'lp', 'cpm', 'mst', 'assign', 'flow', 'tsp'], 'Scacchi': ['chess'] };
+  const fill = (type, q, ans, why, timed, extra) => Object.assign({ t: 'fill', mtype: type, num: true, q, a: [String(ans)], why, timed }, extra || {});
+  const opts4 = (right, rng, wrong) => { const o = U.shuffle([right].concat(wrong), rng); return { o, a: o.indexOf(right) }; };
+
+  /* ---- economia ---- */
+  SG.cournot = (a, c, n) => { const q = (a - c) / (n + 1); return { q, price: a - n * q, profit: q * (a - n * q - c) }; };
+  gen.cournot = (lv, rng) => {
+    const n = lv <= 3 ? 2 : ri(rng, 2, 4), m = ri(rng, 2, 4 + lv), c = ri(rng, 0, 20), a = c + (n + 1) * m, r = SG.cournot(a, c, n), k = ri(rng, 0, 2);
+    const head = 'Domanda di mercato P = ' + a + ' − Q (Q = quantità totale). ' + n + ' imprese identiche scelgono la quantità (Cournot), costo unitario costante ' + c + ', nessun costo fisso. ';
+    if (k === 0) return fill('cournot', head + 'Quanto produce ciascuna impresa all’equilibrio?', r.q, 'q = (a − c)/(n + 1) = ' + (a - c) + '/' + (n + 1) + ' = ' + r.q, 90);
+    if (k === 1) return fill('cournot', head + 'Qual è il prezzo di equilibrio?', r.price, 'Q = n·q = ' + n * r.q + ', P = ' + a + ' − ' + n * r.q + ' = ' + r.price, 90);
+    return fill('cournot', head + 'Qual è il profitto di ciascuna impresa?', r.profit, 'q = ' + r.q + ', P = ' + r.price + ', profitto = q·(P − c) = ' + r.profit, 100);
+  };
+  SG.npv = (I, flows, r) => -I + flows.reduce((s, f, i) => s + f / Math.pow(1 + r / 100, i + 1), 0);
+  gen.npv = (lv, rng) => {
+    const mk = () => { const r = U.pick([10, 20, 25], rng), yrs = lv <= 3 ? 2 : 3, base = { 10: 11, 20: 6, 25: 5 }[r], flows = [], pv = []; for (let i = 1; i <= yrs; i++) { const x = ri(rng, 1, 3 + lv), f = Math.pow(base, i) * x; flows.push(f); pv.push(Math.pow(base, i) * x / Math.pow(1 + r / 100, i)); } return { r, flows, pv }; };
+    if (lv >= 5 && rng() < 0.5) {
+      const r = U.pick([10, 20, 25], rng), yrs = 3, base = { 10: 11, 20: 6, 25: 5 }[r], proj = () => { const flows = []; for (let i = 1; i <= yrs; i++) flows.push(Math.pow(base, i) * ri(rng, 1, 5)); const pvs = flows.map((f, i) => Math.round(f / Math.pow(1 + r / 100, i + 1))), I = ri(rng, 5, 60); return { flows, I, npv: Math.round(SG.npv(I, flows, r)) }; };
+      for (let a = 0; a < 80; a++) { const A = proj(), B = proj(); if (A.npv === B.npv) continue; const best = A.npv > B.npv ? 'A' : 'B', txt = (x, l) => 'Progetto ' + l + ': costo ' + x.I + ', incassi ' + x.flows.join(', ') + ' (anni 1,2,3)';
+        return { t: 'mc', mtype: 'npv', q: 'Tasso di sconto ' + r + '%. ' + txt(A, 'A') + '. ' + txt(B, 'B') + '. Quale ha VAN maggiore?', o: ['Progetto A', 'Progetto B', 'Sono uguali', 'Non si può stabilire'], a: best === 'A' ? 0 : 1, why: 'VAN A = ' + A.npv + ', VAN B = ' + B.npv, timed: 130 }; }
+    }
+    const x = mk(), I = ri(rng, 5, 40 + lv * 5), v = Math.round(SG.npv(I, x.flows, x.r));
+    return fill('npv', 'Investimento iniziale ' + I + '. Incassi a fine anno: ' + x.flows.join(', ') + ' (anni 1, 2' + (x.flows.length > 2 ? ', 3' : '') + '). Tasso di sconto ' + x.r + '%. Qual è il VAN (numero intero, negativo se perdita)?', v, 'VAN = −' + I + ' + ' + x.pv.map(z => Math.round(z)).join(' + ') + ' = ' + v, 120);
+  };
+  gen.auction = (lv, rng) => {
+    if (lv >= 4 && rng() < 0.5) { const n = ri(rng, 2, 5), v = n * ri(rng, 3, 20); return fill('auction', 'Asta al primo prezzo con ' + n + ' offerenti. I valori sono indipendenti e uniformi tra 0 e 100. L’equilibrio simmetrico è offrire v·(n−1)/n. Se il tuo valore è ' + v + ', quanto offri?', v * (n - 1) / n, 'Offerta = ' + v + ' × ' + (n - 1) + '/' + n + ' = ' + v * (n - 1) / n, 90); }
+    const n = ri(rng, 3, 5 + (lv > 5 ? 1 : 0)), vals = []; while (vals.length < n) { const x = ri(rng, 10, 99); if (!vals.includes(x)) vals.push(x); }
+    const s = vals.slice().sort((a, b) => b - a), who = 'ABCDEF'; if (rng() < 0.5) return fill('auction', 'Asta a busta chiusa al secondo prezzo (Vickrey). Valori privati: ' + vals.map((x, i) => who[i] + '=' + x).join(', ') + '. Tutti offrono il proprio valore. Quanto paga il vincitore?', s[1], 'Vince il valore più alto (' + s[0] + ') e paga la seconda offerta: ' + s[1], 60);
+    const sur = s[0] - s[1]; return fill('auction', 'Asta al secondo prezzo (Vickrey), tutti offrono il proprio valore. Valori: ' + vals.map((x, i) => who[i] + '=' + x).join(', ') + '. Qual è il surplus (valore − prezzo) del vincitore?', sur, 'Vince ' + s[0] + ', paga ' + s[1] + ', surplus ' + sur, 70);
+  };
+  gen.adv = (lv, rng) => {
+    for (let a = 0; a < 200; a++) {
+      const bx = ri(rng, 1, 4), by = ri(rng, 1, 4), ax = bx * ri(rng, 1, 4), ay = by * ri(rng, 1, 4), ocx = ax / bx, ocy = ay / by; if (ocx === ocy) continue;
+      const head = 'Ore per produrre una unità. Paese X: grano ' + ax + ', tessuto ' + bx + '. Paese Y: grano ' + ay + ', tessuto ' + by + '. ';
+      if (rng() < 0.5) return fill('adv', head + 'Quante unità di tessuto sacrifica X per produrre 1 unità di grano (costo opportunità)?', ocx, 'Costo opportunità = ' + ax + '/' + bx + ' = ' + ocx, 70);
+      const w = ocx < ocy ? 'X' : 'Y', r = opts4('Paese ' + w, rng, ['Paese ' + (w === 'X' ? 'Y' : 'X'), 'Entrambi uguali', 'Nessuno']);
+      return { t: 'mc', mtype: 'adv', q: head + 'Chi ha il vantaggio comparato nel grano?', o: r.o, a: r.a, why: 'Costo opportunità del grano: X = ' + ocx + ', Y = ' + ocy + ' tessuti; chi sacrifica meno ha il vantaggio comparato.', timed: 80 };
+    }
+  };
+  gen.price = (lv, rng) => {
+    for (let a = 0; a < 200; a++) {
+      const b = U.pick([1, 2, 4], rng), A = ri(rng, 30, 80 + lv * 3), c = ri(rng, 4, 25); if ((A + c) % 2 || c >= A) continue;
+      const P = (A + c) / 2, profit = b * (A - c) * (A - c) / 4, head = 'Un monopolista affronta la domanda Q = ' + b * A + ' − ' + b + '·P e ha costo unitario costante ' + c + ' (nessun costo fisso). ';
+      return rng() < 0.5 ? fill('price', head + 'Qual è il prezzo che massimizza il profitto?', P, 'Ricavo marginale = costo marginale → P = (' + A + ' + ' + c + ')/2 = ' + P, 90) : fill('price', head + 'Qual è il profitto massimo?', profit, 'P = ' + P + ', Q = ' + b * (A - P) + ', profitto = (P − c)·Q = ' + profit, 100);
+    }
+  };
+
+  /* ---- conflitto (modelli matematici astratti) e logistica ---- */
+  const TRI = [[5, 3, 4], [13, 5, 12], [17, 8, 15], [25, 7, 24], [10, 6, 8], [26, 10, 24], [41, 9, 40], [29, 20, 21], [37, 12, 35], [15, 9, 12]];
+  gen.lanch = (lv, rng) => {
+    const [h, p, q] = U.pick(TRI, rng), m = ri(rng, 1, 3 + Math.floor(lv / 2)), k = lv >= 5 && p % 2 === 0 && rng() < 0.5 ? 4 : 1, A = h * m, B = k === 1 ? p * m : p * m / 2, left = q * m;
+    const eff = k === 1 ? 'Le unità dei due schieramenti hanno la stessa efficacia individuale.' : 'Ogni unità di B ha un tasso di fuoco 4 volte maggiore di quello di una unità di A (β = 4α).';
+    return fill('lanch', 'Modello di Lanchester (fuoco a distanza, legge quadratica): lo schieramento A parte con ' + A + ' unità, B con ' + B + '. ' + eff + ' Combattono fino all’annientamento di uno dei due; vince A. Quante unità restano ad A?', left, k === 1 ? 'Legge quadratica: A² − B² = R² → ' + A * A + ' − ' + B * B + ' = ' + left * left + ', R = ' + left : 'A² − (β/α)·B² = R² → ' + A * A + ' − 4·' + B * B + ' = ' + left * left + ', R = ' + left, 120);
+  };
+  gen.logi = (lv, rng) => {
+    if (rng() < 0.5) { const u = ri(rng, 1, 4), C = u * 2 * ri(rng, 4, 20 + lv); return fill('logi', 'Un veicolo di rifornimento ha un serbatoio da ' + C + ' litri e consuma ' + u + ' litri ogni 10 km. Nessun deposito intermedio. Qual è la distanza massima a cui può spingersi per tornare alla base con il serbatoio vuoto (km, andata e ritorno)? Rispondi con la distanza massima di sola andata.', C / u * 10 / 2, 'Percorso totale = ' + C + '/' + u + '×10 = ' + C / u * 10 + ' km; sola andata = metà = ' + C / u * 10 / 2, 80); }
+    const p = U.pick([10, 20, 25, 50], rng), base = { 10: 1000, 20: 125, 25: 64, 50: 8 }[p], k = ri(rng, 2, 3), Q = base * ri(rng, 1, 3 + lv), r = Q * Math.pow(1 - p / 100, k);
+    return fill('logi', 'Una catena di rifornimento ha ' + k + ' tappe. A ogni tappa si perde il ' + p + '% del carico per consumi e perdite. Partono ' + Q + ' unità: quante arrivano al fronte?', r, Q + ' × ' + (100 - p) / 100 + '^' + k + ' = ' + r, 90);
+  };
+  SG.mixed = (a, b, c, d) => { const den = a + d - b - c; return { p: (d - c) / den, v: (a * d - b * c) / den }; };
+  gen.mixed = (lv, rng) => {
+    for (let t = 0; t < 4000; t++) {
+      const a = ri(rng, 0, 9), b = ri(rng, 0, 9), c = ri(rng, 0, 9), d = ri(rng, 0, 9), den = a + d - b - c; if (!den) continue;
+      const rowMin = [Math.min(a, b), Math.min(c, d)], colMax = [Math.max(a, c), Math.max(b, d)]; if (Math.max(...rowMin) >= Math.min(...colMax)) continue;
+      const r = SG.mixed(a, b, c, d); if (!Number.isInteger(r.v) || r.p <= 0 || r.p >= 1) continue;
+      return fill('mixed', 'Gioco a somma zero: il Giocatore Riga (massimizza) ha payoff [[' + a + ', ' + b + '], [' + c + ', ' + d + ']] (righe R1, R2; colonne C1, C2). Non esiste punto di sella. Qual è il valore del gioco con strategie miste ottime?', r.v, 'p = (d − c)/(a + d − b − c); valore = (ad − bc)/(a + d − b − c) = ' + r.v, 140);
+    }
+    return gen.payoff(lv, rng);
+  };
+
+  /* ---- ottimizzazione avanzata ---- */
+  SG.lp = (cx, cy, cons) => {
+    const lines = cons.concat([[-1, 0, 0], [0, -1, 0]]), pts = []; for (let i = 0; i < lines.length; i++) for (let j = i + 1; j < lines.length; j++) {
+      const [a1, b1, r1] = lines[i], [a2, b2, r2] = lines[j], det = a1 * b2 - a2 * b1; if (!det) continue; const x = (r1 * b2 - r2 * b1) / det, y = (a1 * r2 - a2 * r1) / det;
+      if (x >= -1e-9 && y >= -1e-9 && cons.every(([a, b, r]) => a * x + b * y <= r + 1e-9)) pts.push([x, y]);
+    }
+    let best = null; pts.forEach(p => { const z = cx * p[0] + cy * p[1]; if (!best || z > best.z + 1e-9) best = { x: p[0], y: p[1], z, n: 1 }; else if (Math.abs(z - best.z) < 1e-9) best.n++; });
+    return best;
+  };
+  gen.lp = (lv, rng) => {
+    for (let t = 0; t < 400; t++) {
+      const cons = Array.from({ length: lv <= 4 ? 2 : 3 }, () => [ri(rng, 1, 5), ri(rng, 1, 5), ri(rng, 12, 40)]), cx = ri(rng, 1, 9), cy = ri(rng, 1, 9), b = SG.lp(cx, cy, cons);
+      if (!b || b.n !== 1 || !Number.isInteger(b.x) || !Number.isInteger(b.y) || b.x === 0 || b.y === 0) continue;
+      const txt = cons.map(([a, bb, r]) => a + 'x + ' + bb + 'y ≤ ' + r).join('; ');
+      return fill('lp', 'Massimizza Z = ' + cx + 'x + ' + cy + 'y con i vincoli ' + txt + '; x ≥ 0, y ≥ 0. Qual è il valore massimo di Z?', b.z, 'Il massimo è su un vertice della regione ammissibile: (x, y) = (' + b.x + ', ' + b.y + '), Z = ' + b.z, 150);
+    }
+    return gen.knap(lv, rng);
+  };
+  SG.cpm = tasks => { const ef = {}; tasks.forEach(t => { ef[t.id] = Math.max(0, ...t.pre.map(p => ef[p])) + t.d; }); return Math.max(...Object.values(ef)); };
+  SG.cpmFloat = (tasks, id) => { const ef = {}, es = {}; tasks.forEach(t => { es[t.id] = Math.max(0, ...t.pre.map(p => ef[p])); ef[t.id] = es[t.id] + t.d; }); const T = Math.max(...Object.values(ef)), lf = {}; for (let i = tasks.length - 1; i >= 0; i--) { const t = tasks[i], succ = tasks.filter(x => x.pre.includes(t.id)); lf[t.id] = succ.length ? Math.min(...succ.map(x => lf[x.id] - x.d)) : T; } return lf[id] - ef[id]; };
+  gen.cpm = (lv, rng) => {
+    const n = 5 + Math.min(3, Math.floor(lv / 3)), L = 'ABCDEFGH', tasks = []; for (let i = 0; i < n; i++) { const pre = []; if (i) { pre.push(L[ri(rng, 0, i - 1)]); if (i > 2 && rng() < 0.5) { const q = L[ri(rng, 0, i - 1)]; if (!pre.includes(q)) pre.push(q); } } tasks.push({ id: L[i], d: ri(rng, 1, 9), pre }); }
+    const txt = tasks.map(t => t.id + '(' + t.d + 'gg' + (t.pre.length ? ', dopo ' + t.pre.join('+') : '') + ')').join('; '), T = SG.cpm(tasks);
+    if (lv >= 5 && rng() < 0.5) { const sl = tasks.map(t => [t.id, SG.cpmFloat(tasks, t.id)]).filter(x => x[1] > 0); if (sl.length) { const [id, f] = U.pick(sl, rng); return fill('cpm', 'Attività (durata, precedenze): ' + txt + '. Di quanti giorni può ritardare l’attività ' + id + ' senza allungare il progetto?', f, 'Float = inizio massimo − inizio minimo = ' + f + ' (durata progetto ' + T + ')', 150, { tasks }); } }
+    return fill('cpm', 'Attività (durata, precedenze): ' + txt + '. Attività senza precedenze partono subito, più attività in parallelo sono permesse. Qual è la durata minima del progetto in giorni?', T, 'Cammino critico = ' + T + ' giorni', 120, { tasks });
+  };
+  SG.mst = (n, edges) => { const par = Array.from({ length: n }, (_, i) => i), f = x => par[x] === x ? x : (par[x] = f(par[x])); let w = 0, k = 0; edges.slice().sort((a, b) => a[2] - b[2]).forEach(([a, b, c]) => { const x = f(a), y = f(b); if (x !== y) { par[x] = y; w += c; k++; } }); return k === n - 1 ? w : null; };
+  gen.mst = (lv, rng) => {
+    const n = 5 + Math.floor(lv / 5), NM = 'ABCDEFG'; for (let t = 0; t < 200; t++) {
+      const ws = U.shuffle(Array.from({ length: 30 }, (_, i) => i + 1), rng), edges = [], seen = new Set(); for (let i = 1; i < n; i++) { const j = ri(rng, 0, i - 1); edges.push([j, i, ws.pop()]); seen.add(j + '-' + i); }
+      for (let k = 0; k < n + 1; k++) { const a = ri(rng, 0, n - 1), b = ri(rng, 0, n - 1), lo = Math.min(a, b), hi = Math.max(a, b); if (lo !== hi && !seen.has(lo + '-' + hi)) { seen.add(lo + '-' + hi); edges.push([lo, hi, ws.pop()]); } }
+      const w = SG.mst(n, edges); if (w == null) continue;
+      return fill('mst', 'Rete di cavi da collegare: ' + edges.map(e => NM[e[0]] + '–' + NM[e[1]] + '(' + e[2] + ')').join(' ') + '. Qual è il costo minimo per collegare tutti i ' + n + ' nodi?', w, 'Kruskal: si aggiungono gli archi per costo crescente evitando cicli → ' + w, 130, { n, edges });
+    }
+  };
+  SG.assign = M => { const n = M.length, memo = new Map(), go = (i, mask) => { if (i === n) return 0; const k = i * 64 + mask; if (memo.has(k)) return memo.get(k); let b = Infinity; for (let j = 0; j < n; j++) if (!(mask & (1 << j))) b = Math.min(b, M[i][j] + go(i + 1, mask | (1 << j))); memo.set(k, b); return b; }; return go(0, 0); };
+  gen.assign = (lv, rng) => {
+    const n = lv <= 4 ? 3 : 4, M = Array.from({ length: n }, () => Array.from({ length: n }, () => ri(rng, 1, 9 + lv))), best = SG.assign(M);
+    return fill('assign', 'Assegna ' + n + ' compiti a ' + n + ' persone (uno ciascuno) per minimizzare il costo totale. Matrice dei costi (righe = persone, colonne = compiti): ' + M.map(r => '[' + r.join(' ') + ']').join(' ') + '. Qual è il costo minimo?', best, 'Il minimo tra tutte le ' + (n === 3 ? 6 : 24) + ' assegnazioni è ' + best, 140, { M });
+  };
+  SG.flow = (n, edges, s, t) => { const cap = Array.from({ length: n }, () => new Array(n).fill(0)); edges.forEach(([a, b, c]) => { cap[a][b] += c; }); let flow = 0; for (;;) { const prev = new Array(n).fill(-1); prev[s] = s; const q = [s]; while (q.length && prev[t] < 0) { const u = q.shift(); for (let v = 0; v < n; v++) if (prev[v] < 0 && cap[u][v] > 0) { prev[v] = u; q.push(v); } } if (prev[t] < 0) return flow; let b = Infinity; for (let v = t; v !== s; v = prev[v]) b = Math.min(b, cap[prev[v]][v]); for (let v = t; v !== s; v = prev[v]) { cap[prev[v]][v] -= b; cap[v][prev[v]] += b; } flow += b; } };
+  gen.flow = (lv, rng) => {
+    const mid = lv <= 5 ? 3 : 4, n = mid + 2, NM = ['S'].concat('ABCD'.slice(0, mid).split(''), ['T']); for (let t = 0; t < 200; t++) {
+      const edges = []; for (let i = 1; i <= mid; i++) { edges.push([0, i, ri(rng, 2, 9)]); edges.push([i, n - 1, ri(rng, 2, 9)]); } for (let k = 0; k < mid; k++) { const a = ri(rng, 1, mid), b = ri(rng, 1, mid); if (a < b && !edges.some(e => e[0] === a && e[1] === b)) edges.push([a, b, ri(rng, 1, 7)]); }
+      const f = SG.flow(n, edges, 0, n - 1); return fill('flow', 'Rete di condutture, capacità sugli archi orientati: ' + edges.map(e => NM[e[0]] + '→' + NM[e[1]] + '(' + e[2] + ')').join(' ') + '. Qual è il flusso massimo da S a T?', f, 'Si aumenta il flusso lungo cammini finché possibile (o si cerca il taglio minimo): ' + f, 150, { n, edges });
+    }
+  };
+  SG.tsp = D => { const n = D.length, full = 1 << n, dp = Array.from({ length: full }, () => new Array(n).fill(Infinity)); dp[1][0] = 0; for (let m = 1; m < full; m++) for (let i = 0; i < n; i++) if (dp[m][i] < Infinity && (m & 1)) for (let j = 0; j < n; j++) if (!(m & (1 << j))) dp[m | (1 << j)][j] = Math.min(dp[m | (1 << j)][j], dp[m][i] + D[i][j]); let b = Infinity; for (let i = 1; i < n; i++) b = Math.min(b, dp[full - 1][i] + D[i][0]); return b; };
+  gen.tsp = (lv, rng) => {
+    const n = lv <= 6 ? 5 : 6, D = Array.from({ length: n }, () => new Array(n).fill(0)), NM = 'ABCDEF'; for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) D[i][j] = D[j][i] = ri(rng, 1, 9), 0;
+    const pairs = []; for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) pairs.push(NM[i] + NM[j] + '=' + D[i][j]);
+    return fill('tsp', 'Distanze (simmetriche) tra ' + n + ' città: ' + pairs.join(' ') + '. Qual è la lunghezza del giro più breve che parte da A, visita ogni città una volta e torna ad A?', SG.tsp(D), 'Tra tutti i ' + (n === 5 ? 24 : 120) + ' giri possibili il minimo è ' + SG.tsp(D), 160, { D });
+  };
+  SG.coins = (coins, T) => { const dp = new Array(T + 1).fill(Infinity); dp[0] = 0; for (let x = 1; x <= T; x++) coins.forEach(c => { if (c <= x) dp[x] = Math.min(dp[x], dp[x - c] + 1); }); return dp[T]; };
+  gen.coin = (lv, rng) => {
+    const sys = [[1, 3, 4], [1, 5, 6], [1, 4, 6], [1, 7, 10], [1, 5, 8, 9], [1, 6, 10], [1, 3, 9, 10], [2, 5, 8], [1, 15, 20]];
+    for (let t = 0; t < 200; t++) {
+      const coins = U.pick(sys, rng), T = ri(rng, 6, 12 + lv * 3), opt = SG.coins(coins, T); let g = 0, r = T; coins.slice().sort((a, b) => b - a).forEach(c => { const k = Math.floor(r / c); g += k; r -= k * c; }); if (r || !isFinite(opt)) continue; if (g === opt && lv >= 3 && rng() < 0.8) continue;
+      return fill('coin', 'Monete di valore ' + coins.join(', ') + ' (quantità illimitate). Qual è il numero minimo di monete per comporre esattamente ' + T + '?', opt, 'Programmazione dinamica: dp[' + T + '] = ' + opt + (g > opt ? ' (la scelta golosa darebbe ' + g + ')' : ''), 90);
+    }
+  };
 })(window.ST = window.ST || {});
 
 /* ---- core/sim ---- */
@@ -9691,6 +9837,305 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
 
 })(window.ST = window.ST || {});
 
+/* ---- content/str-l-economia ---- */
+/* Strategia economica — L6 Economia strategica: 7 lezioni approfondite. */
+(function (ST) {
+  'use strict';
+  const C = ST.content, { mc, fill, order } = C;
+
+  /* ---------- L6 · Economia strategica ---------- */
+
+  /* 1 ---- Costi, margine, break-even */
+  C.addTopic({
+    id: 'str-eco-costi', subject: 'str', stage: 'L6', minutes: 14,
+    title: 'Costi, margine e break-even',
+    summary: 'Costi fissi e variabili, margine di contribuzione, punto di pareggio, costi opportunità e costi affondati: la contabilità che serve per decidere.',
+    objectives: ['Calcolare margine di contribuzione, break-even e profitto target', 'Distinguere costi fissi, variabili, opportunità e affondati', 'Decidere ignorando i costi già sostenuti e irrecuperabili'],
+    pages: [
+      { h: 'Costi fissi e costi variabili', b: `I **costi fissi** (CF) non dipendono dalla quantità prodotta nel breve periodo: affitto, stipendi base, abbonamenti. I **costi variabili** (CV) crescono con i pezzi venduti: materie prime, imballaggi, commissioni.\n\n**Esempio.** Un laboratorio artigianale paga **12 000 € al mese** di costi fissi e spende **8 € di costi variabili** per ogni pezzo. Il **costo totale** per q pezzi è:\n\nCT(q) = 12 000 + 8·q\n\nPer q = 500: CT = 12 000 + 4 000 = **16 000 €**.\n\nIl **costo medio** è CT/q = 16 000 / 500 = **32 €** a pezzo; per q = 2 000 è (12 000 + 16 000) / 2 000 = **14 €**. Il costo medio scende perché i costi fissi si ripartiscono su più pezzi (economie di scala nel breve periodo).\n\n*Semplificazione:* si assume che il costo variabile unitario sia costante, cosa non sempre vera (sconti sui volumi, straordinari).` },
+      { h: 'Il margine di contribuzione', b: `Il **margine di contribuzione unitario** (MC) è il prezzo meno il costo variabile unitario: è quanto ogni pezzo venduto «contribuisce» a coprire i costi fissi e poi a creare profitto.\n\nCon prezzo p = 20 € e CV = 8 €:\n\nMC = 20 − 8 = **12 €**\n\nIl **rapporto di contribuzione** è MC / p = 12 / 20 = **60%**: di ogni euro incassato, 60 centesimi restano per coprire i fissi.\n\nIl **profitto** è:\n\nπ(q) = MC · q − CF\n\nCon q = 1 500: π = 12 · 1 500 − 12 000 = 18 000 − 12 000 = **6 000 €**.\n\nAttenzione: il margine di contribuzione non è il profitto. Finché non copre i fissi, l’impresa è in perdita anche se ogni pezzo ha margine positivo.` },
+      { h: 'Il punto di pareggio (break-even)', b: `Il **break-even** è la quantità a cui il profitto è zero: MC · q = CF, quindi\n\nq* = CF / MC\n\nNell’esempio: q* = 12 000 / 12 = **1 000 pezzi**. In ricavi: 1 000 × 20 = **20 000 €** (si ottiene anche come CF / rapporto di contribuzione = 12 000 / 0,6 = 20 000).\n\n**Verifica:** ricavi 20 000, costi 12 000 + 8 000 = 20 000, profitto 0.\n\nSotto 1 000 pezzi si perde, sopra si guadagna: a 1 001 pezzi il profitto è 12 €, a 999 è −12 €.\n\nIl break-even dice quanto bisogna vendere per non perdere, ma non dice se quella quantità sia realistica: va confrontata con la domanda che si pensa di raggiungere.` },
+      { h: 'Profitto target e margine di sicurezza', b: `Si può usare la stessa formula per un **profitto obiettivo** T:\n\nq = (CF + T) / MC\n\nPer ottenere T = 3 000 €: q = (12 000 + 3 000) / 12 = **1 250 pezzi**.\n\nIl **margine di sicurezza** misura di quanto le vendite attese superano il break-even. Se prevedi di vendere 1 500 pezzi:\n\n- margine in pezzi: 1 500 − 1 000 = **500**;\n- in percentuale delle vendite: 500 / 1 500 = **33,3%**.\n\nSignifica che le vendite possono calare di un terzo prima di andare in perdita. Più il margine di sicurezza è ampio, più l’impresa regge a imprevisti. Un’impresa con molti costi fissi ha un break-even alto e un margine di sicurezza spesso ridotto.` },
+      { h: 'Sensibilità: prezzo e costi', b: `Il break-even cambia al variare delle ipotesi. Partiamo da CF = 12 000, p = 20, CV = 8 (q* = 1 000).\n\n**Sconto di prezzo a 18 €:** MC = 18 − 8 = 10, q* = 12 000 / 10 = **1 200 pezzi** (+20%). Un calo di prezzo del 10% alza il break-even del 20%, perché il margine unitario cala del 16,7% (da 12 a 10).\n\n**Costo variabile ridotto a 6 €:** MC = 14, q* = 12 000 / 14 = 857,1, cioè **858 pezzi** (si arrotonda per eccesso: servono pezzi interi).\n\n**Costi fissi a 15 000 €:** q* = 15 000 / 12 = **1 250 pezzi**.\n\nLezione: il margine è la «leva» del break-even; piccole variazioni di prezzo hanno effetti grandi perché incidono direttamente sul margine, non sui ricavi totali.` },
+      { h: 'Costi opportunità e profitto economico', b: `Il **costo opportunità** di una scelta è il valore della migliore alternativa a cui si rinuncia. Non compare nei bilanci, ma conta nelle decisioni.\n\n**Esempio.** Chiara gestisce un negozio: ricavi 90 000 €/anno, costi espliciti (merci, affitto, bollette) 70 000 €.\n\n- **Profitto contabile** = 90 000 − 70 000 = **20 000 €**.\n- Se in alternativa potrebbe lavorare come dipendente per **30 000 €**, il suo costo opportunità è 30 000 €.\n- **Profitto economico** = 20 000 − 30 000 = **−10 000 €**.\n\nIl negozio è «in utile» ma, in termini economici, rinunciare allo stipendio costa più di quanto il negozio renda. Questo non vuol dire che sia sbagliato aprirlo: possono contare piacere, autonomia, rischio. Vuol dire che la scelta va fatta sapendo cosa si sta pagando.` },
+      { h: 'Costi affondati: ciò che è passato non conta', b: `Un **costo affondato** (sunk cost) è già stato sostenuto e non è recuperabile qualunque cosa si decida. Quindi non deve influenzare la scelta.\n\n**Esempio.** Un progetto ha già assorbito **5 000 €** (irrecuperabili). Per completarlo servono altri **3 000 €**, e una volta finito incasserà **2 500 €**.\n\nRagionamento corretto, solo sul futuro:\n- se si continua: 2 500 − 3 000 = **−500 €**;\n- se ci si ferma: 0 €.\n\nConviene fermarsi, perché i 5 000 € sono persi in entrambi i casi. Pensare «ho già speso troppo per mollare» (la **fallacia dei costi affondati**) porta a perdere altri 500 €.\n\nSe invece l’incasso fosse stato 3 500 €, si dovrebbe continuare (+500 €), ancora ignorando i 5 000.\n\nRegola: conta solo il **costo incrementale** (e i ricavi incrementali) della decisione che stai prendendo.` },
+      { h: 'Limiti del modello e uso pratico', b: `Il modello costi-volumi-profitti è una semplificazione: assume un solo prodotto (o un mix costante), prezzo e costo variabile costanti, nessuna scorta, e che i costi fissi restino tali in tutto l’intervallo considerato. Se la domanda cresce molto, serviranno nuovi impianti e i «fissi» salteranno a un nuovo gradino.\n\n**Checklist per decidere:**\n1. Identifica i costi **incrementali** (cambiano con la scelta).\n2. Escludi i costi affondati.\n3. Includi i costi opportunità rilevanti.\n4. Calcola margine unitario e break-even.\n5. Confronta il break-even con una stima realistica della domanda.\n\nQuesta lezione è didattica: i numeri sono inventati e non costituiscono una consulenza per decisioni reali.` }
+    ],
+    exercises: [
+      fill('CF = 12 000 €, prezzo 20 €, costo variabile 8 € a pezzo. Quanti pezzi per il break-even?', ['1000', '1.000', '1 000'], 'q* = 12 000 / (20 − 8) = 12 000 / 12 = 1 000.'),
+      fill('Con CF = 12 000 €, p = 20 €, CV = 8 €, quale profitto (in euro) si ha vendendo 1 500 pezzi?', ['6000', '6.000', '6 000'], '12 × 1 500 − 12 000 = 18 000 − 12 000 = 6 000.'),
+      mc('Con p = 20 € e CV = 8 €, il rapporto di contribuzione (MC / prezzo) è:', ['60%', '40%', '12%', '8%'], 0, 'MC = 12; 12 / 20 = 0,60.'),
+      fill('Il prezzo scende a 18 € (CF = 12 000, CV = 8). Nuovo break-even in pezzi?', ['1200', '1.200', '1 200'], 'MC = 10; 12 000 / 10 = 1 200.'),
+      fill('Quanti pezzi servono per un profitto di 3 000 € (CF = 12 000, MC = 12 €)?', ['1250', '1.250', '1 250'], '(12 000 + 3 000) / 12 = 15 000 / 12 = 1 250.'),
+      fill('Costo medio per pezzo (in euro) producendo 500 pezzi con CF = 12 000 € e CV = 8 €?', ['32'], 'CT = 12 000 + 4 000 = 16 000; 16 000 / 500 = 32.'),
+      fill('Progetto: già spesi 5 000 € (irrecuperabili), per finire servono 3 000 € e si incasseranno 2 500 €. Risultato (in euro) del continuare, ragionando solo sul futuro?', ['-500', '−500'], '2 500 − 3 000 = −500: i 5 000 € sono affondati e non contano.'),
+      fill('Negozio con ricavi 90 000 € e costi espliciti 70 000 €; stipendio alternativo 30 000 €. Profitto economico (in euro)?', ['-10000', '−10000', '-10.000', '−10.000'], '20 000 − 30 000 = −10 000.'),
+      mc('Un costo affondato è:', ['Un costo già sostenuto e non recuperabile, da ignorare nella scelta', 'Un costo variabile molto alto', 'Il costo della migliore alternativa scartata', 'Un costo che aumenta con la produzione'], 0, 'Non cambia qualunque decisione si prenda, quindi non è rilevante.'),
+      mc('Se i costi fissi aumentano e prezzo e CV restano uguali, il break-even:', ['Aumenta', 'Diminuisce', 'Resta uguale', 'Diventa negativo'], 0, 'q* = CF / MC: con MC costante, più CF significa più pezzi.'),
+      fill('Vendite attese 1 500 pezzi, break-even 1 000. Margine di sicurezza in pezzi?', ['500'], '1 500 − 1 000 = 500 (cioè il 33,3% delle vendite).'),
+      order('Ordina i passi per calcolare il break-even', ['Stima prezzo e costo variabile', 'Calcola MC = p − CV', 'Individua i costi fissi', 'Calcola q* = CF / MC', 'Confronta q* con la domanda attesa'], 'Servono i dati unitari, il margine, i fissi, poi la divisione e infine il confronto con la realtà.')
+    ],
+    test: [
+      fill('CF = 30 000 €, prezzo 50 €, CV 30 €. Break-even in pezzi?', ['1500', '1.500', '1 500'], 'MC = 20; 30 000 / 20 = 1 500.'),
+      fill('Stessi dati (CF = 30 000, MC = 20 €). Profitto (in euro) vendendo 2 000 pezzi?', ['10000', '10.000', '10 000'], '20 × 2 000 − 30 000 = 10 000.'),
+      fill('Stessi dati. Pezzi necessari per un profitto di 5 000 €?', ['1750', '1.750', '1 750'], '(30 000 + 5 000) / 20 = 1 750.'),
+      fill('CF = 30 000, p = 50, ma il CV sale a 35 €. Nuovo break-even in pezzi?', ['2000', '2.000', '2 000'], 'MC = 15; 30 000 / 15 = 2 000.'),
+      fill('Vendite 2 400 pezzi, break-even 1 500. Margine di sicurezza in percentuale delle vendite?', ['37.5', '37,5', '37.5%', '37,5%'], '(2 400 − 1 500) / 2 400 = 900 / 2 400 = 0,375.'),
+      mc('Hai già pagato una licenza non rimborsabile da 2 000 €. Quale informazione NON deve entrare nella decisione di usarla?', ['Il prezzo già pagato per la licenza', 'I ricavi attesi usandola', 'I costi futuri di utilizzo', 'La migliore alternativa a cui rinunci'], 0, 'È un costo affondato: identico in tutte le alternative.'),
+      mc('Un imprenditore lascia un lavoro da 40 000 € l’anno per avviare un’attività. Quei 40 000 € sono per lui:', ['Un costo opportunità', 'Un costo affondato', 'Un costo variabile', 'Un ricavo marginale'], 0, 'È il valore della migliore alternativa a cui rinuncia.')
+    ]
+  });
+
+  /* 2 ---- Domanda, offerta, elasticità, prezzo ottimo */
+  C.addTopic({
+    id: 'str-eco-mercato', subject: 'str', stage: 'L6', minutes: 14, prereq: ['str-eco-costi'],
+    title: 'Domanda, offerta, elasticità e prezzo ottimo',
+    summary: 'Equilibrio di mercato, elasticità della domanda, ricavo marginale e regola MR = MC per scegliere il prezzo che massimizza il profitto.',
+    objectives: ['Calcolare equilibrio e variazioni con domanda e offerta lineari', 'Calcolare e interpretare l’elasticità al prezzo', 'Trovare quantità e prezzo ottimi con MR = MC'],
+    pages: [
+      { h: 'Domanda e offerta lineari', b: `La **curva di domanda** lega il prezzo P alla quantità Q che i consumatori vogliono comprare; la **curva di offerta** alla quantità che i produttori vogliono vendere. In una versione semplificata sono rette.\n\n**Esempio.** Domanda: Q = 100 − 2P. Offerta: Q = 4P − 20.\n\nL’**equilibrio** è dove domanda = offerta:\n\n100 − 2P = 4P − 20 → 120 = 6P → **P = 20**, Q = 100 − 40 = **60**.\n\nVerifica sull’offerta: 4 · 20 − 20 = 60. ✓\n\nA prezzi più alti (P = 25) la domanda è 50 ma l’offerta 80: **eccesso di offerta** di 30 unità, il prezzo tende a scendere. A P = 15 la domanda è 70 e l’offerta 40: **eccesso di domanda**, il prezzo sale.` },
+      { h: 'Spostamenti delle curve', b: `Un cambiamento del prezzo muove *lungo* la curva; un cambiamento di altro (gusti, redditi, costi) *sposta* la curva.\n\n**Esempio.** La domanda cresce: Q = 130 − 2P (a ogni prezzo si domandano 30 unità in più). Offerta invariata Q = 4P − 20.\n\n130 − 2P = 4P − 20 → 150 = 6P → **P = 25**, Q = 130 − 50 = **80**.\n\nRispetto all’equilibrio iniziale (20; 60), prezzo +5 e quantità +20. Il prezzo sale meno di quanto servirebbe a «chiudere» il +30 di domanda, perché l’offerta si espande lungo la sua curva.\n\n*Semplificazione:* mercato concorrenziale, prodotto omogeneo, nessun costo di transazione.` },
+      { h: 'L’elasticità della domanda', b: `L’**elasticità al prezzo** misura di quanto varia (in %) la quantità quando il prezzo varia dell’1%:\n\nε = (dQ/dP) · (P/Q)\n\nCon domanda Q = 100 − 2P la pendenza è dQ/dP = −2.\n\n- Per **P = 20**: Q = 60, ε = −2 · 20/60 = **−0,67**. In valore assoluto |ε| < 1: domanda **anelastica**.\n- Per **P = 40**: Q = 20, ε = −2 · 40/20 = **−4**. |ε| > 1: domanda **elastica**.\n\nSe |ε| = 4, un aumento di prezzo del 5% riduce la quantità di circa 20%.\n\nLungo una domanda lineare l’elasticità cambia da punto a punto: bassa in basso (prezzi bassi), alta in alto. Non va confusa con la pendenza.` },
+      { h: 'Elasticità e ricavo', b: `Il **ricavo totale** è R = P · Q. Come reagisce a un aumento di prezzo dipende dall’elasticità:\n\n- se |ε| > 1 (elastica): alzare il prezzo **riduce** il ricavo;\n- se |ε| < 1 (anelastica): alzare il prezzo **aumenta** il ricavo;\n- se |ε| = 1: il ricavo è al massimo.\n\n**Esempio** con Q = 100 − 2P:\n- P = 20: R = 20 · 60 = 1 200;\n- P = 25: R = 25 · 50 = **1 250** (massimo);\n- P = 30: R = 30 · 40 = 1 200.\n\nA P = 25 l’elasticità è −2 · 25/50 = **−1**, esattamente il punto di ricavo massimo.\n\nMa massimizzare il ricavo non è massimizzare il profitto: i costi contano, come si vede ora.` },
+      { h: 'Ricavo marginale', b: `Il **ricavo marginale** (MR) è il ricavo in più ottenuto vendendo una unità aggiuntiva. Per un’impresa che deve abbassare il prezzo per vendere di più, MR è **minore del prezzo**, perché lo sconto vale anche per le unità che si sarebbero vendute comunque.\n\nInvertiamo la domanda: Q = 100 − 2P → **P = 50 − Q/2**.\n\nR = P · Q = 50Q − Q²/2.\n\nMR = dR/dQ = **50 − Q**.\n\nControllo numerico: passare da Q = 30 a Q = 31: P passa da 35 a 34,5; R passa da 1 050 a 1 069,5: variazione 19,5, vicina a MR(30,5) = 19,5. ✓\n\nNota: MR = 0 a Q = 50, cioè P = 25: il punto di ricavo massimo trovato prima.` },
+      { h: 'Il prezzo ottimo: MR = MC', b: `Un’impresa con potere di prezzo massimizza il profitto dove **ricavo marginale = costo marginale**: finché MR > MC ogni unità in più aggiunge profitto, oltre quel punto lo riduce.\n\n**Esempio.** P = 50 − Q/2, MC costante = 10.\n\n50 − Q = 10 → **Q = 40**; prezzo: P = 50 − 20 = **30**.\n\nProfitto (senza fissi): (30 − 10) · 40 = **800 €**. Con costi fissi 200 €: 800 − 200 = **600 €**.\n\nConfronto: se vendesse a P = 25 (ricavo massimo, Q = 50): profitto = (25 − 10) · 50 = 750 − 200 = 550 €, **meno** di 600. Il prezzo del ricavo massimo non è quello del profitto massimo: va più in alto, perché si risparmiano costi sulle unità non vendute.\n\n*Semplificazione:* si conosce la curva di domanda; nella realtà va stimata.` },
+      { h: 'La regola dell’indice di Lerner', b: `Dalla condizione MR = MC si ricava una regola pratica sul **margine percentuale**:\n\n(P − MC) / P = 1 / |ε|\n\nNell’esempio: (30 − 10)/30 = **0,67**. Elasticità a P = 30: Q = 40, ε = −2 · 30/40 = **−1,5**, quindi 1/1,5 = 0,67. ✓\n\nInterpretazione: più la domanda è anelastica, più alto è il margine che conviene applicare; con domanda molto elastica il margine ottimo è sottile. Per questo un farmaco salvavita (anelastico) può avere margini alti, mentre un prodotto con molti sostituti no.\n\nL’impresa non può spingersi a piacere: in mercati competitivi la domanda *che vede la singola impresa* è molto elastica e il margine tende a zero.` },
+      { h: 'Come usare il modello con prudenza', b: `**Procedura.**\n1. Stima la domanda (anche con test di prezzo).\n2. Calcola MR.\n3. Stima il costo **marginale** (non il medio!).\n4. Trova Q con MR = MC e leggi P dalla domanda.\n5. Verifica che P ≥ costo medio, altrimenti il profitto è negativo.\n\n**Variazione numerica:** se MC sale a 20: 50 − Q = 20 → Q = 30, P = 35, margine (35 − 20) · 30 = 450. Un aumento del costo marginale di 10 si trasferisce sul prezzo solo per metà (da 30 a 35): il resto lo assorbe l’impresa.\n\nLimiti: prezzo unico per tutti (niente discriminazione), domanda lineare nota, concorrenti che non reagiscono. Contenuto didattico, non consulenza.` }
+    ],
+    exercises: [
+      fill('Domanda Q = 100 − 2P. Quanti pezzi si domandano a P = 20?', ['60'], '100 − 40 = 60.'),
+      fill('Domanda Q = 100 − 2P, P = 20, Q = 60. Elasticità (arrotonda a due decimali, valore assoluto)?', ['0.67', '0,67', '-0.67', '-0,67', '−0,67', '−0.67'], '|ε| = 2 · 20 / 60 = 0,667.'),
+      mc('Con Q = 100 − 2P a P = 40 l’elasticità è −4. La domanda è:', ['Elastica', 'Anelastica', 'Perfettamente rigida', 'Di elasticità unitaria'], 0, '|ε| = 4 > 1.'),
+      fill('Con Q = 100 − 2P, a quale prezzo il ricavo totale è massimo?', ['25'], 'R = 50Q − Q²/2 è massimo dove MR = 50 − Q = 0, cioè Q = 50 e P = 25.'),
+      fill('P = 50 − Q/2. Ricavo marginale (MR = 50 − Q) a Q = 30?', ['20'], '50 − 30 = 20.'),
+      fill('P = 50 − Q/2, MC = 10. Quantità ottima?', ['40'], '50 − Q = 10 → Q = 40.'),
+      fill('Stessi dati. Prezzo ottimo (in euro)?', ['30'], 'P = 50 − 40/2 = 30.'),
+      fill('Stessi dati, con costi fissi di 200 €. Profitto ottimo (in euro)?', ['600'], '(30 − 10) · 40 − 200 = 800 − 200 = 600.'),
+      fill('Elasticità −1,5: se il prezzo sale del 10%, di quanto varia (in %) la quantità? (segno incluso)', ['-15', '−15', '-15%', '−15%'], '−1,5 × 10% = −15%.'),
+      fill('Domanda Q = 100 − 2P, offerta Q = 4P − 20. Prezzo di equilibrio?', ['20'], '100 − 2P = 4P − 20 → 6P = 120 → P = 20.'),
+      mc('L’impresa col potere di prezzo massimizza il profitto quando:', ['MR = MC', 'P = costo medio', 'Il ricavo totale è massimo', 'Q è la maggiore possibile'], 0, 'Finché MR > MC ogni unità in più aumenta il profitto.'),
+      order('Ordina i passi per trovare il prezzo ottimo', ['Inverti la domanda: P in funzione di Q', 'Calcola R = P·Q', 'Deriva: MR', 'Imposta MR = MC e trova Q', 'Ricava P dalla domanda'], 'Da domanda a ricavo, a ricavo marginale, quindi uguaglianza col costo marginale e infine il prezzo.')
+    ],
+    test: [
+      fill('Domanda P = 60 − Q, MC = 12 (quindi MR = 60 − 2Q). Quantità ottima?', ['24'], '60 − 2Q = 12 → Q = 24.'),
+      fill('Stessi dati. Prezzo ottimo (in euro)?', ['36'], 'P = 60 − 24 = 36.'),
+      fill('Stessi dati. Profitto (senza costi fissi, in euro)?', ['576'], '(36 − 12) · 24 = 576.'),
+      fill('Domanda Q = 60 − P: elasticità (valore assoluto) a P = 10? Arrotonda a un decimale.', ['0.2', '0,2'], 'Q = 50; |ε| = 1 · 10/50 = 0,2: anelastica.'),
+      mc('Se la domanda è anelastica (|ε| < 1) e l’impresa alza il prezzo, il ricavo totale:', ['Aumenta', 'Diminuisce', 'Resta uguale', 'Dipende solo dai costi'], 0, 'La quantità cala meno che proporzionalmente al rialzo del prezzo.'),
+      fill('Domanda Q = 80 − P, offerta Q = 2P − 10. Quantità di equilibrio?', ['50'], '80 − P = 2P − 10 → P = 30, Q = 50.'),
+      mc('Perché per un’impresa col potere di prezzo il ricavo marginale è inferiore al prezzo?', ['Per vendere di più deve abbassare il prezzo anche sulle unità precedenti', 'Perché i costi sono sempre più alti dei ricavi', 'Perché la domanda è sempre anelastica', 'Perché MR è definito come P − MC'], 0, 'Lo sconto si applica a tutte le unità vendute, non solo all’ultima.')
+    ]
+  });
+
+  /* 3 ---- Valore attuale, interesse, IRR */
+  C.addTopic({
+    id: 'str-eco-valore-attuale', subject: 'str', stage: 'L6', minutes: 14, prereq: ['str-eco-costi'],
+    title: 'Valore attuale, interesse composto e confronto fra investimenti',
+    summary: 'Capitalizzazione e sconto, valore attuale netto (VAN), tasso interno di rendimento e criteri per confrontare progetti.',
+    objectives: ['Capitalizzare e attualizzare importi a tasso dato', 'Calcolare il VAN di un progetto e decidere con la regola VAN > 0', 'Interpretare il tasso interno di rendimento e i suoi limiti'],
+    pages: [
+      { h: 'Il valore del tempo', b: `Un euro oggi vale più di un euro fra un anno: lo si può investire, e c’è inflazione e incertezza. Per confrontare importi in date diverse serve un **tasso di sconto** r.\n\n**Esempio.** Con r = 10% annuo, 1 000 € oggi diventano 1 000 · 1,10 = **1 100 €** fra un anno. Viceversa, 1 100 € fra un anno valgono oggi 1 100 / 1,10 = **1 000 €**: è il **valore attuale** (VA).\n\nFormula generale per un importo F ricevuto fra t anni:\n\nVA = F / (1 + r)^t\n\nQuesta lezione è didattica: i tassi sono ipotesi, non previsioni né consigli di investimento.` },
+      { h: 'Interesse composto', b: `Con l’**interesse composto** gli interessi maturati producono a loro volta interessi:\n\nMontante = C · (1 + r)^t\n\n**Esempio 1.** 1 000 € al 8% per 3 anni: 1 000 · 1,08³ = 1 000 · 1,259712 = **1 259,71 €**. (Con interesse semplice sarebbero 1 000 + 3 · 80 = 1 240 €.)\n\n**Esempio 2.** 2 000 € al 5% per 10 anni: 2 000 · 1,05¹⁰ = 2 000 · 1,628895 = **3 257,79 €**.\n\n**Esempio 3.** 1 000 € al 10% per 5 anni: 1 000 · 1,61051 = **1 610,51 €**.\n\nLa **regola del 72** stima in quanto tempo il capitale raddoppia: anni ≈ 72 / r(%). Al 6%: 72/6 = **12 anni**. Il valore esatto è ln 2 / ln 1,06 = 11,9 anni: la regola è un’ottima approssimazione.` },
+      { h: 'Attualizzare un flusso di pagamenti', b: `Per un progetto con più flussi si attualizza ogni flusso e si somma.\n\n**Esempio.** Un progetto paga 400 € dopo 1 anno, 500 € dopo 2, 600 € dopo 3. Con r = 10%:\n\n- 400 / 1,10 = **363,64**\n- 500 / 1,10² = 500 / 1,21 = **413,22**\n- 600 / 1,10³ = 600 / 1,331 = **450,79**\n\nVA totale = 363,64 + 413,22 + 450,79 = **1 227,65 €**.\n\nQuesti sono i flussi *futuri*; sono equivalenti oggi a 1 227,65 €, non a 1 500 €. Il fatto che i flussi più lontani pesino meno è il cuore dell’analisi.` },
+      { h: 'Il VAN e la regola decisionale', b: `Il **valore attuale netto** (VAN) è il VA dei flussi incassati meno quanto si investe (di solito al tempo 0):\n\nVAN = −I + Σ F_t / (1 + r)^t\n\nPer il progetto della pagina precedente con investimento I = 1 000 €:\n\nVAN = −1 000 + 1 227,65 = **+227,65 €**.\n\n**Regola:** si accetta un progetto se VAN > 0, cioè se rende più del tasso di sconto (che rappresenta il costo-opportunità del capitale). Con VAN < 0 si rifiuta.\n\nCaso limite: lo stesso progetto al 15%: 400/1,15 + 500/1,3225 + 600/1,5209 = 347,83 + 378,07 + 394,51 = 1 120,41; VAN = **+120,41 €**: ancora positivo, ma minore. Il VAN **cala** quando il tasso sale.` },
+      { h: 'Il tasso interno di rendimento (TIR)', b: `Il **TIR** è il tasso r che rende il VAN uguale a zero: è il «rendimento annuo» implicito del progetto.\n\n**Caso semplice.** Investo 1 000 € e dopo 2 anni incasso 1 210 €. Cerco r tale che 1 210 / (1 + r)² = 1 000 → (1 + r)² = 1,21 → 1 + r = 1,10 → **TIR = 10%**.\n\n**Caso con più flussi.** −1 000, +600, +600: non esiste una formula semplice, si procede per tentativi.\n- r = 10%: VAN = −1 000 + 545,45 + 495,87 = +41,32\n- r = 15%: VAN = −1 000 + 521,74 + 453,72 = −24,54\n- Interpolando, il TIR è circa **13,1%**.\n\nRegola: se TIR > tasso di sconto richiesto, il progetto è accettabile. Qui, con soglia 10%, sì; con soglia 15%, no.` },
+      { h: 'Confrontare due progetti', b: `**Progetto A:** I = 1 000; flussi 300, 400, 500, 300 (anni 1–4). **Progetto B:** I = 500; flussi 220, 220, 220 (anni 1–3). Tasso 10%.\n\nVAN(A) = −1 000 + 272,73 + 330,58 + 375,66 + 204,90 = **+183,87**\n\nVAN(B) = −500 + 220 · (1 − 1,1⁻³)/0,10 = −500 + 220 · 2,48685 = −500 + 547,10 = **+47,10**\n\nSe i progetti sono **alternativi** (se ne può fare uno solo) e il capitale non è razionato, si sceglie **il VAN più alto**: A. Il VAN misura la ricchezza creata in euro di oggi.\n\nIl TIR può ingannare nei confronti: un progetto piccolo può avere TIR alto ma creare poca ricchezza assoluta. Quando i due criteri confliggono, di norma si dà fiducia al VAN, perché ipotizza il reinvestimento al tasso di sconto, più realistico di un TIR molto elevato.` },
+      { h: 'Rendite perpetue e annuità', b: `Due formule utili:\n\n- **Perpetuità**: una cedola costante C per sempre vale VA = C / r. Con C = 50 € e r = 5%: 50 / 0,05 = **1 000 €**. Con C = 120 e r = 8%: **1 500 €**.\n- **Annuità** (C per n anni): VA = C · [1 − (1 + r)⁻ⁿ] / r. Con C = 100, n = 3, r = 10%: 100 · (1 − 0,751315)/0,10 = **248,69 €**.\n\nEsempio d’uso: un macchinario produce un risparmio costante di 100 €/anno per 3 anni e costa 240 €. Con r = 10% il VA dei risparmi è 248,69 €: VAN = **+8,69 €**; marginalmente conveniente. A r = 12%: VA = 240,18; VAN ≈ +0,18, quasi neutro.` },
+      { h: 'Limiti del metodo', b: `Il VAN è potente ma poggia su ipotesi:\n\n1. I **flussi futuri** sono stime incerte; piccoli errori si amplificano nel tempo.\n2. Il **tasso di sconto** deve riflettere il rischio del progetto: progetti rischiosi richiedono tassi più alti. Scegliere r è spesso la parte più difficile.\n3. Si ignorano le **opzioni di flessibilità** (rinviare, ampliare, abbandonare): vedi l’ultima lezione.\n4. Si considera il **denaro**, non gli effetti non monetari.\n\n**Buona pratica:** calcola il VAN a più tassi (10%, 12%, 15%) e con flussi pessimistici. Se il segno cambia facilmente, la decisione è fragile.\n\nNon è una consulenza finanziaria: gli esempi sono esercizi.` }
+    ],
+    exercises: [
+      fill('Con r = 10%, quanto vale oggi (in euro) un incasso di 1 100 € fra un anno?', ['1000', '1.000', '1 000'], '1 100 / 1,10 = 1 000.'),
+      fill('Montante di 1 000 € al 8% annuo composto per 3 anni (due decimali)?', ['1259.71', '1259,71', '1.259,71', '1 259,71', '1260'], '1 000 · 1,08³ = 1 259,712.'),
+      fill('Valore attuale (due decimali) di 400 € incassati fra un anno, r = 10%?', ['363.64', '363,64'], '400 / 1,10 = 363,636.'),
+      fill('Progetto: −1 000, poi 400, 500, 600 negli anni 1–3, r = 10%. Qual è il VAN (due decimali)?', ['227.65', '227,65', '227.6', '227,6'], 'VA flussi = 363,64 + 413,22 + 450,79 = 1 227,65; VAN = 227,65.'),
+      mc('Quando conviene accettare un progetto secondo il VAN?', ['Quando VAN > 0', 'Quando i flussi superano l’investimento in valore nominale', 'Quando il TIR è negativo', 'Quando r = 0'], 0, 'VAN > 0 significa rendimento superiore al tasso di sconto.'),
+      fill('Investi 1 000 € e incassi 1 210 € dopo 2 anni. Il TIR annuo (in %) è?', ['10', '10%'], '(1 + r)² = 1,21 → r = 10%.'),
+      fill('Una cedola di 50 € l’anno per sempre, r = 5%. Valore attuale (in euro)?', ['1000', '1.000', '1 000'], '50 / 0,05 = 1 000.'),
+      fill('Regola del 72: in quanti anni raddoppia un capitale al 6% annuo?', ['12'], '72 / 6 = 12.'),
+      fill('2 000 € al 5% per 10 anni composti: montante (due decimali)?', ['3257.79', '3257,79', '3.257,79', '3 257,79'], '2 000 · 1,05¹⁰ = 3 257,79.'),
+      fill('1 000 € al 10% per 5 anni composti: montante (due decimali)?', ['1610.51', '1610,51', '1.610,51', '1 610,51'], '1,1⁵ = 1,61051.'),
+      mc('Se il tasso di sconto aumenta, il VAN di un progetto con flussi positivi futuri:', ['Diminuisce', 'Aumenta', 'Resta uguale', 'Diventa sempre positivo'], 0, 'I flussi lontani vengono scontati di più.'),
+      mc('Due progetti alternativi: A ha VAN +183,87 e B +47,10 (r = 10%). Quale scegli, a parità di rischio e senza vincoli di capitale?', ['A, per il VAN più alto', 'B, perché costa meno', 'Nessuno', 'Dipende solo dal TIR'], 0, 'Il VAN misura la ricchezza aggiunta in euro di oggi.'),
+      order('Ordina i passi per calcolare il VAN', ['Stima i flussi futuri', 'Scegli il tasso di sconto', 'Attualizza ogni flusso', 'Somma i valori attuali', 'Sottrai l’investimento iniziale'], 'Si stimano i flussi, si sceglie r, si attualizza, si somma, si sottrae I.')
+    ],
+    test: [
+      fill('Valore attuale (due decimali) di 2 000 € fra 2 anni, r = 5%?', ['1814.06', '1814,06', '1.814,06', '1 814,06'], '2 000 / 1,1025 = 1 814,06.'),
+      fill('Progetto: −500, poi 200 per 3 anni, r = 10%. VAN (due decimali)?', ['-2.63', '-2,63', '−2,63', '−2.63'], '200 · 2,48685 = 497,37; 497,37 − 500 = −2,63.'),
+      mc('Lo stesso progetto (−500; 200 × 3 anni) ha TIR di circa 9,7%. Con soglia 10% si dovrebbe:', ['Rifiutarlo (TIR < soglia, VAN < 0)', 'Accettarlo', 'Raddoppiarlo', 'Ignorare il TIR'], 0, 'Un TIR inferiore al costo del capitale corrisponde a VAN negativo.'),
+      fill('1 500 € al 4% composto per 2 anni: montante (due decimali)?', ['1622.40', '1622,40', '1.622,40', '1 622,40', '1622.4'], '1 500 · 1,0816 = 1 622,40.'),
+      fill('Annuità di 100 € per 3 anni, r = 10%: valore attuale (due decimali)?', ['248.69', '248,69'], '100 · (1 − 1,1⁻³)/0,1 = 248,69.'),
+      fill('Cedola perpetua di 120 € l’anno, r = 8%: valore attuale (in euro)?', ['1500', '1.500', '1 500'], '120 / 0,08 = 1 500.'),
+      mc('Perché non basta sommare i flussi futuri senza attualizzarli?', ['Perché importi in date diverse non hanno lo stesso valore oggi', 'Perché il VAN è sempre negativo', 'Perché i flussi sono sempre uguali', 'Perché il tasso è sempre zero'], 0, 'Il denaro ha un valore nel tempo: attualizzare rende confrontabili i flussi.')
+    ]
+  });
+
+  /* 4 ---- Vantaggio comparato e scambio */
+  C.addTopic({
+    id: 'str-eco-scambio', subject: 'str', stage: 'L6', minutes: 14, prereq: ['str-eco-costi'],
+    title: 'Vantaggio comparato e guadagni dallo scambio',
+    summary: 'Costo opportunità, vantaggio assoluto e comparato, specializzazione e termini di scambio: perché due parti guadagnano commerciando anche se una è migliore in tutto.',
+    objectives: ['Calcolare il costo opportunità di ciascun bene', 'Individuare chi si specializza in cosa e i termini di scambio accettabili', 'Quantificare i guadagni dallo scambio per entrambe le parti'],
+    pages: [
+      { h: 'Il problema', b: `Due paesi (o due persone, o due imprese) producono due beni: vino e tessuto. Ogni parte dispone di **120 ore** di lavoro.\n\n| | ore per 1 vino | ore per 1 tessuto |\n|---|---|---|\n| **A** | 2 | 4 |\n| **B** | 3 | 3 |\n\nA è più efficiente di B in **entrambi** i beni: ha un **vantaggio assoluto** in tutto. Ha senso commerciare con B? Intuitivamente no. Ma la risposta di David Ricardo è sì, e la dimostriamo coi numeri.` },
+      { h: 'Il costo opportunità', b: `Il **costo opportunità** di un bene è quanto dell’altro bene si deve rinunciare per produrne una unità in più.\n\n**Per A:**\n- 1 vino costa 2 ore = 2/4 = **0,5 tessuto**;\n- 1 tessuto costa 4 ore = 4/2 = **2 vini**.\n\n**Per B:**\n- 1 vino costa 3/3 = **1 tessuto**;\n- 1 tessuto costa 3/3 = **1 vino**.\n\nIl **vantaggio comparato** appartiene a chi ha il costo opportunità più basso: per il vino è A (0,5 < 1); per il tessuto è B (1 vino < 2 vini).\n\nNota: i costi opportunità dei due beni sono sempre uno l’inverso dell’altro, quindi nessuno può avere il vantaggio comparato in entrambi, a meno che siano uguali.` },
+      { h: 'Senza scambio', b: `Supponiamo che ognuno dedichi metà del tempo a ciascun bene (60 ore e 60 ore).\n\n**A:** 60/2 = **30 vino**; 60/4 = **15 tessuto**.\n**B:** 60/3 = **20 vino**; 60/3 = **20 tessuto**.\n\n**Totale:** 50 vino + 35 tessuto = 85 unità.\n\nQuesta è la situazione di partenza, ognuno consuma quanto produce. Nessuno riesce a consumare più della propria frontiera di produzione. Con lo scambio si può andare *oltre*.` },
+      { h: 'Specializzazione', b: `Ognuno si concentra sul bene in cui ha vantaggio comparato.\n\n**A** (tutte le 120 ore sul vino): 120/2 = **60 vino**, 0 tessuto.\n**B** (tutte le 120 ore sul tessuto): 120/3 = **40 tessuto**, 0 vino.\n\n**Totale:** 60 vino + 40 tessuto = **100 unità**, contro 85: la torta è cresciuta di **15 unità**, senza alcuna risorsa in più. Dove nasce la crescita? Da ogni bene prodotto da chi sa farlo a costo opportunità minore.\n\nIl guadagno, però, si materializza solo se i due scambiano: A vuole anche tessuto, B anche vino.` },
+      { h: 'I termini di scambio', b: `Quanto tessuto si scambia per un vino? Il «prezzo» del vino in tessuto deve convenire a entrambi:\n\n- A produce un vino a costo di 0,5 tessuto: accetta di vendere vino solo se riceve **almeno 0,5 tessuto** per vino;\n- B può produrre un vino rinunciando a 1 tessuto: accetta di comprare solo se paga **al più 1 tessuto** per vino.\n\nIntervallo di convenienza: **da 0,5 a 1 tessuto per vino.**\n\nSe il prezzo è 0,6, B incasserebbe di più ma A guadagna poco; se è 0,9 succede il contrario. Dove cade il prezzo dipende dal potere contrattuale, ed è fuori dal modello.\n\nUn prezzo di 1,2 tessuto per vino sarebbe rifiutato da B: produrre il vino da sé costa meno (1 tessuto).` },
+      { h: 'Guadagni dallo scambio: un caso numerico', b: `Prezzo concordato: **20 vini contro 15 tessuti** (0,75 tessuto per vino, nell’intervallo).\n\n**A:** 60 − 20 = **40 vino**; 0 + 15 = **15 tessuto**. Prima aveva 30 vino e 15 tessuto: guadagno **+10 vino**, tessuto invariato.\n\n**B:** 40 − 15 = **25 tessuto**; 0 + 20 = **20 vino**. Prima 20 vino e 20 tessuto: guadagno **+5 tessuto**, vino invariato.\n\n**Verifica:** 10 + 5 = 15, l’aumento di produzione totale visto prima. ✓\n\nEntrambe le parti stanno meglio, anche se A è migliore in tutto: ciò che conta è il costo **relativo**, non la bravura assoluta.` },
+      { h: 'Un secondo esempio e il ruolo della dimensione', b: `**Esempio:** 160 ore a testa. C: 1 acciaio in 1 h, 1 cereale in 5 h. D: acciaio 4 h, cereale 8 h.\n\nCosti opportunità: C: acciaio = 1/5 = 0,2 cereale; D: acciaio = 4/8 = 0,5 cereale. C ha il vantaggio comparato nell’**acciaio** (0,2 < 0,5), D nel **cereale** (costo opportunità 2 acciaio contro 5 di C).\n\nSpecializzati: C produce 160 acciaio; D produce 160/8 = **20 cereale**.\n\nIntervallo di scambio: da 0,2 a 0,5 cereale per acciaio. Con 0,25 (60 acciaio contro 15 cereale) entrambi guadagnano; con 0,6 D rifiuta perché potrebbe fare l’acciaio rinunciando a 0,5 cereale.\n\nPunto chiave: C domina D in acciaio e D lo «segue» in cereale, eppure c’è convenienza reciproca.` },
+      { h: 'Limiti e cosa significa per le imprese', b: `Il modello di Ricardo è semplificato: due beni, un solo fattore (il lavoro), costi opportunità costanti, niente costi di trasporto, nessuno shock, nessuna distribuzione interna (alcuni lavoratori possono perdere).\n\n**Applicazioni aziendali:** esternalizzare (outsourcing) attività in cui un fornitore ha un costo opportunità più basso; il manager o il professionista che delega attività di segreteria anche se le farebbe meglio di un assistente, perché il suo tempo vale di più impiegato altrove.\n\n**Esempio breve:** un avvocato fattura 200 €/ora e saprebbe battere a macchina a 80 € l’ora di valore. Se lo fa lui perde 200 − 80 = 120 € per ora di opportunità. Meglio delegare, anche se è più veloce dell’assistente.\n\nContenuto didattico: le conclusioni valgono dentro le ipotesi.` }
+    ],
+    exercises: [
+      fill('A: 2 h per un vino, 4 h per un tessuto. Costo opportunità di 1 vino (in tessuti)?', ['0.5', '0,5', '1/2'], '2/4 = 0,5 tessuti.'),
+      fill('B: 3 h per un vino, 3 h per un tessuto. Costo opportunità di 1 vino (in tessuti)?', ['1'], '3/3 = 1.'),
+      mc('Chi ha vantaggio comparato nel vino (A: 0,5 tessuto; B: 1 tessuto)?', ['A', 'B', 'Nessuno', 'Entrambi'], 0, 'Costo opportunità più basso.'),
+      fill('A ha 120 h e solo vino (2 h per pezzo). Quanti vini produce?', ['60'], '120 / 2 = 60.'),
+      fill('B ha 120 h e solo tessuto (3 h per pezzo). Quanti tessuti produce?', ['40'], '120 / 3 = 40.'),
+      fill('Prima 30 vino e 15 tessuto; dopo lo scambio (20 vini contro 15 tessuti) A ha 40 vino e 15 tessuto. Guadagno in vino?', ['10', '+10'], '40 − 30 = 10.'),
+      fill('B prima aveva 20 vino e 20 tessuto, dopo lo scambio 20 vino e 25 tessuto. Guadagno in tessuto?', ['5', '+5'], '25 − 20 = 5.'),
+      fill('La produzione totale (vino + tessuto) passa da 85 (non specializzati) a quante unità con la specializzazione?', ['100'], '60 + 40 = 100.'),
+      mc('Quali termini di scambio (tessuto per vino) convengono a entrambi?', ['Fra 0,5 e 1', 'Più di 1', 'Meno di 0,5', 'Esattamente 2'], 0, 'A chiede almeno 0,5 e B non paga più di 1.'),
+      mc('Perché A, migliore in tutto, ha comunque convenienza a commerciare con B?', ['Perché rinuncia a meno tessuto producendo vino, e B a meno vino producendo tessuto', 'Perché B è più grande', 'Perché lo scambio è sempre in perdita', 'Perché i prezzi sono sempre uguali'], 0, 'Conta il costo opportunità relativo, non il vantaggio assoluto.'),
+      mc('B rifiuterebbe di pagare 1,2 tessuti per un vino perché:', ['Può produrlo da sé rinunciando a soli 1 tessuto', 'Non ama il vino', 'Il tessuto vale meno', 'A non vende'], 0, 'Il suo costo opportunità del vino è 1 tessuto, inferiore a 1,2.'),
+      order('Ordina i passi dell’analisi del vantaggio comparato', ['Calcola le produzioni possibili', 'Calcola i costi opportunità', 'Individua il vantaggio comparato', 'Specializza ciascuno', 'Scambia entro i termini convenienti'], 'Si parte dai costi, si trova chi è relativamente più bravo, si specializza e si scambia.')
+    ],
+    test: [
+      fill('C: acciaio in 1 h, cereale in 5 h. Costo opportunità di 1 acciaio in cereali?', ['0.2', '0,2', '1/5'], '1/5 = 0,2.'),
+      fill('D: acciaio 4 h, cereale 8 h. Costo opportunità di 1 cereale in acciaio?', ['2'], '8/4 = 2.'),
+      mc('Con C (0,2 cereale per acciaio) e D (0,5), chi si specializza in acciaio?', ['C', 'D', 'Nessuno', 'Dipende dalle ore'], 0, 'C ha il costo opportunità più basso.'),
+      fill('D ha 160 h e produce solo cereale (8 h per pezzo). Quanti cereali?', ['20'], '160 / 8 = 20.'),
+      mc('Un prezzo di 0,6 cereali per acciaio (C: 0,2; D: 0,5):', ['È rifiutato da D', 'È rifiutato da C', 'Va bene per entrambi', 'Non ha senso economico per nessuno'], 0, 'D può ottenere un acciaio rinunciando a 0,5 cereale; pagare 0,6 non conviene.'),
+      mc('Un avvocato (200 €/ora) saprebbe battere a macchina meglio dell’assistente. Cosa suggerisce la teoria?', ['Delegare, perché il suo tempo ha un costo opportunità più alto', 'Fare tutto da sé per il vantaggio assoluto', 'Assumere solo persone peggiori di lui', 'Non lavorare'], 0, 'Impiegare il tempo dove rende di più è il principio del vantaggio comparato.'),
+      mc('Una ipotesi semplificatrice del modello di Ricardo è:', ['Costi di trasporto nulli e un solo fattore produttivo', 'Presenza di molti beni e molti fattori', 'Costi opportunità crescenti', 'Dazi doganali elevati'], 0, 'È un modello stilizzato a due beni e lavoro unico.')
+    ]
+  });
+
+  /* 5 ---- Oligopolio */
+  C.addTopic({
+    id: 'str-eco-oligopolio', subject: 'str', stage: 'L6', minutes: 14, prereq: ['str-eco-mercato'],
+    title: 'Oligopolio: Cournot, Bertrand e collusione',
+    summary: 'Duopolio lineare: equilibrio di Cournot (quantità) e Bertrand (prezzi), cartello, incentivo a deviare e sostenibilità della collusione nel gioco ripetuto.',
+    objectives: ['Calcolare funzioni di reazione ed equilibrio di Cournot in un duopolio lineare', 'Confrontare Cournot, Bertrand, monopolio e collusione', 'Trovare il fattore di sconto minimo che sostiene la collusione'],
+    pages: [
+      { h: 'Interdipendenza strategica', b: `In un **oligopolio** poche imprese condividono il mercato: il profitto di ciascuna dipende anche dalle scelte delle altre. Serve la teoria dei giochi.\n\n**Modello base.** Due imprese identiche, prodotto omogeneo, domanda inversa **P = 100 − Q** con Q = q₁ + q₂, costo marginale costante **c = 10**, nessun costo fisso.\n\nPunti di riferimento:\n- **Concorrenza perfetta:** P = c = 10, Q = 90, profitti 0.\n- **Monopolio:** MR = 100 − 2Q = 10 → Q = **45**, P = **55**, profitto (55 − 10) · 45 = **2 025**.\n\nL’oligopolio sta in mezzo, e dove dipende da *come* competono le imprese.` },
+      { h: 'Cournot: concorrenza sulle quantità', b: `Nel **modello di Cournot** ciascuna impresa sceglie la propria quantità, dando per data quella dell’altra.\n\nProfitto dell’impresa 1: π₁ = (100 − q₁ − q₂ − 10) · q₁ = (90 − q₂) q₁ − q₁².\n\nCondizione del primo ordine: 90 − q₂ − 2q₁ = 0, da cui la **funzione di reazione**:\n\n**q₁ = (90 − q₂) / 2**\n\nEsempi: se q₂ = 0 (monopolio) q₁ = **45**; se q₂ = 30, q₁ = (90 − 30)/2 = **30**; se q₂ = 60, q₁ = 15.\n\nPiù produce l’avversario, meno conviene produrre: le quantità sono **sostituti strategici**.` },
+      { h: 'L’equilibrio di Cournot', b: `L’equilibrio di **Nash** è dove le funzioni di reazione si incontrano. Per simmetria q₁ = q₂ = q:\n\nq = (90 − q) / 2 → 2q = 90 − q → **q = 30**.\n\n- Quantità totale: Q = **60**.\n- Prezzo: P = 100 − 60 = **40**.\n- Profitto di ciascuna: (40 − 10) · 30 = **900**; totale **1 800**.\n\nConfronto: rispetto al monopolio la quantità è più alta (60 contro 45), il prezzo più basso (40 contro 55) e il profitto totale più basso (1 800 contro 2 025). Rispetto alla concorrenza perfetta (Q = 90, P = 10) i consumatori stanno peggio.\n\n**Con N imprese:** Q = N/(N+1) · 90. Con N = 3: Q = 67,5, P = 32,5; più imprese avvicinano il mercato alla concorrenza perfetta.` },
+      { h: 'Bertrand: concorrenza sui prezzi', b: `Nel **modello di Bertrand** le imprese scelgono il prezzo. Con prodotto omogeneo, i consumatori comprano dal più economico.\n\nRagionamento: se il rivale fissa P > c, conviene fare un prezzo di poco inferiore e prendersi tutto il mercato. Questo «sottotaglio» continua finché P = c.\n\n**Equilibrio di Bertrand:** P = c = **10**, Q = 90 (diviso fra le due), **profitti nulli**.\n\nSorprendente: bastano **due** imprese per ottenere il risultato della concorrenza perfetta. È il «paradosso di Bertrand».\n\nLa conclusione cambia se: i prodotti sono **differenziati**, le imprese hanno **limiti di capacità** (Edgeworth), o i clienti hanno **costi di cambio**. In tali casi i prezzi restano sopra il costo marginale.` },
+      { h: 'Collusione e incentivo a deviare', b: `Se le imprese si accordano per produrre insieme la quantità di monopolio (45), dividendo a metà ottengono **q = 22,5 ciascuna**, P = 55 e profitto (55 − 10) · 22,5 = **1 012,5 ciascuna** (2 025 in totale), contro 900 di Cournot.\n\nMa l’accordo non è stabile: se il rivale resta a 22,5, la risposta ottima è q = (90 − 22,5)/2 = **33,75**.\n\nQuantità totale 56,25; P = 100 − 56,25 = 43,75; profitto del deviante: (43,75 − 10) · 33,75 = 33,75² = **1 139,06**. Il rivale resta con (43,75 − 10) · 22,5 = 759,38.\n\nDeviare rende 1 139,06 > 1 012,5: **tentazione** di tradire l’accordo. Il cartello è un **dilemma del prigioniero**: collaborare darebbe 1 012,5 a testa, ma la mossa dominante nel gioco isolato è deviare, e si finisce in Cournot (900 a testa).` },
+      { h: 'Il dilemma del prigioniero ripetuto', b: `Se le imprese si incontrano per molti periodi, la minaccia di punizione può sostenere la collusione. Strategia **grim trigger**: collaboro finché l’altro collabora; se devia, passo per sempre a Cournot.\n\nPayoff per periodo: collusione **1 012,5**; deviazione (una volta) **1 139,06**; punizione (Cournot) **900**. Con fattore di sconto δ:\n\n- collaborare sempre: 1 012,5 / (1 − δ)\n- deviare: 1 139,06 + 900 · δ / (1 − δ)\n\nCollaborare conviene se 1 012,5 ≥ 1 139,06 (1 − δ) + 900 δ, cioè\n\nδ ≥ (1 139,06 − 1 012,5) / (1 139,06 − 900) = 126,56 / 239,06 = **0,529**.\n\nSe le imprese danno peso al futuro (δ ≥ 0,53, cioè sono abbastanza «pazienti») la collusione è un equilibrio; altrimenti no. Con **orizzonte finito noto**, per induzione a ritroso si defeziona già all’inizio.` },
+      { h: 'Cosa favorisce o ostacola la collusione', b: `Il numero δ ≥ 0,53 vale per questo duopolio; in generale la collusione è più facile con:\n\n- **Pochi concorrenti** (con N = 3 il guadagno da deviare cresce rispetto alla quota di cartello);\n- **Trasparenza** dei prezzi (si scopre subito la deviazione);\n- **Interazioni frequenti** e orizzonte lungo (δ alto);\n- **Prodotti omogenei** e costi simili;\n- **Barriere all’ingresso** (nuovi entranti spezzerebbero l’accordo).\n\nÈ più difficile con domanda volatile, imprese asimmetriche e prodotti differenziati.\n\n**Nota legale:** il cartello è illecito nelle normative antitrust; qui è solo una struttura logica per capire le dinamiche di mercato. Le *collusioni tacite* (senza accordi, solo per reazione strategica) sono un tema delicato per le autorità.\n\n**Semplificazioni:** domanda lineare nota, costi uguali e costanti, informazione completa, nessun ingresso.` },
+      { h: 'Riepilogo numerico', b: `Duopolio con P = 100 − Q e c = 10:\n\n| Esito | Q totale | Prezzo | Profitto per impresa |\n|---|---|---|---|\n| Concorrenza / Bertrand | 90 | 10 | 0 |\n| Cournot | 60 | 40 | 900 |\n| Collusione (monopolio diviso) | 45 | 55 | 1 012,5 |\n\nCournot sta fra monopolio e concorrenza. Il confronto ordina i prezzi: Bertrand (10) < Cournot (40) < collusione (55).\n\n**Regola di lettura:** il tipo di concorrenza (quantità o prezzi) e la possibilità di ripetere il gioco contano quanto il numero di imprese.\n\nContenuto didattico, non un invito a coordinarsi con i concorrenti.` }
+    ],
+    exercises: [
+      fill('P = 100 − Q, c = 10. Funzione di reazione q₁ = (90 − q₂)/2. Se q₂ = 30, quanto vale q₁?', ['30'], '(90 − 30)/2 = 30.'),
+      fill('Con la stessa funzione di reazione, se il rivale non produce (q₂ = 0), q₁ ottima?', ['45'], '90/2 = 45 (il monopolio).'),
+      fill('Cournot (P = 100 − Q, c = 10): quanto produce ciascuna impresa?', ['30'], 'q = (90 − q)/2 → q = 30.'),
+      fill('Cournot: prezzo di equilibrio (in euro)?', ['40'], 'Q = 60; P = 100 − 60 = 40.'),
+      fill('Cournot: profitto di ciascuna impresa?', ['900'], '(40 − 10) · 30 = 900.'),
+      fill('Monopolio con P = 100 − Q, c = 10: quantità ottima?', ['45'], 'MR = 100 − 2Q = 10 → Q = 45.'),
+      fill('Il cartello divide equamente il profitto di monopolio (2 025). Profitto di ciascuna impresa?', ['1012.5', '1012,5', '1.012,5', '1 012,5'], '2 025 / 2 = 1 012,5.'),
+      fill('Se il rivale resta a 22,5, il deviante produce 33,75. Il suo profitto (due decimali)?', ['1139.06', '1139,06', '1.139,06', '1 139,06', '1139.0625'], 'P = 43,75; (43,75 − 10) · 33,75 = 1 139,06.'),
+      mc('Con prodotto omogeneo e costo marginale uguale, nel modello di Bertrand il prezzo di equilibrio è:', ['Uguale al costo marginale', 'Uguale al prezzo di monopolio', 'Metà del prezzo di monopolio', 'Indeterminato e infinito'], 0, 'Il sottotaglio porta il prezzo a P = c e i profitti a zero.'),
+      fill('Fattore di sconto minimo (tre decimali) per sostenere la collusione con grim trigger: (1 139,06 − 1 012,5)/(1 139,06 − 900) = ?', ['0.529', '0,529', '0.53', '0,53'], '126,56 / 239,06 = 0,529.'),
+      mc('Nel gioco giocato una sola volta, il dilemma del prigioniero ha come equilibrio:', ['Entrambi defezionano', 'Entrambi collaborano', 'Uno collabora e uno defeziona', 'Nessun equilibrio'], 0, 'Defezionare è la strategia dominante.'),
+      order('Ordina i passi per trovare l’equilibrio di Cournot', ['Scrivi il profitto di un’impresa', 'Deriva rispetto alla propria quantità', 'Ricava la funzione di reazione', 'Imponi la simmetria q₁ = q₂', 'Risolvi per q e calcola P'], 'Profitto, derivata, reazione, simmetria, soluzione.')
+    ],
+    test: [
+      fill('Duopolio con P = 60 − Q, c = 6. Quantità di Cournot per impresa?', ['18'], 'q = (54 − q)/2 → q = 18.'),
+      fill('Stesso duopolio. Prezzo di Cournot?', ['24'], 'Q = 36; P = 60 − 36 = 24.'),
+      fill('Stesso duopolio. Profitto di monopolio (Q = 27)?', ['729'], 'P = 33; (33 − 6) · 27 = 729.'),
+      fill('Stesso mercato con tre imprese in Cournot: quantità per impresa?', ['13.5', '13,5'], 'Q = 3/4 · 54 = 40,5; 40,5 / 3 = 13,5.'),
+      mc('Con orizzonte finito e noto, la collusione sostenuta dalle sole minacce di ritorsione:', ['Crolla per induzione a ritroso', 'È sempre stabile', 'Aumenta con il numero di periodi', 'Dà profitti di monopolio sicuri'], 0, 'Nell’ultimo periodo conviene deviare; a ritroso, vale per tutti i precedenti.'),
+      mc('Quale fattore rende più difficile la collusione?', ['Prodotti differenziati e domanda molto variabile', 'Pochi concorrenti simili', 'Prezzi trasparenti', 'Interazioni frequenti'], 0, 'È difficile accordarsi e verificare le deviazioni.'),
+      mc('Perché i duopolisti di Bertrand con capacità limitata non arrivano a P = c?', ['Perché un’impresa non può servire tutto il mercato, quindi non conviene sottotagliare fino al costo', 'Perché i costi sono nulli', 'Perché competono sulle quantità', 'Perché la domanda è perfettamente elastica'], 0, 'Con capacità limitata la minaccia di rubare tutto il mercato perde forza.')
+    ]
+  });
+
+  /* 6 ---- Aste e incentivi */
+  C.addTopic({
+    id: 'str-eco-aste-incentivi', subject: 'str', stage: 'L6', minutes: 14, prereq: ['str-eco-oligopolio'],
+    title: 'Aste, incentivi e principale-agente',
+    summary: 'Aste di prima e seconda offerta, asta di Vickrey, maledizione del vincitore; contratti con incentivi, azzardo morale e rapporto principale-agente.',
+    objectives: ['Calcolare esiti di aste di prima e seconda offerta e il surplus del vincitore', 'Riconoscere e quantificare la maledizione del vincitore', 'Progettare un bonus che induca lo sforzo e valutarne la convenienza'],
+    pages: [
+      { h: 'Come funzionano le aste', b: `Un’**asta** è un meccanismo per assegnare un bene a chi lo valuta di più, quando il venditore non conosce le valutazioni.\n\nLe forme principali:\n- **Prima offerta (sigillata):** offerte in busta chiusa; vince la più alta e **paga la propria offerta**.\n- **Seconda offerta (Vickrey):** vince la più alta ma **paga la seconda offerta più alta**.\n- **Inglese (ascendente):** prezzo che sale finché resta un solo partecipante.\n- **Olandese (discendente):** prezzo che scende finché uno accetta.\n\nEquivalenze: l’asta inglese equivale (strategicamente) alla seconda offerta; l’olandese alla prima offerta.\n\nIl **surplus** del vincitore è il valore che attribuisce al bene meno ciò che paga.` },
+      { h: 'Seconda offerta: dire la verità conviene', b: `Nell’**asta di Vickrey** offrire il proprio vero valore v è una **strategia dominante**.\n\n**Esempio.** Tre partecipanti con valori 80, 65, 50. Tutti offrono il loro valore. Vince chi ha 80 e **paga 65**; surplus = 80 − 65 = **15**.\n\n**Perché non conviene offrire meno?** Se il partecipante da 80 offre 60 perde l’asta (vince il 65) e ottiene 0 invece di 15. **Perché non offrire più?** Se un rivale con valore 90 offre 90 e tu offri 95 vinci, ma paghi 90 per un bene che vale 80: perdi 10.\n\nIl prezzo pagato non dipende dalla propria offerta, ma solo dal rivale: per questo non c’è incentivo a mentire.\n\n*Ipotesi:* valori privati (ciascuno sa quanto vale per sé) e offerenti razionali.` },
+      { h: 'Prima offerta: shading', b: `Nella prima offerta se offri il tuo valore guadagni zero se vinci. Conviene offrire **meno** del valore (**bid shading**), a rischio di perdere.\n\n**Esempio.** Valore 80: se offri 70 e vinci, il surplus è 80 − 70 = **10**; se offri 80, il surplus è 0.\n\n**Caso classico:** due offerenti con valori uniformi in [0, 100]. La strategia di equilibrio è offrire **b = v/2**. Con v = 60 offri **30**.\n\n**Ricavo atteso del venditore (due offerenti):**\n- prima offerta: E[max(v₁,v₂)/2] = (2/3 · 100) / 2 = **33,33**;\n- seconda offerta: E[min(v₁,v₂)] = 1/3 · 100 = **33,33**.\n\nSono uguali: è il **teorema dell’equivalenza dei ricavi** (con valori privati indipendenti, offerenti neutrali al rischio). Con tre offerenti il ricavo atteso in Vickrey è il secondo valore più alto: (n − 1)/(n + 1) · 100 = **50**.` },
+      { h: 'Il prezzo di riserva', b: `Il venditore può fissare un **prezzo di riserva** r: sotto non vende.\n\n**Esempio.** Un solo partecipante vale 80 e un altro 30. In Vickrey senza riserva il prezzo è 30. Con riserva 50: il primo vince e paga 50 (il maggiore fra riserva e seconda offerta), il ricavo cresce di 20.\n\nMa una riserva troppo alta rischia di lasciare il bene invenduto. Se entrambi valessero meno di 50, nessuna vendita. Il venditore bilancia il rischio di invenduto con il maggior prezzo nei casi favorevoli.\n\nIl prezzo di riserva ottimale (valori uniformi [0,100]) è 50, anche con più offerenti, ed è maggiore del valore di scarto del venditore.` },
+      { h: 'Valori comuni e maledizione del vincitore', b: `Quando il bene ha **un valore comune** a tutti (es. un giacimento) ma ognuno ne stima il valore con errori, chi vince tende a essere quello che ha **sovrastimato** di più.\n\n**Esempio numerico.** Valore vero V (ignoto). Ogni offerente ha una stima V + e, con e uguale a −20, 0, +20 con probabilità 1/3 ciascuno, in tre offerenti indipendenti.\n\nLa stima più alta ha errore:\n- +20 con probabilità 1 − (2/3)³ = **19/27**,\n- 0 con probabilità 7/27 (almeno uno 0 e nessun +20: (2/3)³ − (1/3)³ = 8/27 − 1/27),\n- −20 con probabilità (1/3)³ = **1/27**.\n\nErrore atteso del vincitore: 20 · 19/27 + 0 · 7/27 − 20 · 1/27 = 20 · 18/27 = **+13,33**.\n\nSe offri la tua stima «alla pari», **vincendo** paghi in media 13,33 più del valore vero: è la **maledizione del vincitore**. L’antidoto: **abbassare l’offerta** tenendo conto che *vincere è un’informazione* (significa che gli altri avevano stime inferiori).` },
+      { h: 'Il problema principale-agente', b: `Un **principale** (azionista, titolare) affida un compito a un **agente** (manager, dipendente), ma non può osservare lo sforzo: **azzardo morale**. Se l’agente è pagato con un salario fisso, ha poco incentivo a impegnarsi.\n\n**Esempio.** Il progetto rende 200 € se riesce, 0 altrimenti.\n- **Sforzo alto:** costo per l’agente 20 €, probabilità di successo 0,9.\n- **Sforzo basso:** costo 0, probabilità di successo 0,5.\n\nSenza incentivi (salario fisso) l’agente sceglie sforzo basso: il principale ottiene 0,5 · 200 = **100 €** (al netto del salario fisso, per semplicità trascurato).\n\nLo sforzo non è verificabile, ma il **risultato** sì: si lega il compenso al risultato con un **bonus b** pagato in caso di successo.` },
+      { h: 'Progettare il bonus', b: `L’agente sceglie lo sforzo alto se la sua utilità attesa è maggiore (**vincolo di incentivo**):\n\n0,9 · b − 20 ≥ 0,5 · b → 0,4 · b ≥ 20 → **b ≥ 50**.\n\nCon b = 50 l’agente guadagna in media 0,9 · 50 − 20 = **25 €** di rendita (partecipazione soddisfatta, se l’alternativa vale ≤ 25).\n\n**Profitto del principale:** 0,9 · (200 − 50) = **135 €**, contro 100 € con sforzo basso: il bonus conviene.\n\nQuindi bonus più alto = più incentivo ma più costo: la dimensione ottima dipende da quanto aumenta la probabilità di successo.\n\n**Variante.** Ricavo 300, prob. 0,8 vs 0,5, sforzo 30: 0,3 · b ≥ 30 → b = 100; profitto alto: 0,8 · (300 − 100) = 160 contro 0,5 · 300 = 150: il bonus conviene appena (+10).` },
+      { h: 'Limiti, effetti collaterali e buone pratiche', b: `**Rischio.** Un bonus fa pesare sull’agente l’alea del risultato: se è avverso al rischio chiede un compenso fisso più alto. C’è un compromesso fra incentivo e assicurazione.\n\n**Multi-tasking.** Si pagano le misure facili (vendite) e si trascurano quelle difficili (qualità, clienti a lungo termine). **Gaming:** l’agente può manipolare l’indicatore.\n\n**Buone pratiche:** indicatori legati davvero all’obiettivo, orizzonte temporale coerente, combinazione fra fisso e variabile, trasparenza.\n\n**Sintesi dei numeri.** Vickrey 80/65/50: paga 65, surplus 15. Prima offerta con shading: offri 70 con valore 80 → surplus 10. Maledizione: +13,33 di sovrastima attesa. Bonus: b ≥ 50 e profitto 135.\n\nModelli didattici, con informazione e razionalità idealizzate.` }
+    ],
+    exercises: [
+      mc('Nell’asta di seconda offerta (Vickrey) con valori privati, la strategia dominante è:', ['Offrire il proprio vero valore', 'Offrire metà del valore', 'Offrire sempre zero', 'Offrire più del valore'], 0, 'Il prezzo pagato dipende solo dal rivale: dire la verità non peggiora mai.'),
+      fill('Asta Vickrey con offerte 80, 65, 50. Quanto paga il vincitore?', ['65'], 'Paga la seconda offerta più alta.'),
+      fill('Nell’asta precedente il vincitore ha valore 80. Il suo surplus?', ['15'], '80 − 65 = 15.'),
+      fill('Prima offerta: valore 80, offri 70 e vinci. Surplus?', ['10'], '80 − 70 = 10.'),
+      fill('Due offerenti con valori uniformi: strategia b = v/2. Con v = 60 quanto offri?', ['30'], '60 / 2 = 30.'),
+      fill('Due offerenti con valori uniformi in [0,100]: ricavo atteso del venditore (due decimali)?', ['33.33', '33,33', '33.3', '33,3'], 'Per equivalenza dei ricavi: 100/3 = 33,33.'),
+      fill('Errori di stima −20, 0, +20 equiprobabili, tre offerenti: errore atteso della stima più alta (due decimali)?', ['13.33', '13,33', '13.3', '13,3'], '20 · 19/27 − 20 · 1/27 = 20 · 18/27 = 13,33.'),
+      mc('Come si attenua la maledizione del vincitore?', ['Abbassando l’offerta rispetto alla propria stima', 'Offrendo di più', 'Ignorando gli altri', 'Partecipando a tutte le aste'], 0, 'Vincere indica che gli altri avevano stime più basse: si corregge in anticipo.'),
+      fill('Successo 0,9 con sforzo alto (costo 20), 0,5 con sforzo basso. Bonus minimo b che induce sforzo alto?', ['50'], '0,9b − 20 ≥ 0,5b → b ≥ 50.'),
+      fill('Con b = 50 e ricavo 200 in caso di successo: profitto atteso del principale?', ['135'], '0,9 · (200 − 50) = 135.'),
+      fill('Senza bonus l’agente impegna sforzo basso, successo 0,5: ricavo atteso del principale (ricavo 200)?', ['100'], '0,5 · 200 = 100.'),
+      order('Ordina i passi per progettare un bonus', ['Individua lo sforzo desiderato', 'Calcola il costo dello sforzo per l’agente', 'Imposta il vincolo di incentivo', 'Trova il bonus minimo', 'Verifica che il profitto resti maggiore di prima'], 'Dallo sforzo al vincolo, al bonus, poi alla convenienza per il principale.')
+    ],
+    test: [
+      fill('Asta Vickrey con offerte 120, 100, 90. Cosa paga il vincitore?', ['100'], 'La seconda offerta.'),
+      mc('L’asta inglese ascendente è strategicamente simile a:', ['Seconda offerta (Vickrey)', 'Prima offerta', 'Lotteria', 'Prezzo fisso'], 0, 'Si resta in gara fino al proprio valore e si paga appena sopra il penultimo.'),
+      mc('L’asta olandese (prezzo discendente) è equivalente a:', ['Prima offerta sigillata', 'Seconda offerta', 'Asta inglese', 'Nessuna'], 0, 'Chi accetta paga il prezzo a cui ferma l’orologio, cioè la propria offerta.'),
+      fill('Tre offerenti, valori uniformi in [0,100], Vickrey: ricavo atteso?', ['50'], '(n − 1)/(n + 1) · 100 = 2/4 · 100 = 50.'),
+      fill('Ricavo 300, successo 0,8 (sforzo alto, costo 30) o 0,5 (sforzo basso). Bonus minimo?', ['100'], '0,3b ≥ 30 → b = 100.'),
+      fill('Stessi dati con b = 100. Profitto del principale?', ['160'], '0,8 · (300 − 100) = 160.'),
+      mc('L’azzardo morale nasce quando:', ['Lo sforzo dell’agente non è osservabile dal principale', 'Il prezzo sale', 'Il bene è comune', 'I costi sono fissi'], 0, 'Senza osservare lo sforzo, il principale può solo premiare il risultato.')
+    ]
+  });
+
+  /* 7 ---- Strategia d'impresa */
+  C.addTopic({
+    id: 'str-eco-strategia-impresa', subject: 'str', stage: 'L6', minutes: 14, prereq: ['str-eco-aste-incentivi'],
+    title: 'Strategia d’impresa: vantaggio competitivo e opzioni reali',
+    summary: 'Vantaggio competitivo, effetti di rete, costi di cambio, barriere d’ingresso, curva d’esperienza e valore della flessibilità con le opzioni reali.',
+    objectives: ['Calcolare costo unitario con curva d’esperienza e valore di rete con la legge di Metcalfe', 'Valutare se un cliente cambia fornitore e se un ingresso è profittevole', 'Valutare la flessibilità con una opzione reale semplice'],
+    pages: [
+      { h: 'Il vantaggio competitivo', b: `Un’impresa ha un **vantaggio competitivo** se ottiene un profitto superiore alla media del settore in modo difendibile. Le due fonti classiche (Porter):\n\n- **Leadership di costo:** produrre a costi unitari inferiori ai concorrenti, a parità di prezzo margini maggiori;\n- **Differenziazione:** offrire qualcosa per cui i clienti accettano un prezzo maggiore.\n\n**Esempio.** Prezzo di mercato 100, costo del concorrente 90 → margine 10. Se un’impresa produce a 80, il margine è 20: il doppio. Oppure, con costo 90, vende a 110 grazie al marchio: margine 20 uguale.\n\nPerché sia *vantaggio* deve essere **difficile da imitare**: se tutti copiano subito, i profitti tornano normali. Le sezioni che seguono presentano alcuni meccanismi che rendono il vantaggio duraturo.` },
+      { h: 'Curva d’esperienza', b: `Con la **curva d’esperienza** il costo unitario cala di una percentuale fissa a ogni **raddoppio della produzione cumulata**. Con una curva dell’**80%** ogni raddoppio riduce il costo al 80% del precedente.\n\n**Esempio.** Costo della prima unità 100:\n- 2ª unità: 100 · 0,8 = **80**\n- 4ª unità: 80 · 0,8 = **64**\n- 8ª unità: 64 · 0,8 = **51,2**\n- 16ª unità: 51,2 · 0,8 = **40,96**\n\nCon una curva del **90%**, prima unità 200: 2ª = 180, 4ª = **162**, 8ª = **145,8**.\n\nImplicazione strategica: chi **cresce prima** scende prima lungo la curva e può praticare prezzi inferiori ai rivali, mantenendo il margine. Rischio: investire in volumi per costi che poi non si realizzano; la curva è una regolarità empirica, non una legge.` },
+      { h: 'Effetti di rete', b: `Un bene mostra **effetti di rete** se il suo valore per ciascun utente cresce con il numero degli altri utenti (telefono, social network, standard software).\n\nLa **legge di Metcalfe** (semplificata) stima il valore con il numero di possibili collegamenti: n(n − 1)/2.\n\n- 5 utenti: 5 · 4 / 2 = **10**\n- 6 utenti: 6 · 5 / 2 = **15**\n- 10 utenti: 10 · 9 / 2 = **45**\n- 20 utenti: 20 · 19 / 2 = **190**\n\nRaddoppiare gli utenti da 10 a 20 moltiplica i collegamenti per 190 / 45 = **4,2**: più che raddoppiare. Questo spinge a **crescite rapide** (chi è avanti attira altri), a mercati dove «il vincitore prende (quasi) tutto» e alla difficoltà per i nuovi entranti di raggiungere la massa critica.\n\n*Semplificazione:* tutti i collegamenti hanno lo stesso valore (non è vero: spesso conta la rete locale).` },
+      { h: 'Costi di cambio (switching costs)', b: `I **costi di cambio** sono i costi che un cliente sostiene per passare a un altro fornitore: tempo, dati da migrare, formazione, penali.\n\n**Esempio.** Il cliente paga oggi 100 € l’anno; un rivale offre 90 €. Il cambio costa **25 €** una tantum.\n\n- Orizzonte 3 anni: risparmio 3 · 10 = 30; **30 − 25 = +5**: cambia.\n- Orizzonte 2 anni: risparmio 20; **20 − 25 = −5**: non cambia.\n\nQuindi l’impresa già presente può alzare il prezzo entro il costo di cambio senza perdere clienti. In pratica l’incumbent può alzare il prezzo solo finché il risparmio offerto dal rivale resta inferiore al costo di cambio.\n\nStrategia: per chi entra **sconti di acquisizione**; per chi è già dentro **fidelizzazione**. Per i clienti: valutare il costo *totale* del legame prima di scegliere.` },
+      { h: 'Barriere all’ingresso', b: `Le **barriere all’ingresso** proteggono i profitti degli incumbent: economie di scala, costi di cambio, effetti di rete, brevetti, licenze, accesso alla distribuzione, reputazione.\n\n**Esempio.** Un entrante deve sostenere un costo fisso di ingresso F = **250**. Dopo l’ingresso, il duopolio assicura **300** di profitto lordo:\n\nprofitto netto = 300 − 250 = **+50** → **entra**.\n\nL’incumbent può **impegnarsi** (commitment) ad aumentare la capacità prima dell’ingresso, così l’eventuale duopolio rende all’entrante solo **150**:\n\n150 − 250 = **−100** → l’entrante **non entra**.\n\nLa minaccia è credibile solo se l’incumbent è già vincolato: promesse a parole, o capacità che sarebbe stato costoso costruire per poi non usarla. Per l’autorità antitrust il confine fra barriere «naturali» e comportamenti escludenti è importante.` },
+      { h: 'Opzioni reali: valore della flessibilità', b: `Un’**opzione reale** è il diritto (non l’obbligo) di decidere in seguito, quando l’incertezza si è risolta. Il VAN classico la ignora.\n\n**Esempio.** Un progetto costa **100** e fra un anno vale 160 (prob. 50%) o 60 (prob. 50%). Valore atteso 0,5 · 160 + 0,5 · 60 = 110.\n\n**Investire subito:** VAN = 110 − 100 = **+10**.\n\n**Aspettare un anno** e investire solo se il valore è 160 (guadagno 60; se è 60 non si investe, perdita evitata):\nvalore atteso al tempo 1 = 0,5 · 60 + 0,5 · 0 = **30**; attualizzato al 10% = 30 / 1,10 = **27,27**.\n\n**Valore dell’opzione di attendere** = 27,27 − 10 = **17,27**.\n\nConviene aspettare, se non si perde troppo dall’attesa (concorrenti che arrivano prima, ricavi persi). Altro esempio: costo 200, esiti 300/120 equiprobabili: investire ora 210 − 200 = +10; attendere 0,5 · 100 / 1,10 = **45,45**; opzione di attendere = **35,45**.` },
+      { h: 'Mettere insieme i pezzi', b: `**Domande guida per un’analisi strategica:**\n\n1. Qual è la fonte del vantaggio: **costo** o **differenziazione**?\n2. Esiste una **curva d’esperienza** o economie di scala: conviene crescere in fretta?\n3. Ci sono **effetti di rete**: conta arrivare primi alla massa critica?\n4. I clienti hanno **costi di cambio**: quanto posso prezzare sopra i rivali?\n5. Quali **barriere** proteggono il settore, e le posso costruire?\n6. Quanta incertezza c’è: vale la pena **aspettare** e imparare?\n\n**Sintesi numerica:** curva 80% → 8ª unità a 51,2; Metcalfe 10 → 20 utenti: 45 → 190; cambio 3 anni: +5; entrante 300 − 250 = 50 o 150 − 250 = −100; opzione di attendere +17,27.\n\nI numeri sono esercizi, non valutazioni di imprese reali.` },
+      { h: 'Limiti del quadro', b: `**Semplificazioni da ricordare:**\n\n- La **curva d’esperienza** assume una percentuale costante e produzione cumulata che si traduce davvero in apprendimento.\n- **Metcalfe** sopravvaluta le reti: i collegamenti non sono tutti utili allo stesso modo.\n- I **costi di cambio** sono stimati dal cliente: percezione ≠ costo reale.\n- Nell’esempio dell’**ingresso** si ignorano reazioni del mercato oltre il duopolio.\n- Nelle **opzioni reali** si ipotizza che l’incertezza si risolva in un anno, senza costi di attesa, e che il tasso di sconto sia noto.\n\nIl valore dello strumento non sta nel numero esatto ma nel **ragionamento**: ti obbliga a esplicitare ipotesi e a vedere quali cambiano la decisione.\n\nContenuto didattico: nessun suggerimento su investimenti concreti.` }
+    ],
+    exercises: [
+      fill('Curva d’esperienza all’80%, costo della prima unità 100. Costo dell’8ª unità?', ['51.2', '51,2'], '100 · 0,8³ = 51,2 (tre raddoppi: 1→2→4→8).'),
+      fill('Stessa curva: costo della 4ª unità?', ['64'], '100 · 0,8² = 64.'),
+      fill('Stessa curva: costo della 16ª unità (due decimali)?', ['40.96', '40,96'], '100 · 0,8⁴ = 40,96.'),
+      fill('Metcalfe: n(n − 1)/2 collegamenti con 10 utenti?', ['45'], '10 · 9 / 2 = 45.'),
+      fill('Metcalfe: collegamenti con 20 utenti?', ['190'], '20 · 19 / 2 = 190.'),
+      fill('Costo di cambio 25 €, risparmio 10 € l’anno per 3 anni. Guadagno netto del cambio (in euro)?', ['5', '+5'], '30 − 25 = 5.'),
+      mc('Con costo di cambio 25 € e risparmio 10 € l’anno, orizzonte 2 anni, il cliente:', ['Non cambia (20 < 25)', 'Cambia (20 > 25)', 'Cambia sempre', 'Dipende dal marchio'], 0, '2 · 10 = 20 < 25.'),
+      fill('Un entrante avrebbe profitto lordo di 300 ma costo d’ingresso 250. Profitto netto?', ['50', '+50'], '300 − 250 = 50: entra.'),
+      fill('Dopo l’impegno dell’incumbent il profitto lordo dell’entrante è 150, costo 250. Profitto netto?', ['-100', '−100'], '150 − 250 = −100: non entra.'),
+      fill('Progetto: costo 100, esiti 160 o 60 con prob. 1/2. VAN di investire subito (senza sconto)?', ['10', '+10'], '110 − 100 = 10.'),
+      fill('Stesso progetto, aspettando un anno (r = 10%) e investendo solo se 160: valore attuale (due decimali)?', ['27.27', '27,27'], '0,5 · 60 / 1,10 = 27,27.'),
+      fill('Valore dell’opzione di attendere (due decimali) = 27,27 − 10 =', ['17.27', '17,27'], '27,27 − 10 = 17,27.'),
+      order('Ordina l’analisi di un’opzione reale', ['Descrivi gli scenari e le probabilità', 'Calcola il VAN dell’investire subito', 'Calcola il valore atteso investendo solo nello scenario favorevole', 'Attualizza il valore dell’attesa', 'Confronta e deduci il valore dell’opzione'], 'Scenari, VAN immediato, VAN con flessibilità, sconto, confronto.')
+    ],
+    test: [
+      fill('Curva al 90%, costo della prima unità 200: costo della 4ª unità?', ['162'], '200 · 0,9² = 162.'),
+      fill('Metcalfe con 6 utenti: collegamenti?', ['15'], '6 · 5 / 2 = 15.'),
+      fill('Costo di cambio 20 €, risparmio 15 € l’anno per 2 anni: guadagno netto (euro)?', ['10', '+10'], '30 − 20 = 10.'),
+      fill('Progetto: costo 200, esiti 300 o 120 equiprobabili, r = 10%. Valore atteso al tempo 1 investendo solo se 300, attualizzato (due decimali)?', ['45.45', '45,45'], '0,5 · (300 − 200) / 1,10 = 45,45.'),
+      fill('Stesso progetto: VAN dell’investire subito senza sconto?', ['10', '+10'], '0,5 · 300 + 0,5 · 120 = 210; 210 − 200 = 10.'),
+      mc('Quale non è una barriera all’ingresso tipica?', ['Un mercato con costi di ingresso nulli e senza vincoli', 'Economie di scala', 'Brevetti', 'Effetti di rete'], 0, 'Le altre proteggono gli incumbent.'),
+      mc('Una impresa ha vantaggio competitivo duraturo se:', ['Il suo margine superiore è difficile da imitare', 'Alza i prezzi', 'Ha molti dipendenti', 'Ha più ricavi totali'], 0, 'Conta la difendibilità del vantaggio.')
+    ]
+  });
+
+})(window.ST = window.ST || {});
+
 /* ---- content/str-puzzles ---- */
 (function (ST) {
   'use strict';
@@ -10414,6 +10859,421 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
         ch('Accetti il pagamento a 60 giorni', 'Anticipare il secondo ordine', [o(0.8, { cassa: -2, clienti: 5, reputazione: 3 }, 'Cliente fedele; incasso rimandato.'), o(0.2, { cassa: -8, clienti: 2, reputazione: -3 }, 'Il cliente ritarda ulteriormente.')]),
         ch('Chiedi un acconto del 50% e saldo a 30 giorni', 'Collo di bottiglia', [o(0.6, { cassa: 4, clienti: 3, reputazione: 1 }, 'Il cliente accetta.'), o(0.4, { cassa: 0, clienti: -4, reputazione: -1 }, 'Il cliente rifiuta e se ne va.')]),
         ch('Rifiuti la fornitura', 'Saper dire di no', [o(1, { cassa: 0, clienti: -3, reputazione: -2 }, 'Nessun rischio ma perdi il contatto.')])
+      ])
+    ]
+  });
+})(window.ST = window.ST || {});
+
+/* ---- content/sim-d ---- */
+/* SkillTree — scenari di strategia a carte (parte D): mercato, investimenti, campagna astratta, assedio, diplomazia. Tutto inventato e didattico. */
+(function (ST) {
+  'use strict';
+  const SIM = ST.sim;
+  const o = (p, fx, text) => ({ p, fx, text });
+  const ch = (label, principle, out, hint) => hint ? { label, principle, hint, out } : { label, principle, out };
+  const card = (id, lv, text, choices) => ({ id, lv, text, choices });
+
+  /* ---- 1) Lanciare un prodotto in un mercato con concorrenti ---- */
+  SIM.register({
+    id: 'mercato', title: 'Lanciare un prodotto in un mercato con concorrenti', icon: '📈',
+    intro: 'La tua piccola azienda lancia una cuffia wireless in un mercato dove dominano due concorrenti, Aurex e Brivo. Ogni decisione tocca prezzo, qualità, quota di mercato, cassa e reputazione. Il punteggio premia la cassa residua e la quota conquistata, più la solidità del marchio (reputazione e qualità percepita): una quota comprata in perdita pesa poco se brucia la cassa.',
+    vars: {
+      cassa: { label: 'Cassa', start: 60, min: -80, max: 250, unit: 'k€', tight: true },
+      quota: { label: 'Quota di mercato', start: 5, min: 0, max: 60, unit: '%' },
+      reputazione: { label: 'Reputazione del marchio', start: 50, min: 0, max: 100 },
+      qualita: { label: 'Qualità percepita', start: 55, min: 0, max: 100 }
+    },
+    weights: { cassa: 0.6, quota: 2.2, reputazione: 0.5, qualita: 0.4 },
+    penalties: [],
+    turns: 5, utilText: '0,6 × cassa (negativa se in rosso) + 2,2 × quota di mercato + 0,5 × reputazione + 0,4 × qualità',
+    cards: [
+      card('m-prezzo', 1, 'Prima del lancio devi fissare il prezzo. Aurex vende a 99 €, Brivo a 79 €. Il tuo costo unitario è 45 €: un prezzo basso porta volumi ma erode il margine, uno alto ti lascia una nicchia piccola.', [
+        ch('Prezzo d’ingresso a 69 €, sotto tutti', 'Elasticità della domanda', [o(0.55, { quota: 6, cassa: -4, reputazione: 2 }, 'Molti provano il prodotto; il margine è sottile ma i volumi arrivano.'), o(0.45, { quota: 3, cassa: -9, reputazione: -2 }, 'Brivo ti segue al ribasso e i volumi extra non compensano il margine perso.')]),
+        ch('Prezzo a 89 €, tra i due', 'Differenziazione', [o(0.6, { quota: 2, cassa: 7, reputazione: 3 }, 'Il posizionamento intermedio regge e il margine è sano.'), o(0.4, { quota: 0, cassa: 2, reputazione: 0 }, 'Il cliente non vede perché pagare più di Brivo: vendite deboli.')]),
+        ch('Prezzo a 109 €, premium, puntando sulla qualità', 'Segnale di qualità', [o(0.4, { quota: 1, cassa: 10, reputazione: 6, qualita: 5 }, 'Una nicchia di appassionati paga volentieri e parla bene di te.'), o(0.6, { quota: -1, cassa: -2, reputazione: -2 }, 'Senza un marchio noto il prezzo alto spaventa e il magazzino si riempie.')])
+      ]),
+      card('m-canale', 1, 'Puoi vendere su un grande marketplace (visibilità immediata, commissione del 20%) o dal tuo sito (margine pieno, ma nessuno ti conosce).', [
+        ch('Solo marketplace', 'Costi fissi contro variabili', [o(0.7, { quota: 4, cassa: -3 }, 'Le vendite partono subito, ma la commissione mangia il margine.'), o(0.3, { quota: 2, cassa: -5, reputazione: -3 }, 'Una recensione negativa in prima pagina pesa molto, e non controlli la relazione col cliente.')]),
+        ch('Solo sito proprietario', 'Controllo del margine', [o(0.4, { quota: 2, cassa: 4, reputazione: 3 }, 'Pochi clienti ma fedeli e a margine pieno.'), o(0.6, { quota: 0, cassa: -5, reputazione: 0 }, 'Nessuno ti trova e le spese di pubblicità non rientrano.')]),
+        ch('Entrambi, con un piccolo budget pubblicitario', 'Diversificazione', [o(1, { quota: 3, cassa: -4, reputazione: 2 }, 'Copri più canali, ma disperdi attenzione e budget.')])
+      ]),
+      card('m-recensioni', 2, 'Le prime recensioni segnalano un difetto minore di connessione bluetooth in circa il 6% degli esemplari. Ritirare e sostituire costa, ignorare rischia di diffondere la voce.', [
+        ch('Richiamo volontario con sostituzione gratuita', 'Reputazione come attivo', [o(0.8, { cassa: -10, reputazione: 8, qualita: 6 }, 'Costa caro ma il marchio ne esce come serio e affidabile.'), o(0.2, { cassa: -14, reputazione: 3, qualita: 3 }, 'Il richiamo è più esteso del previsto e logora la cassa.')]),
+        ch('Aggiornamento firmware correttivo e sostituzione solo su richiesta', 'Costo di cambio', [o(0.6, { cassa: -3, reputazione: 3, qualita: 3 }, 'Il firmware risolve quasi tutti i casi: costo contenuto.'), o(0.4, { cassa: -5, reputazione: -4, qualita: -1 }, 'Il difetto resta per alcuni e la frustrazione si diffonde online.')]),
+        ch('Non fai nulla e investi in pubblicità', 'Asimmetria informativa', [o(0.5, { cassa: -2, quota: 3, reputazione: -2 }, 'La voce non si diffonde e la pubblicità porta clienti.'), o(0.5, { cassa: -5, quota: -1, reputazione: -10, qualita: -6 }, 'Un video virale sul difetto distrugge la fiducia.')])
+      ]),
+      card('m-promo', 2, 'Si avvicina la stagione dei regali. Puoi fare una promozione del 20% per quattro settimane: aumenta i volumi, ma abitua i clienti a comprare solo a prezzo ribassato.', [
+        ch('Promozione piena del 20%', 'Elasticità della domanda', [o(0.55, { quota: 5, cassa: 2, reputazione: -1 }, 'Il picco di vendite compensa lo sconto.'), o(0.45, { quota: 2, cassa: -6, reputazione: -2 }, 'Anticipi gli acquisti che avresti fatto comunque e il prezzo di riferimento scende.')]),
+        ch('Bundle con accessorio a basso costo, prezzo invariato', 'Differenziazione', [o(0.65, { quota: 3, cassa: 3, reputazione: 3 }, 'Valore percepito alto senza toccare il prezzo di listino.'), o(0.35, { quota: 1, cassa: -3, reputazione: 0 }, 'L’accessorio costa più del previsto e nessuno lo apprezza.')]),
+        ch('Nessuna promozione, prezzo fermo', 'Valore del marchio', [o(0.5, { quota: -1, cassa: 5, reputazione: 3 }, 'Perdi qualche vendita ma proteggi margine e posizionamento.'), o(0.5, { quota: -3, cassa: 1, reputazione: 0 }, 'I concorrenti scontano e ti portano via clienti.')])
+      ]),
+      card('m-guerra', 3, 'Brivo annuncia un taglio di prezzo del 15% sul suo modello concorrente. È una mossa tipica di Bertrand: se rispondi uguagliando, i margini scendono per tutti.', [
+        ch('Uguagli subito il taglio', 'Guerra di prezzo', [o(0.5, { quota: 1, cassa: -9, reputazione: -1 }, 'Mantieni la quota, ma entrambi guadagnate meno.'), o(0.5, { quota: 3, cassa: -7, reputazione: 0 }, 'Brivo si ritira in fretta e i margini si stabilizzano.')]),
+        ch('Ignori il taglio e mantieni il prezzo', 'Segnale di qualità', [o(0.5, { quota: -4, cassa: 2, reputazione: 2 }, 'Perdi un po’ di clienti sensibili al prezzo ma tieni il margine.'), o(0.5, { quota: -6, cassa: -1, reputazione: -1 }, 'Brivo guadagna terreno più del previsto.')]),
+        ch('Lanci una versione “lite” a prezzo basso, lasciando intatto il modello principale', 'Segmentazione', [o(0.65, { quota: 3, cassa: -5, reputazione: 1 }, 'Presidi il segmento basso senza svalutare il prodotto principale.'), o(0.35, { quota: 1, cassa: -8, reputazione: -3, qualita: -3 }, 'La versione lite cannibalizza le vendite del modello principale.')])
+      ]),
+      card('m-fornitore', 3, 'Il tuo fornitore di batterie propone un contratto biennale a prezzo bloccato, con un 12% di sconto ma una penale in caso di mancato ritiro. Un fornitore alternativo costa di più, senza impegni.', [
+        ch('Firmi il contratto biennale', 'Costi fissi contro variabili', [o(0.55, { cassa: 6, qualita: 2 }, 'Il costo unitario scende e i volumi lo sostengono.'), o(0.45, { cassa: -9, qualita: 2 }, 'La domanda frena e la penale ti stringe.')]),
+        ch('Compri a lotti dal fornitore alternativo', 'Flessibilità', [o(1, { cassa: -2, qualita: 1 }, 'Costa un po’ di più ma resti libero di cambiare.')]),
+        ch('Contratto annuale con sconto minore e clausola di uscita', 'Opzione reale', [o(0.7, { cassa: 3, qualita: 2 }, 'Un buon compromesso fra sconto e libertà.'), o(0.3, { cassa: 0, qualita: 1 }, 'La clausola costa più del previsto.')])
+      ]),
+      card('m-fedeli', 4, 'Aurex lancia un programma fedeltà: sconti crescenti per chi riacquista. I clienti che passano a un altro marchio perdono i vantaggi accumulati, cioè hanno un costo di cambio.', [
+        ch('Crei un programma fedeltà analogo', 'Costo di cambio', [o(0.6, { quota: 2, cassa: -6, reputazione: 3 }, 'Rendi più “appiccicosi” i tuoi clienti, ma il costo si fa sentire.'), o(0.4, { quota: 0, cassa: -8, reputazione: 0 }, 'Hai pochi clienti da fidelizzare: il programma rende poco.')]),
+        ch('Offri una prova di 60 giorni con reso gratuito', 'Riduzione del rischio percepito', [o(0.65, { quota: 4, cassa: -5, reputazione: 4 }, 'Elimini l’esitazione di chi vuole cambiare marchio.'), o(0.35, { quota: 2, cassa: -10, reputazione: 1 }, 'Molti resi: i costi di logistica salgono.')]),
+        ch('Punti sulla qualità e su una nuova funzione esclusiva', 'Differenziazione', [o(0.5, { quota: 2, cassa: -7, qualita: 8, reputazione: 3 }, 'La nuova funzione convince gli esperti e passa il passaparola.'), o(0.5, { quota: 0, cassa: -9, qualita: 4 }, 'Il mercato non la considera decisiva.')])
+      ]),
+      card('m-capacita', 5, 'La domanda sta crescendo. Puoi investire 30 k€ per raddoppiare la capacità produttiva, ma se i volumi si fermano resterai con un impianto sottoutilizzato (Cournot: più produci, più il prezzo di mercato scende).', [
+        ch('Raddoppi la capacità', 'Costi fissi contro variabili', [o(0.5, { cassa: -30, quota: 8, reputazione: 2 }, 'Soddisfi la domanda e prendi quota ai concorrenti in difficoltà.'), o(0.5, { cassa: -30, quota: 2, reputazione: 0 }, 'La domanda rallenta e l’impianto lavora a metà.')]),
+        ch('Espandi in due fasi con una prima tranche da 12 k€', 'Opzione reale', [o(0.7, { cassa: -12, quota: 4, reputazione: 1 }, 'Cresci con prudenza e lasci aperta la seconda tranche.'), o(0.3, { cassa: -12, quota: 1, reputazione: -2 }, 'La domanda esplode e non riesci a evaderla tutta.')]),
+        ch('Non investi, subappalti la produzione eccedente', 'Flessibilità', [o(0.6, { cassa: -4, quota: 3, qualita: -3 }, 'Eviti il rischio d’impianto, ma i margini si assottigliano.'), o(0.4, { cassa: -6, quota: 1, qualita: -6, reputazione: -3 }, 'Il subfornitore consegna in ritardo e con difetti.')])
+      ]),
+      card('m-alleanza', 5, 'Un grande rivenditore di elettronica propone di metterti a scaffale in 300 negozi, ma pretende uno sconto del 25% e l’esclusiva su un modello. Visibilità enorme, margine ridotto, dipendenza dal canale.', [
+        ch('Accetti l’accordo pieno', 'Potere contrattuale', [o(0.55, { quota: 9, cassa: -4, reputazione: 4 }, 'Esplodi in visibilità e le vendite volano.'), o(0.45, { quota: 6, cassa: -9, reputazione: -2 }, 'Il rivenditore ti spreme sul prezzo e ne diventi dipendente.')]),
+        ch('Rifiuti l’esclusiva e contratti sconto più basso su un solo modello', 'Alternativa migliore (BATNA)', [o(0.5, { quota: 5, cassa: 2, reputazione: 2 }, 'Strappi condizioni decenti e conservi la libertà.'), o(0.5, { quota: 1, cassa: 0, reputazione: 0 }, 'Il rivenditore va da un altro marchio.')]),
+        ch('Rifiuti e rafforzi il canale diretto', 'Controllo del margine', [o(0.5, { quota: 2, cassa: 4, reputazione: 3 }, 'Crescita più lenta ma margini intatti.'), o(0.5, { quota: 0, cassa: -2, reputazione: 0 }, 'Senza visibilità fatichi a crescere.')])
+      ]),
+      card('m-nuovo', 6, 'Un nuovo concorrente low cost, Cesil, entra con un prodotto simile a 55 €. Può erodere la tua fascia inferiore. Puoi comprimere i costi, alzare la qualità o abbassare i prezzi.', [
+        ch('Tagli i costi per sostenere un prezzo più basso', 'Costi fissi contro variabili', [o(0.55, { cassa: -3, quota: 3, qualita: -5 }, 'Reggi il prezzo, ma la qualità percepita cala.'), o(0.45, { cassa: -6, quota: 1, qualita: -8, reputazione: -3 }, 'I tagli si notano e le recensioni peggiorano.')]),
+        ch('Alzi la qualità e comunichi la differenza', 'Differenziazione', [o(0.6, { cassa: -8, quota: 1, qualita: 8, reputazione: 5 }, 'Il marchio si distanzia dal low cost.'), o(0.4, { cassa: -10, quota: -2, qualita: 4 }, 'Molti clienti scelgono comunque il prezzo.')]),
+        ch('Segnali di essere pronto a una guerra di prezzo, senza avviarla', 'Deterrenza', [o(0.5, { cassa: 0, quota: 2, reputazione: 1 }, 'Cesil non rischia e si accomoda in un segmento diverso.'), o(0.5, { cassa: -9, quota: -1, reputazione: -2 }, 'Cesil non si fa intimidire: la guerra parte lo stesso.')])
+      ]),
+      card('m-acquisizione', 7, 'Un piccolo concorrente fallisce e un fondo vende il suo marchio e il portafoglio clienti (circa 4 punti di quota) per 35 k€. Integrarlo è complesso.', [
+        ch('Acquisisci tutto e integri subito', 'Costo opportunità', [o(0.5, { cassa: -35, quota: 5, reputazione: 2 }, 'Guadagni quota e clienti in un colpo solo.'), o(0.5, { cassa: -40, quota: 2, reputazione: -4, qualita: -3 }, 'L’integrazione è un incubo e metà dei clienti sparisce.')]),
+        ch('Acquisisci solo il portafoglio clienti a prezzo ridotto', 'Opzione reale', [o(0.65, { cassa: -18, quota: 3, reputazione: 1 }, 'Prendi i clienti e lasci il resto.'), o(0.35, { cassa: -18, quota: 1, reputazione: -1 }, 'I clienti sono meno fedeli del previsto.')]),
+        ch('Rinunci e investi gli stessi soldi in marketing', 'Costo opportunità', [o(0.55, { cassa: -20, quota: 3, reputazione: 3 }, 'Il marketing porta crescita organica.'), o(0.45, { cassa: -20, quota: 1, reputazione: 1 }, 'La campagna rende meno del previsto.')])
+      ]),
+      card('m-cartello', 8, 'Un dirigente di Aurex ti suggerisce informalmente di “non farvi la guerra sui prezzi” e di allinearvi a 99 €. Sarebbe un accordo di cartello, illegale, ma rende il mercato più stabile.', [
+        ch('Accetti l’intesa informale', 'Rischio legale', [o(0.4, { cassa: 12, quota: 1, reputazione: 0 }, 'I margini salgono per un po’.'), o(0.6, { cassa: -30, reputazione: -20, quota: -3 }, 'L’autorità garante avvia un’indagine: multa e danno d’immagine.')]),
+        ch('Rifiuti e segnali che competerai sul prodotto', 'Reputazione come attivo', [o(0.7, { cassa: -2, reputazione: 6, qualita: 3 }, 'Il tuo marchio guadagna credibilità.'), o(0.3, { cassa: -8, reputazione: 2, quota: -2 }, 'Aurex reagisce con sconti mirati contro di te.')]),
+        ch('Rifiuti e segnali la proposta alle autorità', 'Rischio legale', [o(0.6, { cassa: -4, reputazione: 8, quota: 2 }, 'Il tuo gesto fa notizia: hai la fiducia dei clienti.'), o(0.4, { cassa: -9, reputazione: 2, quota: -2 }, 'Una causa legale ti distoglie risorse e Aurex è furiosa.')])
+      ]),
+      card('m-bolla', 8, 'Si diffonde la notizia che una tecnologia audio di nuova generazione renderà obsoleti i tuoi prodotti entro un anno. Hai ancora molto magazzino.', [
+        ch('Liquidi il magazzino a sconto forte', 'Costo affondato', [o(0.65, { cassa: 8, quota: 2, reputazione: -2 }, 'Recuperi liquidità prima che il valore crolli.'), o(0.35, { cassa: 3, quota: 3, reputazione: -5 }, 'Il prezzo brucia il tuo posizionamento.')]),
+        ch('Investi subito nella nuova tecnologia, accettando un ritardo', 'Opzione reale', [o(0.5, { cassa: -18, qualita: 9, reputazione: 3, quota: -1 }, 'La nuova linea ti rimette in gioco.'), o(0.5, { cassa: -22, qualita: 4, reputazione: -2, quota: -3 }, 'Troppo tardi: i concorrenti ti battono sul tempo.')]),
+        ch('Aspetti e osservi cosa fanno gli altri', 'Valore dell’informazione', [o(0.5, { cassa: 3, quota: 0 }, 'La notizia era esagerata e non cambia nulla.'), o(0.5, { cassa: -8, quota: -4, reputazione: -3 }, 'La tecnologia arriva: sei in ritardo e con il magazzino pieno.')])
+      ])
+    ]
+  });
+
+  /* ---- 2) Gestire un portafoglio di investimenti ---- */
+  SIM.register({
+    id: 'investimenti', title: 'Gestire il capitale di una piccola azienda familiare', icon: '💼',
+    intro: 'Gestisci il capitale di una piccola azienda familiare per cinque anni. Tre variabili contano oltre al valore: la ricchezza netta (patrimonio meno debiti), la liquidità disponibile per le emergenze e il debito. Il punteggio premia il patrimonio finale e la liquidità, penalizza il debito: un portafoglio troppo concentrato può rendere molto o crollare, un portafoglio troppo prudente non cresce.',
+    vars: {
+      patrimonio: { label: 'Patrimonio investito', start: 100, min: 0, max: 400, unit: 'k€', tight: true },
+      liquidita: { label: 'Liquidità', start: 25, min: -40, max: 150, unit: 'k€' },
+      debito: { label: 'Debito', start: 20, min: 0, max: 200, unit: 'k€' },
+      reputazione: { label: 'Affidabilità verso la banca', start: 60, min: 0, max: 100 }
+    },
+    weights: { patrimonio: 1, liquidita: 1, debito: -0.9, reputazione: 0.3 },
+    penalties: [],
+    turns: 5, utilText: '1 × patrimonio + 1 × liquidità (negativa se scoperto) − 0,9 × debito + 0,3 × affidabilità verso la banca',
+    cards: [
+      card('v-fondo', 1, 'Hai 20 k€ liquidi in eccesso. Puoi tenerli sul conto (0,5%), metterli in titoli di stato (3%) o in un fondo azionario globale (media 7%, ma con anni anche a −25%).', [
+        ch('Conto corrente', 'Liquidità', [o(1, { liquidita: 0, patrimonio: 0 }, 'Nessun rischio, nessun rendimento: l’inflazione erode il potere d’acquisto.')]),
+        ch('Titoli di stato', 'Rischio e rendimento', [o(0.85, { patrimonio: 4, liquidita: -20 }, 'Rendimento contenuto ma sicuro.'), o(0.15, { patrimonio: 1, liquidita: -20 }, 'I tassi salgono e il valore dei titoli scende un po’.')]),
+        ch('Fondo azionario globale', 'Premio per il rischio', [o(0.65, { patrimonio: 14, liquidita: -20 }, 'Un buon periodo di mercato: rendimento ben sopra il resto.'), o(0.35, { patrimonio: -8, liquidita: -20 }, 'Un anno di crisi: il valore scende, ma recupererà forse.')])
+      ]),
+      card('v-fondo-emerg', 1, 'Un tecnico ti dice che il capannone avrà bisogno di una riparazione costosa nei prossimi mesi (stima 15 k€, con grande incertezza).', [
+        ch('Accantoni subito 15 k€ in liquidità', 'Liquidità', [o(0.6, { liquidita: -2, patrimonio: 0 }, 'La riparazione costa meno del previsto e hai ancora un cuscinetto.'), o(0.4, { liquidita: -4, reputazione: 2 }, 'Il costo è quello previsto: nessun problema.')]),
+        ch('Finanzi la riparazione con un prestito a 5 anni', 'Leva finanziaria', [o(0.7, { debito: 15, liquidita: 12, patrimonio: 2 }, 'Tieni liquidità per altre occasioni, ma i tassi pesano.'), o(0.3, { debito: 15, liquidita: 10, patrimonio: -1, reputazione: -2 }, 'Il tasso è peggiore del previsto.')]),
+        ch('Rimandi la riparazione e vedi cosa succede', 'Costo opportunità', [o(0.5, { liquidita: 3, patrimonio: 2 }, 'Il capannone regge ancora.'), o(0.5, { liquidita: -18, patrimonio: -6, reputazione: -4 }, 'Un guasto improvviso blocca la produzione e costa molto di più.')])
+      ]),
+      card('v-diversifica', 2, 'Il tuo portafoglio è per il 70% in azioni di un’unica azienda del tuo settore, di cui sei dipendente. Ti piace: la conosci bene.', [
+        ch('Mantieni tutto: la conosci meglio di chiunque', 'Concentrazione', [o(0.55, { patrimonio: 16 }, 'L’azienda va bene e il tuo portafoglio cresce molto.'), o(0.45, { patrimonio: -30, reputazione: -4 }, 'L’azienda inciampa: perdi stipendio e capitale insieme.')]),
+        ch('Vendi metà e diversifichi in un fondo globale', 'Diversificazione', [o(0.7, { patrimonio: 6 }, 'La crescita è meno spettacolare ma più stabile.'), o(0.3, { patrimonio: -2 }, 'Il fondo rende poco nel periodo e l’azienda cresce senza di te.')]),
+        ch('Vendi tutto e metti il ricavato in titoli di stato', 'Riduzione del rischio', [o(1, { patrimonio: 3, liquidita: -2 }, 'Sicuro, ma sacrifichi la crescita.')])
+      ]),
+      card('v-immobile', 2, 'Un immobile da affittare costa 120 k€; ne hai solo 20 di caparra e finanzieresti il resto con un mutuo. L’affitto rende il 5% lordo, ma c’è il rischio di sfitto.', [
+        ch('Compri con mutuo al 90%', 'Leva finanziaria', [o(0.5, { patrimonio: 10, debito: 100, liquidita: -10 }, 'L’affitto ripaga il mutuo e il valore cresce.'), o(0.5, { patrimonio: -5, debito: 100, liquidita: -18, reputazione: -4 }, 'Lo sfitto e le spese ti mettono in difficoltà.')]),
+        ch('Compri un immobile più piccolo con un mutuo del 50%', 'Margine di sicurezza', [o(0.65, { patrimonio: 6, debito: 40, liquidita: -6 }, 'Rischio più contenuto e rendimento discreto.'), o(0.35, { patrimonio: 1, debito: 40, liquidita: -8 }, 'Rendimento deludente.')]),
+        ch('Non compri: preferisci un fondo immobiliare quotato', 'Diversificazione', [o(0.6, { patrimonio: 5, liquidita: -8 }, 'Liquido e diversificato, con rendimento in linea.'), o(0.4, { patrimonio: -3, liquidita: -8 }, 'Il fondo soffre per l’aumento dei tassi.')])
+      ]),
+      card('v-van', 3, 'Puoi comprare una macchina nuova per 30 k€: farà risparmiare 8 k€ l’anno per 5 anni, ma tra un anno il tasso di sconto potrebbe salire dal 4% al 9%. Il VAN è positivo al 4%, meno chiaro al 9%.', [
+        ch('Compri con liquidità', 'Valore attuale netto', [o(0.6, { patrimonio: 12, liquidita: -30 }, 'Il risparmio arriva ed è un buon investimento.'), o(0.4, { patrimonio: 4, liquidita: -30 }, 'Il risparmio è inferiore al previsto, ma copre il costo.')]),
+        ch('Compri con leasing a rate', 'Leva finanziaria', [o(0.65, { patrimonio: 9, debito: 28, liquidita: -4 }, 'Tieni liquidità ma paghi gli interessi.'), o(0.35, { patrimonio: 3, debito: 28, liquidita: -4, reputazione: -2 }, 'Le rate pesano più del previsto.')]),
+        ch('Rinvii di un anno e osservi i tassi', 'Opzione di attesa', [o(0.5, { patrimonio: 1 }, 'I tassi restano bassi: perdi un anno di risparmi.'), o(0.5, { patrimonio: 0, liquidita: 2 }, 'I tassi salgono: sei contento di non aver comprato.')])
+      ]),
+      card('v-rebal', 4, 'Dopo un anno di forte rialzo azionario, la quota di azioni nel tuo portafoglio è salita dal 50% al 68%. Ribilanciare significa vendere ciò che è salito.', [
+        ch('Non fai nulla: lasci correre i vincitori', 'Momentum contro rischio', [o(0.5, { patrimonio: 14 }, 'Il rialzo continua.'), o(0.5, { patrimonio: -18 }, 'Il mercato inverte e la perdita è più grande.')]),
+        ch('Ribilanci al 50/50', 'Ribilanciamento', [o(0.6, { patrimonio: 5, liquidita: 2 }, 'Cristallizzi parte dei guadagni e riduci il rischio.'), o(0.4, { patrimonio: 0, liquidita: 2 }, 'Il rialzo continua senza di te, ma dormi tranquillo.')]),
+        ch('Riduci le azioni al 30% per prudenza', 'Riduzione del rischio', [o(0.6, { patrimonio: 2, liquidita: 6 }, 'Resta una base sicura ma limiti la crescita.'), o(0.4, { patrimonio: -2, liquidita: 6 }, 'Il mercato sale ancora: opportunità persa.')])
+      ]),
+      card('v-socio', 4, 'Un amico ti propone di entrare come socio in una startup di consegne. Chiede 25 k€ per il 10% dell’azienda. Un sondaggio su startup simili indica che la maggior parte fallisce, ma qualcuna rende molto.', [
+        ch('Investi i 25 k€ per intero', 'Asimmetria dei payoff', [o(0.2, { patrimonio: 90, liquidita: -25 }, 'La startup esplode: un guadagno enorme.'), o(0.8, { patrimonio: -20, liquidita: -25 }, 'La startup chiude e il capitale è perso.')]),
+        ch('Investi solo 8 k€', 'Dimensionamento della posizione', [o(0.2, { patrimonio: 28, liquidita: -8 }, 'Piccolo investimento, buon ritorno.'), o(0.8, { patrimonio: -6, liquidita: -8 }, 'Perdi una cifra che puoi permetterti.')]),
+        ch('Rifiuti, ma offri un prestito personale all’amico', 'Rischio di controparte', [o(0.6, { patrimonio: 4, liquidita: -10 }, 'Il prestito rende un interesse decente.'), o(0.4, { patrimonio: -8, liquidita: -10, reputazione: -3 }, 'Non te lo restituisce e l’amicizia si rovina.')])
+      ]),
+      card('v-debito', 5, 'Hai un debito da 20 k€ al 6%. Un fondo prudente rende in media il 4%. Puoi estinguere il debito, tenere tutto e investire, o rinegoziare.', [
+        ch('Estingui il debito con la liquidità', 'Rendimento certo', [o(1, { debito: -20, liquidita: -20, patrimonio: 1, reputazione: 5 }, 'Risparmi il 6% sicuro e migliori il tuo profilo bancario.')]),
+        ch('Mantieni il debito e investi la liquidità', 'Leva finanziaria', [o(0.5, { patrimonio: 6, liquidita: -4 }, 'Il rendimento supera il costo del debito.'), o(0.5, { patrimonio: -3, liquidita: -4, reputazione: -2 }, 'Il rendimento è inferiore al tasso del debito.')]),
+        ch('Rinegozi il tasso con un’altra banca', 'Costi di transazione', [o(0.6, { debito: -2, liquidita: -2, reputazione: 2 }, 'Ottieni un tasso migliore.'), o(0.4, { liquidita: -4, reputazione: -2 }, 'La banca rifiuta e le spese di istruttoria sono perse.')])
+      ]),
+      card('v-crisi', 6, 'Uno shock di mercato fa scendere le azioni del 22% in due mesi. I giornali parlano di recessione. Il tuo portafoglio azionario vale ora molto meno.', [
+        ch('Vendi tutto per fermare le perdite', 'Avversione alla perdita', [o(0.5, { patrimonio: -14, liquidita: 14 }, 'Vendi in buon momento: il mercato continua a scendere.'), o(0.5, { patrimonio: -18, liquidita: 18 }, 'Il mercato risale subito e perdi il rimbalzo.')]),
+        ch('Mantieni e non fai nulla', 'Orizzonte temporale', [o(0.55, { patrimonio: 12 }, 'Il mercato si riprende e recuperi.'), o(0.45, { patrimonio: -10 }, 'La crisi si approfondisce e la perdita cresce.')]),
+        ch('Compri di più con la liquidità di emergenza', 'Contrarianismo', [o(0.55, { patrimonio: 22, liquidita: -20 }, 'Compri a sconto e il rimbalzo ti premia.'), o(0.45, { patrimonio: -16, liquidita: -20, reputazione: -2 }, 'Il mercato scende ancora e resti senza cuscinetto.')])
+      ]),
+      card('v-fisco', 6, 'Un consulente propone una struttura offshore “aggressiva” che ridurrebbe le tasse sul reddito da capitale. È al limite del lecito. Il risparmio stimato è 9 k€ l’anno.', [
+        ch('Accetti la struttura', 'Rischio legale', [o(0.4, { patrimonio: 12, reputazione: -2 }, 'Per ora nessun controllo.'), o(0.6, { patrimonio: -25, liquidita: -12, reputazione: -12 }, 'Un controllo fiscale porta sanzioni e interessi.')]),
+        ch('Rifiuti e usi solo strumenti agevolati previsti dalla legge', 'Ottimizzazione lecita', [o(0.8, { patrimonio: 4, reputazione: 2 }, 'Risparmio più modesto, tutto in regola.'), o(0.2, { patrimonio: 1, liquidita: -3 }, 'Il consulente costa più del risparmio ottenuto.')]),
+        ch('Chiedi un parere scritto a un secondo professionista', 'Valore dell’informazione', [o(0.7, { patrimonio: 3, liquidita: -3, reputazione: 3 }, 'Eviti un errore o scopri un’alternativa solida.'), o(0.3, { patrimonio: 0, liquidita: -3 }, 'Spendi la parcella e il risultato non cambia.')])
+      ]),
+      card('v-inflazione', 7, 'L’inflazione sale al 6% e la banca centrale alza i tassi. Il tuo portafoglio ha molti titoli di stato a lungo termine a tasso fisso e azioni di aziende molto indebitate.', [
+        ch('Passi a titoli indicizzati all’inflazione e a breve scadenza', 'Rischio di tasso', [o(0.7, { patrimonio: 6, liquidita: -4 }, 'Ti proteggi dall’erosione del potere d’acquisto.'), o(0.3, { patrimonio: -4, liquidita: -4 }, 'L’inflazione cala presto e i tassi ti penalizzano.')]),
+        ch('Mantieni la composizione: il lungo termine premierà', 'Orizzonte temporale', [o(0.4, { patrimonio: 5 }, 'L’inflazione rientra e recuperi.'), o(0.6, { patrimonio: -14 }, 'I prezzi dei titoli scendono ancora e l’erosione continua.')]),
+        ch('Aumenti la quota in beni reali (immobili, materie prime)', 'Copertura', [o(0.55, { patrimonio: 9, liquidita: -6 }, 'I beni reali tengono il passo dei prezzi.'), o(0.45, { patrimonio: -6, liquidita: -6 }, 'Le materie prime crollano e subisci la volatilità.')])
+      ]),
+      card('v-banca', 8, 'La banca ti avvisa che, a causa dell’aumento dei tassi, il tuo debito variabile di 60 k€ è più caro. Offre di convertirlo a tasso fisso al 7%, ma se i tassi scendessero rimarresti bloccato.', [
+        ch('Converti a tasso fisso', 'Copertura', [o(0.55, { liquidita: -2, patrimonio: 2, reputazione: 3 }, 'I tassi continuano a salire: eviti un aumento pesante.'), o(0.45, { liquidita: -6, patrimonio: -2 }, 'I tassi scendono e paghi più del necessario.')]),
+        ch('Restituisci subito 25 k€ del debito e tieni il resto variabile', 'Riduzione della leva', [o(0.6, { debito: -25, liquidita: -25, patrimonio: 2, reputazione: 4 }, 'Calo l’esposizione e dormi meglio.'), o(0.4, { debito: -25, liquidita: -30, patrimonio: -2 }, 'Resti con poca liquidità quando serve.')]),
+        ch('Mantieni il variabile e scommetti sul calo dei tassi', 'Scommessa direzionale', [o(0.4, { liquidita: 6, patrimonio: 4 }, 'I tassi scendono e risparmi.'), o(0.6, { liquidita: -16, patrimonio: -4, reputazione: -4 }, 'I tassi salgono ancora e le rate diventano insostenibili.')])
+      ])
+    ]
+  });
+
+  /* ---- 3) Campagna militare astratta fra due regni immaginari ---- */
+  SIM.register({
+    id: 'campagna', title: 'Campagna fra i regni di Veldrun e Ostara', icon: '🏰',
+    intro: 'Sei il comandante dell’armata di Veldrun in una campagna astratta contro il regno di Ostara. Non è un manuale: è un gioco di concetti come forze, rifornimenti, morale e iniziativa. Ogni decisione sposta queste variabili e il punteggio premia l’iniziativa e le forze rimaste, la solidità dei rifornimenti e il morale. Ogni turno chiede di bilanciare concentrazione, logistica e rischio.',
+    vars: {
+      forze: { label: 'Forze efficaci', start: 60, min: 0, max: 100 },
+      rifornimenti: { label: 'Rifornimenti', start: 60, min: -20, max: 100 },
+      morale: { label: 'Morale', start: 60, min: 0, max: 100 },
+      iniziativa: { label: 'Iniziativa', start: 50, min: -50, max: 100 }
+    },
+    weights: { forze: 0.8, rifornimenti: 0.5, morale: 0.5, iniziativa: 0.9 },
+    penalties: [],
+    turns: 5, utilText: '0,8 × forze + 0,5 × rifornimenti + 0,5 × morale + 0,9 × iniziativa',
+    cards: [
+      card('c-passo', 1, 'L’armata di Veldrun è al confine. Due strade portano in territorio nemico: una larga e diretta, ma esposta; una stretta e più lunga, ma coperta dalle colline.', [
+        ch('Strada diretta con tutta l’armata', 'Concentrazione delle forze', [o(0.55, { iniziativa: 8, rifornimenti: -4, morale: 3 }, 'L’avanzata è rapida e Ostara reagisce in ritardo.'), o(0.45, { iniziativa: 2, forze: -8, rifornimenti: -5 }, 'Una colonna nemica attende al passo: perdite iniziali.')]),
+        ch('Strada coperta con l’armata allungata', 'Linee interne', [o(1, { iniziativa: 0, rifornimenti: -6, morale: 0, forze: 2 }, 'Più lenta ma più sicura: perdi tempo e scorte.')]),
+        ch('Dividi l’armata: due colonne sulle due strade', 'Divisione delle forze', [o(0.4, { iniziativa: 10, forze: 2, rifornimenti: -5 }, 'Ostara non sa dove colpire.'), o(0.6, { iniziativa: -4, forze: -10, morale: -4, rifornimenti: -4 }, 'Una colonna isolata viene battuta.')])
+      ]),
+      card('c-magazzino', 1, 'Si può stabilire un magazzino avanzato a un giorno di marcia dal fronte: accorcia la linea di rifornimenti ma richiede una scorta di uomini.', [
+        ch('Magazzino forte, con una guarnigione solida', 'Logistica', [o(0.75, { rifornimenti: 12, forze: -4, morale: 3 }, 'Rifornimenti più sicuri ma con meno uomini al fronte.'), o(0.25, { rifornimenti: 4, forze: -6 }, 'Un reparto nemico disturba il trasporto.')]),
+        ch('Magazzino leggero con poche guardie', 'Efficienza', [o(0.6, { rifornimenti: 9, forze: -1 }, 'Funziona e costa poco.'), o(0.4, { rifornimenti: -8, forze: -4, morale: -4 }, 'Un raid lo saccheggia.')]),
+        ch('Nessun magazzino: foraggiamento nel territorio', 'Attrito', [o(0.4, { rifornimenti: 5, morale: -2, iniziativa: 4 }, 'Muovi veloce e leggero.'), o(0.6, { rifornimenti: -10, morale: -6, forze: -3 }, 'La popolazione resiste e il cibo scarseggia.')])
+      ]),
+      card('c-scout', 2, 'Gli esploratori riferiscono che un’armata di Ostara si sta radunando, ma non sai dove né quanto sia grande. Puoi spendere tempo per saperne di più.', [
+        ch('Mandi pattuglie in profondità', 'Informazione prima di decidere', [o(0.7, { iniziativa: 6, forze: -2, morale: 2 }, 'Capisci dove colpiranno: sei un passo avanti.'), o(0.3, { iniziativa: 0, forze: -5, morale: -2 }, 'Le pattuglie vengono intercettate.')]),
+        ch('Ti muovi comunque senza attendere', 'Ciclo OODA', [o(0.5, { iniziativa: 7, rifornimenti: -2 }, 'La rapidità disorienta Ostara.'), o(0.5, { iniziativa: -6, forze: -6, morale: -3 }, 'Cadi in un’imboscata.')]),
+        ch('Rimani su posizioni difensive e aspetti', 'Difesa', [o(0.6, { iniziativa: -5, forze: 3, rifornimenti: 2, morale: 1 }, 'Nessun incidente ma regali iniziativa.'), o(0.4, { iniziativa: -8, rifornimenti: -2, morale: -3 }, 'Ostara sceglie il tempo e il luogo.')])
+      ]),
+      card('c-moralita', 2, 'Le truppe sono stanche e mormorano: da giorni mangiano poco e dormono male. Un riposo di due giorni le aiuterebbe, ma darebbe tempo al nemico.', [
+        ch('Due giorni di riposo completo', 'Attrito', [o(0.7, { morale: 10, forze: 4, iniziativa: -5, rifornimenti: -3 }, 'L’armata si rimette in sesto, ma Ostara ne approfitta.'), o(0.3, { morale: 8, forze: 3, iniziativa: -12, rifornimenti: -3 }, 'Ostara occupa un punto chiave nel frattempo.')]),
+        ch('Riposo parziale a turni', 'Compromesso', [o(0.7, { morale: 5, forze: 1, iniziativa: -2 }, 'Un buon equilibrio.'), o(0.3, { morale: 2, forze: -2, iniziativa: -3 }, 'Metà delle truppe resta stanca.')]),
+        ch('Marci subito: la stanchezza passerà con la vittoria', 'Iniziativa', [o(0.45, { iniziativa: 8, morale: 3, forze: -2 }, 'Ostara è sorpresa e cede.'), o(0.55, { iniziativa: 2, morale: -10, forze: -7 }, 'Le truppe esauste si sfaldano al primo scontro.')])
+      ]),
+      card('c-ala', 3, 'La cavalleria di Veldrun, leggera e veloce, potrebbe aggirare l’ala sinistra di Ostara. Ma se manda tutta la cavalleria, il centro resta debole.', [
+        ch('Aggiri con tutta la cavalleria', 'Manovra', [o(0.5, { iniziativa: 12, forze: 2, morale: 6 }, 'L’aggiramento riesce e il fianco nemico crolla.'), o(0.5, { iniziativa: -4, forze: -12, morale: -6 }, 'La cavalleria è bloccata e il centro viene sfondato.')]),
+        ch('Aggiri con metà cavalleria e tieni il resto in riserva', 'Economia delle forze', [o(0.6, { iniziativa: 6, forze: -2, morale: 3 }, 'Un buon equilibrio: danno al nemico e centro saldo.'), o(0.4, { iniziativa: 1, forze: -4, morale: 0 }, 'L’aggiramento è debole.')]),
+        ch('Rinunci all’aggiramento e tieni la linea compatta', 'Concentrazione delle forze', [o(1, { iniziativa: -2, forze: 3, morale: 1 }, 'Prudente: nessun rischio ma nessuna sorpresa.')])
+      ]),
+      card('c-allargare', 3, 'Una città di frontiera, Sorren, è senza difesa. Occuparla darebbe un punto d’appoggio e prestigio, ma richiederebbe di staccare un contingente.', [
+        ch('Occupi Sorren con un forte contingente', 'Linee interne', [o(0.7, { rifornimenti: 9, morale: 5, forze: -6, iniziativa: 2 }, 'Sorren diventa una base di rifornimento.'), o(0.3, { rifornimenti: 3, morale: 1, forze: -9, iniziativa: -3 }, 'Il contingente è assediato subito.')]),
+        ch('Occupi Sorren con poche truppe', 'Concentrazione delle forze', [o(0.5, { rifornimenti: 6, morale: 4, forze: -2, iniziativa: 2 }, 'Funziona a poco prezzo.'), o(0.5, { rifornimenti: -2, morale: -4, forze: -6, iniziativa: -2 }, 'Ostara riconquista Sorren in pochi giorni.')]),
+        ch('Ignori Sorren e punti sull’armata nemica', 'Obiettivo principale', [o(1, { iniziativa: 4, forze: 0, rifornimenti: -3 }, 'Resti concentrato sull’obiettivo, senza distrazioni.')])
+      ]),
+      card('c-inseguimento', 4, 'Dopo uno scontro favorevole, l’armata di Ostara si ritira disordinata. Inseguirla darebbe la vittoria decisiva, ma le tue truppe sono sparse e allungate.', [
+        ch('Inseguimento a fondo', 'Punto culminante', [o(0.45, { iniziativa: 14, forze: -3, rifornimenti: -8, morale: 8 }, 'Il nemico si sfalda e la campagna è quasi vinta.'), o(0.55, { iniziativa: -4, forze: -12, rifornimenti: -12, morale: -6 }, 'Hai superato il tuo punto culminante: le linee sono troppo lunghe e la contromossa ti colpisce.')]),
+        ch('Inseguimento limitato, con riorganizzazione', 'Economia delle forze', [o(0.65, { iniziativa: 6, forze: -1, rifornimenti: -3, morale: 4 }, 'Tieni la pressione senza sbilanciarti.'), o(0.35, { iniziativa: 0, rifornimenti: -3, morale: 0 }, 'Il nemico si rimette in sesto.')]),
+        ch('Fermi e consolidi la vittoria', 'Consolidamento', [o(1, { iniziativa: -3, forze: 4, rifornimenti: 5, morale: 4 }, 'Sicuro, ma regali tempo al nemico.')])
+      ]),
+      card('c-riserve', 4, 'Hai una riserva di 8 mila uomini non ancora impegnati. Impiegarla ora aumenterebbe subito la forza, ma ti toglierebbe la possibilità di rispondere a un imprevisto.', [
+        ch('Impegni la riserva subito', 'Concentrazione delle forze', [o(0.55, { forze: 4, iniziativa: 8, morale: 3 }, 'Superiorità locale e ottima spinta.'), o(0.45, { forze: -4, iniziativa: -2, morale: -3 }, 'Il nemico contrattacca altrove e non hai riserve.')]),
+        ch('Tieni la riserva per il momento decisivo', 'Riserva strategica', [o(0.6, { forze: 1, iniziativa: 3, morale: 2 }, 'La riserva ti permette di rispondere a un colpo.'), o(0.4, { forze: 0, iniziativa: -3, morale: -2 }, 'La riserva resta inutilizzata mentre l’occasione passa.')]),
+        ch('Impegni metà e riserva metà', 'Economia delle forze', [o(1, { forze: 2, iniziativa: 4, morale: 1, rifornimenti: -2 }, 'Una via di mezzo senza grande vantaggio.')])
+      ]),
+      card('c-supply', 5, 'Il convoglio principale dei rifornimenti è in ritardo di tre giorni a causa del maltempo. Le scorte reggono ancora cinque giorni.', [
+        ch('Attendi il convoglio fermo', 'Logistica', [o(0.8, { rifornimenti: 12, iniziativa: -8, morale: 2 }, 'Le scorte tornano, ma il nemico guadagna iniziativa.'), o(0.2, { rifornimenti: 6, iniziativa: -10, morale: -2 }, 'Il convoglio ritarda ancora.')]),
+        ch('Procedi con razioni ridotte', 'Attrito', [o(0.5, { iniziativa: 4, rifornimenti: -6, morale: -4 }, 'Il ritmo è mantenuto: il convoglio ti raggiunge in marcia.'), o(0.5, { iniziativa: -2, rifornimenti: -12, morale: -9, forze: -4 }, 'Le truppe affamate perdono combattività.')]),
+        ch('Requisisci viveri localmente e poi avanzi', 'Linee interne', [o(0.55, { rifornimenti: 6, iniziativa: 3, morale: -4 }, 'Soluzione efficace ma impopolare.'), o(0.45, { rifornimenti: 2, iniziativa: 0, morale: -8, forze: -3 }, 'La popolazione si ribella.')])
+      ]),
+      card('c-tregua', 6, 'Ostara propone una tregua di tre giorni. Può essere un tentativo sincero o un modo per guadagnare tempo e rinforzi.', [
+        ch('Accetti e usi i giorni per riorganizzarti', 'Ciclo OODA', [o(0.55, { forze: 4, rifornimenti: 8, morale: 6, iniziativa: -4 }, 'Entrambi si rafforzano: tu di più.'), o(0.45, { forze: 0, rifornimenti: 4, morale: 2, iniziativa: -12 }, 'Ostara riceve rinforzi freschi e ti supera.')]),
+        ch('Rifiuti e attacchi subito', 'Iniziativa', [o(0.5, { iniziativa: 10, forze: -3, morale: 3 }, 'Ostara è colta prima dei rinforzi.'), o(0.5, { iniziativa: 0, forze: -9, morale: -6 }, 'Il nemico è più preparato di quanto pensassi.')]),
+        ch('Accetti ma sposti segretamente le truppe in posizione', 'Inganno', [o(0.55, { iniziativa: 8, forze: 2, rifornimenti: 3 }, 'Alla fine della tregua sei in posizione migliore.'), o(0.45, { iniziativa: -4, morale: -6, forze: -4 }, 'Ostara scopre il movimento: la tua parola perde credito.')])
+      ]),
+      card('c-ritirata', 7, 'L’armata nemica, più numerosa, avanza verso di te. Hai la scelta fra tenere la posizione, ritirarti attirandola verso le tue basi o contrattaccare in anticipo.', [
+        ch('Tieni la posizione e combatti', 'Concentrazione delle forze', [o(0.45, { forze: -4, morale: 6, iniziativa: 4 }, 'Tieni il terreno e infliggi perdite.'), o(0.55, { forze: -14, morale: -8, iniziativa: -8 }, 'Il numero prevale e sei sopraffatto.')]),
+        ch('Ritirata strategica verso le basi', 'Linee interne', [o(0.7, { forze: 3, rifornimenti: 8, iniziativa: -6, morale: -2 }, 'Il nemico si allunga mentre tu ti rafforzi.'), o(0.3, { forze: -3, rifornimenti: 2, iniziativa: -10, morale: -6 }, 'La ritirata si trasforma in una fuga disordinata.')]),
+        ch('Contrattacco anticipato sul fianco', 'Manovra', [o(0.4, { forze: -2, iniziativa: 14, morale: 8 }, 'Il colpo sorprende Ostara e capovolge la situazione.'), o(0.6, { forze: -12, iniziativa: -6, morale: -8 }, 'Il contrattacco fallisce e perdi molto.')])
+      ]),
+      card('c-decisiva', 8, 'È il momento della battaglia decisiva. Ostara tiene una posizione forte su un’altura, con rinforzi in arrivo. Il tuo morale è alto, ma le scorte sono limitate.', [
+        ch('Attacco frontale immediato', 'Iniziativa', [o(0.4, { forze: -8, iniziativa: 14, morale: 10 }, 'L’altura cade e il nemico si sfalda.'), o(0.6, { forze: -18, iniziativa: -8, morale: -12 }, 'L’assalto è respinto con gravi perdite.')]),
+        ch('Assedio alla posizione e attesa dei suoi rinforzi', 'Attrito', [o(0.5, { forze: -3, rifornimenti: -8, iniziativa: -2, morale: -3 }, 'Il tempo consuma entrambi ma tu hai meno scorte.'), o(0.5, { forze: 0, rifornimenti: -10, iniziativa: -6, morale: -5 }, 'I rinforzi nemici arrivano prima dei tuoi.')]),
+        ch('Aggiri l’altura e tagli i suoi rifornimenti', 'Manovra', [o(0.55, { forze: -4, rifornimenti: -4, iniziativa: 10, morale: 6 }, 'Costringi Ostara ad abbandonare la posizione.'), o(0.45, { forze: -10, rifornimenti: -10, iniziativa: -4, morale: -4 }, 'La manovra è troppo lunga e le tue linee si assottigliano.')])
+      ]),
+      card('c-ritiro-regno', 8, 'Il re di Veldrun ordina di sospendere la campagna entro una settimana per ragioni politiche. Puoi obbedire, cercare un successo rapido o negoziare una proroga.', [
+        ch('Obbedisci e ripieghi in buon ordine', 'Disciplina', [o(1, { forze: 4, rifornimenti: 6, morale: -4, iniziativa: -10 }, 'Preservi l’armata ma perdi iniziativa.')]),
+        ch('Tenti un colpo rapido prima della scadenza', 'Punto culminante', [o(0.4, { forze: -4, iniziativa: 12, morale: 8 }, 'Il successo rapido convince il re.'), o(0.6, { forze: -12, iniziativa: -4, morale: -8, rifornimenti: -6 }, 'Il colpo fallisce proprio quando non potevi permettertelo.')]),
+        ch('Negozi una proroga per consolidare le posizioni', 'Negoziazione', [o(0.55, { forze: 2, rifornimenti: 3, iniziativa: 4, morale: 2 }, 'Ottieni qualche giorno in più.'), o(0.45, { forze: 0, rifornimenti: -2, iniziativa: -6, morale: -3 }, 'Il re rifiuta e ha perso fiducia in te.')])
+      ])
+    ]
+  });
+
+  /* ---- 4) Difesa e logoramento di una città immaginaria ---- */
+  SIM.register({
+    id: 'assedio', title: 'L’assedio di Valdoria', icon: '🛡️',
+    intro: 'Sei il governatore di Valdoria, città murata immaginaria, assediata da un esercito che non ha fretta e conta sul logoramento. Devi far durare le scorte, tenere alto il morale della popolazione, mantenere gli alleati e preservare i difensori. Il punteggio premia scorte, morale, difensori e alleanze alla fine dell’assedio.',
+    vars: {
+      scorte: { label: 'Scorte di cibo', start: 60, min: -20, max: 100 },
+      morale: { label: 'Morale', start: 60, min: 0, max: 100 },
+      difensori: { label: 'Difensori efficaci', start: 60, min: 0, max: 100 },
+      alleati: { label: 'Fiducia degli alleati', start: 40, min: -30, max: 100 }
+    },
+    weights: { scorte: 0.7, morale: 0.7, difensori: 0.9, alleati: 0.6 },
+    penalties: [],
+    turns: 5, utilText: '0,7 × scorte (negative se esaurite) + 0,7 × morale + 0,9 × difensori + 0,6 × fiducia degli alleati',
+    cards: [
+      card('a-razioni', 1, 'L’assedio è appena cominciato. Le scorte potrebbero durare quattro mesi a razione piena o più a lungo a razione ridotta. Nessuno sa quanto durerà.', [
+        ch('Razione piena per tenere alto il morale', 'Gestione delle scorte', [o(0.6, { morale: 6, scorte: -10, difensori: 2 }, 'Il morale tiene e i difensori restano forti.'), o(0.4, { morale: 5, scorte: -14, difensori: 2 }, 'L’assedio si prolunga e le scorte calano più in fretta.')]),
+        ch('Razione ridotta del 20% da subito', 'Gestione delle scorte', [o(0.7, { morale: -3, scorte: -5, difensori: 0 }, 'Con un po’ di disagio guadagni settimane preziose.'), o(0.3, { morale: -6, scorte: -5, difensori: -3 }, 'Il malcontento porta qualche furto di cibo.')]),
+        ch('Razioni differenziate: più ai difensori, meno ai civili', 'Priorità', [o(0.6, { morale: -6, scorte: -7, difensori: 5 }, 'I difensori restano forti, ma i civili mormorano.'), o(0.4, { morale: -10, scorte: -7, difensori: 4, alleati: -3 }, 'Il malcontento civile cresce e gli alleati lo notano.')])
+      ]),
+      card('a-pozzo', 1, 'Una sorgente d’acqua sotto le mura è stata contaminata dai nemici. Puoi scavare un nuovo pozzo (lento ma sicuro), razionare l’acqua o rischiare una sortita per riprendere la sorgente.', [
+        ch('Scavi un nuovo pozzo', 'Investimento sul lungo periodo', [o(0.75, { scorte: -4, morale: 4, difensori: -2 }, 'Il pozzo risolve il problema in pochi giorni.'), o(0.25, { scorte: -6, morale: -4, difensori: -3 }, 'Il pozzo rende poco e il lavoro è estenuante.')]),
+        ch('Razioni l’acqua', 'Gestione delle scorte', [o(0.6, { scorte: -3, morale: -5, difensori: -2 }, 'Reggi ma con disagio crescente.'), o(0.4, { scorte: -4, morale: -8, difensori: -4 }, 'Alcuni si ammalano per l’acqua insufficiente.')]),
+        ch('Sortita per riprendere la sorgente', 'Iniziativa', [o(0.45, { scorte: 2, morale: 7, difensori: -6, alleati: 2 }, 'La sortita riesce e risolleva l’orgoglio della città.'), o(0.55, { scorte: -3, morale: -6, difensori: -14 }, 'La sortita fallisce con gravi perdite.')])
+      ]),
+      card('a-messaggero', 2, 'Puoi inviare un messaggero agli alleati del regno vicino per chiedere aiuto. La via è rischiosa: se viene catturato, il nemico saprà che sei in difficoltà.', [
+        ch('Invii un messaggero con un messaggio ottimistico', 'Credibilità', [o(0.55, { alleati: 8, morale: 3 }, 'Gli alleati restano fiduciosi.'), o(0.45, { alleati: -4, morale: -2 }, 'Il messaggero è catturato e il nemico ti conosce meglio.')]),
+        ch('Invii due messaggeri per vie diverse, con messaggio sincero', 'Ridondanza', [o(0.7, { alleati: 8, morale: 2, difensori: -2 }, 'Almeno uno arriva e gli alleati mobilitano un aiuto.'), o(0.3, { alleati: -2, difensori: -3 }, 'Nessuno arriva e perdi uomini preziosi.')]),
+        ch('Non invii nessuno: non vuoi mostrare debolezza', 'Segnale', [o(0.5, { alleati: -6, morale: 1 }, 'Gli alleati non sanno nulla.'), o(0.5, { alleati: -10, morale: -3 }, 'Gli alleati ti credono già caduto.')])
+      ]),
+      card('a-spia', 2, 'Una spia nemica è stata smascherata in città. Potresti giustiziarla pubblicamente, usarla per diffondere false informazioni o espellerla.', [
+        ch('Esecuzione pubblica', 'Deterrenza', [o(0.6, { morale: 4, alleati: -2 }, 'La città si sente al sicuro, ma gli alleati disapprovano.'), o(0.4, { morale: -3, alleati: -4 }, 'L’esecuzione indurisce l’avversario e spaventa i cittadini.')]),
+        ch('La usi per disinformare il nemico', 'Inganno', [o(0.5, { morale: 2, difensori: 4, scorte: 2 }, 'Il nemico crede a informazioni false e spreca sforzi.'), o(0.5, { morale: -2, difensori: -3, scorte: -2 }, 'La spia riesce a passare un messaggio vero.')]),
+        ch('La espelli senza clamore', 'Costo opportunità', [o(0.8, { morale: 1, alleati: 2 }, 'Gesto civile e senza conseguenze.'), o(0.2, { morale: -2, difensori: -2 }, 'Il nemico acquista informazioni preziose.')])
+      ]),
+      card('a-sortita', 3, 'I difensori vedono un accampamento nemico lasciato poco sorvegliato di notte. Una sortita potrebbe bruciare le macchine d’assedio, ma i difensori sono già pochi.', [
+        ch('Sortita notturna con 200 uomini scelti', 'Iniziativa', [o(0.5, { difensori: -4, morale: 8, alleati: 3 }, 'Distruggi due macchine d’assedio e rialzi il morale.'), o(0.5, { difensori: -14, morale: -6, alleati: -2 }, 'I nemici erano in allerta e subisci gravi perdite.')]),
+        ch('Sortita limitata con 60 uomini e ritirata rapida', 'Economia delle forze', [o(0.65, { difensori: -2, morale: 4 }, 'Un piccolo danno a basso costo.'), o(0.35, { difensori: -6, morale: -2 }, 'Il gruppo viene scoperto e deve ritirarsi.')]),
+        ch('Nessuna sortita: preservi i difensori', 'Logoramento', [o(0.7, { difensori: 2, morale: -2 }, 'Tieni la linea ma il morale cala.'), o(0.3, { difensori: 0, morale: -4, scorte: -2 }, 'Il nemico completa le macchine d’assedio senza disturbo.')])
+      ]),
+      card('a-profughi', 3, 'Centinaia di contadini dei villaggi vicini bussano alle porte, chiedendo rifugio. Sono bocche da sfamare, ma anche braccia utili e un segno di fiducia nella città.', [
+        ch('Li accogli tutti', 'Responsabilità', [o(0.6, { scorte: -12, morale: 5, difensori: 3, alleati: 3 }, 'Le braccia aiutano e la città è vista come un rifugio.'), o(0.4, { scorte: -16, morale: -4, difensori: 1, alleati: 0 }, 'Il sovraffollamento causa malattie e tensioni.')]),
+        ch('Accogli solo chi può lavorare o combattere', 'Selezione', [o(0.7, { scorte: -6, morale: -2, difensori: 5, alleati: 0 }, 'Guadagni forza e controlli le scorte.'), o(0.3, { scorte: -6, morale: -6, difensori: 4, alleati: -4 }, 'La selezione crea rancori e cattiva fama.')]),
+        ch('Chiudi le porte', 'Gestione delle scorte', [o(0.7, { scorte: 0, morale: -8, alleati: -6 }, 'Le scorte restano ma la tua città perde anima.'), o(0.3, { scorte: 0, morale: -12, alleati: -10, difensori: -3 }, 'I profughi vengono massacrati sotto le mura: lo shock è grande.')])
+      ]),
+      card('a-negozio', 4, 'Il comandante assediante propone di negoziare: ti lascerebbe liberi in cambio di un tributo annuo, ma controllerebbe i tuoi commerci. Potrebbe essere una proposta sincera o una trappola.', [
+        ch('Accetti il tributo e chiudi l’assedio', 'Compromesso', [o(0.55, { scorte: 6, morale: 4, difensori: 3, alleati: -6 }, 'Salvi la città, ma gli alleati lo considerano un cedimento.'), o(0.45, { scorte: 2, morale: -4, difensori: -2, alleati: -10 }, 'Il nemico viola i patti e ti lascia comunque indebolito.')]),
+        ch('Rifiuti e proponi un tributo minore', 'Alternativa migliore (BATNA)', [o(0.5, { scorte: 4, morale: 3, alleati: 0 }, 'Si apre una trattativa seria.'), o(0.5, { scorte: -4, morale: -3, difensori: -2 }, 'Il nemico si irrita e stringe l’assedio.')]),
+        ch('Rifiuti nettamente e rilanci con il morale', 'Credibilità', [o(0.55, { morale: 6, difensori: 2, alleati: 4, scorte: -4 }, 'Il tuo rifiuto è visto come segno di forza.'), o(0.45, { morale: -2, difensori: -3, scorte: -6, alleati: -2 }, 'Il rifiuto costa caro: l’assedio si fa più duro.')])
+      ]),
+      card('a-malattia', 4, 'Una febbre si diffonde tra i difensori. Puoi isolare i malati in una zona delle mura (riducendo la difesa), mandarli in città o ignorare il problema.', [
+        ch('Quarantena severa', 'Contenimento', [o(0.7, { difensori: -6, morale: -2, scorte: -2 }, 'Contieni la febbre, ma perdi forza difensiva.'), o(0.3, { difensori: -10, morale: -5, scorte: -3 }, 'La quarantena è tardiva e i malati sono molti.')]),
+        ch('Cure e riposo in città per tutti i malati', 'Cura', [o(0.55, { difensori: -3, morale: 3, scorte: -4 }, 'I malati guariscono e la fiducia cresce.'), o(0.45, { difensori: -8, morale: -3, scorte: -4 }, 'La malattia si diffonde fra i civili.')]),
+        ch('Ignori e mantieni tutti ai loro posti', 'Costo opportunità', [o(0.4, { difensori: 2, morale: 0 }, 'Per fortuna la febbre si esaurisce da sola.'), o(0.6, { difensori: -14, morale: -8 }, 'L’epidemia dilaga e le mura sono sguarnite.')])
+      ]),
+      card('a-alleati', 5, 'Gli alleati promettono un esercito di soccorso entro un mese, ma chiedono in cambio che tu ceda loro il controllo dei dazi cittadini dopo la guerra.', [
+        ch('Accetti le condizioni', 'Dipendenza', [o(0.6, { alleati: 12, morale: 6, difensori: 2 }, 'La promessa di aiuto rialza gli animi.'), o(0.4, { alleati: 4, morale: -2, difensori: -2 }, 'Gli alleati tardano e il loro prezzo è alto.')]),
+        ch('Chiedi di abbassare le condizioni', 'Negoziazione', [o(0.5, { alleati: 8, morale: 3, scorte: -2 }, 'Trovi un accordo equilibrato.'), o(0.5, { alleati: -4, morale: -3, scorte: -2 }, 'Gli alleati si irritano e rallentano la partenza.')]),
+        ch('Rifiuti: preferisci resistere da solo', 'Autonomia', [o(0.45, { alleati: -8, morale: 4, difensori: 1 }, 'Lo orgoglio civile cresce.'), o(0.55, { alleati: -14, morale: -6, difensori: -2, scorte: -4 }, 'Resti isolato e l’assedio si stringe.')])
+      ]),
+      card('a-carestia', 5, 'Le scorte si assottigliano. Un magazziniere propone di requisire il cibo dalle case dei ricchi mercanti, che finora ne hanno nascosto.', [
+        ch('Requisisci tutto con la forza', 'Interesse collettivo', [o(0.65, { scorte: 14, morale: 3, alleati: -4 }, 'Le scorte ricompaiono e i poveri applaudono.'), o(0.35, { scorte: 8, morale: -4, alleati: -8, difensori: -3 }, 'I mercanti si ribellano e dividono la città.')]),
+        ch('Chiedi loro di donare, con un riconoscimento pubblico', 'Incentivi', [o(0.55, { scorte: 8, morale: 5, alleati: 2 }, 'Molti donano per onore.'), o(0.45, { scorte: 3, morale: -2, alleati: 0 }, 'Pochi donano e il problema resta.')]),
+        ch('Compri cibo a prezzo alto da contrabbandieri', 'Costo opportunità', [o(0.5, { scorte: 12, morale: 1, alleati: -2 }, 'Il cibo arriva, ma a caro prezzo.'), o(0.5, { scorte: 4, morale: -3, alleati: -4 }, 'I contrabbandieri ti truffano.')])
+      ]),
+      card('a-breccia', 6, 'Le macchine d’assedio hanno aperto una breccia nel muro nord. Hai poche ore per decidere dove schierare i difensori.', [
+        ch('Concentri tutti i difensori alla breccia', 'Concentrazione delle forze', [o(0.6, { difensori: -6, morale: 6 }, 'Respingi l’assalto con fatica.'), o(0.4, { difensori: -10, morale: -4, scorte: -4 }, 'Il nemico finge e colpisce un altro tratto debole.')]),
+        ch('Tieni la breccia con metà e il resto di riserva mobile', 'Difesa in profondità', [o(0.65, { difensori: -4, morale: 4 }, 'La riserva tappa i punti deboli.'), o(0.35, { difensori: -8, morale: -3 }, 'La breccia cede e la riserva arriva tardi.')]),
+        ch('Costruisci una seconda cinta interna e lasci la breccia', 'Arretramento', [o(0.55, { difensori: -3, morale: -3, scorte: -3 }, 'Perdi un quartiere ma tieni una linea più corta.'), o(0.45, { difensori: -8, morale: -8, scorte: -5 }, 'Il nemico dilaga e la seconda cinta non è finita.')])
+      ]),
+      card('a-resa', 7, 'Il nemico, impaziente, offre una resa con onore: i difensori usciranno liberi e disarmati, ma la città sarà occupata. In cambio, nessuna rappresaglia.', [
+        ch('Accetti la resa onorevole', 'Valore della vita', [o(0.7, { difensori: 10, morale: -8, alleati: -14, scorte: 5 }, 'Salvi molte vite e perdi la città.'), o(0.3, { difensori: 2, morale: -12, alleati: -18, scorte: 0 }, 'Il nemico non rispetta i patti.')]),
+        ch('Rifiuti e resisti ancora una settimana', 'Logoramento', [o(0.5, { difensori: -8, morale: 4, scorte: -8, alleati: 6 }, 'Gli alleati arrivano in tempo.'), o(0.5, { difensori: -14, morale: -8, scorte: -12, alleati: -2 }, 'Le scorte finiscono e la città soffre.')]),
+        ch('Rilanci con una controfferta: città libera ma neutrale', 'Negoziazione', [o(0.4, { difensori: 4, morale: 2, alleati: -2, scorte: 4 }, 'Il nemico accetta e la città si salva.'), o(0.6, { difensori: -5, morale: -3, scorte: -3 }, 'Il nemico respinge e si irrita.')])
+      ]),
+      card('a-ultimo', 8, 'L’ultimo mese. L’esercito alleato è atteso ma non confermato. I tuoi difensori sono stremati e le scorte quasi finite. Puoi tentare una grande sortita, resistere o cercare un compromesso.', [
+        ch('Grande sortita per rompere l’assedio', 'Iniziativa', [o(0.4, { difensori: -10, morale: 12, alleati: 8, scorte: 8 }, 'L’assedio si rompe e la città è libera.'), o(0.6, { difensori: -24, morale: -14, alleati: -4, scorte: -4 }, 'La sortita fallisce e i difensori sono annientati.')]),
+        ch('Resisti fino all’arrivo degli alleati', 'Logoramento', [o(0.5, { difensori: -6, morale: 2, alleati: 10, scorte: -10 }, 'Gli alleati arrivano e il nemico si ritira.'), o(0.5, { difensori: -10, morale: -10, alleati: -6, scorte: -14 }, 'Gli alleati non arrivano e la fame colpisce.')]),
+        ch('Apri una trattativa riservata col nemico', 'Negoziazione', [o(0.55, { difensori: 4, morale: 4, alleati: -6, scorte: 5 }, 'Ottieni condizioni accettabili.'), o(0.45, { difensori: -4, morale: -6, alleati: -10, scorte: -3 }, 'La trattativa trapela e gli alleati si irritano.')])
+      ])
+    ]
+  });
+
+  /* ---- 5) Crisi diplomatica fra stati immaginari ---- */
+  SIM.register({
+    id: 'diplomazia', title: 'Crisi diplomatica fra Norvia e Kestra', icon: '🕊️',
+    intro: 'Sei il ministro degli esteri di Norvia in una crisi con il vicino Kestra, che ha occupato un’isola contesa. Puoi cercare una soluzione negoziata, rafforzare la deterrenza o coinvolgere gli alleati. Il punteggio premia la sicurezza (deterrenza), la credibilità e la reputazione internazionale, e penalizza la tensione, che cresce con l’escalation.',
+    vars: {
+      tensione: { label: 'Tensione (rischio di escalation)', start: 40, min: 0, max: 100 },
+      deterrenza: { label: 'Deterrenza', start: 50, min: 0, max: 100 },
+      credibilita: { label: 'Credibilità', start: 50, min: 0, max: 100 },
+      alleati: { label: 'Sostegno degli alleati', start: 50, min: 0, max: 100 }
+    },
+    weights: { tensione: -0.9, deterrenza: 0.7, credibilita: 0.8, alleati: 0.6 },
+    penalties: [],
+    turns: 5, utilText: '−0,9 × tensione + 0,7 × deterrenza + 0,8 × credibilità + 0,6 × sostegno degli alleati',
+    cards: [
+      card('d-nota', 1, 'Kestra ha occupato l’isola di Terravia con un piccolo distaccamento. La stampa chiede una risposta forte. Devi inviare una prima nota diplomatica.', [
+        ch('Nota dura con ultimatum di 48 ore', 'Credibilità della minaccia', [o(0.45, { tensione: 8, deterrenza: 6, credibilita: 6 }, 'Kestra capisce che Norvia non scherza.'), o(0.55, { tensione: 16, deterrenza: 2, credibilita: -4 }, 'L’ultimatum scade senza risultati e sei costretto a rilanciare o a perdere la faccia.')]),
+        ch('Nota ferma ma aperta al negoziato', 'Segnalazione calibrata', [o(0.6, { tensione: -4, credibilita: 3, alleati: 3 }, 'Si apre un canale di dialogo.'), o(0.4, { tensione: 4, credibilita: -2, deterrenza: -2 }, 'Kestra legge la fermezza come debolezza.')]),
+        ch('Nota di protesta e richiesta di mediazione internazionale', 'Alleati', [o(0.65, { tensione: -2, alleati: 8, credibilita: 1 }, 'La comunità internazionale appoggia.'), o(0.35, { tensione: 2, alleati: 2, credibilita: -3 }, 'Appari come uno stato che non sa farsi rispettare.')])
+      ]),
+      card('d-hotline', 1, 'Un ambasciatore propone di aprire una linea diretta riservata con Kestra, per evitare incidenti involontari. Kestra potrebbe vederla come un segno di debolezza.', [
+        ch('Apri la linea e comunica pubblicamente la scelta', 'Prevenzione dell’escalation', [o(0.7, { tensione: -8, credibilita: 3 }, 'Riduci il rischio di malintesi.'), o(0.3, { tensione: -2, credibilita: -3 }, 'La stampa ti accusa di ammorbidirti.')]),
+        ch('Apri la linea in segreto', 'Riservatezza', [o(0.65, { tensione: -7, credibilita: 1 }, 'Il canale funziona senza clamore.'), o(0.35, { tensione: -2, credibilita: -5 }, 'Il segreto trapela e sembri ambiguo.')]),
+        ch('Non apri la linea: tutto passa dai canali ufficiali', 'Rigidità', [o(0.6, { tensione: 2, credibilita: 2, deterrenza: 1 }, 'Mantieni la linea ufficiale.'), o(0.4, { tensione: 8, credibilita: 0 }, 'Un incidente di mare scatena un grave malinteso.')])
+      ]),
+      card('d-esercitazione', 2, 'La difesa propone una grande esercitazione navale vicino all’isola come segnale. Potrebbe rafforzare la deterrenza o essere letta come una provocazione.', [
+        ch('Esercitazione massiccia con le forze principali', 'Segnalazione costosa', [o(0.5, { tensione: 8, deterrenza: 10, credibilita: 4 }, 'Il messaggio è chiaro: Norvia è pronta.'), o(0.5, { tensione: 18, deterrenza: 4, credibilita: -2 }, 'Kestra risponde con una propria esercitazione: sale la tensione.')]),
+        ch('Esercitazione limitata, annunciata in anticipo', 'Trasparenza', [o(0.7, { tensione: 1, deterrenza: 5, credibilita: 3 }, 'Segnale misurato: nessuno lo legge come minaccia.'), o(0.3, { tensione: 4, deterrenza: 2 }, 'Il messaggio passa inosservato.')]),
+        ch('Nessuna esercitazione: preferisci i canali diplomatici', 'Moderazione', [o(0.6, { tensione: -5, deterrenza: -4, credibilita: 1 }, 'Riduci il rischio ma indebolisci il segnale.'), o(0.4, { tensione: 1, deterrenza: -8, credibilita: -3 }, 'Kestra ne approfitta e avanza di un altro passo.')])
+      ]),
+      card('d-sanzioni', 2, 'Gli alleati propongono sanzioni economiche contro Kestra. Funzionerebbero come pressione, ma danneggerebbero anche i tuoi commerci e potrebbero irrigidire Kestra.', [
+        ch('Sanzioni complete e immediate', 'Costo della coercizione', [o(0.5, { tensione: 8, deterrenza: 5, credibilita: 5, alleati: 6 }, 'Mostri fermezza e coesione.'), o(0.5, { tensione: 14, deterrenza: 1, credibilita: 0, alleati: 3 }, 'Kestra si irrigidisce e cerca partner alternativi.')]),
+        ch('Sanzioni mirate e graduali, con possibilità di revoca', 'Escalation graduale', [o(0.65, { tensione: 2, deterrenza: 4, credibilita: 4, alleati: 5 }, 'La pressione cresce con un’uscita possibile.'), o(0.35, { tensione: 5, deterrenza: 1, credibilita: 0, alleati: 2 }, 'Kestra le ignora.')]),
+        ch('Rifiuti le sanzioni e punti sul dialogo', 'Negoziazione', [o(0.5, { tensione: -4, alleati: -6, credibilita: -2 }, 'Gli alleati restano delusi.'), o(0.5, { tensione: -1, alleati: -8, credibilita: -5, deterrenza: -3 }, 'Appari incerto e Kestra si rinforza.')])
+      ]),
+      card('d-mediatore', 3, 'Un terzo stato neutrale, Lumera, si offre come mediatore. Kestra ha già detto di fidarsi di lui, ma Lumera ha stretti legami commerciali con Kestra.', [
+        ch('Accetti Lumera come mediatore', 'Terza parte', [o(0.55, { tensione: -8, credibilita: 2, alleati: -2 }, 'Il negoziato parte con un clima più disteso.'), o(0.45, { tensione: -2, credibilita: -3, alleati: -4 }, 'Lumera favorisce Kestra e tu perdi terreno.')]),
+        ch('Chiedi un mediatore alternativo, o una coppia di mediatori', 'Equilibrio', [o(0.6, { tensione: -4, credibilita: 3, alleati: 3 }, 'Ottieni un meccanismo più equilibrato.'), o(0.4, { tensione: 3, credibilita: -2, alleati: 0 }, 'Si perde tempo e Kestra si irrita.')]),
+        ch('Rifiuti qualsiasi mediazione e tratti direttamente', 'Controllo del processo', [o(0.5, { tensione: -2, credibilita: 4, deterrenza: 2 }, 'Il tuo negoziatore ha mano libera.'), o(0.5, { tensione: 6, credibilita: -3, alleati: -3 }, 'Il dialogo si blocca senza testimoni.')])
+      ]),
+      card('d-concessione', 4, 'Kestra propone: ritiro dall’isola in cambio del riconoscimento dei suoi diritti di pesca nell’area. È una concessione modesta, ma crea un precedente.', [
+        ch('Accetti subito per chiudere la crisi', 'Precedente', [o(0.65, { tensione: -14, credibilita: -2, deterrenza: -2, alleati: 2 }, 'La crisi si chiude e Kestra si ritira.'), o(0.35, { tensione: -8, credibilita: -8, deterrenza: -6, alleati: -4 }, 'Kestra legge la concessione come segno di debolezza e prepara nuove pretese.')]),
+        ch('Controproponi una commissione mista per i diritti di pesca', 'Compromesso istituzionale', [o(0.55, { tensione: -8, credibilita: 4, alleati: 3 }, 'Una soluzione che salva la faccia a entrambi.'), o(0.45, { tensione: 2, credibilita: -1 }, 'Kestra rifiuta e perdi tempo.')]),
+        ch('Rifiuti: nessuna concessione prima del ritiro', 'Credibilità', [o(0.45, { tensione: 4, credibilita: 6, deterrenza: 5 }, 'Kestra si ritira senza compenso.'), o(0.55, { tensione: 14, credibilita: 2, deterrenza: 2, alleati: -4 }, 'La crisi si irrigidisce.')])
+      ]),
+      card('d-blocco', 4, 'Un pattugliatore di Norvia e uno di Kestra si sono incrociati pericolosamente: nessun colpo sparato, ma entrambi i governi diffondono versioni opposte dell’incidente.', [
+        ch('Denunci pubblicamente l’incidente con prove', 'Trasparenza', [o(0.6, { tensione: 6, credibilita: 6, alleati: 5 }, 'Le prove convincono la comunità internazionale.'), o(0.4, { tensione: 12, credibilita: -2, alleati: 0 }, 'Le prove sono contestate e la tensione cresce.')]),
+        ch('Chiedi un’indagine congiunta sull’incidente', 'Prevenzione dell’escalation', [o(0.6, { tensione: -6, credibilita: 2, alleati: 2 }, 'Raffreddi gli animi.'), o(0.4, { tensione: 0, credibilita: -3, deterrenza: -3 }, 'L’indagine è lenta e sembri esitare.')]),
+        ch('Rafforzi la presenza navale e taci', 'Segnalazione costosa', [o(0.5, { tensione: 6, deterrenza: 7, credibilita: 2 }, 'Kestra capisce che non indietreggerai.'), o(0.5, { tensione: 14, deterrenza: 3, credibilita: -2 }, 'Kestra risponde allo stesso modo.')])
+      ]),
+      card('d-alleato-forte', 5, 'Il tuo principale alleato, Brannor, offre di schierare truppe sul tuo territorio come deterrente. Rassicura, ma Kestra lo vedrà come una minaccia e Brannor potrebbe trascinarti in una guerra.', [
+        ch('Accetti lo schieramento completo', 'Dilemma di sicurezza', [o(0.5, { tensione: 8, deterrenza: 12, alleati: 6, credibilita: 3 }, 'La deterrenza è forte e Kestra frena.'), o(0.5, { tensione: 18, deterrenza: 6, alleati: 4, credibilita: -3 }, 'Kestra si sente accerchiata e rilancia.')]),
+        ch('Accetti uno schieramento simbolico e difensivo', 'Segnalazione calibrata', [o(0.65, { tensione: 2, deterrenza: 6, alleati: 4, credibilita: 2 }, 'Il segnale è chiaro ma non provocatorio.'), o(0.35, { tensione: 4, deterrenza: 2, alleati: 0 }, 'Kestra lo ignora.')]),
+        ch('Rifiuti lo schieramento e conservi la tua autonomia', 'Autonomia strategica', [o(0.6, { tensione: -4, deterrenza: -6, alleati: -6, credibilita: 2 }, 'Ti smarchi, ma Brannor se ne ricorda.'), o(0.4, { tensione: 0, deterrenza: -10, alleati: -10, credibilita: -2 }, 'Brannor si raffredda e Kestra lo nota.')])
+      ]),
+      card('d-opinione', 5, 'In patria cresce il sentimento nazionalista: una parte del parlamento chiede di “riprendersi l’isola con la forza”. Puoi assecondare l’opinione o contenerla.', [
+        ch('Adotti toni duri per placare l’opposizione', 'Politica interna', [o(0.5, { tensione: 8, credibilita: 3, deterrenza: 4 }, 'Il governo si rafforza in patria, ma sale la tensione.'), o(0.5, { tensione: 14, credibilita: -3, deterrenza: 2 }, 'I toni duri ti legano le mani: non puoi più negoziare.')]),
+        ch('Spieghi apertamente i costi di una guerra', 'Costi pubblici', [o(0.55, { tensione: -4, credibilita: 4, alleati: 3 }, 'Una parte dell’opinione si calma.'), o(0.45, { tensione: 2, credibilita: -4, deterrenza: -2 }, 'Ti accusano di debolezza.')]),
+        ch('Eviti il tema e lasci che si spenga da sé', 'Rinvio', [o(0.4, { tensione: -2 }, 'La pressione cala.'), o(0.6, { tensione: 6, credibilita: -3 }, 'L’opposizione cresce e il tema esplode.')])
+      ]),
+      card('d-incidente', 6, 'Un aereo da ricognizione di Norvia viene abbattuto, secondo Kestra “per errore”. Due piloti sono morti. L’opinione pubblica chiede rappresaglia.', [
+        ch('Risposta militare proporzionata e limitata', 'Escalation controllata', [o(0.45, { tensione: 10, deterrenza: 8, credibilita: 6 }, 'Segnale di fermezza senza perdere il controllo.'), o(0.55, { tensione: 22, deterrenza: 3, credibilita: 0, alleati: -4 }, 'Kestra reagisce e la spirale parte.')]),
+        ch('Chiedi scuse, risarcimento e inchiesta internazionale', 'Via diplomatica', [o(0.55, { tensione: -4, credibilita: 4, alleati: 5 }, 'Kestra concede un’inchiesta e la crisi si raffredda.'), o(0.45, { tensione: 6, credibilita: -5, deterrenza: -4, alleati: 0 }, 'Kestra rifiuta e sembri incapace di reagire.')]),
+        ch('Convochi gli alleati per una risposta coordinata', 'Alleati', [o(0.6, { tensione: 4, deterrenza: 6, credibilita: 3, alleati: 8 }, 'La risposta collettiva è forte.'), o(0.4, { tensione: 6, deterrenza: 2, credibilita: -2, alleati: -4 }, 'Gli alleati litigano su come rispondere.')])
+      ]),
+      card('d-bluff', 7, 'Il tuo servizio di intelligence segnala che Kestra potrebbe stare bluffando sulla sua disponibilità a un conflitto. Non è certo. Puoi rilanciare e sfidare il bluff, o ridurre l’impegno.', [
+        ch('Rilanci: dichiari che userai la forza se Kestra non si ritira', 'Credibilità della minaccia', [o(0.5, { tensione: 8, deterrenza: 10, credibilita: 8 }, 'Kestra cede: la minaccia era credibile.'), o(0.5, { tensione: 24, deterrenza: -2, credibilita: -10, alleati: -6 }, 'Kestra non cede e sei costretto a scegliere fra guerra e perdita di faccia.')]),
+        ch('Offri una via d’uscita onorevole con un termine chiaro', 'Salvare la faccia', [o(0.6, { tensione: -10, deterrenza: 2, credibilita: 4 }, 'Kestra accetta e la crisi si chiude.'), o(0.4, { tensione: 2, deterrenza: -4, credibilita: -3 }, 'Kestra legge l’offerta come cedimento.')]),
+        ch('Rafforzi in silenzio le difese e aspetti una mossa di Kestra', 'Valore dell’attesa', [o(0.5, { tensione: 4, deterrenza: 7, credibilita: 2 }, 'Quando Kestra muove, sei pronto.'), o(0.5, { tensione: 10, deterrenza: 3, credibilita: -3 }, 'Kestra coglie il rafforzamento e rilancia.')])
+      ]),
+      card('d-vertice', 8, 'Si apre un vertice finale a tre. Kestra chiede il riconoscimento dei suoi “interessi storici” sull’isola. Norvia può accettare un compromesso, tenere la linea o lasciare il tavolo.', [
+        ch('Accetti un compromesso con sovranità condivisa e monitoraggio', 'Compromesso', [o(0.6, { tensione: -18, credibilita: 4, deterrenza: -4, alleati: 4 }, 'La crisi si risolve con un equilibrio fragile.'), o(0.4, { tensione: -8, credibilita: -6, deterrenza: -8, alleati: -4 }, 'Il compromesso è fragile e Kestra lo rimette in discussione.')]),
+        ch('Tieni la linea: sovranità piena di Norvia', 'Posizione non negoziabile', [o(0.35, { tensione: 4, credibilita: 8, deterrenza: 8, alleati: 3 }, 'Kestra cede e Norvia ne esce rafforzata.'), o(0.65, { tensione: 14, credibilita: 2, deterrenza: 2, alleati: -6 }, 'Il vertice fallisce e la tensione sale.')]),
+        ch('Lasci il tavolo per segnalare la tua determinazione', 'Brinkmanship', [o(0.3, { tensione: 6, credibilita: 8, deterrenza: 8 }, 'Kestra cede la tensione e ritorna al tavolo.'), o(0.7, { tensione: 20, credibilita: -4, deterrenza: 0, alleati: -8 }, 'Il gesto si ritorce contro di te: sei isolato.')])
+      ]),
+      card('d-garanzia', 8, 'Un accordo finale richiederebbe garanzie reciproche: ispettori sull’isola e un patto di non aggressione. Kestra potrebbe violarlo, ma accettarlo ti legherebbe a regole che dovresti rispettare anche tu.', [
+        ch('Firmi il patto con ispettori internazionali', 'Vincoli reciproci', [o(0.65, { tensione: -14, credibilita: 6, alleati: 6, deterrenza: -2 }, 'L’accordo regge e la crisi si spegne.'), o(0.35, { tensione: -6, credibilita: -2, alleati: 2, deterrenza: -6 }, 'Kestra aggira gli ispettori.')]),
+        ch('Firmi un patto senza ispettori, basato sulla fiducia', 'Fiducia', [o(0.45, { tensione: -10, credibilita: 2, deterrenza: -2 }, 'Kestra rispetta il patto.'), o(0.55, { tensione: -2, credibilita: -8, deterrenza: -8, alleati: -4 }, 'Kestra lo viola e tu appari ingenuo.')]),
+        ch('Non firmi e mantieni la deterrenza attiva', 'Deterrenza', [o(0.6, { tensione: 4, deterrenza: 6, credibilita: 2, alleati: -2 }, 'La crisi resta aperta ma sei forte.'), o(0.4, { tensione: 10, deterrenza: 3, credibilita: -2, alleati: -6 }, 'Il rischio di escalation aumenta.')])
       ])
     ]
   });
@@ -17960,8 +18820,8 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
 
   ST.strategyHub = () => {
     const s = A.state, P = ST.progress, focus = s.profile.theoryFocus === 'str', lessons = C.topicsOf('str').filter(t => !t.pill), read = lessons.filter(t => P.atLeast(P.topicStatus(s, t.id), 'studied')).length, np = SG.puzzles().length;
-    return '<div class="card glow"><h3>Laboratori di strategia · generati e verificati</h3><p class="small mute">Equilibri di Nash, valore atteso, minimax e alpha-beta, numeri di Grundy, zaino, intervalli, cammini minimi, probabilità' + (np ? ' e ' + np + ' problemi di scacchi controllati dal motore' : '') + '. Le risposte sono calcolate dal programma, non copiate.</p>' +
-      '<button class="btn block" data-act="startStrategy">▶ Laboratorio da 5 minuti</button><table class="t" style="margin-top:8px">' + SG.TYPES.map(t => { const m = (s.strategy || {})[t], acc = SG.accuracy(s, t); return '<tr><td>' + E(SG.LABEL[t]) + '</td><td>Lv ' + SG.level(s, t) + '</td><td class="mute">' + (m && m.n ? Math.round(100 * (acc || 0)) + '%' : '—') + '</td><td><button class="btn alt sm" data-act="startStrategyType" data-t="' + t + '">▶</button></td></tr>'; }).join('') + '</table></div>' +
+    return '<div class="card glow"><h3>Laboratori di strategia · generati e verificati</h3><p class="small mute">Teoria dei giochi, economia (Cournot, VAN, aste, prezzo ottimo), modelli di conflitto e logistica, ottimizzazione (programmazione lineare, cammino critico, flusso, assegnamento, commesso viaggiatore), probabilità' + (np ? ' e ' + np + ' problemi di scacchi controllati dal motore' : '') + '. Le risposte sono calcolate dal programma, non copiate.</p>' +
+      '<button class="btn block" data-act="startStrategy">▶ Laboratorio da 5 minuti</button><table class="t" style="margin-top:8px">' + Object.keys(SG.GROUPS).map(g => '<tr><td colspan="4"><b>' + E(g) + '</b></td></tr>' + SG.GROUPS[g].map(t => { const m = (s.strategy || {})[t], acc = SG.accuracy(s, t); return '<tr><td>' + E(SG.LABEL[t]) + '</td><td>Lv ' + SG.level(s, t) + '</td><td class="mute">' + (m && m.n ? Math.round(100 * (acc || 0)) + '%' : '—') + '</td><td><button class="btn alt sm" data-act="startStrategyType" data-t="' + t + '">▶</button></td></tr>'; }).join('')).join('') + '</table></div>' +
       ST.simHub() +
       '<div class="card"><h3>Tempo dedicato</h3><p class="small">Lezioni lette: <b>' + read + ' / ' + lessons.length + '</b>. La teoria ha 1 slot al giorno a rotazione fra le materie (la priorità sostituisce quella della cybersecurity).</p><button class="btn alt" data-act="st-focus">' + (focus ? 'Torna alla rotazione equilibrata' : 'Dai priorità alla strategia (4 giorni su 7)') + '</button></div>';
   };
