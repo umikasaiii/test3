@@ -423,3 +423,15 @@ test('Cyber: modello di abilità e sessione', () => {
   for (let i = 0; i < 10; i++) CY.record(s, 'acl', false, 1000, 100, 3); assert.equal(CY.level(s, 'acl'), 1);
   const items = CY.session(s, '2026-01-05'); assert.ok(items.length >= 5 && new Set(items.map(x => x.mtype)).size >= 4);
 });
+
+test('Cybersecurity: curriculum L0–L5, ogni lezione completa, banche e scenari ben formati', () => {
+  const T = C.topicsOf('cyb').filter(t => !t.pill);
+  assert.ok(T.length >= 48, 'lezioni: ' + T.length);
+  ['L0', 'L1', 'L2', 'L3', 'L4', 'L5'].forEach(st => assert.ok(T.some(t => t.stage === st), 'stage ' + st));
+  T.forEach(t => { assert.ok(t.pages.length >= 6 && t.exercises.length >= 8 && t.test.length >= 5, t.id); (t.prereq || []).forEach(p => assert.ok(C.topic(p), t.id + ' → ' + p)); });
+  const B = C.cyberBank; assert.ok(B.code.length >= 40 && B.scenarios.length >= 8);
+  [].concat(B.code, B.stride, B.attack).forEach(x => assert.ok(x.o.length === 4 && new Set(x.o).size === 4 && x.a >= 0 && x.a < 4, x.id));
+  B.scenarios.forEach(sc => sc.steps.forEach(st => assert.ok(st.o.length === 4 && st.a >= 0 && st.a < 4)));
+  // nessun payload operativo nei contenuti
+  assert.ok(!/<script>alert|union\s+select|or\s+1\s*=\s*1|rm\s+-rf|msfvenom|nc\s+-e/i.test(JSON.stringify(T) + JSON.stringify(B)));
+});

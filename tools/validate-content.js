@@ -77,6 +77,12 @@ J.forEach(t => { if (!C.topics['jud-' + t.id]) E('judo: manca la lezione approfo
 const by = {}; topics.forEach(t => { const b = by[t.subject] = by[t.subject] || { n: 0, w: 0, ex: 0, test: 0, cards: 0, lis: 0 }; b.n++; b.w += JSON.stringify(t.pages).split(/\s+/).length; b.ex += t.exercises.length; b.test += t.test.length; b.cards += (t.cards || []).length; b.lis += (t.listening || []).length; });
 console.log('Argomenti:', topics.length);
 Object.entries(by).forEach(([k, v]) => console.log(' ', k.padEnd(6), JSON.stringify(v)));
+// banche cybersecurity (code review, STRIDE, ATT&CK, scenari)
+const CB = C.cyberBank || { code: [], stride: [], attack: [], scenarios: [] };
+['code', 'stride', 'attack'].forEach(k => { const ids = new Set(); CB[k].forEach(x => { if (ids.has(x.id)) E('cyberBank ' + k + ': id duplicato ' + x.id); ids.add(x.id); if (!x.q || !Array.isArray(x.o) || x.o.length !== 4 || new Set(x.o).size !== 4 || !(x.a >= 0 && x.a < 4) || !x.why) E('cyberBank ' + k + ' ' + x.id + ': voce incompleta'); if (!(x.level >= 1 && x.level <= 5)) E('cyberBank ' + k + ' ' + x.id + ': livello'); }); });
+CB.scenarios.forEach(sc => { if (!sc.title || !sc.intro || !sc.steps || sc.steps.length < 5) E('scenario ' + sc.id + ': incompleto'); (sc.steps || []).forEach((st, i) => { if (!st.q || !st.o || st.o.length !== 4 || new Set(st.o).size !== 4 || !(st.a >= 0 && st.a < 4) || !st.why) E('scenario ' + sc.id + ' passo ' + (i + 1) + ': incompleto'); }); });
+if (CB.code.length < 40 || CB.stride.length < 20 || CB.attack.length < 20 || CB.scenarios.length < 8) E('cyberBank sotto le soglie minime');
+console.log('Cyber: code', CB.code.length, 'stride', CB.stride.length, 'attack', CB.attack.length, 'scenari', CB.scenarios.length);
 console.log('Gate B2: ascolto', C.gate.listening.length, 'lettura', C.gate.reading.length, '· Dialoghi', C.dialogues.length, '· Lettura pratica EN', C.readingPractice.en.length);
 warns.forEach(w => console.log('ATTENZIONE', w));
 errs.forEach(e => console.log('ERRORE', e));
