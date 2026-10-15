@@ -350,3 +350,9 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - UI scheda «Transfer»: sessione mista senza indicare materia/principio (rivelato dopo), verifiche a distanza 7/30/90 giorni con la seconda variante, tabella problema nuovo / ritenzione per principio.
 - `runner.js` registra ora un'evidenza per ogni risposta: laboratori generati → «applicazione autonoma», fill → «richiamo», altro → «guidata». Limiti: «aiuti» non ancora rilevati (help=false sempre); la chiave competenza è il tipo di laboratorio o il contesto, non ancora il singolo argomento.
 - Non implementato: grafo navigabile a livello di singoli argomenti (solo principi), valutazione automatica delle risposte libere nelle missioni (i passi sono guidati manualmente).
+
+## Mandato master — Milestone 6 (parziale): Real-World Decision Lab
+- `src/core/rwd.js` + scheda «Decisioni»: 6 scenari (acquisti, lavoro/negoziazione, denaro, imprevisti, valutazione di informazioni, tempo di studio) con situazione, obiettivo, vincoli, informazioni disponibili e mancanti (scegli quali ti servono), alternative, esito simulato estratto a sorte, valori attesi, spiegazione, riflessione e salvataggio nel diario.
+- 4 scenari hanno un'opzione migliore calcolabile (test ricalcola i valori attesi); 2 non hanno risposta unica e non registrano punteggi. Un esito sfortunato non invalida la scelta: il testo lo dice.
+- Probabilità e importi sono ipotesi didattiche dichiarate, non dati reali. Sei scenari sono pochi: non c'è ancora varietà sufficiente per un allenamento prolungato.
+- Non ancora fatto: Forecasting con evidenze guidate (esiste il registro con Brier), Strategic Transfer Training a 5 passaggi per ogni principio dei moduli esistenti di scacchi/economia/militare/ottimizzazione.

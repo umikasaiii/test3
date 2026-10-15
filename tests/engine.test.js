@@ -740,3 +740,16 @@ test('kg: problemi di transfer con risposta ricalcolata e principi coerenti', ()
   assert.equal(10 * 5, 50); assert.equal(8 * 4.5, 36);
   const s = fresh(); at('2026-03-01'); const it = K.problem('units', 0); assert.equal(it.v, 0); assert.equal(K.problem('units', 1).v, 1);
 });
+
+test('rwd: probabilità, valori attesi e opzione migliore coerenti col testo', () => {
+  const Rw = ST.rwd;
+  Rw.SCENARIOS.forEach(sc => {
+    sc.opts.forEach(o => assert.ok(Math.abs(o.o.reduce((a, x) => a + x.p, 0) - 1) < 1e-9, sc.id));
+    if (sc.best) { const e = Rw.evs(sc), b = e.reduce((m, x) => (sc.dir === 'min' ? x.ev < m.ev : x.ev > m.ev) ? x : m); assert.equal(b.id, sc.best, sc.id); }
+    else assert.ok(Rw.evs(sc).every(x => x.ev === null));
+  });
+  const ev = id => Rw.evs(Rw.SCENARIOS.find(x => x.id === id));
+  assert.equal(ev('laptop')[0].ev, 500); assert.equal(ev('salary')[1].ev, 31.95); assert.equal(ev('invest')[2].ev, 1027.5); assert.equal(ev('taxi')[2].ev, 12);
+  const op = Rw.SCENARIOS[0].opts[0]; assert.equal(Rw.sample(op, 0.5).v, 450); assert.equal(Rw.sample(op, 0.95).v, 700);
+  assert.equal(JSON.stringify(Rw.infoScore(Rw.SCENARIOS[0], [Rw.SCENARIOS[0].info[0][0], Rw.SCENARIOS[0].info[2][0]])), '{"hit":1,"total":3,"wrong":1}');
+});

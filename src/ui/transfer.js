@@ -3,7 +3,7 @@
   'use strict';
   const U = ST.util, A = ST.app, E = U.esc, X = ST.acts, T = ST.transfer;
   const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
-  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
+  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
   const field = (id, label, ph) => '<label class="small mute">' + label + '</label><input id="' + id + '" class="inp" placeholder="' + E(ph || '') + '" style="width:100%">';
   const dash = s => {
     const ids = Object.keys(s.skills || {}), due = T.due(s);
@@ -36,7 +36,19 @@
       '<div class="card"><h3>Missioni multidisciplinari</h3>' + K.MISSIONS.map(m => '<div style="margin:10px 0"><b>' + E(m.t) + '</b>' + m.steps.map((st, i) => '<div class="small" style="margin:4px 0">' + (i + 1) + '. ' + E(st.x) + (st.go ? ' <button class="btn ghost" data-act="go" data-view="' + st.go.view + '" data-p=\'' + JSON.stringify(st.go.p) + '\'>Apri</button>' : ' <button class="btn ghost" data-act="trStart" data-pr="' + st.pr.join(',') + '">Allena</button>') + '</div>').join('') + '</div>').join('') + '</div>' +
       '<div class="card"><h3>Come si collegano</h3>' + Object.keys(K.PRINCIPLES).map(k => '<div class="small"><b>' + E(K.PRINCIPLES[k].t) + '</b> ← materie: ' + K.PRINCIPLES[k].subj.join(', ') + ' · collegato a: ' + K.PRINCIPLES[k].links.map(l => E(K.PRINCIPLES[l].t)).join(', ') + '</div>').join('') + '</div>';
   };
-  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : dash(s)); };
+  const rwd = s => {
+    const Rw = ST.rwd, st = A.rwdState, sc = st && Rw.SCENARIOS.find(x => x.id === st.id);
+    if (!sc) return '<div class="card"><h3>Real-World Decision Lab</h3><p class="small mute">Scenari con informazioni incomplete: scegli quali dati ti servono, decidi, poi vedi una conseguenza simulata (un solo esito estratto a sorte) e il confronto con il valore atteso. Non tutte le scelte hanno una risposta unica.</p>' + Rw.SCENARIOS.map(x => '<button class="item" data-act="rwdOpen" data-id="' + x.id + '"><span class="ic">🎯</span><span class="tx"><b>' + E(x.area) + '</b><span>' + E(x.sit.slice(0, 90)) + '…</span></span></button>').join('') + '</div>';
+    const head = '<div class="card"><h3>' + E(sc.area) + '</h3><p class="small"><b>Situazione.</b> ' + E(sc.sit) + '</p><p class="small"><b>Obiettivo.</b> ' + E(sc.goal) + '</p><p class="small"><b>Vincoli.</b> ' + E(sc.cons) + '</p><p class="small"><b>Informazioni disponibili.</b> ' + E(sc.known) + '</p></div>';
+    if (st.stage === 1) return head + '<div class="card"><h3>Che cosa vorresti sapere prima di decidere?</h3><p class="small mute">Seleziona le informazioni che ti servirebbero davvero.</p>' + sc.info.map((x, i) => '<label class="small" style="display:block;margin:6px 0"><input type="checkbox" class="rw-i" value="' + i + '"> ' + E(x[0]) + '</label>').join('') + '<button class="btn block" data-act="rwdInfo">Avanti</button></div>';
+    if (st.stage === 2) return head + '<div class="card"><h3>La tua decisione</h3>' + sc.opts.map(o => '<label class="small" style="display:block;margin:6px 0"><input type="radio" name="rw-o" class="rw-o" value="' + o.id + '"> ' + E(o.t) + '</label>').join('') + '<label class="small mute">Quanto sei sicuro che sia la scelta migliore?</label><select id="rw-c" class="inp"><option>50</option><option>60</option><option>70</option><option>80</option><option>90</option></select><button class="btn block" data-act="rwdChoose" style="margin-top:8px">Decidi</button></div>';
+    const op = sc.opts.find(o => o.id === st.choice), evs = Rw.evs(sc), is = st.is;
+    return head + '<div class="card glow"><h3>Conseguenza simulata</h3><p class="small">Hai scelto: <b>' + E(op.t) + '</b></p><p class="small">Esito estratto a sorte: <b>' + E(st.out.t) + '</b></p>' + (sc.dir ? '<table class="t"><tr><td>Opzione</td><td>Valore atteso (' + E(sc.unit) + ')</td></tr>' + sc.opts.map(o => '<tr><td>' + E(o.t) + '</td><td>' + evs.find(e => e.id === o.id).ev + '</td></tr>').join('') + '</table>' : '') +
+      '<p class="small">Informazioni rilevanti riconosciute: <b>' + is.hit + ' / ' + is.total + '</b>' + (is.wrong ? ' · poco utili: ' + is.wrong : '') + '</p>' +
+      (sc.best ? '<p class="small">' + (st.choice === sc.best ? '✓ Scelta coerente con il valore atteso.' : 'Il valore atteso indicava un’altra opzione.') + ' (Un esito sfortunato non rende sbagliata una buona decisione.)</p>' : '<p class="small">Questo scenario non ha una risposta unica: nessun punteggio registrato.</p>') +
+      '<p class="small"><b>Spiegazione.</b> ' + E(sc.why) + '</p><p class="small"><b>Riflessione.</b> ' + E(sc.refl) + '</p><button class="btn" data-act="rwdJournal">Salva nel diario</button> <button class="btn ghost" data-act="rwdOpen" data-id="">Altri scenari</button></div>';
+  };
+  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : dash(s)); };
   const re = () => { A.save(); A.render(); };
   X.jAdd = () => { const s = A.state, p = parseInt(val('j-p'), 10); if (!val('j-sit') || !val('j-choice')) return A.toast && A.toast('Servono almeno situazione e scelta'); T.jAdd(s, { sit: val('j-sit'), goal: val('j-goal'), opts: val('j-opts'), hyp: val('j-hyp'), p: isNaN(p) ? null : Math.max(0, Math.min(100, p)), choice: val('j-choice'), why: val('j-why'), check: val('j-check') }); re(); };
   X.jClose = el => { T.jClose(A.state, el.dataset.id, val('o-' + el.dataset.id), val('l-' + el.dataset.id)); re(); };
@@ -51,5 +63,15 @@
     R.start({ title: 'Transfer spontaneo', kind: 'free', items, ctx: 'general', onAnswer: (it, ok, i, r) => { const d = dueIds.find(x => x.id === 'tr:' + it.principle); T.record(s, 'tr:' + it.principle, d ? 'delayed' : 'novel', ok, { ms: r && r.ms, check: d && d.check }); },
       onFinish: res => '<p class="small">Principi incontrati: ' + res.map(x => '<b>' + E(K.PRINCIPLES[x.item.principle].t) + '</b> (uso reale: ' + E(K.PRINCIPLES[x.item.principle].real) + ')').join(' · ') + '</p>' });
   };
+  X.rwdOpen = el => { A.rwdState = el.dataset.id ? { id: el.dataset.id, stage: 1 } : null; A.render(); };
+  X.rwdInfo = () => { const sc = ST.rwd.SCENARIOS.find(x => x.id === A.rwdState.id); A.rwdState.picked = Array.from(document.querySelectorAll('.rw-i:checked')).map(e => sc.info[+e.value][0]); A.rwdState.stage = 2; A.render(); };
+  X.rwdChoose = () => {
+    const st = A.rwdState, sc = ST.rwd.SCENARIOS.find(x => x.id === st.id), ch = document.querySelector('.rw-o:checked'); if (!ch) return A.toast('Scegli un’opzione');
+    const op = sc.opts.find(o => o.id === ch.value), conf = +val('rw-c');
+    st.choice = op.id; st.out = ST.rwd.sample(op, U.rand()); st.is = ST.rwd.infoScore(sc, st.picked); st.conf = conf; st.stage = 3;
+    if (sc.best) T.record(A.state, 'rwd:' + sc.id, 'auto', op.id === sc.best, { conf });
+    A.save(); A.render();
+  };
+  X.rwdJournal = () => { const st = A.rwdState, sc = ST.rwd.SCENARIOS.find(x => x.id === st.id), op = sc.opts.find(o => o.id === st.choice); T.jAdd(A.state, { sit: '[Scenario] ' + sc.sit, goal: sc.goal, opts: sc.opts.map(o => o.t).join(' | '), p: st.conf, choice: op.t, why: 'Esito simulato: ' + st.out.t }); A.save(); A.toast('Salvato nel diario'); };
   X.jExport = () => { const b = new Blob([T.exportJournal(A.state)], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'skilltree-diario.json'; a.click(); };
 })(window.ST = window.ST || {});
