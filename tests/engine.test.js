@@ -663,3 +663,52 @@ test('Cultura e abilità generali: laboratori di calcolo verificati con ricalcol
       else { m = /A (\d+) compressioni al minuto, quanti secondi servono per 30/.exec(q); near(A(it), 1800 / +m[1], 1e-9); } }
   } } catch (e) { e.message += ' | Q: ' + globalThis.__q; throw e; }
 });
+test('Moto e guida sportiva: laboratori di calcolo verificati con ricalcolo indipendente', () => {
+  const F = ST.moto, A = it => +it.a[0].replace(',', '.'), pn = s => +String(s).replace(',', '.'), near = (x, y, e) => assert.ok(Math.abs(x - y) <= e, x + ' vs ' + y), G = 9.81, deg = Math.PI / 180;
+  const mk = (t, lv) => { const it = F.make(t, lv); globalThis.__q = it.q; return it; };
+  try { for (const t of F.TYPES) for (let i = 0; i < 80; i++) { const it = F.make(t, 1 + (i % 10)); assert.ok(it.q && it.a.length && it.a.every(x => /^-?\d+([.,]\d+)?$/.test(x)) && !/undefined|NaN/.test(it.q + it.why), t + ' ' + it.q); }
+  for (let i = 0; i < 150; i++) {
+    const lv = 1 + (i % 10);
+    { const it = mk('lean', lv), q = it.q; let m;
+      if ((m = /Raggio (\d+) m e angolo di piega (\d+)°/.exec(q))) near(A(it), Math.sqrt(G * +m[1] * Math.tan(+m[2] * deg)) * 3.6, 0.51);
+      else if ((m = /raggio (\d+) m percorsa a (\d+) km\/h/.exec(q))) near(A(it), Math.atan((+m[2] / 3.6) ** 2 / (G * +m[1])) / deg, 0.51);
+      else if ((m = /Con angolo di piega (\d+)/.exec(q))) near(A(it), Math.tan(+m[1] * deg), 0.0051);
+      else if ((m = /Frenata a decelerazione costante.*Velocità (\d+) km\/h, decelerazione ([\d,]+) g/.exec(q))) near(A(it), (+m[1] / 3.6) ** 2 / (2 * pn(m[2]) * G), 0.51);
+      else { m = /Velocità (\d+) km\/h, tempo di reazione ([\d,]+) s, decelerazione ([\d,]+) g/.exec(q); const v = +m[1] / 3.6; near(A(it), v * pn(m[2]) + v * v / (2 * pn(m[3]) * G), 0.51); } }
+    { const it = mk('brake', lv), q = it.q; let m;
+      if ((m = /Velocità (\d+) km\/h, decelerazione ([\d,]+) g \(g/.exec(q))) near(A(it), (+m[1] / 3.6) ** 2 / (2 * pn(m[2]) * G), 0.51);
+      else if ((m = /Velocità (\d+) km\/h, tempo di reazione ([\d,]+) s, decelerazione ([\d,]+) g/.exec(q))) { const v = +m[1] / 3.6; near(A(it), v * pn(m[2]) + v * v / (2 * pn(m[3]) * G), 0.51); } }
+    { const it = mk('xfer', lv), q = it.q; let m;
+      if ((m = /Massa totale \(moto \+ pilota\) (\d+) kg, decelerazione (\d+) m\/s², altezza del baricentro ([\d,]+) m, interasse ([\d,]+) m/.exec(q))) near(A(it), +m[1] * +m[2] * pn(m[3]) / pn(m[4]), 0.51);
+      else if ((m = /b = ([\d,]+) m, h = ([\d,]+) m\. Accelerazione limite/.exec(q))) near(A(it), pn(m[1]) / pn(m[2]), 0.0051);
+      else { m = /Interasse L = ([\d,]+) m, b = ([\d,]+) m, h = ([\d,]+) m/.exec(q); near(A(it), (pn(m[1]) - pn(m[2])) / pn(m[3]), 0.0051); } }
+    { const it = mk('gear', lv), q = it.q; let m;
+      if ((m = /Primario ([\d,]+), marcia ([\d,]+), corona (\d+), pignone (\d+)\. Raggio ruota ([\d,]+) m, motore a (\d+) giri/.exec(q))) { const tot = pn(m[1]) * pn(m[2]) * +m[3] / +m[4]; near(A(it), +m[6] * 2 * Math.PI * pn(m[5]) / (60 * tot) * 3.6, 0.51); }
+      else if ((m = /totale .* = ([\d,]+), raggio ruota ([\d,]+) m\. A (\d+) km\/h/.exec(q))) near(A(it), +m[3] / 3.6 * 60 * pn(m[1]) / (2 * Math.PI * pn(m[2])), 1.5); }
+    { const it = mk('engine', lv), q = it.q; let m;
+      if ((m = /Alesaggio (\d+) mm, corsa (\d+) mm, (\d+) cilindri/.exec(q))) near(A(it), Math.PI / 4 * Math.pow(+m[1], 2) * +m[2] * +m[3] / 1000, 0.51);
+      else if ((m = /Vd = (\d+) cm³, volume della camera Vc = (\d+) cm³/.exec(q))) near(A(it), (+m[1] + +m[2]) / +m[2], 1e-9);
+      else if ((m = /Corsa (\d+) mm a (\d+) giri\/min/.exec(q))) near(A(it), 2 * +m[1] / 1000 * +m[2] / 60, 0.051); }
+    { const it = mk('power', lv), q = it.q; let m;
+      if ((m = /Coppia (\d+) N·m a (\d+) giri\/min\. Potenza in kW/.exec(q))) near(A(it), +m[1] * +m[2] * 2 * Math.PI / 60000, 0.51);
+      else if ((m = /Converti (\d+) kW/.exec(q))) near(A(it), +m[1] / 0.7355, 0.51);
+      else if ((m = /Potenza (\d+) kW a (\d+) giri\/min\. Coppia/.exec(q))) near(A(it), 9549 * +m[1] / +m[2], 0.51); }
+    { const it = mk('tyre', lv), q = it.q; let m;
+      if ((m = /Misura (\d+)\/(\d+) ZR(\d+).*Quanto è alto il fianco/.exec(q))) near(A(it), +m[1] * +m[2] / 100, 0.051);
+      else if ((m = /Pneumatico (\d+)\/(\d+) ZR(\d+) .*Diametro/.exec(q))) near(A(it), +m[3] * 25.4 + 2 * +m[1] * +m[2] / 100, 0.51);
+      else if ((m = /Pressione ([\d,]+) bar a (\d+) °C\. Quanti bar a (\d+) °C/.exec(q))) near(A(it), pn(m[1]) * (+m[3] + 273) / (+m[2] + 273), 0.0051); }
+    { const it = mk('susp', lv), q = it.q; let m;
+      if ((m = /Corsa totale (\d+) mm e SAG del (\d+)%/.exec(q))) near(A(it), +m[1] * +m[2] / 100, 0.051);
+      else if ((m = /si comprime di (\d+) mm sotto una forza di (\d+) N/.exec(q))) near(A(it), +m[2] / +m[1], 0.051);
+      else if ((m = /k = (\d+) N\/m che sostiene una massa di (\d+) kg/.exec(q))) near(A(it), Math.sqrt(+m[1] / +m[2]) / (2 * Math.PI), 0.051); }
+    { const it = mk('lap', lv), q = it.q; let m;
+      if ((m = /Giro di pista lungo ([\d,]+) km percorso in ([\d,]+) secondi/.exec(q))) near(A(it), pn(m[1]) / pn(m[2]) * 3600, 0.51);
+      else if ((m = /guadagni ([\d,]+) s sul tempo di riferimento.* su (\d+) giri/.exec(q))) near(A(it), pn(m[1]) * +m[2], 0.051);
+      else if ((m = /Serbatoio da (\d+) litri e consumo di ([\d,]+) L\/100 km/.exec(q))) near(A(it), +m[1] / pn(m[2]) * 100, 0.51);
+      else { m = /Tempi di settore di un giro: ([\d,]+) s, ([\d,]+) s e ([\d,]+) s/.exec(q); near(A(it), pn(m[1]) + pn(m[2]) + pn(m[3]), 0.051); } }
+    { const it = mk('gyro', lv), m = /Massa (\d+) kg, raggio ([\d,]+) m, velocità (\d+) km\/h/.exec(it.q); near(A(it), +m[1] * pn(m[2]) * +m[3] / 3.6, 0.051); }
+    { const it = mk('energy', lv), q = it.q; let m;
+      if ((m = /Massa totale \(moto \+ pilota\) (\d+) kg a (\d+) km\/h/.exec(q))) near(A(it), 0.5 * +m[1] * (+m[2] / 3.6) ** 2 / 1000, 0.51);
+      else { m = /passa da (\d+) km\/h a (\d+) km\/h/.exec(q); near(A(it), (+m[2] / +m[1]) ** 2, 1e-9); } }
+  } } catch (e) { e.message += ' | Q: ' + globalThis.__q; throw e; }
+});
