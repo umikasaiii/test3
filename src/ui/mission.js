@@ -58,13 +58,19 @@
   });
 
   /* ---- missione generale ---- */
-  const THEORY_SUBJ = { cyber: 'cyb', sport: 'sport', f1: 'f1', cyberlab: 'cyb', strategy: 'str', strategylab: 'str', secondary: 'sec' };
+  const THEORY_SUBJ = { cyber: 'cyb', sport: 'sport', f1: 'f1', moto: 'moto', motosec: 'moto', cyberlab: 'cyb', strategy: 'str', strategylab: 'str', secondary: 'sec' };
   const pillFor = slot => {
+    if (slot === 'motosec') slot = Math.floor(U.diffDays('2026-01-05', U.today()) / 7) % 2 === 0 ? 'moto' : 'secondary';
     const subj = THEORY_SUBJ[slot];
     if (subj === 'cyb') {
       if (slot === 'cyberlab') return { id: 'cyb-lab', title: 'Laboratorio generato (log, ACL, CVSS, cifrari, sottoreti…)' };
       const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied'));
       const nextL = C.topicsOf('cyb').filter(t => !t.pill && !t.id.startsWith('cyb-scenario')).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
+      if (nextL) return nextL;
+    }
+    if (subj === 'moto') {
+      const sx = A.state, ok = t => (t.prereq || []).every(p => P.atLeast(P.topicStatus(sx, p), 'studied')), nextL = C.topicsOf('moto').filter(t => !t.pill).find(t => !P.atLeast(P.topicStatus(sx, t.id), 'verified') && ok(t));
+      if (ST.moto && U.parse(U.today()).getDate() % 3 === 1) return { id: 'moto-lab', title: 'Laboratorio moto e guida sportiva (fisica, meccanica, scenari)' };
       if (nextL) return nextL;
     }
     if (subj === 'sec') {
@@ -111,6 +117,7 @@
     if (!pill) { A.toast('Nessuna pillola disponibile.'); return; }
     A.ctx = 'general'; A.pb = { general: 'theory' };
     if (slot === 'cyberlab') { X.startCyber(); return; }
+    if (pill.id === 'moto-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'moto' } }); else X.startMoto(); return; }
     if (pill.id === 'cul-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'sec' } }); else X.startCul(); return; }
     if (pill.id === 'f1-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'f1' } }); else X.startF1(); return; }
     if (pill.id === 'spo-lab') { if (U.parse(U.today()).getDate() % 2) X.startSimRandom({ dataset: { subj: 'sport' } }); else X.startSport(); return; }
