@@ -435,6 +435,32 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
       { x: 'Allena «unità di misura» e «regressione verso la media».', pr: ['units', 'regression'] } ] }
   ];
 })(window.ST = window.ST || {});
+(function (ST) {
+  'use strict';
+  const K = ST.kg;
+  /* collegamento argomento → principio per parole chiave nel titolo, nel sommario e negli obiettivi (euristico, dichiarato come tale) */
+  K.KEYS = {
+    baserate: /bayes|probabilit|falsi positiv|prevalenz|sensibilit|screening/i,
+    opportunity: /costo opportunit|trade-?off|compromess|alternativ|budget|risors/i,
+    growth: /compost|crescita|esponenzial|inflazion|sovraccarico progressivo|progressione/i,
+    causation: /causal|correlazion|confondent|osservazional|esperiment|placebo|randomizz/i,
+    ev: /valore atteso|expectimax|aspettativa|scommess|incertezza|rischio/i,
+    regression: /regressione (alla|verso) |regressione alla media/i,
+    incentives: /incentiv|nash|dilemma del prigioniero|teoria dei giochi|strategia dominante|negoziazion/i,
+    units: /unit[àa] di misura|conversion|ordine di grandezza|fermi/i
+  };
+  const textOf = t => [t.title, t.summary].concat(t.objectives || []).join(' ');
+  const LANG = { eng: 1, jpn: 1 }; // gli argomenti di lingua non sono collegati per parola chiave
+  K.principlesOf = t => LANG[t.subject] ? [] : Object.keys(K.KEYS).filter(p => K.KEYS[p].test(textOf(t)));
+  K.topicsOf = (pr, max) => Object.values(ST.content.topics).filter(t => K.principlesOf(t).includes(pr)).slice(0, max || 6);
+  /* argomenti collegati: prerequisiti dichiarati, successivi che li richiedono, e altri argomenti con un principio in comune */
+  K.related = t => {
+    const all = Object.values(ST.content.topics), pre = (t.prereq || []).filter(id => ST.content.topics[id]);
+    const next = all.filter(x => (x.prereq || []).includes(t.id)).map(x => x.id);
+    const prs = K.principlesOf(t), shared = all.filter(x => x.id !== t.id && x.subject !== t.subject && K.principlesOf(x).some(p => prs.includes(p))).slice(0, 5).map(x => x.id);
+    return { pre, next, prs, shared };
+  };
+})(window.ST = window.ST || {});
 
 /* ---- core/rwd ---- */
 /* SkillTree — Real-World Decision Lab: scenari a informazioni incomplete con conseguenze simulate. */
@@ -2043,6 +2069,39 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   CR.TYPES.forEach(t => { G[t] = (lv, rng) => CR[t](0, rng || U.rand); MN.LABEL[t] = CR.LABEL[t]; MN.EST[t] = 16; MN.TYPES.push(t); });
   MN.DOMAINS[4].types = MN.DOMAINS[4].types.concat(['source']);          // venerdì: strategia e predizione
   MN.DOMAINS[5].types = MN.DOMAINS[5].types.concat(['fallacy', 'bias']);  // sabato: enigmi e ragionamento
+  MN.WEEK = MN.DOMAINS.map(d => d.types.slice(0, 3));
+
+  /* ---------------- Memoria prospettica: ricordare ed eseguire regole fornite prima ---------------- */
+  const ri = (rng, a, b) => a + Math.floor(rng() * (b - a + 1));
+  G.prosp = (lv, rng) => {
+    rng = rng || U.rand; const nSeq = Math.min(8, 3 + Math.ceil(lv / 3)), harder = lv >= 8;
+    const rules = harder ? [['multiplo di 5', 'C', n => n % 5 === 0], ['pari', 'P', n => n % 2 === 0], ['maggiore di 20', 'G', n => n > 20]] : [['multiplo di 5', 'C', n => n % 5 === 0], ['pari', 'P', n => n % 2 === 0]];
+    const seq = Array.from({ length: nSeq }, () => ri(rng, 2, harder ? 40 : 20));
+    const code = n => { for (const r of rules) if (r[2](n)) return r[1]; return 'N'; }; // le regole sono in ordine di priorità
+    const correct = seq.map(code).join(' ');
+    const wrongs = new Set(); let guard = 0;
+    while (wrongs.size < 3 && guard++ < 50) { const w = seq.map((n, i) => rng() < 0.3 ? U.pick(['C', 'P', 'G', 'N'], rng) : code(n)).join(' '); if (w !== correct) wrongs.add(w); }
+    const o = U.shuffle([correct].concat(Array.from(wrongs)), rng); while (o.length < 4) o.push(correct + ' N');
+    const show = 'REGOLE (in ordine di priorità): ' + rules.map(r => 'se il numero è ' + r[0] + ' → ' + r[1]).join('; ') + '; altrimenti → N.';
+    return { t: 'flash', mtype: 'prosp', show, ms: 4000 + rules.length * 1500, q: 'Applica le regole che hai appena visto alla sequenza ' + seq.join(', ') + '. Quale codifica è corretta?', o, a: o.indexOf(correct), why: seq.map((n, i) => n + '→' + code(n)).join(', ') + '. Hai dovuto tenere in mente le regole e la loro priorità mentre eseguivi il compito.', timed: 45 };
+  };
+  /* ---------------- Metacognizione: scelta delle strategie di studio e analisi dell'errore ---------------- */
+  const META = [
+    ['Devi memorizzare 40 termini per un esame tra tre settimane. Quale strategia ha le migliori prove di efficacia?', 'Richiamo attivo ripetuto (provare a ricordare senza guardare) distribuito nel tempo', ['Rileggere più volte gli appunti l’ultima sera', 'Sottolineare tutto con colori diversi', 'Studiare solo quando ci si sente motivati'], 'Richiamo attivo e distribuzione nel tempo producono ricordo più duraturo di rilettura e sottolineatura.'],
+    ['Hai studiato un capitolo e «lo riconosci» quando lo rileggi. Perché non è un buon segnale di aver imparato?', 'La familiarità si confonde con la capacità di richiamare senza aiuti', ['Perché i capitoli lunghi non si possono imparare', 'Perché riconoscere è identico a ricordare', 'Perché serve studiare solo con musica'], 'Riconoscere è più facile che richiamare: la sensazione di sapere può essere ingannevole (illusione di competenza).'],
+    ['Hai sbagliato un esercizio. Quale analisi dell’errore è più utile?', 'Distinguere tra svista di calcolo, lacuna concettuale e fretta, e correggere in modo diverso ciascuna', ['Concludere che non sei portato', 'Ripetere subito lo stesso esercizio guardando la soluzione', 'Ignorarlo perché è uno solo'], 'Cause diverse richiedono rimedi diversi: controllo dei passaggi, ripasso del concetto, gestione del tempo.'],
+    ['Prima di un test sei molto sicuro di aver capito tutto, ma non hai mai provato un esercizio senza appunti. Che cosa fai?', 'Provi alcuni esercizi senza appunti per verificare la tua stima', ['Ti fidi della sensazione', 'Rileggi gli appunti un’altra volta', 'Studi più ore senza verificare'], 'La verifica con prove reali calibra la tua fiducia.'],
+    ['Studi due argomenti molto simili e li confondi. Quale pratica aiuta a distinguerli?', 'Alternare esercizi dei due argomenti e confrontare esplicitamente le differenze', ['Studiare prima tutto uno e poi tutto l’altro senza confronti', 'Studiarli solo in un unico giorno', 'Evitare di confrontarli'], 'L’alternanza (interleaving) e il confronto aiutano a scegliere la strategia giusta.'],
+    ['Hai poco tempo: tre argomenti, di cui uno che padroneggi bene. Come distribuisci il tempo?', 'Più tempo sugli argomenti deboli, con un breve richiamo di quello solido', ['Tutto il tempo su quello che sai già, perché è piacevole', 'Uguale tempo a tutti per principio', 'Nessuna verifica'], 'Il rendimento è maggiore dove ci sono più lacune, ma senza abbandonare del tutto il resto.'],
+    ['Dopo una spiegazione ti sembra tutto chiaro. Come verifichi di aver capito davvero?', 'Lo spieghi a parole tue senza guardare, e rilevi dove ti blocchi', ['Rileggi la spiegazione', 'Annuisci mentre la rileggi', 'Aspetti di ricordarla da solo'], 'Spiegare senza guardare rivela le lacune che la rilettura nasconde.'],
+    ['Ti accorgi di sbagliare di più alla fine di una sessione lunga. Quale decisione è più sensata?', 'Accorciare le sessioni o inserire pause, e rivedere ciò che hai sbagliato in un altro momento', ['Allungare ancora le sessioni', 'Ignorare il calo', 'Concludere che sei poco intelligente'], 'La fatica riduce la prestazione: si adatta il metodo, non si trae un giudizio su di sé.']
+  ];
+  G.meta = (lv, rng) => { rng = rng || U.rand; const m = U.pick(META, rng), o = U.shuffle([m[1]].concat(m[2]), rng); return { t: 'mc', mtype: 'meta', q: m[0], o, a: o.indexOf(m[1]), why: m[3] }; };
+  CR.counts.meta = META.length;
+  ['prosp', 'meta'].forEach(t => { MN.EST[t] = t === 'prosp' ? 22 : 16; MN.TYPES.push(t); });
+  MN.LABEL.prosp = 'Memoria prospettica · regole da ricordare'; MN.LABEL.meta = 'Metacognizione · strategie di studio';
+  MN.DOMAINS[1].types = MN.DOMAINS[1].types.concat(['prosp']);  // martedì: memoria
+  MN.DOMAINS[4].types = MN.DOMAINS[4].types.concat(['meta']);   // venerdì: strategia e predizione
   MN.WEEK = MN.DOMAINS.map(d => d.types.slice(0, 3));
   /* test di transfer: A = prestazione allenata (stessi tipi e forme dell'allenamento al livello attuale),
      B = transfer vicino (compiti simili, forma 1 mai allenata), C = transfer distante (problemi nuovi dal Transfer Engine) */
@@ -39698,7 +39757,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     const act = (icon, title, sub, view, extra) => '<button class="item" data-act="go" data-view="' + view + '" data-p=\'' + JSON.stringify(Object.assign({ id: t.id }, extra || {})) + '\'><span class="ic">' + icon + '</span><span class="tx"><b>' + title + '</b><span>' + sub + '</span></span></button>';
     const lastTest = (r.tests || []).slice(-1)[0];
     let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + E(t.title) + '</h1><p class="mute">' + E(t.summary) + '</p>' +
-      '<p>' + (C.subject(t.subject) ? '<span class="tag">' + E(C.subject(t.subject).title) + '</span>' : '') + '<span class="tag">Stage ' + E(t.stage) + '</span><span class="tag">~' + t.minutes + ' min</span>' + ST.statusTag(st) + '</p>';
+      '<p>' + (C.subject(t.subject) ? '<span class="tag">' + E(C.subject(t.subject).title) + '</span>' : '') + '<span class="tag">Stage ' + E(t.stage) + '</span><span class="tag">~' + t.minutes + ' min</span>' + ST.statusTag(st) + '</p>'; h += (function () { const r = ST.kg.related(t); if (!r.prs.length) return ''; return '<div class="card"><p class="small"><b>Collegamenti trasversali</b> (per parole chiave): ' + r.prs.map(p => '<button class="btn alt sm" data-act="go" data-view="transfer" data-p=\'{"t":"tt"}\'>' + E(ST.kg.PRINCIPLES[p].t) + '</button>').join(' ') + (r.shared.length ? '<br>Anche in: ' + r.shared.map(id => '<button class="btn alt sm" data-act="go" data-view="topic" data-p=\'{"id":"' + id + '"}\'>' + E(ST.content.topics[id].title) + '</button>').join(' ') : '') + '</p></div>'; })();
     if (t.objectives && t.objectives.length) h += '<div class="card"><h3>Obiettivi</h3><ul>' + t.objectives.map(o => '<li>' + E(o) + '</li>').join('') + '</ul>' + ((t.prereq || []).length ? '<p class="mute small">Prerequisiti: ' + t.prereq.map(x => E(C.topic(x).title)).join(', ') + '</p>' : '') + '</div>';
     h += '<div class="list">' +
       act('📖', 'Lezione', t.pages.length + ' pagine' + (r.studied ? ' · letta' : r.page ? ' · riprendi da pagina ' + (r.page + 1) : ''), 'lesson') +
@@ -40656,7 +40715,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     return '<div class="card"><h3>Transfer spontaneo</h3><p class="small mute">Problemi senza indicazione della materia né del principio: devi riconoscere tu che cosa serve. Il principio viene rivelato solo dopo la risposta. Qui si misura il problema nuovo, distinto dai quiz di materia.</p>' +
       (due.length ? '<p class="warn small">Verifiche a distanza dovute: ' + due.map(x => E(K.PRINCIPLES[x.id.slice(3)].t) + ' (' + x.check + 'g)').join(', ') + '</p>' : '') +
       '<button class="btn block" data-act="trStart">▶ Sessione mista (5 problemi)</button>' +
-      '<table class="t" style="margin-top:8px"><tr><td>Principio</td><td class="small">Problema nuovo</td><td class="small">Ritenzione</td></tr>' + Object.keys(K.PRINCIPLES).map(k => { const d = T.dims(s, 'tr:' + k); return '<tr><td>' + E(K.PRINCIPLES[k].t) + '<div class="small mute">uso reale: ' + E(K.PRINCIPLES[k].real) + '</div></td><td>' + T.pct(d.novel) + '</td><td>' + T.pct(d.delayed) + '</td></tr>'; }).join('') + '</table></div>' +
+      '<table class="t" style="margin-top:8px"><tr><td>Principio</td><td class="small">Problema nuovo</td><td class="small">Ritenzione</td></tr>' + Object.keys(K.PRINCIPLES).map(k => { const d = T.dims(s, 'tr:' + k); return '<tr><td>' + E(K.PRINCIPLES[k].t) + '<div class="small mute">uso reale: ' + E(K.PRINCIPLES[k].real) + '</div>' + K.topicsOf(k, 3).map(t => '<button class="btn alt sm" data-act="go" data-view="topic" data-p=\'{"id":"' + t.id + '"}\'>' + E(t.title.slice(0, 28)) + '</button>').join(' ') + '</td><td>' + T.pct(d.novel) + '</td><td>' + T.pct(d.delayed) + '</td></tr>'; }).join('') + '</table></div>' +
       '<div class="card"><h3>Missioni multidisciplinari</h3>' + K.MISSIONS.map(m => '<div style="margin:10px 0"><b>' + E(m.t) + '</b>' + m.steps.map((st, i) => '<div class="small" style="margin:4px 0">' + (i + 1) + '. ' + E(st.x) + (st.go ? ' <button class="btn ghost" data-act="go" data-view="' + st.go.view + '" data-p=\'' + JSON.stringify(st.go.p) + '\'>Apri</button>' : ' <button class="btn ghost" data-act="trStart" data-pr="' + st.pr.join(',') + '">Allena</button>') + '</div>').join('') + '</div>').join('') + '</div>' +
       '<div class="card"><h3>Come si collegano</h3>' + Object.keys(K.PRINCIPLES).map(k => '<div class="small"><b>' + E(K.PRINCIPLES[k].t) + '</b> ← materie: ' + K.PRINCIPLES[k].subj.join(', ') + ' · collegato a: ' + K.PRINCIPLES[k].links.map(l => E(K.PRINCIPLES[l].t)).join(', ') + '</div>').join('') + '</div>';
   };

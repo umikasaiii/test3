@@ -301,7 +301,7 @@ test('Judo: ogni tecnica ha una lezione approfondita; proiezioni no-gi (morote-s
 
 test('Allenamento mentale: 13 tipi generano esercizi validi (fuzz) e i sillogismi sono corretti per verifica a modelli', () => {
   const MN = ST.mental;
-  assert.equal(MN.TYPES.length, 26);
+  assert.equal(MN.TYPES.length, 28);
   for (let i = 0; i < 40; i++) for (const t of MN.TYPES) for (const lv of [1, 3, 6, 10, 15, 20]) {
     const it = MN.make(t, lv);
     assert.ok(it && it.q, t);
@@ -814,4 +814,26 @@ test('allenamento strategico: contenuti ricalcolati e sequenza dei 5 passi con a
   TT.done(s, 'ev', 4, 'x'); assert.equal(TT.status(s, 'ev').ready, false); assert.equal(TT.status(s, 'ev').wait, 7);
   assert.equal(TT.status(s, 'ev', '2026-04-08').ready, true); TT.done(s, 'ev', 5, true); assert.equal(TT.status(s, 'ev').done, true);
   assert.ok(TT.delayedItem(s, 'ev').q && TT.item('ev', 2).skill === 'tt:ev');
+});
+
+test('grafo per argomento: collegamenti coerenti e senza lingue', () => {
+  const K = ST.kg, all = Object.values(C.topics);
+  assert.ok(all.filter(t => K.principlesOf(t).length).length > 80);
+  assert.ok(all.filter(t => t.subject === 'eng' || t.subject === 'jpn').every(t => K.principlesOf(t).length === 0));
+  const t = all.find(x => K.principlesOf(x).includes('baserate')), r = K.related(t);
+  assert.ok(r.prs.includes('baserate') && r.shared.every(id => C.topics[id] && C.topics[id].subject !== t.subject));
+  assert.ok(K.topicsOf('ev', 3).length === 3 && K.topicsOf('ev', 3).every(x => K.principlesOf(x).includes('ev')));
+  assert.ok(all.every(x => (x.prereq || []).every(id => C.topics[id])));
+});
+
+test('memoria prospettica e metacognizione: risposta unica e coerente', () => {
+  const r = U.rng(11);
+  for (let lv = 1; lv <= 20; lv++) for (let i = 0; i < 30; i++) {
+    const p = MN.make('prosp', lv, r); assert.ok(p.t === 'flash' && p.show && p.o.length === 4 && new Set(p.o).size === 4 && p.o[p.a], 'prosp ' + lv);
+    const seq = /sequenza ([\d, ]+)\./.exec(p.q)[1].split(', ').map(Number), harder = lv >= 8;
+    const code = n => n % 5 === 0 ? 'C' : n % 2 === 0 ? 'P' : harder && n > 20 ? 'G' : 'N';
+    assert.equal(p.o[p.a], seq.map(code).join(' '), 'prosp ' + lv);
+    const m = MN.make('meta', lv, r); assert.ok(m.t === 'mc' && m.o.length === 4 && m.o[m.a] && m.why);
+  }
+  assert.equal(ST.mental.crit.counts.meta, 8);
 });

@@ -44,6 +44,39 @@
   MN.DOMAINS[4].types = MN.DOMAINS[4].types.concat(['source']);          // venerdì: strategia e predizione
   MN.DOMAINS[5].types = MN.DOMAINS[5].types.concat(['fallacy', 'bias']);  // sabato: enigmi e ragionamento
   MN.WEEK = MN.DOMAINS.map(d => d.types.slice(0, 3));
+
+  /* ---------------- Memoria prospettica: ricordare ed eseguire regole fornite prima ---------------- */
+  const ri = (rng, a, b) => a + Math.floor(rng() * (b - a + 1));
+  G.prosp = (lv, rng) => {
+    rng = rng || U.rand; const nSeq = Math.min(8, 3 + Math.ceil(lv / 3)), harder = lv >= 8;
+    const rules = harder ? [['multiplo di 5', 'C', n => n % 5 === 0], ['pari', 'P', n => n % 2 === 0], ['maggiore di 20', 'G', n => n > 20]] : [['multiplo di 5', 'C', n => n % 5 === 0], ['pari', 'P', n => n % 2 === 0]];
+    const seq = Array.from({ length: nSeq }, () => ri(rng, 2, harder ? 40 : 20));
+    const code = n => { for (const r of rules) if (r[2](n)) return r[1]; return 'N'; }; // le regole sono in ordine di priorità
+    const correct = seq.map(code).join(' ');
+    const wrongs = new Set(); let guard = 0;
+    while (wrongs.size < 3 && guard++ < 50) { const w = seq.map((n, i) => rng() < 0.3 ? U.pick(['C', 'P', 'G', 'N'], rng) : code(n)).join(' '); if (w !== correct) wrongs.add(w); }
+    const o = U.shuffle([correct].concat(Array.from(wrongs)), rng); while (o.length < 4) o.push(correct + ' N');
+    const show = 'REGOLE (in ordine di priorità): ' + rules.map(r => 'se il numero è ' + r[0] + ' → ' + r[1]).join('; ') + '; altrimenti → N.';
+    return { t: 'flash', mtype: 'prosp', show, ms: 4000 + rules.length * 1500, q: 'Applica le regole che hai appena visto alla sequenza ' + seq.join(', ') + '. Quale codifica è corretta?', o, a: o.indexOf(correct), why: seq.map((n, i) => n + '→' + code(n)).join(', ') + '. Hai dovuto tenere in mente le regole e la loro priorità mentre eseguivi il compito.', timed: 45 };
+  };
+  /* ---------------- Metacognizione: scelta delle strategie di studio e analisi dell'errore ---------------- */
+  const META = [
+    ['Devi memorizzare 40 termini per un esame tra tre settimane. Quale strategia ha le migliori prove di efficacia?', 'Richiamo attivo ripetuto (provare a ricordare senza guardare) distribuito nel tempo', ['Rileggere più volte gli appunti l’ultima sera', 'Sottolineare tutto con colori diversi', 'Studiare solo quando ci si sente motivati'], 'Richiamo attivo e distribuzione nel tempo producono ricordo più duraturo di rilettura e sottolineatura.'],
+    ['Hai studiato un capitolo e «lo riconosci» quando lo rileggi. Perché non è un buon segnale di aver imparato?', 'La familiarità si confonde con la capacità di richiamare senza aiuti', ['Perché i capitoli lunghi non si possono imparare', 'Perché riconoscere è identico a ricordare', 'Perché serve studiare solo con musica'], 'Riconoscere è più facile che richiamare: la sensazione di sapere può essere ingannevole (illusione di competenza).'],
+    ['Hai sbagliato un esercizio. Quale analisi dell’errore è più utile?', 'Distinguere tra svista di calcolo, lacuna concettuale e fretta, e correggere in modo diverso ciascuna', ['Concludere che non sei portato', 'Ripetere subito lo stesso esercizio guardando la soluzione', 'Ignorarlo perché è uno solo'], 'Cause diverse richiedono rimedi diversi: controllo dei passaggi, ripasso del concetto, gestione del tempo.'],
+    ['Prima di un test sei molto sicuro di aver capito tutto, ma non hai mai provato un esercizio senza appunti. Che cosa fai?', 'Provi alcuni esercizi senza appunti per verificare la tua stima', ['Ti fidi della sensazione', 'Rileggi gli appunti un’altra volta', 'Studi più ore senza verificare'], 'La verifica con prove reali calibra la tua fiducia.'],
+    ['Studi due argomenti molto simili e li confondi. Quale pratica aiuta a distinguerli?', 'Alternare esercizi dei due argomenti e confrontare esplicitamente le differenze', ['Studiare prima tutto uno e poi tutto l’altro senza confronti', 'Studiarli solo in un unico giorno', 'Evitare di confrontarli'], 'L’alternanza (interleaving) e il confronto aiutano a scegliere la strategia giusta.'],
+    ['Hai poco tempo: tre argomenti, di cui uno che padroneggi bene. Come distribuisci il tempo?', 'Più tempo sugli argomenti deboli, con un breve richiamo di quello solido', ['Tutto il tempo su quello che sai già, perché è piacevole', 'Uguale tempo a tutti per principio', 'Nessuna verifica'], 'Il rendimento è maggiore dove ci sono più lacune, ma senza abbandonare del tutto il resto.'],
+    ['Dopo una spiegazione ti sembra tutto chiaro. Come verifichi di aver capito davvero?', 'Lo spieghi a parole tue senza guardare, e rilevi dove ti blocchi', ['Rileggi la spiegazione', 'Annuisci mentre la rileggi', 'Aspetti di ricordarla da solo'], 'Spiegare senza guardare rivela le lacune che la rilettura nasconde.'],
+    ['Ti accorgi di sbagliare di più alla fine di una sessione lunga. Quale decisione è più sensata?', 'Accorciare le sessioni o inserire pause, e rivedere ciò che hai sbagliato in un altro momento', ['Allungare ancora le sessioni', 'Ignorare il calo', 'Concludere che sei poco intelligente'], 'La fatica riduce la prestazione: si adatta il metodo, non si trae un giudizio su di sé.']
+  ];
+  G.meta = (lv, rng) => { rng = rng || U.rand; const m = U.pick(META, rng), o = U.shuffle([m[1]].concat(m[2]), rng); return { t: 'mc', mtype: 'meta', q: m[0], o, a: o.indexOf(m[1]), why: m[3] }; };
+  CR.counts.meta = META.length;
+  ['prosp', 'meta'].forEach(t => { MN.EST[t] = t === 'prosp' ? 22 : 16; MN.TYPES.push(t); });
+  MN.LABEL.prosp = 'Memoria prospettica · regole da ricordare'; MN.LABEL.meta = 'Metacognizione · strategie di studio';
+  MN.DOMAINS[1].types = MN.DOMAINS[1].types.concat(['prosp']);  // martedì: memoria
+  MN.DOMAINS[4].types = MN.DOMAINS[4].types.concat(['meta']);   // venerdì: strategia e predizione
+  MN.WEEK = MN.DOMAINS.map(d => d.types.slice(0, 3));
   /* test di transfer: A = prestazione allenata (stessi tipi e forme dell'allenamento al livello attuale),
      B = transfer vicino (compiti simili, forma 1 mai allenata), C = transfer distante (problemi nuovi dal Transfer Engine) */
   CR.TV = { A: 'Prestazione allenata', B: 'Transfer vicino', C: 'Transfer distante' };

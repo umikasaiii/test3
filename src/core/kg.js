@@ -54,3 +54,29 @@
       { x: 'Allena «unità di misura» e «regressione verso la media».', pr: ['units', 'regression'] } ] }
   ];
 })(window.ST = window.ST || {});
+(function (ST) {
+  'use strict';
+  const K = ST.kg;
+  /* collegamento argomento → principio per parole chiave nel titolo, nel sommario e negli obiettivi (euristico, dichiarato come tale) */
+  K.KEYS = {
+    baserate: /bayes|probabilit|falsi positiv|prevalenz|sensibilit|screening/i,
+    opportunity: /costo opportunit|trade-?off|compromess|alternativ|budget|risors/i,
+    growth: /compost|crescita|esponenzial|inflazion|sovraccarico progressivo|progressione/i,
+    causation: /causal|correlazion|confondent|osservazional|esperiment|placebo|randomizz/i,
+    ev: /valore atteso|expectimax|aspettativa|scommess|incertezza|rischio/i,
+    regression: /regressione (alla|verso) |regressione alla media/i,
+    incentives: /incentiv|nash|dilemma del prigioniero|teoria dei giochi|strategia dominante|negoziazion/i,
+    units: /unit[àa] di misura|conversion|ordine di grandezza|fermi/i
+  };
+  const textOf = t => [t.title, t.summary].concat(t.objectives || []).join(' ');
+  const LANG = { eng: 1, jpn: 1 }; // gli argomenti di lingua non sono collegati per parola chiave
+  K.principlesOf = t => LANG[t.subject] ? [] : Object.keys(K.KEYS).filter(p => K.KEYS[p].test(textOf(t)));
+  K.topicsOf = (pr, max) => Object.values(ST.content.topics).filter(t => K.principlesOf(t).includes(pr)).slice(0, max || 6);
+  /* argomenti collegati: prerequisiti dichiarati, successivi che li richiedono, e altri argomenti con un principio in comune */
+  K.related = t => {
+    const all = Object.values(ST.content.topics), pre = (t.prereq || []).filter(id => ST.content.topics[id]);
+    const next = all.filter(x => (x.prereq || []).includes(t.id)).map(x => x.id);
+    const prs = K.principlesOf(t), shared = all.filter(x => x.id !== t.id && x.subject !== t.subject && K.principlesOf(x).some(p => prs.includes(p))).slice(0, 5).map(x => x.id);
+    return { pre, next, prs, shared };
+  };
+})(window.ST = window.ST || {});
