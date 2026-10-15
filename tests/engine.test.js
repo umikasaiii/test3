@@ -802,3 +802,16 @@ test('lessico attivo: livelli, cloze, verifica a distanza e sessione', () => {
   assert.ok(V.counts(s, 'en').reduce((a, b) => a + b, 0) > 3);
   const sess = V.session(s, 'en', 5, U.rng(1)); assert.ok(sess.every(x => x.vocabId && x.q));
 });
+
+test('allenamento strategico: contenuti ricalcolati e sequenza dei 5 passi con attesa', () => {
+  const TT = ST.tt, s = fresh(); at('2026-04-01');
+  const pc = (p, se, fp) => se * p / (se * p + fp * (1 - p));
+  assert.equal(Math.round(pc(.05, .8, .1) * 100), 30); assert.equal(Math.round(pc(.001, .99, .01) * 100), 9);
+  assert.equal(2 * 15 + 30, 60); assert.equal((200 * 1.1 ** 3).toFixed(1), '266.2'); assert.equal((80 * 1.025 ** 12).toFixed(1), '107.6');
+  assert.equal((50 / 10 - 4), 1); assert.equal(0.1 * 200, 20); assert.equal(90 / 3.6, 25); assert.equal((6.5 * 520 / 100).toFixed(1), '33.8');
+  Object.keys(ST.kg.PRINCIPLES).forEach(pr => { const c = TT.CONTENT[pr]; assert.ok(c.theory && [c.abs, c.scen].every(q => q.o.length === 4 && new Set(q.o).size === 4 && q.why)); });
+  assert.equal(TT.status(s, 'ev').next, 1); TT.done(s, 'ev', 1); TT.done(s, 'ev', 2); TT.done(s, 'ev', 3); assert.equal(TT.status(s, 'ev').next, 4);
+  TT.done(s, 'ev', 4, 'x'); assert.equal(TT.status(s, 'ev').ready, false); assert.equal(TT.status(s, 'ev').wait, 7);
+  assert.equal(TT.status(s, 'ev', '2026-04-08').ready, true); TT.done(s, 'ev', 5, true); assert.equal(TT.status(s, 'ev').done, true);
+  assert.ok(TT.delayedItem(s, 'ev').q && TT.item('ev', 2).skill === 'tt:ev');
+});

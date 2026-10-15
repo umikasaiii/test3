@@ -3,7 +3,7 @@
   'use strict';
   const U = ST.util, A = ST.app, E = U.esc, X = ST.acts, T = ST.transfer;
   const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
-  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['voc', 'Lessico'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
+  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['voc', 'Lessico'], ['tt', 'Allenamento strategico'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
   const field = (id, label, ph) => '<label class="small mute">' + label + '</label><input id="' + id + '" class="inp" placeholder="' + E(ph || '') + '" style="width:100%">';
   const dash = s => {
     const ids = Object.keys(s.skills || {}), due = T.due(s);
@@ -59,7 +59,19 @@
   const voc = s => '<div class="card"><h3>Lessico attivo</h3><p class="small mute">Ogni parola passa da: riconoscimento → richiamo senza aiuti (2 volte) → uso in una frase (completamento) → produzione di una frase tua → verifica a distanza dopo almeno ' + ST.vocab.GAP + ' giorni dal primo richiamo. La produzione è autovalutata: l’app non corregge la grammatica. Le parole dovute per il ripasso hanno la precedenza.</p>' +
     [['en', 'Inglese'], ['ja', 'Giapponese']].map(l => { const c = ST.vocab.counts(s, l[0]); return '<div class="item" style="display:block"><b>' + l[1] + '</b> · ' + c.reduce((a, b) => a + b, 0) + ' parole<div class="small mute">' + ST.vocab.LABELS.map((x, i) => x + ': ' + c[i]).join(' · ') + '</div><button class="btn" data-act="vocStart" data-l="' + l[0] + '">▶ Sessione (10 parole)</button></div>'; }).join('') +
     '<p class="small mute">Le parole entrano qui quando studi un argomento di lingua. In giapponese la fase «contesto» è sostituita dalla produzione perché le carte non hanno ancora frasi d’esempio.</p></div>';
-  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : t === 'voc' ? voc(s) : dash(s)); };
+  const ttv = s => {
+    const K = ST.kg, TT = ST.tt, sel = A.ttSel, steps = ['Teoria', 'Esercizio astratto', 'Scenario realistico', 'Applicazione reale', 'Verifica differita'];
+    if (sel) { const c = TT.CONTENT[sel], st = TT.status(s, sel), p = K.PRINCIPLES[sel];
+      return '<div class="card"><h3>' + E(p.t) + '</h3><p class="small mute">Passo ' + Math.min(st.next, 5) + ' di 5 · ' + steps.map((x, i) => (i + 1 < st.next ? '✓ ' : '') + x).join(' → ') + '</p>' +
+        (st.next === 1 ? '<p class="small">' + E(c.theory) + '</p><p class="small mute">Dove si usa nella vita reale: ' + E(p.real) + '</p><button class="btn block" data-act="ttStep" data-pr="' + sel + '" data-n="1">Ho letto: avanti</button>'
+        : st.next === 2 || st.next === 3 ? '<button class="btn block" data-act="ttStep" data-pr="' + sel + '" data-n="' + st.next + '">▶ ' + steps[st.next - 1] + '</button>'
+        : st.next === 4 ? '<p class="small">Scegli una situazione concreta dei prossimi giorni in cui userai questo principio e descrivila (es. «prima di comprare X confronterò il costo per uso»).</p><input id="tt-note" class="inp" style="width:100%" placeholder="La mia situazione concreta"><button class="btn block" data-act="ttStep" data-pr="' + sel + '" data-n="4" style="margin-top:8px">Mi impegno e salvo nel diario</button>'
+        : st.done ? '<p class="small">Percorso completato. Verifica differita: ' + (((s.tt || {})[sel] || {}).delayedOk ? 'riuscita' : 'non riuscita (ripeti il passo 1–3 per rinforzare)') + '.</p>'
+        : st.ready ? '<p class="small">Un problema nuovo, senza indicare il principio: riconoscilo da solo.</p><button class="btn block" data-act="ttStep" data-pr="' + sel + '" data-n="5">▶ Verifica differita</button>' : '<p class="small mute">La verifica differita si sblocca tra ' + st.wait + ' giorni: serve tempo tra applicazione e prova.</p>') +
+        '<button class="btn ghost" data-act="ttSel" data-pr="" style="margin-top:8px">← Tutti i principi</button></div>'; }
+    return '<div class="card"><h3>Allenamento strategico in 5 passaggi</h3><p class="small mute">Ogni principio: teoria → esercizio astratto → scenario realistico → applicazione nella tua vita → verifica differita in un contesto nuovo, senza suggerimenti. L’ultimo passo è quello che conta.</p>' + TT.summary(s).map(x => '<button class="item" data-act="ttSel" data-pr="' + x.pr + '"><span class="tx"><b>' + E(K.PRINCIPLES[x.pr].t) + '</b><span>' + (x.st.done ? 'completato' : 'passo ' + x.st.next + ' di 5' + (x.st.next === 5 && !x.st.ready ? ' (tra ' + x.st.wait + ' giorni)' : '')) + '</span></span></button>').join('') + '</div>';
+  };
+  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : t === 'voc' ? voc(s) : t === 'tt' ? ttv(s) : dash(s)); };
   const re = () => { A.save(); A.render(); };
   X.jAdd = () => { const s = A.state, p = parseInt(val('j-p'), 10); if (!val('j-sit') || !val('j-choice')) return A.toast && A.toast('Servono almeno situazione e scelta'); T.jAdd(s, { sit: val('j-sit'), goal: val('j-goal'), opts: val('j-opts'), hyp: val('j-hyp'), p: isNaN(p) ? null : Math.max(0, Math.min(100, p)), choice: val('j-choice'), why: val('j-why'), check: val('j-check') }); re(); };
   X.jClose = el => { T.jClose(A.state, el.dataset.id, val('o-' + el.dataset.id), val('l-' + el.dataset.id)); re(); };
@@ -96,6 +108,15 @@
   X.vocStart = el => {
     const s = A.state, items = ST.vocab.session(s, el.dataset.l, 10); if (!items.length) return A.toast('Nessuna parola disponibile: studia prima un argomento di lingua.');
     A.ctx = 'general'; ST.runner.start({ title: 'Lessico attivo', kind: 'free', items, ctx: 'general', onAnswer: (it, ok) => { ST.vocab.grade(s, it, ok); A.save(); } });
+  };
+  X.ttSel = el => { A.ttSel = el.dataset.pr || null; A.render(); };
+  X.ttStep = el => {
+    const s = A.state, pr = el.dataset.pr, n = +el.dataset.n, TT = ST.tt;
+    if (n === 1) { TT.done(s, pr, 1); A.save(); return A.render(); }
+    if (n === 4) { const note = val('tt-note'); if (!note) return A.toast('Descrivi la situazione'); TT.done(s, pr, 4, note); T.jAdd(s, { sit: '[Applicazione] ' + ST.kg.PRINCIPLES[pr].t + ': ' + note, goal: 'Applicare il principio nella vita reale', choice: note, check: U.addDays(U.today(), TT.GAP) }); A.save(); return A.render(); }
+    A.ctx = 'general';
+    if (n === 5) ST.runner.start({ title: 'Verifica differita', kind: 'free', items: [TT.delayedItem(s, pr)], ctx: 'general', onAnswer: (it, ok) => { TT.done(s, pr, 5, ok); T.record(s, 'tr:' + pr, 'delayed', ok, {}); A.save(); } });
+    else ST.runner.start({ title: ST.kg.PRINCIPLES[pr].t, kind: 'free', items: [TT.item(pr, n)], ctx: 'general', onAnswer: () => { TT.done(s, pr, n); A.save(); } });
   };
   X.jExport = () => { const b = new Blob([T.exportJournal(A.state)], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'skilltree-diario.json'; a.click(); };
 })(window.ST = window.ST || {});

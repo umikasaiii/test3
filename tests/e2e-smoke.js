@@ -105,6 +105,8 @@ const mock = () => {
   await step('hub cultura', () => ST.app.go('subject', { id: 'sec' }), /Laboratori di calcolo · numeri della vita quotidiana/);
   await page.evaluate(() => ST.acts.startCul()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio cultura'); await reset();
   for (const t of await page.evaluate(() => ST.cul.TYPES)) { await page.evaluate(t => ST.acts.startCulType({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio cultura ' + t); await reset(); }
+  await step('allenamento strategico', () => ST.app.go('transfer', { t: 'tt' }), /Allenamento strategico in 5 passaggi/);
+  await page.evaluate(() => { ST.acts.ttSel({ dataset: { pr: 'ev' } }); ST.acts.ttStep({ dataset: { pr: 'ev', n: '1' } }); }); await page.waitForTimeout(150); await page.evaluate(() => ST.acts.ttStep({ dataset: { pr: 'ev', n: '2' } })); await page.waitForTimeout(200); ok((await body()).length > 30 && !errors.length, 'passo astratto'); await reset();
   await step('lessico', () => ST.app.go('transfer', { t: 'voc' }), /Lessico attivo/);
   await page.evaluate(() => { const t = Object.values(ST.content.topics).find(x => x.subject === 'eng' && x.cards && x.cards.length); ST.cards.introduceTopic(ST.app.state, t); ST.acts.vocStart({ dataset: { l: 'en' } }); }); await page.waitForTimeout(200); ok((await body()).length > 30 && !errors.length, 'sessione lessico'); await reset();
   await step('casi sport', () => ST.app.go('transfer', { t: 'cs' }), /Case Study Engine/);
