@@ -105,6 +105,8 @@ const mock = () => {
   await step('hub cultura', () => ST.app.go('subject', { id: 'sec' }), /Laboratori di calcolo · numeri della vita quotidiana/);
   await page.evaluate(() => ST.acts.startCul()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio cultura'); await reset();
   for (const t of await page.evaluate(() => ST.cul.TYPES)) { await page.evaluate(t => ST.acts.startCulType({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio cultura ' + t); await reset(); }
+  await step('test cognitivi', () => ST.app.go('transfer', { t: 'cog' }), /Test di transfer cognitivo/);
+  for (const c of ['A', 'B', 'C']) { await page.evaluate(c => ST.acts.tvStart({ dataset: { c } }), c); await page.waitForTimeout(150); ok((await body()).length > 30 && !errors.length, 'test transfer ' + c); await reset(); }
   await step('decisioni', () => ST.app.go('transfer', { t: 'rwd' }), /Real-World Decision Lab/);
   await page.evaluate(() => { ST.app.go('transfer', { t: 'rwd' }); ST.acts.rwdOpen({ dataset: { id: 'laptop' } }); ST.acts.rwdInfo(); }); await page.waitForTimeout(200); await page.evaluate(() => { document.querySelector('.rw-o').checked = true; ST.acts.rwdChoose(); }); await page.waitForTimeout(150); ok(/Conseguenza simulata/.test(await body()) && !errors.length, 'scenario decisione'); await reset();
   await step('transfer tab', () => ST.app.go('transfer', { t: 'tr' }), /Transfer spontaneo/);

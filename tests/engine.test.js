@@ -301,7 +301,7 @@ test('Judo: ogni tecnica ha una lezione approfondita; proiezioni no-gi (morote-s
 
 test('Allenamento mentale: 13 tipi generano esercizi validi (fuzz) e i sillogismi sono corretti per verifica a modelli', () => {
   const MN = ST.mental;
-  assert.equal(MN.TYPES.length, 23);
+  assert.equal(MN.TYPES.length, 26);
   for (let i = 0; i < 40; i++) for (const t of MN.TYPES) for (const lv of [1, 3, 6, 10, 15, 20]) {
     const it = MN.make(t, lv);
     assert.ok(it && it.q, t);
@@ -752,4 +752,13 @@ test('rwd: probabilità, valori attesi e opzione migliore coerenti col testo', (
   assert.equal(ev('laptop')[0].ev, 500); assert.equal(ev('salary')[1].ev, 31.95); assert.equal(ev('invest')[2].ev, 1027.5); assert.equal(ev('taxi')[2].ev, 12);
   const op = Rw.SCENARIOS[0].opts[0]; assert.equal(Rw.sample(op, 0.5).v, 450); assert.equal(Rw.sample(op, 0.95).v, 700);
   assert.equal(JSON.stringify(Rw.infoScore(Rw.SCENARIOS[0], [Rw.SCENARIOS[0].info[0][0], Rw.SCENARIOS[0].info[2][0]])), '{"hit":1,"total":3,"wrong":1}');
+});
+
+test('pensiero critico: forme 0/1 disgiunte, risposta coerente, test di transfer in tre categorie', () => {
+  const CR = ST.mental.crit, r = U.rng(5), st = fresh();
+  ['fallacy', 'bias', 'source'].forEach(t => { for (let i = 0; i < 60; i++) { const a = CR[t](0, r), b = CR[t](1, r); assert.ok(a.o[a.a] && new Set(a.o).size === 4 && b.o[b.a] && a.form === 0 && b.form === 1 && a.q !== b.q || a.key !== b.key, t); assert.ok(/:|\./.test(a.why)); } });
+  assert.equal(CR.counts.fallacy, 8); assert.equal(CR.counts.bias, 6);
+  ['A', 'B', 'C'].forEach(c => { const it = CR.tvItems(st, c, 6, r); assert.equal(it.length, 6); assert.ok(it.every(x => x.tv === c && x.q && (x.t !== 'mc' || x.o[x.a]))); });
+  assert.equal(CR.tvSummary(st, 'A'), null); CR.tvRecord(st, 'A', 3, 6, 1000); CR.tvRecord(st, 'A', 5, 6, 900); const m = CR.tvSummary(st, 'A'); assert.equal([m.runs, m.first, m.last, m.best].join(), '2,50,83,83');
+  assert.ok(ST.mental.session(st, '2026-01-10', r).every(x => x.q));
 });

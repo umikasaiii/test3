@@ -1815,6 +1815,68 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   H.syllo = (lv, rng) => G.syllo ? G.syllo(lv, rng) : MN.make('syllo', 10, rng);
 })(window.ST = window.ST || {});
 
+/* ---- core/mental-crit ---- */
+/* SkillTree — pensiero critico (fallacie, bias, valutazione delle fonti) e test di transfer in tre categorie.
+   Ogni elemento ha due forme: la forma 0 si allena, la forma 1 è riservata ai test di transfer vicino (mai usata in allenamento). */
+(function (ST) {
+  'use strict';
+  const U = ST.util, MN = ST.mental, G = MN.gen, CR = MN.crit = {};
+  const F = { // nome, [testo forma 0, testo forma 1], spiegazione
+    ad_hominem: ['Attacco alla persona', ['Non ascoltare la sua proposta sul budget: è uno che ha cambiato lavoro tre volte.', 'La sua critica al metodo è da scartare: ha una condanna per guida in stato di ebbrezza.'], 'Si respinge l’argomento attaccando chi lo sostiene, non il contenuto.'],
+    dilemma: ['Falso dilemma', ['O ti iscrivi a questa palestra oggi, o rinunci per sempre a stare in forma.', 'Dobbiamo comprare questo software o chiudere l’azienda: non esistono altre strade.'], 'Presenta solo due opzioni quando ne esistono altre.'],
+    pendio: ['Pendio scivoloso', ['Se oggi salti un allenamento, domani ne salterai due e tra un mese avrai smesso di allenarti.', 'Se permettiamo una proroga, tutti chiederanno proroghe e nessuna scadenza avrà più senso.'], 'Si afferma una catena di conseguenze inevitabili senza prove di ogni passaggio.'],
+    autorita: ['Appello all’autorità', ['Lo dice un famoso attore, quindi questo integratore funziona.', 'Un noto imprenditore garantisce che questa dieta è la migliore, quindi lo è.'], 'Un’autorità fuori dal proprio campo non è una prova.'],
+    postHoc: ['Post hoc (dopo, quindi a causa di)', ['Ho cambiato scarpe e ho battuto il mio record: le scarpe mi hanno fatto correre più forte.', 'Dopo aver adottato il nuovo orario, le vendite sono salite: è merito dell’orario.'], 'La successione temporale non dimostra la causa.'],
+    generalizzazione: ['Generalizzazione affrettata', ['Ho incontrato due turisti scortesi: i turisti di quel Paese sono tutti maleducati.', 'Il primo ordine ha avuto un ritardo: questo fornitore consegna sempre in ritardo.'], 'Si trae una regola generale da pochissimi casi.'],
+    pagliaio: ['Uomo di paglia', ['Lui vuole regole sul traffico; quindi vuole togliere a tutti la libertà di muoversi.', 'Se proponi di ridurre gli straordinari, vuoi che l’azienda smetta di lavorare.'], 'Si deforma la tesi dell’altro per attaccare una versione più debole.'],
+    circolare: ['Petizione di principio', ['Questo libro è affidabile perché lo dice il suo autore, che è sempre affidabile.', 'Il regolamento è giusto perché è scritto nel regolamento.'], 'La conclusione è già contenuta nella premessa.']
+  };
+  const B = {
+    conferma: ['Bias di conferma', ['Cerchi solo articoli che dicono che il tuo programma di allenamento è il migliore e ignori quelli contrari.', 'Dopo aver deciso di comprare un’auto, leggi soltanto le recensioni positive di quel modello.'], 'Si cercano e si ricordano solo le informazioni che confermano ciò che già si crede.'],
+    ancoraggio: ['Ancoraggio', ['Il venditore chiede 900 €, poi «scende» a 700 €: ti sembra un affare anche se vale 500 €.', 'Vedi prima un prezzo di listino di 2 000 € e poi uno sconto a 1 400 €: giudichi il secondo prezzo conveniente solo per il confronto.'], 'Il primo numero visto influenza la stima successiva.'],
+    disponibilita: ['Euristica della disponibilità', ['Dopo un servizio sugli squali pensi che nuotare al mare sia pericolosissimo.', 'Dopo aver letto di un furto nel tuo quartiere, stimi i furti come molto più frequenti di quanto indicano le statistiche.'], 'Si giudica la frequenza dagli esempi che vengono in mente più facilmente.'],
+    affondato: ['Costo affondato', ['Hai pagato il biglietto del film, ma è noioso: resti fino alla fine «per non sprecare i soldi».', 'Hai già speso molto per un corso che non ti serve più: continui per non buttare ciò che hai pagato.'], 'Si decide in base a costi già sostenuti e non recuperabili.'],
+    alone: ['Effetto alone', ['Un collega è molto simpatico, quindi pensi che sia anche competente nel suo lavoro.', 'Un atleta è bellissimo da vedere: lo ritieni anche un ottimo stratega.'], 'Un tratto positivo influenza il giudizio su altri tratti non collegati.'],
+    sopravvivenza: ['Errore del sopravvissuto', ['Studi solo i fondatori di imprese famose per capire come avere successo, ignorando quelle fallite.', 'Giudichi un metodo di studio efficace perché lo usano i primi della classe, senza contare chi lo ha usato ed è andato male.'], 'Si guarda solo chi ce l’ha fatta, ignorando i casi che non vediamo.']
+  };
+  const S = [ // valutazione fonti: affermazione scenario → giudizio migliore
+    [['Un post anonimo dice che un farmaco «cura tutto» e cita «studi» senza dare riferimenti.', 'Un video promette di aumentare la massa muscolare del 30% in una settimana e rimanda a «una ricerca» senza titolo né autori.'], 'Non verificabile: mancano autori e riferimenti', ['Affidabile: parla di studi', 'Affidabile: è molto condiviso', 'Falso: i post anonimi sono sempre falsi'], 'L’assenza di fonti identificabili rende l’affermazione non verificabile (non automaticamente falsa).'],
+    [['Un sito vende un integratore e pubblica «recensioni» solo positive.', 'Un negozio online mostra solo valutazioni a cinque stelle e nessuna recensione critica.'], 'Fonte con conflitto d’interesse: da verificare altrove', ['Affidabile: ci sono molte recensioni', 'Affidabile: tutti sono soddisfatti', 'Inutile: le recensioni non servono mai'], 'Chi vende ha interesse a mostrare solo il lato favorevole.'],
+    [['Uno studio su 12 persone trova un effetto, mai replicato, e un titolo lo presenta come «la prova definitiva».', 'Un piccolo studio con 15 partecipanti mostra un risultato e nessuno ha ancora provato a ripeterlo, ma la notizia dice «è dimostrato».'], 'Evidenza preliminare: campione piccolo e senza replica', ['Prova definitiva', 'Dato inutile perché sono pochi', 'Falso perché è un titolo'], 'Un campione piccolo e non replicato è un indizio, non una prova definitiva.'],
+    [['Una meta-analisi di molti studi controllati randomizzati trova un effetto piccolo ma coerente, con limiti dichiarati.', 'Una revisione di numerosi studi controllati con metodi dichiarati trova un effetto modesto e coerente tra gli studi.'], 'Evidenza più solida, con effetto modesto da interpretare con prudenza', ['Evidenza debole perché l’effetto è piccolo', 'Prova che l’effetto sia enorme', 'Da ignorare perché è una sintesi'], 'Più studi controllati e coerenti pesano più di un singolo studio; «piccolo» è la dimensione dell’effetto, non la qualità della prova.']
+  ];
+  const opts = (rng, right, pool) => U.shuffle([right].concat(U.sample(pool.filter(x => x !== right), 3, rng)), rng);
+  const make = (type, bank, form, rng, lab) => {
+    const keys = Object.keys(bank), k = U.pick(keys, rng), names = keys.map(x => bank[x][0]);
+    const o = opts(rng, bank[k][0], names);
+    return { t: 'mc', mtype: type, q: lab + ' «' + bank[k][1][form] + '»', o, a: o.indexOf(bank[k][0]), why: bank[k][0] + ': ' + bank[k][2], form, key: k };
+  };
+  CR.fallacy = (form, rng) => make('fallacy', F, form, rng, 'Quale errore di ragionamento contiene?');
+  CR.bias = (form, rng) => make('bias', B, form, rng, 'Quale bias cognitivo è all’opera?');
+  CR.source = (form, rng) => { const k = Math.floor(rng() * S.length), s = S[k], o = U.shuffle([s[1]].concat(s[2]), rng); return { t: 'mc', mtype: 'source', q: 'Come valuti questa fonte? «' + s[0][form] + '»', o, a: o.indexOf(s[1]), why: s[3], form, key: 'S' + k }; };
+  CR.TYPES = ['fallacy', 'bias', 'source'];
+  CR.LABEL = { fallacy: 'Pensiero critico · fallacie', bias: 'Pensiero critico · bias cognitivi', source: 'Pensiero critico · valutare le fonti' };
+  CR.counts = { fallacy: Object.keys(F).length, bias: Object.keys(B).length, source: S.length };
+  /* allenamento: sempre forma 0 */
+  CR.TYPES.forEach(t => { G[t] = (lv, rng) => CR[t](0, rng || U.rand); MN.LABEL[t] = CR.LABEL[t]; MN.EST[t] = 16; MN.TYPES.push(t); });
+  MN.DOMAINS[4].types = MN.DOMAINS[4].types.concat(['source']);          // venerdì: strategia e predizione
+  MN.DOMAINS[5].types = MN.DOMAINS[5].types.concat(['fallacy', 'bias']);  // sabato: enigmi e ragionamento
+  MN.WEEK = MN.DOMAINS.map(d => d.types.slice(0, 3));
+  /* test di transfer: A = prestazione allenata (stessi tipi e forme dell'allenamento al livello attuale),
+     B = transfer vicino (compiti simili, forma 1 mai allenata), C = transfer distante (problemi nuovi dal Transfer Engine) */
+  CR.TV = { A: 'Prestazione allenata', B: 'Transfer vicino', C: 'Transfer distante' };
+  CR.tvItems = (state, cat, n, rng) => {
+    rng = rng || U.rand; n = n || 6; const out = [];
+    if (cat === 'A') { const pool = ['calc', 'seq', 'span', 'logic', 'fallacy', 'bias']; for (let i = 0; i < n; i++) { const t = pool[i % pool.length]; const it = MN.make(t, MN.level(state, t), rng); it.tv = 'A'; out.push(it); } }
+    else if (cat === 'B') { for (let i = 0; i < n; i++) { const t = CR.TYPES[i % 3], it = CR[t](1, rng); it.tv = 'B'; out.push(it); } }
+    else { const ks = U.shuffle(Object.keys(ST.kg.PRINCIPLES), rng); for (let i = 0; i < n; i++) { const p = ST.kg.problem(ks[i % ks.length], 1 + i); out.push(Object.assign({ tv: 'C' }, p)); } }
+    return out;
+  };
+  /* registro dei test: separato per categoria, mai un punteggio unico né un "QI" */
+  CR.tvRecord = (state, cat, ok, n, ms) => { (state.tv = state.tv || []).push({ d: U.today(), cat, ok, n, ms }); if (state.tv.length > 200) state.tv.shift(); };
+  CR.tvSummary = (state, cat) => { const l = (state.tv || []).filter(x => x.cat === cat); if (!l.length) return null; const pc = x => Math.round(100 * x.ok / x.n); return { runs: l.length, first: pc(l[0]), last: pc(l[l.length - 1]), best: Math.max.apply(null, l.map(pc)) }; };
+})(window.ST = window.ST || {});
+
 /* ---- core/drills ---- */
 /* SkillTree — esercizi grammaticali generati (nessuna IA: tabelle di forme + regole).
    Ogni domanda ha una diagnosi specifica dell'errore, calcolata confrontando la risposta con le altre forme dello stesso verbo/aggettivo. */
@@ -40383,7 +40445,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   'use strict';
   const U = ST.util, A = ST.app, E = U.esc, X = ST.acts, T = ST.transfer;
   const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
-  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
+  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
   const field = (id, label, ph) => '<label class="small mute">' + label + '</label><input id="' + id + '" class="inp" placeholder="' + E(ph || '') + '" style="width:100%">';
   const dash = s => {
     const ids = Object.keys(s.skills || {}), due = T.due(s);
@@ -40428,7 +40490,12 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
       (sc.best ? '<p class="small">' + (st.choice === sc.best ? '✓ Scelta coerente con il valore atteso.' : 'Il valore atteso indicava un’altra opzione.') + ' (Un esito sfortunato non rende sbagliata una buona decisione.)</p>' : '<p class="small">Questo scenario non ha una risposta unica: nessun punteggio registrato.</p>') +
       '<p class="small"><b>Spiegazione.</b> ' + E(sc.why) + '</p><p class="small"><b>Riflessione.</b> ' + E(sc.refl) + '</p><button class="btn" data-act="rwdJournal">Salva nel diario</button> <button class="btn ghost" data-act="rwdOpen" data-id="">Altri scenari</button></div>';
   };
-  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : dash(s)); };
+  const cog = s => {
+    const CR = ST.mental.crit;
+    return '<div class="card"><h3>Test di transfer cognitivo</h3><p class="small mute">Tre categorie, mai fuse in un unico punteggio. Un miglioramento negli esercizi allenati (A) non prova un miglioramento generale: per questo si misura anche il transfer vicino (B, compiti simili con forme mai allenate) e distante (C, problemi nuovi senza indicazione della materia). Nessun test misura il QI.</p>' +
+      Object.keys(CR.TV).map(c => { const m = CR.tvSummary(s, c); return '<div class="item" style="display:block"><b>' + c + ' · ' + E(CR.TV[c]) + '</b><div class="small mute">' + (m ? 'test svolti: ' + m.runs + ' · primo: ' + m.first + '% · ultimo: ' + m.last + '% · migliore: ' + m.best + '%' : 'nessun test ancora: il primo funge da misura iniziale') + '</div><button class="btn" data-act="tvStart" data-c="' + c + '">▶ Test (6 problemi)</button></div>'; }).join('') + '<p class="small mute">I test sono brevi: le variazioni di pochi punti percentuali su 6 problemi sono rumore, non progresso. Valuta le tendenze su molte prove.</p></div>';
+  };
+  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : dash(s)); };
   const re = () => { A.save(); A.render(); };
   X.jAdd = () => { const s = A.state, p = parseInt(val('j-p'), 10); if (!val('j-sit') || !val('j-choice')) return A.toast && A.toast('Servono almeno situazione e scelta'); T.jAdd(s, { sit: val('j-sit'), goal: val('j-goal'), opts: val('j-opts'), hyp: val('j-hyp'), p: isNaN(p) ? null : Math.max(0, Math.min(100, p)), choice: val('j-choice'), why: val('j-why'), check: val('j-check') }); re(); };
   X.jClose = el => { T.jClose(A.state, el.dataset.id, val('o-' + el.dataset.id), val('l-' + el.dataset.id)); re(); };
@@ -40453,6 +40520,11 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     A.save(); A.render();
   };
   X.rwdJournal = () => { const st = A.rwdState, sc = ST.rwd.SCENARIOS.find(x => x.id === st.id), op = sc.opts.find(o => o.id === st.choice); T.jAdd(A.state, { sit: '[Scenario] ' + sc.sit, goal: sc.goal, opts: sc.opts.map(o => o.t).join(' | '), p: st.conf, choice: op.t, why: 'Esito simulato: ' + st.out.t }); A.save(); A.toast('Salvato nel diario'); };
+  X.tvStart = el => {
+    const s = A.state, CR = ST.mental.crit, c = el.dataset.c, R = ST.runner, items = CR.tvItems(s, c, 6); A.ctx = 'general';
+    R.start({ title: 'Test · ' + CR.TV[c], kind: 'free', items, ctx: 'general', onAnswer: () => {},
+      onFinish: res => { const ok = res.filter(x => x.ok).length; CR.tvRecord(s, c, ok, res.length, res.reduce((a, x) => a + (x.ms || 0), 0)); A.save(); return '<p class="small">Registrato: <b>' + ok + ' / ' + res.length + '</b> in categoria ' + c + '. Confrontalo con le prove precedenti, non con un valore assoluto.</p>'; } });
+  };
   X.jExport = () => { const b = new Blob([T.exportJournal(A.state)], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'skilltree-diario.json'; a.click(); };
 })(window.ST = window.ST || {});
 

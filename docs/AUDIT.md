@@ -356,3 +356,9 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - 4 scenari hanno un'opzione migliore calcolabile (test ricalcola i valori attesi); 2 non hanno risposta unica e non registrano punteggi. Un esito sfortunato non invalida la scelta: il testo lo dice.
 - Probabilità e importi sono ipotesi didattiche dichiarate, non dati reali. Sei scenari sono pochi: non c'è ancora varietà sufficiente per un allenamento prolungato.
 - Non ancora fatto: Forecasting con evidenze guidate (esiste il registro con Brier), Strategic Transfer Training a 5 passaggi per ogni principio dei moduli esistenti di scacchi/economia/militare/ottimizzazione.
+
+## Mandato master — Milestone 7 (parziale): Cognitive Performance Lab
+- Esistevano già 23 tipi di allenamento mentale adattivo (memoria, ragionamento, velocità, calibrazione, enigmi verificati) con rotazione giornaliera e benchmark.
+- Aggiunti 3 tipi di pensiero critico (`src/core/mental-crit.js`): fallacie (8), bias cognitivi (6), valutazione delle fonti (4 scenari), inseriti nel venerdì e nel sabato. Ogni elemento ha due forme: la forma 0 si allena, la forma 1 è riservata ai test di transfer vicino.
+- Scheda «Test cognitivi»: tre categorie separate (A prestazione allenata, B transfer vicino con forme mai allenate, C transfer distante con problemi del Transfer Engine), registro separato, nessun punteggio unico né QI. 6 problemi per test: la variabilità è alta e il testo lo dichiara.
+- Limiti: la difficoltà adattiva dei nuovi tipi non è parametrica (la banca è piccola: 8+6+4 elementi, poi le forme si ripetono); la rotazione settimanale esistente non coincide esattamente con quella del mandato; metacognizione solo tramite il modulo di calibrazione già presente; memoria prospettica non implementata.
