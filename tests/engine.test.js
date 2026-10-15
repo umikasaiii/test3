@@ -583,3 +583,83 @@ test('Formula 1: laboratori di calcolo verificati con ricalcolo indipendente', (
     { const it = F.make('ers', lv), q = it.q; let m; if ((m = /potenza di deploy costante di (\d+) kW/.exec(q))) near(A(it), 4000 / +m[1], 1e-6); else { m = /a (\d+) kW per (\d+) s/.exec(q); near(A(it), +m[1] * +m[2], 0); } }
   }
 });
+test('Cultura e abilità generali: laboratori di calcolo verificati con ricalcolo indipendente', () => {
+  const F = ST.cul, A = it => +it.a[0].replace(',', '.'), pn = s => +String(s).replace(',', '.'), near = (x, y, e) => assert.ok(Math.abs(x - y) <= e, x + ' vs ' + y);
+  for (const t of F.TYPES) for (let i = 0; i < 80; i++) { const it = F.make(t, 1 + (i % 10)); assert.ok(it.q && it.a.length && it.a.every(x => /^-?\d+([.,]\d+)?$/.test(x)) && !/undefined|NaN/.test(it.q + it.why), t + ' ' + it.q); }
+  const mk = (t, lv) => { const it = F.make(t, lv); globalThis.__q = it.q; return it; };
+  const SEC = { 476: 5, 1492: 15, 1789: 18, 1861: 19 };
+  try { for (let i = 0; i < 150; i++) {
+    const lv = 1 + (i % 10);
+    { const it = mk('tz', lv), q = it.q; let m;
+      if ((m = /(.+?) è a UTC([+−])(\d+), (.+?) è a UTC([+−])(\d+)\. Quando a .+ sono le (\d+):00/.exec(q.replace('Ora standard (senza ora legale). ', '')))) { const a = (m[2] === '+' ? 1 : -1) * +m[3], b = (m[5] === '+' ? 1 : -1) * +m[6]; assert.equal(A(it), (((+m[7] + b - a) % 24) + 24) % 24); }
+      else if ((m = /distano (\d+)° di longitudine/.exec(q))) near(A(it), +m[1] / 15, 1e-9);
+      else { m = /per ([\d,]+)° di longitudine/.exec(q); near(A(it), pn(m[1]) / 15 * 60, 0.51); } }
+    { const it = mk('coord', lv), q = it.q; let m;
+      if ((m = /scala 1:(\d+) due punti distano (\d+) cm/.exec(q))) near(A(it), +m[2] * +m[1] / 100000, 0.0051);
+      else if ((m = /a (\d+)° N e (\d+)° N/.exec(q))) assert.equal(A(it), 111 * (+m[1] - +m[2]));
+      else if ((m = /azimut dalla tua posizione al rifugio è (\d+)°/.exec(q))) assert.equal(A(it), (+m[1] + 180) % 360);
+      else { m = /di (\d+)° Est.* Leggi (\d+)° sulla/.exec(q); assert.equal(A(it), (+m[1] + +m[2]) % 360); } }
+    { const it = mk('hist', lv), q = it.q; let m;
+      if ((m = /Quanti anni passano tra .*\((\d+)\) e .*\((\d+)\)/.exec(q))) assert.equal(A(it), +m[2] - +m[1]);
+      else if ((m = /cade l’anno (\d+)\?/.exec(q))) assert.equal(A(it), Math.ceil(+m[1] / 100));
+      else { const ev = F.EVENTS.find(e => q.includes(e[0])); assert.equal(A(it), ev[1]); } }
+    { const it = mk('fin', lv), q = it.q; let m;
+      if ((m = /Prezzo senza IVA (\d+) €/.exec(q))) near(A(it), +m[1] * 1.22, 0.006);
+      else if ((m = /costa (\d+) € ed è scontato del (\d+)%/.exec(q))) near(A(it), +m[1] * (100 - +m[2]) / 100, 0.006);
+      else if ((m = /Capitale (\d+) €, interesse composto annuo del (\d+)%, per (\d+) anni/.exec(q))) { let v = +m[1]; for (let k = 0; k < +m[3]; k++) v *= 1 + +m[2] / 100; near(A(it), v, 0.006); }
+      else if ((m = /Prestito di (\d+) € a tasso nominale annuo del (\d+)% .* per (\d+) mesi/.exec(q))) { const P = +m[1], r = +m[2] / 1200, n = +m[3]; let lo = 0, hi = P; for (let k = 0; k < 100; k++) { const pay = (lo + hi) / 2; let bal = P; for (let j = 0; j < n; j++) bal = bal * (1 + r) - pay; if (bal > 0) lo = pay; else hi = pay; } near(A(it), Math.round((lo + hi) / 2), 0.51 + 0.5); }
+      else if ((m = /paniere costa (\d+) € oggi e i prezzi salgono del (\d+)% l’anno\. Quanto costa tra (\d+) anni/.exec(q))) { let v = +m[1]; for (let k = 0; k < +m[3]; k++) v *= 1 + +m[2] / 100; near(A(it), v, 0.006); }
+      else { m = /reddito netto mensile di (\d+) €/.exec(q); near(A(it), +m[1] * 0.2, 1e-9); } }
+    { const it = mk('unit', lv), q = it.q; let m;
+      if ((m = /Converti (\d+) km\/h/.exec(q))) near(A(it), +m[1] / 3.6, 0.51);
+      else if ((m = /Converti (-?\d+) °C/.exec(q))) near(A(it), +m[1] * 1.8 + 32, 1e-9);
+      else if ((m = /percorre (\d+) km con 1 litro/.exec(q))) near(A(it), 100 / +m[1], 0.051);
+      else if ((m = /4,5 × 10\^(\d+) × 10\^3/.exec(q))) assert.equal(A(it), +m[1] + 3);
+      else { m = /Pressione di ([\d,]+) bar/.exec(q); near(A(it), pn(m[1]) * 14.5, 0.051); } }
+    { const it = mk('stat', lv), q = it.q; let m;
+      if ((m = /Dati: ([\d, ]+)\. Media aritmetica/.exec(q))) { const xs = m[1].split(', ').map(Number); near(A(it), xs.reduce((a, b) => a + b, 0) / xs.length, 0.051); }
+      else if ((m = /Dati: ([\d, ]+)\. Mediana/.exec(q))) { const xs = m[1].split(', ').map(Number).sort((a, b) => a - b), n = xs.length; near(A(it), n % 2 ? xs[(n - 1) / 2] : (xs[n / 2 - 1] + xs[n / 2]) / 2, 0.051); }
+      else if ((m = /Dati: ([\d, ]+)\. Campo/.exec(q))) { const xs = m[1].split(', ').map(Number); assert.equal(A(it), Math.max(...xs) - Math.min(...xs)); }
+      else { m = /Voti ([\d, ]+) con pesi \(crediti\) ([\d, ]+)\./.exec(q); const g = m[1].split(', ').map(Number), w = m[2].split(', ').map(Number); near(A(it), g.reduce((a, x, k) => a + x * w[k], 0) / w.reduce((a, b) => a + b, 0), 0.0051); } }
+    { const it = mk('phys', lv), q = it.q; let m;
+      if ((m = /va a (\d+) km\/h per (\d+) ore/.exec(q))) assert.equal(A(it), +m[1] * +m[2]);
+      else if ((m = /Tensione ([\d,]+) V e corrente ([\d,]+) A/.exec(q))) near(A(it), pn(m[1]) / pn(m[2]), 0.0051);
+      else if ((m = /apparecchio da (\d+) W resta acceso (\d+) ore.*energia costa ([\d,]+) €\/kWh/.exec(q))) near(A(it), +m[1] / 1000 * +m[2] * pn(m[3]), 0.0051);
+      else if ((m = /Massa (\d+) kg, accelerazione (\d+) m\/s²/.exec(q))) assert.equal(A(it), +m[1] * +m[2]);
+      else { m = /Massa (\d+) g, volume (\d+) cm³/.exec(q); near(A(it), +m[1] / +m[2], 0.0051); } }
+    { const it = mk('chem', lv), q = it.q; let m;
+      if ((m = /Massa molare di .* = (\d+(?:,\d+)?) g\/mol \(H=1.*Quante moli sono ([\d,]+) g/.exec(q))) near(A(it), pn(m[2]) / pn(m[1]), 0.0051);
+      else if ((m = /Massa molare di .* = (\d+(?:,\d+)?) g\/mol\. Quanti grammi sono ([\d,]+) mol/.exec(q))) near(A(it), pn(m[1]) * pn(m[2]), 0.051);
+      else if ((m = /\[H⁺\] = 10\^\(−(\d+)\)/.exec(q))) assert.equal(A(it), +m[1]);
+      else { m = /([\d,]+) mol sciolte in ([\d,]+) L/.exec(q); near(A(it), pn(m[1]) / pn(m[2]), 0.0051); } }
+    { const it = mk('astro', lv), q = it.q; let m;
+      if ((m = /da la Luna|da il Sole|dalla? (?:Luna|Sole)/.exec(q)) || /Quanti secondi/.test(q)) { const d = /384 400/.test(q) ? 384400 : 149600000; near(A(it), d / 299792, 0.51); }
+      else if ((m = /a = (\d+) UA\. Periodo/.exec(q))) near(A(it), Math.sqrt(Math.pow(+m[1], 3)), 1e-9);
+      else { m = /periodo (\d+) anni/.exec(q); near(A(it), Math.cbrt(Math.pow(+m[1], 2)), 0.5 + 1e-9); } }
+    { const it = mk('cook', lv), q = it.q; let m;
+      if ((m = /Una ricetta per (\d+) persone usa (\d+) g di farina\. Quanti grammi per (\d+)/.exec(q))) near(A(it), +m[2] * +m[3] / +m[1], 0.51);
+      else if ((m = /[Cc]on (\d+) g di farina e idratazione (\d+)%/.exec(q))) near(A(it), +m[1] * +m[2] / 100, 1e-9);
+      else if ((m = /Per (\d+) g di pasta quanti grammi di sale/.exec(q))) near(A(it), +m[1] / 10, 1e-9);
+      else { m = /forno è a (\d+) °C/.exec(q); near(A(it), +m[1] * 1.8 + 32, 1e-9); } }
+    { const it = mk('diy', lv), q = it.q; let m;
+      if ((m = /Parete di ([\d,]+) m × ([\d,]+) m, (\d+) mani.*resa di (\d+) m² per litro\. Quante latte da ([\d,]+) L/.exec(q))) { const L = pn(m[1]) * pn(m[2]) * +m[3] / +m[4]; assert.equal(A(it), Math.ceil(L / pn(m[5]) - 1e-9)); }
+      else if ((m = /Pavimento di ([\d,]+) m × ([\d,]+) m\. Piastrelle da ([\d,]+) m²/.exec(q))) assert.equal(A(it), Math.ceil(pn(m[1]) * pn(m[2]) * 1.1 / pn(m[3]) - 1e-9));
+      else if ((m = /apparecchio da (\d+) W\. Quanti ampere/.exec(q))) near(A(it), +m[1] / 230, 0.051);
+      else { m = /rapporto 1 : (\d+) : (\d+) .* In (\d+) secchi/.exec(q); assert.equal(A(it), +m[3] * +m[1] / (1 + +m[1] + +m[2])); } }
+    { const it = mk('music', lv), q = it.q; let m;
+      if ((m = /tempo di (\d+) BPM, quanti millisecondi/.exec(q))) assert.equal(A(it), 60000 / +m[1]);
+      else if ((m = /tempo (\d)\/4 a (\d+) BPM, quanti secondi durano (\d+) battute/.exec(q))) near(A(it), +m[3] * +m[1] * 60 / +m[2], 0.051);
+      else if ((m = /Per n = (-?\d+) semitoni/.exec(q))) near(A(it), 440 * Math.pow(2, +m[1] / 12), 0.51);
+      else { assert.ok(/semitoni ci sono in/.test(q)); const map = { 'una terza maggiore': 4, 'una quinta giusta': 7, 'un’ottava': 12, 'una seconda maggiore': 2, 'una quarta giusta': 5 }; const k = Object.keys(map).find(x => q.includes(x)); assert.equal(A(it), map[k]); } }
+    { const it = mk('mech', lv), q = it.q; let m;
+      if ((m = /Corona (\d+), pignone (\d+), cadenza (\d+), circonferenza ([\d,]+) m/.exec(q))) near(A(it), +m[3] * (+m[1] / +m[2]) * pn(m[4]) * 0.06, 0.051);
+      else if ((m = /consuma ([\d,]+) litri ogni 100 km/.exec(q))) near(A(it), 100 / pn(m[1]), 0.051);
+      else if ((m = /Coppia (\d+) N·m a (\d+) giri\/min/.exec(q))) near(A(it), +m[1] * +m[2] * 2 * Math.PI / 60000, 0.51);
+      else { m = /Auto a (\d+) km\/h con decelerazione di (\d+) m\/s²/.exec(q); near(A(it), (+m[1] / 3.6) ** 2 / (2 * +m[2]), 0.51); } }
+    { const it = mk('aid', lv), q = it.q; let m;
+      if (/numero unico di emergenza/.test(q)) assert.equal(A(it), 112);
+      else if ((m = /A (\d+) compressioni\/min, quante compressioni in (\d+) secondi/.exec(q))) near(A(it), +m[1] * +m[2] / 60, 1e-9);
+      else if ((m = /in (\d+) cicli completi/.exec(q))) assert.equal(A(it), 30 * +m[1]);
+      else { m = /A (\d+) compressioni al minuto, quanti secondi servono per 30/.exec(q); near(A(it), 1800 / +m[1], 1e-9); } }
+  } } catch (e) { e.message += ' | Q: ' + globalThis.__q; throw e; }
+});
