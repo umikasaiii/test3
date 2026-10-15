@@ -712,3 +712,16 @@ test('Moto e guida sportiva: laboratori di calcolo verificati con ricalcolo indi
       else { m = /passa da (\d+) km\/h a (\d+) km\/h/.exec(q); near(A(it), (+m[2] / +m[1]) ** 2, 1e-9); } }
   } } catch (e) { e.message += ' | Q: ' + globalThis.__q; throw e; }
 });
+
+test('transfer: dimensioni separate, verifiche 7/30/90, Brier solo su esiti risolti, migrazione v2→v3', () => {
+  const Tr = ST.transfer, s = fresh();
+  at('2026-02-01'); Tr.record(s, 'x', 'recall', true); Tr.record(s, 'x', 'recall', false, { help: true }); Tr.record(s, 'x', 'novel', true);
+  const d = Tr.dims(s, 'x'); assert.deepEqual([d.recall.n, d.recall.ok, d.novel.ok, d.noHelp.n, d.help.n], [2, 1, 1, 2, 1]);
+  assert.equal(Tr.due(s, '2026-02-07').length, 0); assert.equal(Tr.due(s, '2026-02-08').length, 1);
+  assert.equal(Tr.due(s, '2026-05-10').length, 3); Tr.record(s, 'x', 'delayed', true, { check: 7 }); assert.equal(Tr.due(s, '2026-02-08').length, 0);
+  assert.equal(Tr.brier(s), null); const f = Tr.fAdd(s, 'e', 80); assert.equal(Tr.brier(s), null);
+  Tr.fUpdate(s, f.id, 60); Tr.fResolve(s, f.id, true); const b = Tr.brier(s); assert.equal(b.first, 0.04); assert.equal(b.last, 0.16);
+  Tr.fResolve(s, f.id, false); assert.equal(f.out, 1); // già risolta: non cambia
+  const j = Tr.jAdd(s, { sit: 'a', choice: 'b', check: '2026-02-02' }); assert.equal(Tr.jDue(s, '2026-02-03').length, 1); Tr.jClose(s, j.id, 'ok', 'l'); assert.equal(Tr.jDue(s, '2026-02-03').length, 0);
+  const m = DB.migrate({ schema: 2, xp: 5 }); assert.equal(m.schema, 3); assert.equal(m.xp, 5); assert.ok(Array.isArray(m.journal) && m.skills && Array.isArray(m.forecasts));
+});

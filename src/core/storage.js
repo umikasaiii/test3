@@ -3,7 +3,7 @@
   'use strict';
   const U = ST.util;
   const DB = ST.storage = {};
-  DB.SCHEMA = 2;
+  DB.SCHEMA = 3;
   DB.APP = 'skilltree';
 
   DB.defaults = () => ({
@@ -12,7 +12,7 @@
     xp: 0, xpLog: {}, xpKeys: {},
     topics: {}, cards: {}, reviewLog: [],
     kana: { items: {}, placed: false, lastSession: null },
-    motor: {}, mental: {}, theory: {}, 
+    motor: {}, mental: {}, theory: {}, skills: {}, journal: [], forecasts: [], 
     exams: [], gates: { en: {} }, rec: [],
     daily: {}, resume: {}, settings: { sound: true },
     log: []
@@ -20,6 +20,7 @@
 
   /* Migrazioni: ogni passo porta da n a n+1. I progressi non si perdono fra versioni. */
   const MIGRATIONS = {
+    2: s => { s.skills = s.skills || {}; s.journal = s.journal || []; s.forecasts = s.forecasts || []; return s; },
     1: s => { // v1 → v2: stato teorico e registro giornaliero separati
       s.theory = s.theory || {}; s.daily = s.daily || {}; s.resume = s.resume || {}; s.gates = s.gates || { en: {} };
       s.kana = s.kana || { items: {}, placed: false, lastSession: null };

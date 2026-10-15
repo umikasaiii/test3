@@ -105,6 +105,9 @@ const mock = () => {
   await step('hub cultura', () => ST.app.go('subject', { id: 'sec' }), /Laboratori di calcolo · numeri della vita quotidiana/);
   await page.evaluate(() => ST.acts.startCul()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio cultura'); await reset();
   for (const t of await page.evaluate(() => ST.cul.TYPES)) { await page.evaluate(t => ST.acts.startCulType({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio cultura ' + t); await reset(); }
+  await step('transfer dash', () => ST.app.go('transfer', { t: 'dash' }), /Dashboard delle competenze/);
+  await step('transfer diario', () => ST.app.go('transfer', { t: 'jour' }), /Nuova decisione/);
+  await step('transfer previsioni', () => ST.app.go('transfer', { t: 'fore' }), /Previsioni probabilistiche/);
   await step('hub moto', () => ST.app.go('subject', { id: 'moto' }), /Laboratori di calcolo · fisica e meccanica della moto/);
   await page.evaluate(() => ST.acts.startMoto()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio moto'); await reset();
   for (const t of await page.evaluate(() => ST.moto.TYPES)) { await page.evaluate(t => ST.acts.startMotoType({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio moto ' + t); await reset(); }

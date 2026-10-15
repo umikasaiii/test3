@@ -339,3 +339,8 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - 7 stadi L0–L6, 62 lezioni (basi, strada, meccanica, dinamica, pista, corse, avanzato), 11 laboratori di calcolo (ricalcolati in modo indipendente nei test), 6 scenari di simulazione.
 - Contenuti scritti a memoria: valori tipici (μ, pressioni, temperature, intervalli di manutenzione), norme (ABS, revisione) e parametri dei modelli sono ordini di grandezza o illustrativi, non verificati su fonti.
 - Sicurezza: guida sportiva solo in pista; nessuna istruzione per manomettere scarico, mappe, limitatori o ABS.
+
+## Mandato master — Milestone 1 (valutazione e Laboratorio decisioni)
+- `src/core/transfer.js`: evidenze per competenza in 6 dimensioni separate (richiamo, guidata, autonoma, problema nuovo, ritenzione, uso reale), verifiche a 7/30/90 giorni, diario decisioni, previsioni con Brier solo su esiti risolti. Schema dati v3 con migrazione da v2. Test unitario incluso.
+- UI: «Laboratorio decisioni» in home (competenze · diario · previsioni), diario esportabile in JSON; i dati sono inclusi nel backup esistente.
+- Limite: le attività esistenti non scrivono ancora evidenze in `skills` (collegamento previsto dalle milestone 2–8); finché non lo fanno la dashboard resta vuota.
