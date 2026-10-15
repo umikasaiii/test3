@@ -3,7 +3,7 @@
   'use strict';
   const U = ST.util, A = ST.app, E = U.esc, X = ST.acts, T = ST.transfer;
   const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
-  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
+  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
   const field = (id, label, ph) => '<label class="small mute">' + label + '</label><input id="' + id + '" class="inp" placeholder="' + E(ph || '') + '" style="width:100%">';
   const dash = s => {
     const ids = Object.keys(s.skills || {}), due = T.due(s);
@@ -27,12 +27,29 @@
       '<button class="btn block" data-act="fAdd" style="margin-top:8px">Registra previsione</button></div>' +
       '<div class="card"><h3>Registro (' + f.length + ')</h3>' + (f.map(e => '<div class="small" style="margin:8px 0;border-top:1px solid #334"><b>' + E(e.q) + '</b><br>p: ' + e.revs.map(r => r.p + '%').join(' → ') + (e.due ? ' · entro ' + E(e.due) : '') + '<br>' + (e.out != null ? 'Esito: <b>' + (e.out ? 'accaduto' : 'non accaduto') + '</b>' : '<button class="btn" data-act="fRes" data-id="' + e.id + '" data-v="1">È accaduto</button> <button class="btn" data-act="fRes" data-id="' + e.id + '" data-v="0">Non è accaduto</button> <input id="u-' + e.id + '" class="inp" placeholder="nuova p" style="width:70px"><button class="btn ghost" data-act="fUpd" data-id="' + e.id + '">Aggiorna</button>') + '</div>').join('') || '<p class="small mute">Vuoto.</p>') + '</div>';
   };
-  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : dash(s)); };
+  const tr = s => {
+    const K = ST.kg, due = T.due(s).filter(x => x.id.indexOf('tr:') === 0);
+    return '<div class="card"><h3>Transfer spontaneo</h3><p class="small mute">Problemi senza indicazione della materia né del principio: devi riconoscere tu che cosa serve. Il principio viene rivelato solo dopo la risposta. Qui si misura il problema nuovo, distinto dai quiz di materia.</p>' +
+      (due.length ? '<p class="warn small">Verifiche a distanza dovute: ' + due.map(x => E(K.PRINCIPLES[x.id.slice(3)].t) + ' (' + x.check + 'g)').join(', ') + '</p>' : '') +
+      '<button class="btn block" data-act="trStart">▶ Sessione mista (5 problemi)</button>' +
+      '<table class="t" style="margin-top:8px"><tr><td>Principio</td><td class="small">Problema nuovo</td><td class="small">Ritenzione</td></tr>' + Object.keys(K.PRINCIPLES).map(k => { const d = T.dims(s, 'tr:' + k); return '<tr><td>' + E(K.PRINCIPLES[k].t) + '<div class="small mute">uso reale: ' + E(K.PRINCIPLES[k].real) + '</div></td><td>' + T.pct(d.novel) + '</td><td>' + T.pct(d.delayed) + '</td></tr>'; }).join('') + '</table></div>' +
+      '<div class="card"><h3>Missioni multidisciplinari</h3>' + K.MISSIONS.map(m => '<div style="margin:10px 0"><b>' + E(m.t) + '</b>' + m.steps.map((st, i) => '<div class="small" style="margin:4px 0">' + (i + 1) + '. ' + E(st.x) + (st.go ? ' <button class="btn ghost" data-act="go" data-view="' + st.go.view + '" data-p=\'' + JSON.stringify(st.go.p) + '\'>Apri</button>' : ' <button class="btn ghost" data-act="trStart" data-pr="' + st.pr.join(',') + '">Allena</button>') + '</div>').join('') + '</div>').join('') + '</div>' +
+      '<div class="card"><h3>Come si collegano</h3>' + Object.keys(K.PRINCIPLES).map(k => '<div class="small"><b>' + E(K.PRINCIPLES[k].t) + '</b> ← materie: ' + K.PRINCIPLES[k].subj.join(', ') + ' · collegato a: ' + K.PRINCIPLES[k].links.map(l => E(K.PRINCIPLES[l].t)).join(', ') + '</div>').join('') + '</div>';
+  };
+  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : dash(s)); };
   const re = () => { A.save(); A.render(); };
   X.jAdd = () => { const s = A.state, p = parseInt(val('j-p'), 10); if (!val('j-sit') || !val('j-choice')) return A.toast && A.toast('Servono almeno situazione e scelta'); T.jAdd(s, { sit: val('j-sit'), goal: val('j-goal'), opts: val('j-opts'), hyp: val('j-hyp'), p: isNaN(p) ? null : Math.max(0, Math.min(100, p)), choice: val('j-choice'), why: val('j-why'), check: val('j-check') }); re(); };
   X.jClose = el => { T.jClose(A.state, el.dataset.id, val('o-' + el.dataset.id), val('l-' + el.dataset.id)); re(); };
   X.fAdd = () => { const p = parseInt(val('f-p'), 10); if (!val('f-q') || isNaN(p) || p < 1 || p > 99) return A.toast && A.toast('Evento e probabilità 1–99'); T.fAdd(A.state, val('f-q'), p, val('f-ev'), val('f-due')); re(); };
   X.fRes = el => { T.fResolve(A.state, el.dataset.id, el.dataset.v === '1'); re(); };
   X.fUpd = el => { const p = parseInt(val('u-' + el.dataset.id), 10); if (!isNaN(p) && p >= 1 && p <= 99) T.fUpdate(A.state, el.dataset.id, p); re(); };
+  X.trStart = el => {
+    const s = A.state, K = ST.kg, R = ST.runner, dueIds = T.due(s).filter(x => x.id.indexOf('tr:') === 0);
+    let prs = el && el.dataset && el.dataset.pr ? el.dataset.pr.split(',') : dueIds.map(x => x.id.slice(3)).concat(U.shuffle(Object.keys(K.PRINCIPLES))).filter((v, i, a) => a.indexOf(v) === i).slice(0, 5);
+    const items = prs.map(pr => { const seen = ((s.skills || {})['tr:' + pr] || { hist: [] }).hist.length; return Object.assign({ pr }, K.problem(pr, seen)); });
+    A.ctx = 'general';
+    R.start({ title: 'Transfer spontaneo', kind: 'free', items, ctx: 'general', onAnswer: (it, ok, i, r) => { const d = dueIds.find(x => x.id === 'tr:' + it.principle); T.record(s, 'tr:' + it.principle, d ? 'delayed' : 'novel', ok, { ms: r && r.ms, check: d && d.check }); },
+      onFinish: res => '<p class="small">Principi incontrati: ' + res.map(x => '<b>' + E(K.PRINCIPLES[x.item.principle].t) + '</b> (uso reale: ' + E(K.PRINCIPLES[x.item.principle].real) + ')').join(' · ') + '</p>' });
+  };
   X.jExport = () => { const b = new Blob([T.exportJournal(A.state)], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'skilltree-diario.json'; a.click(); };
 })(window.ST = window.ST || {});

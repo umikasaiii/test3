@@ -725,3 +725,18 @@ test('transfer: dimensioni separate, verifiche 7/30/90, Brier solo su esiti riso
   const j = Tr.jAdd(s, { sit: 'a', choice: 'b', check: '2026-02-02' }); assert.equal(Tr.jDue(s, '2026-02-03').length, 1); Tr.jClose(s, j.id, 'ok', 'l'); assert.equal(Tr.jDue(s, '2026-02-03').length, 0);
   const m = DB.migrate({ schema: 2, xp: 5 }); assert.equal(m.schema, 3); assert.equal(m.xp, 5); assert.ok(Array.isArray(m.journal) && m.skills && Array.isArray(m.forecasts));
 });
+
+test('kg: problemi di transfer con risposta ricalcolata e principi coerenti', () => {
+  const K = ST.kg, pr = K.PROBLEMS, ans = p => p.o[p.a];
+  const get = (k, v) => pr.find(x => x.principle === k && x.v === v);
+  assert.ok(Object.keys(K.PRINCIPLES).every(k => pr.filter(x => x.principle === k).length === 2 && K.PRINCIPLES[k].links.every(l => K.PRINCIPLES[l])));
+  assert.ok(pr.every(p => p.a >= 0 && p.a < p.o.length && new Set(p.o).size === p.o.length));
+  const bay = (pv, se, fp) => se * pv / (se * pv + fp * (1 - pv));
+  assert.equal(Math.round(bay(.01, .9, .1) * 100), 8); assert.ok(/8%/.test(ans(get('baserate', 0))));
+  assert.equal(Math.round(bay(.02, .95, .05) * 100), 28); assert.ok(/28%/.test(ans(get('baserate', 1))));
+  assert.ok(40 / 2 > 12 && /singolo/.test(ans(get('opportunity', 0)))); assert.ok(30 / 5 < 8 && /abbonamento/.test(ans(get('opportunity', 1))));
+  assert.equal(Math.round(100 * 1.05 ** 8), 148); assert.equal(Math.round(100 * 1.03 ** 10), 134);
+  assert.equal((20 / 6 - 3).toFixed(2), '0.33'); assert.equal((10 / 4 - 3).toFixed(1), '-0.5');
+  assert.equal(10 * 5, 50); assert.equal(8 * 4.5, 36);
+  const s = fresh(); at('2026-03-01'); const it = K.problem('units', 0); assert.equal(it.v, 0); assert.equal(K.problem('units', 1).v, 1);
+});

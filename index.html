@@ -378,6 +378,64 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   };
 })(window.ST = window.ST || {});
 
+/* ---- core/kg ---- */
+/* SkillTree — grafo delle conoscenze, problemi di transfer spontaneo (materia non dichiarata) e missioni multidisciplinari. */
+(function (ST) {
+  'use strict';
+  const K = ST.kg = {};
+  /* principi trasversali: dove nascono (materie) e dove si usano nella vita reale */
+  K.PRINCIPLES = {
+    baserate: { t: 'Probabilità di base (Bayes)', subj: ['str', 'cyb', 'sport'], real: 'test medici, allarmi di sicurezza, screening', links: ['causation', 'ev'] },
+    opportunity: { t: 'Costo opportunità e costo per uso', subj: ['str', 'sec'], real: 'abbonamenti, acquisti, tempo', links: ['ev', 'incentives'] },
+    growth: { t: 'Crescita composta', subj: ['sport', 'str', 'sec'], real: 'sovraccarico progressivo, inflazione, risparmio', links: ['units'] },
+    causation: { t: 'Correlazione e causalità', subj: ['sport', 'sec', 'cyb'], real: 'studi scientifici, notizie, abitudini', links: ['regression', 'baserate'] },
+    ev: { t: 'Valore atteso', subj: ['str', 'sec'], real: 'scommesse, investimenti, decisioni a rischio', links: ['baserate', 'opportunity'] },
+    regression: { t: 'Regressione verso la media', subj: ['sport', 'str'], real: 'prestazioni eccezionali, interventi dopo un picco negativo', links: ['causation'] },
+    incentives: { t: 'Incentivi e strategia dominante', subj: ['str', 'f1', 'cyb'], real: 'negoziazione, prezzi, sicurezza', links: ['opportunity', 'ev'] },
+    units: { t: 'Unità di misura e stime', subj: ['sport', 'f1', 'moto', 'sec'], real: 'ritmi, consumi, conversioni', links: ['growth'] }
+  };
+  /* due problemi per principio: la seconda variante serve per le verifiche a distanza */
+  const P = (principle, v, q, o, a, why) => ({ t: 'mc', principle, v, q, o, a, why, srcLabel: 'Problema nuovo · materia non indicata' });
+  K.PROBLEMS = [
+    P('baserate', 0, 'Una malattia colpisce l’1% delle persone. Un test rileva il 90% dei malati e dà un falso positivo nel 10% dei sani. Risulti positivo: quanto è probabile che tu sia malato?', ['circa 90%', 'circa 50%', 'circa 8%', 'circa 1%'], 2, 'Su 10 000 persone: 100 malati → 90 positivi; 9 900 sani → 990 falsi positivi. 90/(90+990) ≈ 8%.'),
+    P('baserate', 1, 'Un filtro antispam segnala il 95% dello spam e sbaglia sul 5% della posta buona. Lo spam è il 2% dei messaggi. Un messaggio è segnalato: quanto è probabile che sia spam?', ['circa 95%', 'circa 28%', 'circa 50%', 'circa 5%'], 1, 'Su 10 000: 200 spam → 190 segnalati; 9 800 buoni → 490 segnalati. 190/680 ≈ 28%.'),
+    P('opportunity', 0, 'Un abbonamento costa 40 € al mese e lo usi 2 volte. L’ingresso singolo costa 12 €. Cosa conviene?', ['abbonamento: 20 € a uso', 'ingresso singolo: 12 € a uso', 'sono uguali', 'dipende solo dal prezzo mensile'], 1, '40/2 = 20 € per uso contro 12 € dell’ingresso singolo.'),
+    P('opportunity', 1, 'Un abbonamento costa 30 € al mese e lo usi 5 volte. L’ingresso singolo costa 8 €. Cosa conviene?', ['abbonamento: 6 € a uso', 'ingresso singolo: 8 € a uso', 'sono uguali', 'non si può dire'], 0, '30/5 = 6 € per uso contro 8 € dell’ingresso singolo.'),
+    P('growth', 0, 'Parti da 100 kg e aggiungi il 5% ogni settimana per 8 settimane. Dove arrivi, circa?', ['circa 140 kg', 'circa 148 kg', 'circa 160 kg', 'circa 108 kg'], 1, '100 × 1,05^8 ≈ 147,7: gli aumenti si compongono, non si sommano (sommati darebbero 140).'),
+    P('growth', 1, 'Un prezzo di 100 € sale del 3% all’anno per 10 anni. Quanto vale alla fine, circa?', ['circa 130 €', 'circa 134 €', 'circa 150 €', 'circa 103 €'], 1, '100 × 1,03^10 ≈ 134,4 €; sommando i 3% si avrebbe 130 €, sottostimando.'),
+    P('causation', 0, 'In una città, nei mesi in cui si vendono più gelati ci sono più annegamenti. Quale spiegazione è la più sensata?', ['i gelati causano annegamenti', 'gli annegamenti fanno vendere gelati', 'una causa comune: il caldo estivo', 'è un caso: i dati non dicono nulla'], 2, 'Una terza variabile (stagione calda) aumenta entrambe: correlazione senza causalità diretta.'),
+    P('causation', 1, 'Chi dorme con le scarpe ai piedi si sveglia più spesso con mal di testa. Qual è la spiegazione da controllare per prima?', ['le scarpe causano mal di testa', 'una causa comune, come l’aver bevuto la sera prima', 'il mal di testa fa dormire con le scarpe', 'nessuna, il dato è sicuramente falso'], 1, 'Un fattore comune (alcol) può spiegare sia il dormire vestiti sia il mal di testa.'),
+    P('ev', 0, 'Giochi a 3 € a partita: vinci 20 € con probabilità 1/6, altrimenti nulla. Il valore atteso netto per partita è…', ['circa +0,33 €', 'circa −3 €', 'circa −0,33 €', 'circa +17 €'], 0, '20/6 ≈ 3,33 € di vincita media − 3 € di costo ≈ +0,33 €.'),
+    P('ev', 1, 'Giochi a 3 € a partita: vinci 10 € con probabilità 1/4, altrimenti nulla. Il valore atteso netto per partita è…', ['circa +0,5 €', 'circa −0,5 €', 'circa +7 €', 'circa −3 €'], 1, '10/4 = 2,5 € di vincita media − 3 € = −0,5 €.'),
+    P('regression', 0, 'Un atleta ha una prestazione eccezionalmente alta. Alla prova successiva, in media, cosa ti aspetti senza altri cambiamenti?', ['uguale o più alta', 'più vicina alla sua media abituale', 'molto più bassa del suo minimo', 'non si può prevedere nulla'], 1, 'Un risultato estremo contiene in parte fortuna: la prova seguente tende verso la media.'),
+    P('regression', 1, 'Gli studenti con i voti peggiori nel test iniziale seguono un tutoraggio e migliorano nel test finale. Cosa NON si può concludere?', ['che il tutoraggio sia certamente efficace: parte del miglioramento può essere regressione alla media', 'che serva un gruppo di controllo', 'che alcuni migliorino per caso', 'che il campione sia selezionato'], 0, 'Chi è scelto perché è agli estremi tende comunque a migliorare: serve un gruppo di controllo.'),
+    P('incentives', 0, 'Due negozi scelgono tra «sconto» e «prezzo pieno». Guadagni (tuo, altro): sconto-sconto (2,2); sconto-pieno (5,0); pieno-sconto (0,5); pieno-pieno (3,3). Senza accordi vincolanti cosa sceglie un decisore razionale?', ['prezzo pieno', 'sconto, qualunque cosa faccia l’altro', 'dipende dall’altro negozio', 'è indifferente'], 1, 'Sconto dà 5 > 3 se l’altro tiene il prezzo pieno e 2 > 0 se anche l’altro fa sconto: strategia dominante, ma (2,2) è peggio di (3,3).'),
+    P('incentives', 1, 'Guadagni (tuo, altro): sconto-sconto (4,4); sconto-pieno (6,1); pieno-sconto (1,6); pieno-pieno (5,5). Senza accordi vincolanti cosa sceglie un decisore razionale?', ['prezzo pieno', 'sconto, qualunque cosa faccia l’altro', 'dipende dall’altro negozio', 'è indifferente'], 1, 'Sconto: 6 > 5 se l’altro tiene il pieno, 4 > 1 se l’altro fa sconto. Dominante.'),
+    P('units', 0, 'Corri 10 km a 5:00 al chilometro. Quanto dura la corsa?', ['40 minuti', '50 minuti', '55 minuti', '60 minuti'], 1, '10 × 5 min = 50 min.'),
+    P('units', 1, 'Corri 8 km a 4:30 al chilometro. Quanto dura la corsa?', ['32 minuti', '34 minuti', '36 minuti', '40 minuti'], 2, '8 × 4,5 min = 36 min.')
+  ];
+  K.problem = (pr, seen) => { const l = K.PROBLEMS.filter(x => x.principle === pr); return l.find(x => x.v === ((seen || 0) % l.length)) || l[0]; };
+  /* missioni multidisciplinari: passi eseguibili (vista dell'app o pratica di transfer) */
+  K.MISSIONS = [
+    { id: 'm-train', t: 'Valuta un programma di allenamento', steps: [
+      { x: 'Leggi un argomento di programmazione dell’allenamento (Scienze dello sport).', go: { view: 'subject', p: { id: 'sport' } } },
+      { x: 'Allena i principi «crescita composta» e «correlazione e causalità» senza indicazioni sulla materia.', pr: ['growth', 'causation'] },
+      { x: 'Annota nel diario la decisione tra due programmi, con ipotesi e data di verifica.', go: { view: 'transfer', p: { t: 'jour' } } },
+      { x: 'Registra una previsione sull’esito (probabilità, evidenze).', go: { view: 'transfer', p: { t: 'fore' } } },
+      { x: 'Dopo 7 giorni: ripeti i problemi a distanza (scheda Transfer).', go: { view: 'transfer', p: { t: 'tr' } } } ] },
+    { id: 'm-budget', t: 'Gestisci un budget e un acquisto', steps: [
+      { x: 'Studia economia e decisioni (Strategia).', go: { view: 'subject', p: { id: 'str' } } },
+      { x: 'Allena «costo opportunità» e «valore atteso».', pr: ['opportunity', 'ev'] },
+      { x: 'Registra la decisione di acquisto nel diario.', go: { view: 'transfer', p: { t: 'jour' } } } ] },
+    { id: 'm-risk', t: 'Valuta un rischio (sicurezza o salute)', steps: [
+      { x: 'Allena «probabilità di base» e «incentivi».', pr: ['baserate', 'incentives'] },
+      { x: 'Fai una previsione sul tuo giudizio e confrontala con l’esito.', go: { view: 'transfer', p: { t: 'fore' } } } ] },
+    { id: 'm-race', t: 'Analizza una decisione di gara (F1 o moto)', steps: [
+      { x: 'Apri la materia e scegli un laboratorio di strategia o tempi.', go: { view: 'subject', p: { id: 'f1' } } },
+      { x: 'Allena «unità di misura» e «regressione verso la media».', pr: ['units', 'regression'] } ] }
+  ];
+})(window.ST = window.ST || {});
+
 /* ---- core/progress ---- */
 /* SkillTree — XP, livello generale e stato di padronanza.
    Quattro piani distinti, mai fusi in un solo numero:
@@ -39250,6 +39308,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     const late = !!((r.deadline && Date.now() > r.deadline) || (it.timed && Date.now() - r.t0 > it.timed * 1000));
     r.res.push({ item: r.items[r.i], ok, val, ms: Date.now() - r.t0, late, score });
     if (r.onAnswer) r.onAnswer(r.items[r.i], ok, r.i, r.res[r.res.length - 1]);
+    try { const sid = it.mtype || r.xpKey || r.ctx; if (sid && ST.transfer && !it.principle) ST.transfer.record(A.state, String(sid), it.mtype ? 'auto' : it.t === 'fill' ? 'recall' : 'guided', ok, { ms: Date.now() - r.t0 }); } catch (e) { /* la valutazione non deve mai bloccare l'esercizio */ }
     const fb = A.$('#fb');
     fb.innerHTML = '<div class="fb ' + (ok ? 'ok' : 'no') + '"><b>' + (ok ? '✓ Corretto' : '✗ Non corretto') + '</b>' + (it.t === 'dict' ? '<div>Precisione: <b>' + Math.round((r.lastScore || 0) * 100) + '%</b></div><div class="diff">' + (r.lastDiff ? r.lastDiff.ops.map(o => o.ok ? E(o.w) : o.missing ? '<span class="m">' + E(o.w) + '</span>' : '<span class="x">' + E(o.w) + '</span>').join(' ') : '') + '</div><div>Testo: <b>' + U.ruby(it.text) + '</b></div>' : ok ? '' : '<div>Risposta: <b>' + U.ruby(answerText(it)) + '</b></div>') + (!ok && it.diag ? (() => { const d = it.diag(it.t === 'mc' ? it.o2[val] : val); return d ? '<div class="small" style="margin-top:4px">⚠ ' + U.ruby(d) + '</div>' : ''; })() : '') + (it.why ? '<div class="mute small" style="margin-top:4px">' + U.ruby(it.why) + '</div>' : '') + '</div>' +
       '<button class="btn block" style="margin-top:10px" data-act="run-next">' + (r.i + 1 >= r.items.length ? 'Concludi' : 'Avanti') + '</button>';
@@ -40243,7 +40302,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   'use strict';
   const U = ST.util, A = ST.app, E = U.esc, X = ST.acts, T = ST.transfer;
   const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
-  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
+  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
   const field = (id, label, ph) => '<label class="small mute">' + label + '</label><input id="' + id + '" class="inp" placeholder="' + E(ph || '') + '" style="width:100%">';
   const dash = s => {
     const ids = Object.keys(s.skills || {}), due = T.due(s);
@@ -40267,13 +40326,30 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
       '<button class="btn block" data-act="fAdd" style="margin-top:8px">Registra previsione</button></div>' +
       '<div class="card"><h3>Registro (' + f.length + ')</h3>' + (f.map(e => '<div class="small" style="margin:8px 0;border-top:1px solid #334"><b>' + E(e.q) + '</b><br>p: ' + e.revs.map(r => r.p + '%').join(' → ') + (e.due ? ' · entro ' + E(e.due) : '') + '<br>' + (e.out != null ? 'Esito: <b>' + (e.out ? 'accaduto' : 'non accaduto') + '</b>' : '<button class="btn" data-act="fRes" data-id="' + e.id + '" data-v="1">È accaduto</button> <button class="btn" data-act="fRes" data-id="' + e.id + '" data-v="0">Non è accaduto</button> <input id="u-' + e.id + '" class="inp" placeholder="nuova p" style="width:70px"><button class="btn ghost" data-act="fUpd" data-id="' + e.id + '">Aggiorna</button>') + '</div>').join('') || '<p class="small mute">Vuoto.</p>') + '</div>';
   };
-  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : dash(s)); };
+  const tr = s => {
+    const K = ST.kg, due = T.due(s).filter(x => x.id.indexOf('tr:') === 0);
+    return '<div class="card"><h3>Transfer spontaneo</h3><p class="small mute">Problemi senza indicazione della materia né del principio: devi riconoscere tu che cosa serve. Il principio viene rivelato solo dopo la risposta. Qui si misura il problema nuovo, distinto dai quiz di materia.</p>' +
+      (due.length ? '<p class="warn small">Verifiche a distanza dovute: ' + due.map(x => E(K.PRINCIPLES[x.id.slice(3)].t) + ' (' + x.check + 'g)').join(', ') + '</p>' : '') +
+      '<button class="btn block" data-act="trStart">▶ Sessione mista (5 problemi)</button>' +
+      '<table class="t" style="margin-top:8px"><tr><td>Principio</td><td class="small">Problema nuovo</td><td class="small">Ritenzione</td></tr>' + Object.keys(K.PRINCIPLES).map(k => { const d = T.dims(s, 'tr:' + k); return '<tr><td>' + E(K.PRINCIPLES[k].t) + '<div class="small mute">uso reale: ' + E(K.PRINCIPLES[k].real) + '</div></td><td>' + T.pct(d.novel) + '</td><td>' + T.pct(d.delayed) + '</td></tr>'; }).join('') + '</table></div>' +
+      '<div class="card"><h3>Missioni multidisciplinari</h3>' + K.MISSIONS.map(m => '<div style="margin:10px 0"><b>' + E(m.t) + '</b>' + m.steps.map((st, i) => '<div class="small" style="margin:4px 0">' + (i + 1) + '. ' + E(st.x) + (st.go ? ' <button class="btn ghost" data-act="go" data-view="' + st.go.view + '" data-p=\'' + JSON.stringify(st.go.p) + '\'>Apri</button>' : ' <button class="btn ghost" data-act="trStart" data-pr="' + st.pr.join(',') + '">Allena</button>') + '</div>').join('') + '</div>').join('') + '</div>' +
+      '<div class="card"><h3>Come si collegano</h3>' + Object.keys(K.PRINCIPLES).map(k => '<div class="small"><b>' + E(K.PRINCIPLES[k].t) + '</b> ← materie: ' + K.PRINCIPLES[k].subj.join(', ') + ' · collegato a: ' + K.PRINCIPLES[k].links.map(l => E(K.PRINCIPLES[l].t)).join(', ') + '</div>').join('') + '</div>';
+  };
+  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : dash(s)); };
   const re = () => { A.save(); A.render(); };
   X.jAdd = () => { const s = A.state, p = parseInt(val('j-p'), 10); if (!val('j-sit') || !val('j-choice')) return A.toast && A.toast('Servono almeno situazione e scelta'); T.jAdd(s, { sit: val('j-sit'), goal: val('j-goal'), opts: val('j-opts'), hyp: val('j-hyp'), p: isNaN(p) ? null : Math.max(0, Math.min(100, p)), choice: val('j-choice'), why: val('j-why'), check: val('j-check') }); re(); };
   X.jClose = el => { T.jClose(A.state, el.dataset.id, val('o-' + el.dataset.id), val('l-' + el.dataset.id)); re(); };
   X.fAdd = () => { const p = parseInt(val('f-p'), 10); if (!val('f-q') || isNaN(p) || p < 1 || p > 99) return A.toast && A.toast('Evento e probabilità 1–99'); T.fAdd(A.state, val('f-q'), p, val('f-ev'), val('f-due')); re(); };
   X.fRes = el => { T.fResolve(A.state, el.dataset.id, el.dataset.v === '1'); re(); };
   X.fUpd = el => { const p = parseInt(val('u-' + el.dataset.id), 10); if (!isNaN(p) && p >= 1 && p <= 99) T.fUpdate(A.state, el.dataset.id, p); re(); };
+  X.trStart = el => {
+    const s = A.state, K = ST.kg, R = ST.runner, dueIds = T.due(s).filter(x => x.id.indexOf('tr:') === 0);
+    let prs = el && el.dataset && el.dataset.pr ? el.dataset.pr.split(',') : dueIds.map(x => x.id.slice(3)).concat(U.shuffle(Object.keys(K.PRINCIPLES))).filter((v, i, a) => a.indexOf(v) === i).slice(0, 5);
+    const items = prs.map(pr => { const seen = ((s.skills || {})['tr:' + pr] || { hist: [] }).hist.length; return Object.assign({ pr }, K.problem(pr, seen)); });
+    A.ctx = 'general';
+    R.start({ title: 'Transfer spontaneo', kind: 'free', items, ctx: 'general', onAnswer: (it, ok, i, r) => { const d = dueIds.find(x => x.id === 'tr:' + it.principle); T.record(s, 'tr:' + it.principle, d ? 'delayed' : 'novel', ok, { ms: r && r.ms, check: d && d.check }); },
+      onFinish: res => '<p class="small">Principi incontrati: ' + res.map(x => '<b>' + E(K.PRINCIPLES[x.item.principle].t) + '</b> (uso reale: ' + E(K.PRINCIPLES[x.item.principle].real) + ')').join(' · ') + '</p>' });
+  };
   X.jExport = () => { const b = new Blob([T.exportJournal(A.state)], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'skilltree-diario.json'; a.click(); };
 })(window.ST = window.ST || {});
 

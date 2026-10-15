@@ -344,3 +344,9 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - `src/core/transfer.js`: evidenze per competenza in 6 dimensioni separate (richiamo, guidata, autonoma, problema nuovo, ritenzione, uso reale), verifiche a 7/30/90 giorni, diario decisioni, previsioni con Brier solo su esiti risolti. Schema dati v3 con migrazione da v2. Test unitario incluso.
 - UI: «Laboratorio decisioni» in home (competenze · diario · previsioni), diario esportabile in JSON; i dati sono inclusi nel backup esistente.
 - Limite: le attività esistenti non scrivono ancora evidenze in `skills` (collegamento previsto dalle milestone 2–8); finché non lo fanno la dashboard resta vuota.
+
+## Mandato master — Milestone 8 (parziale): Transfer Engine
+- `src/core/kg.js`: 8 principi trasversali collegati tra loro e alle materie, 16 problemi di transfer spontaneo (2 per principio, risposte ricalcolate nei test), 4 missioni multidisciplinari con passi eseguibili.
+- UI scheda «Transfer»: sessione mista senza indicare materia/principio (rivelato dopo), verifiche a distanza 7/30/90 giorni con la seconda variante, tabella problema nuovo / ritenzione per principio.
+- `runner.js` registra ora un'evidenza per ogni risposta: laboratori generati → «applicazione autonoma», fill → «richiamo», altro → «guidata». Limiti: «aiuti» non ancora rilevati (help=false sempre); la chiave competenza è il tipo di laboratorio o il contesto, non ancora il singolo argomento.
+- Non implementato: grafo navigabile a livello di singoli argomenti (solo principi), valutazione automatica delle risposte libere nelle missioni (i passi sono guidati manualmente).

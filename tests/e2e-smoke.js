@@ -105,6 +105,8 @@ const mock = () => {
   await step('hub cultura', () => ST.app.go('subject', { id: 'sec' }), /Laboratori di calcolo · numeri della vita quotidiana/);
   await page.evaluate(() => ST.acts.startCul()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio cultura'); await reset();
   for (const t of await page.evaluate(() => ST.cul.TYPES)) { await page.evaluate(t => ST.acts.startCulType({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio cultura ' + t); await reset(); }
+  await step('transfer tab', () => ST.app.go('transfer', { t: 'tr' }), /Transfer spontaneo/);
+  await page.evaluate(() => ST.acts.trStart({ dataset: {} })); await page.waitForTimeout(200); ok((await body()).length > 30 && !errors.length, 'sessione transfer'); await reset();
   await step('transfer dash', () => ST.app.go('transfer', { t: 'dash' }), /Dashboard delle competenze/);
   await step('transfer diario', () => ST.app.go('transfer', { t: 'jour' }), /Nuova decisione/);
   await step('transfer previsioni', () => ST.app.go('transfer', { t: 'fore' }), /Previsioni probabilistiche/);
