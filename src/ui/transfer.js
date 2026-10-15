@@ -3,7 +3,7 @@
   'use strict';
   const U = ST.util, A = ST.app, E = U.esc, X = ST.acts, T = ST.transfer;
   const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
-  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
+  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
   const field = (id, label, ph) => '<label class="small mute">' + label + '</label><input id="' + id + '" class="inp" placeholder="' + E(ph || '') + '" style="width:100%">';
   const dash = s => {
     const ids = Object.keys(s.skills || {}), due = T.due(s);
@@ -53,7 +53,10 @@
     return '<div class="card"><h3>Test di transfer cognitivo</h3><p class="small mute">Tre categorie, mai fuse in un unico punteggio. Un miglioramento negli esercizi allenati (A) non prova un miglioramento generale: per questo si misura anche il transfer vicino (B, compiti simili con forme mai allenate) e distante (C, problemi nuovi senza indicazione della materia). Nessun test misura il QI.</p>' +
       Object.keys(CR.TV).map(c => { const m = CR.tvSummary(s, c); return '<div class="item" style="display:block"><b>' + c + ' · ' + E(CR.TV[c]) + '</b><div class="small mute">' + (m ? 'test svolti: ' + m.runs + ' · primo: ' + m.first + '% · ultimo: ' + m.last + '% · migliore: ' + m.best + '%' : 'nessun test ancora: il primo funge da misura iniziale') + '</div><button class="btn" data-act="tvStart" data-c="' + c + '">▶ Test (6 problemi)</button></div>'; }).join('') + '<p class="small mute">I test sono brevi: le variazioni di pochi punti percentuali su 6 problemi sono rumore, non progresso. Valuta le tendenze su molte prove.</p></div>';
   };
-  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : dash(s)); };
+  const cs = s => '<div class="card"><h3>Case Study Engine · Scienze dello sport</h3><p class="small mute">Casi con dati fittizi in 5 passi: analizza i dati, formula l’ipotesi, individua l’informazione mancante, decidi, valuta i limiti. Servono a esercitare il metodo, non a prescrivere allenamenti reali.</p>' +
+    ST.cases.CASES.map(c => { const d = T.dims(s, 'case:' + c.id); return '<button class="item" data-act="csStart" data-id="' + c.id + '"><span class="tx"><b>' + E(c.title) + '</b><span>guidata: ' + T.pct(d.guided) + '</span></span><span class="tag">5 passi</span></button>'; }).join('') +
+    '<h3 style="margin-top:12px">Alfabetizzazione alla ricerca</h3><p class="small mute">Rischio relativo e assoluto, campioni piccoli, intervalli di confidenza, validità esterna, confronti multipli. Sono 8 domande; le fonti inglesi arriveranno con English Across SkillTree.</p><button class="btn block" data-act="csStart" data-id="research">▶ Lettura critica (8 domande)</button></div>';
+  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : dash(s)); };
   const re = () => { A.save(); A.render(); };
   X.jAdd = () => { const s = A.state, p = parseInt(val('j-p'), 10); if (!val('j-sit') || !val('j-choice')) return A.toast && A.toast('Servono almeno situazione e scelta'); T.jAdd(s, { sit: val('j-sit'), goal: val('j-goal'), opts: val('j-opts'), hyp: val('j-hyp'), p: isNaN(p) ? null : Math.max(0, Math.min(100, p)), choice: val('j-choice'), why: val('j-why'), check: val('j-check') }); re(); };
   X.jClose = el => { T.jClose(A.state, el.dataset.id, val('o-' + el.dataset.id), val('l-' + el.dataset.id)); re(); };
@@ -82,6 +85,10 @@
     const s = A.state, CR = ST.mental.crit, c = el.dataset.c, R = ST.runner, items = CR.tvItems(s, c, 6); A.ctx = 'general';
     R.start({ title: 'Test · ' + CR.TV[c], kind: 'free', items, ctx: 'general', onAnswer: () => {},
       onFinish: res => { const ok = res.filter(x => x.ok).length; CR.tvRecord(s, c, ok, res.length, res.reduce((a, x) => a + (x.ms || 0), 0)); A.save(); return '<p class="small">Registrato: <b>' + ok + ' / ' + res.length + '</b> in categoria ' + c + '. Confrontalo con le prove precedenti, non con un valore assoluto.</p>'; } });
+  };
+  X.csStart = el => {
+    const id = el.dataset.id, CS = ST.cases, c = CS.CASES.find(x => x.id === id), items = c ? CS.itemsOf(c) : U.shuffle(CS.RESEARCH.slice()); A.ctx = 'general';
+    ST.runner.start({ title: c ? c.title : 'Lettura critica della ricerca', kind: 'free', items, ctx: 'general', onAnswer: () => {} });
   };
   X.jExport = () => { const b = new Blob([T.exportJournal(A.state)], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'skilltree-diario.json'; a.click(); };
 })(window.ST = window.ST || {});

@@ -771,3 +771,16 @@ test('laboratori facoltativi: ogni categoria costruisce una sessione valida per 
   });
   const it = ST.kg.problem('ev', 0); assert.ok(it.principle === 'ev' && it.q);
 });
+
+test('casi sport: calcoli dei dati ricontrollati e struttura in 5 passi', () => {
+  const CS = ST.cases, g = id => CS.CASES.find(c => c.id === id);
+  assert.ok(CS.CASES.every(c => c.steps.length === 5 && c.steps.every(s => s[1].length === 4 && new Set(s[1]).size === 4 && s[2])));
+  
+  assert.equal(100 * 3 * 5 * 2, 3000); assert.ok(/3 000/.test(g('stall').steps[0][1][0]));
+  assert.equal((620 / ((400 + 420 + 450 + 430) / 4)).toFixed(2), '1.46'); assert.ok(/1,46/.test(g('acwr').steps[0][1][0]));
+  assert.equal((100 * (22 * 60 + 5 - (21 * 60 + 10)) / (21 * 60 + 10)).toFixed(1), '4.3'); assert.ok(/4,3/.test(g('decline').steps[0][1][0]));
+  assert.equal(3 * 60 + 5 * 40, 380); assert.equal(2 * 4, 8); assert.equal([10 * 0.4, 10 * 0.6].join(), '4,6');
+  assert.equal(CS.RESEARCH.length, 8); assert.ok(CS.RESEARCH.every(i => i.o.length === 4 && i.a === 0));
+  assert.equal(CS.itemsOf(g('hyper')).length, 5);
+  assert.equal((2 - 1) / 2, 0.5); assert.equal(Math.round(1 / (0.02 - 0.01)), 100); assert.equal(20 * 0.05, 1);
+});

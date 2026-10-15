@@ -105,6 +105,8 @@ const mock = () => {
   await step('hub cultura', () => ST.app.go('subject', { id: 'sec' }), /Laboratori di calcolo · numeri della vita quotidiana/);
   await page.evaluate(() => ST.acts.startCul()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio cultura'); await reset();
   for (const t of await page.evaluate(() => ST.cul.TYPES)) { await page.evaluate(t => ST.acts.startCulType({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio cultura ' + t); await reset(); }
+  await step('casi sport', () => ST.app.go('transfer', { t: 'cs' }), /Case Study Engine/);
+  for (const id of ['stall', 'research']) { await page.evaluate(id => ST.acts.csStart({ dataset: { id } }), id); await page.waitForTimeout(150); ok((await body()).length > 30 && !errors.length, 'caso ' + id); await reset(); }
   await step('optlab', () => ST.app.go('optlab'), /Laboratori facoltativi/);
   for (const k of ['cog', 'sport', 'decision', 'transfer', 'cross']) { await page.evaluate(k => ST.acts.optStart({ dataset: { k } }), k); await page.waitForTimeout(150); ok((await body()).length > 30 && !errors.length, 'optlab ' + k); await reset(); }
   await step('test cognitivi', () => ST.app.go('transfer', { t: 'cog' }), /Test di transfer cognitivo/);

@@ -368,3 +368,7 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - Non disponibili e dichiarate tali nell'interfaccia: English Conversation, Japanese Immersion, Anime Listening, Combat Tactical Recognition (nessuna attività reale implementata).
 - Backup: lo stato esteso (competenze, diario, previsioni, test) è nello stato salvato e quindi nel backup esistente; migrazione v2→v3 testata. Nessun test automatico dell'importazione di un backup completo su browser.
 - Durata: la durata reale dipende dall'utente (5 min per blocco di sessione); i laboratori non misurano il tempo effettivo.
+
+## Mandato master — Milestone 5 (parziale): Case Study e Research Literacy
+- `src/core/cases.js` + scheda «Casi sport»: 6 casi a dati fittizi in 5 passi (analisi, ipotesi, informazione mancante, decisione, limiti) e 8 domande di lettura critica della ricerca (rischio relativo/assoluto e NNT, campione piccolo, intervalli di confidenza, significatività vs rilevanza, validità esterna, confronti multipli, cecità). Calcoli dei dati ricontrollati nei test. Le risposte registrano evidenze «guidata» per caso.
+- Limiti: ogni passo ha una sola risposta corretta (non rappresenta la varietà reale delle decisioni); i casi sono sintetici e non sostituiscono la consulenza di un professionista; letture scientifiche in inglese non ancora integrate; i 6 livelli del curriculum richiesti (L0–L5) non sono stati rinominati: il curriculum esistente ha 12 stadi (L0–L11) con contenuti equivalenti per anatomia, fisiologia, programmazione, nutrizione, statistica.
