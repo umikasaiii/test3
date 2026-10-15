@@ -784,3 +784,21 @@ test('casi sport: calcoli dei dati ricontrollati e struttura in 5 passi', () => 
   assert.equal(CS.itemsOf(g('hyper')).length, 5);
   assert.equal((2 - 1) / 2, 0.5); assert.equal(Math.round(1 / (0.02 - 0.01)), 100); assert.equal(20 * 0.05, 1);
 });
+
+test('lessico attivo: livelli, cloze, verifica a distanza e sessione', () => {
+  const V = ST.vocab, s = fresh(); at('2026-03-01');
+  const topic = Object.values(C.topics).find(t => t.subject === 'eng' && t.cards && t.cards.some(c => V.canCloze(c)));
+  ST.cards.introduceTopic(s, topic);
+  const id = Object.keys(s.cards).find(i => V.canCloze(V.cardOf(s, i)));
+  assert.equal(V.level(s, id, V.cardOf(s, id)).next, 'recog');
+  const it = V.item(s, id, 'ctx', U.rng(3)); assert.ok(/_____/.test(it.q) && it.o[it.a] === V.cardOf(s, id).b && it.o.length >= 3);
+  assert.ok(V.item(s, id, 'recog', U.rng(3)).t === 'mc' && V.item(s, id, 'recall', U.rng(3)).t === 'fill');
+  V.record(s, id, 'recog', true); assert.equal(V.level(s, id).next, 'recall');
+  V.record(s, id, 'recall', true); assert.equal(V.level(s, id).next, 'recall'); V.record(s, id, 'recall', true);
+  assert.equal(V.level(s, id, V.cardOf(s, id)).next, 'ctx'); V.record(s, id, 'ctx', true); V.record(s, id, 'prod', true);
+  assert.equal(V.level(s, id, V.cardOf(s, id)).next, null); assert.equal(V.level(s, id, V.cardOf(s, id)).lv, 4);
+  at('2026-03-23'); assert.equal(V.level(s, id, V.cardOf(s, id)).next, 'verify');
+  V.record(s, id, 'verify', true); assert.equal(V.level(s, id, V.cardOf(s, id)).lv, 5);
+  assert.ok(V.counts(s, 'en').reduce((a, b) => a + b, 0) > 3);
+  const sess = V.session(s, 'en', 5, U.rng(1)); assert.ok(sess.every(x => x.vocabId && x.q));
+});

@@ -3,7 +3,7 @@
   'use strict';
   const U = ST.util, A = ST.app, E = U.esc, X = ST.acts, T = ST.transfer;
   const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
-  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
+  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['voc', 'Lessico'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
   const field = (id, label, ph) => '<label class="small mute">' + label + '</label><input id="' + id + '" class="inp" placeholder="' + E(ph || '') + '" style="width:100%">';
   const dash = s => {
     const ids = Object.keys(s.skills || {}), due = T.due(s);
@@ -56,7 +56,10 @@
   const cs = s => '<div class="card"><h3>Case Study Engine · Scienze dello sport</h3><p class="small mute">Casi con dati fittizi in 5 passi: analizza i dati, formula l’ipotesi, individua l’informazione mancante, decidi, valuta i limiti. Servono a esercitare il metodo, non a prescrivere allenamenti reali.</p>' +
     ST.cases.CASES.map(c => { const d = T.dims(s, 'case:' + c.id); return '<button class="item" data-act="csStart" data-id="' + c.id + '"><span class="tx"><b>' + E(c.title) + '</b><span>guidata: ' + T.pct(d.guided) + '</span></span><span class="tag">5 passi</span></button>'; }).join('') +
     '<h3 style="margin-top:12px">Alfabetizzazione alla ricerca</h3><p class="small mute">Rischio relativo e assoluto, campioni piccoli, intervalli di confidenza, validità esterna, confronti multipli. Sono 8 domande; le fonti inglesi arriveranno con English Across SkillTree.</p><button class="btn block" data-act="csStart" data-id="research">▶ Lettura critica (8 domande)</button></div>';
-  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : dash(s)); };
+  const voc = s => '<div class="card"><h3>Lessico attivo</h3><p class="small mute">Ogni parola passa da: riconoscimento → richiamo senza aiuti (2 volte) → uso in una frase (completamento) → produzione di una frase tua → verifica a distanza dopo almeno ' + ST.vocab.GAP + ' giorni dal primo richiamo. La produzione è autovalutata: l’app non corregge la grammatica. Le parole dovute per il ripasso hanno la precedenza.</p>' +
+    [['en', 'Inglese'], ['ja', 'Giapponese']].map(l => { const c = ST.vocab.counts(s, l[0]); return '<div class="item" style="display:block"><b>' + l[1] + '</b> · ' + c.reduce((a, b) => a + b, 0) + ' parole<div class="small mute">' + ST.vocab.LABELS.map((x, i) => x + ': ' + c[i]).join(' · ') + '</div><button class="btn" data-act="vocStart" data-l="' + l[0] + '">▶ Sessione (10 parole)</button></div>'; }).join('') +
+    '<p class="small mute">Le parole entrano qui quando studi un argomento di lingua. In giapponese la fase «contesto» è sostituita dalla produzione perché le carte non hanno ancora frasi d’esempio.</p></div>';
+  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : t === 'voc' ? voc(s) : dash(s)); };
   const re = () => { A.save(); A.render(); };
   X.jAdd = () => { const s = A.state, p = parseInt(val('j-p'), 10); if (!val('j-sit') || !val('j-choice')) return A.toast && A.toast('Servono almeno situazione e scelta'); T.jAdd(s, { sit: val('j-sit'), goal: val('j-goal'), opts: val('j-opts'), hyp: val('j-hyp'), p: isNaN(p) ? null : Math.max(0, Math.min(100, p)), choice: val('j-choice'), why: val('j-why'), check: val('j-check') }); re(); };
   X.jClose = el => { T.jClose(A.state, el.dataset.id, val('o-' + el.dataset.id), val('l-' + el.dataset.id)); re(); };
@@ -89,6 +92,10 @@
   X.csStart = el => {
     const id = el.dataset.id, CS = ST.cases, c = CS.CASES.find(x => x.id === id), items = c ? CS.itemsOf(c) : U.shuffle(CS.RESEARCH.slice()); A.ctx = 'general';
     ST.runner.start({ title: c ? c.title : 'Lettura critica della ricerca', kind: 'free', items, ctx: 'general', onAnswer: () => {} });
+  };
+  X.vocStart = el => {
+    const s = A.state, items = ST.vocab.session(s, el.dataset.l, 10); if (!items.length) return A.toast('Nessuna parola disponibile: studia prima un argomento di lingua.');
+    A.ctx = 'general'; ST.runner.start({ title: 'Lessico attivo', kind: 'free', items, ctx: 'general', onAnswer: (it, ok) => { ST.vocab.grade(s, it, ok); A.save(); } });
   };
   X.jExport = () => { const b = new Blob([T.exportJournal(A.state)], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'skilltree-diario.json'; a.click(); };
 })(window.ST = window.ST || {});

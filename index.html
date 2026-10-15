@@ -966,6 +966,76 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   };
 })(window.ST = window.ST || {});
 
+/* ---- core/vocab ---- */
+/* SkillTree — lessico attivo: riconoscimento → richiamo → uso in contesto → produzione → ripasso dilazionato → verifica a distanza.
+   Si appoggia alle carte lessicali esistenti. La produzione di frasi è autovalutata (nessun controllo grammaticale automatico). */
+(function (ST) {
+  'use strict';
+  const U = ST.util, C = ST.cards, V = ST.vocab = {};
+  V.GAP = 21; // giorni tra il primo richiamo riuscito e la verifica a distanza
+  const rec = (s, id) => ((s.vocab = s.vocab || {})[id] = s.vocab[id] || { recog: [0, 0], recall: [0, 0], ctx: [0, 0], prod: [0, 0], firstRecall: null, verified: null });
+  const clozeOf = (cd) => { const w = String(cd.b), i = (cd.ex || '').toLowerCase().indexOf(w.toLowerCase()); return i < 0 ? null : cd.ex.slice(0, i) + '_____' + cd.ex.slice(i + w.length); };
+  V.canCloze = cd => !!clozeOf(cd);
+  /* livello raggiunto e prossima attività da fare */
+  V.level = (s, id, cd) => {
+    const v = (s.vocab || {})[id]; if (!v) return { lv: 0, next: 'recog' };
+    const needCtx = !cd || V.canCloze(cd);
+    if (v.recog[0] < 1) return { lv: 0, next: 'recog' };
+    if (v.recall[0] < 2) return { lv: 1, next: 'recall' };
+    if (needCtx && v.ctx[0] < 1) return { lv: 2, next: 'ctx' };
+    if (v.prod[0] < 1) return { lv: 3, next: 'prod' };
+    if (!v.verified) { const ready = v.firstRecall && U.diffDays(v.firstRecall, U.today()) >= V.GAP; return { lv: 4, next: ready ? 'verify' : null }; }
+    return { lv: 5, next: null };
+  };
+  V.LABELS = ['nuova', 'riconosciuta', 'richiamata', 'usata in contesto', 'prodotta', 'verificata a distanza'];
+  V.cardOf = (s, id) => { const c = s.cards[id]; const t = c && ST.content.topic(c.topic); return t && (t.cards || []).find(x => x.id === c.cid); };
+  V.counts = (s, lang) => { const out = [0, 0, 0, 0, 0, 0]; Object.keys(s.cards).forEach(id => { const c = s.cards[id]; if (c.kind === 'vocab' && c.lang === lang) out[V.level(s, id, V.cardOf(s, id)).lv]++; }); return out; };
+  V.record = (s, id, kind, ok) => {
+    const v = rec(s, id);
+    if (kind === 'verify') { if (ok) v.verified = U.today(); else v.firstRecall = null; return v; }
+    v[kind][1]++; if (ok) v[kind][0]++;
+    if (kind === 'recall' && ok && !v.firstRecall) v.firstRecall = U.today();
+    return v;
+  };
+  V.item = (s, id, kind, rng) => {
+    rng = rng || U.rand; const c = s.cards[id], cd = V.cardOf(s, id); if (!cd) return null;
+    const topic = ST.content.topic(c.topic), keep = c.mode;
+    const lbl = { recog: 'Riconoscimento', recall: 'Richiamo senza aiuti', ctx: 'Uso in contesto', prod: 'Produzione (autovalutata)', verify: 'Verifica a distanza' };
+    let it;
+    if (kind === 'recog' || kind === 'recall' || kind === 'verify') { c.mode = kind === 'recog' ? 'recognition' : 'recall'; it = C.question(s, id, rng); c.mode = keep; if (it) it.srcLabel = lbl[kind] + ' · ' + topic.title; }
+    else if (kind === 'ctx') {
+      const stem = clozeOf(cd); if (!stem) return null;
+      const others = U.sample((topic.cards || []).filter(x => x.id !== cd.id && String(x.b) !== String(cd.b)), 3, rng).map(x => x.b), o = U.shuffle([cd.b].concat(others), rng);
+      it = { t: 'mc', q: 'Completa la frase: «' + stem + '»', o, a: o.indexOf(cd.b), why: cd.ex + ' — «' + cd.b + '» = ' + cd.f, srcLabel: lbl.ctx + ' · ' + topic.title };
+    } else {
+      const o = ['Sì: la parola è usata in modo naturale', 'Quasi: ci sono piccoli errori', 'No, o non sono riuscito a scrivere la frase'];
+      it = { t: 'mc', q: 'Scrivi (su carta o a mente) una frase tua con «' + cd.b + '» (' + cd.f + '). ' + (cd.ex ? 'Poi confrontala con l’esempio: «' + cd.ex + '». ' : '') + 'La tua frase la usava correttamente?', o, a: 0, why: 'Valutazione tua: l’app non controlla la grammatica. Se hai dubbi, ripeti con un esempio di un docente o di un dizionario.', srcLabel: lbl.prod + ' · ' + topic.title, selfGrade: true };
+    }
+    if (it) { it.vocabId = id; it.vocabKind = kind; if (kind !== 'prod') it.skill = 'voc:' + c.lang; }
+    return it;
+  };
+  /* sessione: parole dovute prima, poi le nuove/incomplete; ogni parola riceve l'attività del suo livello */
+  V.session = (s, lang, n, rng) => {
+    rng = rng || U.rand; n = n || 10;
+    const due = C.dueIds(s, lang), rest = Object.keys(s.cards).filter(id => s.cards[id].kind === 'vocab' && s.cards[id].lang === lang && !due.includes(id));
+    const out = [];
+    for (const id of due.concat(U.shuffle(rest, rng))) {
+      if (out.length >= n) break;
+      const lv = V.level(s, id, V.cardOf(s, id)); if (!lv.next) continue;
+      const kind = lang === 'ja' && (lv.next === 'ctx') ? 'prod' : lv.next;
+      const it = V.item(s, id, kind, rng); if (it) out.push(it);
+    }
+    return out;
+  };
+  /* grading: SRS per riconoscimento/richiamo/verifica; produzione autovalutata conta come riuscita solo se «Sì» */
+  V.grade = (s, it, ok) => {
+    if (!it.vocabId) return;
+    const k = it.vocabKind;
+    V.record(s, it.vocabId, k, ok);
+    if (k !== 'ctx' && k !== 'prod') C.grade(s, it.vocabId, ok, false);
+  };
+})(window.ST = window.ST || {});
+
 /* ---- core/motor ---- */
 /* SkillTree — scheduler motorio (judo/lotta). 5 minuti al giorno, solo esercizi solitari e sicuri.
    Registra per ogni tecnica: ultimo allenamento, richiami, difficoltà, qualità, errori ricorrenti,
@@ -1148,7 +1218,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     xp: 0, xpLog: {}, xpKeys: {},
     topics: {}, cards: {}, reviewLog: [],
     kana: { items: {}, placed: false, lastSession: null },
-    motor: {}, mental: {}, theory: {}, skills: {}, journal: [], forecasts: [], 
+    motor: {}, mental: {}, theory: {}, skills: {}, vocab: {}, journal: [], forecasts: [], 
     exams: [], gates: { en: {} }, rec: [],
     daily: {}, resume: {}, settings: { sound: true },
     log: []
@@ -40505,7 +40575,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   'use strict';
   const U = ST.util, A = ST.app, E = U.esc, X = ST.acts, T = ST.transfer;
   const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
-  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
+  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['voc', 'Lessico'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
   const field = (id, label, ph) => '<label class="small mute">' + label + '</label><input id="' + id + '" class="inp" placeholder="' + E(ph || '') + '" style="width:100%">';
   const dash = s => {
     const ids = Object.keys(s.skills || {}), due = T.due(s);
@@ -40558,7 +40628,10 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   const cs = s => '<div class="card"><h3>Case Study Engine · Scienze dello sport</h3><p class="small mute">Casi con dati fittizi in 5 passi: analizza i dati, formula l’ipotesi, individua l’informazione mancante, decidi, valuta i limiti. Servono a esercitare il metodo, non a prescrivere allenamenti reali.</p>' +
     ST.cases.CASES.map(c => { const d = T.dims(s, 'case:' + c.id); return '<button class="item" data-act="csStart" data-id="' + c.id + '"><span class="tx"><b>' + E(c.title) + '</b><span>guidata: ' + T.pct(d.guided) + '</span></span><span class="tag">5 passi</span></button>'; }).join('') +
     '<h3 style="margin-top:12px">Alfabetizzazione alla ricerca</h3><p class="small mute">Rischio relativo e assoluto, campioni piccoli, intervalli di confidenza, validità esterna, confronti multipli. Sono 8 domande; le fonti inglesi arriveranno con English Across SkillTree.</p><button class="btn block" data-act="csStart" data-id="research">▶ Lettura critica (8 domande)</button></div>';
-  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : dash(s)); };
+  const voc = s => '<div class="card"><h3>Lessico attivo</h3><p class="small mute">Ogni parola passa da: riconoscimento → richiamo senza aiuti (2 volte) → uso in una frase (completamento) → produzione di una frase tua → verifica a distanza dopo almeno ' + ST.vocab.GAP + ' giorni dal primo richiamo. La produzione è autovalutata: l’app non corregge la grammatica. Le parole dovute per il ripasso hanno la precedenza.</p>' +
+    [['en', 'Inglese'], ['ja', 'Giapponese']].map(l => { const c = ST.vocab.counts(s, l[0]); return '<div class="item" style="display:block"><b>' + l[1] + '</b> · ' + c.reduce((a, b) => a + b, 0) + ' parole<div class="small mute">' + ST.vocab.LABELS.map((x, i) => x + ': ' + c[i]).join(' · ') + '</div><button class="btn" data-act="vocStart" data-l="' + l[0] + '">▶ Sessione (10 parole)</button></div>'; }).join('') +
+    '<p class="small mute">Le parole entrano qui quando studi un argomento di lingua. In giapponese la fase «contesto» è sostituita dalla produzione perché le carte non hanno ancora frasi d’esempio.</p></div>';
+  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : t === 'voc' ? voc(s) : dash(s)); };
   const re = () => { A.save(); A.render(); };
   X.jAdd = () => { const s = A.state, p = parseInt(val('j-p'), 10); if (!val('j-sit') || !val('j-choice')) return A.toast && A.toast('Servono almeno situazione e scelta'); T.jAdd(s, { sit: val('j-sit'), goal: val('j-goal'), opts: val('j-opts'), hyp: val('j-hyp'), p: isNaN(p) ? null : Math.max(0, Math.min(100, p)), choice: val('j-choice'), why: val('j-why'), check: val('j-check') }); re(); };
   X.jClose = el => { T.jClose(A.state, el.dataset.id, val('o-' + el.dataset.id), val('l-' + el.dataset.id)); re(); };
@@ -40591,6 +40664,10 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   X.csStart = el => {
     const id = el.dataset.id, CS = ST.cases, c = CS.CASES.find(x => x.id === id), items = c ? CS.itemsOf(c) : U.shuffle(CS.RESEARCH.slice()); A.ctx = 'general';
     ST.runner.start({ title: c ? c.title : 'Lettura critica della ricerca', kind: 'free', items, ctx: 'general', onAnswer: () => {} });
+  };
+  X.vocStart = el => {
+    const s = A.state, items = ST.vocab.session(s, el.dataset.l, 10); if (!items.length) return A.toast('Nessuna parola disponibile: studia prima un argomento di lingua.');
+    A.ctx = 'general'; ST.runner.start({ title: 'Lessico attivo', kind: 'free', items, ctx: 'general', onAnswer: (it, ok) => { ST.vocab.grade(s, it, ok); A.save(); } });
   };
   X.jExport = () => { const b = new Blob([T.exportJournal(A.state)], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'skilltree-diario.json'; a.click(); };
 })(window.ST = window.ST || {});
