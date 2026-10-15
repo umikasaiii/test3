@@ -65,7 +65,7 @@
       mission('ja', '🇯🇵', 'Giapponese', m.ja, nextTopicLine('ja'), d, A.activeMin('ja')) +
       '<button class="item' + (genDone === 3 ? ' done' : '') + '" data-act="go" data-view="general"><span class="ic">🧠</span><span class="tx"><b>Generale · 15 min</b><span>5′ mentale · 5′ judo (' + E(PL.JUDO_LABEL[slot]) + ') · 5′ ' + E(PL.THEORY_LABEL[PL.theorySlot(A.state, U.weekday())]) + '</span></span><span class="tag ' + (genDone === 3 ? 'good' : '') + '">' + genDone + '/3</span></button>' +
       '</div></div>' +
-      '<div class="grid2"><button class="tile" data-act="go" data-view="transfer"><b>🧭 Laboratorio decisioni</b><span>diario · previsioni · competenze</span></button><button class="tile" data-act="go" data-view="review" data-p=\'{"lang":""}\'><b>🔁 Ripassi dovuti</b><span>' + due + ' elementi</span></button>' +
+      '<div class="grid2"><button class="tile" data-act="go" data-view="optlab"><b>🧪 Laboratori facoltativi</b><span>15 · 20 · 30 · 45 min</span></button><button class="tile" data-act="go" data-view="transfer"><b>🧭 Laboratorio decisioni</b><span>diario · previsioni · competenze</span></button><button class="tile" data-act="go" data-view="review" data-p=\'{"lang":""}\'><b>🔁 Ripassi dovuti</b><span>' + due + ' elementi</span></button>' +
       '<button class="tile" data-act="tab" data-tab="progress"><b>📊 Progresso</b><span>Livelli e verifiche</span></button></div>' +
       '<p class="mute small center" style="margin-top:14px">Il tempo viene stimato dall’interazione reale (inattività esclusa).</p>';
   };

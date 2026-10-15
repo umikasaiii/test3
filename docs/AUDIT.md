@@ -362,3 +362,9 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - Aggiunti 3 tipi di pensiero critico (`src/core/mental-crit.js`): fallacie (8), bias cognitivi (6), valutazione delle fonti (4 scenari), inseriti nel venerdì e nel sabato. Ogni elemento ha due forme: la forma 0 si allena, la forma 1 è riservata ai test di transfer vicino.
 - Scheda «Test cognitivi»: tre categorie separate (A prestazione allenata, B transfer vicino con forme mai allenate, C transfer distante con problemi del Transfer Engine), registro separato, nessun punteggio unico né QI. 6 problemi per test: la variabilità è alta e il testo lo dichiara.
 - Limiti: la difficoltà adattiva dei nuovi tipi non è parametrica (la banca è piccola: 8+6+4 elementi, poi le forme si ripetono); la rotazione settimanale esistente non coincide esattamente con quella del mandato; metacognizione solo tramite il modulo di calibrazione già presente; memoria prospettica non implementata.
+
+## Mandato master — Milestone 9 (parziale): integrazione
+- `src/ui/optlab.js`: «Laboratori facoltativi» in home, durata 15/20/30/45 min, 5 categorie eseguibili (Cognitive Performance, Sport Science, Strategic Decision Making, Real-Life Transfer, Cross-Disciplinary) più accesso agli scenari decisionali. Le risposte aggiornano i rating esistenti delle singole materie e, per i problemi di transfer, le evidenze. Non toccano le tre missioni quotidiane né il piano da 60 minuti.
+- Non disponibili e dichiarate tali nell'interfaccia: English Conversation, Japanese Immersion, Anime Listening, Combat Tactical Recognition (nessuna attività reale implementata).
+- Backup: lo stato esteso (competenze, diario, previsioni, test) è nello stato salvato e quindi nel backup esistente; migrazione v2→v3 testata. Nessun test automatico dell'importazione di un backup completo su browser.
+- Durata: la durata reale dipende dall'utente (5 min per blocco di sessione); i laboratori non misurano il tempo effettivo.

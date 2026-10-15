@@ -762,3 +762,12 @@ test('pensiero critico: forme 0/1 disgiunte, risposta coerente, test di transfer
   assert.equal(CR.tvSummary(st, 'A'), null); CR.tvRecord(st, 'A', 3, 6, 1000); CR.tvRecord(st, 'A', 5, 6, 900); const m = CR.tvSummary(st, 'A'); assert.equal([m.runs, m.first, m.last, m.best].join(), '2,50,83,83');
   assert.ok(ST.mental.session(st, '2026-01-10', r).every(x => x.q));
 });
+
+test('laboratori facoltativi: ogni categoria costruisce una sessione valida per tutte le durate', () => {
+  const st = fresh(), r = U.rng(9);
+  [3, 4, 6, 9].forEach(n => {
+    assert.ok(ST.mental.session(st, '2026-01-12', r).length > 3);
+    assert.ok(ST.sport.session(st, r).length > 3 && ST.strategy.session(st, r).length > 3);
+  });
+  const it = ST.kg.problem('ev', 0); assert.ok(it.principle === 'ev' && it.q);
+});
