@@ -334,3 +334,8 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - Evidenza: i 14 laboratori sono ricalcolati nei test con metodo indipendente; 406 uguaglianze aritmetiche nei commenti delle risposte delle lezioni sono state verificate automaticamente; gli esercizi di economia, e di molte altre lezioni, ricontrollati a campione.
 - Limiti: contenuti non rivisti da esperti; date, citazioni, cifre di popolazione, soglie di legge, tasse e norme sono scritti a memoria dagli autori dei contenuti e non verificati sulle fonti (nel testo sono indicati come "circa", "orientativo" o "periodo recente"); primo soccorso, cucina, casa, motori e outdoor non sostituiscono corsi certificati o professionisti; nessuna consulenza fiscale, legale, finanziaria o medica.
 - Stima onesta del voto: ~7/10 come panoramica ampia e utile con lezioni, calcoli e scenari; la copertura per singola disciplina resta divulgativa, non specialistica.
+
+## Moto e guida sportiva (moto)
+- 7 stadi L0–L6, 62 lezioni (basi, strada, meccanica, dinamica, pista, corse, avanzato), 11 laboratori di calcolo (ricalcolati in modo indipendente nei test), 6 scenari di simulazione.
+- Contenuti scritti a memoria: valori tipici (μ, pressioni, temperature, intervalli di manutenzione), norme (ABS, revisione) e parametri dei modelli sono ordini di grandezza o illustrativi, non verificati su fonti.
+- Sicurezza: guida sportiva solo in pista; nessuna istruzione per manomettere scarico, mappe, limitatori o ABS.
