@@ -101,6 +101,10 @@ const mock = () => {
   await step('hub F1', () => ST.app.go('subject', { id: 'f1' }), /Laboratori di Formula 1/);
   await page.evaluate(() => ST.acts.startF1()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio F1'); await reset();
   for (const t of await page.evaluate(() => ST.f1.TYPES)) { await page.evaluate(t => ST.acts.startF1Type({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio F1 ' + t); await reset(); }
+  // Cultura e abilità generali: hub e laboratori di calcolo
+  await step('hub cultura', () => ST.app.go('subject', { id: 'sec' }), /Laboratori di calcolo · numeri della vita quotidiana/);
+  await page.evaluate(() => ST.acts.startCul()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio cultura'); await reset();
+  for (const t of await page.evaluate(() => ST.cul.TYPES)) { await page.evaluate(t => ST.acts.startCulType({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio cultura ' + t); await reset(); }
   // simulatore di strategia: ogni scenario viene giocato fino al debrief
   for (const id of await page.evaluate(() => ST.sim.templates.map(t => t.id))) {
     await page.evaluate(id => ST.acts.startSim({ dataset: { id } }), id); await page.waitForTimeout(80);
