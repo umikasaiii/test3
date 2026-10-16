@@ -39,7 +39,7 @@
   X.langApply = () => {
     const p = document.getElementById('lang-pop'), t = curTopic(); if (!p || !t) return;
     const mode = (p.querySelector('input[name=lg-m]:checked') || {}).value || 'A', scope = (p.querySelector('input[name=lg-s]:checked') || {}).value || 'lesson', lang = p.dataset.lang;
-    L.set(A.state.settings, scope, scope === 'lesson' ? t.id : scope === 'subject' ? t.subject : 'x', lang, mode); A.save(); closePop(); A.render();
+    L.set(A.state.settings, scope, scope === 'lesson' ? t.id : scope === 'subject' ? t.subject : 'x', lang, mode, id => (C.topic(id) || {}).subject); A.save(); closePop(); A.render();
   };
   /* ---- strato nelle pagine ---- */
   const say = (txt, lang) => '<button class="say" data-act="say" data-lang="' + (lang === 'ja' ? 'ja' : 'en-GB') + '" data-text="' + E(U.speechText(txt)) + '" aria-label="Ascolta">🔊</button>';
@@ -76,7 +76,7 @@
   document.addEventListener('selectionchange', () => {
     clearTimeout(selTimer); selTimer = setTimeout(() => {
       const sel = window.getSelection && window.getSelection(); if (!sel || sel.isCollapsed) return;
-      const txt = sel.toString().trim(); if (!txt || txt.length > 80) return;
+      const txt = sel.toString().trim(); if (!txt || txt.length > 400) return;
       const n = sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement), card = n && n.closest && n.closest('.layer-card'); if (!card) return;
       const t = curTopic(); if (!t) return; const r = res(t); if (r.lang === 'it') return;
       popFor(r.lang, t.id, txt);

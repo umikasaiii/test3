@@ -60,10 +60,13 @@
     const o = (settings && settings.lang) || {}, tryLv = (lv, key) => { const x = (o[lv] || {})[key]; return x ? { lang: x.lang, mode: x.mode, level: lv } : null; };
     return tryLv('lesson', topic.id) || tryLv('subject', topic.subject) || (o.all ? { lang: o.all.lang, mode: o.all.mode, level: 'all' } : null) || { lang: 'it', mode: 'A', level: 'default' };
   };
-  L.set = (settings, level, key, lang, mode) => {
+  /* un ambito più ampio sostituisce le scelte più strette (altrimenti un «torna all'italiano» di una lezione resterebbe per sempre) */
+  L.set = (settings, level, key, lang, mode, subjectOf) => {
     const o = (settings.lang = settings.lang || { lesson: {}, subject: {}, all: null, last: { lang: 'en', mode: 'A' } });
     o.lesson = o.lesson || {}; o.subject = o.subject || {};
-    if (level === 'all') o.all = { lang, mode }; else o[level][key] = { lang, mode };
+    if (level === 'all') { o.all = { lang, mode }; o.lesson = {}; o.subject = {}; }
+    else if (level === 'subject') { o.subject[key] = { lang, mode }; Object.keys(o.lesson).forEach(id => { if (subjectOf && subjectOf(id) === key) delete o.lesson[id]; }); }
+    else o.lesson[key] = { lang, mode };
     if (lang !== 'it') o.last = { lang, mode };
     return o;
   };

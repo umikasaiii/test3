@@ -36,7 +36,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.evaluate(() => { const el = document.querySelector('.layer-card .gl'); const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); });
   await page.waitForTimeout(900); ok(await page.evaluate(() => !!document.getElementById('gl-pop')), 'la selezione di testo apre la traduzione');
   await page.evaluate(() => { const el = document.querySelector('.layer-card .ln'); const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); document.getElementById('gl-pop') && document.getElementById('gl-pop').remove(); });
-  await page.waitForTimeout(900); ok(await page.evaluate(() => /Nessuna traduzione|—/.test((document.getElementById('gl-pop') || { innerText: '' }).innerText)), 'una selezione non coperta dà un avviso onesto o una voce del glossario');
+  await page.waitForTimeout(900); ok(await page.evaluate(() => /Nessuna traduzione|lezione|vocabolario/.test((document.getElementById('gl-pop') || { innerText: '' }).innerText)), 'una selezione non coperta dà un avviso onesto o una voce del glossario');
   // modalità A e persistenza dopo ricaricamento dei dati
   await page.evaluate(() => { ST.layer.set(ST.app.state.settings, 'all', 'x', 'en', 'A'); ST.app.save(); ST.app.render(); }); await page.waitForTimeout(150);
   ok(/Key terms/.test(await body()), 'modalità A: termini chiave');

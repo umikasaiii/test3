@@ -922,4 +922,7 @@ test('strato lingua: romaji, segmenti, ricerca e ambiti (lezione → materia →
   L.set(st, 'subject', 's1', 'ja', 'C'); assert.equal(L.resolve(st, t).lang, 'ja'); assert.equal(L.resolve(st, { id: 'b', subject: 's2' }).lang, 'en');
   L.set(st, 'lesson', 'a', 'it', 'A'); assert.equal(L.resolve(st, t).lang, 'it'); assert.equal(L.resolve(st, { id: 'c', subject: 's1' }).lang, 'ja');
   assert.equal(st.lang.last.lang, 'ja');
+  // un ambito più ampio sostituisce quello più stretto
+  L.set(st, 'subject', 's1', 'en', 'B', id => ({ a: 's1', c: 's1' }[id])); assert.equal(L.resolve(st, t).lang, 'en'); assert.equal(L.resolve(st, t).mode, 'B');
+  L.set(st, 'all', 'x', 'ja', 'A'); assert.equal(L.resolve(st, t).lang, 'ja'); assert.equal(Object.keys(st.lang.subject).length, 0);
 });

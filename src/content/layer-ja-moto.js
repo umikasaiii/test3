@@ -120,7 +120,7 @@
   });
 
   A('moto-urb-fondi-rotaie-bagnato', {
-    title: { t: '[町|まち]の⟦[路面|ろめん]⟧: レール、マンホール、[雨|あめ]'.replace(/⟦|⟧/g, ''), it: 'Fondo urbano: rotaie, tombini, strisce e bagnato' },
+    title: { t: '[町|まち]の[路面|ろめん]: レール、マンホール、[雨|あめ]', it: 'Fondo urbano: rotaie, tombini, strisce e bagnato' },
     sum: [
       { t: '[町|まち]の⟦[路面|ろめん]⟧は、[場所|ばしょ]によって[違|ちが]います。', it: 'Il fondo in città cambia da un punto all’altro.' },
       { t: '[道路|どうろ]の⟦ペイント⟧は、[濡|ぬ]れると[滑|すべ]ります。', it: 'La vernice stradale, quando è bagnata, scivola.' },

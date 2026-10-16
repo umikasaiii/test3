@@ -453,10 +453,13 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     const o = (settings && settings.lang) || {}, tryLv = (lv, key) => { const x = (o[lv] || {})[key]; return x ? { lang: x.lang, mode: x.mode, level: lv } : null; };
     return tryLv('lesson', topic.id) || tryLv('subject', topic.subject) || (o.all ? { lang: o.all.lang, mode: o.all.mode, level: 'all' } : null) || { lang: 'it', mode: 'A', level: 'default' };
   };
-  L.set = (settings, level, key, lang, mode) => {
+  /* un ambito più ampio sostituisce le scelte più strette (altrimenti un «torna all'italiano» di una lezione resterebbe per sempre) */
+  L.set = (settings, level, key, lang, mode, subjectOf) => {
     const o = (settings.lang = settings.lang || { lesson: {}, subject: {}, all: null, last: { lang: 'en', mode: 'A' } });
     o.lesson = o.lesson || {}; o.subject = o.subject || {};
-    if (level === 'all') o.all = { lang, mode }; else o[level][key] = { lang, mode };
+    if (level === 'all') { o.all = { lang, mode }; o.lesson = {}; o.subject = {}; }
+    else if (level === 'subject') { o.subject[key] = { lang, mode }; Object.keys(o.lesson).forEach(id => { if (subjectOf && subjectOf(id) === key) delete o.lesson[id]; }); }
+    else o.lesson[key] = { lang, mode };
     if (lang !== 'it') o.last = { lang, mode };
     return o;
   };
@@ -30110,7 +30113,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   });
 
   A('moto-urb-fondi-rotaie-bagnato', {
-    title: { t: '[町|まち]の⟦[路面|ろめん]⟧: レール、マンホール、[雨|あめ]'.replace(/⟦|⟧/g, ''), it: 'Fondo urbano: rotaie, tombini, strisce e bagnato' },
+    title: { t: '[町|まち]の[路面|ろめん]: レール、マンホール、[雨|あめ]', it: 'Fondo urbano: rotaie, tombini, strisce e bagnato' },
     sum: [
       { t: '[町|まち]の⟦[路面|ろめん]⟧は、[場所|ばしょ]によって[違|ちが]います。', it: 'Il fondo in città cambia da un punto all’altro.' },
       { t: '[道路|どうろ]の⟦ペイント⟧は、[濡|ぬ]れると[滑|すべ]ります。', it: 'La vernice stradale, quando è bagnata, scivola.' },
@@ -41713,7 +41716,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   X.langApply = () => {
     const p = document.getElementById('lang-pop'), t = curTopic(); if (!p || !t) return;
     const mode = (p.querySelector('input[name=lg-m]:checked') || {}).value || 'A', scope = (p.querySelector('input[name=lg-s]:checked') || {}).value || 'lesson', lang = p.dataset.lang;
-    L.set(A.state.settings, scope, scope === 'lesson' ? t.id : scope === 'subject' ? t.subject : 'x', lang, mode); A.save(); closePop(); A.render();
+    L.set(A.state.settings, scope, scope === 'lesson' ? t.id : scope === 'subject' ? t.subject : 'x', lang, mode, id => (C.topic(id) || {}).subject); A.save(); closePop(); A.render();
   };
   /* ---- strato nelle pagine ---- */
   const say = (txt, lang) => '<button class="say" data-act="say" data-lang="' + (lang === 'ja' ? 'ja' : 'en-GB') + '" data-text="' + E(U.speechText(txt)) + '" aria-label="Ascolta">🔊</button>';
@@ -41750,7 +41753,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   document.addEventListener('selectionchange', () => {
     clearTimeout(selTimer); selTimer = setTimeout(() => {
       const sel = window.getSelection && window.getSelection(); if (!sel || sel.isCollapsed) return;
-      const txt = sel.toString().trim(); if (!txt || txt.length > 80) return;
+      const txt = sel.toString().trim(); if (!txt || txt.length > 400) return;
       const n = sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement), card = n && n.closest && n.closest('.layer-card'); if (!card) return;
       const t = curTopic(); if (!t) return; const r = res(t); if (r.lang === 'it') return;
       popFor(r.lang, t.id, txt);
