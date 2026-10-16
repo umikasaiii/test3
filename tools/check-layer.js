@@ -1,6 +1,9 @@
 /* Controlla i file dello strato lingua (pilota): node tools/check-layer.js [en|ja] */
 const ST = require('../tests/load.js')(); const L = ST.layer, U = ST.util;
-const PILOT = ['cyb-triade-cia-e-minacce', 'moto-citta-e-traffico', 'moto-urb-percezione-smidsy', 'moto-urb-angoli-ciechi', 'moto-urb-incroci-precedenze', 'moto-urb-spazio-arresto', 'moto-urb-fondi-rotaie-bagnato', 'moto-urb-utenti-vulnerabili', 'moto-urb-filtraggio', 'moto-urb-manovre-parcheggio', 'moto-urb-visibilita-notte-pioggia', 'moto-urb-scenari-scooter-passeggero'];
+/* uso: node tools/check-layer.js [en|ja] [materia]  — controlla tutti i riepiloghi registrati; con la materia segnala gli argomenti mancanti */
+const subj = process.argv[3], only0 = process.argv[2];
+const topicsOf = su => Object.values(ST.content.topics).filter(t => t.subject === su && !t.pill).map(t => t.id);
+const PILOT = subj ? topicsOf(subj) : Array.from(new Set(Object.keys(L.data.en).concat(Object.keys(L.data.ja))));
 const KAN = /[一-鿿]/, only = process.argv[2], errs = []; const err = (id, m) => errs.push(id + ': ' + m);
 ['en', 'ja'].filter(l => !only || l === only).forEach(lang => PILOT.forEach(id => {
   const d = L.get(lang, id); if (!d) return err(lang + ' ' + id, 'manca');

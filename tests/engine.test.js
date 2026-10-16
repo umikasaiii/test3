@@ -301,7 +301,7 @@ test('Judo: ogni tecnica ha una lezione approfondita; proiezioni no-gi (morote-s
 
 test('Allenamento mentale: 13 tipi generano esercizi validi (fuzz) e i sillogismi sono corretti per verifica a modelli', () => {
   const MN = ST.mental;
-  assert.equal(MN.TYPES.length, 28);
+  assert.equal(MN.TYPES.length, 33);
   for (let i = 0; i < 40; i++) for (const t of MN.TYPES) for (const lv of [1, 3, 6, 10, 15, 20]) {
     const it = MN.make(t, lv);
     assert.ok(it && it.q, t);
@@ -922,4 +922,16 @@ test('approfondimenti esterni: schede generate dalla lezione e registro con cont
   const t = Object.values(C.topics).find(x => x.subject === 'cyb' && x.pages.some(p => /\*\*[^*]{3,}\*\*/.test(p.b)));
   const PR = ST.extPrompts(t); assert.ok(PR.length >= 4 && PR.every(x => x.length > 20));
   assert.ok(PR.some(x => x.includes(t.title)) && PR.some(x => /riepilogo/.test(x)));
+});
+
+test('allenamento mentale: stime di Fermi, Bayes, Hanoi, ordine dei compiti e aggiornamento — risposte ricalcolate', () => {
+  const r = U.rng(31);
+  for (let lv = 1; lv <= 20; lv++) for (let i = 0; i < 25; i++) {
+    let it = MN.make('fermi', lv, r); const x = it.chk.a * it.chk.b * it.chk.c; assert.equal(it.o[it.a], '10^' + Math.round(Math.log10(x))); assert.equal(new Set(it.o).size, 4);
+    it = MN.make('bayes', lv, r); const m = /riguarda il (\d+)%.*nel (\d+)% dei casi.*nel (\d+)% dei sani/.exec(it.q), [p, s, f] = [+m[1], +m[2], +m[3]]; assert.equal(it.o[it.a], Math.round(100 * s * p / (s * p + f * (100 - p))) + '%'); assert.equal(new Set(it.o).size, 4);
+    it = MN.make('hanoi', lv, r); const n = it.chk.n; if (/quante mosse/.test(it.q)) assert.equal(it.o[it.a], String(Math.pow(2, n) - 1)); else assert.equal(it.o[it.a], n % 2 ? 'C' : 'B');
+    it = MN.make('sched', lv, r); const d = it.chk.d.slice().sort((a, b) => a - b); let t = 0, sum = 0; d.forEach(v => { t += v; sum += t; }); assert.equal(it.o[it.a], String(sum)); assert.equal(new Set(it.o).size, 4);
+    it = MN.make('update', lv, r); const [A, B] = MN.runOps(it.chk.a0, it.chk.b0, it.chk.ops); assert.equal(it.o[it.a], String(A - B)); assert.equal(it.t, 'flash');
+  }
+  assert.ok(MN.session(fresh(), '2026-01-14', r).every(x => x.q));
 });

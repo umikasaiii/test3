@@ -13,7 +13,8 @@
       st('L2', 'Ponte B1+ → B2', 'Discorso indiretto, passivo, frasi relative.'),
       st('L3', 'B2 iniziale', 'Argomentare, raccontare, accenti britannico/americano/australiano.'),
       st('L4', 'B2 solido', 'Ipotesi, collocazioni e phrasal verbs ad alta frequenza.'),
-      st('L5', 'B2+ e primo C1', 'Registro, sfumature, enfasi.')
+      st('L5', 'B2+ e primo C1', 'Registro, sfumature, enfasi.'),
+      st('L6', 'C1: lettura, ascolto e argomentazione', 'Testi lunghi e densi, ascolto di parlato naturale e rapido, scrittura argomentata, registro e sfumature avanzati.')
     ] });
   C.defineSubject({ id: 'jpn', title: 'Giapponese', icon: '🇯🇵', primary: true, lang: 'ja', color: '#ff7a9c',
     goal: 'Autonomia comunicativa quotidiana su argomenti familiari: capire, rispondere, esprimere bisogni e opinioni, leggere e scrivere testi non avanzati.',
@@ -24,7 +25,9 @@
       st('J2', 'Forma て e forma semplice', 'Richieste, azioni in corso, opinioni.'),
       st('J3', 'Esperienze e ragioni', 'Passato semplice, esperienze, causa e contrasto.'),
       st('J4', 'Condizioni e potenziale', 'Condizionali, abilità, dare e ricevere, cortesia.'),
-      st('J5', 'Lingua parlata e lettura', 'Parlato informale, kanji in contesto, testi funzionali.')
+      st('J5', 'Lingua parlata e lettura', 'Parlato informale, kanji in contesto, testi funzionali.'),
+      st('J6', 'Verso N3: kanji e grammatica', 'Altri kanji comuni (verso circa 650), grammatica intermedia, lessico per tema.'),
+      st('J7', 'Verso N3: lettura e ascolto', 'Testi più lunghi, parlato naturale, conversazioni quotidiane.')
     ] });
 
   const P = (id, title, icon, goal, extra) => C.defineSubject(Object.assign({ id, title, icon, primary: true, goal, stages: [st('L0', 'Pillole introduttive', 'Brevi lezioni distribuite nel tempo.')], pillOnly: true }, extra || {}));
