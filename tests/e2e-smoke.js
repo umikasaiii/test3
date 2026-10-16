@@ -105,7 +105,11 @@ const mock = () => {
   await step('hub cultura', () => ST.app.go('subject', { id: 'sec' }), /Laboratori di calcolo · numeri della vita quotidiana/);
   await page.evaluate(() => ST.acts.startCul()); await page.waitForTimeout(200); ok((await body()).length > 30, 'sessione laboratorio cultura'); await reset();
   for (const t of await page.evaluate(() => ST.cul.TYPES)) { await page.evaluate(t => ST.acts.startCulType({ dataset: { t } }), t); await page.waitForTimeout(120); ok((await body()).length > 30 && !errors.length, 'laboratorio cultura ' + t); await reset(); }
-  await step('dialoghi', () => ST.app.go('transfer', { t: 'dlg' }), /Dialoghi ramificati/);
+  await step('produzione ja', () => ST.app.go('transfer', { t: 'jp' }), /Produzione attiva/);
+  for (const t of ['mix', 'jptrans', 'jpdialog']) { await page.evaluate(t => ST.acts.jpStart({ dataset: { t } }), t); await page.waitForTimeout(150); ok((await body()).length > 30 && !errors.length, 'produzione ' + t); await reset(); }
+  await step('simulatore ja', () => { ST.app.dlg = null; ST.app.go('transfer', { t: 'dlg' }); }, /Giapponese · simulatore/);
+  await page.evaluate(() => { ST.app.go('transfer', { t: 'dlg' }); ST.acts.dlgOpen({ dataset: { id: 'ja-konbini' } }); for (let i = 0; i < 3; i++) ST.acts.dlgPick({ dataset: { i: '0' } }); }); await page.waitForTimeout(200); ok(/Fine del dialogo/.test(await body()) && !errors.length, 'dialogo giapponese completo'); await reset();
+  await step('dialoghi', () => { ST.app.dlg = null; ST.app.go('transfer', { t: 'dlg' }); }, /Dialoghi ramificati/);
   await page.evaluate(() => { ST.app.go('transfer', { t: 'dlg' }); ST.acts.dlgOpen({ dataset: { id: 'cafe' } }); ST.acts.dlgPick({ dataset: { i: '0' } }); ST.acts.dlgPick({ dataset: { i: '0' } }); ST.acts.dlgPick({ dataset: { i: '0' } }); }); await page.waitForTimeout(200); ok(/Fine del dialogo/.test(await body()) && !errors.length, 'dialogo completo'); await reset();
   await step('kanji', () => ST.app.go('transfer', { t: 'kj' }), /Kanji Intelligence/);
   for (const t of ['mix', 'kjradical', 'kjwrite']) { await page.evaluate(t => ST.acts.kjStart({ dataset: { t } }), t); await page.waitForTimeout(150); ok((await body()).length > 30 && !errors.length, 'kanji ' + t); await reset(); }

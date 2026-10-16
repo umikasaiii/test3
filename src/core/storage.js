@@ -12,7 +12,7 @@
     xp: 0, xpLog: {}, xpKeys: {},
     topics: {}, cards: {}, reviewLog: [],
     kana: { items: {}, placed: false, lastSession: null },
-    motor: {}, mental: {}, theory: {}, skills: {}, vocab: {}, tt: {}, kanji: {}, journal: [], forecasts: [], 
+    motor: {}, mental: {}, theory: {}, skills: {}, vocab: {}, tt: {}, kanji: {}, jprod: {}, journal: [], forecasts: [], 
     exams: [], gates: { en: {} }, rec: [],
     daily: {}, resume: {}, settings: { sound: true },
     log: []

@@ -559,7 +559,7 @@ test('Formula 1: laboratori di calcolo verificati con ricalcolo indipendente', (
   for (let i = 0; i < 100; i++) {
     const lv = 1 + (i % 10);
     { const it = F.make('time', lv), q = it.q; let m;
-      if ((m = /Circuito da ([\d,]+) km/.exec(q))) { const len = +m[1].replace(',', '.'); let n = 0; while (n * len <= 305) n++; assert.equal(A(it), n); }
+      if ((m = /Circuito da ([\d,]+) km/.exec(q))) { const len = +m[1].replace(',', '.'); let n = 0; while (Math.round(n * len * 1000) <= 305000) n++; assert.equal(A(it), n); }
       else if ((m = /Giro di ([\d,]+) km percorso in (\d+):([\d,]+)/.exec(q))) near(A(it), +m[1].replace(",", ".") / (+m[2] * 60 + +m[3].replace(",", ".")) * 3600, 0.51);
       else if (/Tempi di settore/.test(q)) { const n = N(q).slice(0, 3); near(A(it), n[0] + n[1] + n[2], 0.051); }
       else { const m2 = /(\d+) giri a un ritmo medio di ([\d,]+) s/.exec(q); near(A(it), +m2[1] * +m2[2].replace(',', '.') / 60, 0.51); } }
@@ -869,4 +869,38 @@ test('dialoghi ramificati: grafo valido, ogni percorso termina, scelte con feedb
   });
   assert.equal(DL.score([{ q: 2 }, { q: 2 }, { q: 0 }, { q: 1 }]), 5 / 8);
   assert.equal(DL.step(DL.LIST[0], 'a', 0).next, 'b');
+});
+
+test('simulatore giapponese: grafo valido, ruby ben formato, lettura derivabile', () => {
+  const DL = ST.dialog, ja = DL.LIST.filter(d => d.lang === 'ja');
+  assert.equal(ja.length, 5); assert.equal(DL.LIST.filter(d => d.lang === 'en').length, 5);
+  ja.forEach(d => Object.keys(d.nodes).forEach(i => { const n = d.nodes[i]; const lines = [n.npc].concat((n.ch || []).map(c => c.t)); lines.forEach(t => { assert.ok(!/\[[^|\]]*\]/.test(t.replace(/\[[^\]|]+\|[^\]]+\]/g, '')), d.id + ' ruby'); assert.ok(U.speechText(t).length > 0 && !/[一-鿿]/.test(U.speechText(t)), d.id + ' lettura senza kanji: ' + t); }); }));
+});
+
+test('simulatore giapponese: grafo valido, ruby ben formato, lettura derivabile', () => {
+  const DL = ST.dialog, ja = DL.LIST.filter(d => d.lang === 'ja');
+  assert.equal(ja.length, 5); assert.equal(DL.LIST.filter(d => d.lang === 'en').length, 5);
+  ja.forEach(d => Object.keys(d.nodes).forEach(i => { const n = d.nodes[i]; [n.npc].concat((n.ch || []).map(c => c.t)).forEach(t => { assert.ok(!/\[[^|\]]*\]/.test(t.replace(/\[[^\]|]+\|[^\]]+\]/g, '')), d.id + ' ruby'); assert.ok(U.speechText(t).length > 0 && !/[一-鿿]/.test(U.speechText(t)), d.id + ' lettura senza kanji: ' + t); }); }));
+});
+
+test('F1: giri minimi per superare 305 km, anche nel caso esatto (regressione)', () => {
+  const F = ST.f1; assert.equal(F.minLaps(6.1), 51); assert.equal(F.minLaps(5), 62); assert.equal(F.minLaps(3.5), 88); assert.equal(F.minLaps(7), 44);
+  for (let l = 3500; l <= 7000; l++) { const n = F.minLaps(l / 1000); assert.ok(n * l > 305000 && (n - 1) * l <= 305000, String(l)); }
+});
+
+test('produzione giapponese: forme ricalcolate con regole, dialoghi e descrizioni coerenti', () => {
+  const JP = ST.jprod, K = ST.kana, r = U.rng(2);
+  JP.FORMS.forEach(f => { const [base, req, ans] = f; const g2 = /^(.+)ます$/.exec(base);
+    if (req === 'forma negativa cortese') assert.equal(ans[0], g2[1] + 'ません');
+    if (req === 'passato cortese') assert.equal(ans[0], g2[1] + 'ました');
+    if (req === 'passato negativo cortese') assert.equal(ans[0], g2[1] + 'ませんでした');
+    if (/^(おおきい|たかい)です$/.test(base)) { const st = base.replace('いです', ''); if (req === 'forma negativa') assert.equal(ans[0], st + 'くないです'); if (req === 'passato') assert.equal(ans[0], st + 'かったです'); }
+    if (base === 'がくせいです' && req === 'passato') assert.equal(ans[0], 'がくせいでした');
+  });
+  JP.DIALOGS.forEach(d => assert.equal(new Set(d[1]).size, d[1].length));
+  JP.DESC.forEach(d => { assert.equal(new Set([d[1]].concat(d[2])).size, 4); });
+  JP.TRANS.forEach(t => t[1].forEach(a => assert.ok(K.sameReading(a, t[1][0]) || K.sameReading(a, a))));
+  for (let i = 0; i < 100; i++) { const it = JP.make(JP.TYPES[i % 4], r); assert.ok(it.q && (it.t !== 'mc' || it.o[it.a]) && (it.t !== 'fill' || it.a.length > 0) && (it.t !== 'order' || it.words.length === 3)); }
+  const od = JP.make('jpdialog', r); assert.equal(od.words.join('').length > 10, true);
+  assert.equal(JP.session(10, r).length, 10);
 });

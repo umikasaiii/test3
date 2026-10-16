@@ -1123,30 +1123,30 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   const N = (npc, tr, ch) => ({ npc, tr, ch: ch && ch.map(c => ({ t: c[0], q: c[1], fb: c[2], next: c[3] })) });
   const END = (npc, tr) => ({ npc, tr, end: true });
   DL.LIST = [
-    { id: 'cafe', title: 'Al caffè', area: 'Situazioni quotidiane', level: 'B1', start: 'a', nodes: {
+    { lang: 'en', id: 'cafe', title: 'Al caffè', area: 'Situazioni quotidiane', level: 'B1', start: 'a', nodes: {
       a: N('Hi there! What can I get you?', 'Salve! Cosa le porto?', [['I’d like a medium latte, please.', 2, 'Naturale e cortese: «I’d like… please».', 'b'], ['Give me a coffee.', 0, 'Troppo diretto: suona brusco. Meglio «Could I have…?» o «I’d like…».', 'b'], ['Can I have a latte? A medium one, if possible.', 2, 'Chiaro e gentile.', 'b']]),
       b: N('Sure. Would you like that to have here or to take away?', 'Certo. Lo prende qui o da portare via?', [['To take away, please.', 2, 'Risposta corretta e naturale. Si dice «to take away» (UK) o «to go» (US).', 'c'], ['I take away.', 0, 'Errore di grammatica: «I’ll take it away» o «To take away, please».', 'c'], ['Here, thanks.', 2, 'Corretto.', 'c']]),
       c: N('That’s £3.80. Do you want anything else, like a pastry?', 'Sono 3,80 sterline. Desidera altro, per esempio un dolce?', [['No, that’s all, thank you. Can I pay by card?', 2, 'Chiaro e completo.', 'd'], ['Yes, a croissant. How much is it?', 2, 'Domanda corretta sul prezzo.', 'd'], ['No. Card.', 1, 'Si capisce, ma è telegrafico: aggiungi una frase intera per essere cortese.', 'd']]),
       d: END('Of course. Here you go — enjoy your drink!', 'Certo. Ecco a lei: buona bevuta!') } },
-    { id: 'station', title: 'Perso in stazione', area: 'Viaggi e orientamento', level: 'B1', start: 'a', nodes: {
+    { lang: 'en', id: 'station', title: 'Perso in stazione', area: 'Viaggi e orientamento', level: 'B1', start: 'a', nodes: {
       a: N('You look a bit lost. Can I help you?', 'Sembri un po’ perso. Posso aiutarti?', [['Yes, please. I’m trying to find platform 4.', 2, 'Chiaro e specifico.', 'b'], ['Where is the thing for the train?', 0, 'Troppo vago: di’ cosa cerchi (platform, ticket office, exit…).', 'b'], ['Excuse me, could you tell me where platform 4 is?', 2, 'Molto cortese.', 'b']]),
       b: N('Platform 4 is down those stairs, then turn left. It leaves in ten minutes, so you’d better hurry.', 'Il binario 4 è giù per le scale, poi a sinistra. Parte tra dieci minuti, quindi ti conviene sbrigarti.', [['Thanks! Do I need to validate my ticket first?', 2, 'Domanda utile e naturale.', 'c'], ['Sorry, can you repeat that more slowly?', 2, 'Perfetto per chiedere di ripetere.', 'b2'], ['OK.', 1, 'Se non hai capito, meglio chiedere di ripetere.', 'c']]),
       b2: N('Of course. Down the stairs — then left. Platform 4.', 'Certo. Giù per le scale, poi a sinistra. Binario 4.', [['Got it, thank you very much!', 2, 'Ottima chiusura.', 'c']]),
       c: N('Yes, you do — the machine is just over there, next to the café.', 'Sì, devi — la macchina è proprio là, accanto al bar.', [['Great, thanks for your help!', 2, 'Naturale.', 'd'], ['Thank you. Which way is the exit afterwards?', 2, 'Anticipa la prossima necessità.', 'd']]),
       d: END('You’re welcome. Have a good trip!', 'Prego. Buon viaggio!') } },
-    { id: 'interview', title: 'Colloquio di lavoro', area: 'Lavoro e colloqui', level: 'B2', start: 'a', nodes: {
+    { lang: 'en', id: 'interview', title: 'Colloquio di lavoro', area: 'Lavoro e colloqui', level: 'B2', start: 'a', nodes: {
       a: N('Thanks for coming in. Could you tell me a little about yourself?', 'Grazie di essere venuto. Può parlarmi un po’ di sé?', [['I have three years of experience in customer service, and I’m looking for a role with more responsibility.', 2, 'Sintetico, pertinente e orientato al ruolo.', 'b'], ['I’m a very nice person and I like people.', 0, 'Troppo generico: collega esperienze e competenze al ruolo.', 'b'], ['I studied economics and then worked in two small companies. I enjoy solving problems.', 2, 'Buon equilibrio tra formazione ed esperienza.', 'b']]),
       b: N('What would you say is your biggest weakness?', 'Quale direbbe che è il suo punto debole principale?', [['I sometimes take on too much, so I’ve started planning my week in advance.', 2, 'Onesto e mostra come lo gestisci.', 'c'], ['I have no weaknesses.', 0, 'Poco credibile: suona come una non-risposta.', 'c'], ['I’m not very good at public speaking, but I’m practising.', 2, 'Onesto, con un piano di miglioramento.', 'c']]),
       c: N('Why do you want to work for our company?', 'Perché vuole lavorare per la nostra azienda?', [['I admire how you handle customer feedback, and I think my experience would help your team.', 2, 'Specifico e collega l’azienda al tuo contributo.', 'd'], ['Because I need a job.', 0, 'Sincero ma poco professionale: spiega anche cosa offri.', 'd'], ['I read about your new project and I’d like to be part of it.', 1, 'Buono, ma aggiungi cosa potresti fare tu.', 'd']]),
       d: N('Do you have any questions for us?', 'Ha qualche domanda per noi?', [['Yes — what would a typical first month look like in this role?', 2, 'Domanda utile che mostra interesse.', 'e'], ['No, nothing.', 1, 'Meglio fare almeno una domanda: mostra interesse.', 'e'], ['How much holiday do I get?', 1, 'Lecita, ma di solito si chiede dopo aver parlato del ruolo.', 'e']]),
       e: END('Thank you. We’ll be in touch by the end of the week.', 'Grazie. La contatteremo entro la fine della settimana.') } },
-    { id: 'disagree', title: 'Non essere d’accordo con garbo', area: 'Discussioni e argomentazioni', level: 'B2', start: 'a', nodes: {
+    { lang: 'en', id: 'disagree', title: 'Non essere d’accordo con garbo', area: 'Discussioni e argomentazioni', level: 'B2', start: 'a', nodes: {
       a: N('I think we should launch the product next week, even if the testing isn’t finished.', 'Penso che dovremmo lanciare il prodotto la prossima settimana, anche se i test non sono finiti.', [['I see your point, but I’m worried that unfinished testing could lead to serious problems.', 2, 'Riconosci il punto e poi esprimi la preoccupazione.', 'b'], ['That’s a stupid idea.', 0, 'Giudizio personale e aggressivo: attacca l’idea, non la persona, e con cortesia.', 'b'], ['I’m not sure. What would happen if there are bugs after the launch?', 2, 'Domanda aperta che invita al ragionamento.', 'b']]),
       b: N('We can’t wait longer. The deadline is very tight and the client is expecting it.', 'Non possiamo aspettare di più. La scadenza è molto stretta e il cliente se l’aspetta.', [['I understand the pressure. What if we launch a limited version first and finish testing in parallel?', 2, 'Propone un’alternativa concreta.', 'c'], ['Then do what you want. I won’t help.', 0, 'Chiude il dialogo e danneggia il rapporto.', 'd'], ['That’s fair. Could we at least test the most critical features this week?', 2, 'Compromesso ragionevole.', 'c']]),
       c: N('That could work, but it would need more resources. Who could help?', 'Potrebbe funzionare, ma servirebbero più risorse. Chi potrebbe aiutarci?', [['I could ask Marco from the QA team. I’ll talk to him today.', 2, 'Propone un’azione specifica.', 'e'], ['I don’t know. That’s your problem.', 0, 'Scarica la responsabilità senza collaborare.', 'd']]),
       d: N('OK. I think we need to talk about how we work together.', 'D’accordo. Credo che dobbiamo parlare di come lavoriamo insieme.', [['You’re right, I’m sorry. Let’s find a solution together.', 2, 'Recupera il rapporto.', 'e']]),
       e: END('Good. Let’s meet tomorrow morning and agree on the plan.', 'Bene. Incontriamoci domani mattina e concordiamo il piano.') } },
-    { id: 'return', title: 'Un prodotto difettoso', area: 'Risoluzione di problemi', level: 'B2', start: 'a', nodes: {
+    { lang: 'en', id: 'return', title: 'Un prodotto difettoso', area: 'Risoluzione di problemi', level: 'B2', start: 'a', nodes: {
       a: N('Hello, how can I help you today?', 'Buongiorno, come posso aiutarla oggi?', [['Hi. I bought this blender last week and it stopped working yesterday. I’d like a refund or a replacement.', 2, 'Spiega il problema, i fatti e cosa chiedi.', 'b'], ['This is broken. Fix it now!', 0, 'Tono aggressivo e poco informativo: dà i fatti e chiedi una soluzione.', 'b'], ['Excuse me, I have a problem with a product I bought here.', 1, 'Cortese, ma aggiungi subito cosa è successo e cosa chiedi.', 'b']]),
       b: N('I’m sorry to hear that. Do you have the receipt?', 'Mi dispiace. Ha lo scontrino?', [['Yes, here it is. I paid by card on the 5th.', 2, 'Fornisce l’informazione richiesta.', 'c'], ['No, I lost it, but I can show you my bank statement.', 2, 'Propone un’alternativa credibile.', 'c'], ['No. And I won’t look for it.', 0, 'Poco collaborativo: spesso serve una prova d’acquisto.', 'd']]),
       c: N('Thank you. I can offer you a replacement, but a refund would take about a week.', 'Grazie. Posso offrirle una sostituzione, ma il rimborso richiederebbe circa una settimana.', [['I’d prefer a replacement, please. Could I take it today?', 2, 'Scelta chiara e richiesta pratica.', 'e'], ['A refund, please. Could you give me written confirmation?', 2, 'Chiede una conferma scritta: prudente.', 'e']]),
@@ -1157,6 +1157,44 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   DL.step = (d, nodeId, choiceIdx) => { const n = d.nodes[nodeId], c = n.ch[choiceIdx]; return { q: c.q, fb: c.fb, text: c.t, next: c.next }; };
   /* risultato: % del punteggio massimo sulle scelte effettuate (2 punti per scelta) */
   DL.score = log => log.length ? log.reduce((a, x) => a + x.q, 0) / (2 * log.length) : 0;
+})(window.ST = window.ST || {});
+
+/* ---- core/dialog-ja ---- */
+/* SkillTree — Japanese Life Simulator: scenari di vita reale a scelte (stesso motore dei dialoghi inglesi).
+   Registro cortese standard (です/ます). Scelte predefinite: non è conversazione libera. I livelli sono interni, non JLPT. */
+(function (ST) {
+  'use strict';
+  const DL = ST.dialog, N = (npc, tr, ch) => ({ npc, tr, ch: ch && ch.map(c => ({ t: c[0], q: c[1], fb: c[2], next: c[3] })) }), END = (npc, tr) => ({ npc, tr, end: true });
+  [
+    { lang: 'ja', id: 'ja-restaurant', title: 'Al ristorante', area: 'Ristorante', level: 'Livello interno 1', start: 'a', nodes: {
+      a: N('いらっしゃいませ。[何名様|なんめいさま]ですか。', 'Benvenuto. Quante persone siete?', [['[二人|ふたり]です。', 2, 'Risposta corretta e cortese: numero + です.', 'b'], ['[二|に]。', 1, 'Si capisce, ma è troppo secco: aggiungi です.', 'b'], ['[私|わたし]は[学生|がくせい]です。', 0, 'Non risponde alla domanda (quante persone).', 'b']]),
+      b: N('こちらへどうぞ。ご[注文|ちゅうもん]は？', 'Da questa parte. Che cosa ordinate?', [['ラーメンを[一つ|ひとつ]お[願|ねが]いします。', 2, 'Formula standard: 〜をお願いします.', 'c'], ['すみません、おすすめは[何|なん]ですか。', 2, 'Chiede un consiglio: ottima mossa.', 'b2'], ['ラーメン、くれ。', 0, 'くれ è brusco e scortese in un ristorante: usa お願いします o ください.', 'c']]),
+      b2: N('[今日|きょう]はカレーがおすすめです。', 'Oggi consigliamo il curry.', [['じゃあ、カレーをお[願|ねが]いします。', 2, 'Accetta il consiglio in modo naturale.', 'c'], ['カレーはちょっと…。ラーメンをお[願|ねが]いします。', 2, 'ちょっと… è un modo gentile di rifiutare.', 'c']]),
+      c: N('お[飲|の]み[物|もの]はどうしますか。', 'E da bere?', [['お[水|みず]をお[願|ねが]いします。', 2, 'Corretto.', 'd'], ['いりません。', 1, 'Si capisce, ma è un po’ brusco: meglio 大丈夫です o いいです.', 'd']]),
+      d: N('[以上|いじょう]でよろしいですか。', 'È tutto?', [['はい、[以上|いじょう]です。', 2, 'Risposta standard.', 'e'], ['はい、お[願|ねが]いします。', 1, 'Comprensibile ma meno preciso di 以上です.', 'e']]),
+      e: END('かしこまりました。[少々|しょうしょう]お[待|ま]ちください。', 'Certamente. Attenda un momento, per favore.') } },
+    { lang: 'ja', id: 'ja-konbini', title: 'Al konbini', area: 'Konbini', level: 'Livello interno 1', start: 'a', nodes: {
+      a: N('いらっしゃいませ。[袋|ふくろ]はいりますか。', 'Benvenuto. Le serve una busta?', [['はい、お[願|ねが]いします。', 2, 'Corretto.', 'b'], ['いいえ、[大丈夫|だいじょうぶ]です。', 2, 'Modo comune per rifiutare.', 'b'], ['[袋|ふくろ]？', 0, 'Ripete la parola senza rispondere.', 'b']]),
+      b: N('お[弁当|べんとう]を[温|あたた]めますか。', 'Scalda il bento?', [['はい、お[願|ねが]いします。', 2, 'Corretto.', 'c'], ['いいえ、そのままで[大丈夫|だいじょうぶ]です。', 2, 'Naturale: そのまま = così com’è.', 'c'], ['[熱|あつ]い！', 0, 'Non risponde alla domanda.', 'c']]),
+      c: N('[全部|ぜんぶ]で[五百円|ごひゃくえん]です。', 'In tutto sono 500 yen.', [['カードでお[願|ねが]いします。', 2, 'Chiede di pagare con carta.', 'd'], ['[現金|げんきん]でお[願|ねが]いします。', 2, 'Chiede di pagare in contanti.', 'd'], ['[高|たか]い！', 1, 'Dice «caro!»: non è offensivo ma non risolve il pagamento.', 'd']]),
+      d: END('ありがとうございました。', 'Grazie, arrivederci.') } },
+    { lang: 'ja', id: 'ja-station', title: 'In stazione', area: 'Stazione e indicazioni', level: 'Livello interno 2', start: 'a', nodes: {
+      a: N('どうしましたか。', 'Che cosa succede?', [['すみません、[東京駅|とうきょうえき]へ[行|い]きたいです。', 2, 'Si scusa e dice dove vuole andare.', 'b'], ['[東京|とうきょう]。', 0, 'Una sola parola: non è chiaro cosa chiedi.', 'b'], ['[道|みち]に[迷|まよ]いました。', 1, 'Dice che si è perso, ma non dice dove vuole andare.', 'b']]),
+      b: N('[東京駅|とうきょうえき]ですか。この[電車|でんしゃ]に[乗|の]って、[三番目|さんばんめ]の[駅|えき]で[降|お]りてください。', 'Tokyo? Salga su questo treno e scenda alla terza stazione.', [['[三番目|さんばんめ]ですね。ありがとうございます。', 2, 'Ripete per conferma: ottima abitudine.', 'c'], ['もう[一度|いちど]お[願|ねが]いします。', 2, 'Chiede di ripetere in modo cortese.', 'b2'], ['はい。', 1, 'Se hai capito va bene, ma confermare il numero è più sicuro.', 'c']]),
+      b2: N('[三番目|さんばんめ]の[駅|えき]です。', 'La terza stazione.', [['わかりました。ありがとうございます。', 2, 'Corretto.', 'c']]),
+      c: N('[切符|きっぷ]は[持|も]っていますか。', 'Ha il biglietto?', [['はい、[持|も]っています。', 2, 'Corretto.', 'd'], ['いいえ、どこで[買|か]いますか。', 2, 'Chiede dove comprarlo.', 'd']]),
+      d: END('あそこで[買|か]えます。お[気|き]をつけて。', 'Può comprarlo laggiù. Buon viaggio.') } },
+    { lang: 'ja', id: 'ja-hotel', title: 'In hotel', area: 'Hotel', level: 'Livello interno 2', start: 'a', nodes: {
+      a: N('いらっしゃいませ。ご[予約|よやく]はありますか。', 'Benvenuto. Ha una prenotazione?', [['はい、[今日|きょう]から[二泊|にはく]の[予約|よやく]をしました。', 2, 'Informazione chiara.', 'b'], ['はい。[山田|やまだ]です。', 2, 'Dice il nome: utile e rapido.', 'b'], ['ありません。', 1, 'Corretto ma secco: chiedi se c’è una camera disponibile.', 'b']]),
+      b: N('お[名前|なまえ]をお[願|ねが]いします。', 'Il suo nome, per favore.', [['[山田|やまだ]です。', 2, 'Corretto.', 'c'], ['[山田|やまだ]と[言|い]います。', 2, 'Più formale: ottimo.', 'c'], ['[名前|なまえ]？', 0, 'Ripete la parola senza dare il nome.', 'c']]),
+      c: N('[朝食|ちょうしょく]は[七時|しちじ]から[十時|じゅうじ]までです。', 'La colazione è dalle sette alle dieci.', [['ありがとうございます。チェックアウトは[何時|なんじ]ですか。', 2, 'Ringrazia e fa la domanda successiva.', 'd'], ['[分|わ]かりました。', 1, 'Corretto ma neutro: aggiungi un ringraziamento.', 'd'], ['[朝|あさ]は[食|た]べません。', 1, 'Informazione non richiesta: non risponde.', 'd']]),
+      d: END('チェックアウトは[十一時|じゅういちじ]です。ごゆっくりどうぞ。', 'Il check-out è alle undici (orario fittizio). Si rilassi.') } },
+    { lang: 'ja', id: 'ja-lost', title: 'Un problema: portafoglio perso', area: 'Imprevisti durante un viaggio', level: 'Livello interno 2', start: 'a', nodes: {
+      a: N('どうしましたか。', 'Che cosa è successo?', [['[財布|さいふ]をなくしました。', 2, 'Chiaro e diretto.', 'b'], ['[財布|さいふ]、ない。', 1, 'Si capisce, ma è troppo informale.', 'b'], ['[助|たす]けてください！', 0, '助けて è per un pericolo immediato: qui è esagerato e poco chiaro.', 'b']]),
+      b: N('いつ、どこでなくしましたか。', 'Quando e dove l’ha perso?', [['[昨日|きのう]、[駅|えき]の[近|ちか]くでなくしたと[思|おも]います。', 2, 'Informazioni precise con と思います per l’incertezza.', 'c'], ['[今朝|けさ]、[電車|でんしゃ]の[中|なか]かもしれません。', 2, 'かもしれません esprime incertezza.', 'c'], ['わかりません。', 1, 'Onesto, ma dai almeno una stima.', 'c']]),
+      c: N('どんな[財布|さいふ]ですか。', 'Che portafoglio è?', [['[黒|くろ]い[財布|さいふ]です。', 2, 'Descrizione semplice e corretta.', 'd'], ['[黒|くろ]くて[小|ちい]さい[財布|さいふ]です。', 2, 'Più dettagliata: ottima.', 'd']]),
+      d: END('[連絡|れんらく]しますので、この[紙|かみ]に[名前|なまえ]と[電話番号|でんわばんごう]を[書|か]いてください。', 'La contatteremo: scriva nome e numero di telefono su questo foglio.') } }
+  ].forEach(d => DL.LIST.push(d));
 })(window.ST = window.ST || {});
 
 /* ---- core/kanji ---- */
@@ -1217,6 +1255,70 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   KJ.make = (type, lv, rng, st) => gen[type](lv || 1, rng || U.rand, st);
   KJ.session = (st, n, rng) => { rng = rng || U.rand; const out = []; for (let i = 0; i < (n || 10); i++) out.push(KJ.make(KJ.TYPES[i % KJ.TYPES.length], 1, rng, st)); return out; };
   KJ.record = (st, type, ok) => { const m = ((st.kanji = st.kanji || {})[type] = st.kanji[type] || { n: 0, ok: 0 }); m.n++; if (ok) m.ok++; };
+})(window.ST = window.ST || {});
+
+/* ---- core/jprod ---- */
+/* SkillTree — produzione attiva di giapponese: tradurre, trasformare forme, ricostruire dialoghi, scegliere la frase adatta.
+   Le risposte scritte sono confrontate con le versioni accettate (kana o romaji senza spazi): una frase corretta ma diversa
+   può essere rifiutata, quindi la soluzione mostrata è un modello, non l'unica possibile. Nessuna valutazione orale. */
+(function (ST) {
+  'use strict';
+  const U = ST.util, JP = ST.jprod = {};
+  JP.TYPES = ['jptrans', 'jptransform', 'jpdialog', 'jpdesc'];
+  JP.LABEL = { jptrans: 'Giapponese · tradurre (scrittura)', jptransform: 'Giapponese · trasformare le forme', jpdialog: 'Giapponese · ricostruire un dialogo', jpdesc: 'Giapponese · la frase per la situazione' };
+  JP.PRODUCTION = { jptrans: true, jptransform: true, jpdialog: true, jpdesc: false };
+  // [italiano, [versioni accettate in kana]]
+  const wa = x => ['わたしは' + x, x]; // soggetto esplicito o omesso
+  JP.TRANS = [
+    ['Sono studente.', wa('がくせいです')], ['Mangio il pane.', wa('パンをたべます')], ['Bevo il tè.', wa('おちゃをのみます')],
+    ['Vado a scuola.', wa('がっこうへいきます').concat(wa('がっこうにいきます'))], ['Non mangio la carne.', wa('にくをたべません')],
+    ['Ieri ho studiato.', wa('きのうべんきょうしました').concat(['きのうわたしはべんきょうしました'])], ['Leggo un libro in biblioteca.', wa('としょかんでほんをよみます')],
+    ['Per favore, mi dia dell’acqua.', ['おみずをください', 'みずをください']], ['Questo è un libro.', ['これはほんです']], ['Che ora è?', ['いまなんじですか', 'なんじですか']],
+    ['Domani vado a Tokyo.', wa('あしたとうきょうへいきます').concat(wa('あしたとうきょうにいきます'))], ['Non sono insegnante.', wa('せんせいではありません').concat(wa('せんせいじゃありません'))],
+    ['Guardo la TV con mia madre.', wa('ははとテレビをみます')], ['Posso entrare?', ['はいってもいいですか']]
+  ];
+  // [forma data, richiesta, risposte accettate, regola]
+  JP.FORMS = [
+    ['たべます', 'forma negativa cortese', ['たべません'], 'ます → ません'], ['たべます', 'passato cortese', ['たべました'], 'ます → ました'], ['たべます', 'passato negativo cortese', ['たべませんでした'], 'ます → ませんでした'],
+    ['たべます', 'forma て', ['たべて'], 'verbi in る (gruppo 2): ます → て'], ['たべます', 'forma negativa informale (ない)', ['たべない'], 'gruppo 2: radice + ない'],
+    ['のみます', 'forma て', ['のんで'], 'む → んで'], ['のみます', 'forma negativa cortese', ['のみません'], 'ます → ません'], ['のみます', 'forma del dizionario', ['のむ'], 'み → む'],
+    ['いきます', 'forma て', ['いって'], 'く → って (eccezione di いく)'], ['いきます', 'passato cortese', ['いきました'], 'ます → ました'], ['いきます', 'forma negativa informale (ない)', ['いかない'], 'gruppo 1: き → か + ない'],
+    ['みます', 'forma て', ['みて'], 'gruppo 2: ます → て'], ['みます', 'passato negativo cortese', ['みませんでした'], 'ます → ませんでした'],
+    ['おおきいです', 'forma negativa', ['おおきくないです'], 'い → くない'], ['おおきいです', 'passato', ['おおきかったです'], 'い → かった'],
+    ['たかいです', 'passato', ['たかかったです'], 'い → かった'], ['たかいです', 'forma negativa', ['たかくないです'], 'い → くない'],
+    ['がくせいです', 'forma negativa', ['がくせいではありません', 'がくせいじゃありません'], 'です → ではありません'], ['がくせいです', 'passato', ['がくせいでした'], 'です → でした'],
+    ['べんきょうします', 'forma て', ['べんきょうして'], 'します → して'], ['べんきょうします', 'forma negativa cortese', ['べんきょうしません'], 'ます → ません'],
+    ['きます', 'forma て', ['きて'], 'くる: きて (irregolare)'], ['きます', 'forma negativa cortese', ['きません'], 'ます → ません'], ['します', 'forma て', ['して'], 'する: して (irregolare)']
+  ];
+  JP.DIALOGS = [
+    ['Presentarsi', ['はじめまして。たなかです。', 'はじめまして。スミスです。よろしくおねがいします。', 'こちらこそ、よろしくおねがいします。']],
+    ['Al ristorante', ['いらっしゃいませ。なんめいさまですか。', 'ふたりです。', 'こちらへどうぞ。']],
+    ['Al konbini', ['ふくろはいりますか。', 'いいえ、だいじょうぶです。', 'ありがとうございました。']],
+    ['Chiedere l’ora', ['すみません、いまなんじですか。', 'さんじです。', 'ありがとうございます。']],
+    ['Ordinare', ['ごちゅうもんは？', 'ラーメンをひとつおねがいします。', 'かしこまりました。']],
+    ['Chiedere la stazione', ['すみません、えきはどこですか。', 'まっすぐいって、みぎです。', 'ありがとうございます。']]
+  ];
+  // [situazione, frase adatta, 3 frasi non adatte]
+  JP.DESC = [
+    ['Sei in un ristorante e vuoi un tè.', 'おちゃをおねがいします。', ['おちゃはきらいです。', 'おちゃをのみました。', 'おちゃですか。']],
+    ['Ti sei perso e cerchi la stazione.', 'すみません、えきはどこですか。', ['えきはおおきいです。', 'えきにいきました。', 'ここはえきです。']],
+    ['Vuoi sapere il prezzo di un oggetto.', 'これはいくらですか。', ['これはほんです。', 'これをください。', 'これはきれいです。']],
+    ['Non hai capito e vuoi che ripetano.', 'もういちどおねがいします。', ['わかりました。', 'ありがとうございます。', 'さようなら。']],
+    ['Ti presenti: sei italiano.', 'わたしはイタリアじんです。', ['あなたはイタリアじんですか。', 'わたしはイタリアへいきます。', 'イタリアはおおきいです。']],
+    ['Paghi alla cassa con la carta.', 'カードでおねがいします。', ['カードをたべます。', 'カードはどこですか。', 'カードはおいしいです。']],
+    ['In hotel chiedi a che ora è il check-out.', 'チェックアウトはなんじですか。', ['チェックアウトはいくらですか。', 'チェックアウトをのみます。', 'チェックアウトはきれいです。']],
+    ['Chiedi se puoi sederti.', 'すわってもいいですか。', ['すわりません。', 'すわりました。', 'すわってください。']]
+  ];
+  const strip = s => s.replace(/[。、？?！!\s]/g, '');
+  const gen = {};
+  gen.jptrans = rng => { const x = U.pick(JP.TRANS, rng); return { t: 'fill', ja: true, mtype: 'jptrans', q: 'Scrivi in giapponese (kana o romaji senza spazi): «' + x[0] + '»', a: x[1].concat(x[1].map(v => v + '。')), why: 'Modello: ' + x[1][0] + '。 Altre formulazioni corrette potrebbero esistere; confronta con il modello.', timed: 90 }; };
+  gen.jptransform = rng => { const x = U.pick(JP.FORMS, rng); return { t: 'fill', ja: true, mtype: 'jptransform', q: 'Da «' + x[0] + '» scrivi la ' + x[1] + ' (kana o romaji senza spazi).', a: x[2], why: x[2][0] + ' — regola: ' + x[3], timed: 45 }; };
+  gen.jpdialog = rng => { const d = U.pick(JP.DIALOGS, rng); return { t: 'order', mtype: 'jpdialog', q: 'Rimetti in ordine le battute del dialogo «' + d[0] + '».', words: d[1].slice(), why: d[1].join(' / ') }; };
+  gen.jpdesc = rng => { const x = U.pick(JP.DESC, rng), o = U.shuffle([x[1]].concat(x[2]), rng); return { t: 'mc', mtype: 'jpdesc', q: 'Situazione: ' + x[0] + ' Quale frase è la più adatta?', o, a: o.indexOf(x[1]), why: x[1] + ' — le altre dicono altro (domanda sbagliata, azione diversa o significato non adatto).' }; };
+  JP.make = (type, rng) => gen[type](rng || U.rand);
+  JP.session = (n, rng) => { const out = []; for (let i = 0; i < (n || 10); i++) out.push(JP.make(JP.TYPES[i % JP.TYPES.length], rng)); return out; };
+  JP.strip = strip;
+  JP.record = (s, type, ok) => { const m = ((s.jprod = s.jprod || {})[type] = s.jprod[type] || { n: 0, ok: 0 }); m.n++; if (ok) m.ok++; };
 })(window.ST = window.ST || {});
 
 /* ---- core/motor ---- */
@@ -1401,7 +1503,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     xp: 0, xpLog: {}, xpKeys: {},
     topics: {}, cards: {}, reviewLog: [],
     kana: { items: {}, placed: false, lastSession: null },
-    motor: {}, mental: {}, theory: {}, skills: {}, vocab: {}, tt: {}, kanji: {}, journal: [], forecasts: [], 
+    motor: {}, mental: {}, theory: {}, skills: {}, vocab: {}, tt: {}, kanji: {}, jprod: {}, journal: [], forecasts: [], 
     exams: [], gates: { en: {} }, rec: [],
     daily: {}, resume: {}, settings: { sound: true },
     log: []
@@ -3164,7 +3266,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   const mmss = t => { const m = Math.floor(t / 60), s = (t - 60 * m).toFixed(3); return m + ':' + (s.length < 6 ? '0' : '') + s; };
 
   /* ---- tempi, distanze, velocità ---- */
-  F.minLaps = len => Math.ceil(305 / len);
+  F.minLaps = len => Math.floor(305000 / Math.round(len * 1000)) + 1; // «superare» 305 km: se il quoziente è esatto serve un giro in più
   gen.time = (lv, rng) => {
     const k = ri(rng, 0, 3);
     if (k === 0) { const len = ri(rng, 3500, 7000) / 1000; return fill('time', 'Una gara deve superare 305 km (regola della distanza minima, a meno del limite di tempo). Circuito da ' + len + ' km: quanti giri servono per superare 305 km?', F.minLaps(len), '305 / ' + len + ' = ' + (305 / len).toFixed(2) + ' → ' + F.minLaps(len) + ' giri', 70); }
@@ -40791,7 +40893,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   'use strict';
   const U = ST.util, A = ST.app, E = U.esc, X = ST.acts, T = ST.transfer;
   const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
-  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['voc', 'Lessico'], ['kj', 'Kanji'], ['dlg', 'Dialoghi'], ['tt', 'Allenamento strategico'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
+  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['voc', 'Lessico'], ['kj', 'Kanji'], ['dlg', 'Dialoghi'], ['jp', 'Produzione JA'], ['tt', 'Allenamento strategico'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
   const field = (id, label, ph) => '<label class="small mute">' + label + '</label><input id="' + id + '" class="inp" placeholder="' + E(ph || '') + '" style="width:100%">';
   const dash = s => {
     const ids = Object.keys(s.skills || {}), due = T.due(s);
@@ -40865,16 +40967,18 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     '<p class="small mute">Componenti e letture on/kun usano elenchi curati (letture principali, non esaustive). Servono per orientarsi: un componente suggerisce il campo di significato ma non lo determina sempre.</p></div>'; };
   const dlgv = s => {
     const DL = ST.dialog, st = A.dlg;
-    if (!st) return '<div class="card"><h3>Dialoghi ramificati · inglese</h3><p class="small mute">Dialoghi a scelte: ogni risposta cambia il corso della conversazione e riceve un feedback. Non è una conversazione libera con un’AI: le risposte sono predefinite (disponibile solo l’ascolto con la voce del dispositivo, non registrazioni di madrelingua).</p>' + DL.LIST.map(d => { const r = (s.skills || {})['dlg:' + d.id]; return '<button class="item" data-act="dlgOpen" data-id="' + d.id + '"><span class="tx"><b>' + E(d.title) + '</b><span>' + E(d.area) + ' · ' + d.level + (r && r.hist.length ? ' · tentativi: ' + r.hist.length : '') + '</span></span></button>'; }).join('') + '</div>';
+    if (!st) return '<div class="card"><h3>Dialoghi ramificati · inglese e giapponese</h3><p class="small mute">Dialoghi a scelte: ogni risposta cambia il corso della conversazione e riceve un feedback. Non è una conversazione libera con un’AI: le risposte sono predefinite (disponibile solo l’ascolto con la voce del dispositivo, non registrazioni di madrelingua).</p>' + [['en', 'Inglese'], ['ja', 'Giapponese · simulatore di vita (registro cortese)']].map(g => '<h4>' + g[1] + '</h4>' + DL.LIST.filter(d => d.lang === g[0]).map(d => { const r = (s.skills || {})['dlg:' + d.id]; return '<button class="item" data-act="dlgOpen" data-id="' + d.id + '"><span class="tx"><b>' + E(d.title) + '</b><span>' + E(d.area) + ' · ' + d.level + (r && r.hist.length ? ' · tentativi: ' + r.hist.length : '') + '</span></span></button>'; }).join('')).join('') + '</div>';
     const d = DL.byId(st.id), n = d.nodes[st.node];
     const last = st.log.length ? st.log[st.log.length - 1] : null;
-    let h = last ? '<div class="card"><p class="small">Hai detto: «' + E(last.text) + '»</p><p class="small ' + (last.q === 2 ? 'good' : last.q === 1 ? 'warn' : 'bad') + '">' + (last.q === 2 ? '✓ ' : last.q === 1 ? '≈ ' : '✗ ') + E(last.fb) + '</p></div>' : '';
-    h += '<div class="card"><h3>' + E(d.title) + '</h3><p><b>' + '<button class="say" data-act="say" data-lang="en-GB" data-text="' + E(U.speechText(n.npc)) + '" aria-label="Ascolta">🔊</button> <span class="sayt">' + E(n.npc) + '</span>' + '</b></p><details><summary class="small mute">Traduzione</summary><p class="small">' + E(n.tr) + '</p></details>';
+    let h = last ? '<div class="card"><p class="small">Hai detto: «' + (DL.byId(st.id).lang === 'ja' ? U.ruby(last.text) : E(last.text)) + '»</p><p class="small ' + (last.q === 2 ? 'good' : last.q === 1 ? 'warn' : 'bad') + '">' + (last.q === 2 ? '✓ ' : last.q === 1 ? '≈ ' : '✗ ') + E(last.fb) + '</p></div>' : '';
+    h += '<div class="card"><h3>' + E(d.title) + '</h3><p><b>' + '<button class="say" data-act="say" data-lang="' + (d.lang === 'ja' ? 'ja' : 'en-GB') + '" data-text="' + E(U.speechText(n.npc)) + '" aria-label="Ascolta">🔊</button> <span class="sayt">' + (d.lang === 'ja' ? U.ruby(n.npc) : E(n.npc)) + '</span>' + '</b></p><details><summary class="small mute">Traduzione</summary><p class="small">' + E(n.tr) + '</p></details>';
     if (n.end) { const pc = Math.round(100 * DL.score(st.log)); h += '<p class="small"><b>Fine del dialogo.</b> Risposte efficaci: ' + st.log.filter(x => x.q === 2).length + ' su ' + st.log.length + ' (' + pc + '%). È un esercizio di scelta tra risposte predefinite, non una valutazione della tua produzione libera.</p><button class="btn" data-act="dlgOpen" data-id="' + d.id + '">Ripeti</button> <button class="btn ghost" data-act="dlgOpen" data-id="">Altri dialoghi</button></div>'; }
-    else h += n.ch.map((c, i) => '<button class="item" data-act="dlgPick" data-i="' + i + '"><span class="tx"><b>' + E(c.t) + '</b></span></button>').join('') + '</div>';
+    else h += n.ch.map((c, i) => '<button class="item" data-act="dlgPick" data-i="' + i + '"><span class="tx"><b>' + (d.lang === 'ja' ? U.ruby(c.t) : E(c.t)) + '</b></span></button>').join('') + '</div>';
     return h;
   };
-  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : t === 'voc' ? voc(s) : t === 'kj' ? kjv(s) : t === 'dlg' ? dlgv(s) : t === 'tt' ? ttv(s) : dash(s)); };
+  const jpv = s => { const JP = ST.jprod; return '<div class="card"><h3>Produzione attiva · giapponese</h3><p class="small mute">Scrivere, trasformare e ricostruire: competenza produttiva, separata dal riconoscimento. Le risposte scritte sono confrontate con le versioni accettate (kana, o romaji senza spazi): una frase corretta ma diversa può essere rifiutata, quindi la soluzione è un modello. Non c’è valutazione orale. Per le particelle (は, を, へ) conviene scrivere in kana.</p>' +
+    '<button class="btn block" data-act="jpStart" data-t="mix">▶ Sessione mista (10)</button><table class="t" style="margin-top:8px">' + JP.TYPES.map(t => { const m = (s.jprod || {})[t]; return '<tr><td>' + E(JP.LABEL[t]) + (JP.PRODUCTION[t] ? ' <span class="tag">produzione</span>' : ' <span class="tag">riconoscimento</span>') + '</td><td>' + (m && m.n ? Math.round(100 * m.ok / m.n) + '% (' + m.n + ')' : '—') + '</td><td><button class="btn alt sm" data-act="jpStart" data-t="' + t + '">▶</button></td></tr>'; }).join('') + '</table></div>'; };
+  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : t === 'voc' ? voc(s) : t === 'kj' ? kjv(s) : t === 'dlg' ? dlgv(s) : t === 'jp' ? jpv(s) : t === 'tt' ? ttv(s) : dash(s)); };
   const re = () => { A.save(); A.render(); };
   X.jAdd = () => { const s = A.state, p = parseInt(val('j-p'), 10); if (!val('j-sit') || !val('j-choice')) return A.toast && A.toast('Servono almeno situazione e scelta'); T.jAdd(s, { sit: val('j-sit'), goal: val('j-goal'), opts: val('j-opts'), hyp: val('j-hyp'), p: isNaN(p) ? null : Math.max(0, Math.min(100, p)), choice: val('j-choice'), why: val('j-why'), check: val('j-check') }); re(); };
   X.jClose = el => { T.jClose(A.state, el.dataset.id, val('o-' + el.dataset.id), val('l-' + el.dataset.id)); re(); };
@@ -40930,6 +41034,10 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     const st = A.dlg, DL = ST.dialog, d = DL.byId(st.id), r = DL.step(d, st.node, +el.dataset.i); st.log.push(r); st.node = r.next;
     if (d.nodes[st.node].end) { T.record(A.state, 'dlg:' + st.id, 'auto', DL.score(st.log) >= 0.8, {}); A.xp(3, 'dlg:' + st.id); A.save(); }
     A.render();
+  };
+  X.jpStart = el => {
+    const s = A.state, JP = ST.jprod, t = el.dataset.t, items = t === 'mix' ? JP.session(10) : Array.from({ length: 8 }, () => JP.make(t)); A.ctx = 'general';
+    ST.runner.start({ title: t === 'mix' ? 'Produzione · sessione mista' : JP.LABEL[t], kind: 'free', items, ctx: 'general', onAnswer: (it, ok) => { JP.record(s, it.mtype, ok); A.xp(ok ? 2 : 0, 'jp:' + it.mtype); A.save(); } });
   };
   X.jExport = () => { const b = new Blob([T.exportJournal(A.state)], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'skilltree-diario.json'; a.click(); };
 })(window.ST = window.ST || {});

@@ -27,7 +27,7 @@
   const mmss = t => { const m = Math.floor(t / 60), s = (t - 60 * m).toFixed(3); return m + ':' + (s.length < 6 ? '0' : '') + s; };
 
   /* ---- tempi, distanze, velocità ---- */
-  F.minLaps = len => Math.ceil(305 / len);
+  F.minLaps = len => Math.floor(305000 / Math.round(len * 1000)) + 1; // «superare» 305 km: se il quoziente è esatto serve un giro in più
   gen.time = (lv, rng) => {
     const k = ri(rng, 0, 3);
     if (k === 0) { const len = ri(rng, 3500, 7000) / 1000; return fill('time', 'Una gara deve superare 305 km (regola della distanza minima, a meno del limite di tempo). Circuito da ' + len + ' km: quanti giri servono per superare 305 km?', F.minLaps(len), '305 / ' + len + ' = ' + (305 / len).toFixed(2) + ' → ' + F.minLaps(len) + ' giri', 70); }
