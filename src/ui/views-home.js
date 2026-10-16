@@ -93,17 +93,26 @@
 
   const statusTag = st => ({ new: '', studied: '<span class="tag">Letta</span>', practiced: '<span class="tag acc">Esercitato</span>', verified: '<span class="tag good">Verificato</span>', retained: '<span class="tag good">Mantenuto</span>' })[st];
   ST.statusTag = statusTag;
+  V.COLLAPSE_PRACTICE = ['cyb', 'moto', 'sport']; // materie su cui è attiva la sezione chiusa (prova)
+  document.addEventListener('toggle', ev => { const d = ev.target; if (d && d.classList && d.classList.contains('practice-sec')) { const st = (A.state.settings.practiceOpen = A.state.settings.practiceOpen || {}); st[d.dataset.subj] = d.open; A.save(); } }, true);
   V.subject = p => {
     const s = C.subject(p.id), st = A.state;
     if (s.motor) return ST.judoHub();
     if (s.generated) return ST.mentalHub();
     let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + bg(s.id) + '"></div><h1>' + s.icon + ' ' + E(s.title) + '</h1><p class="mute">' + E(s.goal) + '</p>' + (s.stageNote ? '<p class="warn small">' + E(s.stageNote) + '</p>' : '');
-    if (p.id === 'sec') h += ST.culHub();
-    if (s.id === 'cyb') h += ST.cyberHub();
-    if (s.id === 'str') h += ST.strategyHub();
-    if (s.id === 'sport') h += ST.sportHub();
-    if (s.id === 'f1') h += ST.f1Hub();
-    if (s.id === 'moto') h += ST.motoHub();
+    let hub = '';
+    if (p.id === 'sec') hub += ST.culHub();
+    if (s.id === 'cyb') hub += ST.cyberHub();
+    if (s.id === 'str') hub += ST.strategyHub();
+    if (s.id === 'sport') hub += ST.sportHub();
+    if (s.id === 'f1') hub += ST.f1Hub();
+    if (s.id === 'moto') hub += ST.motoHub();
+    // prova: pratica, esercizi, laboratori e simulazioni in una sezione chiusa e apribile (per ora su alcune materie)
+    if (hub && V.COLLAPSE_PRACTICE.indexOf(s.id) >= 0) {
+      const open = ((A.state.settings.practiceOpen || {})[s.id]);
+      hub = '<details class="card practice-sec" data-subj="' + s.id + '"' + (open ? ' open' : '') + '><summary><b>🧪 Pratica, laboratori e simulazioni</b><span class="mute small"> · tocca per aprire</span></summary>' + hub + '</details>';
+    }
+    h += hub;
     C.stagesOf(s.id).forEach(stg => {
       h += '<h2>' + E(stg.id) + ' — ' + E(stg.title) + '</h2>' + (stg.desc ? '<p class="mute small">' + E(stg.desc) + '</p>' : '') + '<div class="list">';
       if (!stg.topics.length) h += '<p class="mute small">Contenuti non ancora disponibili in questo stage.</p>';

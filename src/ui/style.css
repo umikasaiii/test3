@@ -117,3 +117,4 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 .layer-card .ln{margin:8px 0}.gl{border-bottom:1px dotted var(--acc);cursor:pointer}
 .gl-pop{position:fixed;left:10px;right:10px;bottom:calc(206px + env(safe-area-inset-bottom));z-index:45;max-width:420px;margin:auto;background:var(--card2);border:1px solid var(--acc2);border-radius:14px;padding:12px;box-shadow:0 8px 28px #000a}
 .lang-fab.nolayer{opacity:.5}
+.practice-sec>summary{cursor:pointer;list-style:none;padding:2px 0}.practice-sec>summary::-webkit-details-marker{display:none}.practice-sec>summary::before{content:'▸ ';color:var(--acc)}.practice-sec[open]>summary::before{content:'▾ '}.practice-sec>.card{margin-left:0;margin-right:0}

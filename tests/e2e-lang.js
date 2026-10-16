@@ -44,6 +44,10 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(/"en"/.test(saved) && /"A"/.test(saved), 'le scelte sono salvate nei dati dell’app: ' + saved);
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('lesson', { id: 'moto-urb-percezione-smidsy', page: 0 }); }); await page.waitForTimeout(150);
   ok(/Key terms/.test(await body()) && await page.evaluate(() => !!document.getElementById('lang-fab')), 'lo strato e l’icona compaiono anche nella pagina di lezione');
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('subject', { id: 'moto' }); }); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => { const d = document.querySelector('.practice-sec'); return !!d && !d.open && !!document.querySelector('.item[data-view="topic"]'); }), 'sezione pratica chiusa di default con le lezioni visibili');
+  await page.click('.practice-sec summary'); await page.waitForTimeout(100);
+  ok(await page.evaluate(() => document.querySelector('.practice-sec').open && ST.app.state.settings.practiceOpen.moto === true), 'la sezione pratica si apre e ricorda lo stato');
   ok(errors.length === 0, 'nessun errore JS' + (errors.length ? ': ' + errors[0] : ''));
   await browser.close(); console.log(fails ? 'LINGUA: problemi rilevati' : 'Test dello strato lingua superati'); process.exit(fails ? 1 : 0);
 })();

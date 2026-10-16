@@ -23,7 +23,7 @@ const mock = () => {
   await page.evaluate(() => { ST.acts['ob-start'](); });
   const body = () => page.evaluate(() => document.getElementById('app').innerText.trim());
   const reset = () => page.evaluate(() => { ST.app.run = null; ST.app.act = null; ST.app.pb = null; ST.app.stack = []; ST.app.render(true); });
-  const step = async (name, fn, expect, arg) => { const before = errors.length; try { await page.evaluate(fn, arg); } catch (e) { errors.push(name + ': ' + e.message); } await page.waitForTimeout(150); const b = await body(); ok(b.length > 30 && errors.length === before && (!expect || expect.test(b)), name + (errors.length > before ? ' → ' + errors[errors.length - 1] : '')); await reset(); };
+  const step = async (name, fn, expect, arg) => { const before = errors.length; try { await page.evaluate(fn, arg); } catch (e) { errors.push(name + ': ' + e.message); } await page.waitForTimeout(150); await page.evaluate(() => document.querySelectorAll('details.practice-sec').forEach(d => { d.open = true; })); await page.waitForTimeout(40); const b = await body(); ok(b.length > 30 && errors.length === before && (!expect || expect.test(b)), name + (errors.length > before ? ' → ' + errors[errors.length - 1] : '')); await reset(); };
 
   // tutte le schede principali e tutte le materie
     for (const t of ['home', 'paths', 'practice', 'progress', 'more']) { await page.evaluate(t => ST.app.setTab(t), t); await page.waitForTimeout(80); ok((await body()).length > 50, 'tab ' + t); }
