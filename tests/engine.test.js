@@ -905,7 +905,7 @@ test('produzione giapponese: forme ricalcolate con regole, dialoghi e descrizion
   assert.equal(JP.session(10, r).length, 10);
 });
 
-test('strato lingua: romaji, segmenti, ricerca e ambiti (lezione → materia → tutte)', () => {
+test('riepilogo in lingua: romaji, segmenti e ricerca nel glossario', () => {
   const L = ST.layer;
   assert.equal(L.romaji('こうさてん'), 'kousaten'); assert.equal(L.romaji('きっぷ'), 'kippu'); assert.equal(L.romaji('しゃしん'), 'shashin'); assert.equal(L.romaji('ラーメン'), 'raamen'); assert.equal(L.romaji('がっこう'), 'gakkou'); assert.equal(L.romaji('ちょっと'), 'chotto');
   assert.equal(L.romajiOf('[私|わたし]はバイクに[乗|の]ります。'), 'watashi wa baiku ni norimasu.');
@@ -916,13 +916,10 @@ test('strato lingua: romaji, segmenti, ricerca e ambiti (lezione → materia →
   L.add('ja', 't-x', { title: { t: 'x', it: 'x' }, sum: [], gloss: [{ w: '交差点', r: 'こうさてん', it: 'incrocio' }] });
   const f = L.lookup('ja', 't-x', '交差点'); assert.equal(f[0].it, 'incrocio'); assert.equal(f[0].ro, 'kousaten');
   assert.equal(L.lookup('ja', 't-x', 'zzzz').length, 0);
-  const t = { id: 'a', subject: 's1' }, st = {};
-  assert.equal(L.resolve(st, t).lang, 'it');
-  L.set(st, 'all', 'x', 'en', 'B'); assert.equal(L.resolve(st, t).lang, 'en'); assert.equal(L.resolve(st, t).level, 'all');
-  L.set(st, 'subject', 's1', 'ja', 'C'); assert.equal(L.resolve(st, t).lang, 'ja'); assert.equal(L.resolve(st, { id: 'b', subject: 's2' }).lang, 'en');
-  L.set(st, 'lesson', 'a', 'it', 'A'); assert.equal(L.resolve(st, t).lang, 'it'); assert.equal(L.resolve(st, { id: 'c', subject: 's1' }).lang, 'ja');
-  assert.equal(st.lang.last.lang, 'ja');
-  // un ambito più ampio sostituisce quello più stretto
-  L.set(st, 'subject', 's1', 'en', 'B', id => ({ a: 's1', c: 's1' }[id])); assert.equal(L.resolve(st, t).lang, 'en'); assert.equal(L.resolve(st, t).mode, 'B');
-  L.set(st, 'all', 'x', 'ja', 'A'); assert.equal(L.resolve(st, t).lang, 'ja'); assert.equal(Object.keys(st.lang.subject).length, 0);
+});
+
+test('approfondimenti esterni: schede generate dalla lezione e registro con controllo a 7 giorni', () => {
+  const t = Object.values(C.topics).find(x => x.subject === 'cyb' && x.pages.some(p => /\*\*[^*]{3,}\*\*/.test(p.b)));
+  const PR = ST.extPrompts(t); assert.ok(PR.length >= 4 && PR.every(x => x.length > 20));
+  assert.ok(PR.some(x => x.includes(t.title)) && PR.some(x => /riepilogo/.test(x)));
 });

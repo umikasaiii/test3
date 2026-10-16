@@ -90,7 +90,7 @@
     el.innerHTML = fn ? fn(cur.p) : '<p>Vista non trovata: ' + U.esc(cur.name) + '</p>';
     el.className = (A.state.profile.furigana === false ? 'nofur' : '');
     if (ST.after[cur.name]) ST.after[cur.name](el, cur.p);
-    A.topbar(); A.renderTabs(); if (ST.langFab) ST.langFab();
+    A.topbar(); A.renderTabs();
     $('#tabs').style.display = (cur.name === 'onboard') ? 'none' : '';
     const key = cur.name + JSON.stringify(cur.p || {});
     if (fresh || key !== lastKey) window.scrollTo(0, 0);

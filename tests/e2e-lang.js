@@ -1,4 +1,4 @@
-/* Test dello strato lingua: icona, finestra, ambiti, modalità A/B/C in inglese e giapponese, tocco, selezione, ritorno all'italiano. */
+/* Test del riepilogo di fine lezione (inglese/giapponese), della traduzione al tocco e degli approfondimenti esterni. */
 const path = require('path');
 let chromium; try { ({ chromium } = require('playwright')); } catch (e) { ({ chromium } = require('/opt/node22/lib/node_modules/playwright')); }
 const file = 'file://' + path.join(__dirname, '..', 'index.html');
@@ -8,88 +8,40 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   const ctx = await browser.newContext({ viewport: { width: 360, height: 740 } }); const page = await ctx.newPage(); const errors = [];
   page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
   await page.goto(file); await page.waitForSelector('#ob-name'); await page.evaluate(() => ST.acts['ob-start']());
-  const ID = 'moto-urb-percezione-smidsy', other = 'moto-urb-angoli-ciechi';
   const body = () => page.evaluate(() => document.getElementById('app').innerText);
-  const openTopic = id => page.evaluate(id => { ST.app.stack = []; ST.app.go('topic', { id }); }, id);
-  await openTopic(ID); await page.waitForTimeout(150);
-  ok(await page.evaluate(() => !!document.getElementById('lang-fab') && document.querySelector('#lang-fab svg')), 'icona presente sulla pagina dell’argomento');
-  ok(!/Key terms|Parole chiave/.test(await body()), 'in italiano non compare lo strato');
-  // finestra: apri, scegli giapponese, modalità B, solo questa lezione
-  await page.click('#lang-fab'); await page.waitForTimeout(100);
-  ok(await page.evaluate(() => !!document.getElementById('lang-pop')), 'la finestra si apre');
-  await page.click('#lang-pop button[data-l="ja"]'); await page.click('#lang-pop input[value="B"]'); await page.click('#lang-pop input[value="lesson"]'); await page.click('#lang-pop [data-act="langApply"]'); await page.waitForTimeout(200);
-  let b = await body(); ok(/Parole chiave/.test(b) && /[a-z]{3,} (wa|ga|o|ni|de) /.test(b), 'giapponese bilingue con romaji e glossario');
-  ok(await page.evaluate(() => document.querySelector('#lang-fab svg [fill="#bc002d"]') !== null), 'con il giapponese attivo l’icona mostra la bandiera del Giappone');
-  await openTopic(other); await page.waitForTimeout(150); ok(!/Parole chiave/.test(await body()), 'l’ambito «solo questa lezione» non tocca le altre lezioni');
-  await openTopic(ID); await page.waitForTimeout(150);
-  // ritorno all'italiano con un tocco
-  await page.click('#lang-fab'); await page.waitForTimeout(100); await page.click('#lang-pop button[data-l="it"]'); await page.click('#lang-pop input[value="lesson"]'); await page.click('#lang-pop [data-act="langApply"]'); await page.waitForTimeout(150); ok(!/Parole chiave/.test(await body()), 'scegliendo Italiano nel pannello torna l’italiano');
-  ok(await page.evaluate(() => document.querySelector('#lang-fab svg [fill="#009246"]') !== null), 'in italiano l’icona mostra la bandiera italiana');
-  // inglese, modalità C, tutta la materia: tocco su un termine
-  await page.click('#lang-fab'); await page.waitForTimeout(100); await page.click('#lang-pop button[data-l="en"]'); await page.click('#lang-pop input[value="C"]'); await page.click('#lang-pop input[value="subject"]'); await page.click('#lang-pop [data-act="langApply"]'); await page.waitForTimeout(200);
-  ok(await page.evaluate(() => document.querySelectorAll('.layer-card .gl').length >= 3), 'in modalità C i termini sono toccabili');
-  await page.click('.layer-card .gl'); await page.waitForTimeout(150);
-  ok(await page.evaluate(() => { const p = document.getElementById('gl-pop'); return !!p && /—|\(lezione\)|lezione/.test(p.innerText); }), 'il tocco mostra la traduzione dal glossario');
-  await openTopic(other); await page.waitForTimeout(150); ok(/Key terms|English/.test(await body()) || await page.evaluate(() => !!document.querySelector('.layer-card')), 'l’ambito «materia» vale per un’altra lezione della stessa materia');
-  // selezione di testo
-  await openTopic(ID); await page.waitForTimeout(150);
-  await page.evaluate(() => { const el = document.querySelector('.layer-card .gl'); const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); });
+  const CIA = 'cyb-triade-cia-e-minacce', MOTO = 'moto-urb-percezione-smidsy', OTHER = 'cyb-reti-e-protocolli';
+  const goLesson = (id, p) => page.evaluate(([id, p]) => { ST.app.stack = []; ST.app.go('lesson', { id, page: p }); }, [id, p]);
+  await goLesson(CIA, 0); await page.waitForTimeout(150);
+  ok(!(await page.evaluate(() => !!document.getElementById('summary-card'))), 'nelle pagine intermedie il riepilogo non compare');
+  ok(!(await page.evaluate(() => !!document.getElementById('lang-fab'))), 'nessuna icona di lingua fissa');
+  await goLesson(CIA, 6); await page.waitForTimeout(200);
+  ok(await page.evaluate(() => !!document.getElementById('summary-card')), 'a fine lezione compare il riepilogo');
+  let bb = await body(); ok(/Riepilogo · Summary/.test(bb) && /confidentiality/i.test(bb), 'riepilogo in inglese (default)');
+  ok(await page.evaluate(() => document.querySelectorAll('#summary-card .gl').length >= 4), 'i termini sono toccabili');
+  await page.click('#summary-card .gl'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /riservatezza/i.test((document.getElementById('gl-pop') || { innerText: '' }).innerText)), 'il tocco mostra la traduzione dal glossario');
+  await page.evaluate(() => { const p = document.getElementById('gl-pop'); p && p.remove(); });
+  await page.click('#summary-card [data-act="sumLang"][data-l="ja"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => !!document.querySelector('#summary-card ruby')), 'riepilogo in giapponese con furigana');
+  ok(await page.evaluate(() => /kimitsusei|kimitsu/.test(document.getElementById('summary-card').innerHTML.toLowerCase()) || /romaji/.test(document.getElementById('summary-card').innerText)), 'romaji disponibile');
+  await page.evaluate(() => { const el = document.querySelector('#summary-card .gl'); const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); });
   await page.waitForTimeout(900); ok(await page.evaluate(() => !!document.getElementById('gl-pop')), 'la selezione di testo apre la traduzione');
-  await page.evaluate(() => { const el = document.querySelector('.layer-card .ln'); const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); document.getElementById('gl-pop') && document.getElementById('gl-pop').remove(); });
-  await page.waitForTimeout(900); ok(await page.evaluate(() => /Nessuna traduzione|lezione|vocabolario/.test((document.getElementById('gl-pop') || { innerText: '' }).innerText)), 'una selezione non coperta dà un avviso onesto o una voce del glossario');
-  // modalità A e persistenza dopo ricaricamento dei dati
-  await page.evaluate(() => { ST.layer.set(ST.app.state.settings, 'all', 'x', 'en', 'A'); ST.app.save(); ST.app.render(); }); await page.waitForTimeout(150);
-  ok(/Key terms/.test(await body()), 'modalità A: termini chiave');
-  const saved = await page.evaluate(async () => { await ST.storage.flush(); const s = await ST.storage.load(); return JSON.stringify(s.settings.lang.all); });
-  ok(/"en"/.test(saved) && /"A"/.test(saved), 'le scelte sono salvate nei dati dell’app: ' + saved);
-  await page.evaluate(() => { ST.app.stack = []; ST.app.go('lesson', { id: 'moto-urb-percezione-smidsy', page: 0 }); }); await page.waitForTimeout(150);
-  ok(/Key terms/.test(await body()) && await page.evaluate(() => !!document.getElementById('lang-fab')), 'lo strato e l’icona compaiono anche nella pagina di lezione');
-  await page.evaluate(() => { ST.app.stack = []; ST.app.go('subject', { id: 'moto' }); }); await page.waitForTimeout(150);
-  ok(await page.evaluate(() => { const d = document.querySelector('.practice-sec'); return !!d && !d.open && !!document.querySelector('.item[data-view="topic"]'); }), 'sezione pratica chiusa di default con le lezioni visibili');
-  await page.click('.practice-sec summary'); await page.waitForTimeout(100);
-  ok(await page.evaluate(() => document.querySelector('.practice-sec').open && ST.app.state.settings.practiceOpen.moto === true), 'la sezione pratica si apre e ricorda lo stato');
-  const CIA = 'cyb-triade-cia-e-minacce';
-  await page.evaluate(id => { const st = ST.app.state.settings; st.lang = { lesson: {}, subject: {}, all: null, last: { lang: 'en', mode: 'A' } }; ST.layer.set(st, 'lesson', id, 'en', 'C'); ST.app.save(); ST.app.stack = []; ST.app.go('lesson', { id, page: 0 }); }, CIA); await page.waitForTimeout(200);
-  let bb = await body(); ok(/The CIA triad/.test(bb) && /Confidentiality/.test(bb), 'CIA in inglese (C): pagina tradotta');
-  ok(await page.evaluate(() => document.querySelector('#lang-fab svg [fill=\"#012169\"]') !== null), 'con l’inglese attivo l’icona mostra la bandiera britannica');
-  ok(await page.evaluate(() => { const d = document.querySelector('details.card:not(.layer-card)'); return !!d && !d.open && /Mostra il testo italiano/.test(d.innerText); }), 'modalità C: l’italiano è nascosto ma disponibile');
-  await page.click('.layer-card .gl'); await page.waitForTimeout(150); ok(await page.evaluate(() => /riservatezza|autorizzato/i.test((document.getElementById('gl-pop') || { innerText: '' }).innerText)), 'tocco su un termine: traduzione dal glossario');
-  await page.evaluate(id => { ST.layer.set(ST.app.state.settings, 'lesson', id, 'ja', 'B'); ST.app.render(); }, CIA); await page.waitForTimeout(200);
-  bb = await body(); ok(/CIAの三要素|三要素/.test(bb) && /Testo italiano/.test(bb) && /La triade CIA/.test(bb), 'CIA in giapponese (B): pagina giapponese e testo italiano');
-  ok(await page.evaluate(() => document.querySelector('#lang-fab svg [fill=\"#bc002d\"]') !== null && !!document.querySelector('.layer-card ruby')), 'giapponese: bandiera del Giappone e furigana');
-  ok(await page.evaluate(() => { const r = Array.from(document.querySelectorAll('.layer-card details')).map(d => d.innerText).join(' '); return /johou sekyuriti|jouhou sekyuriti/.test(r.toLowerCase()) || /romaji/i.test(r); }), 'giapponese: romaji disponibile');
-  for (let k = 0; k < 7; k++) { await page.evaluate(k => { ST.app.replace('lesson', { id: 'cyb-triade-cia-e-minacce', page: k }); }, k); await page.waitForTimeout(60); }
-  ok(await page.evaluate(() => /最小権限|最小/.test(document.getElementById('app').innerText)), 'tutte le 7 pagine sono navigabili nella lingua scelta');
-  // pagina dell'argomento, esercizi e verifica nella lingua scelta
-  await page.evaluate(id => { const st = ST.app.state.settings; st.lang = { lesson: {}, subject: {}, all: null, last: { lang: 'en', mode: 'C' } }; ST.layer.set(st, 'lesson', id, 'en', 'C'); ST.app.save(); ST.app.stack = []; ST.app.go('topic', { id }); }, CIA); await page.waitForTimeout(200);
-  bb = await body(); ok(/CIA triad, threats and defence principles/.test(bb) && /Objectives/.test(bb) && /Applied exercises/.test(bb) && /Topic test/.test(bb) && !/Esercizi applicativi/.test(bb), 'EN (C): pagina dell’argomento tradotta (titolo, obiettivi, etichette)');
-  await page.evaluate(id => ST.acts.startPractice(id, false), CIA); await page.waitForTimeout(250);
-  bb = await body(); ok(/Which property is violated|secretly changes/.test(bb) && !/Un attaccante modifica/.test(bb), 'EN (C): gli esercizi sono in inglese');
-  const items = await page.evaluate(id => { const t = ST.content.topic(id), g = (k, i) => ST.layerItem(t, k, i, Object.assign({}, k === 'ex' ? t.exercises[i] : t.test[i])); return { fill: g('ex', 4).a, order: g('ex', 5).words.length, mcOpts: g('test', 2).o.length, ans: g('ex', 0).o[g('ex', 0).a] }; }, CIA);
-  ok(items.fill.includes('least') && items.order === 6 && items.mcOpts === 4 && items.ans === 'Integrity', 'EN (C): risposte, parole e opzioni coerenti ' + JSON.stringify(items));
-  await page.evaluate(() => { ST.app.run = null; ST.app.stack = []; ST.app.render(true); });
-  await page.evaluate(id => { ST.layer.set(ST.app.state.settings, 'lesson', id, 'ja', 'B'); ST.app.stack = []; ST.app.go('topic', { id }); }, CIA); await page.waitForTimeout(200);
-  bb = await body(); ok(/目標|CIAの三要素/.test(bb) && /Triade CIA, minacce/.test(bb), 'JA (B): pagina dell’argomento in giapponese con l’italiano sotto');
-  const jb = await page.evaluate(id => { const t = ST.content.topic(id), it = ST.layerItem(t, 'ex', 4, Object.assign({}, t.exercises[4])); return { ja: it.ja, a: it.a, q: it.q }; }, CIA);
-  ok(jb.ja === true && jb.a.includes('けんげん') && jb.a.includes('minimo') && /Quale|Il principio/.test(jb.q), 'JA (B): esercizio a riempimento con risposte in giapponese e in italiano');
-  ok(await page.evaluate(() => { ST.app.stack = []; ST.app.go('lesson', { id: 'cyb-triade-cia-e-minacce', page: 0 }); return true; }), 'apre la lezione'); await page.waitForTimeout(200);
-  ok(await page.evaluate(() => !!document.querySelector('[data-act="layerSpeak"]')), 'c’è il pulsante per ascoltare la pagina');
-  await page.click('[data-act="layerSpeak"]'); await page.waitForTimeout(400); ok(await page.evaluate(() => window.__spoken === undefined || true), 'ascolto avviato senza errori');
-  // full immersion: interfaccia di lezione, esercizi e verifica nella lingua scelta
-  const noIt = t => !/Esci|Corretto|Non corretto|Indietro|Avanti|Pagina \d|Esercizi ·|Verifica ·|Concludi|Risposta:/.test(t);
-  const play = async kind => { await page.evaluate(([k, id]) => { ST.app.stack = []; ST.app.render(true); ST.acts[k](id, false); }, [kind, CIA]); await page.waitForTimeout(250); const seen = []; for (let i = 0; i < 16; i++) { if (await page.evaluate(() => !ST.app.run)) break; seen.push(await body()); await page.evaluate(() => { const r = ST.app.run; if (!r) return; if (r.phase === 'q') ST.runner.answer(true, 0); else { const nx = document.querySelector('[data-act=run-next]'); nx && nx.click(); } }); await page.waitForTimeout(100); } await page.waitForTimeout(300); seen.push(await body()); return seen; };
-  await page.evaluate(id => { const st = ST.app.state.settings; st.lang = { lesson: {}, subject: {}, all: null, last: { lang: 'en', mode: 'C' } }; ST.layer.set(st, 'lesson', id, 'en', 'C'); ST.app.save(); }, CIA);
-  await page.evaluate(id => { ST.app.stack = []; ST.app.go('lesson', { id, page: 2 }); }, CIA); await page.waitForTimeout(200);
-  bb = await body(); ok(/Page 3 of 7/.test(bb) && /← Topic/.test(bb) && /Next →/.test(bb) && /Contents/.test(bb) && noIt(bb), 'EN: lezione con interfaccia in inglese (Page 3 of 7, Next, Contents)');
-  let seen = await play('startPractice'); ok(seen.some(x => /Exercises ·/.test(x) && /Quit/.test(x)) && seen.some(x => /✓ Correct/.test(x) && /Next/.test(x)) && seen.every(noIt), 'EN: esercizi con interfaccia in inglese');
-  seen = await play('startTest'); ok(seen.some(x => /Test ·/.test(x)) && /100% correct/.test(seen[seen.length - 1]) && /Status:/.test(seen[seen.length - 1]) && /does not count as verification|Verified|Retained/.test(seen[seen.length - 1]) && noIt(seen[seen.length - 1]), 'EN: verifica con risultato e messaggio in inglese');
-  await page.evaluate(id => { ST.layer.set(ST.app.state.settings, 'lesson', id, 'ja', 'C'); ST.app.save(); ST.app.stack = []; ST.app.go('lesson', { id, page: 6 }); }, CIA); await page.waitForTimeout(250);
-  bb = await page.evaluate(() => { const c = document.getElementById('app').cloneNode(true); c.querySelectorAll('rt').forEach(r => r.remove()); return c.textContent; });
-  ok(/7\/7ページ/.test(bb) && /目次/.test(bb) && /練習へ/.test(bb) && noIt(bb), 'JA: lezione con interfaccia in giapponese');
-  ok(await page.evaluate(() => !!document.querySelector('#app ruby')), 'JA: l’interfaccia ha i furigana');
-  seen = await play('startPractice'); ok(seen.some(x => /正解/.test(x)) && seen.every(noIt), 'JA: esercizi con interfaccia in giapponese');
-  await page.evaluate(id => { ST.layer.set(ST.app.state.settings, 'lesson', id, 'it', 'A'); ST.app.save(); ST.app.stack = []; ST.app.go('lesson', { id, page: 2 }); }, CIA); await page.waitForTimeout(200);
-  ok(/Pagina 3 di 7/.test(await body()), 'tornando all’italiano l’interfaccia è di nuovo italiana');
+  await goLesson(MOTO, 7); await page.waitForTimeout(200); ok(await page.evaluate(() => !!document.getElementById('summary-card')), 'anche le lezioni della pilota Moto mostrano il riepilogo');
+  // interfaccia italiana ovunque
+  await goLesson(CIA, 2); await page.waitForTimeout(150); bb = await body(); ok(/Pagina 3 di 7/.test(bb) && /Avanti →/.test(bb), 'la lezione resta tutta in italiano');
+  await page.evaluate(id => { ST.app.stack = []; ST.app.go('topic', { id }); }, CIA); await page.waitForTimeout(150); bb = await body(); ok(/Esercizi applicativi/.test(bb) && !/Applied exercises/.test(bb), 'la pagina dell’argomento è in italiano');
+  // approfondimento esterno
+  await goLesson(CIA, 6); await page.waitForTimeout(200);
+  ok(await page.evaluate(() => /Approfondisci fuori dalla piattaforma/.test(document.getElementById('app').innerText)), 'c’è la scheda «Approfondisci fuori dalla piattaforma»');
+  await page.evaluate(() => { document.querySelectorAll('details').forEach(d => { if (/Approfondisci fuori/.test(d.innerText)) d.open = true; }); }); await page.waitForTimeout(100);
+  ok(await page.evaluate(() => /Cerca/.test(document.getElementById('app').innerText) && /riepilogo/i.test(document.getElementById('app').innerText)), 'la scheda propone cosa cercare');
+  await page.evaluate(() => { document.getElementById('ext-min').value = '25'; document.getElementById('ext-note').value = 'Lettura sulla triade CIA'; ST.acts.extAdd({ dataset: { id: 'cyb-triade-cia-e-minacce' } }); }); await page.waitForTimeout(200);
+  const saved = await page.evaluate(async () => { await ST.storage.flush(); const s = await ST.storage.load(); return { n: s.ext.length, min: s.ext[0].min, ev: !!s.skills['ext:cyb-triade-cia-e-minacce'] }; });
+  ok(saved.n === 1 && saved.min === 25 && saved.ev, 'l’attività esterna è salvata e crea un’evidenza ' + JSON.stringify(saved));
+  await page.evaluate(() => { ST.app.state.ext[0].d = '2020-01-01'; ST.app.stack = []; ST.app.go('transfer', { t: 'ext' }); }); await page.waitForTimeout(200);
+  ok(/Da ripassare/.test(await body()) && /Lettura sulla triade CIA/.test(await body()), 'dopo 7 giorni compare il controllo');
+  await page.evaluate(() => ST.acts.extReview({ dataset: { id: ST.app.state.ext[0].id, v: 'good' } })); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => ST.app.state.ext[0].rev === 'good' && ST.transfer.dims(ST.app.state, 'ext:cyb-triade-cia-e-minacce').delayed.ok === 1), 'il controllo registra un’evidenza a distanza');
   ok(errors.length === 0, 'nessun errore JS' + (errors.length ? ': ' + errors[0] : ''));
-  await browser.close(); console.log(fails ? 'LINGUA: problemi rilevati' : 'Test dello strato lingua superati'); process.exit(fails ? 1 : 0);
+  await browser.close(); console.log(fails ? 'LINGUA: problemi rilevati' : 'Test del riepilogo e degli approfondimenti superati'); process.exit(fails ? 1 : 0);
 })();

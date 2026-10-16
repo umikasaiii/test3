@@ -4,7 +4,6 @@
 (function (ST) {
   'use strict';
   const U = ST.util, L = ST.layer = { data: { en: {}, ja: {} } };
-  L.MODES = { A: 'Italiano con termini chiave', B: 'Bilingue', C: 'Solo lingua, con supporto a richiesta' };
   L.add = (lang, id, obj) => { L.data[lang][id] = obj; };
   L.get = (lang, id) => (L.data[lang] || {})[id] || null;
   L.has = id => !!(L.data.en[id] || L.data.ja[id]);
@@ -55,20 +54,5 @@
     if (lang === 'ja' && ST.kanji) ST.kanji.index().words.forEach(x => { if (out.length < 6 && (q === x.w || (q.length >= 2 && q.indexOf(x.w) >= 0 && x.w.length >= 2))) push({ w: x.w, r: x.r, ro: L.romaji(x.r), it: x.f, src: 'vocabolario' }); });
     if (lang === 'en') Object.values(ST.content.topics).filter(t => t.subject === 'eng').forEach(t => (t.cards || []).forEach(c => { const b = String(c.b).toLowerCase(); if (out.length < 6 && (q.toLowerCase() === b || (b.length >= 4 && q.toLowerCase().indexOf(b) >= 0))) push({ w: c.b, r: '', ro: '', it: c.f, src: 'vocabolario' }); }));
     return out.slice(0, 6);
-  };
-  /* risoluzione: lezione → materia → tutte; livello e lingua attivi per un argomento */
-  L.resolve = (settings, topic) => {
-    const o = (settings && settings.lang) || {}, tryLv = (lv, key) => { const x = (o[lv] || {})[key]; return x ? { lang: x.lang, mode: x.mode, level: lv } : null; };
-    return tryLv('lesson', topic.id) || tryLv('subject', topic.subject) || (o.all ? { lang: o.all.lang, mode: o.all.mode, level: 'all' } : null) || { lang: 'it', mode: 'A', level: 'default' };
-  };
-  /* un ambito più ampio sostituisce le scelte più strette (altrimenti un «torna all'italiano» di una lezione resterebbe per sempre) */
-  L.set = (settings, level, key, lang, mode, subjectOf) => {
-    const o = (settings.lang = settings.lang || { lesson: {}, subject: {}, all: null, last: { lang: 'en', mode: 'A' } });
-    o.lesson = o.lesson || {}; o.subject = o.subject || {};
-    if (level === 'all') { o.all = { lang, mode }; o.lesson = {}; o.subject = {}; }
-    else if (level === 'subject') { o.subject[key] = { lang, mode }; Object.keys(o.lesson).forEach(id => { if (subjectOf && subjectOf(id) === key) delete o.lesson[id]; }); }
-    else o.lesson[key] = { lang, mode };
-    if (lang !== 'it') o.last = { lang, mode };
-    return o;
   };
 })(window.ST = window.ST || {});
