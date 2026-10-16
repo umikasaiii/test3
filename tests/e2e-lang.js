@@ -75,6 +75,21 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => { ST.app.stack = []; ST.app.go('lesson', { id: 'cyb-triade-cia-e-minacce', page: 0 }); return true; }), 'apre la lezione'); await page.waitForTimeout(200);
   ok(await page.evaluate(() => !!document.querySelector('[data-act="layerSpeak"]')), 'c’è il pulsante per ascoltare la pagina');
   await page.click('[data-act="layerSpeak"]'); await page.waitForTimeout(400); ok(await page.evaluate(() => window.__spoken === undefined || true), 'ascolto avviato senza errori');
+  // full immersion: interfaccia di lezione, esercizi e verifica nella lingua scelta
+  const noIt = t => !/Esci|Corretto|Non corretto|Indietro|Avanti|Pagina \d|Esercizi ·|Verifica ·|Concludi|Risposta:/.test(t);
+  const play = async kind => { await page.evaluate(([k, id]) => { ST.app.stack = []; ST.app.render(true); ST.acts[k](id, false); }, [kind, CIA]); await page.waitForTimeout(250); const seen = []; for (let i = 0; i < 16; i++) { if (await page.evaluate(() => !ST.app.run)) break; seen.push(await body()); await page.evaluate(() => { const r = ST.app.run; if (!r) return; if (r.phase === 'q') ST.runner.answer(true, 0); else { const nx = document.querySelector('[data-act=run-next]'); nx && nx.click(); } }); await page.waitForTimeout(100); } await page.waitForTimeout(300); seen.push(await body()); return seen; };
+  await page.evaluate(id => { const st = ST.app.state.settings; st.lang = { lesson: {}, subject: {}, all: null, last: { lang: 'en', mode: 'C' } }; ST.layer.set(st, 'lesson', id, 'en', 'C'); ST.app.save(); }, CIA);
+  await page.evaluate(id => { ST.app.stack = []; ST.app.go('lesson', { id, page: 2 }); }, CIA); await page.waitForTimeout(200);
+  bb = await body(); ok(/Page 3 of 7/.test(bb) && /← Topic/.test(bb) && /Next →/.test(bb) && /Contents/.test(bb) && noIt(bb), 'EN: lezione con interfaccia in inglese (Page 3 of 7, Next, Contents)');
+  let seen = await play('startPractice'); ok(seen.some(x => /Exercises ·/.test(x) && /Quit/.test(x)) && seen.some(x => /✓ Correct/.test(x) && /Next/.test(x)) && seen.every(noIt), 'EN: esercizi con interfaccia in inglese');
+  seen = await play('startTest'); ok(seen.some(x => /Test ·/.test(x)) && /100% correct/.test(seen[seen.length - 1]) && /Status:/.test(seen[seen.length - 1]) && /does not count as verification|Verified|Retained/.test(seen[seen.length - 1]) && noIt(seen[seen.length - 1]), 'EN: verifica con risultato e messaggio in inglese');
+  await page.evaluate(id => { ST.layer.set(ST.app.state.settings, 'lesson', id, 'ja', 'C'); ST.app.save(); ST.app.stack = []; ST.app.go('lesson', { id, page: 6 }); }, CIA); await page.waitForTimeout(250);
+  bb = await page.evaluate(() => { const c = document.getElementById('app').cloneNode(true); c.querySelectorAll('rt').forEach(r => r.remove()); return c.textContent; });
+  ok(/7\/7ページ/.test(bb) && /目次/.test(bb) && /練習へ/.test(bb) && noIt(bb), 'JA: lezione con interfaccia in giapponese');
+  ok(await page.evaluate(() => !!document.querySelector('#app ruby')), 'JA: l’interfaccia ha i furigana');
+  seen = await play('startPractice'); ok(seen.some(x => /正解/.test(x)) && seen.every(noIt), 'JA: esercizi con interfaccia in giapponese');
+  await page.evaluate(id => { ST.layer.set(ST.app.state.settings, 'lesson', id, 'it', 'A'); ST.app.save(); ST.app.stack = []; ST.app.go('lesson', { id, page: 2 }); }, CIA); await page.waitForTimeout(200);
+  ok(/Pagina 3 di 7/.test(await body()), 'tornando all’italiano l’interfaccia è di nuovo italiana');
   ok(errors.length === 0, 'nessun errore JS' + (errors.length ? ': ' + errors[0] : ''));
   await browser.close(); console.log(fails ? 'LINGUA: problemi rilevati' : 'Test dello strato lingua superati'); process.exit(fails ? 1 : 0);
 })();

@@ -69,7 +69,7 @@
     // Priorità: esercizi non ancora corretti, poi gli altri.
     const order = t.exercises.map((e, i) => ({ e, i, ok: (r.ex[i] || {}).ok })).sort((a, b) => (a.ok ? 1 : 0) - (b.ok ? 1 : 0));
     R.start({
-      title: 'Esercizi · ' + t.title, kind: 'practice', items: order.map(o => ST.layerItem ? ST.layerItem(t, 'ex', o.i, Object.assign({}, o.e, { _i: o.i })) : Object.assign({}, o.e, { _i: o.i })), ctx: subjectCtx(t),
+      title: 'Esercizi · ' + t.title, topic: t.id, kind: 'practice', items: order.map(o => ST.layerItem ? ST.layerItem(t, 'ex', o.i, Object.assign({}, o.e, { _i: o.i })) : Object.assign({}, o.e, { _i: o.i })), ctx: subjectCtx(t),
       onAnswer: (it, ok) => {
         const e = (r.ex[it._i] = r.ex[it._i] || { n: 0, ok: false }); e.n++; if (ok) e.ok = true; e.last = U.today();
         if (!ok) ST.cards.registerError(A.state, t, it._i);
@@ -85,7 +85,7 @@
     const canCount = r.studied && U.diffDays(r.studied, U.today()) >= 1;
     if (!r.studied && !confirm('Non hai ancora completato la lezione. Vuoi fare la prova comunque? (non contribuirà alla verifica)')) { return; }
     R.start({
-      title: 'Verifica · ' + t.title, kind: 'test', items: (t.test || []).map((x, k) => ST.layerItem ? ST.layerItem(t, 'test', k, Object.assign({}, x)) : Object.assign({}, x)), ctx: subjectCtx(t),
+      title: 'Verifica · ' + t.title, topic: t.id, kind: 'test', items: (t.test || []).map((x, k) => ST.layerItem ? ST.layerItem(t, 'test', k, Object.assign({}, x)) : Object.assign({}, x)), ctx: subjectCtx(t),
       onAnswer: (it, ok) => { A.xp(ok ? 8 : 0, 'test:' + t.id); },
       onFinish: res => {
         const score = res.filter(x => x.ok).length / res.length;

@@ -47,6 +47,8 @@
     L.set(A.state.settings, scope, scope === 'lesson' ? t.id : scope === 'subject' ? t.subject : 'x', lang, mode, id => (C.topic(id) || {}).subject); A.save(); closePop(); A.render();
   };
   /* ---- strato nelle pagine ---- */
+  const MODE_T = { en: { A: 'Italian with key terms', B: 'Bilingual', C: 'English only, with support on request' }, ja: { A: 'イタリア[語|ご]とキーワード', B: 'バイリンガル', C: '[日本語|にほんご]だけ（[必要|ひつよう]なときサポート）' } };
+  const modeLab = (lang, m) => (MODE_T[lang] && MODE_T[lang][m]) || L.MODES[m];
   const say = (txt, lang) => '<button class="say" data-act="say" data-lang="' + (lang === 'ja' ? 'ja' : 'en-GB') + '" data-text="' + E(U.speechText(txt)) + '" aria-label="Ascolta">🔊</button>';
   const render = (text, lang, topicId, tappable) => L.segments(text).map(sg => {
     const inner = lang === 'ja' ? U.ruby(sg.raw) : E(sg.raw);
@@ -57,12 +59,12 @@
     const lay = L.get(r.lang, t.id), name = r.lang === 'ja' ? '日本語' : 'English';
     if (!lay) return '<p class="small mute" style="margin:6px 0">' + name + ' · testo in lingua non ancora disponibile per questo argomento . Resta l’italiano. <button class="btn alt sm" data-act="langHome">Torna all’italiano</button></p>';
     if (compact) return '<details class="card layer-card"><summary class="small">' + name + ' · ' + E(L.MODES[r.mode]) + '</summary>' + body(lay, r, t) + '</details>';
-    return '<div class="card layer-card"><h3>' + (r.lang === 'ja' ? U.ruby(lay.title.t) : E(lay.title.t)) + ' <span class="mute small">· ' + name + ' · ' + E(L.MODES[r.mode]) + '</span></h3>' + body(lay, r, t) + '</div>';
+    return '<div class="card layer-card"><h3>' + (r.lang === 'ja' ? U.ruby(lay.title.t) : E(lay.title.t)) + ' <span class="mute small">· ' + name + ' · ' + (r.lang === 'ja' ? U.ruby(modeLab('ja', r.mode)) : E(modeLab('en', r.mode))) + '</span></h3>' + body(lay, r, t) + '</div>';
   };
   const body = (lay, r, t) => {
     const ja = r.lang === 'ja', m = r.mode;
     const gloss = '<div class="ln"><b>' + (ja ? 'Parole chiave' : 'Key terms') + '</b><ul>' + lay.gloss.map(g => '<li>' + (ja ? U.ruby('[' + g.w + '|' + g.r + ']') : E(g.w)) + ' ' + say(ja ? g.r : g.w, r.lang) + (ja ? ' <span class="ro">' + E(L.romaji(g.r)) + '</span>' : '') + ' — <span class="it">' + E(g.it) + '</span></li>').join('') + '</ul></div>';
-    if (lay.pages && m !== 'A') return gloss + '<p class="small mute">Le pagine tradotte compaiono nella lezione.</p>';
+    if (lay.pages && m !== 'A') return '<details><summary class="small">' + (ja ? U.ruby('[言葉|ことば]のリスト') : 'Key terms') + '</summary>' + gloss + '</details><p class="small mute">' + (ja ? U.ruby('[翻訳|ほんやく]されたページは、レッスンにあります。') : 'The translated pages are in the lesson.') + '</p>';
     if (m === 'A') return gloss + '<p class="small mute">Il testo della lezione resta in italiano: qui trovi i termini chiave.</p>';
     const note = ja ? '<p class="small mute">Romaji automatico: separazione delle parole approssimativa.</p>' : '';
     if (m === 'B') return lay.sum.map(s => '<div class="ln">' + say(s.t, r.lang) + ' ' + render(s.t, r.lang, t.id, false) + (ja ? '<div class="ro">' + E(L.romajiOf(s.t)) + '</div>' : '') + '<div class="it">' + E(s.it) + '</div></div>').join('') + note + gloss;
