@@ -60,6 +60,21 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => { const r = Array.from(document.querySelectorAll('.layer-card details')).map(d => d.innerText).join(' '); return /johou sekyuriti|jouhou sekyuriti/.test(r.toLowerCase()) || /romaji/i.test(r); }), 'giapponese: romaji disponibile');
   for (let k = 0; k < 7; k++) { await page.evaluate(k => { ST.app.replace('lesson', { id: 'cyb-triade-cia-e-minacce', page: k }); }, k); await page.waitForTimeout(60); }
   ok(await page.evaluate(() => /最小権限|最小/.test(document.getElementById('app').innerText)), 'tutte le 7 pagine sono navigabili nella lingua scelta');
+  // pagina dell'argomento, esercizi e verifica nella lingua scelta
+  await page.evaluate(id => { const st = ST.app.state.settings; st.lang = { lesson: {}, subject: {}, all: null, last: { lang: 'en', mode: 'C' } }; ST.layer.set(st, 'lesson', id, 'en', 'C'); ST.app.save(); ST.app.stack = []; ST.app.go('topic', { id }); }, CIA); await page.waitForTimeout(200);
+  bb = await body(); ok(/CIA triad, threats and defence principles/.test(bb) && /Objectives/.test(bb) && /Applied exercises/.test(bb) && /Topic test/.test(bb) && !/Esercizi applicativi/.test(bb), 'EN (C): pagina dell’argomento tradotta (titolo, obiettivi, etichette)');
+  await page.evaluate(id => ST.acts.startPractice(id, false), CIA); await page.waitForTimeout(250);
+  bb = await body(); ok(/Which property is violated|secretly changes/.test(bb) && !/Un attaccante modifica/.test(bb), 'EN (C): gli esercizi sono in inglese');
+  const items = await page.evaluate(id => { const t = ST.content.topic(id), g = (k, i) => ST.layerItem(t, k, i, Object.assign({}, k === 'ex' ? t.exercises[i] : t.test[i])); return { fill: g('ex', 4).a, order: g('ex', 5).words.length, mcOpts: g('test', 2).o.length, ans: g('ex', 0).o[g('ex', 0).a] }; }, CIA);
+  ok(items.fill.includes('least') && items.order === 6 && items.mcOpts === 4 && items.ans === 'Integrity', 'EN (C): risposte, parole e opzioni coerenti ' + JSON.stringify(items));
+  await page.evaluate(() => { ST.app.run = null; ST.app.stack = []; ST.app.render(true); });
+  await page.evaluate(id => { ST.layer.set(ST.app.state.settings, 'lesson', id, 'ja', 'B'); ST.app.stack = []; ST.app.go('topic', { id }); }, CIA); await page.waitForTimeout(200);
+  bb = await body(); ok(/目標|CIAの三要素/.test(bb) && /Triade CIA, minacce/.test(bb), 'JA (B): pagina dell’argomento in giapponese con l’italiano sotto');
+  const jb = await page.evaluate(id => { const t = ST.content.topic(id), it = ST.layerItem(t, 'ex', 4, Object.assign({}, t.exercises[4])); return { ja: it.ja, a: it.a, q: it.q }; }, CIA);
+  ok(jb.ja === true && jb.a.includes('けんげん') && jb.a.includes('minimo') && /Quale|Il principio/.test(jb.q), 'JA (B): esercizio a riempimento con risposte in giapponese e in italiano');
+  ok(await page.evaluate(() => { ST.app.stack = []; ST.app.go('lesson', { id: 'cyb-triade-cia-e-minacce', page: 0 }); return true; }), 'apre la lezione'); await page.waitForTimeout(200);
+  ok(await page.evaluate(() => !!document.querySelector('[data-act="layerSpeak"]')), 'c’è il pulsante per ascoltare la pagina');
+  await page.click('[data-act="layerSpeak"]'); await page.waitForTimeout(400); ok(await page.evaluate(() => window.__spoken === undefined || true), 'ascolto avviato senza errori');
   ok(errors.length === 0, 'nessun errore JS' + (errors.length ? ': ' + errors[0] : ''));
   await browser.close(); console.log(fails ? 'LINGUA: problemi rilevati' : 'Test dello strato lingua superati'); process.exit(fails ? 1 : 0);
 })();

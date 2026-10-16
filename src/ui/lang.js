@@ -84,9 +84,50 @@
     if (!lay || !lay.pages || !lay.pages[i]) return ST.layerHtml(t, i > 0) + art;
     const name = r.lang === 'ja' ? '日本語' : 'English';
     if (r.mode === 'A') return '<details class="card layer-card"><summary class="small">' + name + ' · parole chiave</summary>' + body(lay, r, t) + '</details>' + art;
-    const card = '<div class="card layer-card"><span class="mute small">' + name + ' · ' + E(L.MODES[r.mode]) + '</span>' + pageHtml(lay.pages[i], r.lang, t.id, r.mode === 'C') + '</div>';
+    const card = '<div class="card layer-card"><span class="mute small">' + name + ' · ' + E(L.MODES[r.mode]) + '</span> <button class="btn alt sm" data-act="layerSpeak" data-i="' + i + '">🔊 Ascolta la pagina</button>' + pageHtml(lay.pages[i], r.lang, t.id, r.mode === 'C') + '</div>';
     if (r.mode === 'B') return card + '<p class="mute small" style="margin:4px 0">Testo italiano</p>' + art;
     return card + '<details class="card"><summary class="small mute">Mostra il testo italiano</summary>' + art + '</details>';
+  };
+
+  /* ---- esercizi e verifica nella lingua scelta (B: lingua + italiano, C: solo lingua) ---- */
+  ST.layerItem = (t, kind, idx, it) => {
+    const r = res(t); if (r.lang === 'it' || r.mode === 'A') return it;
+    const lay = L.get(r.lang, t.id), ov = lay && lay[kind] && lay[kind][idx]; if (!ov) return it;
+    const out = Object.assign({}, it), both = r.mode === 'B';
+    out.q = both ? ov.q + ' (' + it.q + ')' : ov.q;
+    if (ov.why) out.why = both && it.why ? ov.why + ' (' + it.why + ')' : ov.why;
+    if (ov.o) out.o = ov.o.slice();
+    if (ov.words) out.words = ov.words.slice();
+    if (ov.a) { out.a = both && Array.isArray(it.a) ? ov.a.concat(it.a) : ov.a.slice(); if (r.lang === 'ja') out.ja = true; }
+    out._tr = r.lang;
+    return out;
+  };
+  /* ---- pagina dell'argomento tradotta (titolo, riepilogo, obiettivi, etichette) ---- */
+  const UI = {
+    en: { back: '← Back', obj: 'Objectives', lesson: 'Lesson', ex: 'Applied exercises', test: 'Topic test', pre: 'Prerequisites',
+      pages: (n, studied, page) => n + ' pages' + (studied ? ' · read' : page ? ' · resume from page ' + (page + 1) : ''), exSub: (d, n) => d + '/' + n + ' answered correctly',
+      testSub: (n, last, canTest) => n + ' questions · ' + (last ? 'last: ' + Math.round(last.score * 100) + '% (' + last.date + ')' : 'not taken yet') + (canTest ? '' : ' · counts as a test from tomorrow') },
+    ja: { back: '← [戻|もど]る', obj: '[目標|もくひょう]', lesson: 'レッスン', ex: '[練習問題|れんしゅうもんだい]', test: '[確認|かくにん]テスト', pre: '[先|さき]に[学|まな]ぶこと',
+      pages: (n, studied, page) => n + 'ページ' + (studied ? ' · [読|よ]みました' : page ? ' · ' + (page + 1) + 'ページ[目|め]から' : ''), exSub: (d, n) => n + '[問|もん]のうち' + d + '[問|もん][正解|せいかい]',
+      testSub: (n, last, canTest) => n + '[問|もん] · ' + (last ? '[前回|ぜんかい]: ' + Math.round(last.score * 100) + '%' : 'まだ[受|う]けていません') + (canTest ? '' : ' · [明日|あした]から[確認|かくにん]として[数|かぞ]えます') }
+  };
+  ST.layerUI = t => {
+    const r = res(t); if (r.lang === 'it' || r.mode === 'A') return null;
+    const lay = L.get(r.lang, t.id); if (!lay || !lay.summary) return null;
+    const ja = r.lang === 'ja', fmt = x => ja ? U.ruby(x) : E(x), both = r.mode === 'B';
+    const ui = UI[r.lang], lab = x => ja ? U.ruby(x) : E(x);
+    return { ui, lab, title: fmt(lay.title.t) + (both ? '<br><small class="mute">' + E(t.title) + '</small>' : ''), summary: fmt(lay.summary) + (both ? '<br><small class="mute">' + E(t.summary) + '</small>' : ''),
+      objectives: (lay.objectives || []).map((o, i) => fmt(o) + (both ? ' <span class="mute small">(' + E((t.objectives || [])[i] || '') + ')</span>' : '')) };
+  };
+  /* ---- lettura ad alta voce della pagina tradotta ---- */
+  let speaking = false;
+  X.layerSpeak = el => {
+    if (speaking) { speaking = false; ST.audio.stop(); return A.render(); }
+    const t = curTopic(); if (!t) return; const r = res(t), lay = L.get(r.lang, t.id), pg = lay && lay.pages && lay.pages[+el.dataset.i]; if (!pg) return;
+    const lines = pg.b.split('\n').map(l => U.speechText(l.replace(/^\s*(?:[-*>]\s+)/, '').replace(/\*\*/g, '').replace(/⟦|⟧/g, '').trim())).filter(Boolean);
+    speaking = true; el.textContent = '⏹ Ferma';
+    const lang = r.lang === 'ja' ? 'ja-JP' : A.state.profile.accents.en || 'en-GB';
+    ST.audio.speakSeq(lines.map(x => ({ text: x, lang })), { lang, cancelled: () => !speaking, gap: 250 }).then(res2 => { speaking = false; if (!res2.ok && res2.reason !== 'cancelled') A.toast(ST.audio.explain(res2.reason), 6000); const b = document.querySelector('[data-act="layerSpeak"]'); if (b) b.textContent = '🔊 Ascolta la pagina'; });
   };
   /* ---- traduzione al tocco e alla selezione ---- */
   const popFor = (lang, topicId, q) => {

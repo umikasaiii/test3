@@ -78,7 +78,7 @@
   };
 
   A.explain = reason => ({
-    unsupported: 'Questo browser non offre la sintesi vocale. Usa Chrome su Android.',
+    unsupported: 'Qui la sintesi vocale non è disponibile: l’anteprima dentro un’altra app (o un browser senza voci) non la offre. Apri il file index.html con Chrome su Android per sentire la voce.',
     'not-allowed': 'Audio bloccato dal browser: tocca di nuovo il pulsante 🔊 (serve un tuo tap).',
     'language-unavailable': 'Voce non installata per questa lingua. Impostazioni Android → Sistema → Lingua → Sintesi vocale → installa i dati voce.',
     'voice-unavailable': 'Voce non disponibile: scegline un’altra in Altro → Audio.',

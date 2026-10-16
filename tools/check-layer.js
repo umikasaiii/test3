@@ -38,6 +38,19 @@ const CIA = 'cyb-triade-cia-e-minacce', it = ST.content.topics[CIA];
     const cnt = (t, re) => (t.match(re) || []).length;
     if (cnt(p.b, /^- /gm) !== cnt(it.pages[i].b, /^- /gm) || cnt(p.b, /^> /gm) !== cnt(it.pages[i].b, /^> /gm)) err(id, 'p' + i + ': struttura diversa dall’italiano (elenchi/esempi)');
   });
+  // riepilogo, obiettivi, esercizi e verifica: stesso numero, stesse opzioni, stesso tipo dell'italiano
+  if (!d.summary || !d.objectives || d.objectives.length !== it.objectives.length) err(id, 'riepilogo/obiettivi mancanti');
+  [['ex', it.exercises], ['test', it.test]].forEach(([k, src]) => {
+    const tr = d[k]; if (!tr || tr.length !== src.length) return err(id, k + ': servono ' + src.length + ' voci');
+    tr.forEach((x, i) => { const o = src[i], tag = id + ' ' + k + i;
+      if (!x.q || !x.why) err(tag, 'q/why mancanti');
+      if (o.t === 'mc') { if (!x.o || x.o.length !== o.o.length || new Set(x.o).size !== x.o.length) err(tag, 'opzioni diverse dall’italiano (' + (x.o || []).length + ' vs ' + o.o.length + ')'); }
+      if (o.t === 'fill') { if (!x.a || !x.a.length) err(tag, 'risposte mancanti'); }
+      if (o.t === 'order') { if (!x.words || x.words.length !== o.words.length) err(tag, 'parole dell’ordinamento: servono ' + o.words.length); }
+      if (lang === 'ja') [x.q, x.why].concat(x.o || [], x.words || []).forEach(t => { const st = String(t).replace(/\[[^|\]]+\|[^\]]+\]/g, ''); if (KAN.test(st)) err(tag, 'kanji senza furigana: ' + (st.match(/.{0,5}[\u4e00-\u9fff]+.{0,5}/) || [''])[0]); });
+      else if (/[\u3040-\u30ff\u4e00-\u9fff]/.test(x.q + (x.o || []).join(''))) err(tag, 'caratteri giapponesi nel testo inglese');
+    });
+  });
   d.gloss.forEach(g => { if (lang === 'ja' && (!g.r || /[^ぁ-ゖァ-ヺー]/.test(g.r))) err(id, 'lettura non in kana per ' + g.w); });
 });
 if (errs.length) { console.log(errs.slice(0, 60).join('\n')); console.log('\n' + errs.length + ' problemi'); process.exit(1); }
