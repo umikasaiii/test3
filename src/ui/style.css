@@ -105,7 +105,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 .board .w{color:#fff;text-shadow:0 0 3px #000,0 0 3px #000}
 .board .k{color:#0a0d1c;text-shadow:0 0 2px #fff,0 0 2px #fff}
 /* strato lingua: icona, finestra di scelta, termini toccabili, bolla di traduzione */
-.lang-fab{position:fixed;right:12px;bottom:calc(152px + env(safe-area-inset-bottom));z-index:30;width:46px;height:46px;border-radius:50%;border:2px solid var(--acc);background:var(--card);padding:0;box-shadow:0 4px 16px #0008;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.lang-fab{position:fixed;right:12px;bottom:calc(152px + env(safe-area-inset-bottom));z-index:30;width:38px;height:38px;border-radius:50%;border:2px solid var(--acc);opacity:.92;transition:opacity .25s;background:var(--card);padding:0;box-shadow:0 4px 16px #0008;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .lang-fab svg{width:100%;height:100%;display:block}
 .lang-pop{position:fixed;right:10px;left:10px;bottom:calc(206px + env(safe-area-inset-bottom));z-index:40;max-width:420px;margin-left:auto;background:var(--card);border:1px solid var(--acc);border-radius:16px;padding:14px;box-shadow:0 8px 28px #000a}
 .lang-pop h4{margin:0 0 8px}.lang-pop label{display:block;margin:6px 0;font-size:.9rem}
@@ -118,3 +118,4 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 .gl-pop{position:fixed;left:10px;right:10px;bottom:calc(206px + env(safe-area-inset-bottom));z-index:45;max-width:420px;margin:auto;background:var(--card2);border:1px solid var(--acc2);border-radius:14px;padding:12px;box-shadow:0 8px 28px #000a}
 .lang-fab.nolayer{opacity:.5}
 .practice-sec>summary{cursor:pointer;list-style:none;padding:2px 0}.practice-sec>summary::-webkit-details-marker{display:none}.practice-sec>summary::before{content:'▸ ';color:var(--acc)}.practice-sec[open]>summary::before{content:'▾ '}.practice-sec>.card{margin-left:0;margin-right:0}
+.lang-fab.fade{opacity:.12;pointer-events:none}.lang-fab.nolayer{opacity:.5}

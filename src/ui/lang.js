@@ -20,6 +20,9 @@
     b.classList.toggle('nolayer', !L.has(t.id)); b.title = L.has(t.id) ? '' : 'Testo in lingua non ancora disponibile per questo argomento';
     b.setAttribute('aria-label', r.lang === 'it' ? 'Scegli la lingua del testo' : 'Torna all’italiano');
   };
+  /* l'icona si attenua mentre scorri, per non coprire il testo */
+  let fadeT = null;
+  window.addEventListener('scroll', () => { const b = document.getElementById('lang-fab'); if (!b) return; b.classList.add('fade'); clearTimeout(fadeT); fadeT = setTimeout(() => b.classList.remove('fade'), 900); }, { passive: true });
   const closePop = () => { const p = document.getElementById('lang-pop'); if (p) p.remove(); };
   const closeGl = () => { const p = document.getElementById('gl-pop'); if (p) p.remove(); };
   X.langFab = () => {
@@ -51,7 +54,7 @@
   ST.layerHtml = (t, compact) => {
     const r = res(t); if (r.lang === 'it') return '';
     const lay = L.get(r.lang, t.id), name = r.lang === 'ja' ? '日本語' : 'English';
-    if (!lay) return '<div class="card layer-card"><p class="small">' + name + ' · modalità ' + r.mode + ': il testo in lingua per questo argomento non è ancora disponibile. Resta il testo italiano.</p></div>';
+    if (!lay) return '<p class="small mute" style="margin:6px 0">' + name + ' · testo in lingua non ancora disponibile per questo argomento (pilota: Moto in città). Resta l’italiano. <button class="btn alt sm" data-act="langFab">Torna all’italiano</button></p>';
     if (compact) return '<details class="card layer-card"><summary class="small">' + name + ' · ' + E(L.MODES[r.mode]) + '</summary>' + body(lay, r, t) + '</details>';
     return '<div class="card layer-card"><h3>' + (r.lang === 'ja' ? U.ruby(lay.title.t) : E(lay.title.t)) + ' <span class="mute small">· ' + name + ' · ' + E(L.MODES[r.mode]) + '</span></h3>' + body(lay, r, t) + '</div>';
   };

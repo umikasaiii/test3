@@ -116,7 +116,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 .board .w{color:#fff;text-shadow:0 0 3px #000,0 0 3px #000}
 .board .k{color:#0a0d1c;text-shadow:0 0 2px #fff,0 0 2px #fff}
 /* strato lingua: icona, finestra di scelta, termini toccabili, bolla di traduzione */
-.lang-fab{position:fixed;right:12px;bottom:calc(152px + env(safe-area-inset-bottom));z-index:30;width:46px;height:46px;border-radius:50%;border:2px solid var(--acc);background:var(--card);padding:0;box-shadow:0 4px 16px #0008;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.lang-fab{position:fixed;right:12px;bottom:calc(152px + env(safe-area-inset-bottom));z-index:30;width:38px;height:38px;border-radius:50%;border:2px solid var(--acc);opacity:.92;transition:opacity .25s;background:var(--card);padding:0;box-shadow:0 4px 16px #0008;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .lang-fab svg{width:100%;height:100%;display:block}
 .lang-pop{position:fixed;right:10px;left:10px;bottom:calc(206px + env(safe-area-inset-bottom));z-index:40;max-width:420px;margin-left:auto;background:var(--card);border:1px solid var(--acc);border-radius:16px;padding:14px;box-shadow:0 8px 28px #000a}
 .lang-pop h4{margin:0 0 8px}.lang-pop label{display:block;margin:6px 0;font-size:.9rem}
@@ -129,6 +129,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 .gl-pop{position:fixed;left:10px;right:10px;bottom:calc(206px + env(safe-area-inset-bottom));z-index:45;max-width:420px;margin:auto;background:var(--card2);border:1px solid var(--acc2);border-radius:14px;padding:12px;box-shadow:0 8px 28px #000a}
 .lang-fab.nolayer{opacity:.5}
 .practice-sec>summary{cursor:pointer;list-style:none;padding:2px 0}.practice-sec>summary::-webkit-details-marker{display:none}.practice-sec>summary::before{content:'▸ ';color:var(--acc)}.practice-sec[open]>summary::before{content:'▾ '}.practice-sec>.card{margin-left:0;margin-right:0}
+.lang-fab.fade{opacity:.12;pointer-events:none}.lang-fab.nolayer{opacity:.5}
 
 </style>
 </head>
@@ -41708,6 +41709,9 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     b.classList.toggle('nolayer', !L.has(t.id)); b.title = L.has(t.id) ? '' : 'Testo in lingua non ancora disponibile per questo argomento';
     b.setAttribute('aria-label', r.lang === 'it' ? 'Scegli la lingua del testo' : 'Torna all’italiano');
   };
+  /* l'icona si attenua mentre scorri, per non coprire il testo */
+  let fadeT = null;
+  window.addEventListener('scroll', () => { const b = document.getElementById('lang-fab'); if (!b) return; b.classList.add('fade'); clearTimeout(fadeT); fadeT = setTimeout(() => b.classList.remove('fade'), 900); }, { passive: true });
   const closePop = () => { const p = document.getElementById('lang-pop'); if (p) p.remove(); };
   const closeGl = () => { const p = document.getElementById('gl-pop'); if (p) p.remove(); };
   X.langFab = () => {
@@ -41739,7 +41743,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   ST.layerHtml = (t, compact) => {
     const r = res(t); if (r.lang === 'it') return '';
     const lay = L.get(r.lang, t.id), name = r.lang === 'ja' ? '日本語' : 'English';
-    if (!lay) return '<div class="card layer-card"><p class="small">' + name + ' · modalità ' + r.mode + ': il testo in lingua per questo argomento non è ancora disponibile. Resta il testo italiano.</p></div>';
+    if (!lay) return '<p class="small mute" style="margin:6px 0">' + name + ' · testo in lingua non ancora disponibile per questo argomento (pilota: Moto in città). Resta l’italiano. <button class="btn alt sm" data-act="langFab">Torna all’italiano</button></p>';
     if (compact) return '<details class="card layer-card"><summary class="small">' + name + ' · ' + E(L.MODES[r.mode]) + '</summary>' + body(lay, r, t) + '</details>';
     return '<div class="card layer-card"><h3>' + (r.lang === 'ja' ? U.ruby(lay.title.t) : E(lay.title.t)) + ' <span class="mute small">· ' + name + ' · ' + E(L.MODES[r.mode]) + '</span></h3>' + body(lay, r, t) + '</div>';
   };
