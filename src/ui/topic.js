@@ -13,7 +13,7 @@
     const canTest = r.studied && U.diffDays(r.studied, U.today()) >= 1;
     const act = (icon, title, sub, view, extra) => '<button class="item" data-act="go" data-view="' + view + '" data-p=\'' + JSON.stringify(Object.assign({ id: t.id }, extra || {})) + '\'><span class="ic">' + icon + '</span><span class="tx"><b>' + title + '</b><span>' + sub + '</span></span></button>';
     const lastTest = (r.tests || []).slice(-1)[0];
-    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + E(t.title) + '</h1><p class="mute">' + E(t.summary) + '</p>' +
+    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + E(t.title) + '</h1><p class="mute">' + E(t.summary) + '</p>' + (ST.layerHtml ? ST.layerHtml(t) : '') +
       '<p>' + (C.subject(t.subject) ? '<span class="tag">' + E(C.subject(t.subject).title) + '</span>' : '') + '<span class="tag">Stage ' + E(t.stage) + '</span><span class="tag">~' + t.minutes + ' min</span>' + ST.statusTag(st) + '</p>'; h += (function () { const r = ST.kg.related(t); if (!r.prs.length) return ''; return '<div class="card"><p class="small"><b>Collegamenti trasversali</b> (per parole chiave): ' + r.prs.map(p => '<button class="btn alt sm" data-act="go" data-view="transfer" data-p=\'{"t":"tt"}\'>' + E(ST.kg.PRINCIPLES[p].t) + '</button>').join(' ') + (r.shared.length ? '<br>Anche in: ' + r.shared.map(id => '<button class="btn alt sm" data-act="go" data-view="topic" data-p=\'{"id":"' + id + '"}\'>' + E(ST.content.topics[id].title) + '</button>').join(' ') : '') + '</p></div>'; })();
     if (t.objectives && t.objectives.length) h += '<div class="card"><h3>Obiettivi</h3><ul>' + t.objectives.map(o => '<li>' + E(o) + '</li>').join('') + '</ul>' + ((t.prereq || []).length ? '<p class="mute small">Prerequisiti: ' + t.prereq.map(x => E(C.topic(x).title)).join(', ') + '</p>' : '') + '</div>';
     h += '<div class="list">' +
@@ -42,7 +42,7 @@
     const lang = langOf(t);
     return '<div class="reader"><div class="row"><button class="btn alt sm" data-act="back">← Argomento</button><span class="sp"></span>' + (lang === 'ja' ? '<button class="btn alt sm" data-act="furi">あ ' + (A.state.profile.furigana === false ? 'Mostra' : 'Nascondi') + ' furigana</button>' : '') + '<button class="btn alt sm" data-act="ltoc" data-id="' + t.id + '" data-i="' + i + '">☰ Indice</button></div>' +
       '<div class="pbar"><div class="prog"><i style="width:' + Math.round(100 * (i + 1) / n) + '%"></i></div><div class="mute small">Pagina ' + (i + 1) + ' di ' + n + ' · ' + E(t.title) + '</div></div>' + toc +
-      '<article class="page"><h2>' + E(pg.h) + '</h2>' + U.markup(pg.b) + '</article></div>' +
+      (ST.layerHtml ? ST.layerHtml(t, i > 0) : '') + '<article class="page"><h2>' + E(pg.h) + '</h2>' + U.markup(pg.b) + '</article></div>' +
       '<div class="footnav"><button class="btn alt" data-act="lpage" data-id="' + t.id + '" data-k="' + (i - 1) + '"' + (i === 0 ? ' disabled' : '') + '>← Indietro</button>' +
       (i < n - 1 ? '<button class="btn" data-act="lpage" data-id="' + t.id + '" data-k="' + (i + 1) + '">Avanti →</button>' : '<button class="btn" data-act="lexercise" data-id="' + t.id + '">Vai agli esercizi →</button>') + '</div>';
   };

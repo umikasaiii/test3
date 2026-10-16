@@ -115,6 +115,18 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 .board .sq i{position:absolute;left:2px;bottom:0;font-size:9px;opacity:.55;font-style:normal}
 .board .w{color:#fff;text-shadow:0 0 3px #000,0 0 3px #000}
 .board .k{color:#0a0d1c;text-shadow:0 0 2px #fff,0 0 2px #fff}
+/* strato lingua: icona, finestra di scelta, termini toccabili, bolla di traduzione */
+.lang-fab{position:fixed;right:14px;bottom:calc(74px + env(safe-area-inset-bottom));z-index:30;width:46px;height:46px;border-radius:50%;border:2px solid var(--acc);background:var(--card);padding:0;box-shadow:0 4px 16px #0008;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.lang-fab svg{width:100%;height:100%;display:block}
+.lang-pop{position:fixed;right:10px;left:10px;bottom:calc(128px + env(safe-area-inset-bottom));z-index:40;max-width:420px;margin-left:auto;background:var(--card);border:1px solid var(--acc);border-radius:16px;padding:14px;box-shadow:0 8px 28px #000a}
+.lang-pop h4{margin:0 0 8px}.lang-pop label{display:block;margin:6px 0;font-size:.9rem}
+.lang-pop .tabs2{display:flex;gap:8px;margin-bottom:8px}.lang-pop .tabs2 button{flex:1;display:flex;align-items:center;gap:8px;justify-content:center;padding:8px;border-radius:12px;border:1px solid var(--line);background:var(--card2);color:var(--text)}
+.lang-pop .tabs2 button.on{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)}
+.lang-pop .tabs2 svg{width:22px;height:22px;border-radius:50%}
+.layer-card{border-color:var(--acc2)}
+.layer-card .it{color:var(--mute);font-size:.85rem}.layer-card .ro{color:var(--acc2);font-size:.8rem}
+.layer-card .ln{margin:8px 0}.gl{border-bottom:1px dotted var(--acc);cursor:pointer}
+.gl-pop{position:fixed;left:10px;right:10px;bottom:calc(128px + env(safe-area-inset-bottom));z-index:45;max-width:420px;margin:auto;background:var(--card2);border:1px solid var(--acc2);border-radius:14px;padding:12px;box-shadow:0 8px 28px #000a}
 
 </style>
 </head>
@@ -375,6 +387,78 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     const first = r.reduce((a, f) => a + Math.pow(f.revs[0].p / 100 - f.out, 2), 0) / r.length;
     const last = r.reduce((a, f) => a + Math.pow(f.revs[f.revs.length - 1].p / 100 - f.out, 2), 0) / r.length;
     return { n: r.length, first: +first.toFixed(3), last: +last.toFixed(3), open: (s.forecasts || []).length - r.length };
+  };
+})(window.ST = window.ST || {});
+
+/* ---- core/layer ---- */
+/* SkillTree — strato lingua (English/Japanese Across SkillTree): riassunti e glossari delle lezioni in inglese e giapponese semplice,
+   con scelta della modalità e dell'ambito. Registro: ST.layer.add(lang, topicId, { title:{t,it}, sum:[{t,it}], gloss:[{w,r?,it}] }).
+   Nei testi i termini del glossario sono racchiusi tra ⟦ ⟧ (nel giapponese possono contenere ruby [漢字|かな]). */
+(function (ST) {
+  'use strict';
+  const U = ST.util, L = ST.layer = { data: { en: {}, ja: {} } };
+  L.MODES = { A: 'Italiano con termini chiave', B: 'Bilingue', C: 'Solo lingua, con supporto a richiesta' };
+  L.add = (lang, id, obj) => { L.data[lang][id] = obj; };
+  L.get = (lang, id) => (L.data[lang] || {})[id] || null;
+  L.has = id => !!(L.data.en[id] || L.data.ja[id]);
+  /* --- romaji (Hepburn semplificato; vocali lunghe come scritte nei kana) --- */
+  const H = { あ: 'a', い: 'i', う: 'u', え: 'e', お: 'o', か: 'ka', き: 'ki', く: 'ku', け: 'ke', こ: 'ko', さ: 'sa', し: 'shi', す: 'su', せ: 'se', そ: 'so', た: 'ta', ち: 'chi', つ: 'tsu', て: 'te', と: 'to', な: 'na', に: 'ni', ぬ: 'nu', ね: 'ne', の: 'no', は: 'ha', ひ: 'hi', ふ: 'fu', へ: 'he', ほ: 'ho', ま: 'ma', み: 'mi', む: 'mu', め: 'me', も: 'mo', や: 'ya', ゆ: 'yu', よ: 'yo', ら: 'ra', り: 'ri', る: 'ru', れ: 're', ろ: 'ro', わ: 'wa', を: 'o', ん: 'n', が: 'ga', ぎ: 'gi', ぐ: 'gu', げ: 'ge', ご: 'go', ざ: 'za', じ: 'ji', ず: 'zu', ぜ: 'ze', ぞ: 'zo', だ: 'da', ぢ: 'ji', づ: 'zu', で: 'de', ど: 'do', ば: 'ba', び: 'bi', ぶ: 'bu', べ: 'be', ぼ: 'bo', ぱ: 'pa', ぴ: 'pi', ぷ: 'pu', ぺ: 'pe', ぽ: 'po', ぁ: 'a', ぃ: 'i', ぅ: 'u', ぇ: 'e', ぉ: 'o', ゔ: 'vu' };
+  const D = { きゃ: 'kya', きゅ: 'kyu', きょ: 'kyo', しゃ: 'sha', しゅ: 'shu', しょ: 'sho', ちゃ: 'cha', ちゅ: 'chu', ちょ: 'cho', にゃ: 'nya', にゅ: 'nyu', にょ: 'nyo', ひゃ: 'hya', ひゅ: 'hyu', ひょ: 'hyo', みゃ: 'mya', みゅ: 'myu', みょ: 'myo', りゃ: 'rya', りゅ: 'ryu', りょ: 'ryo', ぎゃ: 'gya', ぎゅ: 'gyu', ぎょ: 'gyo', じゃ: 'ja', じゅ: 'ju', じょ: 'jo', びゃ: 'bya', びゅ: 'byu', びょ: 'byo', ぴゃ: 'pya', ぴゅ: 'pyu', ぴょ: 'pyo', ふぁ: 'fa', ふぃ: 'fi', ふぇ: 'fe', ふぉ: 'fo', てぃ: 'ti', でぃ: 'di', うぃ: 'wi', うぇ: 'we', うぉ: 'wo', しぇ: 'she', じぇ: 'je', ちぇ: 'che' };
+  const k2h = s => s.replace(/[ァ-ヶ]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
+  /* kana → romaji. Le particelle は/へ/を dentro un testo continuo vanno trattate con particle(), vedi sotto. */
+  L.romaji = (kana, opt) => {
+    const s = k2h(String(kana)), out = []; let i = 0, geminate = false;
+    while (i < s.length) {
+      const c = s[i], two = s.slice(i, i + 2);
+      if (c === 'っ') { geminate = true; i++; continue; }
+      if (c === 'ー') { const last = out[out.length - 1] || ''; out.push(last.slice(-1)); i++; continue; }
+      let r;
+      if (D[two]) { r = D[two]; i += 2; } else if (H[c] !== undefined) { r = H[c]; i++; } else { r = c; i++; }
+      if (geminate) { r = (r[0] === 'c' && r[1] === 'h' ? 't' : r[0]) + r; geminate = false; }
+      out.push(r);
+    }
+    return out.join('');
+  };
+  /* testo con ruby → romaji: parole separate da spazi, particelle isolate (は→wa, へ→e, を→o). Separazione approssimativa, solo di supporto. */
+  const PART = ['から', 'まで', 'より', 'では', 'には', 'へは', 'とは', 'は', 'が', 'を', 'に', 'で', 'と', 'の', 'も', 'へ', 'や', 'か'];
+  const partRo = p => p === 'は' ? 'wa' : p === 'へ' ? 'e' : p === 'を' ? 'o' : p === 'では' ? 'dewa' : p === 'には' ? 'niwa' : p === 'へは' ? 'ewa' : p === 'とは' ? 'towa' : L.romaji(p);
+  L.romajiOf = markup => {
+    const src = String(markup).replace(/⟦|⟧/g, ''), toks = []; let i = 0, afterWord = false;
+    const hira = /^[ぁ-ゖ]+/, kata = /^[ァ-ヺー]+/;
+    while (i < src.length) {
+      const rest = src.slice(i), m = /^\[([^|\]]+)\|([^\]]+)\]/.exec(rest);
+      if (m) { i += m[0].length; let w = L.romaji(m[2]); const run = hira.exec(src.slice(i)); if (run) { let r = run[0]; const part = PART.find(p => r === p) || ['から', 'まで', 'より', 'では', 'には'].find(p => r.indexOf(p) === 0); if (part && r === part) { toks.push(w, partRo(part)); i += r.length; } else if (part) { toks.push(w, partRo(part)); i += part.length; } else { toks.push(w + L.romaji(r)); i += r.length; } } else toks.push(w); afterWord = true; continue; }
+      const k = kata.exec(rest);
+      if (k) { i += k[0].length; toks.push(L.romaji(k[0])); afterWord = true; const run = hira.exec(src.slice(i)); if (run) { const r = run[0], part = ['から', 'まで', 'より', 'では', 'には'].find(p => r.indexOf(p) === 0) || PART.find(p => r.indexOf(p) === 0); if (part) { toks.push(partRo(part)); i += part.length; } } continue; }
+      const h = hira.exec(rest);
+      if (h) { toks.push(L.romaji(h[0]).replace(/^wo/, 'o')); i += h[0].length; continue; }
+      const c = rest[0]; toks.push(c === '。' ? '.' : c === '、' ? ',' : c === '？' ? '?' : c === '！' ? '!' : c); i++;
+    }
+    return toks.join(' ').replace(/ ([.,?!])/g, '$1').replace(/\s+/g, ' ').trim();
+  };
+  /* spezza «testo ⟦termine⟧ testo» in segmenti */
+  L.segments = text => String(text).split(/(⟦[^⟧]+⟧)/).filter(x => x !== '').map(x => x[0] === '⟦' ? { g: true, raw: x.slice(1, -1), plain: U.plainText(x.slice(1, -1)) } : { g: false, raw: x });
+  /* ricerca per tap/selezione: glossario della lezione, poi vocabolario noto; restituisce voci {w, r, ro, it} */
+  L.lookup = (lang, topicId, query) => {
+    const q = U.plainText(String(query)).trim(); if (!q) return [];
+    const lay = L.get(lang, topicId), out = [], seen = new Set();
+    const push = e => { if (!seen.has(e.w)) { seen.add(e.w); out.push(e); } };
+    ((lay && lay.gloss) || []).forEach(g => { if (q === g.w || q.indexOf(g.w) >= 0 || (g.w.indexOf(q) >= 0 && q.length >= 2)) push({ w: g.w, r: g.r || '', ro: g.r ? L.romaji(g.r) : '', it: g.it, src: 'lezione' }); });
+    if (lang === 'ja' && ST.kanji) ST.kanji.index().words.forEach(x => { if (out.length < 6 && (q === x.w || (q.length >= 2 && q.indexOf(x.w) >= 0 && x.w.length >= 2))) push({ w: x.w, r: x.r, ro: L.romaji(x.r), it: x.f, src: 'vocabolario' }); });
+    if (lang === 'en') Object.values(ST.content.topics).filter(t => t.subject === 'eng').forEach(t => (t.cards || []).forEach(c => { const b = String(c.b).toLowerCase(); if (out.length < 6 && (q.toLowerCase() === b || (b.length >= 4 && q.toLowerCase().indexOf(b) >= 0))) push({ w: c.b, r: '', ro: '', it: c.f, src: 'vocabolario' }); }));
+    return out.slice(0, 6);
+  };
+  /* risoluzione: lezione → materia → tutte; livello e lingua attivi per un argomento */
+  L.resolve = (settings, topic) => {
+    const o = (settings && settings.lang) || {}, tryLv = (lv, key) => { const x = (o[lv] || {})[key]; return x ? { lang: x.lang, mode: x.mode, level: lv } : null; };
+    return tryLv('lesson', topic.id) || tryLv('subject', topic.subject) || (o.all ? { lang: o.all.lang, mode: o.all.mode, level: 'all' } : null) || { lang: 'it', mode: 'A', level: 'default' };
+  };
+  L.set = (settings, level, key, lang, mode) => {
+    const o = (settings.lang = settings.lang || { lesson: {}, subject: {}, all: null, last: { lang: 'en', mode: 'A' } });
+    o.lesson = o.lesson || {}; o.subject = o.subject || {};
+    if (level === 'all') o.all = { lang, mode }; else o[level][key] = { lang, mode };
+    if (lang !== 'it') o.last = { lang, mode };
+    return o;
   };
 })(window.ST = window.ST || {});
 
@@ -29622,6 +29706,551 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
 
 })(window.ST = window.ST || {});
 
+/* ---- content/layer-en-moto ---- */
+(function (ST) {
+  'use strict';
+  const A = (id, o) => ST.layer.add('en', id, o);
+
+  A('moto-citta-e-traffico', {
+    title: { t: 'City and traffic', it: 'Città e traffico' },
+    sum: [
+      { t: 'In town speeds are low, but events are many, and many urban crashes happen at ⟦junctions⟧.', it: 'In città le velocità sono basse, ma gli eventi sono tanti, e molti incidenti urbani avvengono agli incroci.' },
+      { t: 'The main principle is ⟦anticipation⟧: predict what every other user may do and leave space for their mistakes.', it: 'Il principio generale è l’anticipazione: prevedi cosa può fare ciascun altro utente e lascia spazio per l’errore.' },
+      { t: 'At 50 km/h the ⟦stopping distance⟧ is 27.7 m, more than a 25 m view, so slow down early: ⟦right of way⟧ is not armour.', it: 'A 50 km/h lo spazio di arresto è 27,7 m, più di una visuale di 25 m: riduci in anticipo, perché la precedenza non è un’armatura.' },
+      { t: 'At a yellow light a comfortable stop from 50 km/h needs 38.0 m, and the ⟦dilemma zone⟧ is why you slow down early.', it: 'Al giallo una frenata comoda da 50 km/h richiede 38,0 m, e la «zona di dilemma» è il motivo per cui si riduce in anticipo.' },
+      { t: 'In a ⟦roundabout⟧ slow down at the entry, keep your lane, and go much slower in the wet, away from painted lines.', it: 'In rotatoria rallenta all’ingresso, mantieni la tua corsia e vai molto più piano sul bagnato, lontano dalle linee dipinte.' },
+      { t: 'The rules on ⟦filtering⟧ vary and change, so check the current code and penalties; with 20 km/h of ⟦relative speed⟧ the impact energy is four times that at 10 km/h.', it: 'Le norme sul filtrare variano e cambiano: verifica il codice vigente e le sanzioni; con 20 km/h di velocità relativa l’energia d’urto è 4 volte quella a 10 km/h.' },
+      { t: 'Avoid ⟦slalom⟧ riding, leave about one metre beside parked cars (the ⟦door zone⟧), and pass cyclists with at least 1 m, checking the current rule.', it: 'Evita lo slalom tra le auto, lascia circa un metro accanto alle auto parcheggiate (zona portiera) e sorpassa i ciclisti con almeno 1 m, verificando la norma vigente.' }
+    ],
+    gloss: [
+      { w: 'junctions', it: 'incroci' },
+      { w: 'anticipation', it: 'anticipazione, prevedere cosa faranno gli altri' },
+      { w: 'stopping distance', it: 'spazio di arresto (reazione + frenata)' },
+      { w: 'right of way', it: 'precedenza' },
+      { w: 'dilemma zone', it: 'zona di dilemma (al giallo)' },
+      { w: 'roundabout', it: 'rotatoria' },
+      { w: 'filtering', it: 'filtrare tra le file di veicoli' },
+      { w: 'relative speed', it: 'velocità relativa' },
+      { w: 'slalom', it: 'slalom tra le auto' },
+      { w: 'door zone', it: 'zona portiera (dove può aprirsi una portiera)' }
+    ]
+  });
+
+  A('moto-urb-percezione-smidsy', {
+    title: { t: 'Urban risk and “I didn’t see you”', it: 'Rischio urbano e «non l’avevo visto»' },
+    sum: [
+      { t: '⟦SMIDSY⟧ means “Sorry Mate, I Didn’t See You”, the phrase a rider often hears after a crash at a junction.', it: 'SMIDSY significa «Sorry Mate, I Didn’t See You» («scusa, non ti avevo visto»), la frase che il motociclista sente spesso dopo uno scontro a un incrocio.' },
+      { t: 'The driver usually did look, but the brain did not register the bike: researchers call it ⟦looked-but-failed-to-see⟧.', it: 'L’automobilista di solito ha guardato, ma il cervello non ha registrato la moto: in letteratura si parla di «guardato ma non visto».' },
+      { t: 'The brain sees mostly what its ⟦expectation⟧ predicts, and heavy ⟦mental workload⟧ in town leaves little attention for a small bike.', it: 'Il cervello vede soprattutto ciò che si aspetta, e il forte carico mentale in città lascia poca attenzione per una moto piccola.' },
+      { t: 'At 50 m a bike 0.8 m wide has a ⟦visual angle⟧ of about 0.92°, a car 2.06°, so the bike seems farther and slower.', it: 'A 50 m una moto larga 0,8 m ha un angolo visivo di circa 0,92°, un’auto di 2,06°: la moto sembra più lontana e più lenta.' },
+      { t: 'A car pulling out needs about 3.24 s, in which a bike covers about 45 m at 50 km/h and about 27 m at 30 km/h.', it: 'Un’auto che si immette impiega circa 3,24 s, tempo in cui la moto percorre circa 45 m a 50 km/h e circa 27 m a 30 km/h.' },
+      { t: '⟦eye contact⟧ is not proof of being seen: trust a vehicle that clearly slows or stops, and treat a courtesy gesture as information, not a guarantee.', it: 'Il contatto visivo non è prova di essere stati visti: fidati di un veicolo che rallenta o si ferma in modo evidente e considera un gesto di cortesia un’informazione, non una garanzia.' },
+      { t: 'Practise ⟦defensive riding⟧: ride as if invisible, slow down before conflict points, keep fingers on the brakes and leave space.', it: 'Pratica la guida difensiva: guida come se fossi invisibile, riduci prima dei punti di conflitto, tieni le dita sui freni e lascia spazio.' }
+    ],
+    gloss: [
+      { w: 'SMIDSY', it: 'sigla di «scusa, non ti avevo visto»' },
+      { w: 'looked-but-failed-to-see', it: 'guardato ma non visto' },
+      { w: 'expectation', it: 'aspettativa' },
+      { w: 'mental workload', it: 'carico mentale' },
+      { w: 'visual angle', it: 'angolo visivo' },
+      { w: 'eye contact', it: 'contatto visivo' },
+      { w: 'defensive riding', it: 'guida difensiva' },
+      { w: 'right of way', it: 'precedenza' },
+      { w: 'high-visibility clothing', it: 'abbigliamento ad alta visibilità' },
+      { w: 'conflict point', it: 'punto di conflitto (incroci, uscite)' }
+    ]
+  });
+
+  A('moto-urb-angoli-ciechi', {
+    title: { t: 'Blind spots of cars and lorries', it: 'Angoli ciechi di auto e camion' },
+    sum: [
+      { t: 'A ⟦blind spot⟧ is an area the driver cannot see directly or in the mirrors: if you cannot see their mirror, they cannot see you.', it: 'Un angolo cieco è una zona che il conducente non vede né direttamente né negli specchietti: se non vedi il suo specchietto, lui non vede te.' },
+      { t: 'The front ⟦pillar⟧ is about 15 cm wide and at 50 m it can hide about 5.3 m, so a whole bike may disappear.', it: 'Il montante anteriore è largo circa 15 cm e a 50 m può nascondere circa 5,3 m: una moto intera può sparire.' },
+      { t: 'On a ⟦collision course⟧ the viewing angle stays constant, so change your position in the lane slightly or slow down.', it: 'Su una rotta di collisione l’angolo di vista resta costante: sposta leggermente la posizione nella corsia o rallenta.' },
+      { t: 'Beside a car, ⟦relative speed⟧ decides your exposure: a 5 m blind zone lasts 1.8 s at 10 km/h and 0.6 s at 30 km/h, so do not ride alongside.', it: 'Accanto a un’auto la velocità relativa decide quanto sei esposto: una zona cieca di 5 m dura 1,8 s a 10 km/h e 0,6 s a 30 km/h, quindi non affiancare.' },
+      { t: '⟦heavy vehicles⟧ have much bigger blind spots: follow at least 3 seconds back and never stop in front of a lorry’s cab.', it: 'I mezzi pesanti hanno zone cieche molto più ampie: segui ad almeno 3 secondi e non sostare mai davanti alla cabina di un camion.' },
+      { t: 'In a turn the rear wheels cut inside (⟦off-tracking⟧): the gap that opens is not an invitation, and you could be crushed.', it: 'In svolta le ruote posteriori tagliano all’interno (off-tracking): il varco che si apre non è un invito e puoi essere schiacciato.' },
+      { t: 'Watch the front wheels and the driver’s head to read a ⟦lane change⟧ early, and never put the bike where you would have no way out.', it: 'Guarda le ruote anteriori e la testa del conducente per riconoscere in anticipo un cambio di corsia, e non mettere mai la moto dove non avresti via d’uscita.' }
+    ],
+    gloss: [
+      { w: 'blind spot', it: 'angolo cieco' },
+      { w: 'pillar', it: 'montante (del parabrezza)' },
+      { w: 'collision course', it: 'rotta di collisione' },
+      { w: 'relative speed', it: 'velocità relativa' },
+      { w: 'heavy vehicles', it: 'mezzi pesanti' },
+      { w: 'off-tracking', it: 'ruote posteriori che tagliano la curva in svolta' },
+      { w: 'lane change', it: 'cambio di corsia' },
+      { w: 'shoulder check', it: 'occhiata di spalla' },
+      { w: 'mirror', it: 'specchietto' },
+      { w: 'following distance', it: 'distanza di sicurezza' }
+    ]
+  });
+
+  A('moto-urb-incroci-precedenze', {
+    title: { t: 'Junctions, right of way and roundabouts', it: 'Incroci, precedenze e rotatorie' },
+    sum: [
+      { t: 'A ⟦junction⟧ is a ⟦conflict point⟧: read it from afar, slow down early, look for confirmation, and pass only if the free space you see is enough.', it: 'L’incrocio è un punto di conflitto: leggilo da lontano, rallenta prima, cerca conferme e passa solo se lo spazio libero che vedi basta.' },
+      { t: 'Having ⟦right of way⟧ is a right, not a barrier: if the other driver ignores it, you are right but on the ground.', it: 'Avere la precedenza è un diritto, non una barriera: se l’altro non la rispetta, hai ragione ma sei a terra.' },
+      { t: 'The usual order of priority (to verify in the current code) is traffic officers, traffic lights, road signs, then ⟦priority to the right⟧.', it: 'L’ordine di priorità generale (da verificare nel codice vigente) è: agenti del traffico, semafori, segnali, poi precedenza a destra.' },
+      { t: 'A car pulling out needs 3.24 s, about 4 s with your ⟦reaction time⟧: that is 55.6 m at 50 km/h and 33.3 m at 30 km/h.', it: 'Un’auto che si immette impiega 3,24 s, circa 4 s con il tuo tempo di reazione: sono 55,6 m a 50 km/h e 33,3 m a 30 km/h.' },
+      { t: 'On a 3 s ⟦yellow light⟧ at 50 km/h you cover 41.7 m but stopping needs 27.7 m dry, 38.0 m wet.', it: 'Con un giallo di 3 s a 50 km/h percorri 41,7 m, ma per fermarti servono 27,7 m sull’asciutto e 38,0 m sul bagnato.' },
+      { t: 'In a ⟦roundabout⟧ priority normally goes to those already in the ring; with a 15 m radius the ⟦lateral acceleration⟧ is 0.21 g at 20 km/h and 0.47 g at 30 km/h.', it: 'In rotatoria la precedenza è di norma di chi è già nell’anello; con raggio di 15 m l’accelerazione laterale è 0,21 g a 20 km/h e 0,47 g a 30 km/h.' },
+      { t: 'Near a junction do not start ⟦overtaking⟧ and never ride alongside a long vehicle about to turn; a car slowing for no reason is a warning.', it: 'In prossimità di un incrocio non sorpassare e non affiancare mai un mezzo lungo che sta per svoltare; un’auto che rallenta senza motivo è un avviso.' }
+    ],
+    gloss: [
+      { w: 'junction', it: 'incrocio' },
+      { w: 'conflict point', it: 'punto di conflitto' },
+      { w: 'right of way', it: 'precedenza' },
+      { w: 'priority to the right', it: 'precedenza a destra' },
+      { w: 'reaction time', it: 'tempo di reazione' },
+      { w: 'yellow light', it: 'semaforo giallo' },
+      { w: 'roundabout', it: 'rotatoria' },
+      { w: 'lateral acceleration', it: 'accelerazione laterale (in curva)' },
+      { w: 'overtaking', it: 'sorpasso' },
+      { w: 'traffic lights', it: 'semafori' }
+    ]
+  });
+
+  A('moto-urb-spazio-arresto', {
+    title: { t: 'Escape space and safe distance', it: 'Spazio di fuga e distanza di sicurezza' },
+    sum: [
+      { t: '⟦escape space⟧ is the free space you need to avoid a problem by stopping or moving: ahead, to the sides and behind.', it: 'Lo spazio di fuga è lo spazio libero che ti serve per evitare un problema fermandoti o spostandoti: davanti, ai lati e dietro.' },
+      { t: '⟦stopping distance⟧ is ⟦reaction distance⟧ plus ⟦braking distance⟧, using 1 s reaction and 7 m/s² dry or 4 m/s² wet as teaching values.', it: 'Lo spazio di arresto è spazio di reazione più spazio di frenata, usando come valori didattici 1 s di reazione e 7 m/s² sull’asciutto o 4 m/s² sul bagnato.' },
+      { t: 'At 50 km/h it is 13.9 m plus 13.8 m, so 27.7 m dry; in the wet it is 38.0 m, about 37% more.', it: 'A 50 km/h sono 13,9 m più 13,8 m, quindi 27,7 m sull’asciutto; sul bagnato sono 38,0 m, circa il 37% in più.' },
+      { t: 'Braking distance grows with the square of speed: from 30 to 60 km/h dry stopping distance grows 2.7 times, from 13.3 to 36.5 m.', it: 'Lo spazio di frenata cresce con il quadrato della velocità: da 30 a 60 km/h lo spazio di arresto asciutto cresce di 2,7 volte, da 13,3 a 36,5 m.' },
+      { t: 'If space is not enough you still hit with a residual ⟦impact speed⟧: an obstacle at 20 m with 50 km/h means about 37 km/h, at 25 m about 22 km/h.', it: 'Se lo spazio non basta urti comunque con una velocità residua: un ostacolo a 20 m con 50 km/h significa circa 37 km/h, a 25 m circa 22 km/h.' },
+      { t: 'Measure ⟦following distance⟧ in seconds: at 50 km/h 2 s is 27.8 m and 3 s is 41.7 m, and in rain use 3–4 s.', it: 'Misura la distanza dal veicolo davanti in secondi: a 50 km/h 2 s sono 27,8 m e 3 s sono 41,7 m, e con la pioggia si usano 3–4 s.' },
+      { t: 'Halving speed to 25 km/h cuts stopping distance from 27.7 to 10.4 m; the code asks for adequate distance, so check the current text.', it: 'Dimezzare la velocità a 25 km/h riduce lo spazio di arresto da 27,7 a 10,4 m; il codice richiede una distanza adeguata, quindi verifica il testo vigente.' }
+    ],
+    gloss: [
+      { w: 'escape space', it: 'spazio di fuga' },
+      { w: 'stopping distance', it: 'spazio di arresto' },
+      { w: 'reaction distance', it: 'spazio percorso durante la reazione' },
+      { w: 'braking distance', it: 'spazio di frenata' },
+      { w: 'impact speed', it: 'velocità d’impatto' },
+      { w: 'following distance', it: 'distanza dal veicolo davanti' },
+      { w: 'deceleration', it: 'decelerazione' },
+      { w: 'reaction time', it: 'tempo di reazione' },
+      { w: 'grip', it: 'aderenza' },
+      { w: 'kinetic energy', it: 'energia cinetica' }
+    ]
+  });
+
+  A('moto-urb-fondi-rotaie-bagnato', {
+    title: { t: 'Urban surfaces: rails, manholes, paint and wet', it: 'Fondo urbano: rotaie, tombini, strisce e bagnato' },
+    sum: [
+      { t: 'A city road is a mosaic of surfaces, and a bike has two small ⟦contact patch⟧ areas, so one slippery spot is enough.', it: 'La strada urbana è un mosaico di fondi e la moto ha due piccole impronte a contatto con il suolo: basta un punto scivoloso.' },
+      { t: '⟦grip⟧ is described by μ; teaching values are about 0.7 dry, 0.4 wet and 0.3 or less on wet paint or metal.', it: 'L’aderenza si descrive con μ; i valori didattici sono circa 0,7 sull’asciutto, 0,4 sul bagnato e 0,3 o meno su vernice o metallo bagnati.' },
+      { t: 'At 40 km/h you stop in 19.9 m dry and 26.5 m wet (+33%), and the ⟦first rain⟧ after a dry spell is the worst.', it: 'A 40 km/h ti fermi in 19,9 m sull’asciutto e 26,5 m sul bagnato (+33%), e l’inizio della pioggia dopo un periodo secco è il momento peggiore.' },
+      { t: 'Wet ⟦road paint⟧ is slippery (about 32.1 m at 40 km/h), so do not brake or lean on stripes and arrows.', it: 'La vernice stradale bagnata è scivolosa (circa 32,1 m a 40 km/h): non frenare né piegare su strisce e frecce.' },
+      { t: '⟦manhole covers⟧ and metal plates are slippery when wet and may sit at a different level: steer early and gently, no hard braking on them.', it: 'Tombini e piastre metalliche sono scivolosi da bagnati e possono essere a livello diverso: sterza presto e dolcemente, senza frenate brusche sopra.' },
+      { t: '⟦tram rails⟧ are the most treacherous surface: a 5 cm groove is crossed over 5.0 cm at 90° but 14.6 cm at 20°, so cross close to perpendicular.', it: 'Le rotaie del tram sono il fondo più insidioso: una gola di 5 cm è percorsa per 5,0 cm a 90° ma per 14,6 cm a 20°, quindi attraversa il più possibile in perpendicolare.' },
+      { t: 'Stay ⟦upright⟧ with a steady throttle and no braking over rails, paint and ⟦cobblestones⟧, and brake before them, not on them.', it: 'Resta in verticale, con gas costante e senza frenare, su rotaie, vernice e sanpietrini, e frena prima, non sopra.' }
+    ],
+    gloss: [
+      { w: 'contact patch', it: 'impronta di contatto della gomma' },
+      { w: 'grip', it: 'aderenza' },
+      { w: 'first rain', it: 'inizio della pioggia dopo un periodo secco' },
+      { w: 'road paint', it: 'vernice stradale (strisce, frecce)' },
+      { w: 'manhole covers', it: 'tombini, chiusini' },
+      { w: 'tram rails', it: 'rotaie del tram' },
+      { w: 'groove', it: 'gola, scanalatura della rotaia' },
+      { w: 'cobblestones', it: 'sanpietrini, pavé' },
+      { w: 'upright', it: 'in verticale' },
+      { w: 'steady throttle', it: 'gas costante' }
+    ]
+  });
+
+  A('moto-urb-utenti-vulnerabili', {
+    title: { t: 'Pedestrians, cyclists, e-scooters and car doors', it: 'Pedoni, ciclisti, monopattini e portiere' },
+    sum: [
+      { t: 'Pedestrians, cyclists, scooter riders and children are ⟦vulnerable road users⟧ even more than you, so the bike has greater responsibility.', it: 'Pedoni, ciclisti, monopattinisti e bambini sono utenti vulnerabili ancora più di te, quindi la moto ha una responsabilità maggiore.' },
+      { t: 'A pedestrian walks at about 1.4 m/s and often appears from behind a stopped van, a bus or out of ⟦driveways⟧.', it: 'Un pedone cammina a circa 1,4 m/s e spesso compare da dietro un furgone fermo, un autobus o da passi carrai.' },
+      { t: 'If a pedestrian appears at 15 m, at 30 km/h you stop in 13.3 m, but at 40 km/h you hit at about 30 km/h.', it: 'Se un pedone compare a 15 m, a 30 km/h ti fermi in 13,3 m, ma a 40 km/h urti a circa 30 km/h.' },
+      { t: 'Passing a cyclist at 50 km/h gives a ⟦relative speed⟧ of 9.7 m/s, so leave wide ⟦lateral clearance⟧ (about 1.5 m, to verify) and pass slowly.', it: 'Sorpassare un ciclista a 50 km/h dà una velocità relativa di 9,7 m/s: lascia ampio spazio laterale (circa 1,5 m, da verificare) e sorpassa piano.' },
+      { t: '⟦e-scooters⟧ have small wheels, low visibility and mixed behaviour, so give them as much space as a cyclist.', it: 'I monopattini hanno ruote piccole, bassa visibilità e comportamento misto: lascia loro lo stesso spazio di un ciclista.' },
+      { t: 'Keep at least 1 m, better 1.5 m, from parked cars: an open door takes about 1 m, and this is the ⟦door zone⟧.', it: 'Tieni almeno 1 m, meglio 1,5 m, dalle auto parcheggiate: una portiera aperta occupa circa 1 m, e questa è la zona portiera.' },
+      { t: 'The code protects pedestrians on ⟦pedestrian crossings⟧ and forbids opening doors dangerously, but check the current text: the norm is a minimum, prudence a method.', it: 'Il codice tutela i pedoni sugli attraversamenti e vieta di aprire le portiere con pericolo, ma verifica il testo vigente: la norma è un minimo, la prudenza un metodo.' }
+    ],
+    gloss: [
+      { w: 'vulnerable road users', it: 'utenti vulnerabili della strada' },
+      { w: 'driveways', it: 'passi carrai' },
+      { w: 'relative speed', it: 'velocità relativa' },
+      { w: 'lateral clearance', it: 'distanza laterale' },
+      { w: 'e-scooters', it: 'monopattini elettrici' },
+      { w: 'door zone', it: 'zona portiera' },
+      { w: 'pedestrian crossings', it: 'attraversamenti pedonali, strisce' },
+      { w: 'bus stop', it: 'fermata dell’autobus' },
+      { w: 'overtaking', it: 'sorpasso' },
+      { w: 'micromobility', it: 'micromobilità (monopattini, bici)' }
+    ]
+  });
+
+  A('moto-urb-filtraggio', {
+    title: { t: 'Filtering between lines of traffic', it: 'Filtraggio e marcia tra le file' },
+    sum: [
+      { t: '⟦filtering⟧ means riding between two lines of slow or queued vehicles, but common does not mean lawful or safe.', it: 'Il filtraggio è la marcia tra due file di veicoli lenti o incolonnati, ma diffuso non significa lecito né sicuro.' },
+      { t: 'In Italy it is not clearly regulated: this is a ⟦grey area⟧, so check the current code; this is not legal advice.', it: 'In Italia non è disciplinato in modo chiaro: è una zona grigia, quindi verifica il codice vigente; questa non è consulenza legale.' },
+      { t: 'With two 3 m lanes and cars 2.0 m wide with mirrors, a 0.9 m bike has only 0.55 m of ⟦side clearance⟧ per side.', it: 'Con due corsie da 3 m e auto larghe 2,0 m con gli specchietti, una moto di 0,9 m ha solo 0,55 m di spazio laterale per lato.' },
+      { t: 'The ⟦speed difference⟧ matters: with a queue at 10 km/h, the ⟦stopping distance⟧ is 7.8 m at 20 km/h and 13.3 m at 30 km/h.', it: 'La differenza di velocità conta: con una colonna a 10 km/h, lo spazio di arresto è 7,8 m a 20 km/h e 13,3 m a 30 km/h.' },
+      { t: 'Typical risks in a ⟦queue⟧ are opening doors, lane changes from a car’s ⟦blind spot⟧, pedestrians, long vehicles and the queue restarting.', it: 'I rischi tipici in colonna sono portiere che si aprono, cambi di corsia da auto che non ti vedono nell’angolo cieco, pedoni, mezzi lunghi e la ripartenza della colonna.' },
+      { t: 'If you filter where permitted, keep speed low (a teaching rule: up to 20 km/h, 10–15 km/h above traffic) and avoid junctions and long vehicles.', it: 'Se filtri dove consentito, tieni la velocità bassa (regola didattica: fino a 20 km/h, 10–15 km/h sopra il traffico) ed evita incroci e mezzi lunghi.' },
+      { t: 'The time saved is small, 6 minutes in the queue against 3 minutes at 20 km/h on 1 km: when in doubt, stay in line.', it: 'Il tempo risparmiato è piccolo, 6 minuti in fila contro 3 minuti a 20 km/h su 1 km: nel dubbio resta in fila.' }
+    ],
+    gloss: [
+      { w: 'filtering', it: 'filtraggio, marcia tra le file' },
+      { w: 'grey area', it: 'zona grigia (norma poco chiara)' },
+      { w: 'side clearance', it: 'spazio laterale libero' },
+      { w: 'speed difference', it: 'differenza di velocità' },
+      { w: 'stopping distance', it: 'spazio di arresto' },
+      { w: 'queue', it: 'colonna, coda di veicoli' },
+      { w: 'blind spot', it: 'angolo cieco' },
+      { w: 'door zone', it: 'zona portiera' },
+      { w: 'long vehicles', it: 'mezzi lunghi' },
+      { w: 'legal advice', it: 'consulenza legale' }
+    ]
+  });
+
+  A('moto-urb-manovre-parcheggio', {
+    title: { t: 'Low-speed manoeuvres and parking', it: 'Manovre a bassa velocità e parcheggio' },
+    sum: [
+      { t: 'Many falls happen at a standstill, because at low speed the ⟦gyroscopic effect⟧ and the bike’s self-stabilising geometry are weak.', it: 'Molte cadute avvengono da fermi, perché a bassa velocità l’effetto giroscopico e l’autostabilità dovuta alla geometria sono deboli.' },
+      { t: 'With a high ⟦centre of gravity⟧ and 250 kg, recovering a 10° lean takes about 256 N·m of ⟦torque⟧; beyond 10° many people cannot.', it: 'Con un baricentro alto e 250 kg, recuperare un’inclinazione di 10° richiede circa 256 N·m di coppia; oltre 10° molte persone non ci riescono.' },
+      { t: 'Look where you want to go, use the clutch ⟦friction zone⟧, a steady throttle and the ⟦rear brake⟧, and avoid the front brake with the steering turned.', it: 'Guarda dove vuoi andare, usa la zona di attrito della frizione, il gas costante e il freno posteriore, ed evita il freno anteriore con lo sterzo girato.' },
+      { t: 'A ⟦U-turn⟧ needs about 5–6 m, since the ⟦turning radius⟧ is about 2.5–3 m; check where U-turns are banned, or push the bike by hand.', it: 'Un’inversione a U richiede circa 5–6 m, perché il raggio di sterzata è circa 2,5–3 m; verifica dove è vietata l’inversione, oppure spingi la moto a mano.' },
+      { t: 'For a ⟦hill start⟧ use the rear brake, a little more throttle and the friction point; on a 10% slope a 250 kg bike pulls with about 244 N.', it: 'Per la partenza in salita usa il freno posteriore, un po’ più gas e il punto di attrito; su una pendenza del 10% una moto da 250 kg tira con circa 244 N.' },
+      { t: 'The ⟦side stand⟧ concentrates weight: about 12.3 bar on 10 cm² but 1.2 bar with a plate, so soft or hot asphalt can let it sink.', it: 'Il cavalletto laterale concentra il peso: circa 12,3 bar su 10 cm² ma 1,2 bar con un piastrino, quindi asfalto molle o caldo può farlo affondare.' },
+      { t: 'Leaving a parking space, check mirrors, look over your shoulder, signal and exit slowly; practise in an empty car park with protective gear.', it: 'Uscendo da un parcheggio controlla gli specchietti, guarda di spalla, segnala ed esci lentamente; esercitati in un parcheggio vuoto con le protezioni.' }
+    ],
+    gloss: [
+      { w: 'gyroscopic effect', it: 'effetto giroscopico delle ruote' },
+      { w: 'centre of gravity', it: 'baricentro' },
+      { w: 'torque', it: 'coppia (momento di una forza)' },
+      { w: 'friction zone', it: 'zona di attrito della frizione' },
+      { w: 'rear brake', it: 'freno posteriore' },
+      { w: 'U-turn', it: 'inversione a U' },
+      { w: 'turning radius', it: 'raggio di sterzata' },
+      { w: 'hill start', it: 'partenza in salita' },
+      { w: 'side stand', it: 'cavalletto laterale' },
+      { w: 'steady throttle', it: 'gas costante' }
+    ]
+  });
+
+  A('moto-urb-visibilita-notte-pioggia', {
+    title: { t: 'Visibility, night and rain', it: 'Visibilità, notte e pioggia' },
+    sum: [
+      { t: 'You must see and be seen, and the key rule is that speed must let you stop within your ⟦usable sight distance⟧.', it: 'Devi vedere e farti vedere, e la regola chiave è che la velocità deve permetterti di fermarti entro la distanza di visione utile.' },
+      { t: 'By day bright colours help, at night ⟦reflective material⟧ matters most: a dark-clothed pedestrian shows at about 25–30 m, a reflective one from over 100 m.', it: 'Di giorno aiutano i colori vivaci, di notte conta soprattutto il materiale riflettente: un pedone vestito di scuro si vede a circa 25–30 m, uno riflettente da oltre 100 m.' },
+      { t: 'The ⟦dipped headlight⟧ is the basic light, daytime use may be required for bikes, and the ⟦high beam⟧ is for dark roads with no vehicles ahead or oncoming.', it: 'L’anabbagliante è la luce di base, l’uso diurno può essere obbligatorio per le moto, e l’abbagliante serve su strade buie senza veicoli davanti o contromano.' },
+      { t: 'Check that the ⟦brake light⟧ works with both brakes; a badly aimed or dirty headlight can cut your sight distance by 20–30%.', it: 'Verifica che la luce di stop si accenda con entrambi i freni; un faro regolato male o sporco può ridurre la distanza di visione del 20–30%.' },
+      { t: 'At night with 50 m of sight the top speed is about 73 km/h dry, but if a dark pedestrian shows at 25 m it is about 47 km/h.', it: 'Di notte con 50 m di visione la velocità massima è circa 73 km/h sull’asciutto, ma se un pedone scuro si vede a 25 m è circa 47 km/h.' },
+      { t: 'In rain the same distances give about 59 and 38 km/h, so keep 3–4 s distance, ride smoothly and avoid ⟦puddles⟧ and painted lines.', it: 'Con la pioggia le stesse distanze danno circa 59 e 38 km/h: tieni 3–4 s di distanza, guida dolcemente ed evita pozzanghere e linee dipinte.' },
+      { t: 'Keep the ⟦visor⟧ clean and fog-free, stay back from ⟦spray⟧, and when ⟦glare⟧ hits look at the road edge, not at the lights.', it: 'Tieni la visiera pulita e senza appannamento, resta lontano dagli spruzzi e, se ti abbagliano, guarda il margine della strada e non i fari.' }
+    ],
+    gloss: [
+      { w: 'usable sight distance', it: 'distanza di visione utile' },
+      { w: 'reflective material', it: 'materiale riflettente' },
+      { w: 'dipped headlight', it: 'luce anabbagliante' },
+      { w: 'high beam', it: 'luce abbagliante' },
+      { w: 'brake light', it: 'luce di stop' },
+      { w: 'puddles', it: 'pozzanghere' },
+      { w: 'visor', it: 'visiera del casco' },
+      { w: 'spray', it: 'spruzzi d’acqua' },
+      { w: 'glare', it: 'abbagliamento' },
+      { w: 'anti-fog film', it: 'pellicola antiappannante' }
+    ]
+  });
+
+  A('moto-urb-scenari-scooter-passeggero', {
+    title: { t: 'Scooters, passengers and decision scenarios', it: 'Scooter, passeggero e scenari di decisione' },
+    sum: [
+      { t: 'Scooters have smaller wheels and an ⟦automatic transmission⟧; a 3 cm manhole is 10% of a 17″ wheel radius but 13.8% of a 10″ one.', it: 'Gli scooter hanno ruote più piccole e un cambio automatico; un tombino da 3 cm vale il 10% del raggio di una ruota da 17″ ma il 13,8% di una da 10″.' },
+      { t: 'Scooter brakes may be ⟦combined braking⟧, and ⟦ABS⟧ makes hard braking safer but does not cancel physics; stopping distances and priority rules stay the same.', it: 'I freni dello scooter possono essere combinati, e l’ABS rende più sicura la frenata decisa ma non annulla la fisica; spazi di arresto e precedenze restano gli stessi.' },
+      { t: 'A ⟦passenger⟧ of 75 kg raises the mass from 250 to 325 kg (+30%), and the ⟦kinetic energy⟧ at 50 km/h from 24.1 to 31.3 kJ.', it: 'Un passeggero di 75 kg porta la massa da 250 a 325 kg (+30%), e l’energia cinetica a 50 km/h da 24,1 a 31,3 kJ.' },
+      { t: 'In practice braking gets worse: if deceleration drops from 7 to 6 m/s², stopping goes from 27.7 to 30.0 m, so add 1 s of ⟦following distance⟧.', it: 'In pratica la frenata peggiora: se la decelerazione scende da 7 a 6 m/s², l’arresto passa da 27,7 a 30,0 m, quindi aggiungi 1 s di distanza dal veicolo davanti.' },
+      { t: 'The passenger needs an approved helmet, gloves and visible clothing, must sit when the bike is stable and not move abruptly; age requirements are in the code, to verify.', it: 'Il passeggero deve avere casco omologato, guanti e abbigliamento visibile, sedersi a moto stabile e non muoversi bruscamente; i requisiti di età sono nel codice, da verificare.' },
+      { t: 'In scenarios A and B, slow to 30 km/h at a junction (13.3 m ⟦stopping distance⟧) and keep 1–1.5 m from a parked taxi.', it: 'Negli scenari A e B riduci a 30 km/h a un incrocio (arresto 13,3 m) e tieni 1–1,5 m da un taxi in sosta.' },
+      { t: 'In scenarios C to F do not overtake a bus, ride under 40 km/h in the wet at night, let a turning lorry pass, and stay in the queue; always ask what ⟦margin⟧ you would have.', it: 'Negli scenari da C a F non sorpassare un autobus, vai sotto i 40 km/h sul bagnato di notte, lascia passare un camion che svolta e resta in fila; chiediti sempre che margine avresti.' }
+    ],
+    gloss: [
+      { w: 'automatic transmission', it: 'cambio automatico (variatore)' },
+      { w: 'combined braking', it: 'frenata combinata (CBS)' },
+      { w: 'ABS', it: 'sistema antibloccaggio dei freni' },
+      { w: 'passenger', it: 'passeggero' },
+      { w: 'kinetic energy', it: 'energia cinetica' },
+      { w: 'following distance', it: 'distanza dal veicolo davanti' },
+      { w: 'stopping distance', it: 'spazio di arresto' },
+      { w: 'margin', it: 'margine di sicurezza' },
+      { w: 'side stand', it: 'cavalletto laterale' },
+      { w: 'deceleration', it: 'decelerazione' }
+    ]
+  });
+})(window.ST = window.ST || {});
+
+/* ---- content/layer-ja-moto ---- */
+(function (ST) {
+  'use strict';
+  const A = (id, o) => ST.layer.add('ja', id, o);
+
+  A('moto-citta-e-traffico', {
+    title: { t: '[町|まち]と[交通|こうつう]', it: 'Città e traffico' },
+    sum: [
+      { t: '⟦[町|まち]⟧には[危険|きけん]がたくさんあります。', it: 'In città i pericoli sono moltissimi.' },
+      { t: '⟦[事故|じこ]⟧は⟦[交差点|こうさてん]⟧で[多|おお]いです。', it: 'Molti incidenti avvengono agli incroci.' },
+      { t: 'ほかの[人|ひと]の[動|うご]きを⟦[予測|よそく]⟧します。', it: 'Si prevede ciò che possono fare gli altri utenti.' },
+      { t: '[交差点|こうさてん]の[前|まえ]で、[先|さき]に⟦[減速|げんそく]⟧します。', it: 'Si rallenta prima dell’incrocio, in anticipo.' },
+      { t: '⟦[優先権|ゆうせんけん]⟧があっても、[安心|あんしん]できません。', it: 'Anche se hai la precedenza, non puoi stare tranquillo: la precedenza non è un’armatura.' },
+      { t: '[指|ゆび]を⟦ブレーキ⟧にかけておきます。', it: 'Tieni le dita sui freni.' },
+      { t: '⟦[信号|しんごう]⟧の⟦[黄色|きいろ]⟧は、[早|はや]く[決|き]めます。', it: 'Per il giallo del semaforo, decidi in anticipo.' }
+    ],
+    gloss: [
+      { w: '町', r: 'まち', it: 'città, paese' },
+      { w: '事故', r: 'じこ', it: 'incidente' },
+      { w: '交差点', r: 'こうさてん', it: 'incrocio' },
+      { w: '予測', r: 'よそく', it: 'previsione, anticipazione' },
+      { w: '減速', r: 'げんそく', it: 'rallentare' },
+      { w: '優先権', r: 'ゆうせんけん', it: 'diritto di precedenza' },
+      { w: 'ブレーキ', r: 'ぶれーき', it: 'freno' },
+      { w: '信号', r: 'しんごう', it: 'semaforo' },
+      { w: '黄色', r: 'きいろ', it: 'giallo' }
+    ]
+  });
+
+  A('moto-urb-percezione-smidsy', {
+    title: { t: '[町|まち]の[危険|きけん]と「[見|み]えなかった」', it: 'Rischio urbano e «non l’avevo visto»' },
+    sum: [
+      { t: '⟦[運転手|うんてんしゅ]⟧は[見|み]ているのに、バイクに[気|き]づきません。', it: 'L’automobilista guarda, ma non si accorge della moto.' },
+      { t: '⟦[事故|じこ]⟧の[後|あと]、[見|み]えなかったとよく[言|い]います。', it: 'Dopo un incidente si sente spesso dire «non l’avevo visto».' },
+      { t: '⟦[脳|のう]⟧は⟦[予想|よそう]⟧したものを[見|み]ます。', it: 'Il cervello vede ciò che si aspetta.' },
+      { t: 'バイクは[細|ほそ]いので、[遠|とお]くて[遅|おそ]く[感|かん]じます。', it: 'La moto è stretta, quindi sembra più lontana e più lenta.' },
+      { t: '⟦[視線|しせん]⟧が[合|あ]っても、[見|み]えたとは[限|かぎ]りません。', it: 'Anche se gli sguardi si incrociano, non è detto che ti abbia visto.' },
+      { t: '[自分|じぶん]は[見|み]えていないと[思|おも]い、⟦[確認|かくにん]⟧してから[進|すす]みます。', it: 'Parti dal presupposto di non essere visto e procedi solo dopo una conferma.' },
+      { t: '⟦[交差点|こうさてん]⟧に[着|つ]く⟦[速度|そくど]⟧が[大切|たいせつ]です。', it: 'La velocità con cui arrivi all’incrocio è decisiva.' }
+    ],
+    gloss: [
+      { w: '運転手', r: 'うんてんしゅ', it: 'conducente' },
+      { w: '事故', r: 'じこ', it: 'incidente' },
+      { w: '脳', r: 'のう', it: 'cervello' },
+      { w: '予想', r: 'よそう', it: 'aspettativa, previsione' },
+      { w: '視線', r: 'しせん', it: 'sguardo' },
+      { w: '確認', r: 'かくにん', it: 'conferma, verifica' },
+      { w: '交差点', r: 'こうさてん', it: 'incrocio' },
+      { w: '速度', r: 'そくど', it: 'velocità' }
+    ]
+  });
+
+  A('moto-urb-angoli-ciechi', {
+    title: { t: '[車|くるま]とトラックの[死角|しかく]', it: 'Angoli ciechi di auto e camion' },
+    sum: [
+      { t: '⟦[死角|しかく]⟧は⟦[運転手|うんてんしゅ]⟧に[見|み]えない[場所|ばしょ]です。', it: 'L’angolo cieco è una zona che il conducente non vede.' },
+      { t: '[相手|あいて]の⟦ミラー⟧が[見|み]えなければ、[相手|あいて]にも[見|み]えません。', it: 'Se non vedi il suo specchietto, lui non può vedere te.' },
+      { t: '[前|まえ]の⟦ピラー⟧は、バイクを[隠|かく]すことがあります。', it: 'Il montante anteriore può nascondere una moto.' },
+      { t: '[車|くるま]の[横|よこ]に[長|なが]くいてはいけません。', it: 'Non restare a lungo affiancato a un’auto.' },
+      { t: '⟦トラック⟧の⟦[死角|しかく]⟧は、とても[大|おお]きいです。', it: 'Gli angoli ciechi di un camion sono molto più ampi.' },
+      { t: '[曲|ま]がる[時|とき]、[後|うし]ろの⟦[車輪|しゃりん]⟧は⟦[内側|うちがわ]⟧を[通|とお]ります。', it: 'Quando un camion svolta, le ruote posteriori passano all’interno.' },
+      { t: 'その⟦[隙間|すきま]⟧に[入|はい]ってはいけません。', it: 'Non infilarti in quel varco.' }
+    ],
+    gloss: [
+      { w: '死角', r: 'しかく', it: 'angolo cieco' },
+      { w: '運転手', r: 'うんてんしゅ', it: 'conducente' },
+      { w: 'ミラー', r: 'みらー', it: 'specchietto' },
+      { w: 'ピラー', r: 'ぴらー', it: 'montante (del parabrezza)' },
+      { w: 'トラック', r: 'とらっく', it: 'camion' },
+      { w: '車輪', r: 'しゃりん', it: 'ruota' },
+      { w: '内側', r: 'うちがわ', it: 'lato interno' },
+      { w: '隙間', r: 'すきま', it: 'varco, spazio stretto' }
+    ]
+  });
+
+  A('moto-urb-incroci-precedenze', {
+    title: { t: '[交差点|こうさてん]と[優先|ゆうせん]とロータリー', it: 'Incroci, precedenze e rotatorie' },
+    sum: [
+      { t: '⟦[交差点|こうさてん]⟧は⟦[事故|じこ]⟧が[起|お]きやすい[場所|ばしょ]です。', it: 'L’incrocio è un luogo dove gli incidenti avvengono facilmente.' },
+      { t: '[遠|とお]くから[見|み]て、[手前|てまえ]で⟦[減速|げんそく]⟧します。', it: 'Leggi da lontano e rallenta prima di arrivare.' },
+      { t: '[順番|じゅんばん]は[警察官|けいさつかん]、⟦[信号|しんごう]⟧、⟦[標識|ひょうしき]⟧です。', it: 'L’ordine è: agenti, semafori, segnali.' },
+      { t: '[規則|きそく]は[今|いま]の[法律|ほうりつ]で[確認|かくにん]します。', it: 'Le regole vanno verificate sul codice vigente.' },
+      { t: '⟦[優先権|ゆうせんけん]⟧は[権利|けんり]ですが、[身|み]を[守|まも]れません。', it: 'La precedenza è un diritto, ma non ti protegge.' },
+      { t: '⟦[黄色|きいろ]⟧で[判断|はんだん]を[間違|まちが]える[人|ひと]が[多|おお]いです。', it: 'Molti sbagliano la decisione al giallo.' },
+      { t: '⟦ロータリー⟧では[中|なか]の[車|くるま]が[先|さき]です。', it: 'In rotatoria, di norma, passa prima chi è già dentro (verifica codice e segnaletica).' }
+    ],
+    gloss: [
+      { w: '交差点', r: 'こうさてん', it: 'incrocio' },
+      { w: '事故', r: 'じこ', it: 'incidente' },
+      { w: '減速', r: 'げんそく', it: 'rallentare' },
+      { w: '信号', r: 'しんごう', it: 'semaforo' },
+      { w: '標識', r: 'ひょうしき', it: 'segnale stradale' },
+      { w: '優先権', r: 'ゆうせんけん', it: 'diritto di precedenza' },
+      { w: '黄色', r: 'きいろ', it: 'giallo' },
+      { w: 'ロータリー', r: 'ろーたりー', it: 'rotatoria' },
+      { w: '警察官', r: 'けいさつかん', it: 'agente di polizia' }
+    ]
+  });
+
+  A('moto-urb-spazio-arresto', {
+    title: { t: '[止|と]まるための[距離|きょり]', it: 'Spazio di fuga e distanza di sicurezza' },
+    sum: [
+      { t: '⟦[停止距離|ていしきょり]⟧は⟦[反応|はんのう]⟧と⟦ブレーキ⟧の[合計|ごうけい]です。', it: 'Lo spazio di arresto è la somma di reazione e frenata.' },
+      { t: '⟦[時速|じそく]⟧50キロで、[乾|かわ]いた[道|みち]は27.7メートルです。', it: 'A 50 km/h, sull’asciutto, sono 27,7 metri.' },
+      { t: '⟦[路面|ろめん]⟧が[濡|ぬ]れると、38メートルになります。', it: 'Se il fondo è bagnato, diventano 38 metri.' },
+      { t: '⟦[速度|そくど]⟧を[半分|はんぶん]にすると、10.4メートルです。', it: 'Dimezzando la velocità, sono 10,4 metri.' },
+      { t: '[衝突|しょうとつ]の⟦エネルギー⟧は[速度|そくど]の[二乗|にじょう]で[増|ふ]えます。', it: 'L’energia dell’urto cresce con il quadrato della velocità.' },
+      { t: '[前|まえ]の[車|くるま]との⟦[間隔|かんかく]⟧は[最低|さいてい]2[秒|びょう]です。', it: 'La distanza dal veicolo davanti è di almeno 2 secondi.' },
+      { t: '[濡|ぬ]れた[道|みち]では、3から4[秒|びょう]にします。', it: 'Sul bagnato si porta a 3–4 secondi.' }
+    ],
+    gloss: [
+      { w: '停止距離', r: 'ていしきょり', it: 'spazio di arresto' },
+      { w: '反応', r: 'はんのう', it: 'reazione' },
+      { w: 'ブレーキ', r: 'ぶれーき', it: 'freno, frenata' },
+      { w: '時速', r: 'じそく', it: 'velocità oraria' },
+      { w: '路面', r: 'ろめん', it: 'fondo stradale' },
+      { w: '速度', r: 'そくど', it: 'velocità' },
+      { w: 'エネルギー', r: 'えねるぎー', it: 'energia' },
+      { w: '間隔', r: 'かんかく', it: 'distanza, intervallo' }
+    ]
+  });
+
+  A('moto-urb-fondi-rotaie-bagnato', {
+    title: { t: '[町|まち]の⟦[路面|ろめん]⟧: レール、マンホール、[雨|あめ]'.replace(/⟦|⟧/g, ''), it: 'Fondo urbano: rotaie, tombini, strisce e bagnato' },
+    sum: [
+      { t: '[町|まち]の⟦[路面|ろめん]⟧は、[場所|ばしょ]によって[違|ちが]います。', it: 'Il fondo in città cambia da un punto all’altro.' },
+      { t: '[道路|どうろ]の⟦ペイント⟧は、[濡|ぬ]れると[滑|すべ]ります。', it: 'La vernice stradale, quando è bagnata, scivola.' },
+      { t: '⟦マンホール⟧は、[濡|ぬ]れるととても[滑|すべ]ります。', it: 'I tombini, bagnati, sono molto scivolosi.' },
+      { t: '⟦レール⟧は、⟦[直角|ちょっかく]⟧に[近|ちか]い[角度|かくど]で[渡|わた]ります。', it: 'Le rotaie si attraversano con un angolo il più possibile vicino al perpendicolare.' },
+      { t: '⟦ブレーキ⟧は、[渡|わた]る[前|まえ]にかけます。', it: 'Frena prima di attraversare, non sopra.' },
+      { t: '⟦[雨|あめ]⟧の[降|ふ]り[始|はじ]めが、[一番|いちばん][危|あぶ]ないです。', it: 'L’inizio della pioggia è il momento più pericoloso.' },
+      { t: '⟦[横断歩道|おうだんほどう]⟧の[前|まえ]で、[減速|げんそく]します。', it: 'Prima delle strisce pedonali si rallenta.' }
+    ],
+    gloss: [
+      { w: '路面', r: 'ろめん', it: 'fondo stradale' },
+      { w: 'ペイント', r: 'ぺいんと', it: 'vernice' },
+      { w: 'マンホール', r: 'まんほーる', it: 'tombino' },
+      { w: 'レール', r: 'れーる', it: 'rotaia' },
+      { w: '直角', r: 'ちょっかく', it: 'angolo retto, perpendicolare' },
+      { w: 'ブレーキ', r: 'ぶれーき', it: 'freno' },
+      { w: '雨', r: 'あめ', it: 'pioggia' },
+      { w: '横断歩道', r: 'おうだんほどう', it: 'strisce pedonali' }
+    ]
+  });
+
+  A('moto-urb-utenti-vulnerabili', {
+    title: { t: '[歩行者|ほこうしゃ]と[自転車|じてんしゃ]とドア', it: 'Pedoni, ciclisti, monopattini e portiere' },
+    sum: [
+      { t: '⟦[歩行者|ほこうしゃ]⟧や⟦[電動|でんどう]キックボード⟧は、[弱|よわ]い⟦[立場|たちば]⟧です。', it: 'Pedoni e monopattini elettrici sono utenti più vulnerabili.' },
+      { t: '[止|と]まった[車|くるま]の⟦[陰|かげ]⟧から[人|ひと]が[出|で]てきます。', it: 'Le persone spuntano da dietro i veicoli fermi.' },
+      { t: '15メートル[先|さき]に[人|ひと]が[出|で]ても、⟦[時速|じそく]⟧30キロなら[止|と]まれます。', it: 'Se una persona compare a 15 metri, a 30 km/h riesci a fermarti.' },
+      { t: '⟦[時速|じそく]⟧40キロでは[止|と]まれず、ぶつかります。', it: 'A 40 km/h non riesci a fermarti e urti.' },
+      { t: '⟦[自転車|じてんしゃ]⟧を[追|お]い[越|こ]す[時|とき]は、[横|よこ]を[広|ひろ]く[空|あ]けます。', it: 'Quando sorpassi un ciclista, lascia molto spazio laterale.' },
+      { t: '⟦ドア⟧が[開|あ]くので、[止|と]まった[車|くるま]から[少|すく]なくとも1メートル[離|はな]れます。', it: 'Le portiere si aprono: stai ad almeno 1 metro dalle auto ferme.' },
+      { t: '[細|こま]かい[規則|きそく]は、[今|いま]の⟦[法律|ほうりつ]⟧で[確認|かくにん]します。', it: 'Le regole di dettaglio vanno verificate sul codice vigente.' }
+    ],
+    gloss: [
+      { w: '歩行者', r: 'ほこうしゃ', it: 'pedone' },
+      { w: '電動キックボード', r: 'でんどうきっくぼーど', it: 'monopattino elettrico' },
+      { w: '立場', r: 'たちば', it: 'posizione, condizione' },
+      { w: '陰', r: 'かげ', it: 'ombra, dietro (qualcosa)' },
+      { w: '時速', r: 'じそく', it: 'velocità oraria' },
+      { w: '自転車', r: 'じてんしゃ', it: 'bicicletta, ciclista' },
+      { w: 'ドア', r: 'どあ', it: 'portiera' },
+      { w: '法律', r: 'ほうりつ', it: 'legge, codice' }
+    ]
+  });
+
+  A('moto-urb-filtraggio', {
+    title: { t: '[車|くるま]の[列|れつ]の[間|あいだ]を[走|はし]ること', it: 'Filtraggio e marcia tra le file' },
+    sum: [
+      { t: '[車|くるま]の[列|れつ]の[間|あいだ]を[走|はし]ることを、⟦フィルタリング⟧と[言|い]います。', it: 'Muoversi tra le file di veicoli si chiama filtraggio.' },
+      { t: '[多|おお]くの[人|ひと]がしても、⟦[合法|ごうほう]⟧で[安全|あんぜん]とは[限|かぎ]りません。', it: 'Anche se molti lo fanno, non è detto che sia lecito e sicuro.' },
+      { t: 'イタリアでは、⟦[法律|ほうりつ]⟧にはっきりした[決|き]まりがありません。', it: 'In Italia il codice non lo disciplina in modo esplicito.' },
+      { t: '[今|いま]の[法律|ほうりつ]を⟦[確認|かくにん]⟧し、[分|わ]からなければしません。', it: 'Verifica il codice vigente e, se non sei sicuro, non farlo.' },
+      { t: '⟦[隙間|すきま]⟧は、[片側|かたがわ]55センチだけです。', it: 'Lo spazio è di soli 55 centimetri per lato.' },
+      { t: '⟦ドア⟧が[急|きゅう]に[開|あ]くので、[危|あぶ]ないです。', it: 'Le portiere si aprono all’improvviso: è pericoloso.' },
+      { t: '[節約|せつやく]できる⟦[時間|じかん]⟧は[少|すく]なく、⟦[危険|きけん]⟧は[大|おお]きいです。', it: 'Il tempo che si risparmia è poco, il rischio è grande.' }
+    ],
+    gloss: [
+      { w: 'フィルタリング', r: 'ふぃるたりんぐ', it: 'filtraggio' },
+      { w: '合法', r: 'ごうほう', it: 'lecito, legale' },
+      { w: '法律', r: 'ほうりつ', it: 'legge, codice' },
+      { w: '確認', r: 'かくにん', it: 'verifica' },
+      { w: '隙間', r: 'すきま', it: 'spazio stretto' },
+      { w: 'ドア', r: 'どあ', it: 'portiera' },
+      { w: '時間', r: 'じかん', it: 'tempo' },
+      { w: '危険', r: 'きけん', it: 'pericolo, rischio' }
+    ]
+  });
+
+  A('moto-urb-manovre-parcheggio', {
+    title: { t: '[低速|ていそく]の[操作|そうさ]と[駐車|ちゅうしゃ]', it: 'Manovre a bassa velocità e parcheggio' },
+    sum: [
+      { t: '⟦[転倒|てんとう]⟧は、ほとんど[止|と]まった[時|とき]に[多|おお]いです。', it: 'Le cadute avvengono spesso da fermi o quasi.' },
+      { t: '⟦[視線|しせん]⟧は、[行|い]きたい[方向|ほうこう]に[向|む]けます。', it: 'Lo sguardo va dove vuoi andare.' },
+      { t: '⟦クラッチ⟧を[少|すこ]しつないで、[速度|そくど]を[調整|ちょうせい]します。', it: 'Si tiene la frizione appena innestata per regolare la velocità.' },
+      { t: '[後|うし]ろの⟦ブレーキ⟧を、[足|あし]で[軽|かる]く[使|つか]います。', it: 'Si usa dolcemente il freno posteriore con il piede.' },
+      { t: '⟦ハンドル⟧を[切|き]った[時|とき]、[前|まえ]のブレーキは[危険|きけん]です。', it: 'Con lo sterzo girato, il freno anteriore è pericoloso.' },
+      { t: '⟦[坂道|さかみち]⟧では、⟦ギア⟧を[入|い]れたままにします。', it: 'In pendenza si lascia la marcia inserita.' },
+      { t: '⟦スタンド⟧は、[柔|やわ]らかい[地面|じめん]で[沈|しず]みます。', it: 'Il cavalletto affonda su un terreno morbido.' }
+    ],
+    gloss: [
+      { w: '転倒', r: 'てんとう', it: 'caduta' },
+      { w: '視線', r: 'しせん', it: 'sguardo' },
+      { w: 'クラッチ', r: 'くらっち', it: 'frizione' },
+      { w: 'ブレーキ', r: 'ぶれーき', it: 'freno' },
+      { w: 'ハンドル', r: 'はんどる', it: 'manubrio, sterzo' },
+      { w: '坂道', r: 'さかみち', it: 'strada in pendenza' },
+      { w: 'ギア', r: 'ぎあ', it: 'marcia' },
+      { w: 'スタンド', r: 'すたんど', it: 'cavalletto' }
+    ]
+  });
+
+  A('moto-urb-visibilita-notte-pioggia', {
+    title: { t: '[夜|よる]と[雨|あめ]の[視界|しかい]', it: 'Visibilità, notte e pioggia' },
+    sum: [
+      { t: '⟦[視界|しかい]⟧の[中|なか]で[止|と]まれる⟦[速度|そくど]⟧にします。', it: 'Vai a una velocità che ti permetta di fermarti entro lo spazio che vedi.' },
+      { t: '⟦[反射材|はんしゃざい]⟧の[服|ふく]は、[夜|よる]に[役|やく]に[立|た]ちます。', it: 'Un abbigliamento riflettente è utile di notte.' },
+      { t: '[昼|ひる]の⟦ライト⟧の[義務|ぎむ]は、[法律|ほうりつ]で[確認|かくにん]します。', it: 'L’obbligo delle luci di giorno si verifica sul codice.' },
+      { t: '[前|まえ]に[車|くるま]がいる[時|とき]は、⟦ハイビーム⟧を[消|け]します。', it: 'Quando c’è un veicolo davanti, si spegne l’abbagliante.' },
+      { t: '[暗|くら]い[服|ふく]の⟦[歩行者|ほこうしゃ]⟧は、25メートルでやっと[見|み]えます。', it: 'Un pedone vestito di scuro si vede appena a 25 metri.' },
+      { t: '⟦[時速|じそく]⟧50キロでは、[止|と]まれません。', it: 'A 50 km/h non riesci a fermarti.' },
+      { t: '⟦[雨|あめ]⟧の[夜|よる]は、40キロより[遅|おそ]く[走|はし]ります。', it: 'Nelle notti di pioggia si va a meno di 40 km/h.' }
+    ],
+    gloss: [
+      { w: '視界', r: 'しかい', it: 'campo visivo, visibilità' },
+      { w: '速度', r: 'そくど', it: 'velocità' },
+      { w: '反射材', r: 'はんしゃざい', it: 'materiale riflettente' },
+      { w: 'ライト', r: 'らいと', it: 'luce, faro' },
+      { w: 'ハイビーム', r: 'はいびーむ', it: 'abbagliante' },
+      { w: '歩行者', r: 'ほこうしゃ', it: 'pedone' },
+      { w: '時速', r: 'じそく', it: 'velocità oraria' },
+      { w: '雨', r: 'あめ', it: 'pioggia' },
+      { w: '法律', r: 'ほうりつ', it: 'legge, codice' }
+    ]
+  });
+
+  A('moto-urb-scenari-scooter-passeggero', {
+    title: { t: 'スクーターと[同乗者|どうじょうしゃ]と[判断|はんだん]', it: 'Scooter, passeggero e scenari di decisione' },
+    sum: [
+      { t: '⟦スクーター⟧は[悪|わる]い⟦[路面|ろめん]⟧で⟦[減速|げんそく]⟧します。', it: 'Con lo scooter, sui fondi cattivi si rallenta.' },
+      { t: '⟦[同乗者|どうじょうしゃ]⟧がいると、[止|と]まる[距離|きょり]が[延|の]びます。', it: 'Con un passeggero lo spazio di arresto si allunga.' },
+      { t: '[同乗者|どうじょうしゃ]は⟦ヘルメット⟧をしっかり[着|つ]けます。', it: 'Il passeggero indossa bene il casco.' },
+      { t: '[年齢|ねんれい]などの[条件|じょうけん]は、[今|いま]の⟦[法律|ほうりつ]⟧で[確認|かくにん]します。', it: 'Età e altri requisiti si verificano sul codice vigente.' },
+      { t: '[止|と]まった[車|くるま]がある⟦[交差点|こうさてん]⟧では、30キロに[減速|げんそく]します。', it: 'A un incrocio con un’auto ferma si rallenta a 30 km/h.' },
+      { t: '[止|と]まった⟦バス⟧は、[追|お]い[越|こ]しません。', it: 'Un autobus fermo non si sorpassa.' },
+      { t: '⟦トラック⟧の[横|よこ]の⟦[隙間|すきま]⟧には、[入|はい]りません。', it: 'Non ci si infila nel varco accanto a un camion.' }
+    ],
+    gloss: [
+      { w: 'スクーター', r: 'すくーたー', it: 'scooter' },
+      { w: '路面', r: 'ろめん', it: 'fondo stradale' },
+      { w: '減速', r: 'げんそく', it: 'rallentare' },
+      { w: '同乗者', r: 'どうじょうしゃ', it: 'passeggero' },
+      { w: 'ヘルメット', r: 'へるめっと', it: 'casco' },
+      { w: '法律', r: 'ほうりつ', it: 'legge, codice' },
+      { w: '交差点', r: 'こうさてん', it: 'incrocio' },
+      { w: 'バス', r: 'ばす', it: 'autobus' },
+      { w: 'トラック', r: 'とらっく', it: 'camion' },
+      { w: '隙間', r: 'すきま', it: 'varco, spazio stretto' }
+    ]
+  });
+})(window.ST = window.ST || {});
+
 /* ---- content/str-puzzles ---- */
 (function (ST) {
   'use strict';
@@ -39575,7 +40204,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     el.innerHTML = fn ? fn(cur.p) : '<p>Vista non trovata: ' + U.esc(cur.name) + '</p>';
     el.className = (A.state.profile.furigana === false ? 'nofur' : '');
     if (ST.after[cur.name]) ST.after[cur.name](el, cur.p);
-    A.topbar(); A.renderTabs();
+    A.topbar(); A.renderTabs(); if (ST.langFab) ST.langFab();
     $('#tabs').style.display = (cur.name === 'onboard') ? 'none' : '';
     const key = cur.name + JSON.stringify(cur.p || {});
     if (fresh || key !== lastKey) window.scrollTo(0, 0);
@@ -39963,7 +40592,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     const canTest = r.studied && U.diffDays(r.studied, U.today()) >= 1;
     const act = (icon, title, sub, view, extra) => '<button class="item" data-act="go" data-view="' + view + '" data-p=\'' + JSON.stringify(Object.assign({ id: t.id }, extra || {})) + '\'><span class="ic">' + icon + '</span><span class="tx"><b>' + title + '</b><span>' + sub + '</span></span></button>';
     const lastTest = (r.tests || []).slice(-1)[0];
-    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + E(t.title) + '</h1><p class="mute">' + E(t.summary) + '</p>' +
+    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + E(t.title) + '</h1><p class="mute">' + E(t.summary) + '</p>' + (ST.layerHtml ? ST.layerHtml(t) : '') +
       '<p>' + (C.subject(t.subject) ? '<span class="tag">' + E(C.subject(t.subject).title) + '</span>' : '') + '<span class="tag">Stage ' + E(t.stage) + '</span><span class="tag">~' + t.minutes + ' min</span>' + ST.statusTag(st) + '</p>'; h += (function () { const r = ST.kg.related(t); if (!r.prs.length) return ''; return '<div class="card"><p class="small"><b>Collegamenti trasversali</b> (per parole chiave): ' + r.prs.map(p => '<button class="btn alt sm" data-act="go" data-view="transfer" data-p=\'{"t":"tt"}\'>' + E(ST.kg.PRINCIPLES[p].t) + '</button>').join(' ') + (r.shared.length ? '<br>Anche in: ' + r.shared.map(id => '<button class="btn alt sm" data-act="go" data-view="topic" data-p=\'{"id":"' + id + '"}\'>' + E(ST.content.topics[id].title) + '</button>').join(' ') : '') + '</p></div>'; })();
     if (t.objectives && t.objectives.length) h += '<div class="card"><h3>Obiettivi</h3><ul>' + t.objectives.map(o => '<li>' + E(o) + '</li>').join('') + '</ul>' + ((t.prereq || []).length ? '<p class="mute small">Prerequisiti: ' + t.prereq.map(x => E(C.topic(x).title)).join(', ') + '</p>' : '') + '</div>';
     h += '<div class="list">' +
@@ -39992,7 +40621,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     const lang = langOf(t);
     return '<div class="reader"><div class="row"><button class="btn alt sm" data-act="back">← Argomento</button><span class="sp"></span>' + (lang === 'ja' ? '<button class="btn alt sm" data-act="furi">あ ' + (A.state.profile.furigana === false ? 'Mostra' : 'Nascondi') + ' furigana</button>' : '') + '<button class="btn alt sm" data-act="ltoc" data-id="' + t.id + '" data-i="' + i + '">☰ Indice</button></div>' +
       '<div class="pbar"><div class="prog"><i style="width:' + Math.round(100 * (i + 1) / n) + '%"></i></div><div class="mute small">Pagina ' + (i + 1) + ' di ' + n + ' · ' + E(t.title) + '</div></div>' + toc +
-      '<article class="page"><h2>' + E(pg.h) + '</h2>' + U.markup(pg.b) + '</article></div>' +
+      (ST.layerHtml ? ST.layerHtml(t, i > 0) : '') + '<article class="page"><h2>' + E(pg.h) + '</h2>' + U.markup(pg.b) + '</article></div>' +
       '<div class="footnav"><button class="btn alt" data-act="lpage" data-id="' + t.id + '" data-k="' + (i - 1) + '"' + (i === 0 ? ' disabled' : '') + '>← Indietro</button>' +
       (i < n - 1 ? '<button class="btn" data-act="lpage" data-id="' + t.id + '" data-k="' + (i + 1) + '">Avanti →</button>' : '<button class="btn" data-act="lexercise" data-id="' + t.id + '">Vai agli esercizi →</button>') + '</div>';
   };
@@ -41040,6 +41669,93 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     ST.runner.start({ title: t === 'mix' ? 'Produzione · sessione mista' : JP.LABEL[t], kind: 'free', items, ctx: 'general', onAnswer: (it, ok) => { JP.record(s, it.mtype, ok); A.xp(ok ? 2 : 0, 'jp:' + it.mtype); A.save(); } });
   };
   X.jExport = () => { const b = new Blob([T.exportJournal(A.state)], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'skilltree-diario.json'; a.click(); };
+})(window.ST = window.ST || {});
+
+/* ---- ui/lang ---- */
+/* SkillTree — icona della lingua (bandiere), finestra di scelta modalità/ambito, strato lingua nelle lezioni, traduzione al tocco/selezione. */
+(function (ST) {
+  'use strict';
+  const U = ST.util, A = ST.app, E = U.esc, X = ST.acts, L = ST.layer, C = ST.content;
+  const flag = (k, id) => {
+    const cp = '<clipPath id="c' + id + '"><circle cx="12" cy="12" r="12"/></clipPath><g clip-path="url(#c' + id + ')">';
+    if (k === 'it') return '<svg viewBox="0 0 24 24" role="img" aria-label="Italiano">' + cp + '<rect width="8" height="24" fill="#009246"/><rect x="8" width="8" height="24" fill="#fff"/><rect x="16" width="8" height="24" fill="#ce2b37"/></g></svg>';
+    if (k === 'en') return '<svg viewBox="0 0 24 24" role="img" aria-label="English">' + cp + '<rect width="24" height="24" fill="#012169"/><path d="M0 0L24 24M24 0L0 24" stroke="#fff" stroke-width="4.5"/><path d="M0 0L24 24M24 0L0 24" stroke="#c8102e" stroke-width="2"/><path d="M12 0V24M0 12H24" stroke="#fff" stroke-width="8"/><path d="M12 0V24M0 12H24" stroke="#c8102e" stroke-width="4.5"/></g></svg>';
+    return '<svg viewBox="0 0 24 24" role="img" aria-label="日本語">' + cp + '<rect width="24" height="24" fill="#fff"/><circle cx="12" cy="12" r="6" fill="#bc002d"/></g></svg>';
+  };
+  const curTopic = () => { const v = A.view(); return (v.name === 'topic' || v.name === 'lesson') && v.p && v.p.id ? C.topic(v.p.id) : null; };
+  const res = t => L.resolve(A.state.settings, t);
+  /* ---- icona fissa ---- */
+  ST.langFab = () => {
+    let b = document.getElementById('lang-fab'); const t = curTopic();
+    if (!t) { if (b) b.remove(); closePop(); return; }
+    if (!b) { b = document.createElement('button'); b.id = 'lang-fab'; b.className = 'lang-fab'; b.setAttribute('data-act', 'langFab'); document.body.appendChild(b); }
+    const r = res(t), last = ((A.state.settings.lang || {}).last) || { lang: 'en' };
+    b.innerHTML = r.lang === 'it' ? flag(last.lang === 'ja' ? 'ja' : 'en', 'f') : flag('it', 'f');
+    b.setAttribute('aria-label', r.lang === 'it' ? 'Scegli la lingua del testo' : 'Torna all’italiano');
+  };
+  const closePop = () => { const p = document.getElementById('lang-pop'); if (p) p.remove(); };
+  const closeGl = () => { const p = document.getElementById('gl-pop'); if (p) p.remove(); };
+  X.langFab = () => {
+    const t = curTopic(); if (!t) return; const r = res(t);
+    if (r.lang !== 'it') { L.set(A.state.settings, r.level === 'default' ? 'lesson' : r.level, r.level === 'lesson' ? t.id : r.level === 'subject' ? t.subject : 'x', 'it', 'A'); A.save(); closePop(); closeGl(); A.render(); return; }
+    if (document.getElementById('lang-pop')) return closePop();
+    const last = ((A.state.settings.lang || {}).last) || { lang: 'en', mode: 'A' }, has = L.has(t.id);
+    const p = document.createElement('div'); p.id = 'lang-pop'; p.className = 'lang-pop'; p.dataset.lang = last.lang === 'ja' ? 'ja' : 'en';
+    p.innerHTML = '<h4>Lingua del testo</h4><div class="tabs2"><button data-act="langPickLang" data-l="en" class="' + (p.dataset.lang === 'en' ? 'on' : '') + '">' + flag('en', 'p1') + 'English</button><button data-act="langPickLang" data-l="ja" class="' + (p.dataset.lang === 'ja' ? 'on' : '') + '">' + flag('ja', 'p2') + '日本語</button></div>' +
+      Object.keys(L.MODES).map(k => '<label><input type="radio" name="lg-m" value="' + k + '"' + (k === (last.mode || 'A') ? ' checked' : '') + '> <b>' + k + '</b> · ' + E(L.MODES[k]) + '</label>').join('') +
+      '<h4 style="margin-top:10px">Applica a…</h4><label><input type="radio" name="lg-s" value="lesson" checked> solo questa lezione</label><label><input type="radio" name="lg-s" value="subject"> tutta la materia</label><label><input type="radio" name="lg-s" value="all"> tutte le materie</label>' +
+      (has ? '' : '<p class="small mute">Per questo argomento il testo in lingua non è ancora disponibile (pilota: Moto in città). Potrai attivare la modalità, ma vedrai solo un avviso.</p>') +
+      '<div class="row" style="gap:8px;margin-top:8px"><button class="btn" data-act="langApply">Applica</button><button class="btn alt" data-act="langCancel">Annulla</button></div>';
+    document.body.appendChild(p);
+  };
+  X.langPickLang = el => { const p = document.getElementById('lang-pop'); if (!p) return; p.dataset.lang = el.dataset.l; p.querySelectorAll('.tabs2 button').forEach(b => b.classList.toggle('on', b === el)); };
+  X.langCancel = () => closePop();
+  X.langApply = () => {
+    const p = document.getElementById('lang-pop'), t = curTopic(); if (!p || !t) return;
+    const mode = (p.querySelector('input[name=lg-m]:checked') || {}).value || 'A', scope = (p.querySelector('input[name=lg-s]:checked') || {}).value || 'lesson', lang = p.dataset.lang;
+    L.set(A.state.settings, scope, scope === 'lesson' ? t.id : scope === 'subject' ? t.subject : 'x', lang, mode); A.save(); closePop(); A.render();
+  };
+  /* ---- strato nelle pagine ---- */
+  const say = (txt, lang) => '<button class="say" data-act="say" data-lang="' + (lang === 'ja' ? 'ja' : 'en-GB') + '" data-text="' + E(U.speechText(txt)) + '" aria-label="Ascolta">🔊</button>';
+  const render = (text, lang, topicId, tappable) => L.segments(text).map(sg => {
+    const inner = lang === 'ja' ? U.ruby(sg.raw) : E(sg.raw);
+    return sg.g && tappable ? '<span class="gl" data-act="glTap" data-l="' + lang + '" data-t="' + topicId + '" data-g="' + E(sg.plain) + '">' + inner + '</span>' : inner;
+  }).join('');
+  ST.layerHtml = (t, compact) => {
+    const r = res(t); if (r.lang === 'it') return '';
+    const lay = L.get(r.lang, t.id), name = r.lang === 'ja' ? '日本語' : 'English';
+    if (!lay) return '<div class="card layer-card"><p class="small">' + name + ' · modalità ' + r.mode + ': il testo in lingua per questo argomento non è ancora disponibile. Resta il testo italiano.</p></div>';
+    if (compact) return '<details class="card layer-card"><summary class="small">' + name + ' · ' + E(L.MODES[r.mode]) + '</summary>' + body(lay, r, t) + '</details>';
+    return '<div class="card layer-card"><h3>' + (r.lang === 'ja' ? U.ruby(lay.title.t) : E(lay.title.t)) + ' <span class="mute small">· ' + name + ' · ' + E(L.MODES[r.mode]) + '</span></h3>' + body(lay, r, t) + '</div>';
+  };
+  const body = (lay, r, t) => {
+    const ja = r.lang === 'ja', m = r.mode;
+    const gloss = '<div class="ln"><b>' + (ja ? 'Parole chiave' : 'Key terms') + '</b><ul>' + lay.gloss.map(g => '<li>' + (ja ? U.ruby('[' + g.w + '|' + g.r + ']') : E(g.w)) + ' ' + say(ja ? g.r : g.w, r.lang) + (ja ? ' <span class="ro">' + E(L.romaji(g.r)) + '</span>' : '') + ' — <span class="it">' + E(g.it) + '</span></li>').join('') + '</ul></div>';
+    if (m === 'A') return gloss + '<p class="small mute">Il testo della lezione resta in italiano: qui trovi i termini chiave.</p>';
+    const note = ja ? '<p class="small mute">Romaji automatico: separazione delle parole approssimativa.</p>' : '';
+    if (m === 'B') return lay.sum.map(s => '<div class="ln">' + say(s.t, r.lang) + ' ' + render(s.t, r.lang, t.id, false) + (ja ? '<div class="ro">' + E(L.romajiOf(s.t)) + '</div>' : '') + '<div class="it">' + E(s.it) + '</div></div>').join('') + note + gloss;
+    return '<p class="small mute">Tocca una parola sottolineata, oppure seleziona un pezzo di testo, per vedere traduzione' + (ja ? ' e romaji' : '') + '. Le parole non presenti nel glossario non hanno traduzione.</p>' +
+      lay.sum.map(s => '<div class="ln">' + say(s.t, r.lang) + ' ' + render(s.t, r.lang, t.id, true) + '<details><summary class="small mute">' + (ja ? 'romaji e italiano' : 'italiano') + '</summary>' + (ja ? '<div class="ro">' + E(L.romajiOf(s.t)) + '</div>' : '') + '<div class="it">' + E(s.it) + '</div></details></div>').join('') + note;
+  };
+  /* ---- traduzione al tocco e alla selezione ---- */
+  const popFor = (lang, topicId, q) => {
+    const list = L.lookup(lang, topicId, q); closeGl();
+    const p = document.createElement('div'); p.id = 'gl-pop'; p.className = 'gl-pop';
+    p.innerHTML = '<div class="row"><b>«' + E(q.length > 40 ? q.slice(0, 40) + '…' : q) + '»</b><span class="sp"></span><button class="btn alt sm" data-act="glClose">✕</button></div>' + (list.length ? list.map(e => '<div class="ln"><b>' + (lang === 'ja' && e.r ? U.ruby('[' + e.w + '|' + e.r + ']') : E(e.w)) + '</b> ' + say(e.r || e.w, lang) + (e.ro ? ' <span class="ro">' + E(e.ro) + '</span>' : '') + '<div class="it">' + E(e.it) + ' <span class="mute small">(' + e.src + ')</span></div></div>').join('') : '<p class="small">Nessuna traduzione disponibile per questa selezione: non ho un traduttore, solo il glossario della lezione e il vocabolario già presente nell’app.</p>');
+    document.body.appendChild(p);
+  };
+  X.glTap = el => popFor(el.dataset.l, el.dataset.t, el.dataset.g);
+  X.glClose = () => closeGl();
+  let selTimer = null;
+  document.addEventListener('selectionchange', () => {
+    clearTimeout(selTimer); selTimer = setTimeout(() => {
+      const sel = window.getSelection && window.getSelection(); if (!sel || sel.isCollapsed) return;
+      const txt = sel.toString().trim(); if (!txt || txt.length > 80) return;
+      const n = sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement), card = n && n.closest && n.closest('.layer-card'); if (!card) return;
+      const t = curTopic(); if (!t) return; const r = res(t); if (r.lang === 'it') return;
+      popFor(r.lang, t.id, txt);
+    }, 450);
+  });
 })(window.ST = window.ST || {});
 
 /* ---- ui/optlab ---- */
