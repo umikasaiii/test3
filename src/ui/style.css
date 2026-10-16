@@ -119,3 +119,4 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 .lang-fab.nolayer{opacity:.5}
 .practice-sec>summary{cursor:pointer;list-style:none;padding:2px 0}.practice-sec>summary::-webkit-details-marker{display:none}.practice-sec>summary::before{content:'▸ ';color:var(--acc)}.practice-sec[open]>summary::before{content:'▾ '}.practice-sec>.card{margin-left:0;margin-right:0}
 .lang-fab.fade{opacity:.12;pointer-events:none}.lang-fab.nolayer{opacity:.5}
+.lang-pop .tabs2 button{white-space:nowrap;font-size:.85rem;padding:8px 4px}

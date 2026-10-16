@@ -42,7 +42,7 @@
     const lang = langOf(t);
     return '<div class="reader"><div class="row"><button class="btn alt sm" data-act="back">← Argomento</button><span class="sp"></span>' + (lang === 'ja' ? '<button class="btn alt sm" data-act="furi">あ ' + (A.state.profile.furigana === false ? 'Mostra' : 'Nascondi') + ' furigana</button>' : '') + '<button class="btn alt sm" data-act="ltoc" data-id="' + t.id + '" data-i="' + i + '">☰ Indice</button></div>' +
       '<div class="pbar"><div class="prog"><i style="width:' + Math.round(100 * (i + 1) / n) + '%"></i></div><div class="mute small">Pagina ' + (i + 1) + ' di ' + n + ' · ' + E(t.title) + '</div></div>' + toc +
-      (ST.layerHtml ? ST.layerHtml(t, i > 0) : '') + '<article class="page"><h2>' + E(pg.h) + '</h2>' + U.markup(pg.b) + '</article></div>' +
+      (ST.layerLesson ? ST.layerLesson(t, i, '<article class="page"><h2>' + E(pg.h) + '</h2>' + U.markup(pg.b) + '</article>') : '<article class="page"><h2>' + E(pg.h) + '</h2>' + U.markup(pg.b) + '</article>') + '</div>' +
       '<div class="footnav"><button class="btn alt" data-act="lpage" data-id="' + t.id + '" data-k="' + (i - 1) + '"' + (i === 0 ? ' disabled' : '') + '>← Indietro</button>' +
       (i < n - 1 ? '<button class="btn" data-act="lpage" data-id="' + t.id + '" data-k="' + (i + 1) + '">Avanti →</button>' : '<button class="btn" data-act="lexercise" data-id="' + t.id + '">Vai agli esercizi →</button>') + '</div>';
   };

@@ -23,5 +23,22 @@ const KAN = /[一-鿿]/, only = process.argv[2], errs = []; const err = (id, m) 
   });
   if (used.size < 6) err(lang + ' ' + id, 'almeno 6 termini del glossario devono comparire nelle frasi (' + used.size + ')');
 }));
+// pagine tradotte (prova CIA): stesse pagine dell'italiano, marcatori nel glossario, kanji con furigana
+const CIA = 'cyb-triade-cia-e-minacce', it = ST.content.topics[CIA];
+['en', 'ja'].filter(l => !only || l === only).forEach(lang => {
+  const d = L.get(lang, CIA), id = lang + ' ' + CIA; if (!d) return err(id, 'manca');
+  if (!d.pages || d.pages.length !== it.pages.length) return err(id, 'servono ' + it.pages.length + ' pagine');
+  const gl = new Set(d.gloss.map(g => g.w.toLowerCase()));
+  d.pages.forEach((p, i) => {
+    if (!p.h || !p.b) err(id, 'pagina ' + i + ' vuota');
+    (p.b.match(/⟦[^⟧]+⟧/g) || []).forEach(m => { const plain = U.plainText(m.slice(1, -1)); if (!gl.has(plain.toLowerCase())) err(id, 'p' + i + ': termine ⟦' + plain + '⟧ non è nel glossario'); });
+    if (lang === 'ja') { [p.h, p.b].forEach(t => { const st = t.replace(/\[[^|\]]+\|[^\]]+\]/g, '').replace(/⟦|⟧/g, ''); if (KAN.test(st)) err(id, 'p' + i + ': kanji senza furigana: ' + (st.match(/.{0,6}[一-鿿]+.{0,6}/) || [''])[0]); if (/[\[\]|]/.test(st)) err(id, 'p' + i + ': ruby malformato'); }); }
+    else if (/[぀-ヿ一-鿿]/.test(p.h + p.b)) err(id, 'p' + i + ': caratteri giapponesi nel testo inglese');
+    // stessa struttura dell'italiano: stesso numero di elenchi e di esempi
+    const cnt = (t, re) => (t.match(re) || []).length;
+    if (cnt(p.b, /^- /gm) !== cnt(it.pages[i].b, /^- /gm) || cnt(p.b, /^> /gm) !== cnt(it.pages[i].b, /^> /gm)) err(id, 'p' + i + ': struttura diversa dall’italiano (elenchi/esempi)');
+  });
+  d.gloss.forEach(g => { if (lang === 'ja' && (!g.r || /[^ぁ-ゖァ-ヺー]/.test(g.r))) err(id, 'lettura non in kana per ' + g.w); });
+});
 if (errs.length) { console.log(errs.slice(0, 60).join('\n')); console.log('\n' + errs.length + ' problemi'); process.exit(1); }
 console.log('Strato lingua valido');

@@ -50,7 +50,8 @@
     const q = U.plainText(String(query)).trim(); if (!q) return [];
     const lay = L.get(lang, topicId), out = [], seen = new Set();
     const push = e => { if (!seen.has(e.w)) { seen.add(e.w); out.push(e); } };
-    ((lay && lay.gloss) || []).forEach(g => { if (q === g.w || q.indexOf(g.w) >= 0 || (g.w.indexOf(q) >= 0 && q.length >= 2)) push({ w: g.w, r: g.r || '', ro: g.r ? L.romaji(g.r) : '', it: g.it, src: 'lezione' }); });
+    const ql = q.toLowerCase();
+    ((lay && lay.gloss) || []).forEach(g => { const gw = g.w.toLowerCase(); if (ql === gw || ql.indexOf(gw) >= 0 || (gw.indexOf(ql) >= 0 && ql.length >= 2)) push({ w: g.w, r: g.r || '', ro: g.r ? L.romaji(g.r) : '', it: g.it, src: 'lezione' }); });
     if (lang === 'ja' && ST.kanji) ST.kanji.index().words.forEach(x => { if (out.length < 6 && (q === x.w || (q.length >= 2 && q.indexOf(x.w) >= 0 && x.w.length >= 2))) push({ w: x.w, r: x.r, ro: L.romaji(x.r), it: x.f, src: 'vocabolario' }); });
     if (lang === 'en') Object.values(ST.content.topics).filter(t => t.subject === 'eng').forEach(t => (t.cards || []).forEach(c => { const b = String(c.b).toLowerCase(); if (out.length < 6 && (q.toLowerCase() === b || (b.length >= 4 && q.toLowerCase().indexOf(b) >= 0))) push({ w: c.b, r: '', ro: '', it: c.f, src: 'vocabolario' }); }));
     return out.slice(0, 6);

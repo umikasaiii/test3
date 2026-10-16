@@ -130,6 +130,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 .lang-fab.nolayer{opacity:.5}
 .practice-sec>summary{cursor:pointer;list-style:none;padding:2px 0}.practice-sec>summary::-webkit-details-marker{display:none}.practice-sec>summary::before{content:'▸ ';color:var(--acc)}.practice-sec[open]>summary::before{content:'▾ '}.practice-sec>.card{margin-left:0;margin-right:0}
 .lang-fab.fade{opacity:.12;pointer-events:none}.lang-fab.nolayer{opacity:.5}
+.lang-pop .tabs2 button{white-space:nowrap;font-size:.85rem;padding:8px 4px}
 
 </style>
 </head>
@@ -446,7 +447,8 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     const q = U.plainText(String(query)).trim(); if (!q) return [];
     const lay = L.get(lang, topicId), out = [], seen = new Set();
     const push = e => { if (!seen.has(e.w)) { seen.add(e.w); out.push(e); } };
-    ((lay && lay.gloss) || []).forEach(g => { if (q === g.w || q.indexOf(g.w) >= 0 || (g.w.indexOf(q) >= 0 && q.length >= 2)) push({ w: g.w, r: g.r || '', ro: g.r ? L.romaji(g.r) : '', it: g.it, src: 'lezione' }); });
+    const ql = q.toLowerCase();
+    ((lay && lay.gloss) || []).forEach(g => { const gw = g.w.toLowerCase(); if (ql === gw || ql.indexOf(gw) >= 0 || (gw.indexOf(ql) >= 0 && ql.length >= 2)) push({ w: g.w, r: g.r || '', ro: g.r ? L.romaji(g.r) : '', it: g.it, src: 'lezione' }); });
     if (lang === 'ja' && ST.kanji) ST.kanji.index().words.forEach(x => { if (out.length < 6 && (q === x.w || (q.length >= 2 && q.indexOf(x.w) >= 0 && x.w.length >= 2))) push({ w: x.w, r: x.r, ro: L.romaji(x.r), it: x.f, src: 'vocabolario' }); });
     if (lang === 'en') Object.values(ST.content.topics).filter(t => t.subject === 'eng').forEach(t => (t.cards || []).forEach(c => { const b = String(c.b).toLowerCase(); if (out.length < 6 && (q.toLowerCase() === b || (b.length >= 4 && q.toLowerCase().indexOf(b) >= 0))) push({ w: c.b, r: '', ro: '', it: c.f, src: 'vocabolario' }); }));
     return out.slice(0, 6);
@@ -30257,6 +30259,53 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   });
 })(window.ST = window.ST || {});
 
+/* ---- content/layer-cia ---- */
+/* Strato lingua — prova: «Triade CIA, minacce e principi di difesa» tradotta pagina per pagina in inglese e in giapponese semplice. */
+(function (ST) {
+  'use strict';
+  const ID = 'cyb-triade-cia-e-minacce', L = ST.layer;
+  L.add('en', ID, {
+    title: { t: 'CIA triad, threats and defence principles', it: 'Triade CIA, minacce e principi di difesa' },
+    sum: [],
+    gloss: [
+      { w: 'confidentiality', it: 'riservatezza: solo chi è autorizzato può leggere i dati' }, { w: 'integrity', it: 'integrità: i dati non sono modificati in modo non autorizzato' }, { w: 'availability', it: 'disponibilità: sistemi e dati accessibili quando servono' },
+      { w: 'authenticity', it: 'autenticità: si verifica che messaggio o utente siano chi dichiarano' }, { w: 'non-repudiation', it: 'non ripudio: chi ha agito non può negarlo' }, { w: 'accountability', it: 'responsabilità: ogni azione è riconducibile a un’identità' },
+      { w: 'asset', it: 'bene da proteggere (dati, server, reputazione…)' }, { w: 'threat', it: 'minaccia' }, { w: 'vulnerability', it: 'vulnerabilità, debolezza sfruttabile' }, { w: 'risk', it: 'rischio: probabilità × impatto' },
+      { w: 'ransomware', it: 'malware che blocca i dati e chiede un riscatto' }, { w: 'threat actors', it: 'attori delle minacce' }, { w: 'insiders', it: 'persone interne con accessi legittimi' },
+      { w: 'attack surface', it: 'superficie di attacco' }, { w: 'defence in depth', it: 'difesa in profondità: più livelli di protezione indipendenti' }, { w: 'principle of least privilege', it: 'principio del privilegio minimo' }, { w: 'least privilege', it: 'privilegio minimo' }
+    ],
+    pages: [
+      { h: 'The CIA triad', b: 'Information security is measured by three properties, summed up in the **CIA triad**.\n\n- **⟦Confidentiality⟧**: only authorised people can read the data.\n- **⟦Integrity⟧**: data is not changed in an unauthorised or accidental way.\n- **⟦Availability⟧**: systems and data are accessible when needed.\n\nEvery incident harms at least one of the three.\n\n> A customer database copied by an outsider: loss of **confidentiality**.\n> An IBAN changed on an invoice: loss of **integrity**.\n> A hospital whose systems are locked by ⟦ransomware⟧: loss of **availability**.\n\nThe three properties can pull against each other: encrypting everything with complicated keys increases confidentiality, but if the key is lost the data becomes unavailable. This is why you decide **which property matters most** for each system.' },
+      { h: 'Authenticity and non-repudiation', b: 'Other properties sit alongside the triad, especially important in communications and documents.\n\n- **⟦Authenticity⟧**: you can verify that a message or a user is really who they claim to be.\n- **⟦Non-repudiation⟧**: whoever performed an action cannot later deny it, because reliable evidence exists.\n- **⟦Accountability⟧**: every action can be traced to an identity, through logs and personal accounts.\n\n> A qualified digital signature on a contract guarantees **integrity** (the text was not altered), **authenticity** (the signer is identified) and **non-repudiation**.\n\nAn account shared by five people destroys accountability: the logs show “admin”, not who acted. This is why **named** accounts are preferred.' },
+      { h: 'Assets, threats, vulnerabilities, risk', b: 'Four terms that must not be confused.\n\n- **⟦Asset⟧**: anything of value to the organisation (data, servers, reputation, people, processes).\n- **⟦Threat⟧**: something or someone that can cause harm (a criminal, a failure, a fire, a human error).\n- **⟦Vulnerability⟧**: a weakness that a threat can exploit (outdated software, a weak password, no backup).\n- **⟦Risk⟧**: the possibility that a threat exploits a vulnerability and harms an asset, assessed by likelihood and impact.\n\n> Asset: the firm’s management software. Threat: ⟦ransomware⟧. Vulnerability: a system with no updates. Risk: the software blocked for days.\n\nIf the threat or the vulnerability is missing, the risk is lower: a flaw in an isolated system that cannot be reached matters much less.' },
+      { h: 'Who attacks and why', b: '**⟦Threat actors⟧** have different goals and means.\n\n- **Organised crime**: financial motive (⟦ransomware⟧, fraud, card theft).\n- **Hacktivists**: ideological or political motive, often demonstrative attacks.\n- **States and state-sponsored groups** (APT): espionage and sabotage, large resources, long and targeted operations.\n- **⟦Insiders⟧**: employees or suppliers with legitimate access, acting out of resentment, for gain, or by simple **mistake**.\n- **Amateurs** (so-called script kiddies): use other people’s tools, often without understanding them.\n\nMost attacks are not personal: criminals go for whoever is **easy** to hit, not whoever is important. Knowing the motive helps predict what will be targeted: payment data, intellectual property, or simply the ability to stop a business in order to demand a ransom.' },
+      { h: 'Attack surface', b: 'The **⟦attack surface⟧** is the set of all points where an attacker could try to get in or extract data.\n\nIt includes:\n- services exposed to the Internet (websites, VPNs, admin panels);\n- accounts and credentials, including forgotten ones;\n- installed software and its libraries;\n- devices, USB ports, Wi-Fi networks;\n- **people**, who can be reached by email and phone calls;\n- suppliers and third-party services.\n\nThe practical rule is to **reduce it**: every useless service switched off, every unused account disabled, every retired piece of software removed is one entry point fewer.\n\n> An old test server, forgotten, reachable from the Internet and never updated, is a classic example of an attack surface nobody watches.\n\nYou cannot defend what you do not know you have: an up-to-date **inventory** is the first step.' },
+      { h: 'Defence in depth', b: 'No measure is infallible. **⟦Defence in depth⟧** puts several independent layers of protection in place, so that the failure of one is not enough to compromise everything.\n\nTypical layers:\n- **physical**: doors, badges, locked cabinets;\n- **perimeter and network**: firewalls, segmentation;\n- **device**: updates, anti-malware/EDR, disk encryption;\n- **application**: input validation, updates;\n- **data**: encryption, backups;\n- **people and processes**: training, procedures, checks.\n\n> A phishing email gets past the spam filter (layer 1), but the user has MFA enabled (layer 2), the PC has an EDR that blocks the attachment (layer 3) and a backup allows recovery (layer 4).\n\nThe layers must be **different** from one another: two controls that fail for the same cause count as one.' },
+      { h: 'Least privilege and separation', b: 'The **⟦principle of least privilege⟧** says that every user, program or service receives **only the permissions essential** to its task, and only for as long as needed.\n\n> A secretary does not need administrator rights: if her account is compromised, the attacker inherits few powers.\n\nRelated principles:\n- **separation of duties**: the person who requests a payment is not the one who approves it;\n- **need to know**: you access information only if the job requires it;\n- **periodic review** of permissions, to remove those accumulated when changing role;\n- **separate accounts**: an ordinary one for daily use, an administrative one only when needed.\n\nLeast privilege does not prevent incidents, but it **limits their reach**: a mistake or a compromise affects fewer things. It is one of the controls with the best ratio of cost to effectiveness.' }
+    ]
+  });
+  L.add('ja', ID, {
+    title: { t: 'CIAの[三要素|さんようそ]、[脅威|きょうい]、[防御|ぼうぎょ]の[考|かんが]え[方|かた]', it: 'Triade CIA, minacce e principi di difesa' },
+    sum: [],
+    gloss: [
+      { w: '機密性', r: 'きみつせい', it: 'riservatezza' }, { w: '完全性', r: 'かんぜんせい', it: 'integrità' }, { w: '可用性', r: 'かようせい', it: 'disponibilità' },
+      { w: '真正性', r: 'しんせいせい', it: 'autenticità' }, { w: '否認防止', r: 'ひにんぼうし', it: 'non ripudio' }, { w: '責任追跡性', r: 'せきにんついせきせい', it: 'responsabilità (accountability)' },
+      { w: '資産', r: 'しさん', it: 'asset, bene da proteggere' }, { w: '脅威', r: 'きょうい', it: 'minaccia' }, { w: '脆弱性', r: 'ぜいじゃくせい', it: 'vulnerabilità' }, { w: 'リスク', r: 'りすく', it: 'rischio' },
+      { w: 'ランサムウェア', r: 'らんさむうぇあ', it: 'ransomware' }, { w: '脅威アクター', r: 'きょういあくたー', it: 'attori delle minacce' }, { w: '内部の人', r: 'ないぶのひと', it: 'insider (persona interna)' },
+      { w: '攻撃対象領域', r: 'こうげきたいしょうりょういき', it: 'superficie di attacco' }, { w: '多層防御', r: 'たそうぼうぎょ', it: 'difesa in profondità' }, { w: '最小権限', r: 'さいしょうけんげん', it: 'privilegio minimo' }
+    ],
+    pages: [
+      { h: 'CIAの[三要素|さんようそ]', b: '[情報|じょうほう]セキュリティは、[三|みっ]つの[性質|せいしつ]で[考|かんが]えます。これを**CIAの[三要素|さんようそ]**と[言|い]います。\n\n- **⟦[機密性|きみつせい]⟧**（confidentiality）: [許可|きょか]された[人|ひと]だけがデータを[読|よ]めます。\n- **⟦[完全性|かんぜんせい]⟧**（integrity）: データが[勝手|かって]に、または[間違|まちが]って[変|か]えられません。\n- **⟦[可用性|かようせい]⟧**（availability）: [必要|ひつよう]なときに、システムとデータを[使|つか]えます。\n\nすべての[事故|じこ]は、この[三|みっ]つのうち、[少|すく]なくとも[一|ひと]つを[傷|きず]つけます。\n\n> [知|し]らない[人|ひと]が[顧客|こきゃく]データベースをコピーしました: **[機密性|きみつせい]**が[失|うしな]われました。\n> [請求書|せいきゅうしょ]のIBANが[変|か]えられました: **[完全性|かんぜんせい]**が[失|うしな]われました。\n> [病院|びょういん]のシステムが⟦ランサムウェア⟧で[止|と]まりました: **[可用性|かようせい]**が[失|うしな]われました。\n\n[三|みっ]つの[性質|せいしつ]は、ぶつかることがあります。[複雑|ふくざつ]な[鍵|かぎ]ですべてを[暗号化|あんごうか]すると[機密性|きみつせい]は[上|あ]がりますが、[鍵|かぎ]をなくすとデータが[使|つか]えなくなります。ですから、システムごとに**どの[性質|せいしつ]が[一番|いちばん][大切|たいせつ]か**を[決|き]めます。' },
+      { h: '[真正性|しんせいせい]と[否認防止|ひにんぼうし]', b: '[三要素|さんようそ]のほかにも、[大切|たいせつ]な[性質|せいしつ]があります。[特|とく]に、メッセージや[書類|しょるい]で[重要|じゅうよう]です。\n\n- **⟦[真正性|しんせいせい]⟧**: メッセージや[利用者|りようしゃ]が、[本当|ほんとう]にその[本人|ほんにん]か[確|たし]かめられます。\n- **⟦[否認防止|ひにんぼうし]⟧**: [行動|こうどう]した[人|ひと]が、あとで「やっていない」と[言|い]えません。[信頼|しんらい]できる[証拠|しょうこ]があるからです。\n- **⟦[責任追跡性|せきにんついせきせい]⟧**: すべての[行動|こうどう]を、ログと[個人|こじん]のアカウントで[人|ひと]に[結|むす]びつけられます。\n\n> [契約書|けいやくしょ]の[電子署名|でんしょめい]は、**[完全性|かんぜんせい]**（[文章|ぶんしょう]が[変|か]えられていない）、**[真正性|しんせいせい]**（[署名|しょめい]した[人|ひと]がわかる）、**[否認防止|ひにんぼうし]**を[守|まも]ります。\n\n[五人|ごにん]で[使|つか]う[一|ひと]つのアカウントは、[責任追跡性|せきにんついせきせい]をなくします。ログには「admin」と[出|で]るだけで、[誰|だれ]がしたかわからないからです。ですから、[個人|こじん]ごとのアカウントがよいです。' },
+      { h: '[資産|しさん]、[脅威|きょうい]、[脆弱性|ぜいじゃくせい]、リスク', b: '[四|よっ]つの[言葉|ことば]を[混|ま]ぜないでください。\n\n- **⟦[資産|しさん]⟧**: [組織|そしき]にとって[価値|かち]があるもの（データ、サーバー、[評判|ひょうばん]、[人|ひと]、[仕事|しごと]の[流|なが]れ）。\n- **⟦[脅威|きょうい]⟧**: [害|がい]をおこす[可能性|かのうせい]がある[人|ひと]やもの（[犯罪者|はんざいしゃ]、[故障|こしょう]、[火事|かじ]、[人|ひと]の[間違|まちが]い）。\n- **⟦[脆弱性|ぜいじゃくせい]⟧**: [脅威|きょうい]が[使|つか]える[弱|よわ]い[点|てん]（[古|ふる]いソフト、[弱|よわ]いパスワード、バックアップがないこと）。\n- **⟦リスク⟧**: [脅威|きょうい]が[脆弱性|ぜいじゃくせい]を[使|つか]って、[資産|しさん]に[害|がい]を[与|あた]える[可能性|かのうせい]。[起|お]こりやすさと[影響|えいきょう]で[考|かんが]えます。\n\n> [資産|しさん]: [事務所|じむしょ]の[管理|かんり]ソフト。[脅威|きょうい]: ⟦ランサムウェア⟧。[脆弱性|ぜいじゃくせい]: アップデートしていないシステム。リスク: [管理|かんり]ソフトが[何日|なんにち]も[止|と]まること。\n\n[脅威|きょうい]や[脆弱性|ぜいじゃくせい]がなければ、リスクは[小|ちい]さくなります。[外|そと]から[届|とど]かない、[孤立|こりつ]したシステムの[弱点|じゃくてん]は、ずっと[小|ちい]さな[問題|もんだい]です。' },
+      { h: '[誰|だれ]が、なぜ[攻撃|こうげき]するのか', b: '**⟦[脅威|きょうい]アクター⟧**（threat actors）は、[目的|もくてき]と[力|ちから]がそれぞれ[違|ちが]います。\n\n- **[組織犯罪|そしきはんざい]**: お[金|かね]が[目的|もくてき]です（⟦ランサムウェア⟧、[詐欺|さぎ]、カードの[盗|ぬす]み）。\n- **ハクティビスト**: [思想|しそう]や[政治|せいじ]が[目的|もくてき]で、[見|み]せるための[攻撃|こうげき]が[多|おお]いです。\n- **[国家|こっか]が[支援|しえん]するグループ**（APT）: [情報|じょうほう]をさぐったり、[壊|こわ]したりします。[力|ちから]が[大|おお]きく、[長|なが]い[時間|じかん]をかけて[特定|とくてい]の[相手|あいて]をねらいます。\n- **⟦[内部|ないぶ]の[人|ひと]⟧**（insider）: [正|ただ]しいアクセスを[持|も]つ[社員|しゃいん]や[取引先|とりひきさき]です。[恨|うら]み、お[金|かね]、または[単純|たんじゅん]な**ミス**が[原因|げんいん]です。\n- **[素人|しろうと]**（スクリプトキディ）: ほかの[人|ひと]の[道具|どうぐ]を[使|つか]います。[意味|いみ]がよくわからないことも[多|おお]いです。\n\n[多|おお]くの[攻撃|こうげき]は、[個人|こじん]をねらうものではありません。[犯罪者|はんざいしゃ]は、[重要|じゅうよう]な[人|ひと]ではなく、**[簡単|かんたん]**な[相手|あいて]をねらいます。[目的|もくてき]を[知|し]ると、[何|なに]がねらわれるか[予想|よそう]できます。[支払|しはら]いのデータ、[知的財産|ちてきざいさん]、または[仕事|しごと]を[止|と]めて[身代金|みのしろきん]を[求|もと]めることです。' },
+      { h: '[攻撃対象領域|こうげきたいしょうりょういき]', b: '**⟦[攻撃対象領域|こうげきたいしょうりょういき]⟧**（attack surface）は、[攻撃|こうげき]する[人|ひと]が[入|はい]ったり、データを[取|と]ったりできる[場所|ばしょ]のすべてです。\n\nたとえば、[次|つぎ]のものです。\n- インターネットに[出|で]ているサービス（サイト、VPN、[管理|かんり]ページ）\n- アカウントとパスワード（[忘|わす]れたものも[含|ふく]む）\n- [入|い]れてあるソフトと、その[部品|ぶひん]\n- パソコンなどの[機器|きき]、USBのポート、Wi-Fi\n- **[人|ひと]**（メールや[電話|でんわ]で[連絡|れんらく]できます）\n- [取引先|とりひきさき]や[外|そと]のサービス\n\n[実際|じっさい]のルールは、これを**[小|ちい]さくすること**です。いらないサービスを[止|と]め、[使|つか]わないアカウントを[消|け]し、[古|ふる]いソフトを[外|はず]すと、[入|はい]り[口|ぐち]が[一|ひと]つ[減|へ]ります。\n\n> [忘|わす]れられた[古|ふる]いテストサーバーが、インターネットから[見|み]えて、[更新|こうしん]もされない。これは、[誰|だれ]も[見|み]ていない[攻撃対象領域|こうげきたいしょうりょういき]の[典型|てんけい]です。\n\n[持|も]っていることを[知|し]らないものは、[守|まも]れません。まず、[最新|さいしん]の**[一覧|いちらん]**を[作|つく]ります。' },
+      { h: '[多層防御|たそうぼうぎょ]', b: '[完全|かんぜん]な[対策|たいさく]はありません。**⟦[多層防御|たそうぼうぎょ]⟧**（defence in depth）は、[別々|べつべつ]の[守|まも]りを[何|なん][層|そう]も[重|かさ]ねる[考|かんが]え[方|かた]です。[一|ひと]つが[破|やぶ]られても、すべてが[危|あぶ]なくなりません。\n\nよくある[層|そう]です。\n- **[物理|ぶつり]**: ドア、カード、[鍵|かぎ]のかかる[棚|たな]\n- **[外側|そとがわ]とネットワーク**: ファイアウォール、[分|わ]け[方|かた]（セグメント）\n- **[機器|きき]**: アップデート、ウイルス[対策|たいさく]（EDR）、ディスクの[暗号化|あんごうか]\n- **アプリ**: [入力|にゅうりょく]のチェック、アップデート\n- **データ**: [暗号化|あんごうか]、バックアップ\n- **[人|ひと]と[手順|てじゅん]**: [教育|きょういく]、ルール、チェック\n\n> フィッシングメールが、スパムフィルターを[通|とお]ります（[一|いち][層|そう][目|め]）。でも[利用者|りようしゃ]はMFAを[使|つか]っています（[二|に][層|そう][目|め]）。パソコンのEDRが[添付|てんぷ]ファイルを[止|と]めます（[三|さん][層|そう][目|め]）。バックアップで[元|もと]に[戻|もど]せます（[四|よん][層|そう][目|め]）。\n\n[層|そう]は、**[違|ちが]うもの**でなければなりません。[同|おな]じ[理由|りゆう]で[止|と]まる[二|ふた]つの[対策|たいさく]は、[一|ひと]つと[同|おな]じです。' },
+      { h: '[最小権限|さいしょうけんげん]と[役割|やくわり]の[分|わ]け[方|かた]', b: '**⟦[最小権限|さいしょうけんげん]⟧**の[原則|げんそく]（least privilege）は、[利用者|りようしゃ]、プログラム、サービスに、**[仕事|しごと]に[必要|ひつよう]な[許可|きょか]だけ**を、[必要|ひつよう]な[間|あいだ]だけ[与|あた]える[考|かんが]え[方|かた]です。\n\n> [秘書|ひしょ]に[管理者|かんりしゃ]の[権限|けんげん]はいりません。アカウントが[乗|の]っ[取|と]られても、[攻撃|こうげき]する[人|ひと]が[手|て]に[入|い]れる[力|ちから]は[少|すく]ないです。\n\n[関係|かんけい]する[考|かんが]え[方|かた]です。\n- **[職務分離|しょくむぶんり]**: [支払|しはら]いを[頼|たの]む[人|ひと]と[承認|しょうにん]する[人|ひと]は、[別|べつ]の[人|ひと]です。\n- **[知|し]る[必要|ひつよう]のある[人|ひと]だけ**（need to know）: [仕事|しごと]に[必要|ひつよう]なときだけ、[情報|じょうほう]を[見|み]られます。\n- **[定期|ていき]の[見直|みなお]し**: [仕事|しごと]が[変|か]わったときに[残|のこ]った[権限|けんげん]を[消|け]します。\n- **アカウントを[分|わ]ける**: ふだんは[普通|ふつう]のアカウント、[必要|ひつよう]なときだけ[管理者|かんりしゃ]のアカウントを[使|つか]います。\n\n[最小権限|さいしょうけんげん]は、[事故|じこ]をなくすものではありませんが、**[被害|ひがい]の[広|ひろ]がりを[小|ちい]さくします**。ミスや[乗|の]っ[取|と]りの[影響|えいきょう]が[少|すく]なくなります。[費用|ひよう]に[比|くら]べて[効果|こうか]が[高|たか]い[対策|たいさく]の[一|ひと]つです。' }
+    ]
+  });
+})(window.ST = window.ST || {});
+
 /* ---- content/str-puzzles ---- */
 (function (ST) {
   'use strict';
@@ -40636,7 +40685,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     const lang = langOf(t);
     return '<div class="reader"><div class="row"><button class="btn alt sm" data-act="back">← Argomento</button><span class="sp"></span>' + (lang === 'ja' ? '<button class="btn alt sm" data-act="furi">あ ' + (A.state.profile.furigana === false ? 'Mostra' : 'Nascondi') + ' furigana</button>' : '') + '<button class="btn alt sm" data-act="ltoc" data-id="' + t.id + '" data-i="' + i + '">☰ Indice</button></div>' +
       '<div class="pbar"><div class="prog"><i style="width:' + Math.round(100 * (i + 1) / n) + '%"></i></div><div class="mute small">Pagina ' + (i + 1) + ' di ' + n + ' · ' + E(t.title) + '</div></div>' + toc +
-      (ST.layerHtml ? ST.layerHtml(t, i > 0) : '') + '<article class="page"><h2>' + E(pg.h) + '</h2>' + U.markup(pg.b) + '</article></div>' +
+      (ST.layerLesson ? ST.layerLesson(t, i, '<article class="page"><h2>' + E(pg.h) + '</h2>' + U.markup(pg.b) + '</article>') : '<article class="page"><h2>' + E(pg.h) + '</h2>' + U.markup(pg.b) + '</article>') + '</div>' +
       '<div class="footnav"><button class="btn alt" data-act="lpage" data-id="' + t.id + '" data-k="' + (i - 1) + '"' + (i === 0 ? ' disabled' : '') + '>← Indietro</button>' +
       (i < n - 1 ? '<button class="btn" data-act="lpage" data-id="' + t.id + '" data-k="' + (i + 1) + '">Avanti →</button>' : '<button class="btn" data-act="lexercise" data-id="' + t.id + '">Vai agli esercizi →</button>') + '</div>';
   };
@@ -41705,29 +41754,30 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     if (!t) { if (b) b.remove(); closePop(); return; }
     if (!b) { b = document.createElement('button'); b.id = 'lang-fab'; b.className = 'lang-fab'; b.setAttribute('data-act', 'langFab'); document.body.appendChild(b); }
     const r = res(t), last = ((A.state.settings.lang || {}).last) || { lang: 'en' };
-    b.innerHTML = r.lang === 'it' ? flag(last.lang === 'ja' ? 'ja' : 'en', 'f') : flag('it', 'f');
+    b.innerHTML = flag(r.lang === 'ja' ? 'ja' : r.lang === 'en' ? 'en' : 'it', 'f');
     b.classList.toggle('nolayer', !L.has(t.id)); b.title = L.has(t.id) ? '' : 'Testo in lingua non ancora disponibile per questo argomento';
-    b.setAttribute('aria-label', r.lang === 'it' ? 'Scegli la lingua del testo' : 'Torna all’italiano');
+    b.setAttribute('aria-label', 'Lingua del testo: ' + (r.lang === 'ja' ? '日本語' : r.lang === 'en' ? 'English' : 'Italiano') + ' (tocca per cambiare)');
   };
   /* l'icona si attenua mentre scorri, per non coprire il testo */
   let fadeT = null;
   window.addEventListener('scroll', () => { const b = document.getElementById('lang-fab'); if (!b) return; b.classList.add('fade'); clearTimeout(fadeT); fadeT = setTimeout(() => b.classList.remove('fade'), 900); }, { passive: true });
   const closePop = () => { const p = document.getElementById('lang-pop'); if (p) p.remove(); };
   const closeGl = () => { const p = document.getElementById('gl-pop'); if (p) p.remove(); };
+  X.langHome = () => { const t = curTopic(); if (!t) return; const r = res(t); L.set(A.state.settings, r.level === 'default' ? 'lesson' : r.level, r.level === 'lesson' ? t.id : r.level === 'subject' ? t.subject : 'x', 'it', 'A', id => (C.topic(id) || {}).subject); A.save(); closePop(); closeGl(); A.render(); };
   X.langFab = () => {
-    const t = curTopic(); if (!t) return; const r = res(t);
-    if (r.lang !== 'it') { L.set(A.state.settings, r.level === 'default' ? 'lesson' : r.level, r.level === 'lesson' ? t.id : r.level === 'subject' ? t.subject : 'x', 'it', 'A'); A.save(); closePop(); closeGl(); A.render(); return; }
+    const t = curTopic(); if (!t) return;
     if (document.getElementById('lang-pop')) return closePop();
-    const last = ((A.state.settings.lang || {}).last) || { lang: 'en', mode: 'A' }, has = L.has(t.id);
-    const p = document.createElement('div'); p.id = 'lang-pop'; p.className = 'lang-pop'; p.dataset.lang = last.lang === 'ja' ? 'ja' : 'en';
-    p.innerHTML = '<h4>Lingua del testo</h4><div class="tabs2"><button data-act="langPickLang" data-l="en" class="' + (p.dataset.lang === 'en' ? 'on' : '') + '">' + flag('en', 'p1') + 'English</button><button data-act="langPickLang" data-l="ja" class="' + (p.dataset.lang === 'ja' ? 'on' : '') + '">' + flag('ja', 'p2') + '日本語</button></div>' +
-      Object.keys(L.MODES).map(k => '<label><input type="radio" name="lg-m" value="' + k + '"' + (k === (last.mode || 'A') ? ' checked' : '') + '> <b>' + k + '</b> · ' + E(L.MODES[k]) + '</label>').join('') +
+    const r = res(t), last = ((A.state.settings.lang || {}).last) || { lang: 'en', mode: 'A' }, has = L.has(t.id), cur = r.lang;
+    const p = document.createElement('div'); p.id = 'lang-pop'; p.className = 'lang-pop'; p.dataset.lang = cur;
+    const modeSel = cur === 'it' ? (last.mode || 'A') : r.mode;
+    p.innerHTML = '<h4>Lingua del testo</h4><div class="tabs2">' + [['it', 'Italiano'], ['en', 'English'], ['ja', '日本語']].map(x => '<button data-act="langPickLang" data-l="' + x[0] + '" class="' + (cur === x[0] ? 'on' : '') + '">' + flag(x[0], 'p' + x[0]) + x[1] + '</button>').join('') + '</div>' +
+      '<div id="lg-modes">' + Object.keys(L.MODES).map(k => '<label><input type="radio" name="lg-m" value="' + k + '"' + (k === modeSel ? ' checked' : '') + '> <b>' + k + '</b> · ' + E(L.MODES[k]) + '</label>').join('') + '</div>' +
       '<h4 style="margin-top:10px">Applica a…</h4><label><input type="radio" name="lg-s" value="lesson" checked> solo questa lezione</label><label><input type="radio" name="lg-s" value="subject"> tutta la materia</label><label><input type="radio" name="lg-s" value="all"> tutte le materie</label>' +
-      (has ? '' : '<p class="small mute">Per questo argomento il testo in lingua non è ancora disponibile (pilota: Moto in città). Potrai attivare la modalità, ma vedrai solo un avviso.</p>') +
+      (has ? '' : '<p class="small mute">Per questo argomento il testo in lingua non è ancora disponibile (disponibili: Moto in città e Cybersecurity «Triade CIA»). Potrai attivare la modalità, ma vedrai solo un avviso.</p>') +
       '<div class="row" style="gap:8px;margin-top:8px"><button class="btn" data-act="langApply">Applica</button><button class="btn alt" data-act="langCancel">Annulla</button></div>';
-    document.body.appendChild(p);
+    document.body.appendChild(p); X.langPickLang({ dataset: { l: cur } });
   };
-  X.langPickLang = el => { const p = document.getElementById('lang-pop'); if (!p) return; p.dataset.lang = el.dataset.l; p.querySelectorAll('.tabs2 button').forEach(b => b.classList.toggle('on', b === el)); };
+  X.langPickLang = el => { const p = document.getElementById('lang-pop'); if (!p) return; p.dataset.lang = el.dataset.l; p.querySelectorAll('.tabs2 button').forEach(b => b.classList.toggle('on', b.dataset.l === el.dataset.l)); const m = document.getElementById('lg-modes'); if (m) m.style.display = el.dataset.l === 'it' ? 'none' : ''; };
   X.langCancel = () => closePop();
   X.langApply = () => {
     const p = document.getElementById('lang-pop'), t = curTopic(); if (!p || !t) return;
@@ -41743,18 +41793,38 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   ST.layerHtml = (t, compact) => {
     const r = res(t); if (r.lang === 'it') return '';
     const lay = L.get(r.lang, t.id), name = r.lang === 'ja' ? '日本語' : 'English';
-    if (!lay) return '<p class="small mute" style="margin:6px 0">' + name + ' · testo in lingua non ancora disponibile per questo argomento (pilota: Moto in città). Resta l’italiano. <button class="btn alt sm" data-act="langFab">Torna all’italiano</button></p>';
+    if (!lay) return '<p class="small mute" style="margin:6px 0">' + name + ' · testo in lingua non ancora disponibile per questo argomento . Resta l’italiano. <button class="btn alt sm" data-act="langHome">Torna all’italiano</button></p>';
     if (compact) return '<details class="card layer-card"><summary class="small">' + name + ' · ' + E(L.MODES[r.mode]) + '</summary>' + body(lay, r, t) + '</details>';
     return '<div class="card layer-card"><h3>' + (r.lang === 'ja' ? U.ruby(lay.title.t) : E(lay.title.t)) + ' <span class="mute small">· ' + name + ' · ' + E(L.MODES[r.mode]) + '</span></h3>' + body(lay, r, t) + '</div>';
   };
   const body = (lay, r, t) => {
     const ja = r.lang === 'ja', m = r.mode;
     const gloss = '<div class="ln"><b>' + (ja ? 'Parole chiave' : 'Key terms') + '</b><ul>' + lay.gloss.map(g => '<li>' + (ja ? U.ruby('[' + g.w + '|' + g.r + ']') : E(g.w)) + ' ' + say(ja ? g.r : g.w, r.lang) + (ja ? ' <span class="ro">' + E(L.romaji(g.r)) + '</span>' : '') + ' — <span class="it">' + E(g.it) + '</span></li>').join('') + '</ul></div>';
+    if (lay.pages && m !== 'A') return gloss + '<p class="small mute">Le pagine tradotte compaiono nella lezione.</p>';
     if (m === 'A') return gloss + '<p class="small mute">Il testo della lezione resta in italiano: qui trovi i termini chiave.</p>';
     const note = ja ? '<p class="small mute">Romaji automatico: separazione delle parole approssimativa.</p>' : '';
     if (m === 'B') return lay.sum.map(s => '<div class="ln">' + say(s.t, r.lang) + ' ' + render(s.t, r.lang, t.id, false) + (ja ? '<div class="ro">' + E(L.romajiOf(s.t)) + '</div>' : '') + '<div class="it">' + E(s.it) + '</div></div>').join('') + note + gloss;
     return '<p class="small mute">Tocca una parola sottolineata, oppure seleziona un pezzo di testo, per vedere traduzione' + (ja ? ' e romaji' : '') + '. Le parole non presenti nel glossario non hanno traduzione.</p>' +
       lay.sum.map(s => '<div class="ln">' + say(s.t, r.lang) + ' ' + render(s.t, r.lang, t.id, true) + '<details><summary class="small mute">' + (ja ? 'romaji e italiano' : 'italiano') + '</summary>' + (ja ? '<div class="ro">' + E(L.romajiOf(s.t)) + '</div>' : '') + '<div class="it">' + E(s.it) + '</div></details></div>').join('') + note;
+  };
+
+  /* pagina tradotta: stesso markup dell'italiano; ⟦termine⟧ diventa toccabile in modalità C; romaji a richiesta in giapponese */
+  const pageHtml = (pg, lang, topicId, tappable) => {
+    const ja = lang === 'ja';
+    let html = U.markup(pg.b).replace(/⟦([^⟧]+)⟧/g, (_, inner) => { const plain = inner.replace(/<rt>.*?<\/rt>/g, '').replace(/<[^>]+>/g, ''); return tappable ? '<span class="gl" data-act="glTap" data-l="' + lang + '" data-t="' + topicId + '" data-g="' + E(plain) + '">' + inner + '</span>' : inner; });
+    const romaji = ja ? '<details><summary class="small mute">Romaji</summary><div class="ro">' + pg.b.split('\n').map(l => l.replace(/^\s*(?:[-*>]\s+)/, '').replace(/\*\*/g, '').trim()).filter(Boolean).map(l => E(L.romajiOf(l))).join('<br>') + '</div><p class="small mute">Romaji automatico: separazione delle parole approssimativa.</p></details>' : '';
+    return '<h2>' + (ja ? U.ruby(pg.h) : E(pg.h)) + '</h2>' + html + romaji;
+  };
+  /* pagina di lezione secondo lingua e modalità: A = italiano + parole chiave, B = lingua e italiano, C = solo lingua (italiano a richiesta) */
+  ST.layerLesson = (t, i, art) => {
+    const r = res(t); if (r.lang === 'it') return art;
+    const lay = L.get(r.lang, t.id);
+    if (!lay || !lay.pages || !lay.pages[i]) return ST.layerHtml(t, i > 0) + art;
+    const name = r.lang === 'ja' ? '日本語' : 'English';
+    if (r.mode === 'A') return '<details class="card layer-card"><summary class="small">' + name + ' · parole chiave</summary>' + body(lay, r, t) + '</details>' + art;
+    const card = '<div class="card layer-card"><span class="mute small">' + name + ' · ' + E(L.MODES[r.mode]) + '</span>' + pageHtml(lay.pages[i], r.lang, t.id, r.mode === 'C') + '</div>';
+    if (r.mode === 'B') return card + '<p class="mute small" style="margin:4px 0">Testo italiano</p>' + art;
+    return card + '<details class="card"><summary class="small mute">Mostra il testo italiano</summary>' + art + '</details>';
   };
   /* ---- traduzione al tocco e alla selezione ---- */
   const popFor = (lang, topicId, q) => {

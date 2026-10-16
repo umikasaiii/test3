@@ -19,12 +19,12 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => !!document.getElementById('lang-pop')), 'la finestra si apre');
   await page.click('#lang-pop button[data-l="ja"]'); await page.click('#lang-pop input[value="B"]'); await page.click('#lang-pop input[value="lesson"]'); await page.click('#lang-pop [data-act="langApply"]'); await page.waitForTimeout(200);
   let b = await body(); ok(/Parole chiave/.test(b) && /[a-z]{3,} (wa|ga|o|ni|de) /.test(b), 'giapponese bilingue con romaji e glossario');
-  ok(await page.evaluate(() => document.querySelector('#lang-fab svg [fill="#009246"]') !== null), 'l’icona mostra la bandiera italiana per tornare indietro');
+  ok(await page.evaluate(() => document.querySelector('#lang-fab svg [fill="#bc002d"]') !== null), 'con il giapponese attivo l’icona mostra la bandiera del Giappone');
   await openTopic(other); await page.waitForTimeout(150); ok(!/Parole chiave/.test(await body()), 'l’ambito «solo questa lezione» non tocca le altre lezioni');
   await openTopic(ID); await page.waitForTimeout(150);
   // ritorno all'italiano con un tocco
-  await page.click('#lang-fab'); await page.waitForTimeout(150); ok(!/Parole chiave/.test(await body()), 'un tocco sulla bandiera italiana riporta l’italiano');
-  ok(await page.evaluate(() => document.querySelector('#lang-fab svg [fill="#009246"]') === null), 'l’icona torna alla bandiera della lingua');
+  await page.click('#lang-fab'); await page.waitForTimeout(100); await page.click('#lang-pop button[data-l="it"]'); await page.click('#lang-pop input[value="lesson"]'); await page.click('#lang-pop [data-act="langApply"]'); await page.waitForTimeout(150); ok(!/Parole chiave/.test(await body()), 'scegliendo Italiano nel pannello torna l’italiano');
+  ok(await page.evaluate(() => document.querySelector('#lang-fab svg [fill="#009246"]') !== null), 'in italiano l’icona mostra la bandiera italiana');
   // inglese, modalità C, tutta la materia: tocco su un termine
   await page.click('#lang-fab'); await page.waitForTimeout(100); await page.click('#lang-pop button[data-l="en"]'); await page.click('#lang-pop input[value="C"]'); await page.click('#lang-pop input[value="subject"]'); await page.click('#lang-pop [data-act="langApply"]'); await page.waitForTimeout(200);
   ok(await page.evaluate(() => document.querySelectorAll('.layer-card .gl').length >= 3), 'in modalità C i termini sono toccabili');
@@ -48,6 +48,18 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => { const d = document.querySelector('.practice-sec'); return !!d && !d.open && !!document.querySelector('.item[data-view="topic"]'); }), 'sezione pratica chiusa di default con le lezioni visibili');
   await page.click('.practice-sec summary'); await page.waitForTimeout(100);
   ok(await page.evaluate(() => document.querySelector('.practice-sec').open && ST.app.state.settings.practiceOpen.moto === true), 'la sezione pratica si apre e ricorda lo stato');
+  const CIA = 'cyb-triade-cia-e-minacce';
+  await page.evaluate(id => { const st = ST.app.state.settings; st.lang = { lesson: {}, subject: {}, all: null, last: { lang: 'en', mode: 'A' } }; ST.layer.set(st, 'lesson', id, 'en', 'C'); ST.app.save(); ST.app.stack = []; ST.app.go('lesson', { id, page: 0 }); }, CIA); await page.waitForTimeout(200);
+  let bb = await body(); ok(/The CIA triad/.test(bb) && /Confidentiality/.test(bb), 'CIA in inglese (C): pagina tradotta');
+  ok(await page.evaluate(() => document.querySelector('#lang-fab svg [fill=\"#012169\"]') !== null), 'con l’inglese attivo l’icona mostra la bandiera britannica');
+  ok(await page.evaluate(() => { const d = document.querySelector('details.card:not(.layer-card)'); return !!d && !d.open && /Mostra il testo italiano/.test(d.innerText); }), 'modalità C: l’italiano è nascosto ma disponibile');
+  await page.click('.layer-card .gl'); await page.waitForTimeout(150); ok(await page.evaluate(() => /riservatezza|autorizzato/i.test((document.getElementById('gl-pop') || { innerText: '' }).innerText)), 'tocco su un termine: traduzione dal glossario');
+  await page.evaluate(id => { ST.layer.set(ST.app.state.settings, 'lesson', id, 'ja', 'B'); ST.app.render(); }, CIA); await page.waitForTimeout(200);
+  bb = await body(); ok(/CIAの三要素|三要素/.test(bb) && /Testo italiano/.test(bb) && /La triade CIA/.test(bb), 'CIA in giapponese (B): pagina giapponese e testo italiano');
+  ok(await page.evaluate(() => document.querySelector('#lang-fab svg [fill=\"#bc002d\"]') !== null && !!document.querySelector('.layer-card ruby')), 'giapponese: bandiera del Giappone e furigana');
+  ok(await page.evaluate(() => { const r = Array.from(document.querySelectorAll('.layer-card details')).map(d => d.innerText).join(' '); return /johou sekyuriti|jouhou sekyuriti/.test(r.toLowerCase()) || /romaji/i.test(r); }), 'giapponese: romaji disponibile');
+  for (let k = 0; k < 7; k++) { await page.evaluate(k => { ST.app.replace('lesson', { id: 'cyb-triade-cia-e-minacce', page: k }); }, k); await page.waitForTimeout(60); }
+  ok(await page.evaluate(() => /最小権限|最小/.test(document.getElementById('app').innerText)), 'tutte le 7 pagine sono navigabili nella lingua scelta');
   ok(errors.length === 0, 'nessun errore JS' + (errors.length ? ': ' + errors[0] : ''));
   await browser.close(); console.log(fails ? 'LINGUA: problemi rilevati' : 'Test dello strato lingua superati'); process.exit(fails ? 1 : 0);
 })();

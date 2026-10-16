@@ -16,29 +16,30 @@
     if (!t) { if (b) b.remove(); closePop(); return; }
     if (!b) { b = document.createElement('button'); b.id = 'lang-fab'; b.className = 'lang-fab'; b.setAttribute('data-act', 'langFab'); document.body.appendChild(b); }
     const r = res(t), last = ((A.state.settings.lang || {}).last) || { lang: 'en' };
-    b.innerHTML = r.lang === 'it' ? flag(last.lang === 'ja' ? 'ja' : 'en', 'f') : flag('it', 'f');
+    b.innerHTML = flag(r.lang === 'ja' ? 'ja' : r.lang === 'en' ? 'en' : 'it', 'f');
     b.classList.toggle('nolayer', !L.has(t.id)); b.title = L.has(t.id) ? '' : 'Testo in lingua non ancora disponibile per questo argomento';
-    b.setAttribute('aria-label', r.lang === 'it' ? 'Scegli la lingua del testo' : 'Torna all’italiano');
+    b.setAttribute('aria-label', 'Lingua del testo: ' + (r.lang === 'ja' ? '日本語' : r.lang === 'en' ? 'English' : 'Italiano') + ' (tocca per cambiare)');
   };
   /* l'icona si attenua mentre scorri, per non coprire il testo */
   let fadeT = null;
   window.addEventListener('scroll', () => { const b = document.getElementById('lang-fab'); if (!b) return; b.classList.add('fade'); clearTimeout(fadeT); fadeT = setTimeout(() => b.classList.remove('fade'), 900); }, { passive: true });
   const closePop = () => { const p = document.getElementById('lang-pop'); if (p) p.remove(); };
   const closeGl = () => { const p = document.getElementById('gl-pop'); if (p) p.remove(); };
+  X.langHome = () => { const t = curTopic(); if (!t) return; const r = res(t); L.set(A.state.settings, r.level === 'default' ? 'lesson' : r.level, r.level === 'lesson' ? t.id : r.level === 'subject' ? t.subject : 'x', 'it', 'A', id => (C.topic(id) || {}).subject); A.save(); closePop(); closeGl(); A.render(); };
   X.langFab = () => {
-    const t = curTopic(); if (!t) return; const r = res(t);
-    if (r.lang !== 'it') { L.set(A.state.settings, r.level === 'default' ? 'lesson' : r.level, r.level === 'lesson' ? t.id : r.level === 'subject' ? t.subject : 'x', 'it', 'A'); A.save(); closePop(); closeGl(); A.render(); return; }
+    const t = curTopic(); if (!t) return;
     if (document.getElementById('lang-pop')) return closePop();
-    const last = ((A.state.settings.lang || {}).last) || { lang: 'en', mode: 'A' }, has = L.has(t.id);
-    const p = document.createElement('div'); p.id = 'lang-pop'; p.className = 'lang-pop'; p.dataset.lang = last.lang === 'ja' ? 'ja' : 'en';
-    p.innerHTML = '<h4>Lingua del testo</h4><div class="tabs2"><button data-act="langPickLang" data-l="en" class="' + (p.dataset.lang === 'en' ? 'on' : '') + '">' + flag('en', 'p1') + 'English</button><button data-act="langPickLang" data-l="ja" class="' + (p.dataset.lang === 'ja' ? 'on' : '') + '">' + flag('ja', 'p2') + '日本語</button></div>' +
-      Object.keys(L.MODES).map(k => '<label><input type="radio" name="lg-m" value="' + k + '"' + (k === (last.mode || 'A') ? ' checked' : '') + '> <b>' + k + '</b> · ' + E(L.MODES[k]) + '</label>').join('') +
+    const r = res(t), last = ((A.state.settings.lang || {}).last) || { lang: 'en', mode: 'A' }, has = L.has(t.id), cur = r.lang;
+    const p = document.createElement('div'); p.id = 'lang-pop'; p.className = 'lang-pop'; p.dataset.lang = cur;
+    const modeSel = cur === 'it' ? (last.mode || 'A') : r.mode;
+    p.innerHTML = '<h4>Lingua del testo</h4><div class="tabs2">' + [['it', 'Italiano'], ['en', 'English'], ['ja', '日本語']].map(x => '<button data-act="langPickLang" data-l="' + x[0] + '" class="' + (cur === x[0] ? 'on' : '') + '">' + flag(x[0], 'p' + x[0]) + x[1] + '</button>').join('') + '</div>' +
+      '<div id="lg-modes">' + Object.keys(L.MODES).map(k => '<label><input type="radio" name="lg-m" value="' + k + '"' + (k === modeSel ? ' checked' : '') + '> <b>' + k + '</b> · ' + E(L.MODES[k]) + '</label>').join('') + '</div>' +
       '<h4 style="margin-top:10px">Applica a…</h4><label><input type="radio" name="lg-s" value="lesson" checked> solo questa lezione</label><label><input type="radio" name="lg-s" value="subject"> tutta la materia</label><label><input type="radio" name="lg-s" value="all"> tutte le materie</label>' +
-      (has ? '' : '<p class="small mute">Per questo argomento il testo in lingua non è ancora disponibile (pilota: Moto in città). Potrai attivare la modalità, ma vedrai solo un avviso.</p>') +
+      (has ? '' : '<p class="small mute">Per questo argomento il testo in lingua non è ancora disponibile (disponibili: Moto in città e Cybersecurity «Triade CIA»). Potrai attivare la modalità, ma vedrai solo un avviso.</p>') +
       '<div class="row" style="gap:8px;margin-top:8px"><button class="btn" data-act="langApply">Applica</button><button class="btn alt" data-act="langCancel">Annulla</button></div>';
-    document.body.appendChild(p);
+    document.body.appendChild(p); X.langPickLang({ dataset: { l: cur } });
   };
-  X.langPickLang = el => { const p = document.getElementById('lang-pop'); if (!p) return; p.dataset.lang = el.dataset.l; p.querySelectorAll('.tabs2 button').forEach(b => b.classList.toggle('on', b === el)); };
+  X.langPickLang = el => { const p = document.getElementById('lang-pop'); if (!p) return; p.dataset.lang = el.dataset.l; p.querySelectorAll('.tabs2 button').forEach(b => b.classList.toggle('on', b.dataset.l === el.dataset.l)); const m = document.getElementById('lg-modes'); if (m) m.style.display = el.dataset.l === 'it' ? 'none' : ''; };
   X.langCancel = () => closePop();
   X.langApply = () => {
     const p = document.getElementById('lang-pop'), t = curTopic(); if (!p || !t) return;
@@ -54,18 +55,38 @@
   ST.layerHtml = (t, compact) => {
     const r = res(t); if (r.lang === 'it') return '';
     const lay = L.get(r.lang, t.id), name = r.lang === 'ja' ? '日本語' : 'English';
-    if (!lay) return '<p class="small mute" style="margin:6px 0">' + name + ' · testo in lingua non ancora disponibile per questo argomento (pilota: Moto in città). Resta l’italiano. <button class="btn alt sm" data-act="langFab">Torna all’italiano</button></p>';
+    if (!lay) return '<p class="small mute" style="margin:6px 0">' + name + ' · testo in lingua non ancora disponibile per questo argomento . Resta l’italiano. <button class="btn alt sm" data-act="langHome">Torna all’italiano</button></p>';
     if (compact) return '<details class="card layer-card"><summary class="small">' + name + ' · ' + E(L.MODES[r.mode]) + '</summary>' + body(lay, r, t) + '</details>';
     return '<div class="card layer-card"><h3>' + (r.lang === 'ja' ? U.ruby(lay.title.t) : E(lay.title.t)) + ' <span class="mute small">· ' + name + ' · ' + E(L.MODES[r.mode]) + '</span></h3>' + body(lay, r, t) + '</div>';
   };
   const body = (lay, r, t) => {
     const ja = r.lang === 'ja', m = r.mode;
     const gloss = '<div class="ln"><b>' + (ja ? 'Parole chiave' : 'Key terms') + '</b><ul>' + lay.gloss.map(g => '<li>' + (ja ? U.ruby('[' + g.w + '|' + g.r + ']') : E(g.w)) + ' ' + say(ja ? g.r : g.w, r.lang) + (ja ? ' <span class="ro">' + E(L.romaji(g.r)) + '</span>' : '') + ' — <span class="it">' + E(g.it) + '</span></li>').join('') + '</ul></div>';
+    if (lay.pages && m !== 'A') return gloss + '<p class="small mute">Le pagine tradotte compaiono nella lezione.</p>';
     if (m === 'A') return gloss + '<p class="small mute">Il testo della lezione resta in italiano: qui trovi i termini chiave.</p>';
     const note = ja ? '<p class="small mute">Romaji automatico: separazione delle parole approssimativa.</p>' : '';
     if (m === 'B') return lay.sum.map(s => '<div class="ln">' + say(s.t, r.lang) + ' ' + render(s.t, r.lang, t.id, false) + (ja ? '<div class="ro">' + E(L.romajiOf(s.t)) + '</div>' : '') + '<div class="it">' + E(s.it) + '</div></div>').join('') + note + gloss;
     return '<p class="small mute">Tocca una parola sottolineata, oppure seleziona un pezzo di testo, per vedere traduzione' + (ja ? ' e romaji' : '') + '. Le parole non presenti nel glossario non hanno traduzione.</p>' +
       lay.sum.map(s => '<div class="ln">' + say(s.t, r.lang) + ' ' + render(s.t, r.lang, t.id, true) + '<details><summary class="small mute">' + (ja ? 'romaji e italiano' : 'italiano') + '</summary>' + (ja ? '<div class="ro">' + E(L.romajiOf(s.t)) + '</div>' : '') + '<div class="it">' + E(s.it) + '</div></details></div>').join('') + note;
+  };
+
+  /* pagina tradotta: stesso markup dell'italiano; ⟦termine⟧ diventa toccabile in modalità C; romaji a richiesta in giapponese */
+  const pageHtml = (pg, lang, topicId, tappable) => {
+    const ja = lang === 'ja';
+    let html = U.markup(pg.b).replace(/⟦([^⟧]+)⟧/g, (_, inner) => { const plain = inner.replace(/<rt>.*?<\/rt>/g, '').replace(/<[^>]+>/g, ''); return tappable ? '<span class="gl" data-act="glTap" data-l="' + lang + '" data-t="' + topicId + '" data-g="' + E(plain) + '">' + inner + '</span>' : inner; });
+    const romaji = ja ? '<details><summary class="small mute">Romaji</summary><div class="ro">' + pg.b.split('\n').map(l => l.replace(/^\s*(?:[-*>]\s+)/, '').replace(/\*\*/g, '').trim()).filter(Boolean).map(l => E(L.romajiOf(l))).join('<br>') + '</div><p class="small mute">Romaji automatico: separazione delle parole approssimativa.</p></details>' : '';
+    return '<h2>' + (ja ? U.ruby(pg.h) : E(pg.h)) + '</h2>' + html + romaji;
+  };
+  /* pagina di lezione secondo lingua e modalità: A = italiano + parole chiave, B = lingua e italiano, C = solo lingua (italiano a richiesta) */
+  ST.layerLesson = (t, i, art) => {
+    const r = res(t); if (r.lang === 'it') return art;
+    const lay = L.get(r.lang, t.id);
+    if (!lay || !lay.pages || !lay.pages[i]) return ST.layerHtml(t, i > 0) + art;
+    const name = r.lang === 'ja' ? '日本語' : 'English';
+    if (r.mode === 'A') return '<details class="card layer-card"><summary class="small">' + name + ' · parole chiave</summary>' + body(lay, r, t) + '</details>' + art;
+    const card = '<div class="card layer-card"><span class="mute small">' + name + ' · ' + E(L.MODES[r.mode]) + '</span>' + pageHtml(lay.pages[i], r.lang, t.id, r.mode === 'C') + '</div>';
+    if (r.mode === 'B') return card + '<p class="mute small" style="margin:4px 0">Testo italiano</p>' + art;
+    return card + '<details class="card"><summary class="small mute">Mostra il testo italiano</summary>' + art + '</details>';
   };
   /* ---- traduzione al tocco e alla selezione ---- */
   const popFor = (lang, topicId, q) => {
