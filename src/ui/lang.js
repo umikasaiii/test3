@@ -17,6 +17,7 @@
     if (!b) { b = document.createElement('button'); b.id = 'lang-fab'; b.className = 'lang-fab'; b.setAttribute('data-act', 'langFab'); document.body.appendChild(b); }
     const r = res(t), last = ((A.state.settings.lang || {}).last) || { lang: 'en' };
     b.innerHTML = r.lang === 'it' ? flag(last.lang === 'ja' ? 'ja' : 'en', 'f') : flag('it', 'f');
+    b.classList.toggle('nolayer', !L.has(t.id)); b.title = L.has(t.id) ? '' : 'Testo in lingua non ancora disponibile per questo argomento';
     b.setAttribute('aria-label', r.lang === 'it' ? 'Scegli la lingua del testo' : 'Torna all’italiano');
   };
   const closePop = () => { const p = document.getElementById('lang-pop'); if (p) p.remove(); };
