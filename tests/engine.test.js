@@ -837,3 +837,36 @@ test('memoria prospettica e metacognizione: risposta unica e coerente', () => {
   }
   assert.equal(ST.mental.crit.counts.meta, 8);
 });
+
+test('kanji: risposte ricalcolate sull’indice delle carte e componenti coerenti', () => {
+  const KJ = ST.kanji, ix = KJ.index(), r = U.rng(21), KAN = /[一-鿿]/g;
+  const byW = {}; ix.words.forEach(x => byW[x.w] = x);
+  for (let i = 0; i < 80; i++) {
+    let it = KJ.make('kjread', 1, r), w = /«(.+)»/.exec(it.q)[1]; assert.equal(it.o[it.a], byW[w].r); assert.equal(new Set(it.o).size, 4);
+    it = KJ.make('kjmean', 1, r); w = /«(.+)» \(/.exec(it.q)[1]; assert.equal(it.o[it.a], byW[w].f);
+    it = KJ.make('kjcommon', 1, r); if (it.mtype === 'kjcommon') { const ws = Array.from(it.q.matchAll(/«([^»]+)»/g)).map(m => m[1]); assert.ok(ws.every(x => x.includes(it.o[it.a]))); it.o.forEach((c, k) => { if (k !== it.a) assert.ok(!ws.some(x => x.includes(c))); }); }
+    it = KJ.make('kjradical', 1, r); const comp = /componente «(.)»/.exec(it.q)[1]; assert.ok(KJ.RAD[comp][1].includes(it.o[it.a])); it.o.forEach((c, k) => { if (k !== it.a) assert.ok(!KJ.RAD[comp][1].includes(c)); });
+    it = KJ.make('kjonkun', 1, r); const m = /kanji «(.)»: la lettura «(.+)» è/.exec(it.q), [on, kun] = KJ.ONKUN[m[1]], kind = on.includes(m[2]) ? 0 : kun.includes(m[2]) ? 1 : 2; assert.equal(it.a, kind);
+    it = KJ.make('kjwrite', 1, r); assert.ok(byW[it.a[0]] && it.q.includes(byW[it.a[0]].r));
+  }
+  assert.ok(Object.keys(ix.chars).length > 400 && ix.words.every(x => KAN.test(x.w) && (KAN.lastIndex = 0, true)));
+  for (const k in KJ.RAD) assert.ok(KJ.RAD[k][1].length >= 2);
+  assert.equal(KJ.session(fresh(), 10).length, 10);
+});
+
+test('dialoghi ramificati: grafo valido, ogni percorso termina, scelte con feedback', () => {
+  const DL = ST.dialog;
+  DL.LIST.forEach(d => {
+    const ids = Object.keys(d.nodes), reach = new Set([d.start]), stack = [d.start];
+    while (stack.length) { const n = d.nodes[stack.pop()]; assert.ok(n, d.id); if (n.end) continue; assert.ok(n.ch.length >= 1 && n.ch.every(c => d.nodes[c.next] && c.fb && c.t && [0, 1, 2].includes(c.q)), d.id); n.ch.forEach(c => { if (!reach.has(c.next)) { reach.add(c.next); stack.push(c.next); } }); }
+    assert.equal(reach.size, ids.length, d.id + ' nodi irraggiungibili');
+    assert.ok(ids.filter(i => d.nodes[i].end).length >= 1);
+    // nessun ciclo: ogni percorso termina (DFS con stack di visita)
+    const vis = {}, dfs = id => { if (vis[id] === 1) throw new Error('ciclo ' + d.id); if (vis[id] === 2 || d.nodes[id].end) return; vis[id] = 1; d.nodes[id].ch.forEach(c => dfs(c.next)); vis[id] = 2; };
+    dfs(d.start);
+    // ogni nodo con scelte ha almeno una scelta ottima (q=2)
+    ids.forEach(i => { const n = d.nodes[i]; if (!n.end) assert.ok(n.ch.some(c => c.q === 2), d.id + ':' + i); });
+  });
+  assert.equal(DL.score([{ q: 2 }, { q: 2 }, { q: 0 }, { q: 1 }]), 5 / 8);
+  assert.equal(DL.step(DL.LIST[0], 'a', 0).next, 'b');
+});

@@ -1114,6 +1114,111 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   };
 })(window.ST = window.ST || {});
 
+/* ---- core/dialog ---- */
+/* SkillTree — Dynamic Conversation Lab (versione senza AI): dialoghi ramificati a scelte. Non è conversazione libera:
+   le risposte sono predefinite, ma le scelte cambiano il corso del dialogo e ricevono un feedback. */
+(function (ST) {
+  'use strict';
+  const U = ST.util, DL = ST.dialog = {};
+  const N = (npc, tr, ch) => ({ npc, tr, ch: ch && ch.map(c => ({ t: c[0], q: c[1], fb: c[2], next: c[3] })) });
+  const END = (npc, tr) => ({ npc, tr, end: true });
+  DL.LIST = [
+    { id: 'cafe', title: 'Al caffè', area: 'Situazioni quotidiane', level: 'B1', start: 'a', nodes: {
+      a: N('Hi there! What can I get you?', 'Salve! Cosa le porto?', [['I’d like a medium latte, please.', 2, 'Naturale e cortese: «I’d like… please».', 'b'], ['Give me a coffee.', 0, 'Troppo diretto: suona brusco. Meglio «Could I have…?» o «I’d like…».', 'b'], ['Can I have a latte? A medium one, if possible.', 2, 'Chiaro e gentile.', 'b']]),
+      b: N('Sure. Would you like that to have here or to take away?', 'Certo. Lo prende qui o da portare via?', [['To take away, please.', 2, 'Risposta corretta e naturale. Si dice «to take away» (UK) o «to go» (US).', 'c'], ['I take away.', 0, 'Errore di grammatica: «I’ll take it away» o «To take away, please».', 'c'], ['Here, thanks.', 2, 'Corretto.', 'c']]),
+      c: N('That’s £3.80. Do you want anything else, like a pastry?', 'Sono 3,80 sterline. Desidera altro, per esempio un dolce?', [['No, that’s all, thank you. Can I pay by card?', 2, 'Chiaro e completo.', 'd'], ['Yes, a croissant. How much is it?', 2, 'Domanda corretta sul prezzo.', 'd'], ['No. Card.', 1, 'Si capisce, ma è telegrafico: aggiungi una frase intera per essere cortese.', 'd']]),
+      d: END('Of course. Here you go — enjoy your drink!', 'Certo. Ecco a lei: buona bevuta!') } },
+    { id: 'station', title: 'Perso in stazione', area: 'Viaggi e orientamento', level: 'B1', start: 'a', nodes: {
+      a: N('You look a bit lost. Can I help you?', 'Sembri un po’ perso. Posso aiutarti?', [['Yes, please. I’m trying to find platform 4.', 2, 'Chiaro e specifico.', 'b'], ['Where is the thing for the train?', 0, 'Troppo vago: di’ cosa cerchi (platform, ticket office, exit…).', 'b'], ['Excuse me, could you tell me where platform 4 is?', 2, 'Molto cortese.', 'b']]),
+      b: N('Platform 4 is down those stairs, then turn left. It leaves in ten minutes, so you’d better hurry.', 'Il binario 4 è giù per le scale, poi a sinistra. Parte tra dieci minuti, quindi ti conviene sbrigarti.', [['Thanks! Do I need to validate my ticket first?', 2, 'Domanda utile e naturale.', 'c'], ['Sorry, can you repeat that more slowly?', 2, 'Perfetto per chiedere di ripetere.', 'b2'], ['OK.', 1, 'Se non hai capito, meglio chiedere di ripetere.', 'c']]),
+      b2: N('Of course. Down the stairs — then left. Platform 4.', 'Certo. Giù per le scale, poi a sinistra. Binario 4.', [['Got it, thank you very much!', 2, 'Ottima chiusura.', 'c']]),
+      c: N('Yes, you do — the machine is just over there, next to the café.', 'Sì, devi — la macchina è proprio là, accanto al bar.', [['Great, thanks for your help!', 2, 'Naturale.', 'd'], ['Thank you. Which way is the exit afterwards?', 2, 'Anticipa la prossima necessità.', 'd']]),
+      d: END('You’re welcome. Have a good trip!', 'Prego. Buon viaggio!') } },
+    { id: 'interview', title: 'Colloquio di lavoro', area: 'Lavoro e colloqui', level: 'B2', start: 'a', nodes: {
+      a: N('Thanks for coming in. Could you tell me a little about yourself?', 'Grazie di essere venuto. Può parlarmi un po’ di sé?', [['I have three years of experience in customer service, and I’m looking for a role with more responsibility.', 2, 'Sintetico, pertinente e orientato al ruolo.', 'b'], ['I’m a very nice person and I like people.', 0, 'Troppo generico: collega esperienze e competenze al ruolo.', 'b'], ['I studied economics and then worked in two small companies. I enjoy solving problems.', 2, 'Buon equilibrio tra formazione ed esperienza.', 'b']]),
+      b: N('What would you say is your biggest weakness?', 'Quale direbbe che è il suo punto debole principale?', [['I sometimes take on too much, so I’ve started planning my week in advance.', 2, 'Onesto e mostra come lo gestisci.', 'c'], ['I have no weaknesses.', 0, 'Poco credibile: suona come una non-risposta.', 'c'], ['I’m not very good at public speaking, but I’m practising.', 2, 'Onesto, con un piano di miglioramento.', 'c']]),
+      c: N('Why do you want to work for our company?', 'Perché vuole lavorare per la nostra azienda?', [['I admire how you handle customer feedback, and I think my experience would help your team.', 2, 'Specifico e collega l’azienda al tuo contributo.', 'd'], ['Because I need a job.', 0, 'Sincero ma poco professionale: spiega anche cosa offri.', 'd'], ['I read about your new project and I’d like to be part of it.', 1, 'Buono, ma aggiungi cosa potresti fare tu.', 'd']]),
+      d: N('Do you have any questions for us?', 'Ha qualche domanda per noi?', [['Yes — what would a typical first month look like in this role?', 2, 'Domanda utile che mostra interesse.', 'e'], ['No, nothing.', 1, 'Meglio fare almeno una domanda: mostra interesse.', 'e'], ['How much holiday do I get?', 1, 'Lecita, ma di solito si chiede dopo aver parlato del ruolo.', 'e']]),
+      e: END('Thank you. We’ll be in touch by the end of the week.', 'Grazie. La contatteremo entro la fine della settimana.') } },
+    { id: 'disagree', title: 'Non essere d’accordo con garbo', area: 'Discussioni e argomentazioni', level: 'B2', start: 'a', nodes: {
+      a: N('I think we should launch the product next week, even if the testing isn’t finished.', 'Penso che dovremmo lanciare il prodotto la prossima settimana, anche se i test non sono finiti.', [['I see your point, but I’m worried that unfinished testing could lead to serious problems.', 2, 'Riconosci il punto e poi esprimi la preoccupazione.', 'b'], ['That’s a stupid idea.', 0, 'Giudizio personale e aggressivo: attacca l’idea, non la persona, e con cortesia.', 'b'], ['I’m not sure. What would happen if there are bugs after the launch?', 2, 'Domanda aperta che invita al ragionamento.', 'b']]),
+      b: N('We can’t wait longer. The deadline is very tight and the client is expecting it.', 'Non possiamo aspettare di più. La scadenza è molto stretta e il cliente se l’aspetta.', [['I understand the pressure. What if we launch a limited version first and finish testing in parallel?', 2, 'Propone un’alternativa concreta.', 'c'], ['Then do what you want. I won’t help.', 0, 'Chiude il dialogo e danneggia il rapporto.', 'd'], ['That’s fair. Could we at least test the most critical features this week?', 2, 'Compromesso ragionevole.', 'c']]),
+      c: N('That could work, but it would need more resources. Who could help?', 'Potrebbe funzionare, ma servirebbero più risorse. Chi potrebbe aiutarci?', [['I could ask Marco from the QA team. I’ll talk to him today.', 2, 'Propone un’azione specifica.', 'e'], ['I don’t know. That’s your problem.', 0, 'Scarica la responsabilità senza collaborare.', 'd']]),
+      d: N('OK. I think we need to talk about how we work together.', 'D’accordo. Credo che dobbiamo parlare di come lavoriamo insieme.', [['You’re right, I’m sorry. Let’s find a solution together.', 2, 'Recupera il rapporto.', 'e']]),
+      e: END('Good. Let’s meet tomorrow morning and agree on the plan.', 'Bene. Incontriamoci domani mattina e concordiamo il piano.') } },
+    { id: 'return', title: 'Un prodotto difettoso', area: 'Risoluzione di problemi', level: 'B2', start: 'a', nodes: {
+      a: N('Hello, how can I help you today?', 'Buongiorno, come posso aiutarla oggi?', [['Hi. I bought this blender last week and it stopped working yesterday. I’d like a refund or a replacement.', 2, 'Spiega il problema, i fatti e cosa chiedi.', 'b'], ['This is broken. Fix it now!', 0, 'Tono aggressivo e poco informativo: dà i fatti e chiedi una soluzione.', 'b'], ['Excuse me, I have a problem with a product I bought here.', 1, 'Cortese, ma aggiungi subito cosa è successo e cosa chiedi.', 'b']]),
+      b: N('I’m sorry to hear that. Do you have the receipt?', 'Mi dispiace. Ha lo scontrino?', [['Yes, here it is. I paid by card on the 5th.', 2, 'Fornisce l’informazione richiesta.', 'c'], ['No, I lost it, but I can show you my bank statement.', 2, 'Propone un’alternativa credibile.', 'c'], ['No. And I won’t look for it.', 0, 'Poco collaborativo: spesso serve una prova d’acquisto.', 'd']]),
+      c: N('Thank you. I can offer you a replacement, but a refund would take about a week.', 'Grazie. Posso offrirle una sostituzione, ma il rimborso richiederebbe circa una settimana.', [['I’d prefer a replacement, please. Could I take it today?', 2, 'Scelta chiara e richiesta pratica.', 'e'], ['A refund, please. Could you give me written confirmation?', 2, 'Chiede una conferma scritta: prudente.', 'e']]),
+      d: N('I’m afraid we can’t help without proof of purchase. If you find the receipt, we’ll be happy to help.', 'Temo che senza prova d’acquisto non possiamo aiutarla. Se trova lo scontrino, saremo lieti di farlo.', [['I understand. I’ll look for it and come back. Thank you for your time.', 2, 'Chiude con calma e lascia aperta la soluzione.', 'e'], ['This is ridiculous. I’ll never shop here again.', 0, 'Chiude con rabbia: non risolve il problema.', 'e']]),
+      e: END('Thank you for your patience. Have a nice day!', 'Grazie per la pazienza. Buona giornata!') } }
+  ];
+  DL.byId = id => DL.LIST.find(d => d.id === id);
+  DL.step = (d, nodeId, choiceIdx) => { const n = d.nodes[nodeId], c = n.ch[choiceIdx]; return { q: c.q, fb: c.fb, text: c.t, next: c.next }; };
+  /* risultato: % del punteggio massimo sulle scelte effettuate (2 punti per scelta) */
+  DL.score = log => log.length ? log.reduce((a, x) => a + x.q, 0) / (2 * log.length) : 0;
+})(window.ST = window.ST || {});
+
+/* ---- core/kanji ---- */
+/* SkillTree — Kanji Intelligence: laboratori derivati dalle carte lessicali di giapponese + componenti e letture on/kun curati.
+   Riconoscimento (lettura, significato, kanji in comune, componenti, on/kun) e produzione (scrittura del vocabolo) sono tenuti separati. */
+(function (ST) {
+  'use strict';
+  const U = ST.util, KJ = ST.kanji = {};
+  const KAN = /[一-鿿]/g;
+  KJ.TYPES = ['kjread', 'kjmean', 'kjcommon', 'kjradical', 'kjonkun', 'kjwrite'];
+  KJ.LABEL = { kjread: 'Kanji · lettura del vocabolo', kjmean: 'Kanji · significato', kjcommon: 'Kanji · il carattere in comune', kjradical: 'Kanji · componenti (radicali)', kjonkun: 'Kanji · letture on e kun', kjwrite: 'Kanji · scrivere il vocabolo (produzione)' };
+  KJ.PRODUCTION = { kjwrite: true };
+  const plain = b => String(b).replace(/\[([^|\]]+)\|[^\]]+\]/g, '$1');
+  let cache = null;
+  /* indice: parole con kanji, dalle carte di tutti gli argomenti di giapponese */
+  KJ.index = () => {
+    if (cache) return cache;
+    const words = [], seen = new Set();
+    Object.values(ST.content.topics).filter(t => t.subject === 'jpn').forEach(t => (t.cards || []).forEach(c => {
+      const w = plain(c.b); if (!KAN.test(w) || !c.r || seen.has(w)) { KAN.lastIndex = 0; return; } KAN.lastIndex = 0; seen.add(w);
+      words.push({ w, r: c.r, f: c.f, topic: t.id });
+    }));
+    const chars = {}; words.forEach(x => (x.w.match(KAN) || []).forEach(ch => (chars[ch] = chars[ch] || []).push(x)));
+    return (cache = { words, chars });
+  };
+  /* Componenti: ogni kanji elencato contiene il componente del suo gruppo e NESSUNO degli altri componenti del gruppo-elenco (verificato a mano). */
+  KJ.RAD = { '氵': ['acqua', '海池泳洗酒河'], '木': ['albero', '林森村校机桜橋'], '言': ['parola, dire', '話語読説記計'], '亻': ['persona', '何作使住他仕'], '扌': ['mano', '持打押投指'], '辶': ['movimento, strada', '道送近遠通'], '艹': ['erba, piante', '花草英'], '糸': ['filo', '紙線終細給'], '金': ['metallo', '銀鉄'], '食': ['cibo, mangiare', '飲飯館'] };
+  /* Letture principali (non esaustive) di kanji comuni */
+  KJ.ONKUN = { '日': [['ニチ', 'ジツ'], ['ひ', 'か']], '月': [['ゲツ', 'ガツ'], ['つき']], '水': [['スイ'], ['みず']], '火': [['カ'], ['ひ']], '木': [['モク', 'ボク'], ['き']], '金': [['キン'], ['かね']], '土': [['ド', 'ト'], ['つち']], '山': [['サン'], ['やま']], '川': [['セン'], ['かわ']], '人': [['ジン', 'ニン'], ['ひと']], '大': [['ダイ', 'タイ'], ['おお']], '小': [['ショウ'], ['ちい', 'こ']], '学': [['ガク'], ['まな']], '国': [['コク'], ['くに']], '車': [['シャ'], ['くるま']], '食': [['ショク'], ['た', 'く']], '見': [['ケン'], ['み']], '来': [['ライ'], ['く', 'き']], '手': [['シュ'], ['て']], '目': [['モク'], ['め']], '口': [['コウ', 'ク'], ['くち']], '先': [['セン'], ['さき']], '本': [['ホン'], ['もと']] };
+  const ri = (rng, a, b) => a + Math.floor(rng() * (b - a + 1));
+  const pickW = (rng, st) => { const ix = KJ.index(); const studied = st && ST.cards && Object.keys(st.cards).filter(id => st.cards[id].kind === 'vocab' && st.cards[id].lang === 'ja').map(id => { const c = st.cards[id], t = ST.content.topic(c.topic), cd = t && (t.cards || []).find(x => x.id === c.cid); return cd && plain(cd.b); }).filter(Boolean);
+    const pool = studied && studied.length >= 12 ? ix.words.filter(x => studied.includes(x.w)) : ix.words; return U.pick(pool.length >= 8 ? pool : ix.words, rng); };
+  const mk = (type, q, correct, wrongs, why, extra) => { const o = U.shuffle([correct].concat(wrongs), U.rand); return Object.assign({ t: 'mc', mtype: type, q, o, a: o.indexOf(correct), why }, extra || {}); };
+  const gen = {};
+  gen.kjread = (lv, rng, st) => { const x = pickW(rng, st), ix = KJ.index(); const w = U.sample(ix.words.filter(y => y.r !== x.r && Math.abs(y.r.length - x.r.length) <= 1), 3, rng).map(y => y.r); return mk('kjread', 'Come si legge «' + x.w + '»?', x.r, w, x.w + ' = ' + x.r + ' (' + x.f + ')', { say: { lang: 'ja', text: x.r } }); };
+  gen.kjmean = (lv, rng, st) => { const x = pickW(rng, st), ix = KJ.index(); const w = U.sample(ix.words.filter(y => y.f !== x.f), 3, rng).map(y => y.f); return mk('kjmean', 'Che cosa significa «' + x.w + '» (' + x.r + ')?', x.f, w, x.w + ' = ' + x.f); };
+  gen.kjcommon = (lv, rng, st) => {
+    const ix = KJ.index(), cands = Object.keys(ix.chars).filter(ch => ix.chars[ch].length >= 2); if (!cands.length) return gen.kjread(lv, rng, st);
+    const ch = U.pick(cands, rng), two = U.sample(ix.chars[ch], 2, rng), setA = new Set(two[0].w.match(KAN)), setB = new Set(two[1].w.match(KAN));
+    const common = Array.from(setA).filter(c => setB.has(c)); if (common.length !== 1) return gen.kjread(lv, rng, st); // risposta unica
+    const others = Object.keys(ix.chars).filter(c => !setA.has(c) && !setB.has(c)); const w = U.sample(others, 3, rng);
+    return mk('kjcommon', 'Quale carattere compare sia in «' + two[0].w + '» (' + two[0].f + ') sia in «' + two[1].w + '» (' + two[1].f + ')?', common[0], w, 'Il carattere in comune è ' + common[0] + ': ' + two[0].w + ' = ' + two[0].r + ', ' + two[1].w + ' = ' + two[1].r + '.');
+  };
+  gen.kjradical = (lv, rng) => {
+    const ix = KJ.index(), keys = Object.keys(KJ.RAD), k = U.pick(keys, rng), own = KJ.RAD[k][1].split(''), inApp = own.filter(c => ix.chars[c]), a = U.pick(inApp.length ? inApp : own, rng);
+    const others = [].concat.apply([], keys.filter(x => x !== k).map(x => KJ.RAD[x][1].split(''))), w = U.sample(others, 3, rng);
+    return mk('kjradical', 'Quale di questi kanji contiene il componente «' + k + '» (' + KJ.RAD[k][0] + ')?', a, w, a + ' contiene ' + k + '; il componente suggerisce il campo di significato (' + KJ.RAD[k][0] + '), non lo determina sempre.');
+  };
+  gen.kjonkun = (lv, rng) => {
+    const ks = Object.keys(KJ.ONKUN), k = U.pick(ks, rng), [on, kun] = KJ.ONKUN[k], r = rng(), O = ['On’yomi (lettura di origine cinese)', 'Kun’yomi (lettura giapponese nativa)', 'Non è una lettura di questo kanji'];
+    let reading, ans;
+    if (r < 0.4) { reading = U.pick(on, rng); ans = O[0]; } else if (r < 0.8) { reading = U.pick(kun, rng); ans = O[1]; }
+    else { const other = U.pick(ks.filter(x => x !== k), rng), all = KJ.ONKUN[other][0].concat(KJ.ONKUN[other][1]).filter(x => ![].concat(on, kun).includes(x)); reading = U.pick(all, rng); ans = O[2]; }
+    return { t: 'mc', mtype: 'kjonkun', q: 'Per il kanji «' + k + '»: la lettura «' + reading + '» è…', o: O.slice(), a: O.indexOf(ans), why: k + ': on = ' + on.join(', ') + '; kun = ' + kun.join(', ') + ' (letture principali, non esaustive). Il katakana segna convenzionalmente le on, l’hiragana le kun.' };
+  };
+  gen.kjwrite = (lv, rng, st) => { const ix = KJ.index(), pool = ix.words.filter(x => (x.w.match(KAN) || []).length <= 3 && x.w.length <= 4); const x = pickW(rng, st); const y = (x.w.length <= 4 && (x.w.match(KAN) || []).length <= 3) ? x : U.pick(pool, rng);
+    return { t: 'fill', mtype: 'kjwrite', q: 'Scrivi in kanji (e okurigana): «' + y.f + '» (lettura ' + y.r + ')', a: [y.w], why: y.w + ' = ' + y.r, jaReading: false, timed: 60 }; };
+  KJ.make = (type, lv, rng, st) => gen[type](lv || 1, rng || U.rand, st);
+  KJ.session = (st, n, rng) => { rng = rng || U.rand; const out = []; for (let i = 0; i < (n || 10); i++) out.push(KJ.make(KJ.TYPES[i % KJ.TYPES.length], 1, rng, st)); return out; };
+  KJ.record = (st, type, ok) => { const m = ((st.kanji = st.kanji || {})[type] = st.kanji[type] || { n: 0, ok: 0 }); m.n++; if (ok) m.ok++; };
+})(window.ST = window.ST || {});
+
 /* ---- core/motor ---- */
 /* SkillTree — scheduler motorio (judo/lotta). 5 minuti al giorno, solo esercizi solitari e sicuri.
    Registra per ogni tecnica: ultimo allenamento, richiami, difficoltà, qualità, errori ricorrenti,
@@ -1296,7 +1401,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     xp: 0, xpLog: {}, xpKeys: {},
     topics: {}, cards: {}, reviewLog: [],
     kana: { items: {}, placed: false, lastSession: null },
-    motor: {}, mental: {}, theory: {}, skills: {}, vocab: {}, tt: {}, journal: [], forecasts: [], 
+    motor: {}, mental: {}, theory: {}, skills: {}, vocab: {}, tt: {}, kanji: {}, journal: [], forecasts: [], 
     exams: [], gates: { en: {} }, rec: [],
     daily: {}, resume: {}, settings: { sound: true },
     log: []
@@ -40686,7 +40791,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   'use strict';
   const U = ST.util, A = ST.app, E = U.esc, X = ST.acts, T = ST.transfer;
   const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
-  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['voc', 'Lessico'], ['tt', 'Allenamento strategico'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
+  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['voc', 'Lessico'], ['kj', 'Kanji'], ['dlg', 'Dialoghi'], ['tt', 'Allenamento strategico'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
   const field = (id, label, ph) => '<label class="small mute">' + label + '</label><input id="' + id + '" class="inp" placeholder="' + E(ph || '') + '" style="width:100%">';
   const dash = s => {
     const ids = Object.keys(s.skills || {}), due = T.due(s);
@@ -40754,7 +40859,22 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
         '<button class="btn ghost" data-act="ttSel" data-pr="" style="margin-top:8px">← Tutti i principi</button></div>'; }
     return '<div class="card"><h3>Allenamento strategico in 5 passaggi</h3><p class="small mute">Ogni principio: teoria → esercizio astratto → scenario realistico → applicazione nella tua vita → verifica differita in un contesto nuovo, senza suggerimenti. L’ultimo passo è quello che conta.</p>' + TT.summary(s).map(x => '<button class="item" data-act="ttSel" data-pr="' + x.pr + '"><span class="tx"><b>' + E(K.PRINCIPLES[x.pr].t) + '</b><span>' + (x.st.done ? 'completato' : 'passo ' + x.st.next + ' di 5' + (x.st.next === 5 && !x.st.ready ? ' (tra ' + x.st.wait + ' giorni)' : '')) + '</span></span></button>').join('') + '</div>';
   };
-  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : t === 'voc' ? voc(s) : t === 'tt' ? ttv(s) : dash(s)); };
+  const kjv = s => { const KJ = ST.kanji, ix = KJ.index(); return '<div class="card"><h3>Kanji Intelligence</h3><p class="small mute">' + Object.keys(ix.chars).length + ' kanji in ' + ix.words.length + ' vocaboli dalle carte di giapponese. Si lavora su parole e contesti, non su caratteri isolati. Riconoscimento e produzione sono contati separatamente: leggere un kanji non significa saperlo scrivere.</p>' +
+    '<button class="btn block" data-act="kjStart" data-t="mix">▶ Sessione mista (10)</button><table class="t" style="margin-top:8px"><tr><td>Esercizio</td><td class="small">Corrette</td><td></td></tr>' +
+    KJ.TYPES.map(t => { const m = (s.kanji || {})[t]; return '<tr><td>' + E(KJ.LABEL[t]) + (KJ.PRODUCTION[t] ? ' <span class="tag">produzione</span>' : ' <span class="tag">riconoscimento</span>') + '</td><td>' + (m && m.n ? Math.round(100 * m.ok / m.n) + '% (' + m.n + ')' : '—') + '</td><td><button class="btn alt sm" data-act="kjStart" data-t="' + t + '">▶</button></td></tr>'; }).join('') + '</table>' +
+    '<p class="small mute">Componenti e letture on/kun usano elenchi curati (letture principali, non esaustive). Servono per orientarsi: un componente suggerisce il campo di significato ma non lo determina sempre.</p></div>'; };
+  const dlgv = s => {
+    const DL = ST.dialog, st = A.dlg;
+    if (!st) return '<div class="card"><h3>Dialoghi ramificati · inglese</h3><p class="small mute">Dialoghi a scelte: ogni risposta cambia il corso della conversazione e riceve un feedback. Non è una conversazione libera con un’AI: le risposte sono predefinite (disponibile solo l’ascolto con la voce del dispositivo, non registrazioni di madrelingua).</p>' + DL.LIST.map(d => { const r = (s.skills || {})['dlg:' + d.id]; return '<button class="item" data-act="dlgOpen" data-id="' + d.id + '"><span class="tx"><b>' + E(d.title) + '</b><span>' + E(d.area) + ' · ' + d.level + (r && r.hist.length ? ' · tentativi: ' + r.hist.length : '') + '</span></span></button>'; }).join('') + '</div>';
+    const d = DL.byId(st.id), n = d.nodes[st.node];
+    const last = st.log.length ? st.log[st.log.length - 1] : null;
+    let h = last ? '<div class="card"><p class="small">Hai detto: «' + E(last.text) + '»</p><p class="small ' + (last.q === 2 ? 'good' : last.q === 1 ? 'warn' : 'bad') + '">' + (last.q === 2 ? '✓ ' : last.q === 1 ? '≈ ' : '✗ ') + E(last.fb) + '</p></div>' : '';
+    h += '<div class="card"><h3>' + E(d.title) + '</h3><p><b>' + '<button class="say" data-act="say" data-lang="en-GB" data-text="' + E(U.speechText(n.npc)) + '" aria-label="Ascolta">🔊</button> <span class="sayt">' + E(n.npc) + '</span>' + '</b></p><details><summary class="small mute">Traduzione</summary><p class="small">' + E(n.tr) + '</p></details>';
+    if (n.end) { const pc = Math.round(100 * DL.score(st.log)); h += '<p class="small"><b>Fine del dialogo.</b> Risposte efficaci: ' + st.log.filter(x => x.q === 2).length + ' su ' + st.log.length + ' (' + pc + '%). È un esercizio di scelta tra risposte predefinite, non una valutazione della tua produzione libera.</p><button class="btn" data-act="dlgOpen" data-id="' + d.id + '">Ripeti</button> <button class="btn ghost" data-act="dlgOpen" data-id="">Altri dialoghi</button></div>'; }
+    else h += n.ch.map((c, i) => '<button class="item" data-act="dlgPick" data-i="' + i + '"><span class="tx"><b>' + E(c.t) + '</b></span></button>').join('') + '</div>';
+    return h;
+  };
+  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : t === 'voc' ? voc(s) : t === 'kj' ? kjv(s) : t === 'dlg' ? dlgv(s) : t === 'tt' ? ttv(s) : dash(s)); };
   const re = () => { A.save(); A.render(); };
   X.jAdd = () => { const s = A.state, p = parseInt(val('j-p'), 10); if (!val('j-sit') || !val('j-choice')) return A.toast && A.toast('Servono almeno situazione e scelta'); T.jAdd(s, { sit: val('j-sit'), goal: val('j-goal'), opts: val('j-opts'), hyp: val('j-hyp'), p: isNaN(p) ? null : Math.max(0, Math.min(100, p)), choice: val('j-choice'), why: val('j-why'), check: val('j-check') }); re(); };
   X.jClose = el => { T.jClose(A.state, el.dataset.id, val('o-' + el.dataset.id), val('l-' + el.dataset.id)); re(); };
@@ -40800,6 +40920,16 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     A.ctx = 'general';
     if (n === 5) ST.runner.start({ title: 'Verifica differita', kind: 'free', items: [TT.delayedItem(s, pr)], ctx: 'general', onAnswer: (it, ok) => { TT.done(s, pr, 5, ok); T.record(s, 'tr:' + pr, 'delayed', ok, {}); A.save(); } });
     else ST.runner.start({ title: ST.kg.PRINCIPLES[pr].t, kind: 'free', items: [TT.item(pr, n)], ctx: 'general', onAnswer: () => { TT.done(s, pr, n); A.save(); } });
+  };
+  X.kjStart = el => {
+    const s = A.state, KJ = ST.kanji, t = el.dataset.t, items = t === 'mix' ? KJ.session(s, 10) : Array.from({ length: 8 }, () => KJ.make(t, 1, U.rand, s)); A.ctx = 'general';
+    ST.runner.start({ title: t === 'mix' ? 'Kanji · sessione mista' : KJ.LABEL[t], kind: 'free', items, ctx: 'general', onAnswer: (it, ok) => { KJ.record(s, it.mtype, ok); A.xp(ok ? 2 : 0, 'kj:' + it.mtype); A.save(); } });
+  };
+  X.dlgOpen = el => { A.dlg = el.dataset.id ? { id: el.dataset.id, node: ST.dialog.byId(el.dataset.id).start, log: [] } : null; A.render(); };
+  X.dlgPick = el => {
+    const st = A.dlg, DL = ST.dialog, d = DL.byId(st.id), r = DL.step(d, st.node, +el.dataset.i); st.log.push(r); st.node = r.next;
+    if (d.nodes[st.node].end) { T.record(A.state, 'dlg:' + st.id, 'auto', DL.score(st.log) >= 0.8, {}); A.xp(3, 'dlg:' + st.id); A.save(); }
+    A.render();
   };
   X.jExport = () => { const b = new Blob([T.exportJournal(A.state)], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'skilltree-diario.json'; a.click(); };
 })(window.ST = window.ST || {});

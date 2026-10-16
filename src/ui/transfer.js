@@ -3,7 +3,7 @@
   'use strict';
   const U = ST.util, A = ST.app, E = U.esc, X = ST.acts, T = ST.transfer;
   const val = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
-  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['voc', 'Lessico'], ['tt', 'Allenamento strategico'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
+  const tabs = t => '<div class="row" style="gap:6px;flex-wrap:wrap">' + [['dash', 'Competenze'], ['tr', 'Transfer'], ['rwd', 'Decisioni'], ['cog', 'Test cognitivi'], ['cs', 'Casi sport'], ['voc', 'Lessico'], ['kj', 'Kanji'], ['dlg', 'Dialoghi'], ['tt', 'Allenamento strategico'], ['jour', 'Diario'], ['fore', 'Previsioni']].map(x => '<button class="btn' + (t === x[0] ? '' : ' ghost') + '" data-act="go" data-view="transfer" data-p=\'{"t":"' + x[0] + '"}\'>' + x[1] + '</button>').join('') + '</div>';
   const field = (id, label, ph) => '<label class="small mute">' + label + '</label><input id="' + id + '" class="inp" placeholder="' + E(ph || '') + '" style="width:100%">';
   const dash = s => {
     const ids = Object.keys(s.skills || {}), due = T.due(s);
@@ -71,7 +71,22 @@
         '<button class="btn ghost" data-act="ttSel" data-pr="" style="margin-top:8px">← Tutti i principi</button></div>'; }
     return '<div class="card"><h3>Allenamento strategico in 5 passaggi</h3><p class="small mute">Ogni principio: teoria → esercizio astratto → scenario realistico → applicazione nella tua vita → verifica differita in un contesto nuovo, senza suggerimenti. L’ultimo passo è quello che conta.</p>' + TT.summary(s).map(x => '<button class="item" data-act="ttSel" data-pr="' + x.pr + '"><span class="tx"><b>' + E(K.PRINCIPLES[x.pr].t) + '</b><span>' + (x.st.done ? 'completato' : 'passo ' + x.st.next + ' di 5' + (x.st.next === 5 && !x.st.ready ? ' (tra ' + x.st.wait + ' giorni)' : '')) + '</span></span></button>').join('') + '</div>';
   };
-  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : t === 'voc' ? voc(s) : t === 'tt' ? ttv(s) : dash(s)); };
+  const kjv = s => { const KJ = ST.kanji, ix = KJ.index(); return '<div class="card"><h3>Kanji Intelligence</h3><p class="small mute">' + Object.keys(ix.chars).length + ' kanji in ' + ix.words.length + ' vocaboli dalle carte di giapponese. Si lavora su parole e contesti, non su caratteri isolati. Riconoscimento e produzione sono contati separatamente: leggere un kanji non significa saperlo scrivere.</p>' +
+    '<button class="btn block" data-act="kjStart" data-t="mix">▶ Sessione mista (10)</button><table class="t" style="margin-top:8px"><tr><td>Esercizio</td><td class="small">Corrette</td><td></td></tr>' +
+    KJ.TYPES.map(t => { const m = (s.kanji || {})[t]; return '<tr><td>' + E(KJ.LABEL[t]) + (KJ.PRODUCTION[t] ? ' <span class="tag">produzione</span>' : ' <span class="tag">riconoscimento</span>') + '</td><td>' + (m && m.n ? Math.round(100 * m.ok / m.n) + '% (' + m.n + ')' : '—') + '</td><td><button class="btn alt sm" data-act="kjStart" data-t="' + t + '">▶</button></td></tr>'; }).join('') + '</table>' +
+    '<p class="small mute">Componenti e letture on/kun usano elenchi curati (letture principali, non esaustive). Servono per orientarsi: un componente suggerisce il campo di significato ma non lo determina sempre.</p></div>'; };
+  const dlgv = s => {
+    const DL = ST.dialog, st = A.dlg;
+    if (!st) return '<div class="card"><h3>Dialoghi ramificati · inglese</h3><p class="small mute">Dialoghi a scelte: ogni risposta cambia il corso della conversazione e riceve un feedback. Non è una conversazione libera con un’AI: le risposte sono predefinite (disponibile solo l’ascolto con la voce del dispositivo, non registrazioni di madrelingua).</p>' + DL.LIST.map(d => { const r = (s.skills || {})['dlg:' + d.id]; return '<button class="item" data-act="dlgOpen" data-id="' + d.id + '"><span class="tx"><b>' + E(d.title) + '</b><span>' + E(d.area) + ' · ' + d.level + (r && r.hist.length ? ' · tentativi: ' + r.hist.length : '') + '</span></span></button>'; }).join('') + '</div>';
+    const d = DL.byId(st.id), n = d.nodes[st.node];
+    const last = st.log.length ? st.log[st.log.length - 1] : null;
+    let h = last ? '<div class="card"><p class="small">Hai detto: «' + E(last.text) + '»</p><p class="small ' + (last.q === 2 ? 'good' : last.q === 1 ? 'warn' : 'bad') + '">' + (last.q === 2 ? '✓ ' : last.q === 1 ? '≈ ' : '✗ ') + E(last.fb) + '</p></div>' : '';
+    h += '<div class="card"><h3>' + E(d.title) + '</h3><p><b>' + '<button class="say" data-act="say" data-lang="en-GB" data-text="' + E(U.speechText(n.npc)) + '" aria-label="Ascolta">🔊</button> <span class="sayt">' + E(n.npc) + '</span>' + '</b></p><details><summary class="small mute">Traduzione</summary><p class="small">' + E(n.tr) + '</p></details>';
+    if (n.end) { const pc = Math.round(100 * DL.score(st.log)); h += '<p class="small"><b>Fine del dialogo.</b> Risposte efficaci: ' + st.log.filter(x => x.q === 2).length + ' su ' + st.log.length + ' (' + pc + '%). È un esercizio di scelta tra risposte predefinite, non una valutazione della tua produzione libera.</p><button class="btn" data-act="dlgOpen" data-id="' + d.id + '">Ripeti</button> <button class="btn ghost" data-act="dlgOpen" data-id="">Altri dialoghi</button></div>'; }
+    else h += n.ch.map((c, i) => '<button class="item" data-act="dlgPick" data-i="' + i + '"><span class="tx"><b>' + E(c.t) + '</b></span></button>').join('') + '</div>';
+    return h;
+  };
+  ST.views.transfer = p => { p = p || {}; const t = p.t || 'dash', s = A.state; return '<div class="card glow"><h2 style="margin:0">Laboratorio decisioni</h2><p class="small mute">Transfer, diario e previsioni · dati locali e privati.</p>' + tabs(t) + '</div>' + (t === 'jour' ? jour(s) : t === 'fore' ? fore(s) : t === 'tr' ? tr(s) : t === 'rwd' ? rwd(s) : t === 'cog' ? cog(s) : t === 'cs' ? cs(s) : t === 'voc' ? voc(s) : t === 'kj' ? kjv(s) : t === 'dlg' ? dlgv(s) : t === 'tt' ? ttv(s) : dash(s)); };
   const re = () => { A.save(); A.render(); };
   X.jAdd = () => { const s = A.state, p = parseInt(val('j-p'), 10); if (!val('j-sit') || !val('j-choice')) return A.toast && A.toast('Servono almeno situazione e scelta'); T.jAdd(s, { sit: val('j-sit'), goal: val('j-goal'), opts: val('j-opts'), hyp: val('j-hyp'), p: isNaN(p) ? null : Math.max(0, Math.min(100, p)), choice: val('j-choice'), why: val('j-why'), check: val('j-check') }); re(); };
   X.jClose = el => { T.jClose(A.state, el.dataset.id, val('o-' + el.dataset.id), val('l-' + el.dataset.id)); re(); };
@@ -117,6 +132,16 @@
     A.ctx = 'general';
     if (n === 5) ST.runner.start({ title: 'Verifica differita', kind: 'free', items: [TT.delayedItem(s, pr)], ctx: 'general', onAnswer: (it, ok) => { TT.done(s, pr, 5, ok); T.record(s, 'tr:' + pr, 'delayed', ok, {}); A.save(); } });
     else ST.runner.start({ title: ST.kg.PRINCIPLES[pr].t, kind: 'free', items: [TT.item(pr, n)], ctx: 'general', onAnswer: () => { TT.done(s, pr, n); A.save(); } });
+  };
+  X.kjStart = el => {
+    const s = A.state, KJ = ST.kanji, t = el.dataset.t, items = t === 'mix' ? KJ.session(s, 10) : Array.from({ length: 8 }, () => KJ.make(t, 1, U.rand, s)); A.ctx = 'general';
+    ST.runner.start({ title: t === 'mix' ? 'Kanji · sessione mista' : KJ.LABEL[t], kind: 'free', items, ctx: 'general', onAnswer: (it, ok) => { KJ.record(s, it.mtype, ok); A.xp(ok ? 2 : 0, 'kj:' + it.mtype); A.save(); } });
+  };
+  X.dlgOpen = el => { A.dlg = el.dataset.id ? { id: el.dataset.id, node: ST.dialog.byId(el.dataset.id).start, log: [] } : null; A.render(); };
+  X.dlgPick = el => {
+    const st = A.dlg, DL = ST.dialog, d = DL.byId(st.id), r = DL.step(d, st.node, +el.dataset.i); st.log.push(r); st.node = r.next;
+    if (d.nodes[st.node].end) { T.record(A.state, 'dlg:' + st.id, 'auto', DL.score(st.log) >= 0.8, {}); A.xp(3, 'dlg:' + st.id); A.save(); }
+    A.render();
   };
   X.jExport = () => { const b = new Blob([T.exportJournal(A.state)], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'skilltree-diario.json'; a.click(); };
 })(window.ST = window.ST || {});
