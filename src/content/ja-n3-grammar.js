@@ -24,7 +24,7 @@
       { h: 'ことになる: è stato deciso', b: 'La decisione non dipende (solo) da te: ditta, regola, accordo, circostanze.\n- {{ja|[来月|らいげつ]、[大阪|おおさか]へ [転勤|てんきん]する ことに なりました。}} — Il mese prossimo, a quanto è stato deciso, mi trasferisco a Osaka.\n- {{ja|[会議|かいぎ]は [来週|らいしゅう]に する ことに なりました。}}\n\n**～ことになっている** = regola, usanza stabilita: {{ja|[日本|にほん]では、[家|いえ]に [入|はい]る とき、[靴|くつ]を [脱|ぬ]ぐ ことに なっています。}}\n\nPer annunciare un matrimonio si dice spesso {{ja|[結婚|けっこん]する ことに なりました。}}: è un modo modesto di dare la notizia.' },
       { h: 'ことにする: decido io', b: 'Decisione personale, presa al momento o in passato.\n- {{ja|[今日|きょう]から [毎日|まいにち] [歩|ある]く ことに しました。}} — Da oggi ho deciso di camminare ogni giorno.\n- {{ja|[夜|よる]は [甘|あま]い ものを [食|た]べない ことに しました。}}\n\n**～ことにしている** = ho deciso (e lo faccio tuttora): {{ja|[毎朝|まいあさ] [野菜|やさい]を [食|た]べる ことに しています。}} — È la mia regola personale.\n\nLa forma **ことに した** (passato) indica che la decisione è già stata presa.' },
       { h: 'Differenze da strutture simili', b: '- **ことにする**: decido io. {{ja|[車|くるま]を [売|う]る ことに した。}}\n- **ことになる**: decidono altri o le circostanze. {{ja|[車|くるま]を [売|う]る ことに なった。}}\n- **ようになる**: nessuno decide, cambia lo stato. {{ja|[運転|うんてん]できる ように なった。}}\n\nAttenzione a **ようにする** = «cercare di»: {{ja|[毎日|まいにち] [早|はや]く [寝|ね]る ように して います。}} Non è una decisione definitiva, ma uno sforzo.' },
-      { h: 'Errori tipici per italiani', b: '- Dire «ことになりました» per una scelta tutta tua suona strano: se hai scelto tu, usa **ことにしました**.\n- Con il potenziale si usa **ようになる**: {{ja|[話|はな]せる ように なる}}, non «[話|はな]す ように» (che significa un’altra cosa: abitudine di parlare).\n- Non confondere **ように** (obiettivo) e **ことに** (decisione).\n- Non tradurre «Sono diventato bravo» con ことになる: serve **～ように なる** o **～く / ～に なる**.\n- Il verbo prima di こと è sempre in forma semplice: «食べますことにしました» è sbagliato.' },
+      { h: 'Errori tipici per italiani', b: '- Dire «ことになりました» per una scelta tutta tua suona strano: se hai scelto tu, usa **ことにしました**.\n- Con il potenziale si usa **ようになる**: {{ja|[話|はな]せる ように なる}}, non «[話|はな]す ように» (che significa un’altra cosa: abitudine di parlare).\n- Non confondere **ように** (obiettivo) e **ことに** (decisione).\n- Non tradurre «Sono diventato bravo» con ことになる: serve **～ように なる** o **～く / ～に なる**.\n- Il verbo prima di こと è sempre in forma semplice: «[食|た]べますことにしました» è sbagliato.' },
       { h: 'Riepilogo', b: '- **ようになる**: cambiamento graduale (capacità, abitudine).\n- **ことになる**: deciso da altri; **ことになっている**: regola.\n- **ことにする**: decido io; **ことにしている**: mia regola.\n- **ようにする**: faccio il possibile per.\n- Negativo: ～なくなる / ～ないことにする.' }
     ],
     ex: [
@@ -66,7 +66,7 @@
       { h: 'たばかり: «da poco»', b: 'Misura soggettiva: può essere minuti o mesi, purché chi parla lo senta «recente».\n- {{ja|[先月|せんげつ]、[日本|にほん]に [来|き]た ばかりです。}} — Sono in Giappone da poco, dal mese scorso.\n- {{ja|この [靴|くつ]は [買|か]った ばかりなのに、もう [壊|こわ]れました。}}\n- {{ja|[食|た]べた ばかりだから、まだ [食|た]べられません。}}\n\nIl verbo è sempre al passato semplice. Dopo たばかり puoi usare **なのに** e **だから**.' },
       { h: 'ばかり: solo, sempre', b: '- **N ばかり**: {{ja|[肉|にく]ばかり [食|た]べては いけません。}} — Non mangiare solo carne.\n- **V-て ばかりいる**: {{ja|[弟|おとうと]は ゲームを して ばかりいます。}} — Mio fratello fa solo giochi.\n- Con i bambini: {{ja|[泣|な]いて ばかりいないで、[話|はな]して ください。}}\n\nIl tono è critico. **だけ** è neutro: {{ja|[肉|にく]だけ [食|た]べます。}} descrive; **ばかり** giudica.' },
       { h: 'Differenze da strutture simili', b: '- **～たところ** vs **～たばかり**: ところ = pochi secondi/minuti, azione ancora «calda». ばかり = periodo più largo e soggettivo. Quindi {{ja|[今|いま] [着|つ]いた ところです。}} ma {{ja|[先週|せんしゅう] [着|つ]いた ばかりです。}}\n- Per un evento di mesi fa, **ところ** è innaturale: {{ja|[先月|せんげつ]、[結婚|けっこん]した ばかりです。}}\n- **～ているところ** vs **～ている**: ところ sottolinea il «proprio ora»; è azione concreta e di breve durata.' },
-      { h: 'Errori tipici per italiani', b: '- Dire «食べたばかりです» per «ho mangiato» (senza senso di recente): serve **食べました**.\n- Usare ところ con verbi di stato: «いるところです» è raro.\n- Dimenticare il passato: «来るばかりです» è sbagliato → **来たばかり**.\n- Usare ばかり dopo la forma ます: «たべますばかり» → **たべてばかり**.\n- Tradurre «solo» sempre con ばかり: se non c’è critica, scegli **だけ**.' },
+      { h: 'Errori tipici per italiani', b: '- Dire «[食|た]べたばかりです» per «ho mangiato» (senza senso di recente): serve **[食|た]べました**.\n- Usare ところ con verbi di stato: «いるところです» è raro.\n- Dimenticare il passato: «[来|く]るばかりです» è sbagliato → **[来|き]たばかり**.\n- Usare ばかり dopo la forma ます: «たべますばかり» → **たべてばかり**.\n- Tradurre «solo» sempre con ばかり: se non c’è critica, scegli **だけ**.' },
       { h: 'Riepilogo', b: '- る/ている/た + **ところ**: prima / durante / subito dopo.\n- た + **ばかり**: da poco.\n- て + **ばかり いる**: fare sempre la stessa cosa.\n- N + **ばかり**: quasi solo N (tono critico).\n- ばかり ≠ だけ per giudizio.' }
     ],
     ex: [
@@ -98,18 +98,18 @@
     shad: [['いま かえった ところです。', 'Pausa dopo いま.'], ['にほんに きた ばかりです。', 'ばかり: ba-ka-ri senza pausa.'], ['てれびを みて ばかりいます。', 'Tono di rimprovero.']],
     speak: [['Di’ che sei in Giappone da poco e che non conosci bene la strada.', 'にほんに きた ばかりなので、みちが よく わかりません。'], ['Un amico ti chiama: digli che stai per uscire.', 'いま でかける ところです。']] });
 
-  G({ id: 'jpn-j6-gram-uchi-aida-mama', prereq: 'jpn-j6-gram-bakari-tokoro', title: 'Mentre e finché: ～うちに, ～間に, ～まま, ～ずに',
-    summary: 'Cogliere il momento (うちに), durata (間), stato invariato (まま) e «senza fare» (ずに).',
-    obj: ['Usare うちに per «finché si è in tempo»', 'Distinguere 間 e 間に', 'Dire «lasciando com’è» con まま e «senza» con ずに'],
+  G({ id: 'jpn-j6-gram-uchi-aida-mama', prereq: 'jpn-j6-gram-bakari-tokoro', title: 'Mentre e finché: ～うちに, ～[間|あいだ]に, ～まま, ～ずに',
+    summary: 'Cogliere il momento (うちに), durata ([間|あいだ]), stato invariato (まま) e «senza fare» (ずに).',
+    obj: ['Usare うちに per «finché si è in tempo»', 'Distinguere [間|あいだ] e [間|あいだ]に', 'Dire «lasciando com’è» con まま e «senza» con ずに'],
     pages: [
-      { h: 'Obiettivo', b: 'Quattro strutture descrivono **come l’azione si inserisce nel tempo o in uno stato**: finché dura una situazione (**うちに**), per tutta la durata (**間**), lasciando le cose così (**まま**), senza compiere un’azione (**ずに**).' },
-      { h: 'Regola con schema', b: '**V-る / V-ている / V-ない + うちに**\n**い-agg + うちに**, **な-agg + な + うちに**, **N + の + うちに**\n**V-ている / N の + 間(に)**\n**V-た / V-ない / N の + まま**\n**V-ない (語幹) + ずに** (する → せずに)' },
+      { h: 'Obiettivo', b: 'Quattro strutture descrivono **come l’azione si inserisce nel tempo o in uno stato**: finché dura una situazione (**うちに**), per tutta la durata (**[間|あいだ]**), lasciando le cose così (**まま**), senza compiere un’azione (**ずに**).' },
+      { h: 'Regola con schema', b: '**V-る / V-ている / V-ない + うちに**\n**い-agg + うちに**, **な-agg + な + うちに**, **N + の + うちに**\n**V-ている / N の + [間|あいだ](に)**\n**V-た / V-ない / N の + まま**\n**V-ない ([語幹|ごかん]) + ずに** (する → せずに)' },
       { h: 'うちに: prima che cambi', b: 'Approfittare di una situazione «prima» che finisca (o accadere senza accorgersene).\n- {{ja|[若|わか]い うちに いろいろな ことを [経験|けいけん]したい。}}\n- {{ja|[温|あたた]かい うちに [食|た]べて ください。}}\n- {{ja|[忘|わす]れない うちに メモします。}}\n- {{ja|[雨|あめ]が [降|ふ]らない うちに [帰|かえ]りましょう。}}\n- {{ja|[知|し]らない うちに [寝|ね]て しまいました。}} — Mi sono addormentato senza accorgermene.' },
-      { h: '間 e 間に', b: '- **間**: durata continua; il secondo verbo è anch’esso continuo. {{ja|[子供|こども]が [寝|ね]て いる [間|あいだ]、[静|しず]かに して ください。}}\n- **間に**: un fatto puntuale dentro quel periodo. {{ja|[留守|るす]の [間|あいだ]に [荷物|にもつ]が [届|とど]きました。}}\n- Con un nome: {{ja|[夏休|なつやす]みの [間|あいだ]に [宿題|しゅくだい]を [終|お]わらせます。}}\n\nTraduzione utile: **間** = «per tutto il tempo che», **間に** = «mentre, a un certo punto».' },
+      { h: '[間|あいだ] e [間|あいだ]に', b: '- **[間|あいだ]**: durata continua; il secondo verbo è anch’esso continuo. {{ja|[子供|こども]が [寝|ね]て いる [間|あいだ]、[静|しず]かに して ください。}}\n- **[間|あいだ]に**: un fatto puntuale dentro quel periodo. {{ja|[留守|るす]の [間|あいだ]に [荷物|にもつ]が [届|とど]きました。}}\n- Con un nome: {{ja|[夏休|なつやす]みの [間|あいだ]に [宿題|しゅくだい]を [終|お]わらせます。}}\n\nTraduzione utile: **[間|あいだ]** = «per tutto il tempo che», **[間|あいだ]に** = «mentre, a un certo punto».' },
       { h: 'まま e ずに', b: '- **V-た まま**: lo stato resta così. {{ja|[窓|まど]を [開|あ]けた まま [寝|ね]て しまいました。}} / {{ja|[電気|でんき]を つけた まま [出|で]かけました。}}\n- **V-ない まま**: {{ja|[何|なに]も [食|た]べない まま [会社|かいしゃ]へ [行|い]きました。}}\n- **N の まま**: {{ja|[昔|むかし]の まま です。}}\n- **ずに**: {{ja|[朝|あさ]ご[飯|はん]を [食|た]べずに [出|で]かけました。}} = {{ja|[食|た]べないで [出|で]かけました。}} (più scritto)\n- {{ja|[勉強|べんきょう]せずに [遊|あそ]んで います。}}' },
-      { h: 'Differenze da strutture simili', b: '- **ながら** (due azioni insieme, stesso soggetto): {{ja|[音楽|おんがく]を [聞|き]きながら [勉強|べんきょう]します。}} L’azione principale è la seconda.\n- **間** può avere soggetti diversi: {{ja|[私|わたし]が [料理|りょうり]して いる [間|あいだ]、[彼|かれ]は [新聞|しんぶん]を [読|よ]んで います。}}\n- **ついでに**: sfrutto un’altra azione. {{ja|[買|か]い[物|もの]の ついでに [銀行|ぎんこう]へ [行|い]きます。}}\n- **まま** non indica azione ma **stato che persiste**; per «continuo a» usa ～続ける.' },
-      { h: 'Errori tipici per italiani', b: '- Usare 間 con un’azione puntuale: «[留守|るす]の [間|あいだ] [荷物|にもつ]が [届|とど]きました» non è naturale → **間に**.\n- Dimenticare la **な** con aggettivi in な: {{ja|[静|しず]かな うちに}}.\n- Usare **ながら** con due soggetti diversi.\n- Dire «食べたままで出かけます» (presente): まま richiede forma た (stato già creato).\n- Confondere **ずに** e **ずに いる**: la seconda è «restare senza».' },
-      { h: 'Riepilogo', b: '- **うちに**: approfittare prima del cambiamento.\n- **間**: tutta la durata; **間に**: un evento nel periodo.\n- **まま**: stato invariato.\n- **ずに / ないで**: senza fare.\n- **ながら**: azioni simultanee, stesso soggetto.' }
+      { h: 'Differenze da strutture simili', b: '- **ながら** (due azioni insieme, stesso soggetto): {{ja|[音楽|おんがく]を [聞|き]きながら [勉強|べんきょう]します。}} L’azione principale è la seconda.\n- **[間|あいだ]** può avere soggetti diversi: {{ja|[私|わたし]が [料理|りょうり]して いる [間|あいだ]、[彼|かれ]は [新聞|しんぶん]を [読|よ]んで います。}}\n- **ついでに**: sfrutto un’altra azione. {{ja|[買|か]い[物|もの]の ついでに [銀行|ぎんこう]へ [行|い]きます。}}\n- **まま** non indica azione ma **stato che persiste**; per «continuo a» usa ～[続|つづ]ける.' },
+      { h: 'Errori tipici per italiani', b: '- Usare [間|あいだ] con un’azione puntuale: «[留守|るす]の [間|あいだ] [荷物|にもつ]が [届|とど]きました» non è naturale → **[間|あいだ]に**.\n- Dimenticare la **な** con aggettivi in な: {{ja|[静|しず]かな うちに}}.\n- Usare **ながら** con due soggetti diversi.\n- Dire «[食|た]べたままで[出|で]かけます» (presente): まま richiede forma た (stato già creato).\n- Confondere **ずに** e **ずに いる**: la seconda è «restare senza».' },
+      { h: 'Riepilogo', b: '- **うちに**: approfittare prima del cambiamento.\n- **[間|あいだ]**: tutta la durata; **[間|あいだ]に**: un evento nel periodo.\n- **まま**: stato invariato.\n- **ずに / ないで**: senza fare.\n- **ながら**: azioni simultanee, stesso soggetto.' }
     ],
     ex: [
       mc('«Finché sono giovane, voglio viaggiare»:', ['わかい うちに りょこうしたいです。', 'わかい まま りょこうしたいです。', 'わかかった うちに りょこうしたいです。', 'わかい ばかりに りょこうしたいです。']),
@@ -140,25 +140,25 @@
     shad: [['わすれない うちに メモします。', 'Pausa dopo うちに.'], ['でんきを つけた まま でかけました。', 'まま: m lunga.'], ['なにも いわずに かえりました。', 'いわずに: 3 mora.']],
     speak: [['Consiglia a un amico di mangiare finché è caldo.', 'あたたかい うちに たべて ください。'], ['Racconta che sei uscito senza fare colazione.', 'けさは あさごはんを たべずに でかけました。']] });
 
-  G({ id: 'jpn-j6-gram-rashii-ppoi-gachi', prereq: 'jpn-j6-gram-uchi-aida-mama', title: 'Tratti e tendenze: ～らしい, ～っぽい, ～がち, ～気味',
+  G({ id: 'jpn-j6-gram-rashii-ppoi-gachi', prereq: 'jpn-j6-gram-uchi-aida-mama', title: 'Tratti e tendenze: ～らしい, ～っぽい, ～がち, ～[気味|ぎみ]',
     summary: 'Dire «tipico di», «che ricorda», «incline a» e «un po’ in uno stato» con suffissi.',
-    obj: ['Distinguere らしい (tipico) e っぽい (che ricorda)', 'Usare がち e 気味 per tendenze negative', 'Aggiungere やすい / にくい / づらい ai verbi'],
+    obj: ['Distinguere らしい (tipico) e っぽい (che ricorda)', 'Usare がち e [気味|ぎみ] per tendenze negative', 'Aggiungere やすい / にくい / づらい ai verbi'],
     pages: [
-      { h: 'Obiettivo', b: 'I suffissi giapponesi permettono di **descrivere tratti e tendenze** in poche sillabe. Imparali come blocchi: **N らしい**, **N っぽい**, **V-ます がち**, **N/V 気味**, **V-ます やすい / にくい**.' },
-      { h: 'Regola con schema', b: '**N + らしい** = «tipico di / degno di N» (giudizio positivo)\n**N / i-agg (語幹) / V-ます + っぽい** = «che ha un che di…» (spesso negativo)\n**V-ます + がち / N + がち** = «tende a» (cose spiacevoli)\n**N / V-ます + 気味** = «un po’… (leggero stato)» \n**V-ます + やすい / にくい / づらい** = facile / difficile da fare' },
+      { h: 'Obiettivo', b: 'I suffissi giapponesi permettono di **descrivere tratti e tendenze** in poche sillabe. Imparali come blocchi: **N らしい**, **N っぽい**, **V-ます がち**, **N/V [気味|ぎみ]**, **V-ます やすい / にくい**.' },
+      { h: 'Regola con schema', b: '**N + らしい** = «tipico di / degno di N» (giudizio positivo)\n**N / i-agg ([語幹|ごかん]) / V-ます + っぽい** = «che ha un che di…» (spesso negativo)\n**V-ます + がち / N + がち** = «tende a» (cose spiacevoli)\n**N / V-ます + [気味|ぎみ]** = «un po’… (leggero stato)» \n**V-ます + やすい / にくい / づらい** = facile / difficile da fare' },
       { h: 'らしい: tipico di', b: '- {{ja|[春|はる]らしい [天気|てんき]です。}} — Un tempo da primavera.\n- {{ja|[学生|がくせい]らしい [服装|ふくそう]で [来|き]て ください。}}\n- {{ja|もっと [自分|じぶん]らしく [生|い]きたい。}}\n\nAttenzione: **～らしい** significa anche «a quanto pare» ({{ja|[雨|あめ]が [降|ふ]る らしい。}}), ma qui con un nome indica la **natura tipica**.' },
-      { h: 'っぽい: ha un che di', b: '- {{ja|あの [人|ひと]は [子供|こども]っぽい。}} — Fa un po’ il bambino.\n- {{ja|[怒|おこ]りっぽい}} irascibile, {{ja|[忘|わす]れっぽい}} smemorato, {{ja|[飽|あ]きっぽい}} incostante\n- {{ja|[水|みず]っぽい スープ}} zuppa acquosa, {{ja|[白|しろ]っぽい [服|ふく]}} abito biancastro\n\nIl tono è spesso negativo o vago. 子供らしい è un complimento, 子供っぽい no.' },
-      { h: 'がち e 気味', b: '- **がち**: {{ja|[冬|ふゆ]は [風邪|かぜ]を ひきがちです。}} / {{ja|[彼|かれ]は [遅刻|ちこく]しがちだ。}} / {{ja|[病気|びょうき]がちな [子供|こども]}}.\n- **気味**: stato leggero, in corso. {{ja|[風邪|かぜ]ぎみ}} un po’ raffreddato, {{ja|[疲|つか]れぎみ}} un po’ stanco, {{ja|[太|ふと]りぎみ}} un po’ in sovrappeso.\n\nSi usano per fenomeni **indesiderati**: «tende a dimenticare», non «tende ad aiutare».' },
+      { h: 'っぽい: ha un che di', b: '- {{ja|あの [人|ひと]は [子供|こども]っぽい。}} — Fa un po’ il bambino.\n- {{ja|[怒|おこ]りっぽい}} irascibile, {{ja|[忘|わす]れっぽい}} smemorato, {{ja|[飽|あ]きっぽい}} incostante\n- {{ja|[水|みず]っぽい スープ}} zuppa acquosa, {{ja|[白|しろ]っぽい [服|ふく]}} abito biancastro\n\nIl tono è spesso negativo o vago. [子供|こども]らしい è un complimento, [子供|こども]っぽい no.' },
+      { h: 'がち e [気味|ぎみ]', b: '- **がち**: {{ja|[冬|ふゆ]は [風邪|かぜ]を ひきがちです。}} / {{ja|[彼|かれ]は [遅刻|ちこく]しがちだ。}} / {{ja|[病気|びょうき]がちな [子供|こども]}}.\n- **[気味|ぎみ]**: stato leggero, in corso. {{ja|[風邪|かぜ]ぎみ}} un po’ raffreddato, {{ja|[疲|つか]れぎみ}} un po’ stanco, {{ja|[太|ふと]りぎみ}} un po’ in sovrappeso.\n\nSi usano per fenomeni **indesiderati**: «tende a dimenticare», non «tende ad aiutare».' },
       { h: 'やすい, にくい, づらい', b: '- {{ja|この ペンは [書|か]きやすい。}} — Questa penna scrive bene.\n- {{ja|この [漢字|かんじ]は [読|よ]みにくい。}}\n- {{ja|[人|ひと]の まえでは [言|い]いづらい。}} (psicologicamente difficile)\n- Anche per «incline a»: {{ja|このコップは [割|わ]れやすい。}} — Questo bicchiere si rompe facilmente.\n\n**やすい** (facile) e **がち** (tende a) sono diversi: やすい è una proprietà, がち è una tendenza di chi agisce.' },
-      { h: 'Errori tipici per italiani', b: '- Dire «子供っぽい» come complimento: è un rimprovero.\n- Usare **がち** per cose positive: «勉強しがち» suona strano.\n- Dimenticare di usare la radice: {{ja|[書|か]きやすい}}, non «書くやすい».\n- Mettere **気味** con aggettivi: serve un nome o un verbo (radice ます).\n- Confondere **らしい** (tipico) con **ようだ**: {{ja|[先生|せんせい]の ようだ}} = come un professore.' },
-      { h: 'Riepilogo', b: '- **N らしい** = tipico (positivo).\n- **っぽい** = ha un che di (neutro / negativo).\n- **がち** = tende a (negativo).\n- **気味** = un po’ in quello stato.\n- **やすい / にくい / づらい** = facile / difficile.' }
+      { h: 'Errori tipici per italiani', b: '- Dire «[子供|こども]っぽい» come complimento: è un rimprovero.\n- Usare **がち** per cose positive: «[勉強|べんきょう]しがち» suona strano.\n- Dimenticare di usare la radice: {{ja|[書|か]きやすい}}, non «[書|か]くやすい».\n- Mettere **[気味|ぎみ]** con aggettivi: serve un nome o un verbo (radice ます).\n- Confondere **らしい** (tipico) con **ようだ**: {{ja|[先生|せんせい]の ようだ}} = come un professore.' },
+      { h: 'Riepilogo', b: '- **N らしい** = tipico (positivo).\n- **っぽい** = ha un che di (neutro / negativo).\n- **がち** = tende a (negativo).\n- **[気味|ぎみ]** = un po’ in quello stato.\n- **やすい / にくい / づらい** = facile / difficile.' }
     ],
     ex: [
       mc('«Un tempo tipico di primavera»:', ['はるらしい てんき', 'はるっぽい てんき', 'はるがちな てんき', 'はるぎみ てんき']),
       mc('«Quella persona è un po’ infantile» (critica):', ['あの ひとは こどもっぽい。', 'あの ひとは こどもらしい。', 'あの ひとは こどもがち。', 'あの ひとは こどもやすい。']),
       mc('«In inverno mi raffreddo facilmente»:', ['ふゆは かぜを ひきがちです。', 'ふゆは かぜを ひきぎみに。', 'ふゆは かぜを ひくらしい。', 'ふゆは かぜを ひきっぽい。']),
       fillJ('Completa: この ペンは かき___。(scrive bene)', ['やすい'], 'V-ます + やすい.'),
-      fillJ('Completa: きょうは すこし かぜ___ です。(un po’ raffreddato)', ['ぎみ'], 'N + 気味.'),
+      fillJ('Completa: きょうは すこし かぜ___ です。(un po’ raffreddato)', ['ぎみ'], 'N + [気味|ぎみ].'),
       fillJ('Completa: かれは おこり___ ひとです。(irascibile)', ['っぽい'], '怒りっぽい.'),
       order('Metti in ordine: «Questo kanji è difficile da leggere»', ['この', 'かんじは', 'よみにくい'], 'V-ます + にくい.'),
       order('Metti in ordine: «Vorrei vivere in modo più autentico»', ['もっと', 'じぶんらしく', 'いきたい'], 'N + らしく.'),
@@ -224,31 +224,31 @@
     shad: [['にちようびなのに しごとです。', 'のに: tono di sorpresa.'], ['やすくても かいません。', 'Pausa dopo ても.'], ['かった ものの つかって いません。', 'ものの: due mora lunghe.']],
     speak: [['Di’ che hai studiato ma non è andato bene il test.', 'べんきょうした のに、てすとは あまり できませんでした。'], ['Di’ che andrai al parco anche se piove.', 'あめが ふっても、こうえんへ いきます。']] });
 
-  G({ id: 'jpn-j6-gram-baai-kagiri', prereq: 'jpn-j6-gram-concessione', title: 'Condizioni e circostanze: ～場合, ～限り, ～以上, ～次第',
+  G({ id: 'jpn-j6-gram-baai-kagiri', prereq: 'jpn-j6-gram-concessione', title: 'Condizioni e circostanze: ～[場合|ばあい], ～[限|かぎ]り, ～[以上|いじょう], ～[次第|しだい]',
     summary: 'Casi particolari, limiti, ragioni definitive e «non appena» in frasi formali.',
-    obj: ['Usare 場合は per casi particolari', 'Capire ない限り, 以上, 次第', 'Distinguere とおり e 次第 nelle istruzioni'],
+    obj: ['Usare [場合|ばあい]は per casi particolari', 'Capire ない[限|かぎ]り, [以上|いじょう], [次第|しだい]', 'Distinguere とおり e [次第|しだい] nelle istruzioni'],
     pages: [
       { h: 'Obiettivo', b: 'Nei regolamenti, nelle istruzioni e al lavoro si incontrano espressioni che introducono **casi**, **limiti**, **ragioni** e **tempi**. Sono più formali di たら e と, ma molto comuni.' },
-      { h: 'Regola con schema', b: '**forma semplice + 場合(は)** = «nel caso in cui»; con な-agg e N: **な / の + 場合**\n**forma semplice + 限り** / **ない限り** = «finché / a meno che non»\n**forma semplice (passato) + 以上(は)** = «dato che, visto che…»\n**V-ます (語幹) + 次第** = «non appena»; **N + 次第で** = «dipende da N»\n**V / N の + とおり(に)** = «come, secondo»' },
-      { h: '場合は: nel caso che', b: '- {{ja|[雨|あめ]の [場合|ばあい]は、[中止|ちゅうし]します。}}\n- {{ja|[分|わ]からない [場合|ばあい]は、[聞|き]いて ください。}}\n- {{ja|[火事|かじ]の [場合|ばあい]は、エレベーターを [使|つか]わないで ください。}}\n\n**場合** presenta un caso eccezionale o una situazione da prevedere. **とき** è più generico (un momento): {{ja|[時間|じかん]が ある とき}}.' },
-      { h: '限り e 以上', b: '- {{ja|[勉強|べんきょう]しない [限|かぎ]り、[合格|ごうかく]できません。}} — Finché non studi, non puoi passare.\n- {{ja|できる [限|かぎ]り、[手伝|てつだ]います。}} — Ti aiuterò per quanto posso.\n- {{ja|[私|わたし]の [知|し]る [限|かぎ]り、[彼|かれ]は [正直|しょうじき]な [人|ひと]です。}}\n- {{ja|[約束|やくそく]した [以上|いじょう]、[守|まも]らなければ なりません。}} — Dato che ho promesso, devo mantenere.\n- {{ja|[引|ひ]き[受|う]けた [以上|いじょう]は、[最後|さいご]まで やります。}}' },
-      { h: '次第 e とおり', b: '- {{ja|[分|わ]かり[次第|しだい]、[連絡|れんらく]します。}} — Ti contatto appena lo so.\n- {{ja|[着|つ]き[次第|しだい]、[電話|でんわ]して ください。}}\n- {{ja|[結果|けっか]は [天気|てんき][次第|しだい]です。}} — Dipende dal tempo.\n- {{ja|[説明書|せつめいしょ]の とおりに [組|く]み[立|た]てて ください。}}\n- {{ja|[言|い]われた とおりに しました。}}\n\n**次第** significa «subito dopo»; non si usa per eventi già passati.' },
-      { h: 'Differenze da strutture simili', b: '- **場合** ≠ **たら**: たら = «quando/se» generico; 場合 = caso previsto in istruzioni e regole.\n- **ない限り** ≠ **なければ**: 限り è più forte, «finché/ a meno che».\n- **以上** (ragione definitiva) ≠ **ので** (causa neutra): 以上 implica responsabilità.\n- **次第** ≠ **たら**: 次第 enfatizza «appena», con intenzione di agire subito; il verbo finale è volitivo.' },
-      { h: 'Errori tipici per italiani', b: '- Usare **次第** con il passato: «着いた次第» è sbagliato → **着き次第**.\n- Usare **以上** con situazioni non confermate: deve essere un fatto accettato.\n- Dimenticare **の** o **な** davanti a 場合: {{ja|[雨|あめ]の [場合|ばあい]}}, {{ja|[必要|ひつよう]な [場合|ばあい]}}.\n- Usare 限り senza negazione dove serve: {{ja|[変|か]わらない [限|かぎ]り}}.\n- Dire «天気次第で» con particelle sbagliate: **天気次第です / 天気次第で**.' },
-      { h: 'Riepilogo', b: '- **場合(は)**: nel caso che.\n- **ない限り**: a meno che / finché non.\n- **以上(は)**: dato che.\n- **V-ます 次第**: appena; **N 次第**: dipende da.\n- **とおり**: secondo, come.' }
+      { h: 'Regola con schema', b: '**forma semplice + [場合|ばあい](は)** = «nel caso in cui»; con な-agg e N: **な / の + [場合|ばあい]**\n**forma semplice + [限|かぎ]り** / **ない[限|かぎ]り** = «finché / a meno che non»\n**forma semplice (passato) + [以上|いじょう](は)** = «dato che, visto che…»\n**V-ます ([語幹|ごかん]) + [次第|しだい]** = «non appena»; **N + [次第|しだい]で** = «dipende da N»\n**V / N の + とおり(に)** = «come, secondo»' },
+      { h: '[場合|ばあい]は: nel caso che', b: '- {{ja|[雨|あめ]の [場合|ばあい]は、[中止|ちゅうし]します。}}\n- {{ja|[分|わ]からない [場合|ばあい]は、[聞|き]いて ください。}}\n- {{ja|[火事|かじ]の [場合|ばあい]は、エレベーターを [使|つか]わないで ください。}}\n\n**[場合|ばあい]** presenta un caso eccezionale o una situazione da prevedere. **とき** è più generico (un momento): {{ja|[時間|じかん]が ある とき}}.' },
+      { h: '[限|かぎ]り e [以上|いじょう]', b: '- {{ja|[勉強|べんきょう]しない [限|かぎ]り、[合格|ごうかく]できません。}} — Finché non studi, non puoi passare.\n- {{ja|できる [限|かぎ]り、[手伝|てつだ]います。}} — Ti aiuterò per quanto posso.\n- {{ja|[私|わたし]の [知|し]る [限|かぎ]り、[彼|かれ]は [正直|しょうじき]な [人|ひと]です。}}\n- {{ja|[約束|やくそく]した [以上|いじょう]、[守|まも]らなければ なりません。}} — Dato che ho promesso, devo mantenere.\n- {{ja|[引|ひ]き[受|う]けた [以上|いじょう]は、[最後|さいご]まで やります。}}' },
+      { h: '[次第|しだい] e とおり', b: '- {{ja|[分|わ]かり[次第|しだい]、[連絡|れんらく]します。}} — Ti contatto appena lo so.\n- {{ja|[着|つ]き[次第|しだい]、[電話|でんわ]して ください。}}\n- {{ja|[結果|けっか]は [天気|てんき][次第|しだい]です。}} — Dipende dal tempo.\n- {{ja|[説明書|せつめいしょ]の とおりに [組|く]み[立|た]てて ください。}}\n- {{ja|[言|い]われた とおりに しました。}}\n\n**[次第|しだい]** significa «subito dopo»; non si usa per eventi già passati.' },
+      { h: 'Differenze da strutture simili', b: '- **[場合|ばあい]** ≠ **たら**: たら = «quando/se» generico; [場合|ばあい] = caso previsto in istruzioni e regole.\n- **ない[限|かぎ]り** ≠ **なければ**: [限|かぎ]り è più forte, «finché/ a meno che».\n- **[以上|いじょう]** (ragione definitiva) ≠ **ので** (causa neutra): [以上|いじょう] implica responsabilità.\n- **[次第|しだい]** ≠ **たら**: [次第|しだい] enfatizza «appena», con intenzione di agire subito; il verbo finale è volitivo.' },
+      { h: 'Errori tipici per italiani', b: '- Usare **[次第|しだい]** con il passato: «[着|つ]いた[次第|しだい]» è sbagliato → **[着|つ]き[次第|しだい]**.\n- Usare **[以上|いじょう]** con situazioni non confermate: deve essere un fatto accettato.\n- Dimenticare **の** o **な** davanti a [場合|ばあい]: {{ja|[雨|あめ]の [場合|ばあい]}}, {{ja|[必要|ひつよう]な [場合|ばあい]}}.\n- Usare [限|かぎ]り senza negazione dove serve: {{ja|[変|か]わらない [限|かぎ]り}}.\n- Dire «[天気|てんき][次第|しだい]で» con particelle sbagliate: **[天気|てんき][次第|しだい]です / [天気|てんき][次第|しだい]で**.' },
+      { h: 'Riepilogo', b: '- **[場合|ばあい](は)**: nel caso che.\n- **ない[限|かぎ]り**: a meno che / finché non.\n- **[以上|いじょう](は)**: dato che.\n- **V-ます [次第|しだい]**: appena; **N [次第|しだい]**: dipende da.\n- **とおり**: secondo, come.' }
     ],
     ex: [
       mc('«In caso di pioggia, l’evento è annullato»:', ['あめの ばあいは ちゅうしします。', 'あめの ばかりは ちゅうしします。', 'あめの かぎり ちゅうしします。', 'あめの しだい ちゅうし。']),
       mc('«Ti contatto appena lo so»:', ['わかりしだい、れんらくします。', 'わかったしだい、れんらくします。', 'わかる ばあい、れんらく。', 'わかる かぎり、れんらく。']),
       mc('«Finché non studi, non puoi passare»:', ['べんきょうしない かぎり、ごうかくできません。', 'べんきょうしなかった いじょう、ごうかくできません。', 'べんきょうしない ばあい に。', 'べんきょうした しだい。']),
-      fillJ('Completa: やくそくした ___ まもらなければ なりません。(dato che)', ['いじょう', '以上'], 'した 以上.'),
+      fillJ('Completa: やくそくした ___ まもらなければ なりません。(dato che)', ['いじょう', '以上'], 'した [以上|いじょう].'),
       fillJ('Completa: せつめいしょの ___ に くみたてて ください。(come da istruzioni)', ['とおり'], 'N の とおり.'),
-      fillJ('Completa: けっかは てんき___ です。(dipende)', ['しだい', '次第'], 'N 次第.'),
+      fillJ('Completa: けっかは てんき___ です。(dipende)', ['しだい', '次第'], 'N [次第|しだい].'),
       order('Metti in ordine: «Ti aiuterò per quanto posso»', ['できる', 'かぎり', 'てつだいます'], 'V かぎり.'),
-      order('Metti in ordine: «Se non capisci, chiedi»', ['わからない', 'ばあいは', 'きいて', 'ください'], 'V ない 場合は.'),
+      order('Metti in ordine: «Se non capisci, chiedi»', ['わからない', 'ばあいは', 'きいて', 'ください'], 'V ない [場合|ばあい]は.'),
       lis('つき しだい、でんわして ください。', 'Che cosa significa?', ['Chiama appena arrivi', 'Chiama prima di arrivare', 'Non chiamare', 'Chiama se non arrivi']),
       mc('Quale frase è sbagliata?', ['ついた しだい、でんわします。', 'つき しだい、でんわします。', 'てんき しだいで きめます。', 'れんらくを もらい しだい、いきます。']),
-      mc('«以上» introduce…', ['una ragione accettata e quindi un obbligo', 'una ipotesi remota', 'un tempo preciso', 'una quantità'])
+      mc('«[以上|いじょう]» introduce…', ['una ragione accettata e quindi un obbligo', 'una ipotesi remota', 'un tempo preciso', 'una quantità'])
     ],
     test: [
       mc('«Nel caso in cui ci sia un incendio, usare le scale»:', ['かじの ばあいは かいだんを つかって ください。', 'かじの かぎりは かいだんを。', 'かじの しだいは かいだん。', 'かじの いじょう かいだん。']),
@@ -256,7 +256,7 @@
       mc('«Fai come ti è stato detto»:', ['いわれた とおりに して ください。', 'いわれた しだいに して。', 'いわれる ばあいに。', 'いわれた いじょうに。']),
       mc('«Per quanto ne so, è onesto»:', ['わたしの しる かぎり、しょうじきです。', 'わたしの しる しだい、しょうじき。', 'わたしが しった いじょう。', 'わたしの しる ばあい。']),
       mc('«Dipende dall’impegno»:', ['どりょく しだいです。', 'どりょく ばあいです。', 'どりょく とおりです。', 'どりょく いじょうです。']),
-      fillJ('Completa: かわらない ___ りょうきんは おなじです。(finché non cambia)', ['かぎり', '限り'], 'ない 限り.'),
+      fillJ('Completa: かわらない ___ りょうきんは おなじです。(finché non cambia)', ['かぎり', '限り'], 'ない [限|かぎ]り.'),
       lis('ひつような ばあいは、ここに でんわして ください。', 'Che cosa viene detto?', ['Chiamare qui in caso di necessità', 'Non chiamare mai', 'Aspettare qui', 'Il telefono non funziona'])
     ],
     cards: [card('c1', 'nel caso in cui', '～[場合|ばあい]', '', 'ばあい'), card('c2', 'finché / a meno che', '～ない[限|かぎ]り', '', 'かぎり'), card('c3', 'dato che', '～[以上|いじょう]', '', 'いじょう'), card('c4', 'non appena', 'V-ます＋[次第|しだい]', '', 'しだい'), card('c5', 'dipende da N', 'N[次第|しだい]', '', 'しだい'), card('c6', 'secondo / come', '～とおり', '', 'とおり'), card('c7', 'promessa', '[約束|やくそく]', '', 'やくそく'), card('c8', 'istruzioni', '[説明書|せつめいしょ]', '', 'せつめいしょ')],
@@ -266,17 +266,17 @@
     shad: [['あめの ばあいは ちゅうしです。', 'ばあいは: ba-a-i-wa.'], ['わかりしだい れんらくします。', 'しだい: shi-da-i.'], ['できる かぎり てつだいます。', 'かぎり: ka-gi-ri.']],
     speak: [['Spiega che in caso di pioggia l’evento è annullato.', 'あめの ばあいは、ちゅうしに なります。'], ['Prometti di contattare appena lo saprai.', 'わかり しだい、れんらくします。']] });
 
-  G({ id: 'jpn-j6-gram-ukemi-shieki-uso', prereq: 'jpn-j6-gram-baai-kagiri', title: 'Passivo e causativo in uso: ～てもらう, ～させてもらう, ～と言われている',
+  G({ id: 'jpn-j6-gram-ukemi-shieki-uso', prereq: 'jpn-j6-gram-baai-kagiri', title: 'Passivo e causativo in uso: ～てもらう, ～させてもらう, ～と[言|い]われている',
     summary: 'Passivo di disagio e descrittivo, causativo-passivo e richieste di permesso con させて.',
     obj: ['Riconoscere il passivo di disagio e quello descrittivo', 'Usare ～させてください / ～させていただく per chiedere permesso', 'Distinguere ～てもらう, ～させる e ～させられる'],
     pages: [
       { h: 'Obiettivo', b: 'Passivo e causativo li hai già visti nelle forme. Qui vediamo **come si usano davvero**: lamentele (passivo di disagio), notizie generali (passivo descrittivo), richieste di permesso (causativo) e obbligo subito (causativo-passivo).' },
-      { h: 'Regola con schema', b: '**Passivo**: G1 -u → -areru (書く → 書かれる); G2 -ru → -rareru (食べる → 食べられる); する → される; 来る → 来られる\n**Causativo**: G1 -u → -aseru; G2 → -saseru; する → させる; 来る → 来させる\n**Causativo-passivo**: G1 -aseru + rareru = **-asareru** (書かされる) / G2 **-saserareru**; する → **させられる**\n**Richiesta di permesso**: **V-させて ください / V-させて いただけませんか**' },
+      { h: 'Regola con schema', b: '**Passivo**: G1 -u → -areru ([書|か]く → [書|か]かれる); G2 -ru → -rareru ([食|た]べる → [食|た]べられる); する → される; [来|く]る → [来|こ]られる\n**Causativo**: G1 -u → -aseru; G2 → -saseru; する → させる; [来|く]る → [来|こ]させる\n**Causativo-passivo**: G1 -aseru + rareru = **-asareru** ([書|か]かされる) / G2 **-saserareru**; する → **させられる**\n**Richiesta di permesso**: **V-させて ください / V-させて いただけませんか**' },
       { h: 'Passivo di disagio e descrittivo', b: '- {{ja|[雨|あめ]に [降|ふ]られて、[服|ふく]が ぬれました。}} — Mi ha colto la pioggia e mi sono bagnato (con disagio).\n- {{ja|[電車|でんしゃ]で [足|あし]を ふまれました。}} — Mi hanno pestato il piede in treno.\n- {{ja|[子供|こども]に [泣|な]かれて、[困|こま]りました。}}\n- {{ja|この [橋|はし]は [十年前|じゅうねんまえ]に [作|つく]られました。}} — passivo descrittivo\n- {{ja|[日本|にほん]は [安全|あんぜん]だと [言|い]われて います。}} — Si dice che il Giappone sia sicuro.' },
       { h: 'Causativo: far fare, lasciar fare', b: '- {{ja|[先生|せんせい]は [学生|がくせい]に [作文|さくぶん]を [書|か]かせました。}} — Il professore ha fatto scrivere un tema agli studenti.\n- {{ja|[母|はは]は [子供|こども]に [野菜|やさい]を [食|た]べさせます。}}\n- Permesso: {{ja|ちょっと [休|やす]ませて ください。}}\n- Cortese: {{ja|[明日|あした]、[休|やす]ませて いただけませんか。}}\n\nIl **soggetto** del causativo è chi fa fare; chi esegue prende **に** (o **を** con verbi intransitivi).' },
       { h: 'Causativo-passivo: mi hanno fatto fare', b: '- {{ja|[毎日|まいにち]、[母|はは]に [勉強|べんきょう]させられました。}} — Mia madre mi faceva studiare ogni giorno (controvoglia).\n- {{ja|[飲|の]み[会|かい]で [歌|うた]を [歌|うた]わされました。}} — Alla serata mi hanno costretto a cantare.\n- Forma corta per G1: **-aseru + rareru → -asareru**: {{ja|[行|い]かされる}} (ma i verbi in -す: {{ja|[話|はな]させられる}}).\n\nSignifica sempre **costrizione**, spesso con seccatura.' },
-      { h: 'Differenze da strutture simili', b: '- **～てもらう** (ricevere un’azione favorevole): {{ja|[先生|せんせい]に [教|おし]えて もらいました。}}\n- **～させてもらう** (ricevere il permesso di fare): {{ja|[今日|きょう]は [早|はや]く [帰|かえ]らせて もらいます。}}\n- **～させられる** (essere costretto): {{ja|[早|はや]く [帰|かえ]らされた。}}\n- **～される** (subire): {{ja|[叱|しか]られた。}}\n\nIl passivo di disagio non esiste in italiano: «mi è piovuto» è reso con **雨に降られた**.' },
-      { h: 'Errori tipici per italiani', b: '- Usare il causativo con un superiore: «[先生|せんせい]に [書|か]かせます» senza spiegazione suona prepotente.\n- Dimenticare **に** per la persona che subisce: {{ja|[子供|こども]に [泣|な]かれた}}.\n- Confondere **させて ください** (permetti a me) con **して ください** (fallo tu).\n- Usare il passivo di disagio con cose senza danno: {{ja|[友達|ともだち]に [助|たす]けられた}} è passivo normale, non disagio.\n- Pronunciare male **-aseru**: G1 = **書かせる**, non «書きせる».' },
+      { h: 'Differenze da strutture simili', b: '- **～てもらう** (ricevere un’azione favorevole): {{ja|[先生|せんせい]に [教|おし]えて もらいました。}}\n- **～させてもらう** (ricevere il permesso di fare): {{ja|[今日|きょう]は [早|はや]く [帰|かえ]らせて もらいます。}}\n- **～させられる** (essere costretto): {{ja|[早|はや]く [帰|かえ]らされた。}}\n- **～される** (subire): {{ja|[叱|しか]られた。}}\n\nIl passivo di disagio non esiste in italiano: «mi è piovuto» è reso con **[雨|あめ]に[降|ふ]られた**.' },
+      { h: 'Errori tipici per italiani', b: '- Usare il causativo con un superiore: «[先生|せんせい]に [書|か]かせます» senza spiegazione suona prepotente.\n- Dimenticare **に** per la persona che subisce: {{ja|[子供|こども]に [泣|な]かれた}}.\n- Confondere **させて ください** (permetti a me) con **して ください** (fallo tu).\n- Usare il passivo di disagio con cose senza danno: {{ja|[友達|ともだち]に [助|たす]けられた}} è passivo normale, non disagio.\n- Pronunciare male **-aseru**: G1 = **[書|か]かせる**, non «[書|か]きせる».' },
       { h: 'Riepilogo', b: '- Passivo: -areru / -rareru; disagio e descrittivo.\n- Causativo: -aseru / -saseru; permesso e obbligo.\n- Causativo-passivo: -asareru / させられる = costretto.\n- **させて ください / いただけませんか**: chiedere permesso.\n- ～てもらう ≠ ～させてもらう.' }
     ],
     ex: [
@@ -293,9 +293,9 @@
       mc('La differenza tra «かいて もらう» e «かかせる» è…', ['ricevere un favore / far scrivere a qualcuno', 'sono identici', 'passivo / negativo', 'passato / presente'])
     ],
     test: [
-      mc('Causativo di 食べる:', ['たべさせる', 'たべられる', 'たべせる', 'たべらせる']),
-      mc('Passivo di 書く:', ['かかれる', 'かける', 'かかせる', 'かきられる']),
-      mc('Causativo-passivo di 行く:', ['いかされる', 'いかせる', 'いかれる', 'いけされる']),
+      mc('Causativo di [食|た]べる:', ['たべさせる', 'たべられる', 'たべせる', 'たべらせる']),
+      mc('Passivo di [書|か]く:', ['かかれる', 'かける', 'かかせる', 'かきられる']),
+      mc('Causativo-passivo di [行|い]く:', ['いかされる', 'いかせる', 'いかれる', 'いけされる']),
       mc('«Oggi posso uscire presto?» (cortese):', ['きょうは はやく かえらせて いただけませんか。', 'きょうは はやく かえられて いただけませんか。', 'きょうは はやく かえって いただけますか を。', 'きょうは はやく かえらされて。']),
       mc('«Ho avuto il piacere che il professore mi spiegasse»:', ['せんせいに おしえて もらいました。', 'せんせいに おしえさせられました。', 'せんせいを おしえました。', 'せんせいが おしえられました。']),
       fillJ('Completa: こどもに ないて ___ こまりました。(mi ha dato fastidio)', ['られて', 'れて'], 'Passivo di disagio: 泣かれて.'),
@@ -309,17 +309,17 @@
     speak: [['Chiedi al capo di poter uscire presto oggi.', 'きょうは はやく かえらせて いただけませんか。'], ['Lamentati: ti hanno costretto a cantare.', 'のみかいで うたを うたわされました。']] });
 
   G({ id: 'jpn-j6-gram-toiu', prereq: 'jpn-j6-gram-ukemi-shieki-uso', title: 'La struttura という: ～という, ～というのは, ～ということ',
-    summary: 'Nominare, definire e riportare con と言う e le sue varianti.',
-    obj: ['Presentare nomi con N という N', 'Definire parole con というのは / という意味', 'Usare といえば, というより, と言っても'],
+    summary: 'Nominare, definire e riportare con と[言|い]う e le sue varianti.',
+    obj: ['Presentare nomi con N という N', 'Definire parole con というのは / という[意味|いみ]', 'Usare といえば, というより, と[言|い]っても'],
     pages: [
       { h: 'Obiettivo', b: '**という** (letteralmente «che si dice») è una delle strutture più comuni dell’italiano giapponese: serve a **nominare** (la persona di nome X), **definire** (X significa Y) e **commentare** (più che X, Y). Impararla vuol dire capire molte frasi del N3.' },
-      { h: 'Regola con schema', b: '**N という N** = «un N chiamato…, di nome…»\n**forma semplice + という + N / こと** = «il fatto che…»\n**A というのは B のことです / という意味です** = definizione\n**A というより B** = «più che A, B»\n**N といえば** = «a proposito di N, parlando di N»\n**A と言っても B** = «dire A, però B»' },
+      { h: 'Regola con schema', b: '**N という N** = «un N chiamato…, di nome…»\n**forma semplice + という + N / こと** = «il fatto che…»\n**A というのは B のことです / という[意味|いみ]です** = definizione\n**A というより B** = «più che A, B»\n**N といえば** = «a proposito di N, parlando di N»\n**A と[言|い]っても B** = «dire A, però B»' },
       { h: 'N という N: nominare', b: '- {{ja|[田中|たなか]さんと いう [人|ひと]から [電話|でんわ]が ありました。}} — È telefonata una persona di nome Tanaka.\n- {{ja|「さくら」と いう [名前|なまえ]の [猫|ねこ]を [飼|か]って います。}}\n- {{ja|[京都|きょうと]と いう [町|まち]に [行|い]った ことが あります。}}\n\nPer chi ascolta, il nome è «nuovo»: という segnala che stai introducendo qualcosa che l’altro forse non conosce.' },
-      { h: 'という意味・というのは', b: '- {{ja|「[禁煙|きんえん]」と いうのは、タバコを [吸|す]わないと いう [意味|いみ]です。}}\n- {{ja|「ありがとう」は 「Grazie」と いう [意味|いみ]です。}}\n- {{ja|[友達|ともだち]が [多|おお]いと いう [事実|じじつ]}}\n- {{ja|[日本|にほん]へ [行|い]くと いう ことは、[決|き]まって います。}}\n\nIn conversazione si accorcia: **っていう / って**. {{ja|[山田|やまだ]って いう [人|ひと]}}' },
-      { h: 'というより・といえば・と言っても', b: '- {{ja|[彼|かれ]は [先生|せんせい]と いうより [友達|ともだち]です。}} — Più che un insegnante, è un amico.\n- {{ja|[日本|にほん]と いえば、[富士山|ふじさん]ですね。}} — Se parli del Giappone, il Fuji è la prima cosa.\n- {{ja|[日本語|にほんご]が [話|はな]せると [言|い]っても、[少|すこ]しだけです。}} — Dire che parlo giapponese è esagerato, solo un po’.\n- {{ja|[田中|たなか]さんは [来|こ]られないと いう ことです。}} — Pare che Tanaka non possa venire.' },
-      { h: 'Differenze da strutture simili', b: '- **という** vs **と言う** (verbo): と言う = dire; という dopo il nome = «chiamato».\n- **ということ** vs **こと**: ということ = contenuto di una notizia; こと = nominalizzazione generale.\n- **という** vs **そうだ** (sentito dire): {{ja|[雨|あめ]が [降|ふ]ると いう ことです}} è più formale.\n- **というか** (conversazione): «o meglio» {{ja|[彼|かれ]は [優|やさ]しい、と いうか [甘|あま]い。}}' },
+      { h: 'という[意味|いみ]・というのは', b: '- {{ja|「[禁煙|きんえん]」と いうのは、タバコを [吸|す]わないと いう [意味|いみ]です。}}\n- {{ja|「ありがとう」は 「Grazie」と いう [意味|いみ]です。}}\n- {{ja|[友達|ともだち]が [多|おお]いと いう [事実|じじつ]}}\n- {{ja|[日本|にほん]へ [行|い]くと いう ことは、[決|き]まって います。}}\n\nIn conversazione si accorcia: **っていう / って**. {{ja|[山田|やまだ]って いう [人|ひと]}}' },
+      { h: 'というより・といえば・と[言|い]っても', b: '- {{ja|[彼|かれ]は [先生|せんせい]と いうより [友達|ともだち]です。}} — Più che un insegnante, è un amico.\n- {{ja|[日本|にほん]と いえば、[富士山|ふじさん]ですね。}} — Se parli del Giappone, il Fuji è la prima cosa.\n- {{ja|[日本語|にほんご]が [話|はな]せると [言|い]っても、[少|すこ]しだけです。}} — Dire che parlo giapponese è esagerato, solo un po’.\n- {{ja|[田中|たなか]さんは [来|こ]られないと いう ことです。}} — Pare che Tanaka non possa venire.' },
+      { h: 'Differenze da strutture simili', b: '- **という** vs **と[言|い]う** (verbo): と[言|い]う = dire; という dopo il nome = «chiamato».\n- **ということ** vs **こと**: ということ = contenuto di una notizia; こと = nominalizzazione generale.\n- **という** vs **そうだ** (sentito dire): {{ja|[雨|あめ]が [降|ふ]ると いう ことです}} è più formale.\n- **というか** (conversazione): «o meglio» {{ja|[彼|かれ]は [優|やさ]しい、と いうか [甘|あま]い。}}' },
       { h: 'Errori tipici per italiani', b: '- Dimenticare **という** tra il nome proprio e la cosa: «[田中|たなか]さん [人|ひと]» non funziona.\n- Usare **という** con aggettivi senza nome: serve un nome dopo.\n- Dopo という usare la forma cortese: «[来|き]ますという» → **[来|く]ると いう**.\n- Confondere **というより** con **より**: というより è una riformulazione.' },
-      { h: 'Riepilogo', b: '- N という N: nominare.\n- というのは / という意味: definire.\n- というより: più che.\n- といえば: a proposito di.\n- と言っても: anche se si dice.\n- Colloquiale: って / っていう.' }
+      { h: 'Riepilogo', b: '- N という N: nominare.\n- というのは / という[意味|いみ]: definire.\n- というより: più che.\n- といえば: a proposito di.\n- と[言|い]っても: anche se si dice.\n- Colloquiale: って / っていう.' }
     ],
     ex: [
       mc('«È telefonata una persona di nome Tanaka»:', ['たなかと いう ひとから でんわが ありました。', 'たなかと いうのは ひとから でんわ。', 'たなかを ひとから。', 'たなか という ない。']),
@@ -327,7 +327,7 @@
       mc('«A proposito di Giappone, il Fuji!»:', ['にほんと いえば、ふじさんですね。', 'にほんと いうより、ふじさん。', 'にほんと いっても、ふじさんだ。', 'にほんの いう ふじさん。']),
       fillJ('Completa: 「きんえん」と いう___ たばこを すわない という いみです。', ['のは'], 'というのは = definizione.'),
       fillJ('Completa: やまだ___ いう ひとに あいました。(colloquiale)', ['って'], 'って = という colloquiale.'),
-      fillJ('Completa: にほんごが はなせる と いっ___ すこしだけです。', ['ても'], 'と言っても.'),
+      fillJ('Completa: にほんごが はなせる と いっ___ すこしだけです。', ['ても'], 'と[言|い]っても.'),
       order('Metti in ordine: «Ho un gatto di nome Sakura»', ['さくらと', 'いう', 'なまえの', 'ねこを', 'かって います'], 'Nome という N.'),
       order('Metti in ordine: «Tanaka ha detto che non può venire»', ['たなかさんは', 'こられないと', 'いう', 'ことです'], 'Hearsay formale.'),
       lis('きょうとと いう まちに いった ことが あります。', 'Che cosa significa?', ['È stato in una città chiamata Kyoto', 'Vuole andare a Kyoto', 'Kyoto è lontana', 'Vive a Kyoto']),
@@ -338,7 +338,7 @@
       mc('«In Giappone esiste una cosa chiamata onsen»:', ['にほんには おんせんと いうものが あります。', 'にほんには おんせんを いう ものが。', 'にほんには おんせんを いうと。', 'にほんは おんせんが いわれます。']),
       mc('«Dire che sono bravo è esagerato»:', ['じょうずと いっても、すこしだけです。', 'じょうずと いうより、すこし。', 'じょうずを いう のに。', 'じょうずと いえば。']),
       mc('«Si dice che la riunione sia rimandata»:', ['かいぎは えんきされると いう ことです。', 'かいぎは えんきすると いるです。', 'かいぎが えんきして ことです。', 'かいぎと えんきの いう。']),
-      mc('«「禁煙」vuol dire non fumare»:', ['「きんえん」は たばこを すわない という いみです。', '「きんえん」は たばこを すわない でしょう。', '「きんえん」が たばこ という。', '「きんえん」を いみです。']),
+      mc('«「[禁煙|きんえん]」vuol dire non fumare»:', ['「きんえん」は たばこを すわない という いみです。', '「きんえん」は たばこを すわない でしょう。', '「きんえん」が たばこ という。', '「きんえん」を いみです。']),
       mc('«Io, più che arrabbiato, sono triste»:', ['おこって いると いうより かなしいです。', 'おこって いる いえば かなしいです。', 'おこって いると いわれ かなしい。', 'おこる という かなしくない。']),
       fillJ('Completa: ふじさん___ いう やまを しって いますか。', ['と'], 'N という N.'),
       lis('にほんと いえば、ふじさんと すしですね。', 'Che cosa dice la persona?', ['Parlando del Giappone, pensa al Fuji e al sushi', 'Non conosce il Giappone', 'Vuole mangiare sushi', 'Il Fuji è lontano'])
@@ -354,14 +354,14 @@
     summary: 'Chiedere, rifiutare e ottenere permessi al lavoro e con sconosciuti.',
     obj: ['Costruire richieste cortesi a più livelli', 'Chiedere permesso con ～てもよろしいでしょうか', 'Rifiutare con garbo e rispondere ai superiori'],
     pages: [
-      { h: 'Obiettivo', b: 'In giapponese una richiesta non è mai solo «Fammi X»: c’è una **scala di cortesia** che va da amici a clienti. Impari quattro livelli di richiesta, il **cuscinetto** (クッション言葉) e come rifiutare senza dire no.' },
-      { h: 'Regola con schema', b: 'Scala di richieste (crescente cortesia):\n1. **～て (くれる？)** amici\n2. **～てください**\n3. **～てくださいませんか / ～てもらえませんか**\n4. **～ていただけませんか / ～ていただけないでしょうか**\n\nPermesso: **～てもいいですか** → **～てもよろしいですか** → **～させていただけませんか**\n\nCuscinetto: **すみませんが / 恐れ入りますが / お忙しいところ申し訳ありませんが**' },
+      { h: 'Obiettivo', b: 'In giapponese una richiesta non è mai solo «Fammi X»: c’è una **scala di cortesia** che va da amici a clienti. Impari quattro livelli di richiesta, il **cuscinetto** (クッション[言葉|ことば]) e come rifiutare senza dire no.' },
+      { h: 'Regola con schema', b: 'Scala di richieste (crescente cortesia):\n1. **～て (くれる？)** amici\n2. **～てください**\n3. **～てくださいませんか / ～てもらえませんか**\n4. **～ていただけませんか / ～ていただけないでしょうか**\n\nPermesso: **～てもいいですか** → **～てもよろしいですか** → **～させていただけませんか**\n\nCuscinetto: **すみませんが / [恐|おそ]れ[入|い]りますが / お[忙|いそが]しいところ[申|もう]し[訳|わけ]ありませんが**' },
       { h: 'Richieste a più livelli', b: '- {{ja|ちょっと [手伝|てつだ]って くれる？}} (amico)\n- {{ja|この [資料|しりょう]を [見|み]て ください。}}\n- {{ja|すみませんが、[写真|しゃしん]を [撮|と]って もらえませんか。}}\n- {{ja|お[忙|いそが]しい ところ [申|もう]し[訳|わけ]ありませんが、[確認|かくにん]して いただけませんか。}}\n\nNegativa: **～ないでいただけませんか**: {{ja|ここでは [写真|しゃしん]を [撮|と]らないで いただけませんか。}}' },
       { h: 'Chiedere permesso', b: '- {{ja|ここに [座|すわ]っても いいですか。}}\n- {{ja|ここに [座|すわ]っても よろしいですか。}} (più formale)\n- {{ja|[窓|まど]を [開|あ]けても よろしいでしょうか。}}\n- {{ja|[先|さき]に [帰|かえ]らせて いただけませんか。}}\n\nIn risposta:\n- {{ja|はい、どうぞ。}} / {{ja|ええ、いいですよ。}}\n- {{ja|すみません、ちょっと…。}} (rifiuto indiretto)' },
       { h: 'Rifiutare con garbo', b: 'Il «no» diretto si evita:\n- {{ja|[申|もう]し[訳|わけ]ありませんが、ちょっと [難|むずか]しいです。}}\n- {{ja|[今日|きょう]は ちょっと…}} (lasciare in sospeso)\n- {{ja|[残念|ざんねん]ですが、[今回|こんかい]は [無理|むり]です。}}\n- {{ja|[考|かんが]えて おきます。}} (di solito significa no)\n\nAggiungi sempre una **scusa breve** e un **ringraziamento**: {{ja|せっかくですが…}}' },
       { h: 'Differenze da strutture simili', b: '- **～てください** è un ordine gentile, non una richiesta tra pari.\n- **～ていただけませんか** (negativa-interrogativa) è più cortese di **～ていただけますか**.\n- **お + radice + ください**: {{ja|ご[記入|きにゅう]ください。}} per annunci e moduli.\n- **～ていただく** (io ricevo) vs **～てくださる** (l’altro dà): {{ja|[先生|せんせい]が [教|おし]えて くださいました。}} / {{ja|[先生|せんせい]に [教|おし]えて いただきました。}}' },
-      { h: 'Errori tipici per italiani', b: '- Dire «[手伝|てつだ]って ください» al capo: ha tono di ordine → **[手伝|てつだ]って いただけませんか**.\n- Rifiutare con «いいえ、できません»: troppo brusco.\n- Dimenticare il cuscinetto **すみませんが** davanti alle richieste.\n- Nelle e-mail formali preferisci **いただけますと幸いです** a ください.\n- Usare **させて ください** quando vuoi che l’altro faccia: significa «lascia fare a me».' },
-      { h: 'Riepilogo', b: '- Scala: てください → てもらえませんか → ていただけませんか.\n- Permesso: てもいいですか → てもよろしいでしょうか → させていただけませんか.\n- Cuscinetto: すみませんが, 恐れ入りますが.\n- Rifiuto: ちょっと…, 申し訳ありませんが.' }
+      { h: 'Errori tipici per italiani', b: '- Dire «[手伝|てつだ]って ください» al capo: ha tono di ordine → **[手伝|てつだ]って いただけませんか**.\n- Rifiutare con «いいえ、できません»: troppo brusco.\n- Dimenticare il cuscinetto **すみませんが** davanti alle richieste.\n- Nelle e-mail formali preferisci **いただけますと[幸|さいわ]いです** a ください.\n- Usare **させて ください** quando vuoi che l’altro faccia: significa «lascia fare a me».' },
+      { h: 'Riepilogo', b: '- Scala: てください → てもらえませんか → ていただけませんか.\n- Permesso: てもいいですか → てもよろしいでしょうか → させていただけませんか.\n- Cuscinetto: すみませんが, [恐|おそ]れ[入|い]りますが.\n- Rifiuto: ちょっと…, [申|もう]し[訳|わけ]ありませんが.' }
     ],
     ex: [
       mc('Richiesta cortese al capo:', ['これを かくにんして いただけませんか。', 'これを かくにんして ください。', 'これを かくにんしろ。', 'これを かくにんして くれる？']),
@@ -402,7 +402,7 @@
       { h: 'わけだ', b: '- **わけだ** = «ecco perché / è naturale»: {{ja|[彼|かれ]は [十年|じゅうねん] [日本|にほん]に [住|す]んで いた。[日本語|にほんご]が [上手|じょうず]な わけだ。}}\n- **わけではない** = «non è che…»: {{ja|[嫌|きら]いな わけではありません。}}\n- **わけにはいかない** = «non posso, non è ammissibile»: {{ja|[約束|やくそく]した [以上|いじょう]、[行|い]かないわけには いかない。}}\n- **わけがない** = «non è possibile che»: {{ja|そんな わけが ありません。}}' },
       { h: 'ものだ・ことだ', b: '- **ものだ** (verità generale): {{ja|[子供|こども]は よく [遊|あそ]ぶものだ。}}\n- **ものだ** (ricordo): {{ja|[昔|むかし]は よく この [川|かわ]で [泳|およ]いだものだ。}}\n- **ものだから** (scusa): {{ja|[急|いそ]いで いた ものですから…}}\n- **ことだ** (consiglio): {{ja|[健康|けんこう]の ためには、[早|はや]く [寝|ね]る ことだ。}}\n- **ことは ない**: {{ja|[心配|しんぱい]する ことは ない。}} — Non c’è bisogno di preoccuparsi.' },
       { h: 'Differenze da strutture simili', b: '- **んです** vs **です**: です riferisce, んです spiega o coinvolge l’altro.\n- **わけだ** vs **からだ**: わけだ presenta una conclusione logica a partire da un fatto già noto.\n- **ものだ** (natura / ricordo) vs **ことだ** (consiglio): ものだ descrive, ことだ prescrive.\n- **わけではない** vs **ではない**: la prima nega solo una conclusione che l’altro potrebbe trarre.' },
-      { h: 'Errori tipici per italiani', b: '- Usare **んです** in ogni frase: diventa pesante.\n- Dimenticare **な** davanti: {{ja|[元気|げんき]なんです}}, non «元気んです».\n- Confondere **わけだ** con **はずだ** (previsione).\n- Tradurre «non devi» con ことだ negativo: **しないことだ** è consiglio, non divieto.\n- Usare **ものだ** per un singolo evento: serve generale o abituale.' },
+      { h: 'Errori tipici per italiani', b: '- Usare **んです** in ogni frase: diventa pesante.\n- Dimenticare **な** davanti: {{ja|[元気|げんき]なんです}}, non «[元気|げんき]んです».\n- Confondere **わけだ** con **はずだ** (previsione).\n- Tradurre «non devi» con ことだ negativo: **しないことだ** è consiglio, non divieto.\n- Usare **ものだ** per un singolo evento: serve generale o abituale.' },
       { h: 'Riepilogo', b: '- **んです**: spiegare / invitare a spiegare.\n- **わけだ**: conclusione naturale.\n- **わけではない**: non è che…\n- **わけにはいかない**: non posso.\n- **ものだ**: verità o ricordo.\n- **ことだ**: consiglio.' }
     ],
     ex: [
@@ -434,18 +434,18 @@
     shad: [['どうしたんですか。', 'Intonazione ascendente alla fine.'], ['けんこうの ために はやく ねる ことです。', 'Pausa dopo ために.'], ['しんぱいする ことは ありません。', 'ことは: pausa.']],
     speak: [['Spiega a un collega perché sei in ritardo (hai perso il treno).', 'でんしゃに のりおくれたんです。'], ['Consiglia a un amico come stare in salute.', 'けんこうの ためには、はやく ねる ことです。']] });
 
-  G({ id: 'jpn-j6-gram-hazu-beki', prereq: 'jpn-j6-gram-noda-wake', title: 'Certezza e dovere: ～はず, ～に違いない, ～べき',
+  G({ id: 'jpn-j6-gram-hazu-beki', prereq: 'jpn-j6-gram-noda-wake', title: 'Certezza e dovere: ～はず, ～に[違|ちが]いない, ～べき',
     summary: 'Aspettative, convinzione forte e dovere morale: dalla probabilità al «si deve».',
-    obj: ['Usare はずだ / はずがない per aspettative logiche', 'Distinguere かもしれない, でしょう, はず, に違いない', 'Esprimere il dovere con べきだ / べきではない'],
+    obj: ['Usare はずだ / はずがない per aspettative logiche', 'Distinguere かもしれない, でしょう, はず, に[違|ちが]いない', 'Esprimere il dovere con べきだ / べきではない'],
     pages: [
-      { h: 'Obiettivo', b: 'Esprimere **quanto sei sicuro** e **che cosa si deve fare** richiede strutture diverse. Impari una scala di certezza (かもしれない → でしょう → はず → に違いない) e il dovere morale **べき**.' },
-      { h: 'Regola con schema', b: '**forma semplice + はずだ** (na-agg: なはず, N: のはず)\n**forma semplice + はずがない** / **はずはない**\n**forma semplice + に違いない** (na-agg e N: senza だ)\n**V-る + べきだ / V-る + べきではない** (する → すべき / するべき)' },
+      { h: 'Obiettivo', b: 'Esprimere **quanto sei sicuro** e **che cosa si deve fare** richiede strutture diverse. Impari una scala di certezza (かもしれない → でしょう → はず → に[違|ちが]いない) e il dovere morale **べき**.' },
+      { h: 'Regola con schema', b: '**forma semplice + はずだ** (na-agg: なはず, N: のはず)\n**forma semplice + はずがない** / **はずはない**\n**forma semplice + に[違|ちが]いない** (na-agg e N: senza だ)\n**V-る + べきだ / V-る + べきではない** (する → すべき / するべき)' },
       { h: 'はずだ: ragionevolmente', b: 'Aspettativa basata su dati, orari, logica.\n- {{ja|[新幹線|しんかんせん]は [十時|じゅうじ]に [着|つ]く はずです。}}\n- {{ja|[彼|かれ]は もう [家|いえ]に [着|つ]いて いる はずです。}}\n- {{ja|そんな はずが ありません。}} — Non è possibile.\n- {{ja|[会議|かいぎ]は [三時|さんじ]からの はずだったのに…}} — Doveva essere alle tre, e invece.\n\nNon si usa per le proprie intenzioni: per quelle, **つもり**.' },
-      { h: 'に違いない', b: 'Convinzione forte, basata su indizi.\n- {{ja|[彼|かれ]は [疲|つか]れて いるに [違|ちが]いない。}}\n- {{ja|[電気|でんき]が ついて いる。[誰|だれ]かが いるに [違|ちが]いない。}}\n\nSolo per **inferenza**, non per fatti noti. Con un nome: {{ja|[彼|かれ]が [犯人|はんにん]に [違|ちが]いない。}} (senza だ)' },
+      { h: 'に[違|ちが]いない', b: 'Convinzione forte, basata su indizi.\n- {{ja|[彼|かれ]は [疲|つか]れて いるに [違|ちが]いない。}}\n- {{ja|[電気|でんき]が ついて いる。[誰|だれ]かが いるに [違|ちが]いない。}}\n\nSolo per **inferenza**, non per fatti noti. Con un nome: {{ja|[彼|かれ]が [犯人|はんにん]に [違|ちが]いない。}} (senza だ)' },
       { h: 'べき: dovere morale', b: '- {{ja|[約束|やくそく]は [守|まも]る べきです。}}\n- {{ja|[人|ひと]の [悪口|わるぐち]を [言|い]う べきではありません。}}\n- {{ja|もっと [早|はや]く [連絡|れんらく]する べきだった。}} (rimpianto)\n- {{ja|[学生|がくせい]は [勉強|べんきょう]する べきだ。}}\n\n**べき** è un giudizio del parlante su ciò che è giusto, più forte di **ほうがいい**.' },
-      { h: 'Differenze da strutture simili', b: 'Scala di certezza:\n1. **かもしれない** (forse): {{ja|[雨|あめ]が [降|ふ]るかもしれない。}}\n2. **でしょう** (probabile)\n3. **はず** (atteso): {{ja|[雨|あめ]が [降|ふ]る はずだ。}}\n4. **に違いない** (sicuro)\n\nDovere:\n- **なければならない**: obbligo esterno.\n- **べき**: giudizio morale.\n- **ほうがいい**: consiglio.' },
-      { h: 'Errori tipici per italiani', b: '- Usare **はず** per sé stessi: «[私|わたし]は [行|い]く はずです» ma significa «è atteso che io vada».\n- Dimenticare **の** con nomi: {{ja|[休|やす]みの はずです}}, non «休みはずです».\n- Usare **に違いない** per dati certi: «今日は月曜日に違いない» è strano.\n- Confondere **べき** con **なければならない**: la seconda è obbligo, la prima è giusto o sbagliato.\n- Dimenticare **ではない** nel negativo: **べきではない**, non «べきじゃない» in testi formali.' },
-      { h: 'Riepilogo', b: '- **はずだ**: atteso, logico.\n- **はずがない**: impossibile.\n- **に違いない**: certo, per indizi.\n- **べきだ**: è giusto fare.\n- **べきではない**: non si deve.' }
+      { h: 'Differenze da strutture simili', b: 'Scala di certezza:\n1. **かもしれない** (forse): {{ja|[雨|あめ]が [降|ふ]るかもしれない。}}\n2. **でしょう** (probabile)\n3. **はず** (atteso): {{ja|[雨|あめ]が [降|ふ]る はずだ。}}\n4. **に[違|ちが]いない** (sicuro)\n\nDovere:\n- **なければならない**: obbligo esterno.\n- **べき**: giudizio morale.\n- **ほうがいい**: consiglio.' },
+      { h: 'Errori tipici per italiani', b: '- Usare **はず** per sé stessi: «[私|わたし]は [行|い]く はずです» ma significa «è atteso che io vada».\n- Dimenticare **の** con nomi: {{ja|[休|やす]みの はずです}}, non «[休|やす]みはずです».\n- Usare **に[違|ちが]いない** per dati certi: «[今日|きょう]は[月曜日|げつようび]に[違|ちが]いない» è strano.\n- Confondere **べき** con **なければならない**: la seconda è obbligo, la prima è giusto o sbagliato.\n- Dimenticare **ではない** nel negativo: **べきではない**, non «べきじゃない» in testi formali.' },
+      { h: 'Riepilogo', b: '- **はずだ**: atteso, logico.\n- **はずがない**: impossibile.\n- **に[違|ちが]いない**: certo, per indizi.\n- **べきだ**: è giusto fare.\n- **べきではない**: non si deve.' }
     ],
     ex: [
       mc('«Il Shinkansen dovrebbe arrivare alle dieci»:', ['しんかんせんは じゅうじに つく はずです。', 'しんかんせんは じゅうじに つく べきです。', 'しんかんせんは じゅうじに つく ものです を。', 'しんかんせんは じゅうじに つく ことです。']),
@@ -528,7 +528,7 @@
       { h: 'こそ・まで', b: '- {{ja|[今年|ことし]こそ [合格|ごうかく]したい。}} — Quest’anno voglio proprio passare.\n- {{ja|こちらこそ、よろしく お[願|ねが]いします。}} — Il piacere è mio.\n- {{ja|[雨|あめ]が [降|ふ]った うえに、[風|かぜ]まで [吹|ふ]いて きた。}} — E in più è arrivato pure il vento.\n- {{ja|[彼|かれ]は [私|わたし]の [誕生日|たんじょうび]まで [忘|わす]れて いた。}}' },
       { h: 'でも・ほど・しか', b: '- **でも** (esempio / proposta): {{ja|お[茶|ちゃ]でも [飲|の]みませんか。}} — Beviamo un tè o qualcosa?\n- **でも** (anche): {{ja|[子供|こども]でも わかります。}}\n- **ほど** (misura): {{ja|[昨日|きのう]ほど [寒|さむ]くない。}} — Non fa freddo come ieri.\n- {{ja|[泣|な]きたい ほど [嬉|うれ]しかった。}} — Ero felice da volere piangere.\n- **しか～ない**: {{ja|[千円|せんえん]しか ありません。}} — Ho solo mille yen.' },
       { h: 'Differenze da strutture simili', b: '- **さえ** vs **でも**: さえ ha un tono più forte e spesso con negativi; でも è più leggera.\n- **まで** (addirittura) aggiunge un elemento «in più»; **さえ** indica l’estremo minimo.\n- **しか** vs **だけ**: しか richiede negativo e sottolinea poco; だけ è neutro.\n- **こそ** non indica elenco: enfatizza «quello».' },
-      { h: 'Errori tipici per italiani', b: '- Dire «水さえ飲みました» (senza negazione): nel senso di «nemmeno» richiede negativo; in positivo suona strano.\n- Usare **しか** senza negativo: «[千円|せんえん]しか あります» è sbagliato.\n- Confondere **でも** (particella) con **でも** (congiunzione «ma»).\n- Dimenticare **が** o **を** davanti: particelle come さえ/まで sostituiscono が/を ({{ja|[彼|かれ]さえ}}), non si sommano.\n- Usare **こそ** con troppa frequenza.' },
+      { h: 'Errori tipici per italiani', b: '- Dire «[水|みず]さえ[飲|の]みました» (senza negazione): nel senso di «nemmeno» richiede negativo; in positivo suona strano.\n- Usare **しか** senza negativo: «[千円|せんえん]しか あります» è sbagliato.\n- Confondere **でも** (particella) con **でも** (congiunzione «ma»).\n- Dimenticare **が** o **を** davanti: particelle come さえ/まで sostituiscono が/を ({{ja|[彼|かれ]さえ}}), non si sommano.\n- Usare **こそ** con troppa frequenza.' },
       { h: 'Riepilogo', b: '- **さえ**: perfino; **さえ～ば**: basta che.\n- **こそ**: proprio.\n- **まで**: addirittura.\n- **でも**: per esempio / anche.\n- **ほど**: misura.\n- **しか～ない**: solo.' }
     ],
     ex: [
@@ -560,31 +560,31 @@
     shad: [['こどもでさえ しっている。', 'さえ: leggermente più forte.'], ['こちらこそ。', 'Tono cordiale.'], ['かぜまで ふいて きた。', 'まで: tono di sorpresa.']],
     speak: [['Di’ che hai solo mille yen.', 'せんえんしか ありません。'], ['Rispondi a «Piacere di conoscerla!».', 'こちらこそ、よろしく おねがいします。']] });
 
-  G({ id: 'jpn-j6-gram-fukugoudoushi', prereq: 'jpn-j6-gram-sae-koso', title: 'Verbi composti: ～始める, ～出す, ～続ける, ～終わる, ～直す, ～合う',
+  G({ id: 'jpn-j6-gram-fukugoudoushi', prereq: 'jpn-j6-gram-sae-koso', title: 'Verbi composti: ～[始|はじ]める, ～[出|だ]す, ～[続|つづ]ける, ～[終|お]わる, ～[直|なお]す, ～[合|あ]う',
     summary: 'Aggiungere fasi, intensità e reciprocità al verbo con V-ます + secondo verbo.',
-    obj: ['Costruire verbi composti V-ます + V', 'Distinguere 始める e 出す, 終わる e 終える', 'Usare 合う, 直す, 忘れる, 切る in significati comuni'],
+    obj: ['Costruire verbi composti V-ます + V', 'Distinguere [始|はじ]める e [出|だ]す, [終|お]わる e [終|お]える', 'Usare [合|あ]う, [直|なお]す, [忘|わす]れる, [切|き]る in significati comuni'],
     pages: [
-      { h: 'Obiettivo', b: 'Il giapponese forma **verbi composti** unendo la radice ます di un verbo a un secondo verbo: **読み始める**, **泣き出す**, **話し合う**. Il secondo verbo aggiunge **fase** (inizio, durata, fine), **modo** (fino in fondo) o **reciprocità**.' },
-      { h: 'Regola con schema', b: '**V-ます (radice) + 始める** = cominciare a\n**V-ます + 出す** = mettersi a (improvviso)\n**V-ます + 続ける** = continuare a\n**V-ます + 終わる / 終える** = finire di\n**V-ます + かける** = a metà / sta per\n**V-ます + 切る** = fare fino in fondo\n**V-ます + 直す** = rifare\n**V-ます + 合う** = fare l’uno con l’altro\n**V-ます + 忘れる** = dimenticare di' },
-      { h: '始める・出す', b: '- {{ja|[雨|あめ]が [降|ふ]り[始|はじ]めました。}} — Ha cominciato a piovere (calmo).\n- {{ja|[急|きゅう]に [雨|あめ]が [降|ふ]り[出|だ]しました。}} — Si è messo a piovere all’improvviso.\n- {{ja|[赤|あか]ちゃんが [泣|な]き[出|だ]しました。}}\n- {{ja|[先月|せんげつ]から [日本語|にほんご]を [習|なら]い[始|はじ]めました。}}\n\n**始める** è neutro e controllato; **出す** è improvviso, spesso emotivo.' },
-      { h: '続ける・終わる・かける', b: '- {{ja|[毎日|まいにち] [日本語|にほんご]を [勉強|べんきょう]し[続|つづ]けて います。}}\n- {{ja|[本|ほん]を [読|よ]み[終|お]わりました。}}\n- {{ja|[宿題|しゅくだい]を し[終|お]えて から [遊|あそ]びます。}} (終える è volitivo)\n- {{ja|[食|た]べかけの ケーキが [机|つくえ]の [上|うえ]に あります。}} — Una torta a metà sul tavolo.\n- {{ja|[電車|でんしゃ]が [出|で]かけて いた。}}' },
-      { h: '切る・直す・合う・忘れる', b: '- {{ja|[全部|ぜんぶ] [使|つか]い[切|き]りました。}} — Ho finito tutto.\n- {{ja|[作文|さくぶん]を [書|か]き[直|なお]します。}}\n- {{ja|[友達|ともだち]と [話|はな]し[合|あ]いました。}}\n- {{ja|[傘|かさ]を [電車|でんしゃ]に [置|お]き[忘|わす]れました。}}\n- {{ja|[電車|でんしゃ]に [乗|の]り[遅|おく]れました。}}\n\nSono combinazioni fisse da imparare come blocchi lessicali.' },
-      { h: 'Differenze da strutture simili', b: '- **始める** vs **始まる**: 始める è transitivo (io comincio), 始まる è intransitivo (comincia da solo).\n- **終わる** vs **終える**: 終わる è intransitivo, 終える è transitivo: {{ja|[授業|じゅぎょう]が [終|お]わる。}} / {{ja|[仕事|しごと]を [終|お]える。}}\n- **～続ける** vs **～て いる**: 続ける sottolinea la durata e la volontà.\n- **～切る** vs **全部**: 切る dà il senso del «fino in fondo, completamente».' },
-      { h: 'Errori tipici per italiani', b: '- Usare la forma て: «食べて始める» → **食べ始める**.\n- Confondere **出す** con 出る: {{ja|[走|はし]り[出|だ]す}} = mettersi a correre.\n- Dimenticare che il secondo verbo si coniuga: {{ja|[読|よ]み[始|はじ]めました}}.\n- Usare **始める** con verbi non controllabili: «[好|す]きになり始める» vale, ma «[雨|あめ]が降り始まる» no.\n- Scegliere 終わる quando serve il transitivo.' },
-      { h: 'Riepilogo', b: '- V-ます + **始める / 出す**: inizio.\n- **続ける**: continuare.\n- **終わる / 終える**: finire.\n- **かけ**: a metà.\n- **切る**: fino in fondo.\n- **直す**: rifare.\n- **合う**: reciprocità.' }
+      { h: 'Obiettivo', b: 'Il giapponese forma **verbi composti** unendo la radice ます di un verbo a un secondo verbo: **[読|よ]み[始|はじ]める**, **[泣|な]き[出|だ]す**, **[話|はな]し[合|あ]う**. Il secondo verbo aggiunge **fase** (inizio, durata, fine), **modo** (fino in fondo) o **reciprocità**.' },
+      { h: 'Regola con schema', b: '**V-ます (radice) + [始|はじ]める** = cominciare a\n**V-ます + [出|だ]す** = mettersi a (improvviso)\n**V-ます + [続|つづ]ける** = continuare a\n**V-ます + [終|お]わる / [終|お]える** = finire di\n**V-ます + かける** = a metà / sta per\n**V-ます + [切|き]る** = fare fino in fondo\n**V-ます + [直|なお]す** = rifare\n**V-ます + [合|あ]う** = fare l’uno con l’altro\n**V-ます + [忘|わす]れる** = dimenticare di' },
+      { h: '[始|はじ]める・[出|だ]す', b: '- {{ja|[雨|あめ]が [降|ふ]り[始|はじ]めました。}} — Ha cominciato a piovere (calmo).\n- {{ja|[急|きゅう]に [雨|あめ]が [降|ふ]り[出|だ]しました。}} — Si è messo a piovere all’improvviso.\n- {{ja|[赤|あか]ちゃんが [泣|な]き[出|だ]しました。}}\n- {{ja|[先月|せんげつ]から [日本語|にほんご]を [習|なら]い[始|はじ]めました。}}\n\n**[始|はじ]める** è neutro e controllato; **[出|だ]す** è improvviso, spesso emotivo.' },
+      { h: '[続|つづ]ける・[終|お]わる・かける', b: '- {{ja|[毎日|まいにち] [日本語|にほんご]を [勉強|べんきょう]し[続|つづ]けて います。}}\n- {{ja|[本|ほん]を [読|よ]み[終|お]わりました。}}\n- {{ja|[宿題|しゅくだい]を し[終|お]えて から [遊|あそ]びます。}} ([終|お]える è volitivo)\n- {{ja|[食|た]べかけの ケーキが [机|つくえ]の [上|うえ]に あります。}} — Una torta a metà sul tavolo.\n- {{ja|[電車|でんしゃ]が [出|で]かけて いた。}}' },
+      { h: '[切|き]る・[直|なお]す・[合|あ]う・[忘|わす]れる', b: '- {{ja|[全部|ぜんぶ] [使|つか]い[切|き]りました。}} — Ho finito tutto.\n- {{ja|[作文|さくぶん]を [書|か]き[直|なお]します。}}\n- {{ja|[友達|ともだち]と [話|はな]し[合|あ]いました。}}\n- {{ja|[傘|かさ]を [電車|でんしゃ]に [置|お]き[忘|わす]れました。}}\n- {{ja|[電車|でんしゃ]に [乗|の]り[遅|おく]れました。}}\n\nSono combinazioni fisse da imparare come blocchi lessicali.' },
+      { h: 'Differenze da strutture simili', b: '- **[始|はじ]める** vs **[始|はじ]まる**: [始|はじ]める è transitivo (io comincio), [始|はじ]まる è intransitivo (comincia da solo).\n- **[終|お]わる** vs **[終|お]える**: [終|お]わる è intransitivo, [終|お]える è transitivo: {{ja|[授業|じゅぎょう]が [終|お]わる。}} / {{ja|[仕事|しごと]を [終|お]える。}}\n- **～[続|つづ]ける** vs **～て いる**: [続|つづ]ける sottolinea la durata e la volontà.\n- **～[切|き]る** vs **[全部|ぜんぶ]**: [切|き]る dà il senso del «fino in fondo, completamente».' },
+      { h: 'Errori tipici per italiani', b: '- Usare la forma て: «[食|た]べて[始|はじ]める» → **[食|た]べ[始|はじ]める**.\n- Confondere **[出|だ]す** con [出|で]る: {{ja|[走|はし]り[出|だ]す}} = mettersi a correre.\n- Dimenticare che il secondo verbo si coniuga: {{ja|[読|よ]み[始|はじ]めました}}.\n- Usare **[始|はじ]める** con verbi non controllabili: «[好|す]きになり[始|はじ]める» vale, ma «[雨|あめ]が[降|ふ]り[始|はじ]まる» no.\n- Scegliere [終|お]わる quando serve il transitivo.' },
+      { h: 'Riepilogo', b: '- V-ます + **[始|はじ]める / [出|だ]す**: inizio.\n- **[続|つづ]ける**: continuare.\n- **[終|お]わる / [終|お]える**: finire.\n- **かけ**: a metà.\n- **[切|き]る**: fino in fondo.\n- **[直|なお]す**: rifare.\n- **[合|あ]う**: reciprocità.' }
     ],
     ex: [
       mc('«Ha cominciato a piovere all’improvviso»:', ['きゅうに あめが ふりだしました。', 'きゅうに あめが ふりつづけました。', 'きゅうに あめが ふりなおしました。', 'きゅうに あめが ふりあいました。']),
       mc('«Ho finito di leggere il libro»:', ['ほんを よみおわりました。', 'ほんを よみはじめました。', 'ほんを よみかけました。', 'ほんを よみきりました から。']),
       mc('«Ho dimenticato l’ombrello sul treno»:', ['かさを でんしゃに おきわすれました。', 'かさを でんしゃに おきなおしました。', 'かさを でんしゃに おきあいました。', 'かさを でんしゃに おきつづけました。']),
-      fillJ('Completa: まいにち にほんごを べんきょうし___ います。(continuo)', ['つづけて'], '続ける.'),
-      fillJ('Completa: ともだちと はなし___ ました。(ci siamo confrontati)', ['あい'], '話し合う.'),
-      fillJ('Completa: さくぶんを かき___ ます。(lo riscrivo)', ['なおし'], '書き直す.'),
-      order('Metti in ordine: «Ho cominciato a imparare il giapponese il mese scorso»', ['せんげつ', 'から', 'にほんごを', 'ならいはじめました'], '習い始める.'),
-      order('Metti in ordine: «Ho usato tutto»', ['ぜんぶ', 'つかいきりました'], '使い切る.'),
+      fillJ('Completa: まいにち にほんごを べんきょうし___ います。(continuo)', ['つづけて'], '[続|つづ]ける.'),
+      fillJ('Completa: ともだちと はなし___ ました。(ci siamo confrontati)', ['あい'], '[話|はな]し[合|あ]う.'),
+      fillJ('Completa: さくぶんを かき___ ます。(lo riscrivo)', ['なおし'], '[書|か]き[直|なお]す.'),
+      order('Metti in ordine: «Ho cominciato a imparare il giapponese il mese scorso»', ['せんげつ', 'から', 'にほんごを', 'ならいはじめました'], '習い[始|はじ]める.'),
+      order('Metti in ordine: «Ho usato tutto»', ['ぜんぶ', 'つかいきりました'], '使い[切|き]る.'),
       lis('あかちゃんが ないだしました。', 'Che cosa significa?', ['Il bambino si è messo a piangere', 'Il bambino ha smesso di piangere', 'Il bambino ride', 'Il bambino dorme']),
-      mc('«始める» è…', ['transitivo (io comincio)', 'intransitivo', 'solo passato', 'solo negativo']),
-      mc('«食べかけ» indica…', ['qualcosa mangiato a metà', 'cibo finito', 'cibo da mangiare', 'cibo cattivo'])
+      mc('«[始|はじ]める» è…', ['transitivo (io comincio)', 'intransitivo', 'solo passato', 'solo negativo']),
+      mc('«[食|た]べかけ» indica…', ['qualcosa mangiato a metà', 'cibo finito', 'cibo da mangiare', 'cibo cattivo'])
     ],
     test: [
       mc('«Ho perso il treno» (non sono salito in tempo):', ['でんしゃに のりおくれました。', 'でんしゃに のりなおしました。', 'でんしゃに のりあいました。', 'でんしゃに のりつづけました。']),
