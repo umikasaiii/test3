@@ -634,7 +634,7 @@ Strategia generale:
 5. **Mantieni** la moto dritta quando attraversi elementi insidiosi.
 6. **Rinuncia** se le condizioni sono oltre le tue capacità (ghiaccio, vento forte, pioggia violenta).
 
-> Calcolo di buonsenso: se a 90 km/h sul bagnato ti servono 63,7 m di frenata più 25 m di reazione (≈ 89 m), ti serve più del doppio della distanza dei 2 secondi (50 m). La distanza di sicurezza va **adattata**: 4 secondi = 100 m.
+> Calcolo di buonsenso: se a 90 km/h sul bagnato ti servono 63,7 m di frenata più 25 m di reazione (≈ 89 m), ti serve quasi il doppio della distanza dei 2 secondi (50 m). La distanza di sicurezza va **adattata**: 4 secondi = 100 m.
 
 Equipaggiamento adatto (impermeabile, visibilità, gomme in buono stato) fa parte della sicurezza, non è un optional. Preparare il viaggio guardando previsioni meteo e stato delle strade è parte della guida prudente.` }
     ],
