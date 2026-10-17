@@ -1001,4 +1001,404 @@
     ]
   });
 
+  A('moto-cambio-e-freno-motore', {
+    title: { t: 'Gearbox, downshifting and engine braking', it: 'Cambio, scalata e freno motore' },
+    sum: [
+      { t: 'On track the gearbox keeps the revs in the useful band: upshift near maximum power, downshift while braking.', it: 'In pista il cambio tiene i giri nella fascia utile: si sale vicino alla potenza massima e si scala in frenata.' },
+      { t: 'Choose the ⟦corner gear⟧ before the corner, because shifting in the middle of the lean unsettles the bike.', it: 'La marcia di curva si sceglie prima della curva, perché cambiare a metà piega scompone la moto.' },
+      { t: 'At 100 km/h the revs are about 7720 in second, 6300 in third and 5280 in fourth.', it: 'A 100 km/h i giri sono circa 7720 in 2ª, 6300 in 3ª e 5280 in 4ª.' },
+      { t: 'When you downshift the engine must rev up; releasing the ⟦clutch⟧ without matching makes the rear wheel slow down suddenly and hop.', it: 'Quando scali il motore deve salire di giri; rilasciare la frizione senza adeguarli fa rallentare di colpo la ruota posteriore e la fa saltellare.' },
+      { t: 'A ⟦slipper clutch⟧ and a ⟦blip⟧ of throttle with the clutch pulled help, and an auto-blipper can do it for you.', it: 'Una frizione antisaltellamento e un colpo di gas con la frizione tirata aiutano, e un auto-blipper può farlo al posto tuo.' },
+      { t: '⟦Engine braking⟧ is worth little compared to the brakes in hard braking, about 0.14–0.34 g, but it affects rear stability.', it: 'Il freno motore vale poco rispetto ai freni in frenata forte, circa 0,14–0,34 g, ma incide sulla stabilità del posteriore.' },
+      { t: 'Choose the highest gear that gives a crisp throttle response at the exit; a ⟦quickshifter⟧ is for upshifts at full throttle.', it: 'Scegli la marcia più alta che dà una risposta franca al gas in uscita; il quickshifter serve per salire di marcia a pieno gas.' }
+    ],
+    gloss: [
+      { w: 'corner gear', it: 'marcia di curva' },
+      { w: 'clutch', it: 'frizione' },
+      { w: 'slipper clutch', it: 'frizione antisaltellamento' },
+      { w: 'blip', it: 'colpo di gas in scalata' },
+      { w: 'engine braking', it: 'freno motore' },
+      { w: 'quickshifter', it: 'cambio elettronico senza frizione' },
+      { w: 'rev limiter', it: 'limitatore di giri' },
+      { w: 'downshift', it: 'scalare' },
+      { w: 'overall ratio', it: 'rapporto complessivo' },
+      { w: 'rev counter', it: 'contagiri' }
+    ]
+  });
+
+  A('moto-gomme-e-temperature', {
+    title: { t: 'Managing tyres and temperatures', it: 'Gestione di gomme e temperature' },
+    sum: [
+      { t: 'Tyre grip depends on temperature, and there is a working ⟦window⟧: too cold it is hard, too hot it wears.', it: 'L’aderenza della gomma dipende dalla temperatura, e c’è una finestra di funzionamento: troppo fredda è dura, troppo calda si consuma.' },
+      { t: 'The ⟦warm-up⟧ is the most dangerous phase, so the first laps are always slow.', it: 'Il riscaldamento è la fase più pericolosa, quindi i primi giri si fanno sempre piano.' },
+      { t: 'Warm the tyres gradually with progressive braking and acceleration; ⟦tyre warmers⟧ cool quickly, within 2–3 minutes.', it: 'Scalda le gomme gradualmente con frenate e accelerazioni progressive; le termocoperte si raffreddano in fretta, entro 2–3 minuti.' },
+      { t: 'Pressure rises with temperature: 2.20 bar cold becomes about 2.58 bar hot, so correct by small steps of 0.05–0.1 bar.', it: 'La pressione sale con la temperatura: 2,20 bar a freddo diventano circa 2,58 bar a caldo, quindi correggi a piccoli passi di 0,05–0,1 bar.' },
+      { t: 'Overheating shows as ⟦graining⟧ and ⟦blistering⟧, and a cold tyre gives no feedback and understeer.', it: 'Il surriscaldamento si vede come graining e blistering, e una gomma fredda non dà feedback e sottosterza.' },
+      { t: '⟦Degradation⟧ makes lap times worse by 0.12 s per lap in the model, so a steady pace is better.', it: 'Il degrado peggiora i tempi di 0,12 s per giro nel modello, quindi è meglio un ritmo costante.' },
+      { t: 'Cords, cuts, bulges or irregular wear mean replacement; in the wet, braking from 100 km/h goes from 39 m to 79 m.', it: 'Cordini, tagli, rigonfiamenti o usura irregolare significano sostituire il pneumatico; sul bagnato la frenata da 100 km/h passa da 39 m a 79 m.' }
+    ],
+    gloss: [
+      { w: 'window', it: 'finestra di temperatura di funzionamento' },
+      { w: 'warm-up', it: 'riscaldamento' },
+      { w: 'tyre warmers', it: 'termocoperte' },
+      { w: 'graining', it: 'granulosità della gomma surriscaldata' },
+      { w: 'degradation', it: 'degrado, perdita di prestazione' },
+      { w: 'cold pressure', it: 'pressione a freddo' },
+      { w: 'blistering', it: 'bolle sulla gomma' },
+      { w: 'slick', it: 'gomma da pista senza scolpitura' },
+      { w: 'compound', it: 'mescola' },
+      { w: 'understeer', it: 'sottosterzo' }
+    ]
+  });
+
+  A('moto-kart-e-auto-in-pista', {
+    title: { t: 'Karts and cars on track', it: 'Kart e auto in pista' },
+    sum: [
+      { t: 'Bikes, karts and cars share the same physics: the ⟦grip circle⟧, ⟦load transfer⟧, the line and vision.', it: 'Moto, kart e auto condividono la stessa fisica: il cerchio dell’aderenza, il trasferimento di carico, la linea e la visione.' },
+      { t: 'A kart has no suspension, a rigid frame and direct steering, while a car has four wheels, suspension and a differential.', it: 'Il kart non ha sospensioni, ha un telaio rigido e lo sterzo diretto, mentre l’auto ha quattro ruote, sospensioni e differenziale.' },
+      { t: '⟦Understeer⟧ means the front loses grip first and the car runs wide; ⟦oversteer⟧ means the rear loses grip first.', it: 'Il sottosterzo significa che l’anteriore perde aderenza per primo e l’auto allarga; il sovrasterzo che il posteriore perde aderenza per primo.' },
+      { t: 'To fix understeer reduce the steering and ease the throttle; for oversteer look where you want to go and dose the throttle.', it: 'Per correggere il sottosterzo riduci lo sterzo e il gas; per il sovrasterzo guarda dove vuoi andare e dosa il gas.' },
+      { t: 'In braking a car moves about 23% of its weight forward, a bike about 49%, so the bike is more sensitive.', it: 'In frenata un’auto trasferisce circa il 23% del peso sull’anteriore, una moto circa il 49%, quindi la moto è più sensibile.' },
+      { t: '⟦Trail braking⟧ helps the car rotate, but releasing the pedal suddenly can cause oversteer on entry.', it: 'Il trail braking aiuta la rotazione dell’auto, ma rilasciare di colpo il pedale può causare sovrasterzo in ingresso.' },
+      { t: 'The ⟦kart⟧ is a good school; step up to cars gradually with instructors, and only on the track.', it: 'Il kart è una buona scuola, e si passa alle auto gradualmente con istruttori; tutto questo vale solo per la pista.' }
+    ],
+    gloss: [
+      { w: 'grip circle', it: 'cerchio dell’aderenza' },
+      { w: 'load transfer', it: 'trasferimento di carico' },
+      { w: 'understeer', it: 'sottosterzo' },
+      { w: 'oversteer', it: 'sovrasterzo' },
+      { w: 'trail braking', it: 'frenare mentre si inizia a sterzare' },
+      { w: 'kart', it: 'kart' },
+      { w: 'differential', it: 'differenziale' },
+      { w: 'suspension', it: 'sospensioni' },
+      { w: 'steering', it: 'sterzo' },
+      { w: 'instructors', it: 'istruttori' }
+    ]
+  });
+
+  A('moto-preparazione-del-pilota', {
+    title: { t: 'Physical and mental preparation of the rider', it: 'Preparazione fisica e mentale del pilota' },
+    sum: [
+      { t: 'A session of 20 minutes in leathers at 30 °C is physical work, with high heart rate, heat and constant concentration.', it: 'Un turno da 20 minuti in tuta di pelle a 30 °C è un lavoro fisico, con frequenza cardiaca alta, caldo e concentrazione continua.' },
+      { t: '⟦Fatigue⟧ reduces precision before the rider notices, so stopping when tired is a safety choice.', it: 'La fatica riduce la precisione prima che il pilota se ne accorga, quindi fermarsi quando si è stanchi è una scelta di sicurezza.' },
+      { t: 'The ⟦core⟧ stabilises the trunk, and ⟦grip endurance⟧ of the forearms limits long sessions; train 2–3 times a week.', it: 'Il core stabilizza il tronco, e la resistenza della presa degli avambracci limita i turni lunghi; allenati 2–3 volte a settimana.' },
+      { t: 'The typical ⟦reaction time⟧ is 0.2–0.3 s, and at 180 km/h each extra 0.1 s means 5 metres.', it: 'Il tempo di reazione tipico è 0,2–0,3 s, e a 180 km/h ogni 0,1 s in più sono 5 metri.' },
+      { t: '⟦Dehydration⟧ of 2% already worsens concentration, so drink regularly and rest in the shade between sessions.', it: 'Una disidratazione del 2% peggiora già la concentrazione, quindi bevi regolarmente e riposa all’ombra tra i turni.' },
+      { t: '⟦Visualisation⟧ is a mental lap of 5–10 minutes at real timing, followed by a routine with breathing and a single goal.', it: 'La visualizzazione è un giro mentale di 5–10 minuti a tempi reali, seguito da una routine con respirazione e un solo obiettivo.' },
+      { t: 'The worst errors come from hurry, ego and fatigue: skip a session when tired, and see a doctor if in doubt.', it: 'Gli errori peggiori nascono da fretta, ego e fatica, quindi salta un turno se sei stanco, e consulta un medico se hai dubbi.' }
+    ],
+    gloss: [
+      { w: 'fatigue', it: 'fatica' },
+      { w: 'grip endurance', it: 'resistenza della presa' },
+      { w: 'reaction time', it: 'tempo di reazione' },
+      { w: 'dehydration', it: 'disidratazione' },
+      { w: 'visualisation', it: 'visualizzazione mentale del giro' },
+      { w: 'core', it: 'muscoli del tronco' },
+      { w: 'aerobic base', it: 'base di resistenza aerobica' },
+      { w: 'arm pump', it: 'indurimento degli avambracci' },
+      { w: 'routine', it: 'routine pre-turno' },
+      { w: 'ego', it: 'ego, voler stare con i più veloci' }
+    ]
+  });
+
+  A('moto-dati-bandiere-sicurezza', {
+    title: { t: 'Data analysis, video and safety', it: 'Analisi dei dati, video e sicurezza' },
+    sum: [
+      { t: 'Without data you improve by feel, and feel can mislead; data show where time is gained and lost.', it: 'Senza dati si migliora a sensazione, e la sensazione inganna; i dati dicono dove si guadagna e si perde.' },
+      { t: 'The tools are the lap timer, video, ⟦sector⟧ timing and ⟦telemetry⟧ of throttle, brake, lean and speed.', it: 'Gli strumenti sono il cronometro, il video, i tempi per settore e la telemetria di acceleratore, freno, piega e velocità.' },
+      { t: '⟦Repeatability⟧ counts more than a single lap, so work on the most variable sector, not the fastest.', it: 'La ripetibilità conta più del giro singolo, quindi lavora sul settore più variabile, non sul più veloce.' },
+      { t: 'The ⟦theoretical best lap⟧ adds the best sectors: 109.7 s in the example, 0.4 s below the real best lap.', it: 'Il giro teorico somma i migliori settori: 109,7 s nell’esempio, 0,4 s sotto il miglior giro reale.' },
+      { t: 'A long phase with neither brake nor throttle, called ⟦coasting⟧, is lost time; the throttle should be a smooth ramp.', it: 'Una lunga fase senza né freno né gas, detta coasting, è tempo perso; il gas dovrebbe essere una rampa liscia.' },
+      { t: 'A ⟦yellow flag⟧ means danger and no overtaking; a ⟦red flag⟧ means the session is stopped and you return to the pits.', it: 'La bandiera gialla significa pericolo e niente sorpassi, e la rossa che la sessione è interrotta e si rientra ai box.' },
+      { t: 'After a fall do not remove the helmet if a neck injury is suspected, and return gradually, one parameter at a time.', it: 'Dopo una caduta non togliere il casco se si sospetta un trauma al collo, e rientra gradualmente, un parametro per volta.' }
+    ],
+    gloss: [
+      { w: 'sector', it: 'settore del giro' },
+      { w: 'telemetry', it: 'telemetria' },
+      { w: 'repeatability', it: 'ripetibilità' },
+      { w: 'theoretical best lap', it: 'giro teorico (somma dei migliori settori)' },
+      { w: 'coasting', it: 'fase senza freno né gas' },
+      { w: 'yellow flag', it: 'bandiera gialla' },
+      { w: 'red flag', it: 'bandiera rossa' },
+      { w: 'blue flag', it: 'bandiera blu' },
+      { w: 'lap time', it: 'tempo sul giro' },
+      { w: 'marshals', it: 'commissari di percorso' }
+    ]
+  });
+
+  A('moto-campionati-e-discipline', {
+    title: { t: 'Championships and disciplines', it: 'Campionati e discipline' },
+    sum: [
+      { t: 'Racing splits into road racing and off-road, and a ⟦prototype⟧ is built only to race, unlike a production-derived bike.', it: 'Le corse si dividono in velocità e fuoristrada, e un prototipo è costruito solo per correre, a differenza di una derivata di serie.' },
+      { t: 'MotoGP is the top class, with prototypes powered by 1000 cc four-stroke engines.', it: 'La MotoGP è la classe regina, con prototipi a motore quattro tempi da 1000 cc.' },
+      { t: 'Moto2 uses a Triumph 765 cc three-cylinder engine, the same for all, while ⟦Moto3⟧ uses 250 cc single-cylinder four-strokes.', it: 'La Moto2 usa un tre cilindri Triumph da 765 cc, uguale per tutti, mentre la Moto3 usa monocilindrici quattro tempi da 250 cc.' },
+      { t: '⟦MotoE⟧ is the electric class since 2019, with one single make, and the battery limits the race length.', it: 'La MotoE è la classe elettrica dal 2019, con un solo marchio, e la batteria limita la durata delle gare.' },
+      { t: '⟦WorldSBK⟧ has existed since 1988 and uses production-derived bikes; Jonathan Rea won 6 consecutive titles from 2015 to 2020.', it: 'Il WorldSBK esiste dal 1988 e usa moto derivate dalla serie; Jonathan Rea ha vinto 6 titoli consecutivi dal 2015 al 2020.' },
+      { t: '⟦Endurance⟧ races last for hours with teams of 2–3 riders, like the 8 Hours of Suzuka.', it: 'Le gare di endurance durano ore con squadre di 2-3 piloti, come le 8 Ore di Suzuka.' },
+      { t: 'Off-road includes motocross, enduro, the Dakar, ⟦trial⟧ and speedway, and the ⟦Tourist Trophy⟧ has run on closed roads since 1907.', it: 'Il fuoristrada comprende motocross, enduro, Dakar, trial e speedway, e il Tourist Trophy si corre su strade chiuse dal 1907.' }
+    ],
+    gloss: [
+      { w: 'prototype', it: 'moto costruita solo per correre' },
+      { w: 'Moto3', it: 'classe minore con monocilindrici da 250 cc' },
+      { w: 'MotoE', it: 'classe elettrica del Mondiale' },
+      { w: 'WorldSBK', it: 'Mondiale Superbike' },
+      { w: 'Endurance', it: 'gara di resistenza' },
+      { w: 'trial', it: 'superare ostacoli senza toccare terra' },
+      { w: 'Tourist Trophy', it: 'corsa su strade chiuse all’Isola di Man' },
+      { w: 'MotoGP', it: 'classe regina del Mondiale' },
+      { w: 'Moto2', it: 'classe intermedia con motore unico' },
+      { w: 'motocross', it: 'gare brevi su pista sterrata con salti' }
+    ]
+  });
+
+  A('moto-storia-del-motociclismo-sportivo', {
+    title: { t: 'History of motorcycle racing', it: 'Storia del motociclismo sportivo' },
+    sum: [
+      { t: 'The first motorcycle with an internal combustion engine dates from 1885, and the first series bike from 1894.', it: 'La prima motocicletta con motore a combustione interna è del 1885, e la prima moto di serie del 1894.' },
+      { t: 'The first ⟦Tourist Trophy⟧ was held in 1907, and racing served to show reliability and to sell bikes.', it: 'Il primo Tourist Trophy si disputò nel 1907, e le corse servivano a dimostrare l’affidabilità e a vendere moto.' },
+      { t: 'The FIM organised the first ⟦World Championship⟧ in 1949, and European makers such as Gilera and MV Agusta dominated.', it: 'La FIM organizzò il primo Campionato del Mondo nel 1949, e dominarono costruttori europei come Gilera e MV Agusta.' },
+      { t: 'The ⟦Japanese makers⟧ arrived: Honda debuted at the TT in 1959 and won its first titles in 1961.', it: 'Arrivarono i costruttori giapponesi: la Honda debuttò al TT nel 1959 e vinse i primi titoli nel 1961.' },
+      { t: 'From 1975 the ⟦two-stroke⟧ 500s dominated the top class, and Mick Doohan won 5 consecutive titles from 1994 to 1998.', it: 'Dal 1975 le 500 due tempi dominarono la classe regina, e Mick Doohan vinse 5 titoli consecutivi dal 1994 al 1998.' },
+      { t: '⟦MotoGP⟧ began in 2002 with ⟦four-stroke⟧ engines of 990 cc, then 800 cc in 2007, and 1000 cc again from 2012.', it: 'La MotoGP nacque nel 2002 con quattro tempi da 990 cc, poi 800 cc nel 2007 e di nuovo 1000 cc dal 2012.' },
+      { t: 'Giacomo Agostini won 15 titles and Valentino Rossi 9; each change of era is a compromise between spectacle, safety and costs.', it: 'Giacomo Agostini vinse 15 titoli e Valentino Rossi 9; ogni cambio di era è un compromesso tra spettacolo, sicurezza e costi.' }
+    ],
+    gloss: [
+      { w: 'Tourist Trophy', it: 'storica corsa su strada dell’Isola di Man' },
+      { w: 'World Championship', it: 'Campionato del Mondo' },
+      { w: 'Japanese makers', it: 'costruttori giapponesi' },
+      { w: 'two-stroke', it: 'motore a due tempi' },
+      { w: 'MotoGP', it: 'classe regina dal 2002' },
+      { w: 'FIM', it: 'federazione motociclistica internazionale' },
+      { w: 'four-stroke', it: 'motore a quattro tempi' },
+      { w: 'title', it: 'titolo mondiale' },
+      { w: 'era', it: 'epoca' },
+      { w: 'timeline', it: 'linea del tempo' }
+    ]
+  });
+
+  A('moto-weekend-di-gara-e-punti', {
+    title: { t: 'The race weekend and the scoring', it: 'Il weekend di gara e il punteggio' },
+    sum: [
+      { t: 'A MotoGP weekend lasts three days: Friday practice, Saturday qualifying and the Sprint, Sunday warm-up and the long race.', it: 'Un weekend di MotoGP dura tre giorni: prove il venerdì, qualifiche e Sprint il sabato, warm-up e gara lunga la domenica.' },
+      { t: 'The ⟦Sprint⟧, introduced in 2023, is about half the distance and has its own points.', it: 'La Sprint, introdotta nel 2023, è circa metà distanza e ha punti propri.' },
+      { t: 'In ⟦qualifying⟧ the 10 fastest riders go straight to Q2, and the others race in Q1, where the first 2 advance.', it: 'Nelle qualifiche i 10 piloti più veloci vanno direttamente in Q2, e gli altri disputano la Q1, dove i primi 2 passano.' },
+      { t: 'The ⟦grid⟧ has three bikes per row, and ⟦pole position⟧ gives clean air, but race pace matters more.', it: 'La griglia ha tre moto per fila, e la pole position dà aria pulita, ma il ritmo gara conta di più.' },
+      { t: 'The long race lasts about 40–45 minutes with no refuelling, and in sudden rain the ⟦flag-to-flag⟧ rule lets riders change bike.', it: 'La gara lunga dura circa 40-45 minuti senza rifornimento, e con pioggia improvvisa la regola flag-to-flag permette di cambiare moto.' },
+      { t: 'The long race scores the first 15, from 25 to 1; the Sprint scores the first 9, from 12 to 1.', it: 'La gara lunga dà punti ai primi 15, da 25 a 1, e la Sprint ai primi 9, da 12 a 1.' },
+      { t: 'The maximum is 37 points per weekend, and a ⟦long lap penalty⟧ costs about 2–3 seconds.', it: 'Il massimo è 37 punti a weekend, e una long lap penalty costa circa 2-3 secondi.' }
+    ],
+    gloss: [
+      { w: 'Sprint', it: 'gara breve del sabato, dal 2023' },
+      { w: 'qualifying', it: 'qualifiche (Q1 e Q2)' },
+      { w: 'grid', it: 'griglia di partenza' },
+      { w: 'flag-to-flag', it: 'regola per cambiare moto con pioggia improvvisa' },
+      { w: 'long lap penalty', it: 'penalità: giro più lungo da percorrere' },
+      { w: 'pole position', it: 'primo posto in griglia' },
+      { w: 'warm-up', it: 'breve sessione della domenica mattina' },
+      { w: 'practice', it: 'prove libere cronometrate' },
+      { w: 'points', it: 'punti' },
+      { w: 'race direction', it: 'direzione gara' }
+    ]
+  });
+
+  A('moto-regolamento-tecnico', {
+    title: { t: 'The technical regulations', it: 'Il regolamento tecnico' },
+    sum: [
+      { t: 'The ⟦technical regulations⟧ say what a racing bike can be, for safety, costs and spectacle.', it: 'Il regolamento tecnico stabilisce cosa può essere una moto da corsa, per sicurezza, costi e spettacolo.' },
+      { t: 'MotoGP rules allow 1000 cc four-strokes, at most 4 cylinders, an 81 mm ⟦bore⟧ and a 157 kg minimum weight.', it: 'Le regole recenti della MotoGP ammettono quattro tempi da 1000 cc, al massimo 4 cilindri, alesaggio massimo 81 mm e peso minimo 157 kg.' },
+      { t: 'The fuel tank is limited to 22 litres, and there are no refuelling stops, so the rider manages the pace.', it: 'Il serbatoio è limitato a 22 litri e non ci sono soste per il rifornimento, quindi il pilota gestisce il ritmo.' },
+      { t: 'With a ⟦single tyre supplier⟧, Michelin since 2016 in MotoGP, riders choose the compound and the pressure.', it: 'Con la gomma unica, Michelin dal 2016 in MotoGP, i piloti scelgono la mescola e la pressione.' },
+      { t: 'Since 2016 MotoGP uses a single ⟦ECU⟧ from Magneti Marelli, but teams still work on the maps.', it: 'Dal 2016 la MotoGP usa una centralina unica di Magneti Marelli, ma le squadre lavorano ancora sulle mappe.' },
+      { t: '⟦Winglets⟧ create downforce against wheelies, external ones were banned in 2017, and the ⟦ride height device⟧ came from Ducati in 2019.', it: 'Le alette creano carico contro l’impennata, quelle esterne furono vietate nel 2017 e il dispositivo di abbassamento nacque dalla Ducati nel 2019.' },
+      { t: 'New rules announced from 2027 foresee 850 cc engines, to be verified, and rules are also a tool to control costs.', it: 'Le nuove regole annunciate dal 2027 prevedono motori da 850 cc, da verificare, e le regole sono anche uno strumento di controllo dei costi.' }
+    ],
+    gloss: [
+      { w: 'technical regulations', it: 'regolamento tecnico' },
+      { w: 'single tyre supplier', it: 'gomma unica (monogomma)' },
+      { w: 'ECU', it: 'centralina elettronica' },
+      { w: 'winglets', it: 'alette aerodinamiche' },
+      { w: 'ride height device', it: 'dispositivo di abbassamento della moto' },
+      { w: 'compound', it: 'mescola' },
+      { w: 'minimum weight', it: 'peso minimo' },
+      { w: 'downforce', it: 'carico aerodinamico' },
+      { w: 'bore', it: 'alesaggio' },
+      { w: 'maps', it: 'mappe della centralina' }
+    ]
+  });
+
+  A('moto-squadre-e-business', {
+    title: { t: 'Teams and the business of motorcycle racing', it: 'Squadre e business del motociclismo' },
+    sum: [
+      { t: 'The ⟦FIM⟧ is the sporting authority; ⟦Dorna⟧ holds commercial rights since 1992; all sit in the Grand Prix Commission.', it: 'La FIM è l’autorità sportiva; la Dorna detiene i diritti commerciali dal 1992; con squadre e costruttori siedono tutti nella Grand Prix Commission.' },
+      { t: 'There are three types of team: the ⟦factory team⟧, the ⟦satellite team⟧ with leased bikes, and the independent team.', it: 'Ci sono tre tipi di squadra: il team ufficiale, il team satellite con moto in leasing e il team indipendente.' },
+      { t: 'The recent MotoGP grid has about 22 riders in 11 teams, so 2 bikes per team.', it: 'La griglia MotoGP recente ha circa 22 piloti in 11 squadre, quindi 2 moto per squadra.' },
+      { t: 'The garage has precise roles: team manager, ⟦crew chief⟧, mechanics, data engineer, electronics engineer and tyre technician.', it: 'Il box ha ruoli precisi: team manager, capotecnico, meccanici, ingegnere di pista, elettronico e gommista.' },
+      { t: 'Budgets are estimates: a factory team spends from tens to over a hundred million euros a year.', it: 'I budget sono stime: un team ufficiale spende da decine a oltre cento milioni di euro all’anno.' },
+      { t: 'Teams live on the manufacturer, ⟦sponsors⟧, promoter contributions and merchandising, and TV rights are a main source of income.', it: 'Le squadre vivono del costruttore, degli sponsor, dei contributi del promotore e del merchandising, e i diritti TV sono una fonte di ricavo principale.' },
+      { t: 'In MotoGP the ⟦prototypes⟧ are not sold, while Superbike replicas are, so a win there directly affects sales.', it: 'In MotoGP i prototipi non sono in vendita, mentre le replica della Superbike sì, quindi una vittoria lì ha un effetto diretto sulle vendite.' }
+    ],
+    gloss: [
+      { w: 'FIM', it: 'federazione motociclistica internazionale' },
+      { w: 'Dorna', it: 'promotore con i diritti commerciali' },
+      { w: 'factory team', it: 'team ufficiale del costruttore' },
+      { w: 'satellite team', it: 'team con moto fornite dal costruttore' },
+      { w: 'crew chief', it: 'capotecnico' },
+      { w: 'sponsors', it: 'sponsor' },
+      { w: 'prototypes', it: 'moto costruite solo per correre' },
+      { w: 'TV rights', it: 'diritti televisivi' },
+      { w: 'budget', it: 'bilancio di spesa' },
+      { w: 'promoter', it: 'promotore del campionato' }
+    ]
+  });
+
+  A('moto-piloti-e-carriere', {
+    title: { t: 'Riders and careers', it: 'Piloti e carriere' },
+    sum: [
+      { t: 'Most riders start as children on a ⟦minibike⟧, then go through youth championships, Talent Cups, Moto3, Moto2 and MotoGP.', it: 'Quasi tutti i piloti cominciano da bambini con la minimoto, poi passano per campionati giovanili, Talent Cup, Moto3, Moto2 e MotoGP.' },
+      { t: 'Starting early develops sensitivity, but early specialisation brings pressure, so other sports help too.', it: 'Partire presto sviluppa sensibilità, ma la specializzazione precoce porta pressione, quindi aiutano anche altri sport.' },
+      { t: 'The ⟦Talent Cup⟧ championships use identical bikes, so costs are lower and the comparison between riders is fair.', it: 'I campionati Talent Cup usano moto uguali per tutti, quindi i costi sono più contenuti e il confronto fra piloti è equo.' },
+      { t: 'A ⟦Moto3⟧ seat can cost hundreds of thousands to over a million euros: a ⟦pay driver⟧ may exclude talent.', it: 'Un sedile in Moto3 può costare da centinaia di migliaia a oltre un milione di euro, quindi un pay driver può escludere talenti senza mezzi.' },
+      { t: 'You need a ⟦licence⟧ from the national federation, with a medical exam, and the minimum age in Moto3 is 16.', it: 'Serve una licenza della federazione nazionale, con visita medica, e l’età minima in Moto3 è 16 anni.' },
+      { t: 'Racing demands aerobic endurance, with heart rates of 160–180 beats per minute, plus strong core and neck and mental ⟦resilience⟧.', it: 'Correre richiede resistenza aerobica, con frequenze cardiache di 160-180 battiti al minuto, oltre a core e collo forti e resilienza mentale.' },
+      { t: 'Márquez won the MotoGP title at 20 in 2013, and Rossi won his first title at 18 in 1997 and raced past 40.', it: 'Márquez vinse il titolo MotoGP a 20 anni nel 2013, e Rossi vinse il primo titolo a 18 anni nel 1997 e corse oltre i 40 anni.' }
+    ],
+    gloss: [
+      { w: 'minibike', it: 'minimoto' },
+      { w: 'Talent Cup', it: 'campionato giovanile con moto uguali' },
+      { w: 'pay driver', it: 'pilota che porta denaro alla squadra' },
+      { w: 'licence', it: 'licenza di gara' },
+      { w: 'resilience', it: 'resilienza' },
+      { w: 'Moto3', it: 'classe d’ingresso del Mondiale' },
+      { w: 'academy', it: 'accademia dei costruttori' },
+      { w: 'sponsor', it: 'sponsor' },
+      { w: 'federation', it: 'federazione' },
+      { w: 'career', it: 'carriera' }
+    ]
+  });
+
+  A('moto-sicurezza-nelle-corse', {
+    title: { t: 'Safety in racing', it: 'La sicurezza nelle corse' },
+    sum: [
+      { t: 'Safety is a ⟦layered system⟧: rider and gear, bike, circuit, organisation and rules, and the risk can never be zero.', it: 'La sicurezza è un sistema a strati: pilota ed equipaggiamento, moto, circuito, organizzazione e regole, e il rischio non può mai essere zero.' },
+      { t: 'The helmet is the most important item, and the leather suit must resist ⟦abrasion⟧ for dozens of metres.', it: 'Il casco è l’elemento più importante e la tuta di pelle deve resistere all’abrasione per decine di metri.' },
+      { t: 'From 100 to 200 km/h the sliding distance grows from 49 m to 197 m, almost four times longer.', it: 'Da 100 a 200 km/h la distanza di scivolata cresce da 49 m a 197 m, quasi quattro volte più lunga.' },
+      { t: 'An ⟦airbag⟧ suit first appeared in the World Championship in 2007, but it does not remove the impact energy.', it: 'La tuta con airbag comparve per la prima volta nel Mondiale nel 2007, ma non elimina l’energia dell’impatto.' },
+      { t: '⟦Run-off⟧ areas, barriers and ⟦air fences⟧ turn a sudden impact into a slower deceleration.', it: 'Le vie di fuga, le barriere e le air fence trasformano un urto brusco in una decelerazione più lenta.' },
+      { t: 'The race direction and the ⟦marshals⟧ show flags and rescue riders; a yellow flag forbids overtaking.', it: 'La direzione gara e i commissari mostrano le bandiere e soccorrono i piloti; la bandiera gialla vieta i sorpassi.' },
+      { t: 'After a fall a rider must pass a medical check to be ⟦fit to race⟧; the Clinica Mobile dates from 1977.', it: 'Dopo una caduta il pilota deve superare una valutazione medica per essere idoneo a correre, e la Clinica Mobile fu ideata nel 1977.' }
+    ],
+    gloss: [
+      { w: 'layered system', it: 'sistema a strati' },
+      { w: 'abrasion', it: 'abrasione' },
+      { w: 'airbag', it: 'airbag nella tuta' },
+      { w: 'run-off', it: 'via di fuga' },
+      { w: 'air fences', it: 'barriere gonfiabili' },
+      { w: 'marshals', it: 'commissari di percorso' },
+      { w: 'fit to race', it: 'idoneo a correre' },
+      { w: 'race direction', it: 'direzione gara' },
+      { w: 'helmet', it: 'casco' },
+      { w: 'barriers', it: 'barriere' }
+    ]
+  });
+
+  A('moto-tecnologia-e-cultura', {
+    title: { t: 'From track to road, and motorcycling culture', it: 'Dalla pista alla strada e cultura motociclistica' },
+    sum: [
+      { t: 'Racing has long been a laboratory, but a technology must become reliable, cheap to build and usable by amateurs.', it: 'Le corse sono state a lungo un laboratorio, ma una tecnologia deve diventare affidabile, economica da produrre e utilizzabile da non professionisti.' },
+      { t: 'The ⟦disc brake⟧ became standard on the Honda CB750 in 1969, and ⟦radial calipers⟧ spread on sport bikes from the nineties.', it: 'Il freno a disco divenne di serie sulla Honda CB750 nel 1969, e le pinze radiali si diffusero sulle sportive dagli anni ’90.' },
+      { t: 'In MotoGP riders brake from over 300 km/h to a few tens in a few seconds, with decelerations near 1.5 g.', it: 'In MotoGP i piloti frenano da oltre 300 km/h a poche decine in pochi secondi, con decelerazioni vicine a 1,5 g.' },
+      { t: 'The first production bike with ⟦ABS⟧ was the BMW K100 in 1988; these aids raise the margin, not the limit.', it: 'La prima moto di serie con ABS fu la BMW K100 nel 1988; questi aiuti aumentano il margine, non il limite.' },
+      { t: 'Reducing the ⟦unsprung mass⟧ improves the response of the suspension and the handling.', it: 'Ridurre le masse non sospese migliora la risposta della sospensione e la maneggevolezza.' },
+      { t: '⟦EICMA⟧, the motorcycle show in Milan, dates from 1914, and museums and motorcycle clubs keep this history alive.', it: 'L’EICMA, il salone della moto a Milano, nasce nel 1914, e musei e motoclub tengono viva questa storia.' },
+      { t: 'To read a race on TV, convert the ⟦gap⟧ into metres: at 180 km/h, 1 second is 50 m.', it: 'Per capire una gara in TV, converti il distacco in metri: a 180 km/h, 1 secondo sono 50 m.' }
+    ],
+    gloss: [
+      { w: 'disc brake', it: 'freno a disco' },
+      { w: 'radial calipers', it: 'pinze radiali' },
+      { w: 'ABS', it: 'antibloccaggio dei freni' },
+      { w: 'unsprung mass', it: 'massa non sospesa' },
+      { w: 'EICMA', it: 'salone internazionale della moto di Milano' },
+      { w: 'gap', it: 'distacco tra due piloti' },
+      { w: 'traction control', it: 'controllo di trazione' },
+      { w: 'carbon fibre', it: 'fibra di carbonio' },
+      { w: 'museum', it: 'museo' },
+      { w: 'laboratory', it: 'laboratorio' }
+    ]
+  });
+
+  A('moto-adv-motore-prestazioni', {
+    title: { t: 'The high-performance engine', it: 'Il motore ad alte prestazioni' },
+    sum: [
+      { t: 'Power is ⟦torque⟧ times angular speed, so at equal torque power rises with revs, and sport engines seek high revs.', it: 'La potenza è coppia per velocità angolare, quindi a parità di coppia cresce con il regime, e i motori sportivi cercano regimi alti.' },
+      { t: 'Maximum power occurs at a higher rev than maximum torque, and the gearbox keeps the engine near it.', it: 'La potenza massima si trova a un regime più alto di quello della coppia massima, e il cambio tiene il motore vicino a essa.' },
+      { t: '⟦Mean effective pressure⟧ compares engines of different size and does not depend on revs; above 14–16 bar needs excellent filling and combustion.', it: 'La pressione media effettiva confronta motori di cilindrata diversa e non dipende dal regime; oltre 14–16 bar servono ottimo riempimento e combustione.' },
+      { t: '⟦Volumetric efficiency⟧ is the air really drawn per cycle, and since power depends on air, every point counts.', it: 'Il rendimento volumetrico è l’aria realmente aspirata per ciclo, e poiché la potenza dipende dall’aria, ogni punto conta.' },
+      { t: 'The ⟦mean piston speed⟧ of racing engines is between 20 and 28 m/s, and a short stroke allows higher revs.', it: 'La velocità media del pistone dei motori da corsa è fra 20 e 28 m/s, e una corsa corta permette giri più alti.' },
+      { t: '⟦Inertia forces⟧ grow with the square of the revs: 1.4 times the revs gives 1.96 times the force.', it: 'Le forze d’inerzia crescono con il quadrato dei giri: 1,4 volte i giri danno 1,96 volte la forza.' },
+      { t: '⟦Desmodromic⟧ and pneumatic valves fight valve float, and removing anti-pollution systems is illegal on the road.', it: 'Le valvole desmodromiche e pneumatiche contrastano il galleggiamento, e rimuovere i sistemi anti-inquinamento è illegale su strada.' }
+    ],
+    gloss: [
+      { w: 'torque', it: 'coppia' },
+      { w: 'mean effective pressure', it: 'pressione media effettiva (PME)' },
+      { w: 'volumetric efficiency', it: 'rendimento volumetrico' },
+      { w: 'mean piston speed', it: 'velocità media del pistone' },
+      { w: 'inertia forces', it: 'forze d’inerzia' },
+      { w: 'desmodromic', it: 'distribuzione con richiamo meccanico della valvola' },
+      { w: 'valve float', it: 'galleggiamento delle valvole' },
+      { w: 'specific power', it: 'potenza specifica (cv/litro)' },
+      { w: 'bore', it: 'alesaggio' },
+      { w: 'stroke', it: 'corsa del pistone' }
+    ]
+  });
+
+  A('moto-adv-elettronica-bordo', {
+    title: { t: 'On-board electronics and controls', it: 'Elettronica di bordo e controlli' },
+    sum: [
+      { t: 'A 6-axis ⟦IMU⟧ has 3 accelerometers and 3 gyroscopes, and it estimates the lean angle rather than measuring it.', it: 'Una IMU a 6 assi ha 3 accelerometri e 3 giroscopi, e stima l’angolo di piega invece di misurarlo.' },
+      { t: '⟦Sensor fusion⟧ trusts the gyroscope in the short term and the accelerometer in the long term, because a gyroscope drifts.', it: 'La fusione dei sensori si fida del giroscopio a breve termine e dell’accelerometro a lungo termine, perché il giroscopio deriva.' },
+      { t: 'With ⟦ride-by-wire⟧ a sensor reads the grip and the ECU opens the throttle, so the request becomes a signal to modulate.', it: 'Con il ride-by-wire un sensore legge la manopola e la centralina apre la farfalla, quindi la richiesta diventa un segnale modulabile.' },
+      { t: 'The ⟦slip ratio⟧ compares rear and front wheel speed, and ⟦traction control⟧ cuts torque when slip exceeds a target.', it: 'Lo slip ratio confronta la velocità della ruota posteriore e anteriore, e il controllo di trazione taglia la coppia quando lo slittamento supera un obiettivo.' },
+      { t: 'The slip target must fall as the lean angle grows, because grip is shared between lateral and longitudinal force.', it: 'L’obiettivo di slittamento deve scendere con l’angolo di piega, perché l’aderenza è condivisa fra forza laterale e longitudinale.' },
+      { t: 'The ⟦anti-wheelie⟧ cuts torque before the front lifts, and ⟦cornering ABS⟧ limits the brake pressure in a deep lean.', it: 'L’anti-wheelie riduce la coppia prima che l’anteriore si alzi, e l’ABS in curva limita la pressione dei freni in piega profonda.' },
+      { t: 'The systems decide on a model with delays of 10–50 ms: they help, never cancel physics, and tampering is illegal.', it: 'I sistemi decidono su un modello con ritardi di 10–50 ms: aiutano, non cancellano la fisica, e manometterli è illegale.' }
+    ],
+    gloss: [
+      { w: 'IMU', it: 'unità di misura inerziale' },
+      { w: 'sensor fusion', it: 'fusione dei sensori' },
+      { w: 'ride-by-wire', it: 'gas elettronico' },
+      { w: 'slip ratio', it: 'rapporto di slittamento' },
+      { w: 'traction control', it: 'controllo di trazione' },
+      { w: 'anti-wheelie', it: 'controllo dell’impennata' },
+      { w: 'cornering ABS', it: 'ABS in curva' },
+      { w: 'riding modes', it: 'modalità di guida' },
+      { w: 'launch control', it: 'controllo di partenza' },
+      { w: 'engine braking', it: 'freno motore' }
+    ]
+  });
+
+  A('moto-adv-aerodinamica-moto', {
+    title: { t: 'Modern motorcycle aerodynamics', it: 'Aerodinamica moderna delle moto' },
+    sum: [
+      { t: 'The ⟦dynamic pressure⟧ gives drag and downforce when multiplied by the equivalent areas ⟦CdA⟧ and CLA.', it: 'La pressione dinamica dà resistenza e carico quando è moltiplicata per le aree equivalenti CdA e CLA.' },
+      { t: 'A bike with rider has a CdA of about 0.25–0.4 m²; doubling the speed multiplies the power against the air by 8.', it: 'Per una moto con pilota il CdA è circa 0,25–0,4 m², e raddoppiare la velocità moltiplica per 8 la potenza contro l’aria.' },
+      { t: 'In the example, at 300 km/h the drag is 1250 N and the power absorbed is 104.2 kW.', it: 'Nell’esempio, a 300 km/h la resistenza è 1250 N e la potenza assorbita è 104,2 kW.' },
+      { t: '⟦Winglets⟧ create downforce at the cost of drag, mainly to reduce wheelies and steady the front.', it: 'Le alette creano carico a costo di resistenza, soprattutto per ridurre l’impennata e stabilizzare l’anteriore.' },
+      { t: 'In the example the winglets give 125 N at 300 km/h, about 5% of the weight, and 56 N at 200 km/h.', it: 'Nell’esempio le alette danno 125 N a 300 km/h, circa il 5% del peso, e 56 N a 200 km/h.' },
+      { t: 'Drag acts above the ground and loads the front: at 300 km/h the front carries 66.7% of the weight, so ⟦traction⟧ becomes scarce.', it: 'La resistenza agisce sopra il suolo e carica l’anteriore: a 300 km/h l’anteriore porta il 66,7% del peso, quindi la trazione posteriore diventa scarsa.' },
+      { t: 'A ⟦ride height device⟧ lowers the bike at the start, the ⟦slipstream⟧ cuts drag but also front load, and rules change often.', it: 'Il ride height device abbassa la moto in partenza, la scia riduce la resistenza ma anche il carico anteriore, e le regole cambiano spesso.' }
+    ],
+    gloss: [
+      { w: 'dynamic pressure', it: 'pressione dinamica' },
+      { w: 'CdA', it: 'area equivalente di resistenza' },
+      { w: 'winglets', it: 'alette aerodinamiche' },
+      { w: 'traction', it: 'trazione' },
+      { w: 'ride height device', it: 'dispositivo di abbassamento' },
+      { w: 'slipstream', it: 'scia di un altro veicolo' },
+      { w: 'downforce', it: 'carico aerodinamico' },
+      { w: 'drag', it: 'resistenza aerodinamica' },
+      { w: 'wheelie', it: 'impennata' },
+      { w: 'centre of pressure', it: 'centro di pressione' }
+    ]
+  });
+
 })(window.ST = window.ST || {});

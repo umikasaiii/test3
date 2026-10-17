@@ -1056,4 +1056,409 @@
       { w: '原因', r: 'げんいん', it: 'causa' }
     ]
   });
+
+  A('moto-dati-bandiere-sicurezza', {
+    title: { t: 'データ、[旗|はた]、[安全|あんぜん]', it: 'Analisi dei dati, video e sicurezza' },
+    sum: [
+      { t: '⟦データ⟧がないと、[感覚|かんかく]だけで[判断|はんだん]します。', it: 'Senza dati si giudica solo a sensazione.' },
+      { t: '⟦ラップタイム⟧を、⟦セクター⟧に[分|わ]けて[見|み]ます。', it: 'Il tempo sul giro si guarda diviso in settori.' },
+      { t: '[別々|べつべつ]の[周|しゅう]の[一番|いちばん]いいセクターを[足|た]します。', it: 'Si sommano i migliori settori di giri diversi.' },
+      { t: '⟦テレメトリー⟧は、アクセルやブレーキなどを[記録|きろく]します。', it: 'La telemetria registra gas, freno e altre grandezze.' },
+      { t: '⟦[旗信号|はたしんごう]⟧は、⟦マーシャル⟧からの[連絡|れんらく]です。', it: 'Le bandiere sono le comunicazioni dei commissari.' },
+      { t: '[黄色|きいろ]い[旗|はた]は[危険|きけん]で、[追|お]い[越|こ]しは[禁止|きんし]です。', it: 'La bandiera gialla indica pericolo e vieta di sorpassare.' },
+      { t: '⟦[転倒|てんとう]⟧の[後|あと]は、[体|からだ]と⟦[装備|そうび]⟧を[確認|かくにん]してから[戻|もど]ります。', it: 'Dopo una caduta si controllano corpo ed equipaggiamento prima di rientrare.' }
+    ],
+    gloss: [
+      { w: 'データ', r: 'でーた', it: 'dati' },
+      { w: 'ラップタイム', r: 'らっぷたいむ', it: 'tempo sul giro' },
+      { w: 'セクター', r: 'せくたー', it: 'settore' },
+      { w: 'テレメトリー', r: 'てれめとりー', it: 'telemetria' },
+      { w: '旗信号', r: 'はたしんごう', it: 'segnali con le bandiere' },
+      { w: 'マーシャル', r: 'まーしゃる', it: 'commissario di percorso' },
+      { w: '転倒', r: 'てんとう', it: 'caduta' },
+      { w: '装備', r: 'そうび', it: 'equipaggiamento' },
+      { w: '禁止', r: 'きんし', it: 'divieto' }
+    ]
+  });
+
+  A('moto-campionati-e-discipline', {
+    title: { t: '[選手権|せんしゅけん]とクラス', it: 'Campionati e discipline' },
+    sum: [
+      { t: 'バイクレースは、[速度|そくど]と⟦オフロード⟧の[二|ふた]つに[大|おお]きく[分|わ]かれます。', it: 'Le corse si dividono in velocità e fuoristrada.' },
+      { t: '⟦モトジーピー⟧は[最高|さいこう]のクラスで、プロトタイプのバイクです。', it: 'La MotoGP è la classe regina, con moto prototipo.' },
+      { t: '⟦モトツー⟧は、エンジンが[全員|ぜんいん][同|おな]じです。', it: 'Nella Moto2 il motore è uguale per tutti.' },
+      { t: '⟦モトスリー⟧は[単気筒|たんきとう]のバイクです。', it: 'La Moto3 usa moto monocilindriche.' },
+      { t: '⟦モトイー⟧は[電気|でんき]のバイクの[選手権|せんしゅけん]です。', it: 'La MotoE è il campionato delle moto elettriche.' },
+      { t: '⟦ワールドエスビーケー⟧は、[市販車|しはんしゃ]がもとのバイクで[戦|たたか]います。', it: 'La WorldSBK si corre con moto derivate dalla serie.' },
+      { t: '⟦エンデュランス⟧は、[長|なが]い[時間|じかん]を[複数|ふくすう]のライダーで[走|はし]ります。', it: 'L’endurance si corre a lungo con più piloti.' }
+    ],
+    gloss: [
+      { w: 'オフロード', r: 'おふろーど', it: 'fuoristrada' },
+      { w: 'モトジーピー', r: 'もとじーぴー', it: 'MotoGP' },
+      { w: 'モトツー', r: 'もとつー', it: 'Moto2' },
+      { w: 'モトスリー', r: 'もとすりー', it: 'Moto3' },
+      { w: 'モトイー', r: 'もといー', it: 'MotoE' },
+      { w: 'ワールドエスビーケー', r: 'わーるどえすびーけー', it: 'WorldSBK' },
+      { w: 'エンデュランス', r: 'えんでゅらんす', it: 'endurance' },
+      { w: 'プロトタイプ', r: 'ぷろとたいぷ', it: 'prototipo' },
+      { w: '市販車', r: 'しはんしゃ', it: 'moto di serie' }
+    ]
+  });
+
+  A('moto-storia-del-motociclismo-sportivo', {
+    title: { t: 'モーターサイクルレースの[歴史|れきし]', it: 'Storia del motociclismo sportivo' },
+    sum: [
+      { t: '[最初|さいしょ]のバイクは、[十九世紀|じゅうくせいき]に[作|つく]られました。', it: 'La prima moto fu costruita nell’Ottocento.' },
+      { t: '⟦ティーティー⟧は、マン[島|とう]の[古|ふる]いレースです。', it: 'Il TT è un’antica corsa sull’Isola di Man.' },
+      { t: '[戦後|せんご]に、⟦エフアイエム⟧が⟦[世界選手権|せかいせんしゅけん]⟧を[始|はじ]めました。', it: 'Nel dopoguerra la FIM avviò il campionato del mondo.' },
+      { t: '⟦ホンダ⟧など[日本|にほん]のメーカーが[来|き]て、[流|なが]れが[変|か]わりました。', it: 'Con l’arrivo di Honda e delle case giapponesi tutto cambiò.' },
+      { t: '⟦[二|に]ストローク⟧の[時代|じだい]は、[軽|かる]くて[強力|きょうりょく]で[難|むずか]しいバイクでした。', it: 'L’era del due tempi aveva moto leggere, potenti e difficili.' },
+      { t: '[二千二年|にせんにねん]から、クラスは⟦モトジーピー⟧になりました。', it: 'Dal 2002 la classe regina è diventata MotoGP.' },
+      { t: '⟦アゴスティーニ⟧は、[世界|せかい]チャンピオンに[十五回|じゅうごかい]なりました。', it: 'Agostini è stato campione del mondo quindici volte.' }
+    ],
+    gloss: [
+      { w: 'ティーティー', r: 'てぃーてぃー', it: 'TT (Tourist Trophy)' },
+      { w: 'エフアイエム', r: 'えふあいえむ', it: 'FIM' },
+      { w: '世界選手権', r: 'せかいせんしゅけん', it: 'campionato del mondo' },
+      { w: 'ホンダ', r: 'ほんだ', it: 'Honda' },
+      { w: '二ストローク', r: 'にすとろーく', it: 'due tempi' },
+      { w: 'モトジーピー', r: 'もとじーぴー', it: 'MotoGP' },
+      { w: 'アゴスティーニ', r: 'あごすてぃーに', it: 'Agostini' },
+      { w: '戦後', r: 'せんご', it: 'dopoguerra' },
+      { w: '時代', r: 'じだい', it: 'era, epoca' }
+    ]
+  });
+
+  A('moto-weekend-di-gara-e-punti', {
+    title: { t: 'レースウィークエンドとポイント', it: 'Il weekend di gara e il punteggio' },
+    sum: [
+      { t: '⟦レースウィークエンド⟧は、[金曜日|きんようび]から[日曜日|にちようび]までです。', it: 'Il weekend di gara va da venerdì a domenica.' },
+      { t: '⟦[予選|よせん]⟧が、スタートの[順番|じゅんばん]を[決|き]めます。', it: 'Le qualifiche decidono l’ordine di partenza.' },
+      { t: '⟦スプリント⟧は、⟦[決勝|けっしょう]⟧の[半分|はんぶん]ぐらいの[長|なが]さです。', it: 'Lo sprint dura circa la metà della gara lunga.' },
+      { t: '[決勝|けっしょう]では、[給油|きゅうゆ]はありません。', it: 'Nella gara non c’è rifornimento.' },
+      { t: '⟦ポイント⟧は、[上位|じょうい]の[選手|せんしゅ]だけがもらえます。', it: 'I punti vanno solo ai piloti nelle prime posizioni.' },
+      { t: '⟦[優勝|ゆうしょう]⟧すると、[決勝|けっしょう]では[二十五|にじゅうご]ポイントです。', it: 'Chi vince la gara lunga prende venticinque punti.' },
+      { t: '⟦[赤旗|あかはた]⟧が[出|で]ると、[走行|そうこう]が[中断|ちゅうだん]します。', it: 'Con la bandiera rossa la sessione viene interrotta.' }
+    ],
+    gloss: [
+      { w: 'レースウィークエンド', r: 'れーすうぃーくえんど', it: 'weekend di gara' },
+      { w: '予選', r: 'よせん', it: 'qualifiche' },
+      { w: 'スプリント', r: 'すぷりんと', it: 'gara sprint' },
+      { w: '決勝', r: 'けっしょう', it: 'gara (finale)' },
+      { w: 'ポイント', r: 'ぽいんと', it: 'punti' },
+      { w: '優勝', r: 'ゆうしょう', it: 'vittoria' },
+      { w: '赤旗', r: 'あかはた', it: 'bandiera rossa' },
+      { w: '給油', r: 'きゅうゆ', it: 'rifornimento' },
+      { w: '上位', r: 'じょうい', it: 'prime posizioni' }
+    ]
+  });
+
+  A('moto-regolamento-tecnico', {
+    title: { t: '[技術規則|ぎじゅつきそく]', it: 'Il regolamento tecnico' },
+    sum: [
+      { t: '⟦[技術規則|ぎじゅつきそく]⟧は、レーシングバイクの[条件|じょうけん]を[決|き]めます。', it: 'Il regolamento tecnico stabilisce cosa può essere una moto da corsa.' },
+      { t: '[目的|もくてき]は、[安全|あんぜん]と[費用|ひよう]とおもしろいレースです。', it: 'Gli scopi sono sicurezza, costi e spettacolo.' },
+      { t: '⟦[排気量|はいきりょう]⟧に[上限|じょうげん]、⟦[重量|じゅうりょう]⟧に[下限|かげん]があります。', it: 'Ci sono un massimo di cilindrata e un minimo di peso.' },
+      { t: '⟦[燃料|ねんりょう]⟧タンクの[大|おお]きさも[制限|せいげん]されています。', it: 'Anche la dimensione del serbatoio è limitata.' },
+      { t: '⟦ワンメイクタイヤ⟧では、[全員|ぜんいん]が[同|おな]じメーカーのタイヤを[使|つか]います。', it: 'Con la gomma unica tutti usano pneumatici dello stesso fornitore.' },
+      { t: '⟦イーシーユー⟧は[共通|きょうつう]で、[費用|ひよう]を[抑|おさ]えます。', it: 'La centralina è unica e contiene i costi.' },
+      { t: '⟦ウイングレット⟧は、[加速|かそく]の[時|とき]に[前輪|ぜんりん]を[押|お]さえます。', it: 'Le alette tengono giù l’anteriore in accelerazione.' }
+    ],
+    gloss: [
+      { w: '技術規則', r: 'ぎじゅつきそく', it: 'regolamento tecnico' },
+      { w: '排気量', r: 'はいきりょう', it: 'cilindrata' },
+      { w: '重量', r: 'じゅうりょう', it: 'peso' },
+      { w: '燃料', r: 'ねんりょう', it: 'carburante' },
+      { w: 'ワンメイクタイヤ', r: 'わんめいくたいや', it: 'pneumatico unico' },
+      { w: 'イーシーユー', r: 'いーしーゆー', it: 'centralina (ECU)' },
+      { w: 'ウイングレット', r: 'ういんぐれっと', it: 'alette' },
+      { w: '費用', r: 'ひよう', it: 'costi' },
+      { w: '制限', r: 'せいげん', it: 'limite' }
+    ]
+  });
+
+  A('moto-squadre-e-business', {
+    title: { t: 'チームとビジネス', it: 'Squadre e business del motociclismo' },
+    sum: [
+      { t: '⟦エフアイエム⟧は[国際|こくさい]の[連盟|れんめい]で、[基本|きほん]のルールを[決|き]めます。', it: 'La FIM è la federazione internazionale e fissa le regole di base.' },
+      { t: '⟦ドルナ⟧は、[商業|しょうぎょう]の[権利|けんり]を[持|も]っています。', it: 'Dorna detiene i diritti commerciali.' },
+      { t: '⟦ワークスチーム⟧は、メーカーが[自|みずか]ら[運営|うんえい]します。', it: 'Il team ufficiale è gestito direttamente dal costruttore.' },
+      { t: '⟦サテライトチーム⟧は、メーカーからバイクを[借|か]ります。', it: 'Il team satellite prende le moto in leasing dal costruttore.' },
+      { t: '⟦スポンサー⟧は、[広告|こうこく]のためにお[金|かね]を[払|はら]います。', it: 'Gli sponsor pagano per la visibilità.' },
+      { t: '⟦[放映権|ほうえいけん]⟧は、[大切|たいせつ]な[収入|しゅうにゅう]です。', it: 'I diritti televisivi sono un’entrata importante.' },
+      { t: '⟦プロトタイプ⟧のバイクは[販売|はんばい]されません。', it: 'Le moto prototipo non sono in vendita.' }
+    ],
+    gloss: [
+      { w: 'エフアイエム', r: 'えふあいえむ', it: 'FIM' },
+      { w: 'ドルナ', r: 'どるな', it: 'Dorna' },
+      { w: 'ワークスチーム', r: 'わーくすちーむ', it: 'team ufficiale' },
+      { w: 'サテライトチーム', r: 'さてらいとちーむ', it: 'team satellite' },
+      { w: 'スポンサー', r: 'すぽんさー', it: 'sponsor' },
+      { w: '放映権', r: 'ほうえいけん', it: 'diritti televisivi' },
+      { w: 'プロトタイプ', r: 'ぷろとたいぷ', it: 'prototipo' },
+      { w: '収入', r: 'しゅうにゅう', it: 'entrata, ricavo' },
+      { w: '連盟', r: 'れんめい', it: 'federazione' }
+    ]
+  });
+
+  A('moto-piloti-e-carriere', {
+    title: { t: 'ライダーのキャリア', it: 'Piloti e carriere' },
+    sum: [
+      { t: '[多|おお]くの[選手|せんしゅ]は、[子|こ]どもの[時|とき]に[始|はじ]めます。', it: 'Molti piloti iniziano da bambini.' },
+      { t: '⟦ミニバイク⟧から[始|はじ]めるのが[伝統|でんとう]です。', it: 'Partire dalla minimoto è la tradizione.' },
+      { t: '⟦タレントカップ⟧は、[全員|ぜんいん]が[同|おな]じバイクで[走|はし]ります。', it: 'Nella Talent Cup tutti corrono con la stessa moto.' },
+      { t: '⟦モトスリー⟧、モトツー、モトジーピーの[順|じゅん]に[進|すす]みます。', it: 'Si sale in ordine: Moto3, Moto2, MotoGP.' },
+      { t: 'レースには、[国|くに]の[連盟|れんめい]の⟦ライセンス⟧が[必要|ひつよう]です。', it: 'Per correre serve la licenza della federazione nazionale.' },
+      { t: '⟦[健康診断|けんこうしんだん]⟧も、[定期的|ていきてき]に[受|う]けます。', it: 'Si fa periodicamente anche la visita medica.' },
+      { t: '⟦[体力|たいりょく]⟧と⟦[精神力|せいしんりょく]⟧の[準備|じゅんび]も[大切|たいせつ]です。', it: 'Contano anche la preparazione fisica e quella mentale.' }
+    ],
+    gloss: [
+      { w: 'ミニバイク', r: 'みにばいく', it: 'minimoto' },
+      { w: 'タレントカップ', r: 'たれんとかっぷ', it: 'Talent Cup' },
+      { w: 'モトスリー', r: 'もとすりー', it: 'Moto3' },
+      { w: 'ライセンス', r: 'らいせんす', it: 'licenza' },
+      { w: '健康診断', r: 'けんこうしんだん', it: 'visita medica' },
+      { w: '体力', r: 'たいりょく', it: 'forza fisica' },
+      { w: '精神力', r: 'せいしんりょく', it: 'forza mentale' },
+      { w: '連盟', r: 'れんめい', it: 'federazione' }
+    ]
+  });
+
+  A('moto-sicurezza-nelle-corse', {
+    title: { t: 'レースの[安全|あんぜん]', it: 'La sicurezza nelle corse' },
+    sum: [
+      { t: '[安全|あんぜん]は、いくつもの[層|そう]でできています。', it: 'La sicurezza è fatta di più livelli.' },
+      { t: '⟦ヘルメット⟧は[一番|いちばん][大切|たいせつ]な[装備|そうび]です。', it: 'Il casco è l’equipaggiamento più importante.' },
+      { t: '⟦レザースーツ⟧は、[転倒|てんとう]した[時|とき]の[擦|す]れから[守|まも]ります。', it: 'La tuta in pelle protegge dall’abrasione in caduta.' },
+      { t: '⟦エアバッグ⟧は、[転倒|てんとう]を[感|かん]じると[膨|ふく]らみます。', it: 'L’airbag si gonfia quando rileva una caduta.' },
+      { t: '⟦エスケープゾーン⟧と⟦エアフェンス⟧が、[衝撃|しょうげき]をやわらげます。', it: 'Vie di fuga e air fence attenuano l’urto.' },
+      { t: '⟦マーシャル⟧は、[旗|はた]を[出|だ]し、[転倒|てんとう]した[選手|せんしゅ]を[助|たす]けます。', it: 'I commissari mostrano le bandiere e soccorrono i piloti caduti.' },
+      { t: '[転倒|てんとう]の[後|あと]は、[結果|けっか]より[健康|けんこう]が[先|さき]です。', it: 'Dopo una caduta la salute viene prima del risultato.' }
+    ],
+    gloss: [
+      { w: 'ヘルメット', r: 'へるめっと', it: 'casco' },
+      { w: 'レザースーツ', r: 'れざーすーつ', it: 'tuta in pelle' },
+      { w: 'エアバッグ', r: 'えあばっぐ', it: 'airbag' },
+      { w: 'エスケープゾーン', r: 'えすけーぷぞーん', it: 'via di fuga' },
+      { w: 'エアフェンス', r: 'えあふぇんす', it: 'barriera gonfiabile' },
+      { w: 'マーシャル', r: 'まーしゃる', it: 'commissario di percorso' },
+      { w: '転倒', r: 'てんとう', it: 'caduta' },
+      { w: '衝撃', r: 'しょうげき', it: 'urto' },
+      { w: '装備', r: 'そうび', it: 'equipaggiamento' }
+    ]
+  });
+
+  A('moto-tecnologia-e-cultura', {
+    title: { t: 'レースの[技術|ぎじゅつ]と[文化|ぶんか]', it: 'Dalla pista alla strada e cultura motociclistica' },
+    sum: [
+      { t: 'レースは、[新|あたら]しい[技術|ぎじゅつ]の⟦[実験室|じっけんしつ]⟧でした。', it: 'Le corse sono state un laboratorio di nuove tecnologie.' },
+      { t: '[市販車|しはんしゃ]には、⟦[信頼性|しんらいせい]⟧と[安|やす]さが[必要|ひつよう]です。', it: 'Per le moto di serie servono affidabilità ed economicità.' },
+      { t: '⟦ディスクブレーキ⟧は、[先|さき]にレースで[使|つか]われました。', it: 'Il freno a disco fu usato prima nelle corse.' },
+      { t: '⟦エービーエス⟧は、ホイールの⟦ロック⟧を[防|ふせ]ぎます。', it: 'L’ABS evita il bloccaggio della ruota.' },
+      { t: '⟦トラクションコントロール⟧は、[後輪|こうりん]のスリップを[抑|おさ]えます。', it: 'Il controllo di trazione limita lo slittamento della ruota posteriore.' },
+      { t: '⟦カーボン⟧と⟦マグネシウム⟧は、[軽|かる]くするための[素材|そざい]です。', it: 'Carbonio e magnesio sono materiali per alleggerire.' },
+      { t: '⟦モトクラブ⟧は、ツーリングや[講習|こうしゅう]を[企画|きかく]します。', it: 'I motoclub organizzano uscite e corsi.' }
+    ],
+    gloss: [
+      { w: '実験室', r: 'じっけんしつ', it: 'laboratorio' },
+      { w: '信頼性', r: 'しんらいせい', it: 'affidabilità' },
+      { w: 'ディスクブレーキ', r: 'でぃすくぶれーき', it: 'freno a disco' },
+      { w: 'エービーエス', r: 'えーびーえす', it: 'ABS' },
+      { w: 'ロック', r: 'ろっく', it: 'bloccaggio' },
+      { w: 'トラクションコントロール', r: 'とらくしょんこんとろーる', it: 'controllo di trazione' },
+      { w: 'カーボン', r: 'かーぼん', it: 'carbonio' },
+      { w: 'マグネシウム', r: 'まぐねしうむ', it: 'magnesio' },
+      { w: 'モトクラブ', r: 'もとくらぶ', it: 'motoclub' }
+    ]
+  });
+
+  A('moto-adv-motore-prestazioni', {
+    title: { t: 'ハイパフォーマンスエンジン', it: 'Il motore ad alte prestazioni' },
+    sum: [
+      { t: '⟦トルク⟧は[回|まわ]す[力|ちから]、⟦[出力|しゅつりょく]⟧は[仕事|しごと]の[速|はや]さです。', it: 'La coppia è la forza di rotazione, la potenza è la rapidità del lavoro.' },
+      { t: '[最大|さいだい]の[出力|しゅつりょく]は、トルクより[高|たか]い[回転|かいてん]で[出|で]ます。', it: 'La potenza massima si ha a un regime più alto di quello della coppia massima.' },
+      { t: '⟦[体積効率|たいせきこうりつ]⟧は、[実際|じっさい]に[吸|す]った[空気|くうき]の[割合|わりあい]です。', it: 'Il rendimento volumetrico è la quota di aria realmente aspirata.' },
+      { t: '[空気|くうき]が[多|おお]いほど、[燃|も]やせるガソリンも[増|ふ]えます。', it: 'Più aria c’è, più benzina si può bruciare.' },
+      { t: '⟦ピストンスピード⟧は、エンジンへの[負担|ふたん]の[目安|めやす]です。', it: 'La velocità del pistone è un indicatore del carico sul motore.' },
+      { t: '[回転|かいてん]が[高|たか]いと、⟦[慣性力|かんせいりょく]⟧は[急|きゅう]に[大|おお]きくなります。', it: 'Con giri alti la forza d’inerzia cresce molto in fretta.' },
+      { t: '⟦バルブフロート⟧は、[高|たか]い[回転|かいてん]でバルブがカムについていけないことです。', it: 'Il valve float è quando, ad alti giri, la valvola non segue più la camma.' }
+    ],
+    gloss: [
+      { w: 'トルク', r: 'とるく', it: 'coppia' },
+      { w: '出力', r: 'しゅつりょく', it: 'potenza' },
+      { w: '体積効率', r: 'たいせきこうりつ', it: 'rendimento volumetrico' },
+      { w: 'ピストンスピード', r: 'ぴすとんすぴーど', it: 'velocità del pistone' },
+      { w: '慣性力', r: 'かんせいりょく', it: 'forza d’inerzia' },
+      { w: 'バルブフロート', r: 'ばるぶふろーと', it: 'valve float' },
+      { w: '回転', r: 'かいてん', it: 'giri, rotazione' },
+      { w: '空気', r: 'くうき', it: 'aria' }
+    ]
+  });
+
+  A('moto-adv-elettronica-bordo', {
+    title: { t: 'バイクの[電子制御|でんしせいぎょ]', it: 'Elettronica di bordo e controlli' },
+    sum: [
+      { t: '⟦アイエムユー⟧は、[加速度計|かそくどけい]と⟦ジャイロ⟧を[持|も]ちます。', it: 'L’IMU contiene accelerometri e giroscopi.' },
+      { t: '[傾|かたむ]きの[角度|かくど]は、[測|はか]らずに⟦[推定|すいてい]⟧します。', it: 'L’angolo di piega non si misura direttamente, si stima.' },
+      { t: '⟦ライドバイワイヤ⟧では、ケーブルの[代|か]わりに⟦イーシーユー⟧がスロットルを[開|ひら]きます。', it: 'Nel ride-by-wire, al posto del cavo è la centralina ad aprire la farfalla.' },
+      { t: '⟦スリップ[率|りつ]⟧は、[後輪|こうりん]と[前輪|ぜんりん]の[速度|そくど]の[差|さ]で[見|み]ます。', it: 'Lo slip ratio si valuta dalla differenza di velocità fra ruota posteriore e anteriore.' },
+      { t: '[傾|かたむ]きが[深|ふか]いほど、[加速|かそく]に[使|つか]えるグリップは[減|へ]ります。', it: 'Più si è piegati, meno grip resta per accelerare.' },
+      { t: '⟦アンチウイリー⟧は、[前輪|ぜんりん]が[浮|う]かないように[出力|しゅつりょく]を[抑|おさ]えます。', it: 'L’anti-wheelie riduce la potenza perché l’anteriore non si alzi.' },
+      { t: '⟦コーナリングエービーエス⟧は、[傾|かたむ]きの[情報|じょうほう]も[使|つか]います。', it: 'L’ABS in curva usa anche l’informazione sulla piega.' }
+    ],
+    gloss: [
+      { w: 'アイエムユー', r: 'あいえむゆー', it: 'IMU (unità inerziale)' },
+      { w: 'ジャイロ', r: 'じゃいろ', it: 'giroscopio' },
+      { w: '推定', r: 'すいてい', it: 'stima' },
+      { w: 'ライドバイワイヤ', r: 'らいどばいわいや', it: 'ride-by-wire' },
+      { w: 'イーシーユー', r: 'いーしーゆー', it: 'ECU, centralina' },
+      { w: 'スリップ率', r: 'すりっぷりつ', it: 'slip ratio' },
+      { w: 'アンチウイリー', r: 'あんちういりー', it: 'anti-wheelie' },
+      { w: 'コーナリングエービーエス', r: 'こーなりんぐえーびーえす', it: 'ABS in curva' },
+      { w: '加速度計', r: 'かそくどけい', it: 'accelerometro' }
+    ]
+  });
+
+  A('moto-adv-aerodinamica-moto', {
+    title: { t: 'バイクの[空気力学|くうきりきがく]', it: 'Aerodinamica moderna delle moto' },
+    sum: [
+      { t: '⟦[動圧|どうあつ]⟧は、[速度|そくど]の⟦[二乗|にじょう]⟧で[大|おお]きくなります。', it: 'La pressione dinamica cresce con il quadrato della velocità.' },
+      { t: '⟦[抗力|こうりょく]⟧と⟦ダウンフォース⟧は、[動圧|どうあつ]で[決|き]まります。', it: 'Resistenza e carico verticale dipendono dalla pressione dinamica.' },
+      { t: '⟦ウイングレット⟧は、[下向|したむ]きの[力|ちから]を[作|つく]ります。', it: 'Le alette producono una forza verso il basso.' },
+      { t: '[主|おも]な[目的|もくてき]は、⟦ウイリー⟧を[抑|おさ]えることです。', it: 'Lo scopo principale è ridurre l’impennata.' },
+      { t: 'ウイングレットは、[抗力|こうりょく]も[増|ふ]やします。', it: 'Le alette aumentano anche la resistenza.' },
+      { t: '⟦ライドハイトデバイス⟧は、[発進|はっしん]の[時|とき]に[車体|しゃたい]を[低|ひく]くします。', it: 'Il ride height device abbassa la moto in partenza.' },
+      { t: '[後|うし]ろの[選手|せんしゅ]に⟦[乱流|らんりゅう]⟧を[与|あた]えるという[議論|ぎろん]があります。', it: 'C’è dibattito perché possono creare turbolenza a chi segue.' }
+    ],
+    gloss: [
+      { w: '動圧', r: 'どうあつ', it: 'pressione dinamica' },
+      { w: '二乗', r: 'にじょう', it: 'quadrato' },
+      { w: '抗力', r: 'こうりょく', it: 'resistenza aerodinamica' },
+      { w: 'ダウンフォース', r: 'だうんふぉーす', it: 'carico verticale' },
+      { w: 'ウイングレット', r: 'ういんぐれっと', it: 'alette' },
+      { w: 'ウイリー', r: 'ういりー', it: 'impennata' },
+      { w: 'ライドハイトデバイス', r: 'らいどはいとでばいす', it: 'ride height device' },
+      { w: '乱流', r: 'らんりゅう', it: 'turbolenza' }
+    ]
+  });
+
+  A('moto-adv-modelli-pneumatico', {
+    title: { t: 'タイヤのモデル', it: 'Modelli di pneumatico per la moto' },
+    sum: [
+      { t: '⟦モデル⟧は、タイヤの[力|ちから]と[滑|すべ]りの[関係|かんけい]を[式|しき]にします。', it: 'Il modello esprime con una formula il legame tra forze e scorrimento.' },
+      { t: '⟦マジックフォーミュラ⟧は、[実験|じっけん]に[合|あ]わせた[式|しき]です。', it: 'La Magic Formula è una formula adattata ai dati sperimentali.' },
+      { t: '⟦データ⟧の[外|そと]では、[正確|せいかく]とは[限|かぎ]りません。', it: 'Fuori dall’intervallo dei dati non è detto che sia accurata.' },
+      { t: 'バイクのタイヤは[丸|まる]いので、[傾|かたむ]けると⟦キャンバースラスト⟧が[出|で]ます。', it: 'Il pneumatico è tondo, quindi inclinandolo nasce il camber thrust.' },
+      { t: '⟦[荷重|かじゅう]⟧が[増|ふ]えると、⟦[摩擦係数|まさつけいすう]⟧は[少|すこ]し[下|さ]がります。', it: 'Aumentando il carico, il coefficiente d’attrito cala un poco.' },
+      { t: '⟦[温度|おんど]⟧には、グリップが[最大|さいだい]になる[範囲|はんい]があります。', it: 'Esiste un intervallo di temperatura in cui il grip è massimo.' },
+      { t: 'モデルは[簡単|かんたん]にしたもので、[現実|げんじつ]のすべては[表|あらわ]せません。', it: 'Il modello è semplificato e non descrive tutta la realtà.' }
+    ],
+    gloss: [
+      { w: 'モデル', r: 'もでる', it: 'modello' },
+      { w: 'マジックフォーミュラ', r: 'まじっくふぉーみゅら', it: 'Magic Formula' },
+      { w: 'データ', r: 'でーた', it: 'dati' },
+      { w: 'キャンバースラスト', r: 'きゃんばーすらすと', it: 'forza di camber' },
+      { w: '荷重', r: 'かじゅう', it: 'carico' },
+      { w: '摩擦係数', r: 'まさつけいすう', it: 'coefficiente d’attrito' },
+      { w: '温度', r: 'おんど', it: 'temperatura' },
+      { w: 'グリップ', r: 'ぐりっぷ', it: 'aderenza' },
+      { w: '範囲', r: 'はんい', it: 'intervallo' }
+    ]
+  });
+
+  A('moto-adv-dinamica-semplificata', {
+    title: { t: 'バイクのかんたんな[力学|りきがく]', it: 'Modello dinamico semplificato della moto' },
+    sum: [
+      { t: '[曲|ま]がる[力|ちから]は、タイヤの⟦[横力|よこりょく]⟧が[作|つく]ります。', it: 'La forza per curvare è prodotta dalla forza laterale del pneumatico.' },
+      { t: '⟦バンク[角|かく]⟧は、[速度|そくど]と[半径|はんけい]で[決|き]まります。', it: 'L’angolo di piega dipende da velocità e raggio.' },
+      { t: 'タイヤの[厚|あつ]みで、[車体|しゃたい]と⟦[重心|じゅうしん]⟧の[傾|かたむ]きは[違|ちが]います。', it: 'Per lo spessore del pneumatico, l’inclinazione di telaio e baricentro differisce.' },
+      { t: '[低速|ていそく]の[動|うご]きは、⟦[幾何学|きかがく]⟧で[決|き]まります。', it: 'A bassa velocità il movimento è deciso dalla geometria.' },
+      { t: '⟦ウィーブ⟧と⟦ウォブル⟧と⟦キャプサイズ⟧は、[揺|ゆ]れの[種類|しゅるい]です。', it: 'Weave, wobble e capsize sono tipi di oscillazione.' },
+      { t: '⟦ステアリングダンパー⟧は、ウォブルを[抑|おさ]えます。', it: 'L’ammortizzatore di sterzo smorza il wobble.' },
+      { t: '[簡単|かんたん]なモデルには、[限界|げんかい]があります。', it: 'I modelli semplici hanno dei limiti.' }
+    ],
+    gloss: [
+      { w: '横力', r: 'よこりょく', it: 'forza laterale' },
+      { w: 'バンク角', r: 'ばんくかく', it: 'angolo di piega' },
+      { w: '重心', r: 'じゅうしん', it: 'baricentro' },
+      { w: '幾何学', r: 'きかがく', it: 'geometria' },
+      { w: 'ウィーブ', r: 'うぃーぶ', it: 'weave (serpeggio)' },
+      { w: 'ウォブル', r: 'うぉぶる', it: 'wobble (oscillazione rapida)' },
+      { w: 'キャプサイズ', r: 'きゃぷさいず', it: 'capsize' },
+      { w: 'ステアリングダンパー', r: 'すてありんぐだんぱー', it: 'ammortizzatore di sterzo' },
+      { w: '車体', r: 'しゃたい', it: 'telaio, corpo moto' }
+    ]
+  });
+
+  A('moto-adv-assetto-setup', {
+    title: { t: 'セットアップの[進|すす]め[方|かた]', it: 'Assetto e messa a punto avanzati' },
+    sum: [
+      { t: '⟦セットアップ⟧は、[実験|じっけん]のように[進|すす]めます。', it: 'La messa a punto procede come un esperimento.' },
+      { t: '[変|か]えるのは、[一度|いちど]に[一|ひと]つだけです。', it: 'Si cambia un solo parametro alla volta.' },
+      { t: '⟦[空気圧|くうきあつ]⟧は、[温度|おんど]が[上|あ]がると[高|たか]くなります。', it: 'La pressione sale quando sale la temperatura.' },
+      { t: '⟦サグ⟧は、[重|おも]さでサスペンションが[縮|ちぢ]む[量|りょう]です。', it: 'Il SAG è quanto si comprime la sospensione sotto il peso.' },
+      { t: '⟦ダンパー⟧は、⟦[圧側|あっそく]⟧と⟦[伸側|のびがわ]⟧を[別々|べつべつ]に[調整|ちょうせい]します。', it: 'L’ammortizzatore regola separatamente compressione ed estensione.' },
+      { t: '[高|たか]さを[変|か]えると、⟦トレール⟧も[変|か]わります。', it: 'Cambiando le altezze cambia anche l’avancorsa.' },
+      { t: '[条件|じょうけん]と[設定|せってい]を、⟦データ⟧として[記録|きろく]します。', it: 'Condizioni e regolazioni si registrano come dati.' }
+    ],
+    gloss: [
+      { w: 'セットアップ', r: 'せっとあっぷ', it: 'messa a punto' },
+      { w: '空気圧', r: 'くうきあつ', it: 'pressione dell’aria' },
+      { w: 'サグ', r: 'さぐ', it: 'SAG' },
+      { w: 'ダンパー', r: 'だんぱー', it: 'ammortizzatore' },
+      { w: '圧側', r: 'あっそく', it: 'compressione' },
+      { w: '伸側', r: 'のびがわ', it: 'estensione (rebound)' },
+      { w: 'トレール', r: 'とれーる', it: 'avancorsa' },
+      { w: 'データ', r: 'でーた', it: 'dati' },
+      { w: '設定', r: 'せってい', it: 'regolazione' }
+    ]
+  });
+
+  A('moto-adv-telemetria-dati', {
+    title: { t: 'テレメトリーとデータ[分析|ぶんせき]', it: 'Telemetria e analisi dei dati' },
+    sum: [
+      { t: '⟦ロガー⟧は、センサーの[信号|しんごう]を[記録|きろく]します。', it: 'Il logger registra i segnali dei sensori.' },
+      { t: '⟦アクセル⟧と⟦ブレーキ⟧の[位置|いち]や[圧力|あつりょく]を[測|はか]ります。', it: 'Si misurano la posizione del gas e la pressione dei freni.' },
+      { t: '⟦サンプリング[周波数|しゅうはすう]⟧は、[現象|げんしょう]の[速|はや]さに[合|あ]わせます。', it: 'La frequenza di campionamento si adatta alla rapidità del fenomeno.' },
+      { t: '[低|ひく]すぎると、⟦エイリアシング⟧という[偽|にせ]の[信号|しんごう]が[出|で]ます。', it: 'Se è troppo bassa compaiono falsi segnali detti aliasing.' },
+      { t: '[二|ふた]つの[周|しゅう]は、[時間|じかん]でなく⟦[距離|きょり]⟧で[重|かさ]ねて[比|くら]べます。', it: 'Due giri si sovrappongono in funzione della distanza, non del tempo.' },
+      { t: '⟦デルタタイム⟧は、[二|ふた]つの[周|しゅう]の[差|さ]を[表|あらわ]します。', it: 'Il delta tempo esprime la differenza tra due giri.' },
+      { t: '⟦[標準偏差|ひょうじゅんへんさ]⟧は、タイムのばらつきを[表|あらわ]します。', it: 'La deviazione standard esprime la variabilità dei tempi.' }
+    ],
+    gloss: [
+      { w: 'ロガー', r: 'ろがー', it: 'logger, registratore dati' },
+      { w: 'アクセル', r: 'あくせる', it: 'gas' },
+      { w: 'ブレーキ', r: 'ぶれーき', it: 'freno' },
+      { w: 'サンプリング周波数', r: 'さんぷりんぐしゅうはすう', it: 'frequenza di campionamento' },
+      { w: 'エイリアシング', r: 'えいりありんぐ', it: 'aliasing' },
+      { w: '距離', r: 'きょり', it: 'distanza' },
+      { w: 'デルタタイム', r: 'でるたたいむ', it: 'delta tempo' },
+      { w: '標準偏差', r: 'ひょうじゅんへんさ', it: 'deviazione standard' },
+      { w: 'センサー', r: 'せんさー', it: 'sensore' }
+    ]
+  });
+
+  A('moto-adv-simulazione-giro', {
+    title: { t: 'ラップシミュレーション', it: 'Simulazione del giro e ottimizzazione' },
+    sum: [
+      { t: '⟦ラップシミュレーション⟧は、コースを[短|みじか]い[区間|くかん]に[分|わ]けます。', it: 'Il simulatore del giro divide la pista in piccoli tratti.' },
+      { t: '⟦[準定常|じゅんていじょう]モデル⟧は、[時間|じかん]で[変|か]わる[動|うご]きを[無視|むし]します。', it: 'Il modello quasi-stazionario ignora i transitori.' },
+      { t: 'カーブの⟦[最高速度|さいこうそくど]⟧は、[半径|はんけい]とグリップで[決|き]まります。', it: 'La velocità massima in curva dipende da raggio e aderenza.' },
+      { t: '[加速|かそく]の[限界|げんかい]は、⟦ウイリー⟧で[決|き]まることがあります。', it: 'Il limite in accelerazione può essere deciso dall’impennata.' },
+      { t: '⟦アルゴリズム⟧は、[後|うし]ろ[向|む]きと[前向|まえむ]きの[二回|にかい]の[計算|けいさん]をします。', it: 'L’algoritmo fa due passaggi di calcolo, all’indietro e in avanti.' },
+      { t: '[一|ひと]つずつ[変|か]えて、⟦[感度|かんど]⟧を[調|しら]べます。', it: 'Si cambia un parametro alla volta per studiare la sensibilità.' },
+      { t: 'モデルの[結果|けっか]は、[実際|じっさい]のデータで⟦[検証|けんしょう]⟧します。', it: 'I risultati del modello si validano con dati reali.' }
+    ],
+    gloss: [
+      { w: 'ラップシミュレーション', r: 'らっぷしみゅれーしょん', it: 'simulazione del giro' },
+      { w: '準定常モデル', r: 'じゅんていじょうもでる', it: 'modello quasi-stazionario' },
+      { w: '最高速度', r: 'さいこうそくど', it: 'velocità massima' },
+      { w: 'ウイリー', r: 'ういりー', it: 'impennata' },
+      { w: 'アルゴリズム', r: 'あるごりずむ', it: 'algoritmo' },
+      { w: '感度', r: 'かんど', it: 'sensibilità' },
+      { w: '検証', r: 'けんしょう', it: 'validazione' },
+      { w: 'グリップ', r: 'ぐりっぷ', it: 'aderenza' },
+      { w: '半径', r: 'はんけい', it: 'raggio' }
+    ]
+  });
 })(window.ST = window.ST || {});
