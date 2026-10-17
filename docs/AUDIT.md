@@ -431,3 +431,8 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - Inglese stage L6 (C1): 16 argomenti (6 lettura con 14 brani originali, 5 ascolto, 5 scrittura). I livelli sono interni e non certificano il C1; accenti descritti a parole, nessun audio autentico; non rivisti da madrelingua.
 - Riepiloghi giapponesi di Cybersecurity (47 lezioni): frasi semplificate; acronimi in katakana (ディーエヌエス…), 交戦規則 per «regole d'ingaggio», alcune omissioni di dettagli minori. Da verificare.
 - Giapponese J6/J7 (grammatica e lettura N3): 14 argomenti di grammatica (ようになる/ことになる, ばかり/ところ, らしい/っぽい/がち, concessive, ば/たら/と/なら, passivo/causativo, という, のだ/わけだ, はず/べき, おかげ/せい, さえ/こそ, verbi composti) e 8 di lettura/ascolto (130–150 caratteri). Da far rivedere a un madrelingua: ことになる presentato come annuncio modesto, il listening di jpn-j7-lavoro, e alcune opzioni sbagliate volutamente scorrette o poco naturali nei quiz (ふとりがち, あけて まま). Lo smoke test completo ora richiede più di 10 minuti (circa 750 argomenti).
+
+## Riepiloghi EN/JA — Strategia e logica (51 argomenti)
+- Generati da agenti su estratti + punti chiave delle lezioni; il controllo automatico verifica struttura, ruby, romaji e numeri, non i fatti. Nessuna revisione di madrelingua o esperto.
+- EN: frasi compresse che possono semplificare (scacchi-finali, mil-lanchester, mil-logistica, mil-deterrenza-giochi); scelte di traduzione: «exchange» (qualità scacchistica), «imbalances», «luft», «zwischenzug», «bid shading».
+- JA: rese da ricontrollare: 強制手, 決定日記, ピー局面/エヌ局面, 後進ポーン, 診断, 詭道, 決定木, 影の価格; frasi più libere nella traduzione IT: strategia-competitiva 5, opt-grafi 7, mil-principi 7; katakana scacchistici e frasi vicine al limite di 35 caratteri.
