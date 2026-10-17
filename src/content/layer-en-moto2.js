@@ -1384,7 +1384,7 @@
       { t: 'In the example, at 300 km/h the drag is 1250 N and the power absorbed is 104.2 kW.', it: 'Nell’esempio, a 300 km/h la resistenza è 1250 N e la potenza assorbita è 104,2 kW.' },
       { t: '⟦Winglets⟧ create downforce at the cost of drag, mainly to reduce wheelies and steady the front.', it: 'Le alette creano carico a costo di resistenza, soprattutto per ridurre l’impennata e stabilizzare l’anteriore.' },
       { t: 'In the example the winglets give 125 N at 300 km/h, about 5% of the weight, and 56 N at 200 km/h.', it: 'Nell’esempio le alette danno 125 N a 300 km/h, circa il 5% del peso, e 56 N a 200 km/h.' },
-      { t: 'Drag acts above the ground and loads the front: at 300 km/h the front carries 66.7% of the weight, so ⟦traction⟧ becomes scarce.', it: 'La resistenza agisce sopra il suolo e carica l’anteriore: a 300 km/h l’anteriore porta il 66,7% del peso, quindi la trazione posteriore diventa scarsa.' },
+      { t: 'Drag loads the front: at 300 km/h the front carries 66.7% of the weight, so rear ⟦traction⟧ becomes scarce.', it: 'La resistenza agisce sopra il suolo e carica l’anteriore: a 300 km/h l’anteriore porta il 66,7% del peso, quindi la trazione posteriore diventa scarsa.' },
       { t: 'A ⟦ride height device⟧ lowers the bike at the start, the ⟦slipstream⟧ cuts drag but also front load, and rules change often.', it: 'Il ride height device abbassa la moto in partenza, la scia riduce la resistenza ma anche il carico anteriore, e le regole cambiano spesso.' }
     ],
     gloss: [
@@ -1398,6 +1398,131 @@
       { w: 'drag', it: 'resistenza aerodinamica' },
       { w: 'wheelie', it: 'impennata' },
       { w: 'centre of pressure', it: 'centro di pressione' }
+    ]
+  });
+
+  A('moto-adv-modelli-pneumatico', {
+    title: { t: 'Tyre models for motorcycles', it: 'Modelli di pneumatico per la moto' },
+    sum: [
+      { t: 'A ⟦tyre model⟧ links the longitudinal and lateral forces to slip ratio, slip angle, camber and vertical load.', it: 'Un modello di pneumatico lega le forze longitudinale e laterale a slip ratio, slip angle, camber e carico verticale.' },
+      { t: 'Physical models explain why but are hard to tune; empirical ones like the ⟦Magic Formula⟧ fit a few parameters to test data.', it: 'I modelli fisici spiegano il perché ma sono difficili da tarare, mentre quelli empirici come la Magic Formula adattano pochi parametri ai dati di prova.' },
+      { t: 'In the Magic Formula, D is the peak force, equal to the friction coefficient times the vertical load.', it: 'Nella Magic Formula, D è il picco della forza, pari al coefficiente d’attrito per il carico verticale.' },
+      { t: 'The lateral force saturates and can fall past the peak; real bike tyres peak at a smaller ⟦slip angle⟧.', it: 'La forza laterale satura e può calare oltre il picco; i pneumatici moto reali hanno il picco a uno slip angle minore.' },
+      { t: 'A leaned round tyre produces ⟦camber thrust⟧, which lets the bike corner with a very small slip angle.', it: 'Un pneumatico tondo inclinato produce la spinta di camber, che permette alla moto di curvare con uno slip angle piccolissimo.' },
+      { t: 'The friction coefficient falls as the load grows, so a ⟦load transfer⟧ is not zero-sum for the total grip.', it: 'Il coefficiente d’attrito diminuisce con il carico, quindi un trasferimento di carico non è a somma zero per l’aderenza totale.' },
+      { t: 'Grip has a bell-shaped dependence on ⟦temperature⟧, and a model holds only within its range, so it must be validated.', it: 'L’aderenza ha una dipendenza a campana dalla temperatura, e un modello vale solo entro il suo campo, quindi va validato.' }
+    ],
+    gloss: [
+      { w: 'tyre model', it: 'modello matematico del pneumatico' },
+      { w: 'Magic Formula', it: 'formula empirica di Pacejka' },
+      { w: 'camber thrust', it: 'spinta di camber' },
+      { w: 'load transfer', it: 'trasferimento di carico' },
+      { w: 'temperature', it: 'temperatura' },
+      { w: 'slip angle', it: 'angolo di deriva' },
+      { w: 'slip ratio', it: 'rapporto di slittamento' },
+      { w: 'friction coefficient', it: 'coefficiente d’attrito' },
+      { w: 'vertical load', it: 'carico verticale' },
+      { w: 'grip', it: 'aderenza' }
+    ]
+  });
+
+  A('moto-adv-dinamica-semplificata', {
+    title: { t: 'A simplified dynamic model of the motorcycle', it: 'Modello dinamico semplificato della moto' },
+    sum: [
+      { t: 'In ⟦steady cornering⟧ the lean follows tan φ = v²/(g·R): 25 m/s on an 80 m radius gives 38.5°.', it: 'In curva stazionaria la piega segue tan φ = v²/(g·R): 25 m/s su un raggio di 80 m danno 38,5°.' },
+      { t: 'The limit is grip, tan φ ≤ μ, and with μ = 1.3 the maximum lean is about 52°.', it: 'Il limite è l’aderenza, tan φ ≤ μ, e con μ = 1,3 la piega massima è circa 52°.' },
+      { t: 'Because of the ⟦tyre thickness⟧, the frame leans 6–7° more than the thin-tyre model says, so ground clearance becomes critical.', it: 'A causa dello spessore del pneumatico, il telaio si inclina 6–7° più del modello sottile, quindi la luce a terra diventa critica.' },
+      { t: 'At high speed steering mainly triggers the lean through ⟦countersteering⟧.', it: 'Ad alta velocità lo sterzo serve soprattutto a innescare la piega con il controsterzo.' },
+      { t: 'Linear models show three modes: ⟦capsize⟧, ⟦weave⟧ at 2–4 Hz and ⟦wobble⟧ at 7–9 Hz.', it: 'I modelli lineari mostrano tre modi: capsize, weave a 2–4 Hz e wobble a 7–9 Hz.' },
+      { t: 'A ⟦steering damper⟧ opposes the steering speed and damps the wobble, but it does not fix setup defects.', it: 'L’ammortizzatore di sterzo si oppone alla velocità di sterzo e smorza il wobble, ma non risolve difetti di assetto.' },
+      { t: 'If a steering oscillation appears, reduce the throttle progressively, relax your arms and do not brake hard.', it: 'Se compare un’oscillazione di sterzo, riduci il gas in modo progressivo, rilassa le braccia e non frenare con forza.' }
+    ],
+    gloss: [
+      { w: 'steady cornering', it: 'curva stazionaria' },
+      { w: 'tyre thickness', it: 'spessore del pneumatico' },
+      { w: 'countersteering', it: 'controsterzo' },
+      { w: 'capsize', it: 'lento cadere della moto inclinata' },
+      { w: 'weave', it: 'oscillazione di rollio e imbardata' },
+      { w: 'wobble', it: 'oscillazione dello sterzo' },
+      { w: 'steering damper', it: 'ammortizzatore di sterzo' },
+      { w: 'ground clearance', it: 'luce a terra' },
+      { w: 'lean angle', it: 'angolo di piega' },
+      { w: 'validation', it: 'validazione con misure' }
+    ]
+  });
+
+  A('moto-adv-assetto-setup', {
+    title: { t: 'Advanced setup and tuning', it: 'Assetto e messa a punto avanzati' },
+    sum: [
+      { t: '⟦Setup⟧ is an experiment: form a hypothesis, change one parameter at a time, measure the effect, decide.', it: 'La messa a punto è un esperimento: formula un’ipotesi, cambia un parametro per volta, misura l’effetto, decidi.' },
+      { t: 'Tyre pressure rises with temperature, about 0.10 bar every 10 °C, so adjust it cold and record it.', it: 'La pressione dei pneumatici sale con la temperatura, circa 0,10 bar ogni 10 °C, quindi regolala a freddo e registrala.' },
+      { t: '⟦Preload⟧ moves the working point of the spring and the ⟦sag⟧, but does not change its stiffness.', it: 'Il precarico sposta il punto di lavoro della molla e il sag, ma non ne cambia la rigidezza.' },
+      { t: 'Damping is adjusted in compression and ⟦rebound⟧, at low and high speed; rebound too slow makes the suspension pack down.', it: 'L’idraulica si regola in compressione ed estensione, a bassa e alta velocità; un’estensione troppo lenta fa «sedere» la sospensione.' },
+      { t: 'Changing the ride heights alters the rake and the ⟦trail⟧, so change them in small steps and note the starting values.', it: 'Cambiare le altezze altera l’inclinazione e l’avancorsa, quindi cambiale a piccoli passi e annota i valori di partenza.' },
+      { t: 'Collect comparable data; if the fork uses more than 90–95% of its travel under braking, the spring is insufficient.', it: 'Raccogli dati confrontabili; se la forcella usa più del 90–95% della corsa in frenata, la molla è insufficiente.' },
+      { t: 'Lap times are noisy: with a standard deviation of 0.4 s, a difference of 0.1 s is within the ⟦noise⟧.', it: 'I tempi sul giro sono rumorosi: con una deviazione standard di 0,4 s, una differenza di 0,1 s è dentro il rumore.' }
+    ],
+    gloss: [
+      { w: 'setup', it: 'messa a punto' },
+      { w: 'preload', it: 'precarico' },
+      { w: 'sag', it: 'affondamento statico' },
+      { w: 'rebound', it: 'estensione' },
+      { w: 'trail', it: 'avancorsa' },
+      { w: 'noise', it: 'variabilità casuale dei dati' },
+      { w: 'rake', it: 'inclinazione dello sterzo' },
+      { w: 'damping', it: 'smorzamento idraulico' },
+      { w: 'motion ratio', it: 'rapporto di leva del leveraggio' },
+      { w: 'spring rate', it: 'rigidezza della molla' }
+    ]
+  });
+
+  A('moto-adv-telemetria-dati', {
+    title: { t: 'Telemetry and data analysis', it: 'Telemetria e analisi dei dati' },
+    sum: [
+      { t: 'A ⟦logger⟧ records throttle, brake pressure, wheel speeds, suspension travel, IMU, GPS and temperatures.', it: 'Un logger registra acceleratore, pressione dei freni, velocità delle ruote, corsa delle sospensioni, IMU, GPS e temperature.' },
+      { t: 'A wrong ⟦calibration⟧ falsifies everything, so check that the data are plausible before analysing them.', it: 'Una calibrazione sbagliata falsifica tutto, quindi controlla che i dati siano plausibili prima di analizzarli.' },
+      { t: 'The ⟦Nyquist⟧ theorem allows components up to half the sampling frequency; above that, ⟦aliasing⟧ creates false signals.', it: 'Il teorema di Nyquist ammette componenti fino a metà della frequenza di campionamento; oltre, l’aliasing crea falsi segnali.' },
+      { t: 'GPS runs at 10–25 Hz, so at 300 km/h and 10 Hz there is one sample every 8.3 m.', it: 'Il GPS lavora a 10–25 Hz, quindi a 300 km/h e 10 Hz c’è un campione ogni 8,3 m.' },
+      { t: 'Compare laps as a function of distance, not time, and choose a reference lap.', it: 'Confronta i giri in funzione della distanza, non del tempo, e scegli un giro di riferimento.' },
+      { t: 'The ⟦delta time⟧ is cumulative, so compare it section by section: in the example, rider B brakes later but loses 1.20 s.', it: 'Il delta tempo è cumulato, quindi confrontalo tratto per tratto: nell’esempio il pilota B frena più tardi ma perde 1,20 s.' },
+      { t: 'The mean shows the pace and the standard deviation the consistency; ⟦correlation⟧ is not causation.', it: 'La media mostra il ritmo e la deviazione standard la costanza; la correlazione non è causalità.' }
+    ],
+    gloss: [
+      { w: 'logger', it: 'sistema di acquisizione dati' },
+      { w: 'calibration', it: 'calibrazione dei sensori' },
+      { w: 'Nyquist', it: 'teorema del campionamento (f_s/2)' },
+      { w: 'aliasing', it: 'falsi segnali a frequenza più bassa' },
+      { w: 'delta time', it: 'differenza cumulata di tempo fra due giri' },
+      { w: 'correlation', it: 'correlazione' },
+      { w: 'sampling frequency', it: 'frequenza di campionamento' },
+      { w: 'standard deviation', it: 'deviazione standard' },
+      { w: 'reference lap', it: 'giro di riferimento' },
+      { w: 'cherry picking', it: 'scegliere solo i dati che confermano l’ipotesi' }
+    ]
+  });
+
+  A('moto-adv-simulazione-giro', {
+    title: { t: 'Lap simulation and optimisation', it: 'Simulazione del giro e ottimizzazione' },
+    sum: [
+      { t: 'A ⟦quasi-steady⟧ lap simulator splits the track into small sections and assumes equilibrium at each point, ignoring transients.', it: 'Un simulatore del giro quasi-stazionario spezza la pista in piccoli tratti e assume l’equilibrio in ogni punto, ignorando i transitori.' },
+      { t: 'The inputs are geometry, ⟦grip⟧, power, drag, mass and wheelie limits; the result is a speed profile and a lap time.', it: 'Gli ingredienti sono geometria, aderenza, potenza, resistenza, massa e limiti di impennata e stoppie; il risultato è un profilo di velocità e un tempo sul giro.' },
+      { t: 'The maximum cornering speed is √(μ·g·R): with μ = 1.3 and R = 40 m it is 81.3 km/h.', it: 'La velocità massima in curva è √(μ·g·R): con μ = 1,3 e R = 40 m è 81,3 km/h.' },
+      { t: 'A ⟦two-pass⟧ algorithm runs backward for braking and forward for acceleration, and takes the minimum at each point.', it: 'Un algoritmo a due passaggi va all’indietro per la frenata e in avanti per l’accelerazione, e prende il minimo in ogni punto.' },
+      { t: 'Below about 211.7 km/h acceleration is limited by ⟦traction⟧ and wheelie, above it by power.', it: 'Sotto circa 211,7 km/h l’accelerazione è limitata da trazione e impennata, sopra dalla potenza.' },
+      { t: 'In the example ⟦sensitivity⟧ shows that 5% more grip saves 0.73 s, while 5% more power saves only 0.10 s.', it: 'Nell’esempio la sensibilità mostra che il 5% di aderenza in più fa risparmiare 0,73 s, mentre il 5% di potenza in più solo 0,10 s.' },
+      { t: 'The model gives an upper bound to validate with ⟦telemetry⟧; it is no invitation to replicate these speeds on public roads.', it: 'Il modello dà un limite superiore da validare con la telemetria, e non è un invito a replicare queste velocità sulle strade pubbliche.' }
+    ],
+    gloss: [
+      { w: 'quasi-steady', it: 'quasi-stazionario' },
+      { w: 'two-pass', it: 'a due passaggi (indietro e avanti)' },
+      { w: 'traction', it: 'trazione' },
+      { w: 'sensitivity', it: 'sensibilità ai parametri' },
+      { w: 'telemetry', it: 'telemetria' },
+      { w: 'lap simulator', it: 'simulatore del giro' },
+      { w: 'grip', it: 'aderenza' },
+      { w: 'objective function', it: 'funzione obiettivo' },
+      { w: 'validation', it: 'validazione' },
+      { w: 'speed profile', it: 'profilo di velocità' }
     ]
   });
 
