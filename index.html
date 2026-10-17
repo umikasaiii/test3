@@ -37804,7 +37804,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     title: { t: '[速度|そくど]で[決|き]める[練習|れんしゅう]', it: 'Allenamento basato sulla velocità (VBT)' },
     sum: [
       { t: '⟦ブイビーティー⟧は、バーの[速度|そくど]を[測|はか]って[負荷|ふか]を[決|き]めます。', it: 'Il VBT misura la velocità del bilanciere per stabilire il carico.' },
-      { t: '[負荷|ふか]が[重|おも]いほど、⟦[平均速度|へいきんそくど]⟧はほぼ[直線|ちょくせん]的に[下|さ]がります。', it: 'Più il carico è pesante, più la velocità media cala in modo quasi lineare.' },
+      { t: '[負荷|ふか]が[重|おも]いほど、⟦[平均速度|へいきんそくど]⟧はほぼ[直線的|ちょくせんてき]に[下|さ]がります。', it: 'Più il carico è pesante, più la velocità media cala in modo quasi lineare.' },
       { t: '⟦エムブイティー⟧は、ワンアールエムのときの[最小|さいしょう]の[速度|そくど]です。', it: 'La MVT è la velocità minima alla 1RM.' },
       { t: '⟦オートレギュレーション⟧で、[毎日|まいにち]の[調子|ちょうし]に[合|あ]わせて[重|おも]さを[変|か]えます。', it: 'Con l’autoregolazione si adatta il carico alla condizione del giorno.' },
       { t: '⟦[速度低下|そくどていか]⟧を[見|み]て、セットを[止|と]めます。', it: 'Si ferma la serie guardando la perdita di velocità.' },
@@ -37901,7 +37901,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     sum: [
       { t: '⟦[伸張性収縮|しんちょうせいしゅうしゅく]⟧では、[筋肉|きんにく]は[伸|の]びながら[力|ちから]を[出|だ]します。', it: 'Nella contrazione eccentrica il muscolo sviluppa forza mentre si allunga.' },
       { t: '[伸張性|しんちょうせい]の[最大|さいだい]の[力|ちから]は、[短縮性|たんしゅくせい]より[大|おお]きいです。', it: 'La forza massima eccentrica è maggiore di quella concentrica.' },
-      { t: '⟦[超最大|ちょうさいだい]⟧の[負荷|ふか]は、[上級者|じょうきゅうしゃ]向けで、[安全|あんぜん]に[注意|ちゅうい]します。', it: 'Il carico supramassimale è per atleti avanzati e richiede attenzione alla sicurezza.' },
+      { t: '⟦[超最大|ちょうさいだい]⟧の[負荷|ふか]は、[上級者|じょうきゅうしゃ][向|む]けで、[安全|あんぜん]に[注意|ちゅうい]します。', it: 'Il carico supramassimale è per atleti avanzati e richiede attenzione alla sicurezza.' },
       { t: '⟦フライホイール⟧は、[押|お]す[力|ちから]に[比例|ひれい]した[抵抗|ていこう]を[出|だ]します。', it: 'Il flywheel offre una resistenza proporzionale alla forza con cui si spinge.' },
       { t: '⟦チェーン⟧やバンドは、[動|うご]きの[後半|こうはん]で[抵抗|ていこう]を[増|ふ]やします。', it: 'Catene e bande aumentano la resistenza nella seconda parte del movimento.' },
       { t: '⟦ビーエフアール⟧は、[腕|うで]や[脚|あし]の[血流|けつりゅう]を[一部|いちぶ][制限|せいげん]します。', it: 'Il BFR limita in parte il flusso di sangue di braccia o gambe.' },
@@ -37917,6 +37917,582 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
       { w: '負荷', r: 'ふか', it: 'carico' },
       { w: '抵抗', r: 'ていこう', it: 'resistenza' },
       { w: '血流', r: 'けつりゅう', it: 'flusso sanguigno' }
+    ]
+  });
+
+  A('spo-adv-ipertrofia-avanzata', {
+    title: { t: '[筋肥大|きんひだい]をくわしく', it: 'Ipertrofia avanzata' },
+    sum: [
+      { t: '⟦ボリューム⟧は、[筋肉|きんにく]ごとの[週|しゅう]のセット[数|すう]で[数|かぞ]えます。', it: 'Il volume si conta in serie settimanali per ogni muscolo.' },
+      { t: '⟦エムイーブイ⟧、⟦エムエーブイ⟧、⟦エムアールブイ⟧は、[法則|ほうそく]ではなく[目安|めやす]です。', it: 'MEV, MAV e MRV sono indicazioni di massima, non leggi.' },
+      { t: '⟦アールアイアール⟧は、あと[何回|なんかい]できるかを[表|あらわ]します。', it: 'Il RIR indica quante ripetizioni si potrebbero ancora fare.' },
+      { t: '[軽|かる]い[負荷|ふか]でも[重|おも]い[負荷|ふか]でも、⟦[限界|げんかい]⟧に[近|ちか]ければ[筋肥大|きんひだい]は[似|に]ています。', it: 'Con carichi leggeri o pesanti, se si è vicini al cedimento l’ipertrofia è simile.' },
+      { t: '[筋肉|きんにく]が[伸|の]びた[位置|いち]で[鍛|きた]えると、[筋肥大|きんひだい]が[大|おお]きいことがあります。', it: 'Allenando il muscolo in posizione di allungamento a volte si ottiene più ipertrofia.' },
+      { t: '⟦エスエフアール⟧は、[刺激|しげき]と[疲労|ひろう]の[比|ひ]です。', it: 'L’SFR è il rapporto tra stimolo e fatica.' },
+      { t: '[筋肥大|きんひだい]には、⟦タンパク[質|しつ]⟧とエネルギーが[必要|ひつよう]です。', it: 'Per l’ipertrofia servono proteine ed energia.' }
+    ],
+    gloss: [
+      { w: 'ボリューム', r: 'ぼりゅーむ', it: 'volume' },
+      { w: 'エムイーブイ', r: 'えむいーぶい', it: 'MEV, volume minimo efficace' },
+      { w: 'エムエーブイ', r: 'えむえーぶい', it: 'MAV, volume massimo adattivo' },
+      { w: 'エムアールブイ', r: 'えむあーるぶい', it: 'MRV, volume massimo recuperabile' },
+      { w: 'アールアイアール', r: 'あーるあいあーる', it: 'RIR, ripetizioni in riserva' },
+      { w: '限界', r: 'げんかい', it: 'limite, cedimento' },
+      { w: 'エスエフアール', r: 'えすえふあーる', it: 'SFR, rapporto stimolo/fatica' },
+      { w: 'タンパク質', r: 'たんぱくしつ', it: 'proteine' },
+      { w: '筋肥大', r: 'きんひだい', it: 'ipertrofia muscolare' }
+    ]
+  });
+
+  A('spo-adv-forza-per-sport', {
+    title: { t: 'スポーツのための[筋力|きんりょく]', it: 'Forza e potenza per lo sport' },
+    sum: [
+      { t: '⟦[転移|てんい]⟧は、[競技|きょうぎ]の[動|うご]きに[結|むす]びついたときに[起|お]こります。', it: 'Il trasferimento avviene quando la forza si traduce nel gesto sportivo.' },
+      { t: '⟦テストバッテリー⟧は、[強|つよ]みと[弱|よわ]みを[知|し]るために[使|つか]います。', it: 'La test battery serve a conoscere punti forti e deboli.' },
+      { t: '⟦インシーズン⟧は、[最小限|さいしょうげん]の[量|りょう]で[力|ちから]を[保|たも]ちます。', it: 'In stagione si mantiene la forza con la dose minima.' },
+      { t: '[筋力|きんりょく]と[持久|じきゅう]を[同時|どうじ]にすると、⟦[干渉|かんしょう]⟧が[起|お]こることがあります。', it: 'Allenando insieme forza e resistenza può esserci interferenza.' },
+      { t: '⟦[格闘技|かくとうぎ]⟧では、[握力|あくりょく]と[体幹|たいかん]の[安定|あんてい]も[大切|たいせつ]です。', it: 'Negli sport di combattimento contano anche la presa e la stabilità del tronco.' },
+      { t: '⟦チームスポーツ⟧では、[加速|かそく]、[減速|げんそく]、[方向転換|ほうこうてんかん]が[大切|たいせつ]です。', it: 'Negli sport di squadra contano accelerazioni, decelerazioni e cambi di direzione.' },
+      { t: '⟦エスアールピーイー⟧で、[負荷|ふか]と[回復|かいふく]を[確認|かくにん]します。', it: 'Con l’sRPE si controllano carico e recupero.' }
+    ],
+    gloss: [
+      { w: '転移', r: 'てんい', it: 'trasferimento' },
+      { w: 'テストバッテリー', r: 'てすとばってりー', it: 'batteria di test' },
+      { w: 'インシーズン', r: 'いんしーずん', it: 'in-stagione' },
+      { w: '干渉', r: 'かんしょう', it: 'interferenza' },
+      { w: '格闘技', r: 'かくとうぎ', it: 'sport di combattimento' },
+      { w: 'チームスポーツ', r: 'ちーむすぽーつ', it: 'sport di squadra' },
+      { w: 'エスアールピーイー', r: 'えすあーるぴーいー', it: 'sRPE, sforzo percepito della seduta' },
+      { w: '体幹', r: 'たいかん', it: 'tronco, core' },
+      { w: '握力', r: 'あくりょく', it: 'forza di presa' }
+    ]
+  });
+
+  A('spo-adv-modellazione-del-carico', {
+    title: { t: '[負荷|ふか]をモデルにする', it: 'Modellazione del carico: TRIMP, fitness-fatica, CTL/ATL/TSB' },
+    sum: [
+      { t: '⟦[負荷|ふか]モデル⟧は、[練習|れんしゅう]を[一|ひと]つの[数字|すうじ]にします。', it: 'Il modello del carico trasforma un allenamento in un numero.' },
+      { t: '⟦トリンプ⟧は、[時間|じかん]に[強度|きょうど]の[重|おも]みをかけた[値|あたい]です。', it: 'Il TRIMP è la durata moltiplicata per un peso legato all’intensità.' },
+      { t: '⟦バニスターのモデル⟧は、[同|おな]じ[負荷|ふか]が[二|ふた]つの[効果|こうか]を[生|う]むと[考|かんが]えます。', it: 'Il modello di Banister considera che lo stesso carico produca due effetti.' },
+      { t: '⟦シーティーエル⟧は、[長|なが]い[期間|きかん]の[負荷|ふか]の[平均|へいきん]で、[体力|たいりょく]を[表|あらわ]します。', it: 'La CTL è la media del carico sul lungo periodo e rappresenta la forma.' },
+      { t: '⟦エーティーエル⟧は[最近|さいきん]の[負荷|ふか]で、[疲労|ひろう]を[表|あらわ]します。', it: 'L’ATL riguarda il carico recente e rappresenta la fatica.' },
+      { t: '⟦ティーエスエス⟧は、[自転車|じてんしゃ]で[使|つか]う[負荷|ふか]の[指標|しひょう]です。', it: 'Il TSS è un indice di carico nato nel ciclismo.' },
+      { t: '⟦パラメータ⟧を[決|き]めにくく、[結果|けっか]を[信|しん]じすぎてはいけません。', it: 'I parametri sono difficili da determinare, quindi non bisogna fidarsi troppo dei risultati.' }
+    ],
+    gloss: [
+      { w: '負荷モデル', r: 'ふかもでる', it: 'modello del carico' },
+      { w: 'トリンプ', r: 'とりんぷ', it: 'TRIMP, impulso di allenamento' },
+      { w: 'バニスターのモデル', r: 'ばにすたーのもでる', it: 'modello di Banister' },
+      { w: 'シーティーエル', r: 'しーてぃーえる', it: 'CTL, carico cronico' },
+      { w: 'エーティーエル', r: 'えーてぃーえる', it: 'ATL, carico acuto' },
+      { w: 'ティーエスエス', r: 'てぃーえすえす', it: 'TSS, Training Stress Score' },
+      { w: 'パラメータ', r: 'ぱらめーた', it: 'parametro' },
+      { w: '体力', r: 'たいりょく', it: 'forma fisica' },
+      { w: '疲労', r: 'ひろう', it: 'fatica' }
+    ]
+  });
+
+  A('spo-adv-monitoraggio-in-pratica', {
+    title: { t: 'モニタリングの[実践|じっせん]', it: 'Monitoraggio in pratica: affidabilità, SWC, HRV, CMJ' },
+    sum: [
+      { t: '[測定値|そくていち]は、[本当|ほんとう]の[値|あたい]と⟦[誤差|ごさ]⟧でできています。', it: 'Una misura è fatta del valore vero più l’errore.' },
+      { t: '⟦[信頼性|しんらいせい]⟧は、くり[返|かえ]し[測|はか]って[確|たし]かめます。', it: 'L’affidabilità si verifica ripetendo la misura.' },
+      { t: '⟦エスダブリューシー⟧は、[意味|いみ]のある[最小|さいしょう]の[変化|へんか]です。', it: 'L’SWC è il più piccolo cambiamento che ha importanza pratica.' },
+      { t: '⟦エムディーシー⟧は、[誤差|ごさ]を[超|こ]えて[確|たし]かな[最小|さいしょう]の[変化|へんか]です。', it: 'L’MDC è il più piccolo cambiamento che supera con certezza l’errore.' },
+      { t: '[変化|へんか]が⟦[雑音|ざつおん]⟧の[範囲|はんい]なら、[結論|けつろん]を[出|だ]してはいけません。', it: 'Se il cambiamento rientra nel rumore, non si deve trarre una conclusione.' },
+      { t: '⟦アールエムエスエスディー⟧は、エイチアールブイの[代表的|だいひょうてき]な[指標|しひょう]です。', it: 'L’RMSSD è l’indice più rappresentativo dell’HRV.' },
+      { t: '⟦シーエムジェイ⟧は、[簡単|かんたん]に[測|はか]れる[神経筋|しんけいきん]の[状態|じょうたい]のテストです。', it: 'Il CMJ è un test semplice dello stato neuromuscolare.' }
+    ],
+    gloss: [
+      { w: '誤差', r: 'ごさ', it: 'errore' },
+      { w: '信頼性', r: 'しんらいせい', it: 'affidabilità' },
+      { w: 'エスダブリューシー', r: 'えすだぶりゅーしー', it: 'SWC, minimo cambiamento significativo' },
+      { w: 'エムディーシー', r: 'えむでぃーしー', it: 'MDC, minimo cambiamento rilevabile' },
+      { w: '雑音', r: 'ざつおん', it: 'rumore' },
+      { w: 'アールエムエスエスディー', r: 'あーるえむえすえすでぃー', it: 'RMSSD' },
+      { w: 'シーエムジェイ', r: 'しーえむじぇい', it: 'CMJ, salto con contromovimento' },
+      { w: '指標', r: 'しひょう', it: 'indice' },
+      { w: '結論', r: 'けつろん', it: 'conclusione' }
+    ]
+  });
+
+  A('spo-adv-statistica-applicata', {
+    title: { t: 'スポーツの[統計|とうけい]', it: 'Statistica applicata allo sport' },
+    sum: [
+      { t: 'スポーツ[科学|かがく]は、[標本|ひょうほん]が[小|ちい]さく、⟦[雑音|ざつおん]⟧が[多|おお]いです。', it: 'Nelle scienze dello sport i campioni sono piccoli e le misure rumorose.' },
+      { t: '⟦[効果量|こうかりょう]⟧は、[差|さ]の[大|おお]きさを[表|あらわ]します。', it: 'La dimensione dell’effetto esprime quanto è grande una differenza.' },
+      { t: '⟦[信頼区間|しんらいくかん]⟧は、[推定|すいてい]の[不確|ふたし]かさを[示|しめ]します。', it: 'L’intervallo di confidenza mostra l’incertezza della stima.' },
+      { t: '⟦[検出力|けんしゅつりょく]⟧は、[本当|ほんとう]の[効果|こうか]を[見|み]つける[確率|かくりつ]です。', it: 'La potenza statistica è la probabilità di individuare un effetto reale.' },
+      { t: '⟦エムビーアイ⟧は、スポーツでよく[使|つか]われる[方法|ほうほう]です。', it: 'L’MBI è un metodo molto usato nello sport.' },
+      { t: '⟦ベイズ[統計|とうけい]⟧は、[事前|じぜん]の[知識|ちしき]とデータを[合|あ]わせます。', it: 'La statistica bayesiana combina le conoscenze precedenti con i dati.' },
+      { t: '⟦ピーハッキング⟧は、[都合|つごう]のよい[結果|けっか]だけを[報告|ほうこく]することです。', it: 'Il p-hacking è riportare solo i risultati che fanno comodo.' }
+    ],
+    gloss: [
+      { w: '雑音', r: 'ざつおん', it: 'rumore' },
+      { w: '効果量', r: 'こうかりょう', it: 'dimensione dell’effetto' },
+      { w: '信頼区間', r: 'しんらいくかん', it: 'intervallo di confidenza' },
+      { w: '検出力', r: 'けんしゅつりょく', it: 'potenza statistica' },
+      { w: 'エムビーアイ', r: 'えむびーあい', it: 'MBI, inferenza basata sulle magnitudini' },
+      { w: 'ベイズ統計', r: 'べいずとうけい', it: 'statistica bayesiana' },
+      { w: 'ピーハッキング', r: 'ぴーはっきんぐ', it: 'p-hacking' },
+      { w: '標本', r: 'ひょうほん', it: 'campione' },
+      { w: '確率', r: 'かくりつ', it: 'probabilità' }
+    ]
+  });
+
+  A('spo-adv-infortunio-rischio-rientro', {
+    title: { t: '[怪我|けが]・リスク・[復帰|ふっき]', it: 'Infortunio: modelli, rischio, prevenzione e rientro' },
+    sum: [
+      { t: '⟦[怪我|けが]⟧の[定義|ていぎ]が[変|か]わると、[数|かず]も[変|か]わります。', it: 'Se cambia la definizione di infortunio, cambia anche il numero degli infortuni.' },
+      { t: '⟦[多因子|たいんし]モデル⟧では、[内的|ないてき]な[要因|よういん]と[外的|がいてき]な[要因|よういん]が[重|かさ]なります。', it: 'Nel modello multifattoriale si sommano fattori interni ed esterni.' },
+      { t: '⟦エーシーダブリューアール⟧と[怪我|けが]の[関係|かんけい]には[議論|ぎろん]があります。', it: 'Il rapporto tra ACWR e infortuni è discusso.' },
+      { t: '[過去|かこ]の[怪我|けが]は、[新|あたら]しい[怪我|けが]と[関係|かんけい]が[深|ふか]いです。', it: 'Gli infortuni passati sono molto legati a quelli nuovi.' },
+      { t: '⟦スクリーニング⟧で[個人|こじん]の[怪我|けが]を[当|あ]てるのは[難|むずか]しいです。', it: 'Con lo screening è difficile predire l’infortunio di una singola persona.' },
+      { t: '⟦[予防|よぼう]⟧は、いくつかの[運動|うんどう]を[組|く]み[合|あ]わせて[行|おこな]います。', it: 'La prevenzione combina più tipi di esercizi.' },
+      { t: '⟦[復帰|ふっき]⟧は、[時間|じかん]だけでなく[基準|きじゅん]で[決|き]めます。', it: 'Il rientro si decide non solo con il tempo, ma anche con dei criteri.' }
+    ],
+    gloss: [
+      { w: '怪我', r: 'けが', it: 'infortunio' },
+      { w: '多因子モデル', r: 'たいんしもでる', it: 'modello multifattoriale' },
+      { w: 'エーシーダブリューアール', r: 'えーしーだぶりゅーあーる', it: 'ACWR' },
+      { w: 'スクリーニング', r: 'すくりーにんぐ', it: 'screening' },
+      { w: '予防', r: 'よぼう', it: 'prevenzione' },
+      { w: '復帰', r: 'ふっき', it: 'rientro' },
+      { w: '要因', r: 'よういん', it: 'fattore' },
+      { w: '基準', r: 'きじゅん', it: 'criterio' },
+      { w: '定義', r: 'ていぎ', it: 'definizione' }
+    ]
+  });
+
+  A('spo-adv-apprendimento-motorio-avanzato', {
+    title: { t: '[運動学習|うんどうがくしゅう]をくわしく', it: 'Apprendimento motorio avanzato e sport tecnici' },
+    sum: [
+      { t: '[練習中|れんしゅうちゅう]の⟦[成績|せいせき]⟧と⟦[学習|がくしゅう]⟧は[別|べつ]です。', it: 'La prestazione durante l’allenamento e l’apprendimento sono cose diverse.' },
+      { t: '⟦[保持|ほじ]テスト⟧は、[時間|じかん]を[置|お]いてからできるかを[見|み]ます。', it: 'Il test di ritenzione verifica se si riesce dopo un certo intervallo di tempo.' },
+      { t: '⟦ブロック[練習|れんしゅう]⟧は、[同|おな]じ[技|わざ]を[続|つづ]けて[行|おこな]います。', it: 'Nella pratica bloccata si ripete di seguito lo stesso gesto.' },
+      { t: '⟦ランダム[練習|れんしゅう]⟧は、[順番|じゅんばん]を[混|ま]ぜて[行|おこな]います。', it: 'Nella pratica casuale l’ordine è mescolato.' },
+      { t: '⟦フィードバック⟧は、[多|おお]すぎると[頼|たよ]りすぎることがあります。', it: 'Troppo feedback può creare dipendenza.' },
+      { t: '⟦[外的|がいてき]フォーカス⟧は、[動|うご]きの[結果|けっか]に[注意|ちゅうい]を[向|む]けます。', it: 'Il focus esterno dirige l’attenzione sull’effetto del movimento.' },
+      { t: '⟦イメージ[練習|れんしゅう]⟧は、[体|からだ]を[動|うご]かさずに[技|わざ]を[思|おも]い[描|えが]きます。', it: 'L’allenamento mentale è immaginare il gesto senza muoversi.' }
+    ],
+    gloss: [
+      { w: '成績', r: 'せいせき', it: 'prestazione, risultato' },
+      { w: '学習', r: 'がくしゅう', it: 'apprendimento' },
+      { w: '保持テスト', r: 'ほじてすと', it: 'test di ritenzione' },
+      { w: 'ブロック練習', r: 'ぶろっくれんしゅう', it: 'pratica bloccata' },
+      { w: 'ランダム練習', r: 'らんだむれんしゅう', it: 'pratica casuale' },
+      { w: 'フィードバック', r: 'ふぃーどばっく', it: 'feedback' },
+      { w: '外的フォーカス', r: 'がいてきふぉーかす', it: 'focus attentivo esterno' },
+      { w: 'イメージ練習', r: 'いめーじれんしゅう', it: 'allenamento mentale (imagery)' },
+      { w: '技', r: 'わざ', it: 'tecnica, gesto' }
+    ]
+  });
+
+  A('spo-adv-periodizzazione-evidenza', {
+    title: { t: '[期分|きわ]けの[証拠|しょうこ]', it: 'Periodizzazione basata sull’evidenza e confronti tra programmi' },
+    sum: [
+      { t: '⟦ピリオダイゼーション⟧は、[現場|げんば]の[経験|けいけん]から[生|う]まれた[面|めん]が[大|おお]きいです。', it: 'I modelli di periodizzazione nascono in gran parte dalla pratica sul campo.' },
+      { t: '⟦[二極化|にきょくか]⟧は、[楽|らく]な[練習|れんしゅう]が[多|おお]く、[中間|ちゅうかん]が[少|すく]ないです。', it: 'Nella distribuzione polarizzata c’è molto allenamento facile e poca intensità intermedia.' },
+      { t: '⟦ピラミッド[型|がた]⟧は、[強|つよ]くなるほど[量|りょう]が[減|へ]ります。', it: 'Nel modello piramidale più l’intensità sale, meno tempo si dedica.' },
+      { t: '⟦[同時|どうじ]トレーニング⟧では、[干渉|かんしょう]が[心配|しんぱい]されます。', it: 'Nell’allenamento concorrente si teme l’interferenza.' },
+      { t: '⟦エイチアールブイ⟧で[計画|けいかく]を[変|か]える[方法|ほうほう]もあります。', it: 'C’è anche un metodo in cui si cambia il piano in base all’HRV.' },
+      { t: '⟦ブロック[型|がた]⟧と[従来型|じゅうらいがた]は、[比|くら]べるのが[難|むずか]しいです。', it: 'È difficile confrontare il modello a blocchi con quello tradizionale.' },
+      { t: '⟦メタ[分析|ぶんせき]⟧では、[期分|きわ]けの[利点|りてん]は[小|ちい]さいです。', it: 'Nelle meta-analisi il vantaggio della periodizzazione è piccolo.' }
+    ],
+    gloss: [
+      { w: 'ピリオダイゼーション', r: 'ぴりおだいぜーしょん', it: 'periodizzazione' },
+      { w: '二極化', r: 'にきょくか', it: 'distribuzione polarizzata' },
+      { w: 'ピラミッド型', r: 'ぴらみっどがた', it: 'distribuzione piramidale' },
+      { w: '同時トレーニング', r: 'どうじとれーにんぐ', it: 'allenamento concorrente' },
+      { w: 'エイチアールブイ', r: 'えいちあーるぶい', it: 'HRV' },
+      { w: 'ブロック型', r: 'ぶろっくがた', it: 'modello a blocchi' },
+      { w: 'メタ分析', r: 'めたぶんせき', it: 'meta-analisi' },
+      { w: '干渉', r: 'かんしょう', it: 'interferenza' },
+      { w: '証拠', r: 'しょうこ', it: 'prova, evidenza' }
+    ]
+  });
+
+  A('spo-adv-organizzazione-della-performance', {
+    title: { t: 'チームの[成績|せいせき]づくり', it: 'Organizzazione della performance in un team' },
+    sum: [
+      { t: '⟦パフォーマンスモデル⟧は、[成績|せいせき]を[要素|ようそ]に[分|わ]けて[考|かんが]えます。', it: 'Il performance model scompone la prestazione in elementi.' },
+      { t: '⟦テストバッテリー⟧は、[続|つづ]けられる[数|かず]に[絞|しぼ]ります。', it: 'La batteria di test si limita a quanto si riesce a sostenere.' },
+      { t: '⟦ケーピーアイ⟧は、[目標|もくひょう]に[近|ちか]づいているかを[見|み]る[指標|しひょう]です。', it: 'Un KPI è un indicatore per vedere se ci si avvicina all’obiettivo.' },
+      { t: 'データから[情報|じょうほう]、[決定|けってい]、[行動|こうどう]、[確認|かくにん]へと[進|すす]みます。', it: 'Dai dati si passa all’informazione, alla decisione, all’azione e alla verifica.' },
+      { t: '⟦[過密日程|かみつにってい]⟧では、[回復|かいふく]を[管理|かんり]することが[中心|ちゅうしん]になります。', it: 'In un calendario congestionato la gestione del recupero diventa centrale.' },
+      { t: '⟦[時差|じさ]ぼけ⟧と[移動|いどう]の[疲|つか]れは[別|べつ]のものです。', it: 'Il jet lag e la fatica del viaggio sono cose diverse.' },
+      { t: '[選手|せんしゅ]のデータは⟦[個人情報|こじんじょうほう]⟧で、[守|まも]る[必要|ひつよう]があります。', it: 'I dati degli atleti sono dati personali e vanno protetti.' }
+    ],
+    gloss: [
+      { w: 'パフォーマンスモデル', r: 'ぱふぉーまんすもでる', it: 'modello di performance' },
+      { w: 'テストバッテリー', r: 'てすとばってりー', it: 'batteria di test' },
+      { w: 'ケーピーアイ', r: 'けーぴーあい', it: 'KPI, indicatore chiave di prestazione' },
+      { w: '過密日程', r: 'かみつにってい', it: 'calendario congestionato' },
+      { w: '時差ぼけ', r: 'じさぼけ', it: 'jet lag' },
+      { w: '個人情報', r: 'こじんじょうほう', it: 'dati personali' },
+      { w: '指標', r: 'しひょう', it: 'indicatore' },
+      { w: '回復', r: 'かいふく', it: 'recupero' },
+      { w: '目標', r: 'もくひょう', it: 'obiettivo' }
+    ]
+  });
+
+  A('spo-adv-periodizzazione-carboidrati', {
+    title: { t: '[炭水化物|たんすいかぶつ]の[期分|きわ]け', it: 'Periodizzazione e disponibilità di carboidrati' },
+    sum: [
+      { t: '⟦[栄養|えいよう]の[期分|きわ]け⟧は、[炭水化物|たんすいかぶつ]の[量|りょう]を[練習|れんしゅう]に[合|あ]わせて[変|か]えます。', it: 'La periodizzazione nutrizionale adatta la quantità di carboidrati all’allenamento.' },
+      { t: '⟦グリコーゲン⟧は、[炭水化物|たんすいかぶつ]の[貯蔵|ちょぞう]の[形|かたち]です。', it: 'Il glicogeno è la forma di riserva dei carboidrati.' },
+      { t: '[大切|たいせつ]な[練習|れんしゅう]と[試合|しあい]の[日|ひ]は、⟦[炭水化物|たんすいかぶつ]⟧を[多|おお]くとります。', it: 'Nelle sedute importanti e nei giorni di gara si assumono più carboidrati.' },
+      { t: '⟦トレインロー⟧は、グリコーゲンが[少|すく]ない[状態|じょうたい]で[練習|れんしゅう]します。', it: 'Il train-low è allenarsi con poco glicogeno.' },
+      { t: 'トレインローでは、[強度|きょうど]の[質|しつ]が[下|さ]がることがあります。', it: 'Con il train-low la qualità dell’intensità può calare.' },
+      { t: '⟦[低炭水化物食|ていたんすいかぶつしょく]⟧は、[脂肪|しぼう]の[燃焼|ねんしょう]を[大|おお]きく[増|ふ]やします。', it: 'Una dieta povera di carboidrati aumenta molto l’ossidazione dei grassi.' },
+      { t: '⟦[代謝柔軟性|たいしゃじゅうなんせい]⟧は、[脂肪|しぼう]と[糖|とう]を[使|つか]い[分|わ]ける[力|ちから]です。', it: 'La flessibilità metabolica è la capacità di usare in modo alternato grassi e zuccheri.' }
+    ],
+    gloss: [
+      { w: '栄養の期分け', r: 'えいようのきわけ', it: 'periodizzazione nutrizionale' },
+      { w: 'グリコーゲン', r: 'ぐりこーげん', it: 'glicogeno' },
+      { w: '炭水化物', r: 'たんすいかぶつ', it: 'carboidrati' },
+      { w: 'トレインロー', r: 'とれいんろー', it: 'train-low' },
+      { w: '低炭水化物食', r: 'ていたんすいかぶつしょく', it: 'dieta a basso contenuto di carboidrati' },
+      { w: '代謝柔軟性', r: 'たいしゃじゅうなんせい', it: 'flessibilità metabolica' },
+      { w: '脂肪', r: 'しぼう', it: 'grasso' },
+      { w: '強度', r: 'きょうど', it: 'intensità' },
+      { w: '貯蔵', r: 'ちょぞう', it: 'riserva' }
+    ]
+  });
+
+  A('spo-adv-carboidrati-multitrasportabili', {
+    title: { t: '[糖|とう]の[吸収|きゅうしゅう]とお[腹|なか]の[練習|れんしゅう]', it: 'Carboidrati multi-trasportabili e gut training' },
+    sum: [
+      { t: '[糖|とう]は、⟦[輸送体|ゆそうたい]⟧を[通|とお]って[腸|ちょう]から[血液|けつえき]に[入|はい]ります。', it: 'Gli zuccheri passano dall’intestino al sangue attraverso dei trasportatori.' },
+      { t: '⟦グルコース⟧と⟦フルクトース⟧は、[別|べつ]の[輸送体|ゆそうたい]を[使|つか]います。', it: 'Glucosio e fruttosio usano trasportatori diversi.' },
+      { t: '[違|ちが]う[糖|とう]を[混|ま]ぜると、[一時間|いちじかん]に[吸収|きゅうしゅう]できる[量|りょう]が[増|ふ]えます。', it: 'Mescolando zuccheri diversi aumenta la quantità assorbibile in un’ora.' },
+      { t: '⟦[比率|ひりつ]⟧は、[二対一|にたいいち]が[古典的|こてんてき]です。', it: 'Il rapporto classico è due a uno.' },
+      { t: '[一時間|いちじかん]あたりの[量|りょう]は、[運動|うんどう]の[長|なが]さで[決|き]めます。', it: 'La quantità oraria si decide in base alla durata dell’esercizio.' },
+      { t: '[持久|じきゅう]の[選手|せんしゅ]は、⟦[胃腸|いちょう]⟧の[不調|ふちょう]を[起|お]こすことがあります。', it: 'Gli atleti di resistenza possono avere disturbi gastrointestinali.' },
+      { t: '⟦ガットトレーニング⟧は、[練習|れんしゅう]で[腸|ちょう]を[慣|な]らします。', it: 'Il gut training abitua l’intestino con l’allenamento.' }
+    ],
+    gloss: [
+      { w: '輸送体', r: 'ゆそうたい', it: 'trasportatore' },
+      { w: 'グルコース', r: 'ぐるこーす', it: 'glucosio' },
+      { w: 'フルクトース', r: 'ふるくとーす', it: 'fruttosio' },
+      { w: '比率', r: 'ひりつ', it: 'rapporto' },
+      { w: '胃腸', r: 'いちょう', it: 'apparato gastrointestinale' },
+      { w: 'ガットトレーニング', r: 'がっととれーにんぐ', it: 'gut training' },
+      { w: '吸収', r: 'きゅうしゅう', it: 'assorbimento' },
+      { w: '腸', r: 'ちょう', it: 'intestino' },
+      { w: '糖', r: 'とう', it: 'zucchero' }
+    ]
+  });
+
+  A('spo-adv-proteine-avanzate', {
+    title: { t: 'タンパク[質|しつ]をくわしく', it: 'Proteine avanzate' },
+    sum: [
+      { t: '⟦[筋|きん]タンパク[質|しつ][合成|ごうせい]⟧は、[運動|うんどう]や[栄養|えいよう]で[変|か]わります。', it: 'La sintesi proteica muscolare cambia con l’esercizio e con l’alimentazione.' },
+      { t: '⟦ロイシン⟧は、[合成|ごうせい]を[始|はじ]めるスイッチの[一|ひと]つです。', it: 'La leucina è uno degli interruttori che avviano la sintesi.' },
+      { t: '[数回|すうかい]に[分|わ]けてとる[方法|ほうほう]が[提案|ていあん]されています。', it: 'Si propone di distribuire le proteine in più pasti.' },
+      { t: '⟦カゼイン⟧は、ゆっくり[消化|しょうか]される[牛乳|ぎゅうにゅう]のタンパク[質|しつ]です。', it: 'La caseina è una proteina del latte a digestione lenta.' },
+      { t: '⟦[窒素出納|ちっそすいとう]⟧は、[取|と]った[窒素|ちっそ]と[出|だ]した[窒素|ちっそ]の[差|さ]です。', it: 'Il bilancio azotato è la differenza tra azoto assunto ed eliminato.' },
+      { t: '⟦ピーディーシーエーエーエス⟧と⟦ディーアイエーエーエス⟧は、タンパク[質|しつ]の[質|しつ]を[表|あらわ]します。', it: 'PDCAAS e DIAAS esprimono la qualità delle proteine.' },
+      { t: '[植物性|しょくぶつせい]のタンパク[質|しつ]は、[消化|しょうか]されにくいことが[多|おお]いです。', it: 'Le proteine vegetali spesso sono meno digeribili.' }
+    ],
+    gloss: [
+      { w: '筋タンパク質合成', r: 'きんたんぱくしつごうせい', it: 'sintesi proteica muscolare' },
+      { w: 'ロイシン', r: 'ろいしん', it: 'leucina' },
+      { w: 'カゼイン', r: 'かぜいん', it: 'caseina' },
+      { w: '窒素出納', r: 'ちっそすいとう', it: 'bilancio azotato' },
+      { w: 'ピーディーシーエーエーエス', r: 'ぴーでぃーしーえーえーえす', it: 'PDCAAS' },
+      { w: 'ディーアイエーエーエス', r: 'でぃーあいえーえーえす', it: 'DIAAS' },
+      { w: '合成', r: 'ごうせい', it: 'sintesi' },
+      { w: '消化', r: 'しょうか', it: 'digestione' },
+      { w: '植物性', r: 'しょくぶつせい', it: 'di origine vegetale' }
+    ]
+  });
+
+  A('spo-adv-ferro-vitamina-d', {
+    title: { t: '[鉄|てつ]とビタミンディー', it: 'Ferro, vitamina D e micronutrienti dell’atleta' },
+    sum: [
+      { t: '⟦[鉄|てつ]⟧は、ヘモグロビンの[一部|いちぶ]で、[酸素|さんそ]を[運|はこ]びます。', it: 'Il ferro fa parte dell’emoglobina e trasporta l’ossigeno.' },
+      { t: '⟦フェリチン⟧は、[鉄|てつ]の[貯蔵|ちょぞう]を[表|あらわ]します。', it: 'La ferritina indica le riserve di ferro.' },
+      { t: '⟦[偽性貧血|ぎせいひんけつ]⟧は、[血液|けつえき]が[薄|うす]まって[見|み]えることです。', it: 'La pseudoanemia è quando il sangue appare diluito.' },
+      { t: '⟦ヘム[鉄|てつ]⟧は、[肉|にく]や[魚|さかな]の[鉄|てつ]で、[吸収|きゅうしゅう]されやすいです。', it: 'Il ferro eme è quello di carne e pesce, e si assorbe più facilmente.' },
+      { t: '⟦ヘプシジン⟧は、[鉄|てつ]の[吸収|きゅうしゅう]を[抑|おさ]えるホルモンです。', it: 'L’epcidina è l’ormone che frena l’assorbimento del ferro.' },
+      { t: '⟦ビタミンディー⟧は、[皮膚|ひふ]で[日光|にっこう]によって[作|つく]られます。', it: 'La vitamina D si forma nella pelle con la luce del sole.' },
+      { t: '[自己判断|じこはんだん]で[飲|の]む⟦サプリメント⟧には、リスクがあります。', it: 'Gli integratori assunti di propria iniziativa comportano dei rischi.' }
+    ],
+    gloss: [
+      { w: '鉄', r: 'てつ', it: 'ferro' },
+      { w: 'フェリチン', r: 'ふぇりちん', it: 'ferritina' },
+      { w: '偽性貧血', r: 'ぎせいひんけつ', it: 'pseudoanemia' },
+      { w: 'ヘム鉄', r: 'へむてつ', it: 'ferro eme' },
+      { w: 'ヘプシジン', r: 'へぷしじん', it: 'epcidina' },
+      { w: 'ビタミンディー', r: 'びたみんでぃー', it: 'vitamina D' },
+      { w: 'サプリメント', r: 'さぷりめんと', it: 'integratore' },
+      { w: '吸収', r: 'きゅうしゅう', it: 'assorbimento' },
+      { w: '貯蔵', r: 'ちょぞう', it: 'riserva' }
+    ]
+  });
+
+  A('spo-adv-energia-salute-atleta', {
+    title: { t: '[選手|せんしゅ]のエネルギーと[健康|けんこう]', it: 'Energia e salute dell’atleta: RED-S e ciclo' },
+    sum: [
+      { t: '⟦[利用可能|りようかのう]エネルギー⟧は、[運動|うんどう]で[使|つか]った[分|ぶん]を[引|ひ]いた[残|のこ]りです。', it: 'La disponibilità energetica è quella che resta dopo aver tolto l’energia spesa nell’esercizio.' },
+      { t: '⟦レッズ⟧は、エネルギー[不足|ぶそく]が[体|からだ]に[起|お]こす[問題|もんだい]です。', it: 'Il RED-S è l’insieme dei problemi causati dalla carenza di energia.' },
+      { t: '⟦[疲労骨折|ひろうこっせつ]⟧やホルモンの[乱|みだ]れが[起|お]こります。', it: 'Possono comparire fratture da stress e squilibri ormonali.' },
+      { t: '⟦[思春期|ししゅんき]⟧の[選手|せんしゅ]は、[成長|せいちょう]のぶんのエネルギーも[必要|ひつよう]です。', it: 'Gli atleti in pubertà hanno bisogno anche dell’energia per la crescita.' },
+      { t: '⟦[月経周期|げっけいしゅうき]⟧には、[二|ふた]つの[主|おも]な[時期|じき]があります。', it: 'Il ciclo mestruale ha due fasi principali.' },
+      { t: '[月経周期|げっけいしゅうき]と[成績|せいせき]の[関係|かんけい]は、まだはっきりしません。', it: 'Il rapporto tra ciclo e prestazione non è ancora chiaro.' },
+      { t: '[気|き]になる[兆候|ちょうこう]があれば、⟦[専門家|せんもんか]⟧に[相談|そうだん]します。', it: 'Se ci sono segnali preoccupanti ci si rivolge a un professionista.' }
+    ],
+    gloss: [
+      { w: '利用可能エネルギー', r: 'りようかのうえねるぎー', it: 'disponibilità energetica' },
+      { w: 'レッズ', r: 'れっず', it: 'RED-S, carenza energetica relativa nello sport' },
+      { w: '疲労骨折', r: 'ひろうこっせつ', it: 'frattura da stress' },
+      { w: '思春期', r: 'ししゅんき', it: 'pubertà' },
+      { w: '月経周期', r: 'げっけいしゅうき', it: 'ciclo mestruale' },
+      { w: '専門家', r: 'せんもんか', it: 'professionista' },
+      { w: '兆候', r: 'ちょうこう', it: 'segnale, indizio' },
+      { w: '成長', r: 'せいちょう', it: 'crescita' },
+      { w: '骨', r: 'ほね', it: 'osso' }
+    ]
+  });
+
+  A('spo-adv-idratazione-minerali', {
+    title: { t: '[水分|すいぶん]とミネラルをくわしく', it: 'Idratazione, sodio e caffeina avanzati' },
+    sum: [
+      { t: '⟦[浸透圧|しんとうあつ]⟧は、[血液|けつえき]の[濃|こ]さを[表|あらわ]します。', it: 'L’osmolalità esprime la concentrazione del sangue.' },
+      { t: '[汗|あせ]の⟦ナトリウム⟧の[濃度|のうど]は、[人|ひと]によって[大|おお]きく[違|ちが]います。', it: 'La concentrazione di sodio nel sudore varia molto da persona a persona.' },
+      { t: '⟦[汗検査|あせけんさ]⟧にも、[限界|げんかい]があります。', it: 'Anche il test del sudore ha dei limiti.' },
+      { t: '[水分|すいぶん]の[取|と]りすぎで、⟦[低|てい]ナトリウム[血症|けっしょう]⟧が[起|お]こります。', it: 'Bevendo troppo si può avere l’iponatriemia.' },
+      { t: '[渇|かわ]きに[従|したが]う[方法|ほうほう]と、⟦[水分補給|すいぶんほきゅう]⟧の[計画|けいかく]を[比|くら]べます。', it: 'Si confronta il bere a sete con un piano di idratazione.' },
+      { t: '⟦カフェイン⟧には、[量|りょう]に[応|おう]じた[効果|こうか]があります。', it: 'La caffeina ha un effetto che dipende dalla dose.' },
+      { t: '⟦アルコール⟧は、[運動|うんどう]の[栄養|えいよう]にはなりません。', it: 'L’alcol non è un nutriente per la prestazione.' }
+    ],
+    gloss: [
+      { w: '浸透圧', r: 'しんとうあつ', it: 'osmolalità' },
+      { w: 'ナトリウム', r: 'なとりうむ', it: 'sodio' },
+      { w: '汗検査', r: 'あせけんさ', it: 'test del sudore' },
+      { w: '低ナトリウム血症', r: 'ていなとりうむけっしょう', it: 'iponatriemia' },
+      { w: '水分補給', r: 'すいぶんほきゅう', it: 'idratazione, reintegro di liquidi' },
+      { w: 'カフェイン', r: 'かふぇいん', it: 'caffeina' },
+      { w: 'アルコール', r: 'あるこーる', it: 'alcol' },
+      { w: '濃度', r: 'のうど', it: 'concentrazione' },
+      { w: '血液', r: 'けつえき', it: 'sangue' }
+    ]
+  });
+
+  A('spo-adv-evidenze-integratori-clinica', {
+    title: { t: '[証拠|しょうこ]の[読|よ]み[方|かた]と[健康|けんこう]の[基本|きほん]', it: 'Valutare le evidenze e nutrizione clinica di base' },
+    sum: [
+      { t: '⟦[証拠|しょうこ]の[階層|かいそう]⟧では、[無作為化比較試験|むさくいかひかくしけん]の[統合|とうごう]が[一番|いちばん][上|うえ]です。', it: 'Nella gerarchia delle prove, la sintesi degli studi randomizzati controllati è al vertice.' },
+      { t: '⟦[交絡|こうらく]⟧のため、[観察研究|かんさつけんきゅう]では[原因|げんいん]が[分|わ]かりません。', it: 'A causa del confondimento, negli studi osservazionali non si capisce la causa.' },
+      { t: '⟦プラセボ⟧は、[効果|こうか]のない[薬|くすり]でも[成績|せいせき]を[変|か]えることがあります。', it: 'Il placebo, pur essendo inerte, può cambiare la prestazione.' },
+      { t: '⟦アイオーシー⟧は、サプリメントを[四|よっ]つのグループに[分|わ]けます。', it: 'Il CIO divide gli integratori in quattro gruppi.' },
+      { t: '⟦[汚染|おせん]⟧された[製品|せいひん]には、[表示|ひょうじ]にない[物質|ぶっしつ]が[入|はい]っていることがあります。', it: 'I prodotti contaminati possono contenere sostanze non dichiarate.' },
+      { t: '⟦ワダ⟧の[規則|きそく]は、[使用|しよう]や[所持|しょじ]なども[禁止|きんし]します。', it: 'Le regole della WADA vietano anche l’uso e il possesso.' },
+      { t: '[血圧|けつあつ]や[血糖|けっとう]が[高|たか]いときは、⟦[医師|いし]⟧に[相談|そうだん]します。', it: 'Se pressione o glicemia sono alte, ci si rivolge a un medico.' }
+    ],
+    gloss: [
+      { w: '証拠の階層', r: 'しょうこのかいそう', it: 'gerarchia delle prove' },
+      { w: '交絡', r: 'こうらく', it: 'confondimento' },
+      { w: 'プラセボ', r: 'ぷらせぼ', it: 'placebo' },
+      { w: 'アイオーシー', r: 'あいおーしー', it: 'CIO (Comitato Olimpico Internazionale)' },
+      { w: '汚染', r: 'おせん', it: 'contaminazione' },
+      { w: 'ワダ', r: 'わだ', it: 'WADA, agenzia mondiale antidoping' },
+      { w: '医師', r: 'いし', it: 'medico' },
+      { w: '観察研究', r: 'かんさつけんきゅう', it: 'studio osservazionale' },
+      { w: '血圧', r: 'けつあつ', it: 'pressione sanguigna' }
+    ]
+  });
+
+  A('spo-adv-giovani', {
+    title: { t: '[若|わか]い[選手|せんしゅ]の[育成|いくせい]', it: 'Atleti giovani: maturazione, carico e specializzazione' },
+    sum: [
+      { t: '⟦[暦年齢|れきねんれい]⟧が[同|おな]じでも、⟦[成熟|せいじゅく]⟧の[進|すす]み[方|かた]は[違|ちが]います。', it: 'Anche a parità di età cronologica, la maturazione procede in modo diverso.' },
+      { t: '[成熟|せいじゅく]は、[身長|しんちょう]の[伸|の]びなどから[見積|みつ]もります。', it: 'La maturazione si stima, per esempio, dalla crescita in altezza.' },
+      { t: '⟦エルティーエーディー⟧は、[長期的|ちょうきてき]な[育成|いくせい]の[考|かんが]え[方|かた]です。', it: 'L’LTAD è un modo di pensare allo sviluppo a lungo termine.' },
+      { t: '[子|こ]どもの⟦[筋力|きんりょく]トレーニング⟧が[成長|せいちょう]を[止|と]めるという[証拠|しょうこ]はありません。', it: 'Non ci sono prove che l’allenamento della forza nei bambini blocchi la crescita.' },
+      { t: '⟦[成長期|せいちょうき]⟧は、[骨|ほね]が[先|さき]に[伸|の]びて、[腱|けん]がついていけません。', it: 'Nella fase di crescita le ossa si allungano prima e i tendini non riescono a stare al passo.' },
+      { t: '⟦[早期専門化|そうきせんもんか]⟧は、[一|ひと]つの[競技|きょうぎ]だけを[続|つづ]けることです。', it: 'La specializzazione precoce è praticare un solo sport in modo continuo.' },
+      { t: '⟦[相対年齢効果|そうたいねんれいこうか]⟧では、[生|う]まれた[月|つき]で[有利|ゆうり]になります。', it: 'Con l’effetto dell’età relativa, il mese di nascita porta un vantaggio.' }
+    ],
+    gloss: [
+      { w: '暦年齢', r: 'れきねんれい', it: 'età cronologica' },
+      { w: '成熟', r: 'せいじゅく', it: 'maturazione' },
+      { w: 'エルティーエーディー', r: 'えるてぃーえーでぃー', it: 'LTAD, sviluppo a lungo termine dell’atleta' },
+      { w: '筋力トレーニング', r: 'きんりょくとれーにんぐ', it: 'allenamento della forza' },
+      { w: '成長期', r: 'せいちょうき', it: 'fase di crescita' },
+      { w: '早期専門化', r: 'そうきせんもんか', it: 'specializzazione precoce' },
+      { w: '相対年齢効果', r: 'そうたいねんれいこうか', it: 'relative age effect' },
+      { w: '腱', r: 'けん', it: 'tendine' },
+      { w: '育成', r: 'いくせい', it: 'sviluppo, formazione' }
+    ]
+  });
+
+  A('spo-adv-atlete', {
+    title: { t: '[女性|じょせい]の[選手|せんしゅ]のからだ', it: 'Atlete: fisiologia, ciclo, infortuni e disponibilità energetica' },
+    sum: [
+      { t: '[男女|だんじょ]の[差|さ]は[平均|へいきん]で、⟦[個人差|こじんさ]⟧は[大|おお]きいです。', it: 'Le differenze fra uomini e donne sono medie e le differenze individuali sono grandi.' },
+      { t: '⟦[筋肉量|きんにくりょう]⟧で[合|あ]わせると、[筋力|きんりょく]の[差|さ]は[小|ちい]さくなります。', it: 'Se si normalizza per la massa muscolare, la differenza di forza si riduce.' },
+      { t: '⟦[月経周期|げっけいしゅうき]⟧は、[約|やく][二十八日|にじゅうはちにち]で[巡|めぐ]ります。', it: 'Il ciclo mestruale si ripete in circa ventotto giorni.' },
+      { t: '⟦[前十字靭帯|ぜんじゅうじじんたい]⟧の[断裂|だんれつ]は、[女性|じょせい]の[選手|せんしゅ]に[多|おお]いです。', it: 'La rottura del legamento crociato anteriore è più frequente nelle atlete.' },
+      { t: '⟦[利用可能|りようかのう]エネルギー⟧が[低|ひく]いと、[健康|けんこう]を[損|そこ]ないます。', it: 'Se la disponibilità energetica è bassa, la salute ne risente.' },
+      { t: '⟦[鉄欠乏|てつけつぼう]⟧は、[女性|じょせい]の[選手|せんしゅ]に[比較的|ひかくてき][多|おお]いです。', it: 'La carenza di ferro è relativamente frequente nelle atlete.' },
+      { t: '⟦[妊娠|にんしん]⟧と[出産後|しゅっさんご]は、[医師|いし]と[相談|そうだん]して[決|き]めます。', it: 'Gravidanza e post partum si gestiscono d’accordo con il medico.' }
+    ],
+    gloss: [
+      { w: '個人差', r: 'こじんさ', it: 'differenza individuale' },
+      { w: '筋肉量', r: 'きんにくりょう', it: 'massa muscolare' },
+      { w: '月経周期', r: 'げっけいしゅうき', it: 'ciclo mestruale' },
+      { w: '前十字靭帯', r: 'ぜんじゅうじじんたい', it: 'legamento crociato anteriore' },
+      { w: '利用可能エネルギー', r: 'りようかのうえねるぎー', it: 'disponibilità energetica' },
+      { w: '鉄欠乏', r: 'てつけつぼう', it: 'carenza di ferro' },
+      { w: '妊娠', r: 'にんしん', it: 'gravidanza' },
+      { w: '医師', r: 'いし', it: 'medico' },
+      { w: '出産後', r: 'しゅっさんご', it: 'post partum' }
+    ]
+  });
+
+  A('spo-adv-master', {
+    title: { t: '[年齢|ねんれい]を[重|かさ]ねた[選手|せんしゅ]', it: 'Master e invecchiamento: sarcopenia, VO2max e potenza' },
+    sum: [
+      { t: '⟦[加齢|かれい]⟧は[病気|びょうき]ではありませんが、[機能|きのう]は[平均|へいきん]で[下|さ]がります。', it: 'L’invecchiamento non è una malattia, ma in media le funzioni calano.' },
+      { t: '⟦サルコペニア⟧は、[筋肉|きんにく]の[量|りょう]と[機能|きのう]が[減|へ]ることです。', it: 'La sarcopenia è la perdita di massa e funzione del muscolo.' },
+      { t: '⟦ダイナペニア⟧は、[筋力|きんりょく]が[落|お]ちることです。', it: 'La dinapenia è il calo della forza muscolare.' },
+      { t: '⟦ブイオーツーマックス⟧は、[年|とし]とともに[下|さ]がります。', it: 'Il VO2max diminuisce con l’età.' },
+      { t: '⟦パワー⟧は、[筋力|きんりょく]より[速|はや]く[下|さ]がります。', it: 'La potenza cala più rapidamente della forza.' },
+      { t: '⟦[筋力|きんりょく]トレーニング⟧は、[高齢|こうれい]でも[週|しゅう][二日|ふつか][以上|いじょう][勧|すす]められます。', it: 'L’allenamento della forza è raccomandato almeno due giorni a settimana, anche in età avanzata.' },
+      { t: '[強|つよ]い[運動|うんどう]の[前|まえ]に、⟦スクリーニング⟧が[必要|ひつよう]な[人|ひと]もいます。', it: 'Prima di un esercizio intenso, alcune persone hanno bisogno di uno screening.' }
+    ],
+    gloss: [
+      { w: '加齢', r: 'かれい', it: 'invecchiamento' },
+      { w: 'サルコペニア', r: 'さるこぺにあ', it: 'sarcopenia' },
+      { w: 'ダイナペニア', r: 'だいなぺにあ', it: 'dinapenia, perdita di forza' },
+      { w: 'ブイオーツーマックス', r: 'ぶいおーつーまっくす', it: 'VO2max' },
+      { w: 'パワー', r: 'ぱわー', it: 'potenza' },
+      { w: '筋力トレーニング', r: 'きんりょくとれーにんぐ', it: 'allenamento della forza' },
+      { w: 'スクリーニング', r: 'すくりーにんぐ', it: 'screening' },
+      { w: '機能', r: 'きのう', it: 'funzione' },
+      { w: '高齢', r: 'こうれい', it: 'età avanzata' }
+    ]
+  });
+
+  A('spo-adv-sprint-salti', {
+    title: { t: 'スプリントと[跳躍|ちょうやく]', it: 'Sprint e salti: meccanica, modello esponenziale e periodizzazione' },
+    sum: [
+      { t: '⟦スプリント⟧は、いくつかの[局面|きょくめん]に[分|わ]けられます。', it: 'Lo sprint si divide in diverse fasi.' },
+      { t: '[加速|かそく]では、⟦[水平|すいへい]⟧の[力|ちから]が[大切|たいせつ]です。', it: 'Nell’accelerazione conta la forza orizzontale.' },
+      { t: '⟦[指数|しすう]モデル⟧は、[加速|かそく]の[速度|そくど]を[式|しき]で[表|あらわ]します。', it: 'Il modello esponenziale descrive con una formula la velocità durante l’accelerazione.' },
+      { t: '⟦[時定数|じていすう]⟧が[小|ちい]さいほど、[加速|かそく]は[速|はや]いです。', it: 'Più la costante di tempo è piccola, più rapida è l’accelerazione.' },
+      { t: '⟦[最高速度|さいこうそくど]⟧は、[最大|さいだい]に[近|ちか]い[走|はし]りと[長|なが]い[休憩|きゅうけい]で[鍛|きた]えます。', it: 'La velocità massima si allena con sprint quasi massimali e recuperi lunghi.' },
+      { t: '⟦アールエスアイ⟧は、[反応的|はんのうてき]な[跳躍力|ちょうやくりょく]を[表|あらわ]します。', it: 'L’RSI esprime la capacità di salto reattiva.' },
+      { t: 'ソリやパラシュートを[使|つか]う⟦[抵抗走|ていこうそう]⟧は、[加速|かそく]の[局面|きょくめん]を[延|の]ばします。', it: 'Gli sprint resistiti, con slitta o paracadute, prolungano la fase di accelerazione.' }
+    ],
+    gloss: [
+      { w: 'スプリント', r: 'すぷりんと', it: 'sprint' },
+      { w: '水平', r: 'すいへい', it: 'orizzontale' },
+      { w: '指数モデル', r: 'しすうもでる', it: 'modello esponenziale' },
+      { w: '時定数', r: 'じていすう', it: 'costante di tempo' },
+      { w: '最高速度', r: 'さいこうそくど', it: 'velocità massima' },
+      { w: 'アールエスアイ', r: 'あーるえすあい', it: 'RSI, indice di forza reattiva' },
+      { w: '抵抗走', r: 'ていこうそう', it: 'sprint resistito' },
+      { w: '局面', r: 'きょくめん', it: 'fase' },
+      { w: '加速', r: 'かそく', it: 'accelerazione' }
+    ]
+  });
+
+  A('spo-adv-mezzofondo-ultra', {
+    title: { t: '[長距離|ちょうきょり]とウルトラ', it: 'Mezzofondo, maratona e ultra: modelli, pacing e gara' },
+    sum: [
+      { t: '⟦ブイオーツーマックス⟧と[割合|わりあい]と[経済性|けいざいせい]が、[成績|せいせき]を[決|き]めます。', it: 'VO2max, frazione sostenibile ed economia determinano la prestazione.' },
+      { t: '⟦ブイドット⟧は、レースのタイムから[能力|のうりょく]を[表|あらわ]す[値|あたい]です。', it: 'Il VDOT è un valore che esprime la capacità a partire dal tempo di gara.' },
+      { t: '⟦ブイブイオーツーマックス⟧は、ブイオーツーマックスに[達|たっ]する[最小|さいしょう]の[速度|そくど]です。', it: 'La vVO2max è la velocità minima alla quale si raggiunge il VO2max.' },
+      { t: '⟦ペーシング⟧は、レースで[力|ちから]を[配分|はいぶん]することです。', it: 'Il pacing è la distribuzione dello sforzo nella gara.' },
+      { t: '⟦ネガティブスプリット⟧は、[後半|こうはん]を[前半|ぜんはん]より[速|はや]く[走|はし]ることです。', it: 'Il negative split è correre la seconda metà più veloce della prima.' },
+      { t: '[長|なが]いレースでは、⟦[炭水化物|たんすいかぶつ]⟧と[水分|すいぶん]を[取|と]ります。', it: 'Nelle gare lunghe si assumono carboidrati e liquidi.' },
+      { t: '⟦ウルトラマラソン⟧では、[地形|ちけい]や[夜|よる]、[食事|しょくじ]の[管理|かんり]も[大切|たいせつ]です。', it: 'Nell’ultramaratona contano anche il terreno, la notte e la gestione dell’alimentazione.' }
+    ],
+    gloss: [
+      { w: 'ブイオーツーマックス', r: 'ぶいおーつーまっくす', it: 'VO2max' },
+      { w: 'ブイドット', r: 'ぶいどっと', it: 'VDOT (indice di Daniels)' },
+      { w: 'ブイブイオーツーマックス', r: 'ぶいぶいおーつーまっくす', it: 'vVO2max, velocità al VO2max' },
+      { w: 'ペーシング', r: 'ぺーしんぐ', it: 'pacing, gestione del ritmo' },
+      { w: 'ネガティブスプリット', r: 'ねがてぃぶすぷりっと', it: 'negative split' },
+      { w: '炭水化物', r: 'たんすいかぶつ', it: 'carboidrati' },
+      { w: 'ウルトラマラソン', r: 'うるとらまらそん', it: 'ultramaratona' },
+      { w: '経済性', r: 'けいざいせい', it: 'economia' },
+      { w: '水分', r: 'すいぶん', it: 'acqua, liquidi' }
+    ]
+  });
+
+  A('spo-adv-ciclismo-nuoto', {
+    title: { t: '[自転車|じてんしゃ]と[水泳|すいえい]', it: 'Ciclismo e nuoto: potenza, resistenza al moto e pacing' },
+    sum: [
+      { t: '⟦[空気抵抗|くうきていこう]⟧は、[速度|そくど]の[三乗|さんじょう]に[比例|ひれい]します。', it: 'La resistenza dell’aria è proporzionale al cubo della velocità.' },
+      { t: '⟦シーディーエー⟧を[小|ちい]さくすると、[必要|ひつよう]なパワーが[減|へ]ります。', it: 'Riducendo il CdA si riduce la potenza necessaria.' },
+      { t: '⟦[転|ころ]がり[抵抗|ていこう]⟧も、[少|すこ]しだけ[必要|ひつよう]です。', it: 'Serve anche un po’ di potenza per vincere la resistenza al rotolamento.' },
+      { t: '⟦クリティカルパワー⟧は、[力|ちから]と[時間|じかん]の[関係|かんけい]を[表|あらわ]します。', it: 'La potenza critica esprime il rapporto fra potenza e tempo.' },
+      { t: '⟦ペーシング⟧では、[一定|いってい]のパワーを[保|たも]つのが[基本|きほん]です。', it: 'Nel pacing la base è mantenere una potenza costante.' },
+      { t: '⟦シーエスエス⟧は、[二|ふた]つの[距離|きょり]のタイムから[出|だ]します。', it: 'La CSS si ricava dai tempi su due distanze.' },
+      { t: '[泳|およ]ぎの[速度|そくど]は、⟦ディーピーエス⟧とストロークレートの[積|せき]です。', it: 'La velocità di nuoto è il prodotto di lunghezza di bracciata e frequenza.' }
+    ],
+    gloss: [
+      { w: '空気抵抗', r: 'くうきていこう', it: 'resistenza dell’aria' },
+      { w: 'シーディーエー', r: 'しーでぃーえー', it: 'CdA, area aerodinamica' },
+      { w: '転がり抵抗', r: 'ころがりていこう', it: 'resistenza al rotolamento' },
+      { w: 'クリティカルパワー', r: 'くりてぃかるぱわー', it: 'potenza critica' },
+      { w: 'ペーシング', r: 'ぺーしんぐ', it: 'pacing' },
+      { w: 'シーエスエス', r: 'しーえすえす', it: 'CSS, velocità critica di nuoto' },
+      { w: 'ディーピーエス', r: 'でぃーぴーえす', it: 'DPS, distanza per bracciata' },
+      { w: 'ストロークレート', r: 'すとろーくれーと', it: 'frequenza di bracciata' },
+      { w: '速度', r: 'そくど', it: 'velocità' }
+    ]
+  });
+
+  A('spo-adv-combattimento-elite', {
+    title: { t: '[格闘技|かくとうぎ]のトップ[選手|せんしゅ]', it: 'Combattimento e lotta d’élite: demand analysis, peso e commozione' },
+    sum: [
+      { t: '⟦デマンドアナリシス⟧は、[競技|きょうぎ]の[要求|ようきゅう]を[調|しら]べることです。', it: 'La demand analysis è studiare le richieste di una disciplina.' },
+      { t: '[三|みっ]つの⟦エネルギー[系|けい]⟧が、すべて[関|かか]わります。', it: 'Sono coinvolti tutti e tre i sistemi energetici.' },
+      { t: '⟦ホスホクレアチン⟧は、[休|やす]みの[間|あいだ]に[回復|かいふく]します。', it: 'La fosfocreatina si ricostituisce durante le pause.' },
+      { t: '[柔道|じゅうどう]やレスリングでは、⟦[握力|あくりょく]⟧が[中心|ちゅうしん]です。', it: 'Nel judo e nella lotta la presa è centrale.' },
+      { t: '[急|きゅう]な⟦[減量|げんりょう]⟧は[危険|きけん]で、[医師|いし]などに[相談|そうだん]します。', it: 'Un calo di peso rapido è pericoloso e si chiede consiglio a un medico.' },
+      { t: '⟦テーパリング⟧で、[大会|たいかい]の[前|まえ]に[疲労|ひろう]を[取|と]ります。', it: 'Con il tapering si smaltisce la fatica prima della competizione.' },
+      { t: '⟦[脳振盪|のうしんとう]⟧の[危険|きけん]は、[本当|ほんとう]にあります。', it: 'Il rischio di commozione cerebrale è reale.' }
+    ],
+    gloss: [
+      { w: 'デマンドアナリシス', r: 'でまんどあなりしす', it: 'demand analysis, analisi delle richieste' },
+      { w: 'エネルギー系', r: 'えねるぎーけい', it: 'sistema energetico' },
+      { w: 'ホスホクレアチン', r: 'ほすほくれあちん', it: 'fosfocreatina' },
+      { w: '握力', r: 'あくりょく', it: 'forza di presa' },
+      { w: '減量', r: 'げんりょう', it: 'calo di peso' },
+      { w: 'テーパリング', r: 'てーぱりんぐ', it: 'tapering' },
+      { w: '脳振盪', r: 'のうしんとう', it: 'commozione cerebrale' },
+      { w: '柔道', r: 'じゅうどう', it: 'judo' },
+      { w: '疲労', r: 'ひろう', it: 'fatica' }
+    ]
+  });
+
+  A('spo-adv-squadra-elite', {
+    title: { t: 'トップチームの[運営|うんえい]', it: 'Squadra d’élite: calendario, GPS e tactical periodization' },
+    sum: [
+      { t: '⟦[過密日程|かみつにってい]⟧では、[試合|しあい]の[間|あいだ]の[回復|かいふく]が[問題|もんだい]です。', it: 'Con un calendario congestionato il problema è il recupero tra le partite.' },
+      { t: '⟦ジーピーエス⟧は、[試合|しあい]の[走行|そうこう]の[負荷|ふか]を[測|はか]ります。', it: 'Il GPS misura il carico di corsa della partita.' },
+      { t: '⟦ローテーション⟧で、[個人|こじん]の[負荷|ふか]を[分|わ]けます。', it: 'Con la rotazione si distribuisce il carico individuale.' },
+      { t: 'ジーピーエスの[測定|そくてい]には、[限界|げんかい]があります。', it: 'Anche le misure del GPS hanno dei limiti.' },
+      { t: '⟦エーシーダブリューアール⟧は、[計算|けいさん]の[方法|ほうほう]に[注意|ちゅうい]が[必要|ひつよう]です。', it: 'Per l’ACWR bisogna fare attenzione al metodo di calcolo.' },
+      { t: '⟦[戦術的|せんじゅつてき]ピリオダイゼーション⟧は、ゲームモデルを[中心|ちゅうしん]に[練習|れんしゅう]を[組|く]みます。', it: 'La periodizzazione tattica organizza l’allenamento attorno al modello di gioco.' },
+      { t: '⟦[復帰|ふっき]⟧は、[期間|きかん]ではなく[基準|きじゅん]で[進|すす]めます。', it: 'Il rientro procede in base a criteri e non al tempo.' }
+    ],
+    gloss: [
+      { w: '過密日程', r: 'かみつにってい', it: 'calendario congestionato' },
+      { w: 'ジーピーエス', r: 'じーぴーえす', it: 'GPS' },
+      { w: 'ローテーション', r: 'ろーてーしょん', it: 'rotazione' },
+      { w: 'エーシーダブリューアール', r: 'えーしーだぶりゅーあーる', it: 'ACWR' },
+      { w: '戦術的ピリオダイゼーション', r: 'せんじゅつてきぴりおだいぜーしょん', it: 'periodizzazione tattica' },
+      { w: '復帰', r: 'ふっき', it: 'rientro' },
+      { w: '負荷', r: 'ふか', it: 'carico' },
+      { w: '回復', r: 'かいふく', it: 'recupero' },
+      { w: '基準', r: 'きじゅん', it: 'criterio' }
     ]
   });
 

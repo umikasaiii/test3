@@ -436,3 +436,8 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - Generati da agenti su estratti + punti chiave delle lezioni; il controllo automatico verifica struttura, ruby, romaji e numeri, non i fatti. Nessuna revisione di madrelingua o esperto.
 - EN: frasi compresse che possono semplificare (scacchi-finali, mil-lanchester, mil-logistica, mil-deterrenza-giochi); scelte di traduzione: «exchange» (qualità scacchistica), «imbalances», «luft», «zwischenzug», «bid shading».
 - JA: rese da ricontrollare: 強制手, 決定日記, ピー局面/エヌ局面, 後進ポーン, 診断, 詭道, 決定木, 影の価格; frasi più libere nella traduzione IT: strategia-competitiva 5, opt-grafi 7, mil-principi 7; katakana scacchistici e frasi vicine al limite di 35 caratteri.
+
+## Riepiloghi EN/JA — Sport (69 argomenti)
+- Stessi limiti di Strategia: controllo automatico su struttura/ruby/romaji/numeri, non sui fatti; nessuna revisione di madrelingua o esperto.
+- EN: ~50 frasi di 23–24 parole (limite 22 non verificato dal checker); numeri verificati solo come presenza nella lezione, non unità/contesto; alcuni termini ⟦⟧ marcati a posteriori (ordine delle parole talvolta meno naturale); `it` talvolta più sintetico dell'inglese.
+- JA: l'agente ha letto solo titolo, obiettivi, intestazioni e inizio pagine (240–330 caratteri): da rileggere contro il testo completo le lezioni avanzate (statistica, master, giovani, atlete, squadra-elite). Specifici: spo-adv-atlete (forza normalizzata per massa muscolare, deduzione da passaggio troncato) e spo-adv-energia-salute-atleta (frase prudente su ciclo/prestazione). Rese incerte: 酸素借, クリティカルパワー, 前十字靭帯, 筋タンパク質合成 (ruby spezzato), 心拍出量, ヒット (HIIT), ディーアイエーエーエス (DIAAS), ダッシュ食, ヘリテージ研究, アイオーシー (CIO).
