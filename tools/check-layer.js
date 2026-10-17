@@ -12,6 +12,9 @@ const KAN = /[一-鿿]/, only = process.argv[2], errs = []; const err = (id, m) 
   if (!Array.isArray(d.gloss) || d.gloss.length < 8 || d.gloss.length > 20) err(lang + ' ' + id, 'servono 8–20 voci di glossario');
   const gl = new Map((d.gloss || []).map(g => [g.w.toLowerCase(), g])); const used = new Set();
   (d.gloss || []).forEach(g => { if (!g.w || !g.it) err(lang + ' ' + id, 'voce di glossario incompleta'); if (lang === 'ja' && (!g.r || /[^ぁ-ゖァ-ヺー]/.test(g.r))) err(lang + ' ' + id, 'lettura non in kana per ' + g.w); if (lang === 'ja' && g.w && !KAN.test(g.w) && !/[ァ-ヺ]/.test(g.w) && g.w.length < 2) err(lang + ' ' + id, 'voce troppo corta ' + g.w); });
+  // numeri nel riepilogo: devono comparire nel testo italiano della lezione (pagine, esercizi, verifica)
+  const src = ST.content.topics[id]; if (src) { const all = (src.pages.map(p => p.h + ' ' + p.b).join(' ') + ' ' + (src.exercises || []).concat(src.test || []).map(e => (e.q || '') + ' ' + (e.o || []).join(' ') + ' ' + (e.why || '')).join(' ')).replace(/(\d)[.,\s](?=\d{3}\b)/g, '$1').replace(/,/g, '.');
+    (d.sum || []).forEach(s => { (s.t.replace(/[\[\]|⟦⟧]/g, ' ').match(/\d+(?:[.,]\d+)?/g) || []).forEach(n => { const m = n.replace(',', '.'); if (!all.includes(m) && !all.includes(m.replace(/\.0+$/, ''))) err(lang + ' ' + id, 'numero «' + n + '» nel riepilogo non compare nella lezione'); }); }); }
   (d.sum || []).forEach((s, i) => {
     if (!s.t || !s.it) return err(lang + ' ' + id, 'frase ' + i + ' incompleta');
     L.segments(s.t).filter(x => x.g).forEach(x => { used.add(x.plain); if (!gl.has(x.plain.toLowerCase())) err(lang + ' ' + id, 'termine ⟦' + x.plain + '⟧ non è nel glossario'); });
