@@ -458,3 +458,8 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - Stessi limiti: controllo automatico su struttura/ruby/romaji/numeri, non sui fatti; nessuna revisione di madrelingua o esperto.
 - EN: formulazioni sensibili non verificate oltre ai numeri (crociate, Risorgimento, Shoah, conflitto israelo-palestinese; frasi volutamente generiche). Semplificazioni da ricontrollare: «Neolithic revolution began in the Fertile Crescent», «Asia ~60% of humanity», «Thousand conquered the South in 1860», «Parliament has two chambers with the same functions». Frasi accorciate per il limite di 22 parole.
 - JA: letture da ricontrollare: 本初子午線, 賦課方式, 環境収容力, 抵当権, 傍観者効果. Rese approssimate: 社会保険料 (contributi), 退職手当 (TFR), 賦課方式, 免責額, 敷金, 撤回権; 退位させました («depone»), 西暦千年のあと («dopo il Mille»), ビザンツ帝国, ミラノ勅令. Voci di glossario in alfabeto latino accettate dal checker: pH, DNA, ETF.
+
+## Riepiloghi EN/JA — Cultura B (58 argomenti `cul-`, seconda metà)
+- Stessi limiti: controllo automatico su struttura/ruby/romaji/numeri, non sui fatti; nessuna revisione di madrelingua o esperto.
+- EN: ~40 `it` accorciate per le 22 parole, non rilette una per una; salute e primo soccorso semplificati (RCP 30:2, disostruzione, ipotermia, anafilassi, ustioni): da rileggere il tono; «moderate» forzato in cul-sonno-movimento-abitudini; alcuni ⟦⟧ meccanici («Salon», «plateau»).
+- JA: il passaggio sul differenziale era troncato nell'estratto; frase sui dati sensibili «più protetti» e backup 3-2-1 (ellittica, ~34 caratteri) da rileggere. Rese: 漏電遮断器 (differenziale), 熱中症, もやい結び (gassa d'amante), 巻き結び (nodo parlato), ラテラル・リーディング, 歩留まり, デリバレート・プラクティス, 四行程, 八の字結び, 水準器; sigle in katakana (ジーディーピーアール, エーイーディー), 112 → 百十二番.
