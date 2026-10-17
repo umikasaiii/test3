@@ -463,3 +463,8 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - Stessi limiti: controllo automatico su struttura/ruby/romaji/numeri, non sui fatti; nessuna revisione di madrelingua o esperto.
 - EN: ~40 `it` accorciate per le 22 parole, non rilette una per una; salute e primo soccorso semplificati (RCP 30:2, disostruzione, ipotermia, anafilassi, ustioni): da rileggere il tono; «moderate» forzato in cul-sonno-movimento-abitudini; alcuni ⟦⟧ meccanici («Salon», «plateau»).
 - JA: il passaggio sul differenziale era troncato nell'estratto; frase sui dati sensibili «più protetti» e backup 3-2-1 (ellittica, ~34 caratteri) da rileggere. Rese: 漏電遮断器 (differenziale), 熱中症, もやい結び (gassa d'amante), 巻き結び (nodo parlato), ラテラル・リーディング, 歩留まり, デリバレート・プラクティス, 四行程, 八の字結び, 水準器; sigle in katakana (ジーディーピーアール, エーイーディー), 112 → 百十二番.
+
+## Riepiloghi EN/JA — Allenamento mentale (16 argomenti `mnt-`)
+- Stessi limiti: controllo automatico su struttura/ruby/romaji/numeri, non sui fatti; nessuna revisione di madrelingua o esperto.
+- EN: mnt-calcolo-trucchi-1 («n» non definito nei quadrati che finiscono per 5, frase compressa); mnt-sonno-esercizio-e-limiti (sintesi di «consolida» e «7-9 ore … non è un consiglio medico»); mnt-allenare-bene-evidenze (Wilson et al. legato a «simulations» senza il modello a due scelte; ACTIVE = «speed training» senza «adattivo/con booster»); mnt-bias-cognitivi-e-probabilita (esempio di Linda reso «cashier and feminist»).
+- JA: termini incerti: 不注意盲視, 媒名辞, 連言錯誤, 覆面算, 九去法, 場所法, 連鎖法, 基準率, 近転移/遠転移, 後件否定/前件肯定 (al posto dei nomi latini), 概算 per «stima». Letture: 十回 じゅっかい, 十か所 じゅっかしょ, 三つ みっつ. Katakana: ニム, エヌバック, アクティブ研究, フォーク. Citazioni rese con «という» perché il checker rifiuta 「」『』・.
