@@ -935,3 +935,5 @@ test('allenamento mentale: stime di Fermi, Bayes, Hanoi, ordine dei compiti e ag
   }
   assert.ok(MN.session(fresh(), '2026-01-14', r).every(x => x.q));
 });
+
+test('romaji: sillabe estese (デュ, ヴィ)', () => { const L = ST.layer; assert.equal(L.romaji('ぱでゅー'), 'padyuu'); assert.equal(L.romaji('ヴィジュネル'), 'vijuneru'); });

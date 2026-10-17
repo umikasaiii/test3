@@ -425,3 +425,8 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - Limite: restano compiti allenati; l'effetto su capacità generali lontane non è dimostrato (vedi i test di transfer A/B/C).
 - Lavoro in corso con agenti (non ancora integrato): riepiloghi in inglese e giapponese per tutte le lezioni, nuovi argomenti di kanji e grammatica verso N3 (stage J6/J7) e contenuti inglesi C1 (stage L6).
 - Riepiloghi EN Cybersecurity (46 lezioni): scritti da un agente partendo da titolo, obiettivi e prima frase di ogni pagina (non dalla lezione completa). Da verificare: alcune frasi aggiungono precisazioni standard non presenti nella lezione (es. UAC che chiede conferma prima di elevare i privilegi, nuovo identificatore dopo il login, CVSS con otto metriche di base). Vanno controllate contro il testo italiano prima di considerarle definitive.
+
+## Contenuti nuovi (D): giapponese verso N3 e inglese C1
+- Giapponese stage J6: 20 argomenti di kanji (200 nuovi kanji, totale 667 nelle carte) scritti da un agente, con 8 pagine, 11 esercizi, 7 domande di test, carte, ascolto, dettato e shadowing per argomento. Da ricontrollare con un dizionario: letture di 小豆, 部屋, 黄色い, 次男, 三羽, 羽田, 焼き魚, 一人暮らし; parole di peso N3 basso (空白, 赤道, 黄金, 勉強机, 踊り場, 検討); nei dettati mancano alcune pause (、).
+- Inglese stage L6 (C1): 16 argomenti (6 lettura con 14 brani originali, 5 ascolto, 5 scrittura). I livelli sono interni e non certificano il C1; accenti descritti a parole, nessun audio autentico; non rivisti da madrelingua.
+- Riepiloghi giapponesi di Cybersecurity (47 lezioni): frasi semplificate; acronimi in katakana (ディーエヌエス…), 交戦規則 per «regole d'ingaggio», alcune omissioni di dettagli minori. Da verificare.

@@ -417,7 +417,7 @@
       { w: '暗号', r: 'あんごう', it: 'cifrario, crittografia' },
       { w: 'ケルクホフスの原則', r: 'けるくほふすのげんそく', it: 'principio di Kerckhoffs' },
       { w: 'シーザー暗号', r: 'しーざーあんごう', it: 'cifrario di Cesare' },
-      { w: 'ヴィジュネル暗号', r: 'う゛ぃじゅねるあんごう', it: 'cifrario di Vigenère' },
+      { w: 'ヴィジュネル暗号', r: 'ゔぃじゅねるあんごう', it: 'cifrario di Vigenère' },
       { w: '頻度分析', r: 'ひんどぶんせき', it: 'analisi delle frequenze' },
       { w: 'エックスオア', r: 'えっくすおあ', it: 'XOR' },
       { w: 'ワンタイムパッド', r: 'わんたいむぱっど', it: 'one-time pad' },
@@ -894,7 +894,7 @@
       { t: '⟦ユーズアフターフリー⟧は、[解放|かいほう]したメモリをまだ[使|つか]うことです。', it: 'Use-after-free significa usare ancora memoria già liberata.' },
       { t: '[間違|まちが]いが[制御|せいぎょ]の[情報|じょうほう]を[変|か]えると、コードの[実行|じっこう]につながります。', it: 'Se l’errore altera dati di controllo, può portare all’esecuzione di codice.' },
       { t: '⟦カナリア⟧、⟦エヌエックス⟧、⟦エーエスエルアール⟧が[基本|きほん]の[対策|たいさく]です。', it: 'Canarini, NX e ASLR sono le mitigazioni di base.' },
-      { t: '⟦ファジング⟧や⟦サニタイザー⟧で、[開発|かいはつ]中に[間違|まちが]いを[見|み]つけます。', it: 'Con fuzzing e sanitizer si trovano gli errori durante lo sviluppo.' },
+      { t: '⟦ファジング⟧や⟦サニタイザー⟧で、[開発中|かいはつちゅう]に[間違|まちが]いを[見|み]つけます。', it: 'Con fuzzing e sanitizer si trovano gli errori durante lo sviluppo.' },
       { t: '⟦メモリ[安全|あんぜん]⟧な[言語|げんご]は、この[種類|しゅるい]の[間違|まちが]いを[避|さ]けます。', it: 'I linguaggi memory-safe evitano questa classe di errori.' }
     ],
     gloss: [
@@ -942,7 +942,7 @@
       { t: '⟦アイオーティー⟧は、[弱|よわ]い[初期|しょき]パスワードや[古|ふる]い[部品|ぶひん]が[問題|もんだい]です。', it: 'Nell’IoT sono problemi tipici password iniziali deboli e componenti vecchi.' },
       { t: '⟦ファームウェア⟧に[署名|しょめい]があれば、[改|かい]ざんを[防|ふせ]げます。', it: 'Se il firmware è firmato, si possono prevenire le manomissioni.' },
       { t: '⟦オーティー⟧は[設備|せつび]を[動|うご]かすので、⟦[可用性|かようせい]⟧が[最優先|さいゆうせん]です。', it: 'L’OT comanda impianti fisici, perciò la disponibilità viene prima di tutto.' },
-      { t: '⟦パデューモデル⟧で、[層|そう]ごとにネットワークを[分|わ]けます。', it: 'Con il modello Purdue la rete si divide per livelli.' }
+      { t: '⟦[階層|かいそう]モデル⟧で、[層|そう]ごとにネットワークを[分|わ]けます。', it: 'Con il modello a livelli (Purdue) la rete si divide per livelli.' }
     ],
     gloss: [
       { w: 'サンドボックス', r: 'さんどぼっくす', it: 'sandbox' },
@@ -953,7 +953,7 @@
       { w: 'ファームウェア', r: 'ふぁーむうぇあ', it: 'firmware' },
       { w: 'オーティー', r: 'おーてぃー', it: 'OT (tecnologia operativa)' },
       { w: '可用性', r: 'かようせい', it: 'disponibilità' },
-      { w: 'パデューモデル', r: 'ぱでゅーもでる', it: 'modello Purdue' }
+      { w: '階層モデル', r: 'かいそうもでる', it: 'modello a livelli (Purdue)' }
     ]
   });
 
@@ -1034,7 +1034,7 @@
       { t: '⟦パープルチーム⟧は、[二|ふた]つのチームを[協力|きょうりょく]させます。', it: 'Il purple team fa collaborare i due gruppi.' },
       { t: 'テストの[前|まえ]に、⟦[範囲|はんい]⟧と[規則|きそく]を[書面|しょめん]で[決|き]めます。', it: 'Prima del test si stabiliscono per iscritto perimetro e regole.' },
       { t: '[公開|こうかい]された⟦メソドロジー⟧に[沿|そ]って[進|すす]めます。', it: 'Si procede seguendo metodologie pubbliche.' },
-      { t: '⟦レポート⟧は、[経営|けいえい]向けと[技術|ぎじゅつ]向けに[分|わ]けて[書|か]きます。', it: 'Il report si scrive su due livelli: per la direzione e per i tecnici.' },
+      { t: '⟦レポート⟧は、[経営|けいえい][向|む]けと[技術|ぎじゅつ][向|む]けに[分|わ]けて[書|か]きます。', it: 'Il report si scrive su due livelli: per la direzione e per i tecnici.' },
       { t: '[練習|れんしゅう]は、[合法|ごうほう]な⟦ラボ⟧だけでします。', it: 'Ci si esercita solo in laboratori legali.' }
     ],
     gloss: [

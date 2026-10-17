@@ -551,7 +551,7 @@
       mc('«Possiamo andare in biblioteca o qualcosa del genere?»', ['としょかんでも いきませんか。', 'としょかんさえ いきませんか。', 'としょかんこそ。', 'としょかんほど。']),
       mc('«Ho solo un po’ di tempo»:', ['すこししか じかんが ありません。', 'すこしでも じかんが ありません。', 'すこしこそ じかんが。', 'すこしまで じかん。']),
       fillJ('Completa: かぜ___ ふいて きた。(in più)', ['まで'], 'まで = addirittura.'),
-      lis('こちらこそ、よろしく おねがいします。', 'Che cosa significa?', ['Il piacere è mio, piacere di conoscerla', 'Non mi piace', 'Sono io a scusarmi', 'Arrivederci'])
+      lis('こちらこそ、よろしく おねがいします。', 'Qual è il senso di questa risposta?', ['Il piacere è mio, piacere di conoscerla', 'Non mi piace', 'Sono io a scusarmi', 'Arrivederci'])
     ],
     cards: [card('c1', 'perfino', 'Nさえ', '', 'さえ'), card('c2', 'proprio', 'Nこそ', '', 'こそ'), card('c3', 'addirittura', 'Nまで', '', 'まで'), card('c4', 'per esempio, anche', 'Nでも', '', 'でも'), card('c5', 'tanto che', '～ほど', '', 'ほど'), card('c6', 'solo (con negativo)', 'Nしか～ない', '', 'しか'), card('c7', 'compleanno', '[誕生日|たんじょうび]', '', 'たんじょうび'), card('c8', 'soffiare (vento)', '[吹|ふ]く', '', 'ふく')],
     lis: { title: 'Una giornata no', text: 'きょうは さんざんでした。あめが ふった うえに、かぜまで ふいて きました。さいふには せんえんしか ありませんでした。おちゃでも のみたかったのですが、みずさえ かえません。でも、ともだちが たすけて くれました。こちらこそ ありがとう、と いいました。',
@@ -593,7 +593,7 @@
       mc('«Ricominciamo da capo» (rifare):', ['はじめから やりなおしましょう。', 'はじめから やりあいましょう。', 'はじめから やりきりましょう。', 'はじめから やりだしましょう を。']),
       mc('«Ci siamo aiutati a vicenda»:', ['たすけあいました。', 'たすけなおしました。', 'たすけだしました。', 'たすけわすれました。']),
       fillJ('Completa: かぜを ひきか___ います。(sto per ammalarmi)', ['けて'], 'V-かける.'),
-      lis('おかしを たべきって しまいました。', 'Che cosa significa?', ['Ha mangiato tutto il dolce', 'Ha iniziato a mangiare', 'Ha dimenticato il dolce', 'Ha condiviso il dolce'])
+      lis('おかしを たべきって しまいました。', 'Che cosa è successo al dolce?', ['Ha mangiato tutto il dolce', 'Ha iniziato a mangiare', 'Ha dimenticato il dolce', 'Ha condiviso il dolce'])
     ],
     cards: [card('c1', 'cominciare a', 'V-ます＋[始|はじ]める', '', 'はじめる'), card('c2', 'mettersi a (improvviso)', 'V-ます＋[出|だ]す', '', 'だす'), card('c3', 'continuare a', 'V-ます＋[続|つづ]ける', '', 'つづける'), card('c4', 'finire di', 'V-ます＋[終|お]わる', '', 'おわる'), card('c5', 'fare fino in fondo', 'V-ます＋[切|き]る', '', 'きる'), card('c6', 'rifare', 'V-ます＋[直|なお]す', '', 'なおす'), card('c7', 'fare l’uno con l’altro', 'V-ます＋[合|あ]う', '', 'あう'), card('c8', 'dimenticare di', 'V-ます＋[忘|わす]れる', '', 'わすれる')],
     lis: { title: 'Una serata di studio', text: 'せんげつから にほんごを ならいはじめました。まいにち べんきょうしつづけて います。きょうは ほんを よみおわって、さくぶんを かきなおしました。ともだちと はなしあって、ぜんぶ つかいきりました。でも、かさを でんしゃに おきわすれて しまいました。',

@@ -213,7 +213,7 @@
       mc('«Eventually» means…', ['in the end', 'possibly', 'at once', 'never'], 0),
       mc('«Sensitive» means…', ['easily affected or hurt', 'reasonable', 'clever', 'angry'], 0),
       mc('The correct form is…', ['Life is expensive.', 'The life is expensive.', 'A life is expensive.', 'Lives expensive.'], 0),
-      mc('Which is correct?', ['Despite the price, we bought it.', 'Despite of the price, we bought it.', 'In spite the price, we bought it.', 'Despite to the price, we bought it.'], 0),
+      mc('Choose the correct use of «despite».', ['Despite the price, we bought it.', 'Despite of the price, we bought it.', 'In spite the price, we bought it.', 'Despite to the price, we bought it.'], 0),
       mc('A self-assessment grid is useful because…', ['it shows which criterion to improve', 'it certifies your level', 'it replaces a teacher completely', 'it guarantees a pass'], 0),
       mc('The best way to check your text for errors is…', ['one type of error at a time', 'read it once quickly', 'translate it into Italian', 'skip it'], 0)
     ],
