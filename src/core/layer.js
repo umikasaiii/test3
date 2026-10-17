@@ -38,7 +38,7 @@
       if (k) { i += k[0].length; toks.push(L.romaji(k[0])); afterWord = true; const run = hira.exec(src.slice(i)); if (run) { const r = run[0], part = ['から', 'まで', 'より', 'では', 'には'].find(p => r.indexOf(p) === 0) || PART.find(p => r.indexOf(p) === 0); if (part) { toks.push(partRo(part)); i += part.length; } } continue; }
       const h = hira.exec(rest);
       if (h) { toks.push(L.romaji(h[0]).replace(/^wo/, 'o')); i += h[0].length; continue; }
-      const c = rest[0]; toks.push(c === '。' ? '.' : c === '、' ? ',' : c === '？' ? '?' : c === '！' ? '!' : c); i++;
+      const c = rest[0]; i++; if ('「」『』（）・'.indexOf(c) >= 0) continue; toks.push(c === '。' ? '.' : c === '、' ? ',' : c === '？' ? '?' : c === '！' ? '!' : c);
     }
     return toks.join(' ').replace(/ ([.,?!])/g, '$1').replace(/\s+/g, ' ').trim();
   };

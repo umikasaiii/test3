@@ -468,3 +468,9 @@ Voti sul **risultato attuale**, con ciò che manca per 9,5/10. [STIMA, con prove
 - Stessi limiti: controllo automatico su struttura/ruby/romaji/numeri, non sui fatti; nessuna revisione di madrelingua o esperto.
 - EN: mnt-calcolo-trucchi-1 («n» non definito nei quadrati che finiscono per 5, frase compressa); mnt-sonno-esercizio-e-limiti (sintesi di «consolida» e «7-9 ore … non è un consiglio medico»); mnt-allenare-bene-evidenze (Wilson et al. legato a «simulations» senza il modello a due scelte; ACTIVE = «speed training» senza «adattivo/con booster»); mnt-bias-cognitivi-e-probabilita (esempio di Linda reso «cashier and feminist»).
 - JA: termini incerti: 不注意盲視, 媒名辞, 連言錯誤, 覆面算, 九去法, 場所法, 連鎖法, 基準率, 近転移/遠転移, 後件否定/前件肯定 (al posto dei nomi latini), 概算 per «stima». Letture: 十回 じゅっかい, 十か所 じゅっかしょ, 三つ みっつ. Katakana: ニム, エヌバック, アクティブ研究, フォーク. Citazioni rese con «という» perché il checker rifiuta 「」『』・.
+
+## Riepiloghi EN/JA — Judo (65 argomenti `jud-`) e chiusura passo 1
+- Copertura: tutti i ~750 argomenti hanno ora un riepilogo EN e JA (`node tools/check-layer.js en|ja` valido, nessun «manca» per materia). Tutti scritti da agenti, nessuna revisione di madrelingua o esperto; il controllo automatico non verifica i fatti.
+- EN Judo: molti ⟦termini⟧ generici (hips, stance, sprawl, heels) marcati con script per arrivare a 6; dettagli tolti per le 22 parole (definizioni «ju/do» in jud-th-principi-del-judo; luce e permesso per riprendere altre persone in jud-th-autovalutazione-video); jud-th-fisica-della-proiezione: frase sul momento torcente compressa; jud-th-classificazione-nage-waza: cinque gruppi da otto e quaranta tecniche a parole.
+- JA Judo: letture da ricontrollare 固め技, 五教, 捨身技, 嘉納治五郎, 払腰, 内股, 小外掛; katakana: パメリング, カオコン, エビ; ブリッジ reso ヒップブリッジ; 連絡技 per renraku-waza.
+- Correzioni al volo (Cultura JA): ruby malformato su katakana, 的 senza furigana, ⟦エジプト⟧ non in glossario. `L.romajiOf` ora ignora 「」『』（）・ (prima il checker li rifiutava).

@@ -282,7 +282,7 @@
     title: { t: 'ルネサンスとバロックの[文学|ぶんがく]', it: 'Rinascimento e Barocco' },
     sum: [
       { t: '⟦[人文主義|じんぶんしゅぎ]⟧は、[古典|こてん]を[見直|みなお]し、[人間|にんげん]を[中心|ちゅうしん]に[置|お]きました。', it: 'L’Umanesimo riscoprì i classici e rimise l’uomo al centro.' },
-      { t: '⟦アリオスト⟧の『[狂|くる]えるオルランド』は、[愛|あい]のために[狂|くる]った[オルランド]の[物語|ものがたり]です。', it: 'L’Orlando furioso di Ariosto racconta di Orlando, reso folle dall’amore.' },
+      { t: '⟦アリオスト⟧の『[狂|くる]えるオルランド』は、[愛|あい]のために[狂|くる]ったオルランドの[物語|ものがたり]です。', it: 'L’Orlando furioso di Ariosto racconta di Orlando, reso folle dall’amore.' },
       { t: '⟦マキャヴェッリ⟧の『⟦[君主論|くんしゅろん]⟧』は、[君主国|くんしゅこく]の[獲得|かくとく]と[維持|いじ]を[論|ろん]じます。', it: 'Il Principe di Machiavelli tratta di come conquistare e conservare i principati.' },
       { t: '⟦[反宗教改革|はんしゅうきょうかいかく]⟧の[時代|じだい]に、タッソは『[解放|かいほう]されたエルサレム』を[書|か]きました。', it: 'Al tempo della Controriforma, Tasso scrisse la Gerusalemme liberata.' },
       { t: '⟦バロック⟧は、[驚|おどろ]きと[大胆|だいたん]な[比喩|ひゆ]を[好|この]みました。', it: 'Il Barocco amava la meraviglia e la metafora ardita.' },
@@ -887,7 +887,7 @@
       { t: '⟦[言語|げんご]モデル⟧は、[次|つぎ]に[来|く]る[言葉|ことば]を[確率|かくりつ]で[予測|よそく]して[文章|ぶんしょう]を[作|つく]ります。', it: 'Un modello linguistico produce testo prevedendo con probabilità la parola successiva.' },
       { t: '⟦ハルシネーション⟧は、[自信|じしん]を[持|も]って[示|しめ]される[誤|あやま]った[内容|ないよう]です。', it: 'Un’allucinazione è un contenuto falso presentato con sicurezza.' },
       { t: '⟦ディープフェイク⟧は、[顔|かお]や[声|こえ]を[人工的|じんこうてき]に[作|つく]った[偽|にせ]の[内容|ないよう]です。', it: 'Il deepfake è un falso contenuto con volti o voci creati artificialmente.' },
-      { t: '[ニュース]を[確認|かくにん]するには、まず[止|と]まり、⟦[情報源|じょうほうげん]⟧と[日付|ひづけ]を[調|しら]べます。', it: 'Per verificare una notizia ci si ferma, poi si controllano la fonte e la data.' },
+      { t: 'ニュースを[確認|かくにん]するには、まず[止|と]まり、⟦[情報源|じょうほうげん]⟧と[日付|ひづけ]を[調|しら]べます。', it: 'Per verificare una notizia ci si ferma, poi si controllano la fonte e la data.' },
       { t: '⟦ラテラル・リーディング⟧は、ほかのタブで、そのサイトについて[調|しら]べる[方法|ほうほう]です。', it: 'La lettura laterale consiste nel cercare in altre schede che cosa si dice di quel sito.' },
       { t: '[健康|けんこう]や[安全|あんぜん]の[判断|はんだん]は、[人工知能|じんこうちのう]に[任|まか]せてはいけません。', it: 'Le decisioni su salute e sicurezza non vanno affidate all’intelligenza artificiale.' }
     ],

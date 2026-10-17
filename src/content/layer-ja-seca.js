@@ -9,7 +9,7 @@
       { t: '⟦[新石器革命|しんせっきかくめい]⟧で、[農業|のうぎょう]が[始|はじ]まりました。', it: 'Con la rivoluzione neolitica nacque l’agricoltura.' },
       { t: '⟦[余剰|よじょう]⟧の[食料|しょくりょう]で、[町|まち]と[権力|けんりょく]が[生|う]まれました。', it: 'Le eccedenze di cibo fecero nascere città e potere organizzato.' },
       { t: '⟦メソポタミア⟧の[町|まち]ウルクで、⟦[楔形文字|くさびがたもじ]⟧が[生|う]まれました。', it: 'A Uruk, in Mesopotamia, nacque la scrittura cuneiforme.' },
-      { t: '⟦エジプト⟧は、⟦ナイル[川|がわ]⟧のおかげで[栄|さか]えました。', it: 'L’Egitto prosperò grazie al Nilo.' },
+      { t: 'エジプトは、⟦ナイル[川|がわ]⟧のおかげで[栄|さか]えました。', it: 'L’Egitto prosperò grazie al Nilo.' },
       { t: 'インダスと[中国|ちゅうごく]にも、⟦[大河|たいが]⟧の[文明|ぶんめい]がありました。', it: 'Anche l’Indo e la Cina ebbero civiltà fluviali.' }
     ],
     gloss: [
@@ -1040,7 +1040,7 @@
       { t: '⟦[一次関数|いちじかんすう]⟧のグラフは[直線|ちょくせん]で、⟦[傾|かたむ]き⟧と⟦[切片|せっぺん]⟧で[決|き]まります。', it: 'Il grafico di una funzione lineare è una retta, determinata da pendenza e intercetta.' },
       { t: '[二次関数|にじかんすう]のグラフは、⟦[放物線|ほうぶつせん]⟧です。', it: 'Il grafico di una funzione quadratica è una parabola.' },
       { t: '⟦[判別式|はんべつしき]⟧で、[二次方程式|にじほうていしき]の[解|かい]の[数|かず]が[分|わ]かります。', it: 'Il discriminante indica quante soluzioni ha un’equazione di secondo grado.' },
-      { t: '⟦[指数関数|しすうかんすう]⟧的な[増加|ぞうか]は、はじめゆっくりで[後|あと]から[急|きゅう]になります。', it: 'La crescita esponenziale parte lenta e poi accelera.' }
+      { t: '⟦[指数関数|しすうかんすう]⟧の[増加|ぞうか]は、はじめゆっくりで[後|あと]から[急|きゅう]になります。', it: 'La crescita esponenziale parte lenta e poi accelera.' }
     ],
     gloss: [
       { w: '方程式', r: 'ほうていしき', it: 'equazione' },
