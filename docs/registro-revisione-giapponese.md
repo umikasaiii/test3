@@ -66,3 +66,52 @@ jpn-j6-kanji-numeri, jpn-j6-kanji-colori, jpn-j6-kanji-dimensioni, jpn-j6-kanji-
 - Il quiz di grammatica N3 usa spesso opzioni scritte a mano con chiave nella prima posizione: errori di chiave come quello di `jpn-j6-gram-hazu-beki` potrebbero esistere nelle altre lezioni non campionate (da cercare con una passata dedicata sulle domande «Quale frase è sbagliata/NON»).
 - Non esaminati: le altre ~80 lezioni giapponesi, i file `layer-*.js`, `kana.js`, `dialog.js`.
 - Il campione non permette di concludere sull'affidabilità dell'intero corso: l'assenza di errori in una lezione significa solo «nessun errore trovato a memoria».
+
+## Passata mirata esercizi
+
+Passata sistematica (non a campione) su tutti gli esercizi, le domande di verifica, le domande dei brani di ascolto/lettura e i testi a completamento dei contenuti giapponesi: `ja-n3-grammar.js`, `ja-n3-kanji.js`, `ja-n3-lettura.js`, tutti gli altri `ja-*.js` (j0-j5, x-j0…x-j5, k1-k3, y, z1) più `src/core/jprod.js` e `src/core/dialog-ja.js`. Metodo: script Node che stampa tutte le domande con la chiave marcata (118 lezioni), ricerca automatica di pattern sospetti (domande «sbagliata/NON/non è», risposta ripetuta accanto al blank, fill senza blank, opzioni equivalenti, chiave in prima posizione) e lettura di ogni voce. Controllati: chiave unica, senso delle domande «frase sbagliata», integrità dei fill e risposte accettate, ruby/letture, spiegazione ↔ risposta, lezione ↔ esercizio. Nessun uso di git; i `layer-*.js` non sono stati toccati.
+
+Esercizi controllati: 1.836 domande a scelta (esercizi, verifiche, ascolti, letture), 221 fill, 115 order, di cui 26 domande del tipo «quale è sbagliata/NON»; in `jprod.js` 14 frasi da tradurre, 24 trasformazioni, 6 dialoghi e 8 situazioni; in `dialog-ja.js` 5 scenari.
+
+### Errori corretti
+
+| Id | Dove | Motivo | Correzione |
+|---|---|---|---|
+| jpn-j1-time-routine (ex4) | ja-x-j1.js | Completamento corrotto: il suggerimento «(nuoto) およぎ» conteneva la risposta e il blank era seguito da testo spurio | Ora «(nuotare: およぐ)», risposta accettata invariata (およぎ) |
+| jpn-j2-travel-situations (ex6) | ja-x-j2.js | Il suggerimento «(aiuto: たすけて)» rivelava la risposta | «(aiutare: たすける)» |
+| jpn-j7-dialoghi (ex5) | ja-n3-lettura.js | Fill «おごらせて___ ください» con risposta accettata «ください»: la frase accettata sarebbe «…ください ください» e «いただけませんか» non è grammaticale lì | «おごら___ ください», risposta «せて» |
+| jpn-j7-notizie (ex8, ex9) | ja-n3-lettura.js | «あした も» con spazio spurio tra nome e particella (altrove «あしたも») | «あしたも» |
+| jpn-j3-kanji-a2 (ex3) | ja-k1.js | «Come si legge 角 (da solo)?»: il distrattore つの è una lettura corretta di 角 (corno) → due risposte giuste | Distrattore sostituito, domanda precisata («angolo») |
+| jpn-j4-kanji-b3 (test2) | ja-k2.js | «Che cosa significa 健?»: il distrattore «tranquillo, sano» (significato di 康) era quasi sinonimo della risposta «sano, robusto» | «tranquillo, in pace» |
+| jpn-j4-conditionals-potential (ex5) | ja-j4-j5.js | Refuso nel distrattore «Ci siamo perso» | «Abbiamo perso il treno» |
+| jpn-j6-kanji-mani (lq «Che cosa ha scritto…», testo it) | ja-n3-kanji.js | La traduzione («ho scritto il mio nome davanti all'agente») contraddiceva il giapponese (警察の人が名前を書きました: lo scrive l'agente) | Traduzione e domanda allineate al giapponese |
+| jpn-j6-kanji-movimento (ord 0) | ja-n3-kanji.js | L'esercizio di ordinamento conteneva きのう ma la consegna italiana no | «Ieri ho attraversato il ponte» |
+| jpn-j6-kanji-societa (errori comuni) | ja-n3-kanji.js | Avvertenza incomprensibile («lunga/nasale: そ-きにん è sbagliato») | Sostituita con 責=せき, 任=にん (non せいにん) |
+| jpn-j6-kanji-scuola (strategie) | ja-n3-kanji.js | Sotto «Raddoppio in on» era elencato 筆→ひつ / 万年筆→まんねんひつ, che non contiene alcun raddoppio | Tolto l'esempio incoerente |
+| jpn-j6-kanji-corpo (test2) | ja-n3-kanji.js | Nelle opzioni solo la risposta «あせを かく» aveva lo spazio (indizio) | «あせをかく» (lemma e opzioni coerenti) |
+| ja-n3-grammar.js (riga 6) | ja-n3-grammar.js | Commento danneggiato `/« … »/` (letto come espressione regolare, non come commento) | Commento `/* … */` |
+
+Nessun errore di chiave certo è stato trovato nelle domande «Quale frase è sbagliata / contiene un errore / NON»: tutte (jpn-j6-gram-bakari-tokoro ex10, concessione ex9, baai-kagiri ex9, hazu-beki test4; jpn-j5-grammar-review-n4-n3 ex0-ex4; jpn-j4-formal-vs-casual-speech test3; jpn-j0-sounds ex6; jpn-j1-particles test3; jpn-j2-nai-form-uses test3; jpn-j3-connectors-reasoning test1; jpn-j3-conditionals-basic ex4; jpn-j5-casual test1) hanno la chiave coerente con il senso della domanda.
+
+### Posizione della risposta corretta
+
+Nelle lezioni j0-j5 (14 file) la chiave era quasi sempre la prima opzione (circa 70 % in posizione 0). Ho aggiunto in quei file lo stesso meccanismo già presente in `ja-n3-grammar.js`/`ja-n3-lettura.js`: un rimescolamento deterministico applicato solo quando la chiave è la prima (mc, ascolti e brani di lettura), con esenzione per le opzioni tipo «Tutte/Nessuna/Entrambi/Non si sa». Verificato con confronto automatico prima/dopo: stessi insiemi di opzioni e stessa risposta testuale in tutte le 1.833 domande presenti prima delle correzioni (le uniche differenze sono le correzioni sopra). Nuova distribuzione della chiave nelle posizioni 0-3 per j0-j5: circa 14 % / 33 % / 28 % / 25 %.
+
+### Dubbi (non modificati)
+
+| Id | Punto | Motivo del dubbio |
+|---|---|---|
+| jpn-j3-purpose-ni-tame-youni (test3) | «Quale non è mai possibile? わすれないために» | «Mai» è troppo assoluto: 忘れないために compare nell'uso reale; la regola didattica (verbo non volitivo → ように) è però quella dell'esercizio ex2 |
+| jpn-j6-gram-concessione (ex5) | «ひまな___ てつだって くれません。(eppure)» accetta solo のに | くせに è ugualmente grammaticale; la scelta dipende dal tono (non indicato nella consegna) |
+| jpn-j6-gram-rashii-ppoi-gachi (ex0) | «tipico di primavera»: distrattore はるっぽい | 春っぽい esiste ed è attestato; resta sbagliato per «tipico» ma non è assurdo |
+| jpn-j3-kanji-a2, jpn-j5-kanji-b4 | Convenzione dei piani | 二階 = «secondo piano» (ja-k1.js, schede) ma «primo piano» in ja-k2.js (lezione b4, dichiarato nel testo); 三階 = «terzo piano» ovunque. Due convenzioni diverse, entrambe spiegate; andrebbe scelta una |
+| jpn-j0-desu (ex3) | Fill sulla particella は accetta anche «ha» | «ha» non è la lettura della particella; accettato probabilmente per indulgenza |
+| j2-adjectives-forms test1/test2, j3-obligation-permission test1, j3-phone-appointments test1, j4-causative test2 | Kanji non annotati nel testo della domanda («静かに話してください», «席を外しております»…) | Stile del corso: negli esercizi di grammatica il lemma/frase è dato a volte in kanji senza ruby; non è un errore, ma contraddice il resto delle domande di quelle lezioni, scritte in kana. Non modificato |
+| jpn-j2-travel-situations (test2), jpn-j5-news-reading (test2) | Warning del validatore «ripete un esercizio» | Stessa consegna dell'esercizio ma audio diverso: non è un errore di contenuto |
+| jpn-j1-kanji-1 (read) | «九[時|じ]», «五[時|じ]»: numeri kanji senza ruby | Numeri semplici del livello; coerente con la lezione |
+| jpn-j3-noun-modification (ex6) | «Nella relativa il soggetto si marca con が» | Anche の è possibile (私の作った料理); la lezione insegna が |
+| jpn-j6-kanji-corpo (errori comuni) | «頭痛 ずつう, non とうつう» | とうつう è lettura rara ma esistente |
+
+### File toccati
+
+ja-n3-grammar.js, ja-n3-kanji.js, ja-n3-lettura.js, ja-j0-j1.js, ja-j2-j3.js, ja-j4-j5.js, ja-k1.js, ja-k2.js, ja-k3.js, ja-x-j0.js … ja-x-j5.js, ja-y.js, ja-z1.js. Dopo le modifiche: `node tools/validate-content.js` → «Contenuti validi»; `node --check` OK su tutti i file toccati; `node tests/engine.test.js` senza fallimenti. `index.html` (bundle) non è stato rigenerato (`node tools/build.js` da eseguire a parte).
