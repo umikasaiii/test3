@@ -20,26 +20,26 @@
       { h: 'Sintesi e cronologia', b: `Riconoscere in pochi secondi:\n\n- **Egitto**: frontalità, canone fisso, registri, geroglifici, soggetti religiosi e funerari.\n- **Grecia arcaica**: figure rigide, sorriso arcaico. **Classica**: equilibrio, contrapposto, proporzioni. **Ellenistica**: movimento, pathos.\n- **Roma**: ritratto realistico, rilievo storico, arco e cemento, grandi edifici pubblici.\n\n**Cronologia essenziale**\n- circa 2560 a.C.: piramide di Cheope\n- 447-432 a.C.: Partenone\n- 323 a.C.: morte di Alessandro Magno (inizio dell’ellenismo)\n- 9 a.C.: Ara Pacis\n- 79 d.C.: eruzione del Vesuvio\n- 80 d.C.: inaugurazione del Colosseo\n- II secolo d.C.: Pantheon di Adriano\n\n**Checklist per un’opera antica**: soggetto, posa (frontale o in movimento), proporzioni (canone o realismo), materiale, luogo e funzione, committente.\n\nRicorda anche che molte statue greche note sono **copie romane** degli originali, spesso perduti.` }
     ],
     exercises: [
-      mc('Qual è il primo passo del metodo di lettura di un’opera?', ['Descrivere ciò che si vede senza interpretare', 'Cercare il nome dell’autore', 'Dare un giudizio di bellezza', 'Leggere la critica'], 0, 'Si parte dalla descrizione per non vedere solo ciò che già si pensa.'),
+      mc('Qual è il primo passo del metodo di lettura di un’opera?', ['Descrivere ciò che si vede senza interpretare', 'Cercare subito il nome dell’autore e il titolo', 'Dare un giudizio di bellezza sull’opera', 'Leggere la critica prima di guardare'], 0, 'Si parte dalla descrizione per non vedere solo ciò che già si pensa.'),
       mc('Le linee diagonali in una composizione danno in genere un senso di:', ['movimento e tensione', 'quiete assoluta', 'solenne stabilità', 'assenza di profondità'], 0, 'Orizzontali = quiete, verticali = stabilità, diagonali = movimento.'),
       mc('Quale coppia è di colori complementari?', ['rosso e verde', 'rosso e arancio', 'blu e azzurro', 'giallo e arancio'], 0, 'I complementari sono opposti nel cerchio cromatico: rosso-verde, blu-arancio, giallo-viola.'),
       mc('Nell’affresco si dipinge su:', ['intonaco ancora fresco', 'tela a olio', 'tavola con fondo d’oro', 'marmo lucidato'], 0, 'I pigmenti si fissano con l’asciugatura dell’intonaco.'),
-      mc('Che cosa caratterizza la figura umana nell’arte egizia?', ['Frontalità e canone fisso con testa di profilo e spalle di fronte', 'Prospettiva con punto di fuga', 'Movimento drammatico', 'Nudità realistica'], 0, 'Le proporzioni sono stabilite e i corpi hanno una composizione composta e rigida.'),
+      mc('Che cosa caratterizza la figura umana nell’arte egizia?', ['Testa di profilo e spalle di fronte', 'Prospettiva centrale con un punto di fuga', 'Corpi in torsione e movimento drammatico', 'Anatomia naturalistica con nudo idealizzato'], 0, 'Le proporzioni sono stabilite e i corpi hanno una composizione composta e rigida.'),
       fill('In che anno fu scoperta la tomba di Tutankhamon da Howard Carter?', ['1922'], 'La scoperta è del novembre 1922.'),
-      mc('Che cos’è il contrapposto, introdotto nel Classicismo greco?', ['Peso su una gamba e l’altra rilassata', 'Una posa frontale rigida', 'Un tipo di colonna', 'Una tecnica del bronzo'], 0, 'Dà naturalezza alla figura in piedi: il Doriforo di Policleto ne è un esempio.'),
+      mc('Che cos’è il contrapposto, introdotto nel Classicismo greco?', ['Peso su una gamba, l’altra rilassata', 'Posa frontale rigida con braccia lungo i fianchi', 'Un tipo di colonna con capitello ionico', 'Una tecnica di fusione del bronzo a cera persa'], 0, 'Dà naturalezza alla figura in piedi: il Doriforo di Policleto ne è un esempio.'),
       fill('In quale anno a.C. circa terminò la costruzione del Partenone?', ['432'], 'Costruito dal 447 al 432 a.C.'),
       fill('Il Colosseo fu inaugurato nell’anno d.C.:', ['80'], 'Inaugurato da Tito nell’80 d.C.'),
       mc('Il Laocoonte appartiene a quale fase dell’arte greca?', ['Ellenistica', 'Arcaica', 'Classica del V secolo', 'Geometrica'], 0, 'Movimento e pathos sono tratti ellenistici.'),
       order('Ordina cronologicamente', ['Piramide di Cheope', 'Partenone', 'Nike di Samotracia', 'Ara Pacis', 'Colosseo'], 'Circa 2560 a.C., 447-432 a.C., circa II secolo a.C., 9 a.C., 80 d.C.')
     ],
     test: [
-      mc('Perché nell’arte egizia il faraone è raffigurato più grande degli altri?', ['Per prospettiva gerarchica: la grandezza indica importanza', 'Perché sta più vicino', 'Per un errore di proporzione', 'Per l’uso del punto di fuga'], 0, 'La scala non indica distanza ma rango.'),
+      mc('Perché nell’arte egizia il faraone è raffigurato più grande degli altri?', ['Per prospettiva gerarchica: conta il rango', 'Perché sta più vicino a chi guarda', 'Per un errore nelle proporzioni dell’artista', 'Per l’uso del punto di fuga centrale'], 0, 'La scala non indica distanza ma rango.'),
       fill('Il Pantheon fu ricostruito sotto l’imperatore:', ['Adriano', 'adriano'], 'Sotto Adriano, nel II secolo d.C.'),
       mc('Quale statua greca è tipica del periodo arcaico?', ['Kouros', 'Doriforo', 'Laocoonte', 'Nike di Samotracia'], 0, 'Il kouros è un giovane nudo, frontale, con sorriso arcaico.'),
       fill('L’eruzione del Vesuvio che seppellì Pompei è del (anno d.C.):', ['79'], 'Nel 79 d.C.'),
       mc('Che differenza c’è fra ritratto repubblicano e ritratto augusteo?', ['Il primo è realistico, il secondo idealizzato', 'Il primo è idealizzato, il secondo realistico', 'Sono identici', 'Il primo è dipinto, il secondo scolpito'], 0, 'I volti repubblicani mostrano rughe e imperfezioni, Augusto è sempre giovane e ideale.'),
       mc('La prospettiva aerea rende la profondità con:', ['sfondi più chiari e azzurrini', 'linee convergenti', 'contorni più spessi', 'colori più saturi in lontananza'], 0, 'La distanza attenua contrasti e colori.'),
-      mc('Quale materiale è alla base dell’architettura monumentale romana, insieme ad arco e volta?', ['Cemento (opus caementicium)', 'Acciaio', 'Solo legno', 'Mattoni crudi'], 0, 'Il cemento permise grandi volte e cupole come quella del Pantheon.')
+      mc('Quale materiale è alla base dell’architettura monumentale romana, insieme ad arco e volta?', ['Cemento (opus caementicium)', 'Acciaio strutturale in travi e pilastri', 'Legno lavorato per volte e coperture', 'Mattoni crudi essiccati al sole'], 0, 'Il cemento permise grandi volte e cupole come quella del Pantheon.')
     ]
   });
 
@@ -77,8 +77,8 @@ Prima di entrare in una chiesa, alza lo sguardo alle volte: crociera costolonata
       mc('La basilica paleocristiana ha pianta:', ['longitudinale a navate', 'centrale a cupola', 'a croce greca con cupola', 'circolare senza abside'], 0, 'Deriva dalla basilica civile romana.'),
       mc('Quale caratteristica è tipica dei mosaici bizantini?', ['Fondo oro e figure frontali', 'Prospettiva con punto di fuga', 'Colori sfumati', 'Ombre portate'], 0, 'Lo spazio è spirituale, non naturale.'),
       fill('Santa Sofia fu terminata nel (anno d.C.):', ['537'], 'Costruita tra il 532 e il 537.'),
-      mc('Che cosa regge il peso in una chiesa romanica?', ['I muri spessi e i contrafforti', 'Gli archi rampanti', 'Le vetrate', 'Le capriate'], 0, 'I muri massicci, con poche aperture.'),
-      mc('Quale elemento NON è gotico?', ['Volta a botte su muri spessi', 'Arco rampante', 'Arco a sesto acuto', 'Rosone'], 0, 'La volta a botte su muri massicci è romanica.'),
+      mc('Che cosa regge il peso in una chiesa romanica?', ['I muri spessi e i contrafforti', 'Gli archi rampanti esterni alle pareti', 'Le grandi vetrate sottili e colorate', 'Le guglie e i pinnacoli del tetto'], 0, 'I muri massicci, con poche aperture.'),
+      mc('Quale elemento NON è gotico?', ['Volta a botte su muri spessi', 'Arco rampante di sostegno esterno', 'Arco a sesto acuto (ogiva)', 'Rosone vetrato sulla facciata'], 0, 'La volta a botte su muri massicci è romanica.'),
       fill('L’abate Suger rinnovò Saint-Denis intorno al (anno):', ['1140'], 'Circa 1140, inizio convenzionale del gotico.'),
       mc('Il Duomo di Pisa, iniziato nel 1064, è un esempio di:', ['romanico', 'gotico', 'paleocristiano', 'bizantino'], 0, 'Parte della piazza dei Miracoli.'),
       mc('Quale pittore, attivo circa 1267-1337, introdusse volume e spazio?', ['Giotto', 'Cimabue', 'Duccio', 'Gentile da Fabriano'], 0, 'Giotto, con gli affreschi degli Scrovegni.'),
@@ -86,12 +86,12 @@ Prima di entrare in una chiesa, alza lo sguardo alle volte: crociera costolonata
       order('Ordina cronologicamente', ['Editto di Milano', 'Santa Sofia', 'Duomo di Pisa', 'Notre-Dame di Parigi', 'Scrovegni di Giotto'], '313, 532-537, 1064, 1163, circa 1303-1305.')
     ],
     test: [
-      mc('Perché le chiese gotiche hanno grandi vetrate?', ['Perché i muri non reggono il peso: lo scheletro di archi e rampanti lo fa', 'Perché mancano i contrafforti', 'Perché si usa il legno', 'Per risparmiare materiale'], 0, 'Le pareti diventano pareti-lucernario.'),
+      mc('Perché le chiese gotiche hanno grandi vetrate?', ['Perché archi e rampanti reggono il peso', 'Perché i contrafforti romanici sono più larghi', 'Perché si usa il legno come materiale portante', 'Per risparmiare materiale e tempo di costruzione'], 0, 'Le pareti diventano pareti-lucernario.'),
       fill('Chi realizzò il pulpito del Battistero di Pisa nel 1260?', ['Nicola Pisano', 'nicola pisano'], 'Nicola Pisano.'),
       mc('La cupola di Santa Sofia poggia su:', ['pennacchi', 'capriate', 'contrafforti rampanti', 'volte a botte'], 0, 'I pennacchi raccordano la pianta quadrata alla cupola.'),
       mc('Quale città fu capitale dell’impero d’Occidente dal 402 e conserva mosaici paleocristiani e bizantini?', ['Ravenna', 'Roma', 'Milano', 'Venezia'], 0, 'Ravenna: Galla Placidia, San Vitale.'),
-      mc('La controversia iconoclasta riguardava:', ['il culto delle immagini sacre', 'la forma delle cupole', 'i contrafforti', 'le vetrate'], 0, 'Si concluse nell’843.'),
-      mc('Wiligelmo è legato a:', ['sculture del duomo di Modena', 'Santa Sofia', 'Notre-Dame', 'gli Scrovegni'], 0, 'Storie della Genesi sulla facciata del duomo di Modena.'),
+      mc('La controversia iconoclasta riguardava:', ['il culto delle immagini sacre', 'la forma delle cupole bizantine', 'il diritto di successione imperiale', 'la decorazione dei palazzi'], 0, 'Si concluse nell’843.'),
+      mc('Wiligelmo è legato a:', ['sculture del duomo di Modena', 'la basilica di Santa Sofia', 'la cattedrale di Notre-Dame', 'gli affreschi degli Scrovegni'], 0, 'Storie della Genesi sulla facciata del duomo di Modena.'),
       mc('Quale coppia è corretta?', ['Gotico – arco acuto e volta costolonata', 'Romanico – arco rampante', 'Bizantino – navate con capriate', 'Paleocristiano – cupola e pianta ottagonale'], 0, 'Le altre associazioni sono sbagliate.')
     ]
   });
@@ -126,15 +126,15 @@ Questa varietà mostra che il Rinascimento non è uno stile unico: c’è la mat
 **Esercizio**: davanti a una Madonna con Bambino, domandati se prevale il disegno (Firenze) o il colore (Venezia), e dove si trova il punto di fuga.` }
     ],
     exercises: [
-      mc('Che cosa converge nel punto di fuga della prospettiva lineare?', ['Le rette parallele che si allontanano dal quadro', 'Tutte le linee verticali', 'Le linee di contorno', 'Le ombre'], 0, 'Le ortogonali al quadro convergono nel punto di fuga.'),
+      mc('Che cosa converge nel punto di fuga della prospettiva lineare?', ['Le rette parallele che si allontanano', 'Tutte le linee verticali del dipinto', 'Le linee di contorno delle figure', 'Le ombre proiettate dagli oggetti sul piano'], 0, 'Le ortogonali al quadro convergono nel punto di fuga.'),
       fill('In che anno Alberti scrisse il De pictura?', ['1435'], 'Trattato del 1435.'),
       mc('Chi costruì la cupola di Santa Maria del Fiore?', ['Brunelleschi', 'Michelangelo', 'Bramante', 'Giotto'], 0, 'Tra il 1420 e il 1436.'),
       fill('La cupola di Brunelleschi fu completata (senza lanterna) nel:', ['1436'], 'Dal 1420 al 1436.'),
       mc('Quale opera di Masaccio è considerata la prima grande prospettiva centrale in pittura?', ['Trinità', 'Ultima Cena', 'Sposalizio della Vergine', 'Scuola di Atene'], 0, 'Santa Maria Novella, circa 1426-1428.'),
-      mc('Che cos’è lo sfumato?', ['Passaggio morbido fra luce e ombra senza contorni netti', 'Un tipo di prospettiva', 'Un affresco veloce', 'Un fondo oro'], 0, 'Tecnica tipica di Leonardo.'),
+      mc('Che cos’è lo sfumato?', ['Passaggio morbido fra luce e ombra', 'Un tipo di prospettiva con punto di fuga', 'Un affresco eseguito molto velocemente', 'Un fondo oro per tavole sacre'], 0, 'Tecnica tipica di Leonardo.'),
       fill('Leonardo morì nel (anno):', ['1519'], '1452-1519.'),
       fill('La volta della Cappella Sistina fu affrescata fino al (anno):', ['1512'], 'Dal 1508 al 1512.'),
-      mc('La Scuola di Atene si trova:', ['nella Stanza della Segnatura, in Vaticano', 'nel Louvre', 'agli Uffizi', 'a Santa Maria delle Grazie'], 0, 'Opera di Raffaello, circa 1509-1511.'),
+      mc('La Scuola di Atene si trova:', ['nella Stanza della Segnatura', 'nella Galleria dell’Accademia a Firenze', 'nel Cenacolo di Santa Maria delle Grazie', 'agli Uffizi, nella sala di Botticelli'], 0, 'Opera di Raffaello, circa 1509-1511.'),
       mc('Il David di Michelangelo è realizzato in:', ['marmo', 'bronzo', 'terracotta', 'legno'], 0, 'Marmo, 1501-1504.'),
       order('Ordina cronologicamente', ['Scrovegni di Giotto', 'Cupola di Brunelleschi', 'Trinità di Masaccio', 'Ultima Cena', 'Volta della Sistina'], 'Circa 1303-05, 1420-36, circa 1426-28, circa 1494-98, 1508-12.')
     ],
@@ -142,10 +142,10 @@ Questa varietà mostra che il Rinascimento non è uno stile unico: c’è la mat
       mc('Quale è lo scopo della composizione piramidale in un dipinto del Rinascimento maturo?', ['Dare stabilità ed equilibrio', 'Creare movimento caotico', 'Eliminare la profondità', 'Indicare la gerarchia religiosa'], 0, 'Le figure formano un triangolo.'),
       fill('Quale pittore dipinse l’Ultima Cena di Santa Maria delle Grazie?', ['Leonardo', 'leonardo', 'Leonardo da Vinci'], 'Circa 1494-1498.'),
       mc('Chi commissionò a Michelangelo la volta della Sistina?', ['Giulio II', 'Lorenzo de’ Medici', 'Leone X', 'Francesco I'], 0, 'Papa Giulio II, 1508.'),
-      mc('Quale artista è noto per Pietà vaticana, David e Giudizio universale?', ['Michelangelo', 'Raffaello', 'Donatello', 'Tiziano'], 0, 'Michelangelo.'),
-      mc('La pittura veneziana del Cinquecento privilegia:', ['il colore e l’atmosfera', 'il disegno lineare', 'il fondo oro', 'la geometria'], 0, 'Giorgione e Tiziano.'),
+      mc('Quale artista è noto per Pietà vaticana, David e Giudizio universale?', ['Michelangelo', 'Leonardo da Vinci', 'Raffaello Sanzio', 'Donatello'], 0, 'Michelangelo.'),
+      mc('La pittura veneziana del Cinquecento privilegia:', ['il colore e l’atmosfera', 'il disegno lineare e netto', 'il fondo oro bizantino', 'la geometria prospettica'], 0, 'Giorgione e Tiziano.'),
       fill('Per quanti anni visse Raffaello (1483-1520)? Calcola e scrivi il numero.', ['37'], 'Nato nel 1483, morto nel 1520: 37 anni (nato il 6 aprile 1483, morto il 6 aprile 1520).'),
-      mc('Il Manierismo è caratterizzato da:', ['figure allungate e pose complesse', 'rigide simmetrie bizantine', 'oro e frontalità', 'prospettiva assente'], 0, 'Pontormo, Parmigianino, Bronzino.')
+      mc('Il Manierismo è caratterizzato da:', ['figure allungate e pose complesse', 'rigide simmetrie di gusto bizantino', 'oro, frontalità e immobilità', 'prospettiva del tutto assente'], 0, 'Pontormo, Parmigianino, Bronzino.')
     ]
   });
 
@@ -178,24 +178,24 @@ Lo stesso metodo vale per Caravaggio: descrivi, individua la fonte di luce, rico
 Prova con una chiesa vicino a te: cerca diagonali, curve, luce teatrale, marmi colorati. Se li trovi, è quasi certamente barocca.` }
     ],
     exercises: [
-      mc('Quale caratteristica è tipica del Barocco?', ['Movimento e forti contrasti di luce', 'Simmetria severa', 'Fondo oro e frontalità', 'Linee orizzontali calme'], 0, 'Il Barocco cerca tensione e coinvolgimento.'),
+      mc('Quale caratteristica è tipica del Barocco?', ['Movimento e forti contrasti di luce', 'Simmetria severa e proporzioni calme', 'Fondo oro, frontalità e linea piatta', 'Linee orizzontali, quiete e misura'], 0, 'Il Barocco cerca tensione e coinvolgimento.'),
       fill('Il Concilio di Trento si concluse nel (anno):', ['1563'], '1545-1563.'),
-      mc('Che cos’è il tenebrismo?', ['Chiaroscuro estremo con fondi scuri e luce dura', 'Un tipo di prospettiva', 'Un affresco notturno', 'Il colore saturo'], 0, 'Tipico di Caravaggio.'),
+      mc('Che cos’è il tenebrismo?', ['Chiaroscuro estremo con luce dura', 'Un tipo di prospettiva a volo d’uccello', 'Un affresco dipinto di notte', 'Colore saturo senza ombre nette'], 0, 'Tipico di Caravaggio.'),
       fill('La Vocazione di san Matteo fu dipinta circa nel (anno di inizio):', ['1599'], 'Tra il 1599 e il 1600.'),
-      mc('Quale opera è di Bernini?', ['Estasi di santa Teresa', 'San Carlino', 'Las Meninas', 'Amore e Psiche'], 0, 'Marmo, 1647-1652, in Santa Maria della Vittoria.'),
+      mc('Quale opera è di Bernini?', ['Estasi di santa Teresa', 'San Carlino alle Quattro Fontane', 'Las Meninas di Velázquez', 'Amore e Psiche di Canova'], 0, 'Marmo, 1647-1652, in Santa Maria della Vittoria.'),
       mc('Chi progettò San Carlo alle Quattro Fontane?', ['Borromini', 'Bernini', 'Vanvitelli', 'Canova'], 0, 'Iniziata nel 1634.'),
       fill('In che anno fu dipinto Las Meninas di Velázquez?', ['1656'], 'Nel 1656.'),
-      mc('Che cos’è il vedutismo?', ['Pittura di vedute di città precise e luminose', 'Pittura di santi', 'Pittura astratta', 'Pittura religiosa spagnola'], 0, 'Canaletto e Guardi a Venezia.'),
+      mc('Che cos’è il vedutismo?', ['Vedute cittadine precise e luminose', 'Pittura di santi e di soggetti sacri', 'Pittura astratta di forme geometriche', 'Pittura religiosa della Spagna barocca'], 0, 'Canaletto e Guardi a Venezia.'),
       mc('Winckelmann parla della «nobile semplicità e quieta grandezza» di:', ['arte greca', 'arte barocca', 'arte gotica', 'arte egizia'], 0, 'Ideale neoclassico.'),
       fill('Il Giuramento degli Orazi di David è del (anno):', ['1784'], 'Nel 1784.'),
       order('Ordina cronologicamente', ['Vocazione di san Matteo', 'Estasi di santa Teresa', 'Las Meninas', 'Imbarco per Citera', 'Morte di Marat'], '1599-1600, 1647-1652, 1656, 1717, 1793.')
     ],
     test: [
-      mc('Quale artista è considerato neoclassico fra i pittori?', ['Jacques-Louis David', 'Watteau', 'Rubens', 'Caravaggio'], 0, 'David, con Orazi e Marat.'),
-      mc('Perché Caravaggio suscitò scandalo?', ['Per il realismo con cui rappresentava soggetti sacri', 'Per l’uso del fondo oro', 'Perché dipingeva solo paesaggi', 'Perché usava la tempera'], 0, 'La Morte della Vergine mostrava un cadavere reale.'),
+      mc('Quale artista è considerato neoclassico fra i pittori?', ['Jacques-Louis David', 'Jean-Antoine Watteau', 'Peter Paul Rubens', 'Caravaggio, detto il Merisi'], 0, 'David, con Orazi e Marat.'),
+      mc('Perché Caravaggio suscitò scandalo?', ['Per il realismo dei soggetti sacri', 'Per l’uso del fondo oro nelle pale', 'Perché dipingeva soltanto paesaggi', 'Perché usava la tempera su muro'], 0, 'La Morte della Vergine mostrava un cadavere reale.'),
       fill('Chi scolpì Amore e Psiche e Paolina Borghese?', ['Canova', 'canova', 'Antonio Canova'], 'Antonio Canova.'),
-      mc('Quale caratteristica distingue il Rococò?', ['Leggerezza, colori pastello e temi galanti', 'Drammaticità cupa', 'Rigore geometrico', 'Realismo sociale'], 0, 'Tipico di corti e salotti.'),
-      mc('Cosa scoprirono gli scavi di Ercolano (1738) e Pompei (1748)?', ['Città romane sepolte dall’eruzione del 79 d.C.', 'Templi greci', 'Chiese paleocristiane', 'Pitture preistoriche'], 0, 'Alimentarono il gusto neoclassico.'),
+      mc('Quale caratteristica distingue il Rococò?', ['Colori pastello e temi galanti', 'Drammaticità cupa e forti ombre', 'Rigore geometrico e tono severo', 'Realismo sociale e soggetti popolari'], 0, 'Tipico di corti e salotti.'),
+      mc('Cosa scoprirono gli scavi di Ercolano (1738) e Pompei (1748)?', ['Città romane sepolte dal Vesuvio', 'Templi greci di età arcaica', 'Chiese paleocristiane con mosaici', 'Pitture rupestri preistoriche'], 0, 'Alimentarono il gusto neoclassico.'),
       mc('Il colonnato di piazza San Pietro (1656-1667) è di:', ['Bernini', 'Borromini', 'Michelangelo', 'Bramante'], 0, 'Due braccia ellittiche.'),
       mc('Quale pittore olandese è noto per la Ronda di notte (1642)?', ['Rembrandt', 'Vermeer', 'Rubens', 'Velázquez'], 0, 'Rembrandt, 1606-1669.')
     ]
@@ -230,25 +230,25 @@ Capire la pluralità evita l’idea falsa di un percorso lineare: il pubblico de
     ],
     exercises: [
       fill('In che anno fu presentato il dagherrotipo?', ['1839'], 'Nel 1839.'),
-      mc('Quale quadro è di Friedrich?', ['Viandante sul mare di nebbia', 'La zattera della Medusa', 'Gli spaccapietre', 'Notte stellata'], 0, 'Circa 1818.'),
+      mc('Quale quadro è di Friedrich?', ['Viandante sul mare di nebbia', 'La zattera della Medusa di Géricault', 'Gli spaccapietre di Courbet', 'Notte stellata di Van Gogh'], 0, 'Circa 1818.'),
       fill('La zattera della Medusa fu dipinta nel 1818-1819 da:', ['Géricault', 'Gericault', 'Théodore Géricault', 'Theodore Gericault'], 'Théodore Géricault.'),
       mc('Gli spaccapietre è di:', ['Courbet', 'Millet', 'Monet', 'Delacroix'], 0, 'Courbet, 1849-1850, capofila del Realismo.'),
-      mc('Chi sono i Macchiaioli?', ['Pittori toscani che dipingono dal vero «a macchia»', 'Pittori francesi puntinisti', 'Neoclassici romani', 'Pittori di Venezia'], 0, 'Fattori, Signorini, Lega.'),
+      mc('Chi sono i Macchiaioli?', ['Pittori toscani che dipingono dal vero', 'Pittori francesi dalla tecnica puntinista', 'Neoclassici attivi a Roma', 'Pittori veneziani di paesaggio'], 0, 'Fattori, Signorini, Lega.'),
       fill('In che anno si tenne la prima mostra impressionista?', ['1874'], 'Aprile 1874, nello studio di Nadar.'),
-      mc('Da quale opera deriva il nome «Impressionismo»?', ['Impressione, levar del sole di Monet', 'Olympia di Manet', 'Ballo al Moulin de la Galette', 'La Grande Jatte'], 0, 'Dipinta nel 1872.'),
-      mc('Che cosa caratterizza la tecnica impressionista?', ['Pennellate brevi e colori puri accostati', 'Contorni netti e colori scuri', 'Fondo oro', 'Chiaroscuro violento'], 0, 'L’occhio fonde i colori.'),
+      mc('Da quale opera deriva il nome «Impressionismo»?', ['Impressione, levar del sole di Monet', 'Olympia di Manet', 'Ballo al Moulin de la Galette di Renoir', 'La Grande Jatte di Seurat'], 0, 'Dipinta nel 1872.'),
+      mc('Che cosa caratterizza la tecnica impressionista?', ['Pennellate brevi e colori puri', 'Contorni netti e colori scuri e pesanti', 'Fondo oro e figure frontali', 'Chiaroscuro violento e luce artificiale'], 0, 'L’occhio fonde i colori.'),
       mc('Il puntinismo è associato a:', ['Seurat', 'Gauguin', 'Cézanne', 'Munch'], 0, 'Seurat, La Grande Jatte.'),
       fill('Van Gogh dipinse Notte stellata nel (anno):', ['1889'], 'Nel 1889.'),
       order('Ordina cronologicamente', ['La zattera della Medusa', 'Gli spaccapietre', 'Impressione, levar del sole', 'La Grande Jatte', 'L’urlo'], '1818-19, 1849-50, 1872, 1884-86, 1893.')
     ],
     test: [
-      mc('Quale è la differenza principale fra Romanticismo e Realismo?', ['Il primo esalta emozione e sublime, il secondo la vita quotidiana', 'Il primo è astratto, il secondo no', 'Il primo è francese, il secondo italiano', 'Il primo usa il fondo oro'], 0, 'Temi e atteggiamento diversi.'),
+      mc('Quale è la differenza principale fra Romanticismo e Realismo?', ['Il primo esalta il sublime, il secondo il quotidiano', 'Il primo è astratto, il secondo è figurativo e narrativo', 'Il primo è nato in Francia, il secondo in Italia', 'Il primo usa il fondo oro, il secondo la tempera'], 0, 'Temi e atteggiamento diversi.'),
       fill('La Libertà che guida il popolo è di Eugène:', ['Delacroix', 'delacroix'], 'Del 1830.'),
-      mc('Perché la fotografia influenzò la pittura ottocentesca?', ['Liberò la pittura dal compito di documentare la realtà', 'La rese obbligatoria', 'Eliminò il colore', 'Fece scomparire i ritratti'], 0, 'Da qui nuove ricerche su luce e soggettività.'),
+      mc('Perché la fotografia influenzò la pittura ottocentesca?', ['Liberò la pittura dal compito di documentare', 'La rese obbligatoria per i pittori accademici', 'Eliminò il colore dalla pittura a olio', 'Fece scomparire i ritratti su commissione'], 0, 'Da qui nuove ricerche su luce e soggettività.'),
       mc('Paul Cézanne è considerato un punto di partenza per:', ['il Cubismo', 'il Romanticismo', 'il Barocco', 'il Neoclassicismo'], 0, 'Per la costruzione geometrica delle forme.'),
-      mc('Quale artista dipinse L’urlo (1893)?', ['Edvard Munch', 'Gauguin', 'Degas', 'Manet'], 0, 'Munch, vicino al Simbolismo.'),
-      mc('Le serie di Monet (Covoni, Cattedrali di Rouen) servono a mostrare:', ['come cambia lo stesso soggetto con la luce', 'la tecnica dell’affresco', 'la prospettiva centrale', 'la scena storica'], 0, 'Luce e ora del giorno.'),
-      mc('Hayez e il suo Bacio (1859) sono legati a:', ['Romanticismo italiano e Risorgimento', 'Impressionismo francese', 'Neoclassicismo', 'Barocco romano'], 0, 'Il bacio ha anche un valore patriottico.')
+      mc('Quale artista dipinse L’urlo (1893)?', ['Edvard Munch', 'Paul Gauguin', 'Edgar Degas', 'Édouard Manet'], 0, 'Munch, vicino al Simbolismo.'),
+      mc('Le serie di Monet (Covoni, Cattedrali di Rouen) servono a mostrare:', ['il cambiare del soggetto con la luce', 'la tecnica dell’affresco su intonaco', 'la prospettiva centrale rinascimentale', 'la scena storica di una battaglia'], 0, 'Luce e ora del giorno.'),
+      mc('Hayez e il suo Bacio (1859) sono legati a:', ['Romanticismo italiano e Risorgimento', 'Impressionismo francese e vita parigina', 'Neoclassicismo di tema mitologico', 'Barocco romano di committenza papale'], 0, 'Il bacio ha anche un valore patriottico.')
     ]
   });
 
@@ -282,25 +282,25 @@ Questo schema vale per qualsiasi opera: **vedo**, **come è fatta**, **quando e 
     ],
     exercises: [
       fill('Les Demoiselles d’Avignon di Picasso è del (anno):', ['1907'], 'Nel 1907.'),
-      mc('Quale caratteristica distingue il Cubismo?', ['Più punti di vista simultanei sullo stesso oggetto', 'Colori puri e arbitrari', 'Scene oniriche', 'Griglie di colori primari'], 0, 'Scomposizione in piani.'),
-      mc('Che cosa distingue il Cubismo sintetico dall’analitico?', ['Forme più semplici, colori più vivaci e collage', 'Solo colori monocromi', 'Prospettiva unica', 'Soggetti storici'], 0, 'Dal 1912 circa.'),
+      mc('Quale caratteristica distingue il Cubismo?', ['Più punti di vista simultanei sullo stesso oggetto', 'Colori puri e arbitrari, stesi in campiture piatte', 'Scene oniriche con oggetti deformati dal sogno', 'Griglie ortogonali di colori primari e nero'], 0, 'Scomposizione in piani.'),
+      mc('Che cosa distingue il Cubismo sintetico dall’analitico?', ['Forme semplici, colori vivaci e collage', 'Soli colori monocromi e forme frammentate', 'Prospettiva unica e profondità rinascimentale', 'Soggetti storici e mitologici di grandi dimensioni'], 0, 'Dal 1912 circa.'),
       fill('Il Manifesto del Futurismo di Marinetti uscì nel (anno):', ['1909'], '20 febbraio 1909 su Le Figaro.'),
-      mc('Quale artista è futurista?', ['Umberto Boccioni', 'Piet Mondrian', 'Salvador Dalí', 'Marcel Duchamp'], 0, 'Boccioni, Balla, Carrà, Severini.'),
-      mc('Quale opera è di Mondrian?', ['Composizione con griglia nera e campi rossi, gialli e blu', 'Quadrato nero su fondo bianco', 'La persistenza della memoria', 'Fontana'], 0, 'Neoplasticismo e De Stijl.'),
+      mc('Quale artista è futurista?', ['Umberto Boccioni', 'Piet Mondrian', 'Wassily Kandinskij', 'Marcel Duchamp'], 0, 'Boccioni, Balla, Carrà, Severini.'),
+      mc('Quale opera è di Mondrian?', ['Composizione in rosso, blu e giallo', 'Quadrato nero su fondo bianco', 'La persistenza della memoria di Dalí', 'Fontana, orinatoio firmato da Duchamp'], 0, 'Neoplasticismo e De Stijl.'),
       fill('Quadrato nero su fondo bianco di Malevič è del (anno):', ['1915'], 'Nel 1915.'),
-      mc('Che cos’è un ready-made?', ['Un oggetto comune scelto e firmato come opera', 'Un dipinto veloce', 'Una scultura in bronzo', 'Un collage di giornali'], 0, 'Duchamp, Fontana, 1917.'),
+      mc('Che cos’è un ready-made?', ['Un oggetto comune scelto e firmato', 'Un dipinto eseguito in modo veloce', 'Una scultura in bronzo a fusione unica', 'Un collage di giornali e stoffe'], 0, 'Duchamp, Fontana, 1917.'),
       fill('Il Manifesto del Surrealismo di Breton è del:', ['1924'], 'Nel 1924.'),
-      mc('Chi dipinse La persistenza della memoria?', ['Salvador Dalí', 'Magritte', 'Ernst', 'Miró'], 0, 'Dalí, 1931.'),
+      mc('Chi dipinse La persistenza della memoria?', ['Salvador Dalí', 'René Magritte', 'Max Ernst', 'Joan Miró'], 0, 'Dalí, 1931.'),
       order('Ordina cronologicamente', ['Les Demoiselles d’Avignon', 'Quadrato nero di Malevič', 'Fontana di Duchamp', 'Guernica', 'Campbell’s Soup Cans'], '1907, 1915, 1917, 1937, 1962.')
     ],
     test: [
-      mc('Cosa rappresenta Guernica (1937)?', ['Il bombardamento della città basca durante la guerra civile spagnola', 'Un paesaggio onirico', 'Un ritratto di Dora Maar', 'Una scena di caccia'], 0, 'Picasso.'),
-      mc('Chi è considerato il pioniere dell’astrattismo lirico?', ['Kandinskij', 'Mondrian', 'Warhol', 'Boccioni'], 0, 'Primi acquerelli astratti circa 1910-1913.'),
-      mc('La Pop Art si ispira a:', ['cultura di massa e pubblicità', 'visioni oniriche', 'architetture gotiche', 'natura'], 0, 'Warhol, Lichtenstein.'),
+      mc('Cosa rappresenta Guernica (1937)?', ['Il bombardamento di una città basca', 'Un paesaggio onirico deformato', 'Un ritratto di Dora Maar piangente', 'Una scena di corrida in un’arena spagnola'], 0, 'Picasso.'),
+      mc('Chi è considerato il pioniere dell’astrattismo lirico?', ['Wassily Kandinskij', 'Piet Mondrian', 'Andy Warhol', 'Giovanni Segantini'], 0, 'Primi acquerelli astratti circa 1910-1913.'),
+      mc('La Pop Art si ispira a:', ['cultura di massa e pubblicità', 'visioni oniriche dell’inconscio', 'architetture gotiche e medievali', 'natura e paesaggio dal vero'], 0, 'Warhol, Lichtenstein.'),
       fill('Chi realizzò i «tagli» (Concetti spaziali) sulle tele?', ['Fontana', 'Lucio Fontana', 'fontana'], 'Lucio Fontana, dal 1958 circa.'),
       mc('Dada nacque a:', ['Zurigo', 'Parigi', 'Roma', 'Berlino'], 0, 'Cabaret Voltaire, 1916.'),
       mc('L’Arte povera, in Italia, è caratterizzata da:', ['materiali comuni e poveri', 'oro e marmo', 'pittura a olio tradizionale', 'forme geometriche pure'], 0, 'Nome dato da Celant nel 1967.'),
-      mc('Quale artista è associato al dripping?', ['Jackson Pollock', 'Burri', 'Kosuth', 'Lichtenstein'], 0, 'Action painting, anni 1940-50.')
+      mc('Quale artista è associato al dripping?', ['Jackson Pollock', 'Alberto Burri', 'Joseph Kosuth', 'Roy Lichtenstein'], 0, 'Action painting, anni 1940-50.')
     ]
   });
 
@@ -337,25 +337,25 @@ Questo schema vale per qualsiasi opera: **vedo**, **come è fatta**, **quando e 
 **Esercizio**: scegli un edificio della tua città e compila: pianta, copertura, ordini, materiali, data, committente.` }
     ],
     exercises: [
-      mc('Quali sono le tre qualità vitruviane?', ['firmitas, utilitas, venustas', 'forma, colore, luce', 'dorico, ionico, corinzio', 'pianta, prospetto, sezione'], 0, 'Solidità, utilità, bellezza.'),
-      mc('Il sistema trilitico è formato da:', ['due sostegni verticali e un architrave', 'due archi', 'una volta a crociera', 'una cupola'], 0, 'Tipico dell’architettura greca.'),
-      mc('La volta a crociera si ottiene da:', ['due volte a botte che si incrociano ad angolo retto', 'un arco ruotato', 'un cerchio', 'una trave'], 0, 'Spinge sugli spigoli.'),
+      mc('Quali sono le tre qualità vitruviane?', ['firmitas, utilitas, venustas', 'forma, colore, luce, composizione', 'dorico, ionico, corinzio, tuscanico', 'pianta, prospetto, sezione, copertura'], 0, 'Solidità, utilità, bellezza.'),
+      mc('Il sistema trilitico è formato da:', ['due sostegni verticali e un architrave', 'due archi affiancati con chiave comune', 'una volta a crociera su quattro pilastri', 'una cupola su tamburo e pennacchi'], 0, 'Tipico dell’architettura greca.'),
+      mc('La volta a crociera si ottiene da:', ['due volte a botte incrociate ad angolo retto', 'un arco ruotato attorno all’asse centrale', 'un cerchio di pietra poggiato su colonne', 'una trave inflessa tra due muri portanti sovrapposti'], 0, 'Spinge sugli spigoli.'),
       mc('Quale ordine ha il capitello a volute?', ['Ionico', 'Dorico', 'Corinzio', 'Tuscanico'], 0, 'Il corinzio ha foglie d’acanto.'),
       mc('Quale ordine ha la colonna senza base?', ['Dorico', 'Ionico', 'Corinzio', 'Composito'], 0, 'Il Partenone è dorico.'),
       mc('L’arco a sesto acuto è tipico di:', ['gotico', 'romanico', 'greco', 'neoclassico'], 0, 'L’arco a tutto sesto è romano e romanico.'),
       fill('In scala 1:100, quanti metri reali corrispondono a 4,5 cm sulla carta?', ['4,5', '4.5'], '4,5 cm × 100 = 450 cm = 4,5 m.'),
       fill('In scala 1:50, quanti metri reali corrispondono a 6 cm sulla carta?', ['3'], '6 × 50 = 300 cm = 3 m.'),
       fill('Il Crystal Palace di Paxton fu costruito nel (anno):', ['1851'], 'Per l’Esposizione universale di Londra.'),
-      mc('Perché il cemento armato è utile?', ['L’acciaio assorbe la trazione e il cemento la compressione', 'È più leggero del legno', 'Non pesa', 'Non ha spinte'], 0, 'Combina i due materiali.'),
+      mc('Perché il cemento armato è utile?', ['Acciaio per la trazione, cemento per la compressione', 'Cemento per la trazione, acciaio per la compressione', 'È più leggero del legno e resiste al fuoco', 'Annulla le spinte laterali delle volte in pietra'], 0, 'Combina i due materiali.'),
       order('Ordina cronologicamente', ['Partenone', 'Colosseo', 'Santa Sofia', 'Notre-Dame', 'Crystal Palace'], '447-432 a.C., 80 d.C., 532-537, dal 1163, 1851.')
     ],
     test: [
       mc('Come si chiama l’elemento che raccorda una cupola circolare a una pianta quadrata?', ['Pennacchio', 'Architrave', 'Triglifo', 'Abaco'], 0, 'Usato a Santa Sofia.'),
       fill('Una stanza misura 5 cm × 4 cm su una pianta in scala 1:100. Quanti metri quadrati?', ['20'], '5 m × 4 m = 20 m².'),
       mc('Quale architetto è legato alle ville venete come La Rotonda?', ['Palladio', 'Borromini', 'Bramante', 'Vanvitelli'], 0, 'Palladio, 1508-1580.'),
-      mc('Quale architetto propose i «cinque punti» dell’architettura?', ['Le Corbusier', 'Gaudí', 'Gehry', 'Paxton'], 0, 'Pilotis, pianta libera, facciata libera, finestra a nastro, tetto giardino.'),
-      mc('Cosa mostra una sezione?', ['Un taglio verticale dell’edificio', 'Un taglio orizzontale', 'Solo la facciata', 'Solo la copertura'], 0, 'La pianta è il taglio orizzontale.'),
-      mc('La croce greca ha:', ['bracci di uguale lunghezza', 'un braccio più lungo', 'una sola navata', 'una pianta ovale'], 0, 'Tipica di chiese a pianta centrale.'),
+      mc('Quale architetto propose i «cinque punti» dell’architettura?', ['Le Corbusier', 'Antoni Gaudí', 'Frank Gehry', 'Joseph Paxton'], 0, 'Pilotis, pianta libera, facciata libera, finestra a nastro, tetto giardino.'),
+      mc('Cosa mostra una sezione?', ['Un taglio verticale dell’edificio', 'Un taglio orizzontale dell’edificio', 'Una vista della sola facciata principale', 'Una vista dall’alto della copertura'], 0, 'La pianta è il taglio orizzontale.'),
+      mc('La croce greca ha:', ['bracci di uguale lunghezza', 'un braccio più lungo degli altri', 'una sola navata molto allungata', 'una pianta ovale con cupola'], 0, 'Tipica di chiese a pianta centrale.'),
       fill('Il Guggenheim di Bilbao di Gehry fu inaugurato nel:', ['1997'], 'Nel 1997.')
     ]
   });
@@ -394,7 +394,7 @@ Questo schema vale per qualsiasi opera: **vedo**, **come è fatta**, **quando e 
       fill('Frequenza (Hz) del Do4 (−9 semitoni dal La4), arrotondata a un intero?', ['262'], '440 · 2^(−9/12) = 261,63 ≈ 262.'),
       fill('Durata (secondi) di una battuta in 4/4 a 120 BPM?', ['2'], '4 battiti × 0,5 s.'),
       fill('Quanti secondi durano 32 battute in 4/4 a 120 BPM?', ['64'], '128 battiti / 120 BPM = 1,0667 min = 64 s.'),
-      mc('Qual è la differenza essenziale fra triade maggiore e minore?', ['La terza (4 contro 3 semitoni)', 'La quinta', 'La tonica', 'Il numero di note'], 0, 'Le altre note sono uguali.'),
+      mc('Qual è la differenza essenziale fra triade maggiore e minore?', ['La terza (4 contro 3 semitoni)', 'La quinta (7 contro 5 semitoni)', 'La tonica (nota di partenza)', 'Il numero di note (3 contro 4)'], 0, 'Le altre note sono uguali.'),
       mc('Quale accordo ha le note Do–Mi–Sol?', ['Do maggiore', 'La minore', 'Sol maggiore', 'Do minore'], 0, 'Terza maggiore e quinta giusta.'),
       mc('La cadenza V–I in Do maggiore va da:', ['Sol a Do', 'Do a Fa', 'Fa a Sol', 'La a Mi'], 0, 'Dominante → tonica.')
     ]
@@ -418,26 +418,26 @@ Questo schema vale per qualsiasi opera: **vedo**, **come è fatta**, **quando e 
       { h: 'Cronologia e orientamento all’ascolto', b: `**Date di riferimento**\n- circa 1000: Guido d’Arezzo e il rigo\n- 1607: *L’Orfeo* di Monteverdi\n- 1725: *Le quattro stagioni* a stampa\n- 1750: morte di Bach\n- 1786: *Le nozze di Figaro*\n- 1804: *Eroica*\n- 1824: Nona sinfonia\n- 1876: Ring completo a Bayreuth\n- 1913: *Sagra della primavera*\n- 1952: *4′33″*\n\n**Epoca all’ascolto**\n- Voci sole, linee semplici → Medioevo/Rinascimento.\n- Clavicembalo, basso continuo, ornamenti → Barocco.\n- Frasi simmetriche, forma chiara, pianoforte → Classicismo.\n- Grandi crescendo, melodie appassionate, orchestra ampia → Romanticismo.\n- Ritmi aspri, armonie ambigue, timbri insoliti → Novecento.\n\n**Età dei compositori** (calcolo dagli anni di nascita e morte): Mozart (1756-1791) visse 35 anni, Beethoven (1770-1827) 56, Bach (1685-1750) 65, Vivaldi (1678-1741) 63.\n\nLe etichette sono comode ma imperfette: Beethoven è classico e romantico, e Bach per i contemporanei era un compositore all'antica. L’ascolto attento vale più di qualsiasi etichetta.` }
     ],
     exercises: [
-      mc('Il canto gregoriano è:', ['monodico, in latino, senza strumenti', 'polifonico con orchestra', 'solo strumentale', 'in lingua volgare'], 0, 'Una sola linea melodica.'),
+      mc('Il canto gregoriano è:', ['monodico, in latino, senza strumenti', 'polifonico, con accompagnamento d’orchestra', 'solo strumentale, per organo e liuti', 'in lingua volgare, con danze popolari'], 0, 'Una sola linea melodica.'),
       fill('Chi legò il suo nome al rigo musicale e ai nomi delle note?', ['Guido d’Arezzo', 'Guido d\'Arezzo', 'Guido Monaco', 'Guido d Arezzo'], 'Guido d’Arezzo, circa 991 - dopo il 1033.'),
-      mc('Chi è il massimo rappresentante della polifonia sacra del Cinquecento a Roma?', ['Palestrina', 'Vivaldi', 'Chopin', 'Wagner'], 0, 'Circa 1525-1594.'),
+      mc('Chi è il massimo rappresentante della polifonia sacra del Cinquecento a Roma?', ['Palestrina', 'Antonio Vivaldi', 'Frédéric Chopin', 'Richard Wagner'], 0, 'Circa 1525-1594.'),
       fill('L’Orfeo di Monteverdi è del (anno):', ['1607'], 'Mantova, 1607.'),
-      mc('Che cos’è il basso continuo?', ['Una linea grave che sostiene l’armonia barocca', 'Un tipo di cantata', 'Un movimento di sinfonia', 'Uno strumento a fiato'], 0, 'Eseguito da violoncello e clavicembalo o organo.'),
-      mc('Quale opera ha dato a Vivaldi la fama come descrittore della natura?', ['Le quattro stagioni', 'Il Messiah', 'Il flauto magico', 'La Nona'], 0, 'Pubblicate nel 1725.'),
+      mc('Che cos’è il basso continuo?', ['Una linea grave che sostiene l’armonia', 'Un tipo di cantata con strumenti obbligati', 'Un movimento di sinfonia in tempo lento', 'Uno strumento a fiato dal suono grave'], 0, 'Eseguito da violoncello e clavicembalo o organo.'),
+      mc('Quale opera ha dato a Vivaldi la fama come descrittore della natura?', ['Le quattro stagioni', 'Il Messiah di Händel', 'Il flauto magico di Mozart', 'La Nona di Beethoven'], 0, 'Pubblicate nel 1725.'),
       fill('In che anno morì Bach?', ['1750'], 'Fine convenzionale del Barocco.'),
-      mc('La forma sonata ha le sezioni:', ['esposizione, sviluppo, ripresa', 'introduzione, aria, coro', 'soggetto, risposta, stretto', 'tema, variazione, rondò'], 0, 'Tipica del Classicismo.'),
+      mc('La forma sonata ha le sezioni:', ['esposizione, sviluppo, ripresa', 'introduzione, aria, coro finale', 'soggetto, risposta, controsoggetto', 'tema, variazione, rondò finale'], 0, 'Tipica del Classicismo.'),
       fill('In che anno fu eseguita per la prima volta la Nona di Beethoven?', ['1824'], 'Vienna, 7 maggio 1824.'),
-      mc('Il concerto è tipicamente in tre movimenti:', ['veloce - lento - veloce', 'lento - veloce - lento', 'solo veloci', 'minuetto - fuga - coro'], 0, 'Con un solista.'),
+      mc('Il concerto è tipicamente in tre movimenti:', ['veloce - lento - veloce', 'lento - veloce - lento', 'minuetto - fuga - coro', 'tutti e tre molto veloci'], 0, 'Con un solista.'),
       order('Ordina cronologicamente', ['L’Orfeo', 'Le quattro stagioni', 'Le nozze di Figaro', 'La Nona di Beethoven', 'La sagra della primavera'], '1607, 1725, 1786, 1824, 1913.')
     ],
     test: [
       mc('Quale opera di Mozart è del 1791?', ['Il flauto magico', 'Don Giovanni', 'Le nozze di Figaro', 'La traviata'], 0, 'Anno della sua morte.'),
       fill('Quanti anni visse Mozart (1756-1791)?', ['35'], 'Nato nel gennaio 1756, morto nel dicembre 1791.'),
-      mc('Che cos’è il dodecafonismo?', ['Un sistema che usa i 12 suoni in una serie senza tonica', 'Una danza a 12 tempi', 'Un coro a 12 voci', 'Una forma di fuga'], 0, 'Schönberg, anni Venti.'),
+      mc('Che cos’è il dodecafonismo?', ['Serie dei 12 suoni, senza tonica', 'Una danza barocca in dodici tempi', 'Un coro a dodici voci miste', 'Una forma di fuga a più soggetti'], 0, 'Schönberg, anni Venti.'),
       mc('Quale opera di Puccini fu rappresentata dopo la morte del compositore?', ['Turandot', 'Tosca', 'La bohème', 'Madama Butterfly'], 0, 'Prima nel 1926; Puccini morì nel 1924.'),
       mc('L’aria in un’opera è:', ['momento lirico per un solista', 'il parlato-cantato che fa avanzare l’azione', 'l’apertura orchestrale', 'il testo scritto'], 0, 'Il recitativo è il parlato-cantato.'),
-      mc('Cosa caratterizza 4′33″ di Cage?', ['Il brano è silenzio e i rumori ambientali', 'Un coro a 4 voci', 'Una fuga a 33 voci', 'Un pezzo elettronico'], 0, 'Del 1952.'),
-      mc('Quale compositore è legato ai Lieder?', ['Schubert', 'Haydn', 'Vivaldi', 'Wagner'], 0, 'Oltre 600 Lieder.')
+      mc('Cosa caratterizza 4′33″ di Cage?', ['Il brano è silenzio e rumori ambientali', 'Un coro a quattro voci a cappella', 'Una fuga a trentatré voci', 'Un pezzo elettronico per nastro magnetico'], 0, 'Del 1952.'),
+      mc('Quale compositore è legato ai Lieder?', ['Franz Schubert', 'Joseph Haydn', 'Antonio Vivaldi', 'Richard Wagner'], 0, 'Oltre 600 Lieder.')
     ]
   });
 
@@ -460,11 +460,11 @@ Questo schema vale per qualsiasi opera: **vedo**, **come è fatta**, **quando e 
     ],
     exercises: [
       mc('Quanto dura la struttura classica del blues?', ['12 battute', '8 battute', '16 battute', '32 battute'], 0, 'Su tre accordi, I-IV-V.'),
-      mc('Che cosa sono le blue notes?', ['Note della scala leggermente abbassate (terza, quinta, settima)', 'Note scritte in blu', 'Note molto lunghe', 'Note ripetute'], 0, 'Danno il colore tipico.'),
+      mc('Che cosa sono le blue notes?', ['Note abbassate (terza, quinta, settima)', 'Note molto lunghe, tenute dal solista', 'Note ripetute più volte di seguito', 'Note scritte a mano con inchiostro blu scuro'], 0, 'Danno il colore tipico.'),
       fill('Kind of Blue di Miles Davis è del (anno):', ['1959'], 'Anno chiave del jazz modale.'),
-      mc('Quale elemento è tipico del jazz?', ['Improvvisazione su una struttura di accordi', 'Il basso continuo', 'La forma sonata', 'La polifonia vocale'], 0, 'Tema – assoli – tema.'),
+      mc('Quale elemento è tipico del jazz?', ['Improvvisazione su una struttura di accordi', 'Il basso continuo di clavicembalo', 'La forma sonata in tre sezioni', 'La polifonia vocale a più voci'], 0, 'Tema – assoli – tema.'),
       fill('Il primo album dei Beatles, Please Please Me, è del:', ['1963'], 'Uscì nel 1963.'),
-      mc('Quale strumento caratterizza il rock?', ['Chitarra elettrica amplificata', 'Clavicembalo', 'Oboe', 'Liuto'], 0, 'Con basso, batteria e voce.'),
+      mc('Quale strumento caratterizza il rock?', ['Chitarra elettrica amplificata', 'Clavicembalo con tastiera doppia', 'Oboe e strumenti a fiato', 'Liuto accompagnato da voci'], 0, 'Con basso, batteria e voce.'),
       mc('Gli elementi dell’hip hop sono:', ['DJ, rap, breakdance, graffiti', 'Blues, jazz, rock, pop', 'Archi, legni, ottoni, percussioni', 'Soggetto, risposta, controsoggetto'], 0, 'Nascono nel Bronx.'),
       fill('Quanti livelli distinti permette un campione a 16 bit?', ['65536', '65.536', '65 536'], '2^16 = 65 536.'),
       fill('Frequenza massima (Hz) rappresentabile con campionamento a 44 100 Hz?', ['22050', '22.050', '22 050'], 'Metà della frequenza di campionamento.'),
@@ -474,11 +474,11 @@ Questo schema vale per qualsiasi opera: **vedo**, **come è fatta**, **quando e 
     test: [
       fill('Un MP3 a 128 kbit/s dura 3 minuti (180 s). Quanti megabyte (decimali) circa pesa?', ['2,88', '2.88', '2,9', '2.9', '3'], '128 000 × 180 / 8 = 2 880 000 byte = 2,88 MB.'),
       mc('Quando fu diffuso il sonoro nel cinema con Il cantante di jazz?', ['1927', '1895', '1945', '1960'], 0, 'Dal 1927 il cinema muto lascia il posto al sonoro.'),
-      mc('La musica diegetica è quella che:', ['i personaggi della scena possono sentire', 'solo il pubblico sente', 'è sempre classica', 'è sempre cantata'], 0, 'Una radio accesa nella scena.'),
-      mc('Che cos’è l’inviluppo ADSR?', ['Il profilo nel tempo di un suono: attacco, decadimento, sostegno, rilascio', 'Un tipo di filtro', 'Un formato audio', 'Un accordo'], 0, 'Attack, Decay, Sustain, Release.'),
+      mc('La musica diegetica è quella che:', ['i personaggi della scena possono sentire', 'soltanto il pubblico in sala può sentire', 'appartiene sempre al repertorio classico', 'viene sempre cantata dagli attori'], 0, 'Una radio accesa nella scena.'),
+      mc('Che cos’è l’inviluppo ADSR?', ['Il profilo di un suono: attacco, decadimento, sostegno, rilascio', 'Un tipo di filtro che taglia le frequenze acute', 'Un formato audio compresso per lo streaming', 'Un accordo di settima con quinta alterata'], 0, 'Attack, Decay, Sustain, Release.'),
       mc('Quale intervallo salendo è nelle prime note di Twinkle Twinkle Little Star (do-do-sol-sol)?', ['Quinta giusta', 'Terza minore', 'Ottava', 'Seconda maggiore'], 0, 'Do–Sol = 7 semitoni.'),
       mc('Con quale regola prudente cambia il tempo sicuro di esposizione ai rumori?', ['Ogni +3 dB, il tempo si dimezza', 'Ogni +10 dB, il tempo raddoppia', 'Non cambia', 'Ogni +1 dB, si dimezza'], 0, 'Indicazione NIOSH: 85 dB per 8 ore.'),
-      mc('Che cosa distingue il bebop dallo swing da ballo delle big band?', ['Piccoli gruppi, tempi veloci e armonie complesse', 'Orchestre più grandi', 'L’assenza di improvvisazione', 'La musica elettronica'], 0, 'Parker e Gillespie, anni Quaranta.')
+      mc('Che cosa distingue il bebop dallo swing da ballo delle big band?', ['Piccoli gruppi, tempi veloci e armonie complesse', 'Orchestre più grandi con sezioni di fiati', 'Un ritmo semplice adatto al ballo di coppia', 'Un suono prodotto con strumenti elettronici'], 0, 'Parker e Gillespie, anni Quaranta.')
     ]
   });
 

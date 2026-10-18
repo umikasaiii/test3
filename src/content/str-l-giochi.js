@@ -37,7 +37,7 @@
       fill('Nel gioco {1, 3, 4}, quante posizioni con g = 0 ci sono tra 0 e 10 compresi?', ['4'], 'Sono 0, 2, 7 e 9.'),
       fill('Nim con mucchi 5, 6, 7: a quanti sassi si riduce il mucchio da 7 per vincere?', ['3'], 'Nim-sum = 4; 7 ⊕ 4 = 3.'),
       mc('Nel gioco normale la posizione senza mosse disponibili è:', ['P: perde chi deve muovere', 'N: vince chi deve muovere', 'Pareggio', 'Indefinita'], 0, 'Chi non può muovere perde, quindi la posizione è P.'),
-      mc('Due mucchi uguali nel Nim (2 e 2): la strategia vincente del secondo giocatore è:', ['Copiare la mossa dell’avversario sull’altro mucchio', 'Prendere sempre un sasso', 'Svuotare un mucchio', 'Non esiste'], 0, 'La simmetria mantiene la nim-sum a 0 dopo ogni sua risposta.')
+      mc('Due mucchi uguali nel Nim (2 e 2): la strategia vincente del secondo giocatore è:', ['Copiare la mossa dell’avversario sull’altro mucchio', 'Prendere sempre un solo sasso per volta dal primo mucchio', 'Svuotare subito uno dei due mucchi per restare in vantaggio', 'Nessuna strategia vincente: il risultato dipende dalla sorte'], 0, 'La simmetria mantiene la nim-sum a 0 dopo ogni sua risposta.')
     ]
   });
 
@@ -66,16 +66,16 @@
       fill('Quante finestre di 4 caselle ha la scacchiera di Forza 4 (7 × 6)?', ['69'], '24 orizzontali + 21 verticali + 24 diagonali.'),
       mc('Con ordinamento ideale delle mosse, l’alfa-beta visita circa:', ['b^(d/2) foglie', 'b^d foglie', 'b · d foglie', 'd^b foglie'], 0, 'Equivale a raddoppiare la profondità raggiungibile a parità di lavoro.'),
       fill('Bianco: donna, 2 torri, alfiere, 2 pedoni. Nero: donna, torre, 2 alfieri, cavallo, 3 pedoni. Valutazione del materiale per il Bianco?', ['-2', '−2'], 'Bianco 9 + 10 + 3 + 2 = 24; Nero 9 + 5 + 6 + 3 + 3 = 26; 24 − 26 = −2.'),
-      mc('Che cos’è l’effetto orizzonte?', ['Una minaccia oltre il limite di profondità non viene vista', 'La ricerca è più lenta sulle foglie', 'La valutazione non dipende dal colore', 'Una trasposizione sbagliata'], 0, 'La ricerca a profondità fissa può nascondere o ritardare eventi che cadono dopo il limite.'),
+      mc('Che cos’è l’effetto orizzonte?', ['Una minaccia oltre il limite di profondità non viene vista', 'La ricerca rallenta in modo evidente sulle foglie dell’albero', 'La valutazione di una posizione non dipende dal colore', 'Una trasposizione valutata in modo errato dalla tabella hash'], 0, 'La ricerca a profondità fissa può nascondere o ritardare eventi che cadono dopo il limite.'),
       mc('Quanti casi distinti ha la prima mossa del tris, tenendo conto delle simmetrie?', ['3', '9', '2', '5'], 0, 'Angolo, bordo, centro.'),
       order('Ordina i passi del minimax', ['Genero l’albero fino alla profondità scelta', 'Valuto le foglie', 'Ai nodi MIN prendo il minimo dei figli', 'Ai nodi MAX prendo il massimo dei figli', 'Scelgo la mossa alla radice'], 'Si valuta in basso e si risale alternando minimo e massimo.')
     ],
     test: [
-      mc('Una trasposizione è:', ['La stessa posizione raggiunta con un ordine di mosse diverso', 'Una mossa che cattura', 'Il cambio di turno tra i giocatori', 'Una mossa illegale'], 0, 'È la base della tabella di trasposizione.'),
+      mc('Una trasposizione è:', ['La stessa posizione raggiunta con un ordine diverso di mosse', 'Una mossa che cattura un pezzo avversario protetto', 'Il cambio di turno fra i due giocatori durante la ricerca', 'Una mossa illegale generata per errore dal motore'], 0, 'È la base della tabella di trasposizione.'),
       mc('Con b ≈ 35 e circa 80 semimosse, le foglie negli scacchi sono dell’ordine di:', ['10¹²³', '10⁸⁰', '10³⁵', '10⁶'], 0, '35⁸⁰ ≈ 10¹²³: log₁₀(35) ≈ 1,54 e 1,54 × 80 ≈ 123.'),
       fill('Albero con b = 5 e d = 3: quante foglie?', ['125'], '5³ = 125.'),
       fill('Radice MAX; figli MIN con foglie (4, 7), (6, 1), (5, 9). Valore minimax?', ['5'], 'I minimi sono 4, 1, 5; il massimo è 5.'),
-      mc('La ricerca di quiescenza serve a:', ['Valutare solo posizioni calme, riducendo l’effetto orizzonte', 'Ridurre la memoria della tabella hash', 'Ordinare le mosse per l’alfa-beta', 'Contare le simmetrie'], 0, 'Si prosegue sulle mosse turbolente prima di dare il valore.'),
+      mc('La ricerca di quiescenza serve a:', ['Valutare solo posizioni calme, riducendo l’effetto orizzonte', 'Ridurre la memoria occupata dalla tabella hash', 'Ordinare le mosse per favorire la potatura alfa-beta', 'Contare le posizioni simmetriche una sola volta'], 0, 'Si prosegue sulle mosse turbolente prima di dare il valore.'),
       mc('Con gioco perfetto, il tris termina:', ['In patta', 'Con la vittoria di X', 'Con la vittoria di O', 'Dipende dalla mossa iniziale di O'], 0, 'Il valore minimax del tris è 0.'),
       fill('Quante sequenze diverse esistono per le prime tre mosse del tris (9 × 8 × 7)?', ['504'], '9 × 8 × 7 = 504.')
     ]
@@ -97,7 +97,7 @@
       { h: 'Monete: greedy e DP a confronto', b: `**Resto con il minor numero di monete.** Con le monete dell’euro (1, 2, 5, 10, 20, 50…) il greedy (prendi la moneta più grande possibile) è ottimo. Con altri tagli no.\n\n> Monete {1, 3, 4}, resto 6.\n> Greedy: 4 + 1 + 1 → **3 monete**.\n> Ottimo: 3 + 3 → **2 monete**.\n\nDP: c(x) = 1 + min c(x − m) tra le monete m ≤ x, con c(0) = 0.\n\n> c(0) = 0\n> c(1) = 1\n> c(2) = 2\n> c(3) = 1\n> c(4) = 1\n> c(5) = 1 + min(c(4), c(2), c(1)) = 1 + 1 = **2**\n> c(6) = 1 + min(c(5), c(3), c(2)) = 1 + 1 = **2**\n\nAltri esempi: c(7) = 1 + min(c(6), c(4), c(3)) = 2 (3 + 4); c(8) = 1 + min(c(7), c(5), c(4)) = 2 (4 + 4).\n\nRegola pratica: usa il greedy solo con una **prova** o un sistema noto; altrimenti la DP.` }
     ],
     exercises: [
-      mc('Nella selezione di intervalli, quale regola greedy è corretta?', ['Prendere sempre l’attività che finisce prima', 'Prendere quella che inizia prima', 'Prendere la più breve', 'Prendere la più lunga'], 0, 'La fine anticipata lascia più spazio e si dimostra ottima con l’argomento di scambio.'),
+      mc('Nella selezione di intervalli, quale regola greedy è corretta?', ['Prendere sempre l’attività che finisce prima', 'Prendere sempre l’attività che inizia per prima', 'Prendere sempre l’attività più breve fra quelle rimaste', 'Prendere sempre l’attività più lunga fra quelle rimaste'], 0, 'La fine anticipata lascia più spazio e si dimostra ottima con l’argomento di scambio.'),
       fill('Attività (1,3), (2,5), (4,7), (6,8), (7,10). Quante se ne scelgono al massimo?', ['3'], 'Greedy: (1,3), poi (4,7), poi (7,10).'),
       fill('Zaino: oggetti (peso, valore) = (1,1), (3,4), (4,5), (5,7) con capacità 7. Valore massimo?', ['9'], 'Oggetti di peso 3 e 4: valore 4 + 5 = 9.'),
       fill('Con gli stessi oggetti, valore massimo con capacità 4 usando solo i primi due oggetti?', ['5'], 'Pesi 1 + 3 = 4 con valore 1 + 4 = 5.'),
@@ -106,7 +106,7 @@
       mc('Con le monete {1, 3, 4} e resto 6, il greedy usa:', ['3 monete (4 + 1 + 1)', '2 monete (3 + 3)', '4 monete', '6 monete'], 0, 'Prende 4, poi 1 e 1: non trova 3 + 3.'),
       fill('Monete {1, 3, 4}: numero minimo di monete per il resto 5?', ['2'], '4 + 1.'),
       fill('Quanti sottoinsiemi possibili ha un insieme di 10 oggetti?', ['1024', '1 024', '1.024'], '2¹⁰ = 1 024.'),
-      mc('La sottostruttura ottima significa che:', ['La soluzione ottima contiene soluzioni ottime dei sottoproblemi', 'Il problema ha una sola soluzione', 'Il greedy è sempre corretto', 'I sottoproblemi sono indipendenti dal totale'], 0, 'È la condizione che permette la ricorrenza della DP.'),
+      mc('La sottostruttura ottima significa che:', ['La soluzione ottima contiene soluzioni ottime dei sottoproblemi', 'Il problema ammette una e una sola soluzione ottima', 'L’algoritmo greedy è sempre corretto per quel problema', 'I sottoproblemi sono indipendenti dal problema totale'], 0, 'È la condizione che permette la ricorrenza della DP.'),
       order('Ordina i passi per progettare una DP', ['Definisco lo stato', 'Scrivo la ricorrenza', 'Fisso i casi base', 'Riempio la tabella', 'Leggo la risposta'], 'Stato, ricorrenza, base, riempimento, lettura.')
     ],
     test: [
@@ -115,7 +115,7 @@
       mc('Nello zaino frazionario (oggetti divisibili) il greedy per rapporto valore/peso è:', ['Ottimo', 'Sempre sbagliato', 'Ottimo solo con 2 oggetti', 'Più lento della DP'], 0, 'Si riempie con il rapporto migliore, spezzando l’ultimo oggetto.'),
       fill('Monete {1, 3, 4}: minimo di monete per il resto 7?', ['2'], '3 + 4.'),
       fill('Monete {1, 3, 4}: minimo di monete per il resto 8?', ['2'], '4 + 4; il greedy darebbe anch’esso 4 + 4.'),
-      mc('Perché memorizzare i risultati nella DP di Fibonacci?', ['Perché gli stessi sottoproblemi si ripresentano più volte', 'Perché F(n) è sempre pari', 'Perché riduce i numeri', 'Perché il greedy non funziona'], 0, 'La sovrapposizione dei sottoproblemi è il punto di forza della DP.'),
+      mc('Perché memorizzare i risultati nella DP di Fibonacci?', ['Perché gli stessi sottoproblemi si ripresentano più volte', 'Perché F(n) è sempre un numero pari per n grande', 'Perché in questo modo i numeri restano più piccoli', 'Perché l’approccio greedy non funziona per Fibonacci'], 0, 'La sovrapposizione dei sottoproblemi è il punto di forza della DP.'),
       mc('Quale regola per scegliere intervalli ha un controesempio con X(0,5), Y(4,6), Z(5,10)?', ['Scegliere la durata più breve', 'Scegliere la fine più presto', 'Scegliere in ordine alfabetico', 'Nessuna'], 0, 'Y ha durata minima ma blocca X e Z, che insieme sono 2.')
     ]
   });
@@ -146,17 +146,17 @@
       mc('Perché l’MST (33) non coincide con l’albero dei cammini minimi da A (38)?', ['Risolvono problemi diversi', 'L’MST contiene un errore', 'Dijkstra aggiunge archi inutili', 'Il grafo è orientato'], 0, 'L’MST minimizza il costo totale, non le distanze dalla sorgente.'),
       fill('Durata minima del progetto con attività A(3), B(2 dopo A), C(4 dopo A), D(3 dopo B e C), E(2 dopo C), F(1 dopo D ed E)?', ['11'], 'Cammino critico A-C-D-F: 3 + 4 + 3 + 1.'),
       fill('Nello stesso progetto, quanto vale il margine dell’attività E?', ['1'], 'Finisce al 9 ma serve al 10.'),
-      mc('Quale difetto ha Dijkstra?', ['Non è corretto con archi di peso negativo', 'Non funziona sui grafi non orientati', 'Trova solo il cammino con meno archi', 'È più lento della BFS in ogni caso'], 0, 'La scelta del nodo con stima minima presuppone pesi ≥ 0.'),
+      mc('Quale difetto ha Dijkstra?', ['Non è corretto con archi di peso negativo', 'Non funziona sui grafi non orientati e connessi', 'Trova solo il cammino con il minor numero di archi', 'È più lento della BFS su ogni tipo di grafo'], 0, 'La scelta del nodo con stima minima presuppone pesi ≥ 0.'),
       order('Ordina i passi di Dijkstra', ['Parto con distanza 0 dalla sorgente e ∞ altrove', 'Fisso il nodo con stima minima', 'Rilasso gli archi uscenti', 'Ripeto finché tutti i nodi sono fissati'], 'È il ciclo estrai-rilassa.')
     ],
     test: [
-      mc('La BFS fornisce il cammino di costo minimo quando:', ['Tutti gli archi hanno lo stesso peso', 'I pesi sono negativi', 'Il grafo è orientato', 'Mai'], 0, 'Con pesi uguali meno archi significa meno costo.'),
+      mc('La BFS fornisce il cammino di costo minimo quando:', ['Tutti gli archi hanno lo stesso peso', 'I pesi degli archi sono negativi', 'Il grafo è orientato e aciclico', 'Non lo fornisce in nessun caso'], 0, 'Con pesi uguali meno archi significa meno costo.'),
       fill('Un grafo ha gradi 3, 3, 2, 2, 2. Quanti archi ha?', ['6'], 'Somma 12, quindi 12 : 2 = 6.'),
       fill('Archi A-B 4, B-D 3, A-C 2, C-D 7. Distanza minima da A a D?', ['7'], 'A-B-D = 4 + 3 = 7; A-C-D = 9.'),
       fill('Triangolo con archi di peso 1, 2, 3: peso dell’MST?', ['3'], 'Si scelgono 1 e 2.'),
       fill('Nel progetto A–F, quanto vale il margine dell’attività B?', ['2'], 'Finisce al 5 ma può finire al 7 senza ritardare D.'),
-      mc('Il cammino critico di un progetto è:', ['Il cammino più lungo: determina la durata minima', 'Il cammino con meno attività', 'Il più breve', 'L’attività più costosa'], 0, 'Qualsiasi ritardo lungo di esso ritarda l’intero progetto.'),
-      mc('Per cablare 6 uffici con meno cavo possibile serve:', ['Un albero di copertura minimo', 'Dijkstra da un ufficio', 'La BFS', 'Il cammino critico'], 0, 'Si vogliono collegare tutti i nodi con costo totale minimo.')
+      mc('Il cammino critico di un progetto è:', ['Il cammino più lungo: determina la durata minima', 'Il cammino che contiene meno attività del progetto', 'Il cammino più breve fra inizio e fine del progetto', 'Il cammino che contiene l’attività più costosa'], 0, 'Qualsiasi ritardo lungo di esso ritarda l’intero progetto.'),
+      mc('Per cablare 6 uffici con meno cavo possibile serve:', ['Un albero di copertura minimo', 'Dijkstra a partire da un ufficio qualsiasi', 'Una visita BFS partendo dall’ufficio centrale', 'Il calcolo del cammino critico fra gli uffici'], 0, 'Si vogliono collegare tutti i nodi con costo totale minimo.')
     ]
   });
 
@@ -183,7 +183,7 @@
       fill('Probabilità di due assi di fila da un mazzo di 52 carte, nella forma 1/x: quanto vale x?', ['221'], '4/52 · 3/51 = 12/2652 = 1/221.'),
       fill('Quante sequenze di 5 lanci di moneta hanno esattamente 3 teste?', ['10'], 'C(5, 3) = 10.'),
       mc('Probabilità di almeno un 6 in 4 lanci di un dado?', ['circa 51,8%', 'circa 66,7%', 'circa 16,7%', 'circa 11,6%'], 0, '1 − (5/6)⁴ = 671/1296.'),
-      mc('Monty Hall, 3 porte: cosa conviene fare dopo l’apertura?', ['Cambiare: vinci con probabilità 2/3', 'Restare: vinci con probabilità 2/3', 'È indifferente: 1/2', 'Cambiare ma con probabilità 1/3'], 0, 'La porta scelta mantiene 1/3; le altre due insieme avevano 2/3, concentrato nella rimasta.'),
+      mc('Monty Hall, 3 porte: cosa conviene fare dopo l’apertura?', ['Cambiare: si vince con probabilità 2/3', 'Restare: si vince con probabilità 2/3', 'È indifferente: la probabilità è 1/2 in entrambi i casi', 'Cambiare, ma vincendo con probabilità solo 1/3'], 0, 'La porta scelta mantiene 1/3; le altre due insieme avevano 2/3, concentrato nella rimasta.'),
       mc('Dopo 5 rossi di fila alla roulette europea, la probabilità di rosso al giro successivo è:', ['18/37, come sempre', 'Minore di 18/37', 'Maggiore di 18/37', '1/2'], 0, 'I giri sono indipendenti.'),
       fill('Su 3 700 € puntati sul rosso alla roulette europea, perdita attesa in euro?', ['100'], '3700/37 = 100.'),
       order('Ordina i passi per calcolare un valore atteso', ['Elenco i risultati possibili', 'Assegno a ciascuno la sua probabilità', 'Moltiplico valore e probabilità', 'Sommo tutti i prodotti'], 'E = Σ valore × probabilità.')
@@ -193,7 +193,7 @@
       mc('Valore atteso della somma di due dadi?', ['7', '6', '7,5', '3,5'], 0, '3,5 + 3,5.'),
       mc('Alla roulette americana (38 caselle) il vantaggio del banco sulle puntate semplici è circa:', ['5,26%', '2,70%', '10%', '0%'], 0, '2/38 ≈ 0,0526.'),
       fill('Un mazzo da 52 carte: dopo 12 carte viste, nessuna delle quali è un asso, qual è la probabilità di asso (in decimale)?', ['0,1', '0.1', '1/10', '10%'], 'Restano 40 carte, 4 assi: 4/40 = 0,1.'),
-      mc('Il conteggio delle carte sfrutta:', ['La probabilità condizionata alla composizione del mazzo rimasto', 'La fallacia del giocatore', 'Il fatto che le carte si ripetano', 'L’indipendenza delle estrazioni'], 0, 'Le carte uscite cambiano le proporzioni di quelle rimaste.'),
+      mc('Il conteggio delle carte sfrutta:', ['La probabilità condizionata alla composizione del mazzo rimasto', 'La fallacia del giocatore sui risultati precedenti', 'Il fatto che le carte uscite si ripetano nelle mani successive', 'L’indipendenza delle estrazioni dal mazzo precedente'], 0, 'Le carte uscite cambiano le proporzioni di quelle rimaste.'),
       fill('Quante mani di 5 carte distinte si possono formare da un mazzo di 52?', ['2598960', '2 598 960', '2.598.960'], 'C(52, 5) = 2 598 960.'),
       mc('Monty Hall con 100 porte: apri 98 capre dopo la tua scelta. Cambiare vince con probabilità:', ['99/100', '1/2', '1/100', '98/100'], 0, 'La porta scelta resta 1/100; il resto, 99/100, si concentra sull’unica rimasta.')
     ]
@@ -215,7 +215,7 @@
       { h: 'Metodo di lavoro', b: `Riassunto del metodo per problemi di pianificazione e vincoli.\n\n1. **Modella**: variabili, domini, vincoli, eventuale obiettivo.\n2. **Riduci** con la propagazione: spesso il problema si semplifica molto o si risolve da solo.\n3. **Cerca** con backtracking, scegliendo la variabile con MRV e provando i valori meno vincolanti.\n4. **Ottimizza**, se serve, aggiungendo un vincolo “costo < migliore trovato”.\n5. **Verifica** la soluzione su **tutti** i vincoli originali.\n\n**Limiti**: molti CSP sono **NP-completi**: nel caso peggiore il tempo cresce in modo esponenziale; l’efficacia nella pratica nasce dalle euristiche e dalla struttura dei problemi reali.\n\nStrumenti: solutori SAT, programmazione a vincoli, programmazione lineare intera. Sono usati per orari di scuole e treni, turni di personale, assegnazione di frequenze.\n\nControlla sempre i **casi limite**: nessuna soluzione ammissibile è una risposta valida, e va saputa riconoscere.` }
     ],
     exercises: [
-      mc('Un CSP è descritto da:', ['Variabili, domini e vincoli', 'Solo variabili e obiettivo', 'Un albero di gioco', 'Un grafo pesato'], 0, 'È la formulazione standard.'),
+      mc('Un CSP è descritto da:', ['Variabili, domini e vincoli', 'Solo variabili e una funzione obiettivo da massimizzare', 'Un albero di gioco con valori sulle foglie', 'Un grafo pesato con archi e capacità'], 0, 'È la formulazione standard.'),
       fill('Quante soluzioni ha il problema delle 4 regine?', ['2'], '2-4-1-3 e 3-1-4-2.'),
       fill('In quanti modi si possono disporre le 4 regine una per riga e per colonna (4!)?', ['24'], '4! = 24.'),
       mc('L’euristica MRV sceglie la variabile con:', ['Meno valori possibili rimasti', 'Più valori possibili rimasti', 'Il nome più corto', 'Il dominio più grande'], 0, 'Fail first: individua prima i vicoli ciechi.'),
@@ -225,17 +225,17 @@
       fill('Lavori unitari a(scad. 2, 100), b(1, 19), c(2, 27), d(1, 25), e(3, 15). Profitto massimo?', ['142'], 'a, c, e: 100 + 27 + 15.'),
       mc('Opzioni (costo, tempo) da minimizzare: A(10,5), B(8,6), D(9,7). Quale è dominata?', ['D, da B', 'A, da B', 'B, da D', 'Nessuna'], 0, 'B è migliore o uguale di D in entrambi i criteri.'),
       fill('Opzioni A(10,5), B(8,6), C(12,4), D(9,7), E(11,5): quante stanno sulla frontiera di Pareto?', ['3'], 'A, B, C; D ed E sono dominate.'),
-      mc('Il forward checking serve a:', ['Eliminare presto dai vicini i valori incompatibili', 'Ordinare i lavori per scadenza', 'Calcolare la media dei valori', 'Evitare le variabili libere'], 0, 'Se un dominio si svuota, si torna subito indietro.'),
+      mc('Il forward checking serve a:', ['Eliminare presto dai vicini i valori incompatibili', 'Ordinare i lavori in base alla scadenza di consegna', 'Calcolare la media dei valori ancora ammissibili', 'Evitare di lasciare variabili libere nell’assegnamento'], 0, 'Se un dominio si svuota, si torna subito indietro.'),
       order('Ordina il ciclo del backtracking', ['Scelgo una variabile', 'Provo un valore', 'Controllo i vincoli', 'Se violati torno indietro', 'Se tutto assegnato, ho una soluzione'], 'Assegna, verifica, torna indietro se serve.')
     ],
     test: [
-      mc('Nel backtracking, se una variabile non ha più valori compatibili:', ['Si torna alla variabile precedente e si cambia scelta', 'Si ignora il vincolo', 'Si sceglie un valore a caso', 'Si ricomincia da zero'], 0, 'È l’essenza del “tornare indietro”.'),
+      mc('Nel backtracking, se una variabile non ha più valori compatibili:', ['Si torna alla variabile precedente e si cambia scelta', 'Si ignora il vincolo violato e si prosegue oltre', 'Si sceglie un valore a caso per quella variabile', 'Si ricomincia l’intera ricerca da una soluzione vuota'], 0, 'È l’essenza del “tornare indietro”.'),
       fill('Quante soluzioni ha il problema delle 8 regine?', ['92'], 'Sono 92 (12 distinte a meno di simmetrie).'),
       fill('Lavori unitari P(scad. 1, 50), Q(1, 40), R(2, 30). Profitto massimo?', ['80'], 'P in casella 1, Q scartato, R in casella 2: 50 + 30.'),
       fill('Lavori (durata, scadenza): X(2,5), Y(1,2), Z(2,4). Con EDF a che tempo termina l’ultimo?', ['5'], 'Ordine Y, Z, X: 1 + 2 + 2 = 5.'),
       mc('Opzioni (costo, tempo) da minimizzare: P(5,9), Q(6,7), R(7,8), S(9,4). Quale è dominata?', ['R, da Q', 'P, da Q', 'Q, da R', 'S, da P'], 0, 'Q è migliore di R in entrambi i criteri: 6 ≤ 7 e 7 ≤ 8.'),
-      mc('La euristica del valore meno vincolante consiglia di:', ['Provare per primo il valore che lascia più scelte agli altri', 'Provare il valore più grande', 'Provare il valore più vincolante', 'Non usare valori numerici'], 0, 'Si conservano più possibilità per le variabili vicine.'),
-      mc('Quale affermazione sulla frontiera di Pareto è corretta?', ['Nessuna soluzione si migliora in un criterio senza peggiorare un altro', 'Contiene sempre una sola soluzione', 'Contiene le soluzioni peggiori', 'Dipende dai pesi scelti'], 0, 'È la definizione di insieme di soluzioni non dominate.')
+      mc('La euristica del valore meno vincolante consiglia di:', ['Provare per primo il valore che lascia più scelte agli altri', 'Provare per primo il valore numericamente più grande', 'Provare per primo il valore che vincola più i vicini', 'Evitare i valori numerici e scegliere solo simboli'], 0, 'Si conservano più possibilità per le variabili vicine.'),
+      mc('Quale affermazione sulla frontiera di Pareto è corretta?', ['Nessuna soluzione migliora un criterio senza peggiorarne un altro', 'Contiene sempre una sola soluzione, indipendentemente dai criteri', 'Contiene le soluzioni peggiori rispetto a tutti i criteri', 'Dipende dai pesi scelti per i diversi criteri dal decisore'], 0, 'È la definizione di insieme di soluzioni non dominate.')
     ]
   });
 })(window.ST = window.ST || {});

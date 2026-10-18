@@ -20,7 +20,7 @@
       { h: 'Oltre il grafico: simplesso, interi, errori comuni', b: `Con 2 variabili si risolve a mano o con il grafico. Con centinaia di variabili si usa l’algoritmo del **simplesso** (Dantzig, 1947): parte da un vertice e si sposta lungo i lati verso vertici migliori finché nessuno migliora. In pratica è molto veloce, anche se in teoria il caso peggiore è esponenziale; esistono anche i metodi a punto interno, polinomiali.\n\nUn limite importante: la PL ammette quantità **frazionarie**. Se x e y devono essere interi (non si producono 2,5 tavoli) il problema è di **programmazione intera** ed è in generale molto più difficile (NP-hard). Si risolve spesso il **rilassamento lineare** e poi si arrotonda o si ramifica (branch and bound).\n\nErrori frequenti nella modellazione:\n- dimenticare la non negatività;\n- confondere ≤ con ≥ (le risorse sono limiti superiori, i requisiti minimi sono limiti inferiori);\n- usare unità diverse nello stesso vincolo;\n- aggiungere vincoli inutili che nascondono l’errore vero;\n- fidarsi di coefficienti stimati come fossero esatti.\n\nProcedura riassuntiva: variabili → obiettivo → vincoli → vertici → valutazione di Z → controllo di attivi, slack e prezzi ombra.` }
     ],
     exercises: [
-      mc('Nella programmazione lineare la regione ammissibile è:', ['un poligono convesso (intersezione di semipiani)', 'sempre un cerchio', 'un insieme di punti isolati', 'una curva'], 0, 'Ogni vincolo lineare è un semipiano; l’intersezione di semipiani è convessa.'),
+      mc('Nella programmazione lineare la regione ammissibile è:', ['un poligono convesso (intersezione di semipiani)', 'sempre un cerchio centrato nell’origine', 'un insieme di punti isolati nel piano', 'una curva chiusa definita da un’equazione quadratica'], 0, 'Ogni vincolo lineare è un semipiano; l’intersezione di semipiani è convessa.'),
       fill('Max 40x + 30y con 2x + y ≤ 100, x + y ≤ 80, x ≤ 40. Quanto vale Z nel vertice (40, 20)?', ['2200', '2.200', '2 200'], '40·40 + 30·20 = 1 600 + 600 = 2 200.'),
       fill('Stesso problema: quanto vale Z nel vertice (0, 80)?', ['2400', '2.400', '2 400'], '30 · 80 = 2 400.'),
       fill('Stesso problema: qual è il valore massimo di Z?', ['2600', '2.600', '2 600'], 'Il massimo è nel vertice (20, 60): 800 + 1 800 = 2 600.'),
@@ -29,9 +29,9 @@
       fill('Nell’ottimo (20, 60): quante ore di assemblaggio restano inutilizzate?', ['0'], '20 + 60 = 80 su 80: il vincolo è attivo.'),
       fill('Nell’ottimo (20, 60): di quanti tavoli la domanda massima supera la produzione (slack)?', ['20'], '40 − 20 = 20.'),
       fill('Qual è il prezzo ombra (in euro) di un’ora di assemblaggio in più?', ['20'], 'Con 81 ore l’ottimo è (19, 62), Z = 2 620: +20.'),
-      mc('Perché il vincolo x ≤ 40 ha prezzo ombra 0?', ['Perché non è attivo nell’ottimo (slack di 20)', 'Perché la domanda è infinita', 'Perché è sbagliato', 'Perché i tavoli non rendono'], 0, 'Aumentare un limite che non è raggiunto non migliora l’ottimo.'),
+      mc('Perché il vincolo x ≤ 40 ha prezzo ombra 0?', ['Perché non è attivo nell’ottimo (slack di 20)', 'Perché la domanda dei tavoli è praticamente illimitata', 'Perché il vincolo è scritto in modo sbagliato', 'Perché i tavoli non contribuiscono al profitto'], 0, 'Aumentare un limite che non è raggiunto non migliora l’ottimo.'),
       fill('Con margine del tavolo c = 50 (e sedia 30) l’ottimo resta (20, 60). Quanto vale Z?', ['2800', '2.800', '2 800'], '50·20 + 30·60 = 1 000 + 1 800 = 2 800.'),
-      mc('Con Z = 20x + 10y (parallela al vincolo di taglio) cosa succede?', ['Ci sono infiniti ottimi lungo un lato', 'Non c’è ottimo', 'L’ottimo è (0, 0)', 'L’ottimo è (0, 80)'], 0, 'In (20, 60) e (40, 20) Z vale 1 000: tutto il segmento fra i due è ottimo.'),
+      mc('Con Z = 20x + 10y (parallela al vincolo di taglio) cosa succede?', ['Infiniti ottimi lungo un lato', 'Non esiste alcun ottimo ammissibile', 'L’ottimo è unico e coincide con l’origine (0, 0)', 'L’ottimo è unico nel vertice (0, 80)'], 0, 'In (20, 60) e (40, 20) Z vale 1 000: tutto il segmento fra i due è ottimo.'),
       order('Ordina i passi della soluzione grafica di un problema di PL', ['Definisco x e y', 'Scrivo Z e i vincoli', 'Trovo i vertici ammissibili', 'Calcolo Z in ogni vertice', 'Scelgo il valore migliore'], 'Dal modello ai vertici, poi alla scelta.')
     ],
     test: [
@@ -42,7 +42,7 @@
       fill('Stesso problema: slack del vincolo x + 3y ≤ 9 nell’ottimo?', ['3'], '9 − (3 + 3·1) = 3.'),
       fill('Stesso problema: prezzo ombra del vincolo x + y ≤ 4?', ['2'], 'Con limite 5 l’ottimo è (3, 2): Z = 13, cioè +2.'),
       fill('Stesso problema: prezzo ombra del vincolo x ≤ 3?', ['1'], 'Con limite 4 l’ottimo è (4, 0): Z = 12, cioè +1.'),
-      mc('Un modello di PL ha regione ammissibile vuota. Significa che:', ['i vincoli sono incompatibili: nessuna soluzione li soddisfa tutti', 'l’ottimo è zero', 'Z è illimitato', 'esistono infiniti ottimi'], 0, 'Problema impossibile: bisogna rivedere i vincoli.')
+      mc('Un modello di PL ha regione ammissibile vuota. Significa che:', ['i vincoli sono incompatibili: nessuna soluzione li soddisfa tutti', 'l’ottimo vale zero e il modello è degenere', 'Z è illimitato, cioè può crescere senza limite', 'esistono infiniti ottimi su un intero lato'], 0, 'Problema impossibile: bisogna rivedere i vincoli.')
     ]
   });
 
@@ -63,7 +63,7 @@
       { h: 'Complessità, memoria e quando usarla', b: `Riassumiamo costi e idee.\n\n- **Monete (minimo)**: T stati × k tagli → O(T·k).\n- **Zaino 0/1**: n·W celle. Per ogni oggetto si guarda solo la riga precedente: basta un solo vettore di W + 1 valori se si scorre c **al contrario**.\n- **LCS ed edit distance**: n·m celle, ciascuna in tempo costante: O(n·m). Con 1 000 × 1 000 caratteri sono 1 milione di celle; la ricorsione naïf sarebbe esponenziale.\n\n**Top-down o bottom-up?** Il top-down (ricorsione con memoria) calcola solo gli stati davvero necessari ed è più vicino alla definizione; il bottom-up è in genere più veloce e non rischia l’overflow dello stack.\n\n**Quando la PD non basta**: se lo stato cresce troppo (per esempio «l’insieme degli oggetti usati» invece di «la capacità»), il numero di stati diventa esponenziale. Se W è enorme (miliardi) lo zaino in PD è impraticabile: servono altre tecniche.\n\n**Quando preferire un algoritmo goloso**: se c’è la proprietà della *scelta golosa* (come per i cammini minimi con Dijkstra o gli alberi di copertura minimi). Altrimenti la PD è la scelta sicura: più lenta del goloso ma **esatta**.` }
     ],
     exercises: [
-      mc('Quale coppia di proprietà rende applicabile la programmazione dinamica?', ['Sottostruttura ottima e sottoproblemi sovrapposti', 'Casualità e ripetizione', 'Linearità e convessità', 'Ordinamento e ricerca binaria'], 0, 'Serve costruire l’ottimo dagli ottimi dei sottoproblemi, e che questi si ripetano.'),
+      mc('Quale coppia di proprietà rende applicabile la programmazione dinamica?', ['Sottostruttura ottima e sottoproblemi sovrapposti', 'Casualità degli input e ripetizione dei passi', 'Linearità della funzione e convessità della regione', 'Ordinamento dei dati e ricerca binaria'], 0, 'Serve costruire l’ottimo dagli ottimi dei sottoproblemi, e che questi si ripetano.'),
       fill('Tagli {1, 3, 4}. Quanto vale dp[5] (minimo numero di monete per 5)?', ['2'], 'dp[5] = min(dp[4], dp[2], dp[1]) + 1 = min(1, 2, 1) + 1 = 2.'),
       fill('Tagli {1, 3, 4}: minimo numero di monete per formare 6?', ['2'], '3 + 3.'),
       mc('Con tagli {1, 3, 4} e importo 6, il metodo goloso (moneta più grande) quante monete usa?', ['3 (4 + 1 + 1)', '2', '4', '6'], 0, 'Il goloso non trova 3 + 3: dà 4 + 1 + 1 = 3 monete.'),
@@ -73,7 +73,7 @@
       fill('Lunghezza della LCS di AGGTAB e GXTXAYB?', ['4'], 'La sottosequenza comune più lunga è GTAB.'),
       fill('Edit distance fra «mela» e «male»?', ['2'], 'Due sostituzioni: e → a e a → e.'),
       fill('Quante celle (escluse riga e colonna 0) si calcolano nella tabella LCS di stringhe lunghe 6 e 7?', ['42'], '6 × 7 = 42.'),
-      mc('Perché la PD è molto più veloce della ricorsione naïf su questi problemi?', ['Perché ogni sottoproblema è risolto una sola volta e poi riusato', 'Perché usa meno memoria', 'Perché non fa confronti', 'Perché è un algoritmo casuale'], 0, 'La ricorsione ricalcola più volte gli stessi sottoproblemi.'),
+      mc('Perché la PD è molto più veloce della ricorsione naïf su questi problemi?', ['Perché ogni sottoproblema si risolve una volta e si riusa', 'Perché usa sempre molta meno memoria della ricorsione', 'Perché evita del tutto i confronti fra le soluzioni', 'Perché è un algoritmo probabilistico che scarta rami'], 0, 'La ricorsione ricalcola più volte gli stessi sottoproblemi.'),
       order('Ordina i passi di una soluzione di PD', ['Definisco lo stato', 'Scrivo la ricorrenza', 'Fisso i casi base', 'Compilo la tabella dal piccolo al grande', 'Ricostruisco la soluzione a ritroso'], 'Stato, ricorrenza, base, calcolo, ricostruzione.')
     ],
     test: [
@@ -84,7 +84,7 @@
       fill('Lunghezza della LCS di ABCBDAB e BDCABA?', ['4'], 'Per esempio BCBA, BDAB o BCAB: lunghezza 4.'),
       fill('Edit distance fra «kitten» e «sitting»?', ['3'], 'k→s, e→i, inserimento di g: 3 operazioni.'),
       fill('Edit distance fra «ciao» e «cia»?', ['1'], 'Basta cancellare la «o».'),
-      mc('Perché lo zaino 0/1 in PD si dice pseudo-polinomiale?', ['Perché il costo O(n·W) dipende dal valore numerico di W', 'Perché è sempre lineare', 'Perché è un’euristica', 'Perché non ha una soluzione esatta'], 0, 'Se W è enorme il numero di celle diventa ingestibile, pur essendo il problema scritto con poche cifre.')
+      mc('Perché lo zaino 0/1 in PD si dice pseudo-polinomiale?', ['Perché il costo O(n·W) dipende dal valore numerico di W', 'Perché la sua complessità è sempre lineare nell’input', 'Perché è un’euristica che non garantisce l’ottimo', 'Perché il problema non ammette una soluzione esatta'], 0, 'Se W è enorme il numero di celle diventa ingestibile, pur essendo il problema scritto con poche cifre.')
     ]
   });
 
@@ -108,14 +108,14 @@
       fill('Nel grafo dell’esempio, quanto vale la distanza minima da A a D?', ['8'], 'A–C–B–D: 2 + 1 + 5 = 8.'),
       fill('Distanza minima da A a F?', ['13'], 'A–C–B–D–E–F: 2 + 1 + 5 + 2 + 3 = 13.'),
       fill('Distanza minima da A a E?', ['10'], 'Passando per D: 8 + 2 = 10 (via C diretta costerebbe 12).'),
-      mc('In Dijkstra, quale nodo si fissa a ogni passo?', ['Quello non fissato con distanza provvisoria minima', 'Quello con meno archi', 'Il primo in ordine alfabetico', 'Quello con distanza provvisoria massima'], 0, 'Con pesi non negativi la sua distanza non può più migliorare.'),
-      mc('Quale condizione serve a Dijkstra per essere corretto?', ['Pesi degli archi non negativi', 'Grafo senza cicli', 'Grafo completo', 'Pesi tutti distinti'], 0, 'Con archi negativi il nodo fissato potrebbe essere raggiunto meglio dopo.'),
+      mc('In Dijkstra, quale nodo si fissa a ogni passo?', ['Quello non fissato con distanza provvisoria minima', 'Quello che ha il minor numero di archi uscenti', 'Il primo nodo in ordine alfabetico fra quelli aperti', 'Quello non fissato con distanza provvisoria massima'], 0, 'Con pesi non negativi la sua distanza non può più migliorare.'),
+      mc('Quale condizione serve a Dijkstra per essere corretto?', ['Pesi degli archi non negativi', 'Grafo privo di cicli, cioè un albero', 'Grafo completo, con tutti gli archi presenti', 'Pesi tutti distinti fra loro'], 0, 'Con archi negativi il nodo fissato potrebbe essere raggiunto meglio dopo.'),
       fill('Peso totale dell’albero di copertura minimo del grafo dell’esempio?', ['13'], '1 + 2 + 2 + 3 + 5 = 13.'),
       fill('Quanti archi ha un albero di copertura di un grafo con 7 nodi?', ['6'], 'N − 1 = 6.'),
-      mc('Kruskal scarta A–B (4) perché:', ['formerebbe il ciclo A–C–B', 'pesa troppo', 'A è già usato', 'è il primo arco'], 0, 'A e B sono già collegati tramite C: l’arco creerebbe un ciclo.'),
+      mc('Kruskal scarta A–B (4) perché:', ['formerebbe il ciclo A–C–B', 'pesa troppo rispetto agli altri archi', 'il nodo A è già stato usato da un altro arco', 'è il primo arco in ordine di peso crescente'], 0, 'A e B sono già collegati tramite C: l’arco creerebbe un ciclo.'),
       fill('Rete s→a 10, s→b 8, a→b 5, a→t 7, b→t 10: flusso massimo?', ['17'], 'Cammini aumentanti 7 + 8 + 2 = 17.'),
       fill('Capacità del taglio S = {s, a, b} nella stessa rete?', ['17'], 'a→t 7 + b→t 10 = 17.'),
-      mc('Il teorema max-flow min-cut afferma che:', ['il flusso massimo è uguale alla capacità del taglio minimo', 'il flusso massimo è il doppio del taglio minimo', 'il flusso dipende dal numero di nodi', 'il taglio minimo è sempre un solo arco'], 0, 'Dualità: i due valori coincidono.'),
+      mc('Il teorema max-flow min-cut afferma che:', ['il flusso massimo è uguale al taglio minimo', 'il flusso massimo è il doppio della capacità del taglio minimo', 'il flusso massimo dipende solo dal numero di nodi della rete', 'il taglio minimo è sempre costituito da un solo arco'], 0, 'Dualità: i due valori coincidono.'),
       order('Ordina i passi di Kruskal', ['Ordino gli archi per peso', 'Prendo l’arco più leggero', 'Controllo che non formi un ciclo', 'Lo aggiungo all’albero', 'Mi fermo a N − 1 archi'], 'Si ordina, si aggiunge se aciclico, si termina con N − 1 archi.')
     ],
     test: [
@@ -124,8 +124,8 @@
       fill('Rete s→a 5, s→b 4, a→t 3, b→t 6, a→b 2: flusso massimo?', ['9'], 'Il taglio {s} vale 9 ed è raggiunto: s→a→t 3, s→a→b→t 2, s→b→t 4.'),
       mc('Triangolo X–Y 3, Y–Z 3, X–Z 4. L’MST ha peso 6; la distanza X → Z lungo l’MST è:', ['6, mentre il cammino minimo è 4', '4', '3', '7'], 0, 'L’MST non preserva le distanze fra le coppie.'),
       fill('Quanti archi ha un MST con 10 nodi?', ['9'], 'N − 1 = 9.'),
-      mc('Dijkstra con un arco di peso negativo:', ['può dare un risultato sbagliato', 'funziona sempre', 'diventa più veloce', 'trova il flusso massimo'], 0, 'La distanza di un nodo già fissato potrebbe ancora diminuire.'),
-      mc('A cosa serve il taglio minimo in una rete?', ['A individuare il collo di bottiglia che limita il flusso', 'A trovare il cammino più breve', 'A ordinare i nodi', 'A ridurre il numero di nodi'], 0, 'Gli archi del taglio minimo sono quelli da potenziare per far passare più flusso.'),
+      mc('Dijkstra con un arco di peso negativo:', ['può dare un risultato sbagliato', 'funziona comunque, senza alcuna modifica', 'diventa più veloce, perché ci sono meno cammini', 'trova direttamente il flusso massimo della rete'], 0, 'La distanza di un nodo già fissato potrebbe ancora diminuire.'),
+      mc('A cosa serve il taglio minimo in una rete?', ['A individuare il collo di bottiglia che limita il flusso', 'A trovare il cammino più breve fra sorgente e pozzo', 'A ordinare i nodi in base alla loro distanza dalla sorgente', 'A ridurre il numero di nodi della rete senza perdere flusso'], 0, 'Gli archi del taglio minimo sono quelli da potenziare per far passare più flusso.'),
       mc('Quale algoritmo risponde a «come collego tutti i nodi spendendo meno?»', ['Kruskal o Prim', 'Dijkstra', 'Ford–Fulkerson', 'Floyd–Warshall'], 0, 'È il problema dell’albero di copertura minimo.')
     ]
   });
@@ -158,7 +158,7 @@
       mc('Con durata attesa 20 e deviazione standard 3, la probabilità di finire entro 23 giorni è circa:', ['84%', '50%', '16%', '98%'], 0, 'Media + 1σ: circa 84%.'),
       fill('Compressione: costo (in euro) per portare il progetto da 14 a 13 giorni?', ['200'], 'Si comprime B, la più economica fra le critiche (200 €).'),
       fill('Costo totale (in euro) per portare il progetto a 12 giorni?', ['600'], '200 (B) + 400 (F, comune ai due percorsi) = 600.'),
-      mc('Comprimere un’attività non critica con slack positivo:', ['non accorcia il progetto, e costa inutilmente', 'accorcia sempre il progetto', 'riduce la varianza', 'azzera lo slack di tutte le altre'], 0, 'La durata dipende solo dalle attività critiche.'),
+      mc('Comprimere un’attività non critica con slack positivo:', ['non accorcia il progetto e costa inutilmente', 'accorcia sempre il progetto di altrettanti giorni', 'riduce la varianza della durata complessiva', 'azzera lo slack di tutte le altre attività del progetto'], 0, 'La durata dipende solo dalle attività critiche.'),
       order('Ordina i passi del metodo del cammino critico', ['Elenco attività e precedenze', 'Passata in avanti: ES ed EF', 'Passata all’indietro: LS ed LF', 'Calcolo lo slack', 'Individuo le attività con slack 0'], 'Prima il grafo, poi avanti, poi indietro, poi slack e cammino critico.')
     ],
     test: [
@@ -199,8 +199,8 @@
       fill('Distanze A–B 8, A–C 5, A–D 7, A–E 12, B–C 12, B–D 10, B–E 11, C–D 10, C–E 11, D–E 12. Lunghezza del giro ottimo?', ['44'], 'A–C–E–B–D–A: 5 + 11 + 11 + 10 + 7.'),
       fill('Stesse distanze: lunghezza del giro di nearest neighbour da A?', ['48'], 'A–C–D–B–E–A: 5 + 10 + 10 + 11 + 12.'),
       fill('Quanti giri distinti ci sono con 10 città (9!/2)?', ['181440', '181.440', '181 440'], '9! = 362 880; diviso 2 fa 181 440.'),
-      mc('Che cosa significa che un problema è NP-hard?', ['Un algoritmo veloce per esso ne darebbe uno per tutti i problemi di NP', 'Che è impossibile da risolvere', 'Che non ha soluzione', 'Che si risolve solo a mano'], 0, 'Non è «impossibile»: è difficile nel caso peggiore per n grandi.'),
-      mc('Un algoritmo di 2-approssimazione per un problema di minimo garantisce:', ['soluzione al più il doppio dell’ottimo', 'soluzione esattamente ottima', 'soluzione entro 2 unità', 'soluzione in 2 secondi'], 0, 'Il fattore moltiplicativo vale su ogni istanza.'),
+      mc('Che cosa significa che un problema è NP-hard?', ['Un algoritmo veloce per esso ne darebbe uno per tutti i problemi di NP', 'Che è impossibile da risolvere con qualsiasi algoritmo noto', 'Che non ammette alcuna soluzione per istanze di grandi dimensioni', 'Che si può risolvere solo a mano con istanze piccole'], 0, 'Non è «impossibile»: è difficile nel caso peggiore per n grandi.'),
+      mc('Un algoritmo di 2-approssimazione per un problema di minimo garantisce:', ['soluzione al più doppia dell’ottimo', 'soluzione esattamente ottima in tempo polinomiale', 'soluzione entro due unità di distanza dall’ottimo', 'soluzione calcolata in non più di due secondi'], 0, 'Il fattore moltiplicativo vale su ogni istanza.'),
       fill('Bin packing con capacità 10 e oggetti 5, 6, 4, 5: quanti contenitori usa First Fit?', ['3'], '5 → C1; 6 → C2; 4 → C1; 5 → C3.'),
       order('Ordina i passi della riduzione del metodo ungherese', ['Sottraggo il minimo di ogni riga', 'Sottraggo il minimo di ogni colonna', 'Cerco un assegnamento di soli zeri', 'Calcolo il costo sulla matrice originale'], 'Righe, colonne, assegnamento sugli zeri, costo reale.')
     ],
@@ -209,10 +209,10 @@
       fill('Quanti giri distinti (a meno del verso) ci sono con 6 città partendo da una fissa?', ['60'], '5! / 2 = 60.'),
       fill('Nello stesso problema a 5 città con MST di peso 31: limite superiore (in km) del giro dell’algoritmo MST-doppio?', ['62'], '2 × 31 = 62.'),
       fill('Bin packing capacità 10, oggetti 5, 6, 4, 5: contenitori usati da First Fit Decreasing?', ['2'], 'Ordine 6, 5, 5, 4: C1 = 6 + 4, C2 = 5 + 5.'),
-      mc('Un’euristica come nearest neighbour:', ['non garantisce l’ottimo ma è molto veloce', 'garantisce sempre l’ottimo', 'è esponenziale', 'non può essere migliorata'], 0, 'È costruttiva e rapida; si può migliorare con ricerca locale.'),
-      mc('Perché si divide per 2 il numero (n − 1)! di giri del TSP simmetrico?', ['Perché un giro e il suo inverso hanno la stessa lunghezza', 'Perché metà dei giri è vietata', 'Perché si parte da due città', 'Perché le distanze sono dimezzate'], 0, 'Percorrere lo stesso giro in verso opposto non cambia la distanza.'),
-      mc('Per il TSP con n grande conviene di solito:', ['una buona euristica con ricerca locale e un limite inferiore', 'enumerare tutti i giri', 'indovinare', 'rinunciare al problema'], 0, 'L’enumerazione è impraticabile; euristiche e solver specializzati danno buone soluzioni.'),
-      mc('Perché «verificare è facile, trovare è difficile» descrive la classe NP?', ['Una soluzione proposta si controlla in tempo polinomiale, ma trovarla può richiedere molto di più', 'Perché le soluzioni sono sempre uniche', 'Perché i problemi NP sono impossibili', 'Perché sono sempre casuali'], 0, 'Controllare un giro è rapido; cercare quello più breve fra n! giri no.')
+      mc('Un’euristica come nearest neighbour:', ['non garantisce l’ottimo ma è molto veloce', 'garantisce sempre l’ottimo su istanze di piccola taglia', 'ha tempo esponenziale nel numero di città', 'non può essere migliorata con ricerca locale'], 0, 'È costruttiva e rapida; si può migliorare con ricerca locale.'),
+      mc('Perché si divide per 2 il numero (n − 1)! di giri del TSP simmetrico?', ['Perché un giro e il suo inverso hanno la stessa lunghezza', 'Perché metà dei giri è vietata dalle regole del problema', 'Perché il percorso comincia da due città diverse', 'Perché le distanze fra le città sono dimezzate'], 0, 'Percorrere lo stesso giro in verso opposto non cambia la distanza.'),
+      mc('Per il TSP con n grande conviene di solito:', ['una buona euristica con ricerca locale e un limite inferiore', 'enumerare tutti i giri e scegliere il più breve', 'tentare a caso fino a trovare un giro accettabile', 'rinunciare al problema perché non risolvibile in pratica'], 0, 'L’enumerazione è impraticabile; euristiche e solver specializzati danno buone soluzioni.'),
+      mc('Perché «verificare è facile, trovare è difficile» descrive la classe NP?', ['Una soluzione proposta si controlla in tempo polinomiale, ma trovarla può costare molto di più', 'Perché le soluzioni dei problemi NP sono sempre uniche', 'Perché i problemi NP sono tutti impossibili da risolvere', 'Perché le loro istanze sono sempre generate in modo casuale'], 0, 'Controllare un giro è rapido; cercare quello più breve fra n! giri no.')
     ]
   });
 
@@ -236,11 +236,11 @@
       fill('Paesaggio f = [3, 5, 8, 6, 4, 7, 9, 12, 10, 2] su x = 0…9. Hill climbing da x = 1: in quale x si ferma?', ['2'], 'Da 1 va a 2 (8); i vicini 5 e 6 sono peggiori.'),
       fill('Stesso paesaggio: valore (f) del massimo globale?', ['12'], 'f(7) = 12.'),
       fill('Stesso paesaggio, hill climbing da x = 5: in quale x si ferma?', ['7'], 'Sale 5 → 6 → 7 e si ferma perché 6 e 8 valgono meno di 12.'),
-      mc('Che cos’è un ottimo locale?', ['Una soluzione migliore di tutti i suoi vicini, ma non necessariamente del resto', 'La soluzione migliore in assoluto', 'La peggiore soluzione', 'Una soluzione casuale'], 0, 'L’hill climbing si ferma lì.'),
+      mc('Che cos’è un ottimo locale?', ['Una soluzione migliore dei suoi vicini, non necessariamente del resto', 'La soluzione migliore in assoluto fra tutte quelle ammissibili', 'La peggiore soluzione fra quelle vicine', 'Una soluzione scelta a caso dall’insieme ammissibile'], 0, 'L’hill climbing si ferma lì.'),
       fill('Quante partenze su 10 portano all’ottimo globale con hill climbing (x = 0…9)?', ['6'], 'Le partenze da 4 a 9.'),
       fill('Con 3 restart casuali, probabilità percentuale di arrivare almeno una volta all’ottimo globale (arrotondata a 1 decimale)?', ['93,6', '93.6'], '1 − 0,4³ = 0,936.'),
       fill('Simulated annealing: Δ = 2 e T = 2. Probabilità di accettare la mossa peggiorativa (due decimali)?', ['0,37', '0.37'], 'e^(−2/2) = e^(−1) ≈ 0,368.'),
-      mc('Quando la temperatura del simulated annealing scende, il metodo:', ['accetta sempre meno mosse peggiorative', 'accetta più mosse peggiorative', 'smette di valutare l’obiettivo', 'diventa casuale'], 0, 'p = e^(−Δ/T) diminuisce al calare di T.'),
+      mc('Quando la temperatura del simulated annealing scende, il metodo:', ['accetta sempre meno mosse peggiorative', 'accetta più mosse peggiorative di prima', 'smette di valutare la funzione obiettivo', 'diventa una ricerca puramente casuale'], 0, 'p = e^(−Δ/T) diminuisce al calare di T.'),
       fill('Genitori 11001 e 00110, taglio dopo il 2° bit. Come è fatto il primo figlio (11 + 110)?', ['11110'], 'I primi due bit del primo genitore e gli ultimi tre del secondo.'),
       fill('Roulette con fitness 3, 2, 5: probabilità (in %) dell’individuo con fitness 3?', ['30'], '3 / 10 = 30%.'),
       fill('ε-greedy con ε = 0,1 e 5 bracci: probabilità di scegliere il braccio stimato migliore (decimale)?', ['0,92', '0.92'], '0,9 + 0,1/5 = 0,92.'),
@@ -256,7 +256,7 @@
       fill('ε-greedy con ε = 0,2 e 4 bracci: probabilità di scegliere il braccio stimato migliore?', ['0,85', '0.85'], '0,8 + 0,2/4 = 0,85.'),
       fill('ε-greedy ε = 0,1, 5 bracci, migliore 0,7 e altri 0,5: rimpianto atteso su 1 000 turni?', ['16'], '0,08 × 0,2 × 1 000 = 16.'),
       mc('UCB1 con N = 40: braccio 1 (n = 20, media 0,55), braccio 2 (n = 15, media 0,60), braccio 3 (n = 5, media 0,40). Quale si sceglie?', ['Il braccio 3 (UCB circa 1,61)', 'Il braccio 2 (UCB circa 1,30)', 'Il braccio 1 (UCB circa 1,16)', 'Pari merito'], 0, 'UCB: 0,55 + 0,61 = 1,16; 0,60 + 0,70 = 1,30; 0,40 + 1,21 = 1,61.'),
-      mc('In un algoritmo genetico la mutazione serve soprattutto a:', ['mantenere la diversità ed evitare convergenze premature', 'raddoppiare la popolazione', 'calcolare la fitness', 'eliminare i genitori'], 0, 'Introduce nuovi geni e permette di uscire da ottimi locali.')
+      mc('In un algoritmo genetico la mutazione serve soprattutto a:', ['mantenere la diversità ed evitare convergenze premature', 'raddoppiare la dimensione della popolazione a ogni generazione', 'calcolare la fitness di ogni individuo', 'eliminare i genitori dalla generazione successiva'], 0, 'Introduce nuovi geni e permette di uscire da ottimi locali.')
     ]
   });
 
@@ -289,7 +289,7 @@
       fill('Prodotti con ricavi 500, 250, 100, 80, 70: quale percentuale del totale arriva dai due migliori?', ['75'], '(500 + 250) / 1 000 = 75%.'),
       fill('Ottimizzazione che costa 16 ore e fa risparmiare 3 minuti per esecuzione: dopo quante esecuzioni si pareggia?', ['320'], '16 × 60 = 960 minuti; 960 / 3 = 320.'),
       fill('Piano P rende 110 o 60 con probabilità 50% ciascuno. Valore atteso?', ['85'], '0,5 × 110 + 0,5 × 60 = 85.'),
-      mc('Che differenza c’è tra vincolo e obiettivo?', ['Il vincolo è una soglia non negoziabile; l’obiettivo si migliora e si compensa', 'Nessuna', 'Il vincolo si massimizza', 'L’obiettivo è sempre un numero intero'], 0, 'Un vincolo delimita le soluzioni ammissibili; un obiettivo le ordina.'),
+      mc('Che differenza c’è tra vincolo e obiettivo?', ['Il vincolo è una soglia non negoziabile; l’obiettivo si migliora', 'Nessuna: sono due modi di chiamare la stessa cosa', 'Il vincolo si massimizza, l’obiettivo si rispetta', 'L’obiettivo è sempre un numero intero positivo'], 0, 'Un vincolo delimita le soluzioni ammissibili; un obiettivo le ordina.'),
       order('Ordina i cinque passi della teoria dei vincoli', ['Individua il vincolo', 'Sfruttalo al massimo', 'Subordina il resto al vincolo', 'Eleva il vincolo', 'Torna al primo passo: il vincolo si è spostato'], 'È un ciclo di miglioramento continuo.')
     ],
     test: [
@@ -300,7 +300,7 @@
       fill('Stessa linea: si porta la stazione da 45 a 60. Nuova produzione?', ['50'], 'Il nuovo collo è la stazione da 50.'),
       fill('Ricavi di cinque clienti: 400, 300, 150, 100, 50. Percentuale del totale dai primi due?', ['70'], '(400 + 300) / 1 000 = 70%.'),
       fill('Un’ottimizzazione costa 8 ore e fa risparmiare 5 minuti per 120 esecuzioni. Guadagno netto in ore?', ['2'], '5 × 120 = 600 minuti = 10 ore; 10 − 8 = 2.'),
-      mc('Quando conviene preferire una soluzione robusta a una teoricamente ottima?', ['Quando i dati sono incerti e un caso sfavorevole costerebbe molto', 'Quando i dati sono esatti', 'Mai', 'Quando l’ottimo è unico'], 0, 'La robustezza protegge da scenari sfavorevoli; l’ottimo per i dati assunti può crollare quando cambiano.')
+      mc('Quando conviene preferire una soluzione robusta a una teoricamente ottima?', ['Quando i dati sono incerti e un caso sfavorevole costerebbe molto', 'Quando i dati sono esatti e non cambiano nel tempo', 'Mai, perché l’ottimo teorico è sempre preferibile', 'Quando l’ottimo teorico è unico e ben definito'], 0, 'La robustezza protegge da scenari sfavorevoli; l’ottimo per i dati assunti può crollare quando cambiano.')
     ]
   });
 

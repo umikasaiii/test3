@@ -30,7 +30,7 @@
       fill('Costo medio per pezzo (in euro) producendo 500 pezzi con CF = 12 000 € e CV = 8 €?', ['32'], 'CT = 12 000 + 4 000 = 16 000; 16 000 / 500 = 32.'),
       fill('Progetto: già spesi 5 000 € (irrecuperabili), per finire servono 3 000 € e si incasseranno 2 500 €. Risultato (in euro) del continuare, ragionando solo sul futuro?', ['-500', '−500'], '2 500 − 3 000 = −500: i 5 000 € sono affondati e non contano.'),
       fill('Negozio con ricavi 90 000 € e costi espliciti 70 000 €; stipendio alternativo 30 000 €. Profitto economico (in euro)?', ['-10000', '−10000', '-10.000', '−10.000'], '20 000 − 30 000 = −10 000.'),
-      mc('Un costo affondato è:', ['Un costo già sostenuto e non recuperabile, da ignorare nella scelta', 'Un costo variabile molto alto', 'Il costo della migliore alternativa scartata', 'Un costo che aumenta con la produzione'], 0, 'Non cambia qualunque decisione si prenda, quindi non è rilevante.'),
+      mc('Un costo affondato è:', ['Un costo già sostenuto e non recuperabile, da ignorare', 'Un costo variabile molto alto rispetto al prezzo di vendita', 'Il costo della migliore alternativa a cui si rinuncia', 'Un costo che aumenta in proporzione alla produzione'], 0, 'Non cambia qualunque decisione si prenda, quindi non è rilevante.'),
       mc('Se i costi fissi aumentano e prezzo e CV restano uguali, il break-even:', ['Aumenta', 'Diminuisce', 'Resta uguale', 'Diventa negativo'], 0, 'q* = CF / MC: con MC costante, più CF significa più pezzi.'),
       fill('Vendite attese 1 500 pezzi, break-even 1 000. Margine di sicurezza in pezzi?', ['500'], '1 500 − 1 000 = 500 (cioè il 33,3% delle vendite).'),
       order('Ordina i passi per calcolare il break-even', ['Stima prezzo e costo variabile', 'Calcola MC = p − CV', 'Individua i costi fissi', 'Calcola q* = CF / MC', 'Confronta q* con la domanda attesa'], 'Servono i dati unitari, il margine, i fissi, poi la divisione e infine il confronto con la realtà.')
@@ -83,7 +83,7 @@
       fill('Domanda Q = 60 − P: elasticità (valore assoluto) a P = 10? Arrotonda a un decimale.', ['0.2', '0,2'], 'Q = 50; |ε| = 1 · 10/50 = 0,2: anelastica.'),
       mc('Se la domanda è anelastica (|ε| < 1) e l’impresa alza il prezzo, il ricavo totale:', ['Aumenta', 'Diminuisce', 'Resta uguale', 'Dipende solo dai costi'], 0, 'La quantità cala meno che proporzionalmente al rialzo del prezzo.'),
       fill('Domanda Q = 80 − P, offerta Q = 2P − 10. Quantità di equilibrio?', ['50'], '80 − P = 2P − 10 → P = 30, Q = 50.'),
-      mc('Perché per un’impresa col potere di prezzo il ricavo marginale è inferiore al prezzo?', ['Per vendere di più deve abbassare il prezzo anche sulle unità precedenti', 'Perché i costi sono sempre più alti dei ricavi', 'Perché la domanda è sempre anelastica', 'Perché MR è definito come P − MC'], 0, 'Lo sconto si applica a tutte le unità vendute, non solo all’ultima.')
+      mc('Perché per un’impresa col potere di prezzo il ricavo marginale è inferiore al prezzo?', ['Per vendere di più deve abbassare il prezzo anche sulle unità già vendute', 'Perché i costi dell’impresa superano sempre i ricavi unitari', 'Perché la domanda che affronta è sempre perfettamente anelastica', 'Perché il ricavo marginale è definito come prezzo meno costo marginale'], 0, 'Lo sconto si applica a tutte le unità vendute, non solo all’ultima.')
     ]
   });
 
@@ -121,11 +121,11 @@
     test: [
       fill('Valore attuale (due decimali) di 2 000 € fra 2 anni, r = 5%?', ['1814.06', '1814,06', '1.814,06', '1 814,06'], '2 000 / 1,1025 = 1 814,06.'),
       fill('Progetto: −500, poi 200 per 3 anni, r = 10%. VAN (due decimali)?', ['-2.63', '-2,63', '−2,63', '−2.63'], '200 · 2,48685 = 497,37; 497,37 − 500 = −2,63.'),
-      mc('Lo stesso progetto (−500; 200 × 3 anni) ha TIR di circa 9,7%. Con soglia 10% si dovrebbe:', ['Rifiutarlo (TIR < soglia, VAN < 0)', 'Accettarlo', 'Raddoppiarlo', 'Ignorare il TIR'], 0, 'Un TIR inferiore al costo del capitale corrisponde a VAN negativo.'),
+      mc('Lo stesso progetto (−500; 200 × 3 anni) ha TIR di circa 9,7%. Con soglia 10% si dovrebbe:', ['Rifiutarlo (TIR < soglia, VAN < 0)', 'Accettarlo, perché il TIR è molto vicino alla soglia', 'Raddoppiarne la scala per aumentare il VAN', 'Ignorare il TIR e guardare solo il periodo di recupero'], 0, 'Un TIR inferiore al costo del capitale corrisponde a VAN negativo.'),
       fill('1 500 € al 4% composto per 2 anni: montante (due decimali)?', ['1622.40', '1622,40', '1.622,40', '1 622,40', '1622.4'], '1 500 · 1,0816 = 1 622,40.'),
       fill('Annuità di 100 € per 3 anni, r = 10%: valore attuale (due decimali)?', ['248.69', '248,69'], '100 · (1 − 1,1⁻³)/0,1 = 248,69.'),
       fill('Cedola perpetua di 120 € l’anno, r = 8%: valore attuale (in euro)?', ['1500', '1.500', '1 500'], '120 / 0,08 = 1 500.'),
-      mc('Perché non basta sommare i flussi futuri senza attualizzarli?', ['Perché importi in date diverse non hanno lo stesso valore oggi', 'Perché il VAN è sempre negativo', 'Perché i flussi sono sempre uguali', 'Perché il tasso è sempre zero'], 0, 'Il denaro ha un valore nel tempo: attualizzare rende confrontabili i flussi.')
+      mc('Perché non basta sommare i flussi futuri senza attualizzarli?', ['Perché importi di date diverse non valgono uguale oggi', 'Perché il VAN di un progetto è sempre negativo', 'Perché i flussi di cassa futuri sono sempre uguali tra loro', 'Perché il tasso di sconto è sempre pari a zero'], 0, 'Il denaro ha un valore nel tempo: attualizzare rende confrontabili i flussi.')
     ]
   });
 
@@ -155,8 +155,8 @@
       fill('B prima aveva 20 vino e 20 tessuto, dopo lo scambio 20 vino e 25 tessuto. Guadagno in tessuto?', ['5', '+5'], '25 − 20 = 5.'),
       fill('La produzione totale (vino + tessuto) passa da 85 (non specializzati) a quante unità con la specializzazione?', ['100'], '60 + 40 = 100.'),
       mc('Quali termini di scambio (tessuto per vino) convengono a entrambi?', ['Fra 0,5 e 1', 'Più di 1', 'Meno di 0,5', 'Esattamente 2'], 0, 'A chiede almeno 0,5 e B non paga più di 1.'),
-      mc('Perché A, migliore in tutto, ha comunque convenienza a commerciare con B?', ['Perché rinuncia a meno tessuto producendo vino, e B a meno vino producendo tessuto', 'Perché B è più grande', 'Perché lo scambio è sempre in perdita', 'Perché i prezzi sono sempre uguali'], 0, 'Conta il costo opportunità relativo, non il vantaggio assoluto.'),
-      mc('B rifiuterebbe di pagare 1,2 tessuti per un vino perché:', ['Può produrlo da sé rinunciando a soli 1 tessuto', 'Non ama il vino', 'Il tessuto vale meno', 'A non vende'], 0, 'Il suo costo opportunità del vino è 1 tessuto, inferiore a 1,2.'),
+      mc('Perché A, migliore in tutto, ha comunque convenienza a commerciare con B?', ['Rinuncia a meno tessuto producendo vino, e B a meno vino producendo tessuto', 'Perché B è un paese più grande e con più lavoratori', 'Perché lo scambio comporta sempre una perdita per chi è più efficiente', 'Perché i prezzi relativi sono sempre uguali nei due paesi'], 0, 'Conta il costo opportunità relativo, non il vantaggio assoluto.'),
+      mc('B rifiuterebbe di pagare 1,2 tessuti per un vino perché:', ['Può produrlo da sé rinunciando a solo 1 tessuto', 'Non ama il vino quanto apprezza i tessuti', 'Il tessuto vale meno del vino sul suo mercato', 'A non vende vino ad altri paesi'], 0, 'Il suo costo opportunità del vino è 1 tessuto, inferiore a 1,2.'),
       order('Ordina i passi dell’analisi del vantaggio comparato', ['Calcola le produzioni possibili', 'Calcola i costi opportunità', 'Individua il vantaggio comparato', 'Specializza ciascuno', 'Scambia entro i termini convenienti'], 'Si parte dai costi, si trova chi è relativamente più bravo, si specializza e si scambia.')
     ],
     test: [
@@ -165,8 +165,8 @@
       mc('Con C (0,2 cereale per acciaio) e D (0,5), chi si specializza in acciaio?', ['C', 'D', 'Nessuno', 'Dipende dalle ore'], 0, 'C ha il costo opportunità più basso.'),
       fill('D ha 160 h e produce solo cereale (8 h per pezzo). Quanti cereali?', ['20'], '160 / 8 = 20.'),
       mc('Un prezzo di 0,6 cereali per acciaio (C: 0,2; D: 0,5):', ['È rifiutato da D', 'È rifiutato da C', 'Va bene per entrambi', 'Non ha senso economico per nessuno'], 0, 'D può ottenere un acciaio rinunciando a 0,5 cereale; pagare 0,6 non conviene.'),
-      mc('Un avvocato (200 €/ora) saprebbe battere a macchina meglio dell’assistente. Cosa suggerisce la teoria?', ['Delegare, perché il suo tempo ha un costo opportunità più alto', 'Fare tutto da sé per il vantaggio assoluto', 'Assumere solo persone peggiori di lui', 'Non lavorare'], 0, 'Impiegare il tempo dove rende di più è il principio del vantaggio comparato.'),
-      mc('Una ipotesi semplificatrice del modello di Ricardo è:', ['Costi di trasporto nulli e un solo fattore produttivo', 'Presenza di molti beni e molti fattori', 'Costi opportunità crescenti', 'Dazi doganali elevati'], 0, 'È un modello stilizzato a due beni e lavoro unico.')
+      mc('Un avvocato (200 €/ora) saprebbe battere a macchina meglio dell’assistente. Cosa suggerisce la teoria?', ['Delegare, perché il suo tempo ha un costo opportunità più alto', 'Fare tutto da sé, in base al suo vantaggio assoluto', 'Assumere soltanto persone meno capaci di lui in ogni compito', 'Rinunciare a delegare finché l’assistente non migliora'], 0, 'Impiegare il tempo dove rende di più è il principio del vantaggio comparato.'),
+      mc('Una ipotesi semplificatrice del modello di Ricardo è:', ['Costi di trasporto nulli e un solo fattore produttivo', 'Presenza di molti beni e di molti fattori produttivi', 'Costi opportunità crescenti al crescere della produzione', 'Dazi doganali elevati su tutti i beni scambiati'], 0, 'È un modello stilizzato a due beni e lavoro unico.')
     ]
   });
 
@@ -206,8 +206,8 @@
       fill('Stesso duopolio. Profitto di monopolio (Q = 27)?', ['729'], 'P = 33; (33 − 6) · 27 = 729.'),
       fill('Stesso mercato con tre imprese in Cournot: quantità per impresa?', ['13.5', '13,5'], 'Q = 3/4 · 54 = 40,5; 40,5 / 3 = 13,5.'),
       mc('Con orizzonte finito e noto, la collusione sostenuta dalle sole minacce di ritorsione:', ['Crolla per induzione a ritroso', 'È sempre stabile', 'Aumenta con il numero di periodi', 'Dà profitti di monopolio sicuri'], 0, 'Nell’ultimo periodo conviene deviare; a ritroso, vale per tutti i precedenti.'),
-      mc('Quale fattore rende più difficile la collusione?', ['Prodotti differenziati e domanda molto variabile', 'Pochi concorrenti simili', 'Prezzi trasparenti', 'Interazioni frequenti'], 0, 'È difficile accordarsi e verificare le deviazioni.'),
-      mc('Perché i duopolisti di Bertrand con capacità limitata non arrivano a P = c?', ['Perché un’impresa non può servire tutto il mercato, quindi non conviene sottotagliare fino al costo', 'Perché i costi sono nulli', 'Perché competono sulle quantità', 'Perché la domanda è perfettamente elastica'], 0, 'Con capacità limitata la minaccia di rubare tutto il mercato perde forza.')
+      mc('Quale fattore rende più difficile la collusione?', ['Prodotti differenziati e domanda molto variabile', 'Pochi concorrenti molto simili tra loro', 'Prezzi trasparenti e osservabili da tutti', 'Interazioni frequenti e prevedibili nel tempo'], 0, 'È difficile accordarsi e verificare le deviazioni.'),
+      mc('Perché i duopolisti di Bertrand con capacità limitata non arrivano a P = c?', ['Perché un’impresa non serve tutto il mercato: sottotagliare fino al costo non conviene', 'Perché i costi di produzione delle due imprese sono nulli', 'Perché le imprese competono sulle quantità e non sui prezzi', 'Perché la domanda che affrontano è perfettamente elastica'], 0, 'Con capacità limitata la minaccia di rubare tutto il mercato perde forza.')
     ]
   });
 
@@ -228,14 +228,14 @@
       { h: 'Limiti, effetti collaterali e buone pratiche', b: `**Rischio.** Un bonus fa pesare sull’agente l’alea del risultato: se è avverso al rischio chiede un compenso fisso più alto. C’è un compromesso fra incentivo e assicurazione.\n\n**Multi-tasking.** Si pagano le misure facili (vendite) e si trascurano quelle difficili (qualità, clienti a lungo termine). **Gaming:** l’agente può manipolare l’indicatore.\n\n**Buone pratiche:** indicatori legati davvero all’obiettivo, orizzonte temporale coerente, combinazione fra fisso e variabile, trasparenza.\n\n**Sintesi dei numeri.** Vickrey 80/65/50: paga 65, surplus 15. Prima offerta con shading: offri 70 con valore 80 → surplus 10. Maledizione: +13,33 di sovrastima attesa. Bonus: b ≥ 50 e profitto 135.\n\nModelli didattici, con informazione e razionalità idealizzate.` }
     ],
     exercises: [
-      mc('Nell’asta di seconda offerta (Vickrey) con valori privati, la strategia dominante è:', ['Offrire il proprio vero valore', 'Offrire metà del valore', 'Offrire sempre zero', 'Offrire più del valore'], 0, 'Il prezzo pagato dipende solo dal rivale: dire la verità non peggiora mai.'),
+      mc('Nell’asta di seconda offerta (Vickrey) con valori privati, la strategia dominante è:', ['Offrire il proprio vero valore', 'Offrire la metà del proprio valore', 'Offrire sempre il minimo consentito dall’asta', 'Offrire più del proprio valore per sicurezza'], 0, 'Il prezzo pagato dipende solo dal rivale: dire la verità non peggiora mai.'),
       fill('Asta Vickrey con offerte 80, 65, 50. Quanto paga il vincitore?', ['65'], 'Paga la seconda offerta più alta.'),
       fill('Nell’asta precedente il vincitore ha valore 80. Il suo surplus?', ['15'], '80 − 65 = 15.'),
       fill('Prima offerta: valore 80, offri 70 e vinci. Surplus?', ['10'], '80 − 70 = 10.'),
       fill('Due offerenti con valori uniformi: strategia b = v/2. Con v = 60 quanto offri?', ['30'], '60 / 2 = 30.'),
       fill('Due offerenti con valori uniformi in [0,100]: ricavo atteso del venditore (due decimali)?', ['33.33', '33,33', '33.3', '33,3'], 'Per equivalenza dei ricavi: 100/3 = 33,33.'),
       fill('Errori di stima −20, 0, +20 equiprobabili, tre offerenti: errore atteso della stima più alta (due decimali)?', ['13.33', '13,33', '13.3', '13,3'], '20 · 19/27 − 20 · 1/27 = 20 · 18/27 = 13,33.'),
-      mc('Come si attenua la maledizione del vincitore?', ['Abbassando l’offerta rispetto alla propria stima', 'Offrendo di più', 'Ignorando gli altri', 'Partecipando a tutte le aste'], 0, 'Vincere indica che gli altri avevano stime più basse: si corregge in anticipo.'),
+      mc('Come si attenua la maledizione del vincitore?', ['Abbassando l’offerta rispetto alla propria stima', 'Offrendo di più della stima per vincere comunque', 'Ignorando le offerte e le stime degli altri partecipanti', 'Partecipando a tutte le aste disponibili sul mercato'], 0, 'Vincere indica che gli altri avevano stime più basse: si corregge in anticipo.'),
       fill('Successo 0,9 con sforzo alto (costo 20), 0,5 con sforzo basso. Bonus minimo b che induce sforzo alto?', ['50'], '0,9b − 20 ≥ 0,5b → b ≥ 50.'),
       fill('Con b = 50 e ricavo 200 in caso di successo: profitto atteso del principale?', ['135'], '0,9 · (200 − 50) = 135.'),
       fill('Senza bonus l’agente impegna sforzo basso, successo 0,5: ricavo atteso del principale (ricavo 200)?', ['100'], '0,5 · 200 = 100.'),
@@ -248,7 +248,7 @@
       fill('Tre offerenti, valori uniformi in [0,100], Vickrey: ricavo atteso?', ['50'], '(n − 1)/(n + 1) · 100 = 2/4 · 100 = 50.'),
       fill('Ricavo 300, successo 0,8 (sforzo alto, costo 30) o 0,5 (sforzo basso). Bonus minimo?', ['100'], '0,3b ≥ 30 → b = 100.'),
       fill('Stessi dati con b = 100. Profitto del principale?', ['160'], '0,8 · (300 − 100) = 160.'),
-      mc('L’azzardo morale nasce quando:', ['Lo sforzo dell’agente non è osservabile dal principale', 'Il prezzo sale', 'Il bene è comune', 'I costi sono fissi'], 0, 'Senza osservare lo sforzo, il principale può solo premiare il risultato.')
+      mc('L’azzardo morale nasce quando:', ['Lo sforzo dell’agente non è osservabile dal principale', 'Il prezzo del bene sale oltre la disponibilità a pagare', 'Il bene è comune e non esclude i consumatori', 'I costi sono fissi e non dipendono dalla produzione'], 0, 'Senza osservare lo sforzo, il principale può solo premiare il risultato.')
     ]
   });
 
@@ -289,8 +289,8 @@
       fill('Costo di cambio 20 €, risparmio 15 € l’anno per 2 anni: guadagno netto (euro)?', ['10', '+10'], '30 − 20 = 10.'),
       fill('Progetto: costo 200, esiti 300 o 120 equiprobabili, r = 10%. Valore atteso al tempo 1 investendo solo se 300, attualizzato (due decimali)?', ['45.45', '45,45'], '0,5 · (300 − 200) / 1,10 = 45,45.'),
       fill('Stesso progetto: VAN dell’investire subito senza sconto?', ['10', '+10'], '0,5 · 300 + 0,5 · 120 = 210; 210 − 200 = 10.'),
-      mc('Quale non è una barriera all’ingresso tipica?', ['Un mercato con costi di ingresso nulli e senza vincoli', 'Economie di scala', 'Brevetti', 'Effetti di rete'], 0, 'Le altre proteggono gli incumbent.'),
-      mc('Una impresa ha vantaggio competitivo duraturo se:', ['Il suo margine superiore è difficile da imitare', 'Alza i prezzi', 'Ha molti dipendenti', 'Ha più ricavi totali'], 0, 'Conta la difendibilità del vantaggio.')
+      mc('Quale non è una barriera all’ingresso tipica?', ['Un mercato con costi di ingresso nulli e senza vincoli', 'Economie di scala molto consistenti', 'Brevetti e licenze esclusive concesse dallo Stato', 'Effetti di rete tra gli utenti del servizio'], 0, 'Le altre proteggono gli incumbent.'),
+      mc('Una impresa ha vantaggio competitivo duraturo se:', ['Il suo margine superiore è difficile da imitare', 'Alza i prezzi più rapidamente dei concorrenti', 'Ha un numero molto elevato di dipendenti', 'Registra ricavi totali più alti di quelli dei rivali'], 0, 'Conta la difendibilità del vantaggio.')
     ]
   });
 
