@@ -312,7 +312,7 @@
     summary: 'Nominare, definire e riportare con と[言|い]う e le sue varianti.',
     obj: ['Presentare nomi con N という N', 'Definire parole con というのは / という[意味|いみ]', 'Usare といえば, というより, と[言|い]っても'],
     pages: [
-      { h: 'Obiettivo', b: '**という** (letteralmente «che si dice») è una delle strutture più comuni dell’italiano giapponese: serve a **nominare** (la persona di nome X), **definire** (X significa Y) e **commentare** (più che X, Y). Impararla vuol dire capire molte frasi del N3.' },
+      { h: 'Obiettivo', b: '**という** (letteralmente «che si dice») è una delle strutture più comuni del giapponese: serve a **nominare** (la persona di nome X), **definire** (X significa Y) e **commentare** (più che X, Y). Impararla vuol dire capire molte frasi del N3.' },
       { h: 'Regola con schema', b: '**N という N** = «un N chiamato…, di nome…»\n**forma semplice + という + N / こと** = «il fatto che…»\n**A というのは B のことです / という[意味|いみ]です** = definizione\n**A というより B** = «più che A, B»\n**N といえば** = «a proposito di N, parlando di N»\n**A と[言|い]っても B** = «dire A, però B»' },
       { h: 'N という N: nominare', b: '- {{ja|[田中|たなか]さんと いう [人|ひと]から [電話|でんわ]が ありました。}} — È telefonata una persona di nome Tanaka.\n- {{ja|「さくら」と いう [名前|なまえ]の [猫|ねこ]を [飼|か]って います。}}\n- {{ja|[京都|きょうと]と いう [町|まち]に [行|い]った ことが あります。}}\n\nPer chi ascolta, il nome è «nuovo»: という segnala che stai introducendo qualcosa che l’altro forse non conosce.' },
       { h: 'という[意味|いみ]・というのは', b: '- {{ja|「[禁煙|きんえん]」と いうのは、タバコを [吸|す]わないと いう [意味|いみ]です。}}\n- {{ja|「ありがとう」は 「Grazie」と いう [意味|いみ]です。}}\n- {{ja|[友達|ともだち]が [多|おお]いと いう [事実|じじつ]}}\n- {{ja|[日本|にほん]へ [行|い]くと いう ことは、[決|き]まって います。}}\n\nIn conversazione si accorcia: **っていう / って**. {{ja|[山田|やまだ]って いう [人|ひと]}}' },
