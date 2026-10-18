@@ -72,15 +72,15 @@ Le prossime lezioni mostrano come costruire questi margini: vista, frenata, curv
 Rivaluta il piano dopo ogni «quasi incidente»: quello è un dato gratuito, una lezione senza costo.` }
     ],
     exercises: [
-      mc('Il rischio, in senso tecnico, combina:', ['probabilità e gravità delle conseguenze', 'solo la velocità', 'solo il tipo di moto', 'solo la fortuna'], 0, 'Rischio = probabilità × gravità: in moto la gravità è alta per l’assenza di abitacolo.'),
+      mc('Il rischio, in senso tecnico, combina:', ['probabilità e gravità delle conseguenze', 'solo la velocità a cui si procede', 'soltanto il tipo e la cilindrata della moto', 'la fortuna e le condizioni del meteo'], 0, 'Rischio = probabilità × gravità: in moto la gravità è alta per l’assenza di abitacolo.'),
       fill('Un’energia cinetica E = ½mv² dipende dal quadrato della velocità. Se la velocità passa da 50 a 100 km/h, per quante volte si moltiplica l’energia?', ['4', 'quattro'], 'Raddoppiare v moltiplica v² per 4.'),
       fill('Quanto vale 90 km/h in m/s?', ['25'], '90 / 3,6 = 25.'),
       fill('Altezza di caduta equivalente a 90 km/h (v = 25 m/s), con g = 9,81: h = v²/(2g). Arrotonda al metro.', ['32', '31,9', '31.9'], '625 / 19,62 ≈ 31,9 m.'),
-      mc('Quale categoria è tipica degli incidenti moto-auto?', ['L’auto che non vede la moto e svolta o taglia la strada all’incrocio', 'La moto che frena troppo presto', 'La moto ferma al semaforo urtata da un meteorite', 'L’uso eccessivo degli specchietti'], 0, 'Intersezioni e svolte a sinistra sono schemi ricorrenti nelle ricerche (Hurt, MAIDS).'),
+      mc('Quale categoria è tipica degli incidenti moto-auto?', ['L’auto che non vede la moto e svolta o taglia la strada all’incrocio', 'La moto che frena troppo presto davanti all’auto che la segue', 'Il motociclista che perde il controllo per un malore improvviso', 'L’uso eccessivo degli specchietti da parte del conducente dell’auto'], 0, 'Intersezioni e svolte a sinistra sono schemi ricorrenti nelle ricerche (Hurt, MAIDS).'),
       mc('Se sai che spesso gli automobilisti non ti vedono, la scelta più sensata è:', ['guidare come se non ti vedessero', 'contare sul fatto che hai la precedenza', 'suonare il clacson in continuazione', 'accelerare per uscire dal loro campo visivo'], 0, 'Avere ragione non protegge dalle conseguenze: servono margini.'),
       fill('Spazio libero e visibile 60 m. Spazio di arresto 46,4 m. Quanto vale il margine di sicurezza (in metri)?', ['13,6', '13.6'], '60 − 46,4 = 13,6.'),
-      mc('A 90 km/h lo spazio di arresto è circa 69,6 m. Con 60 m di strada visibile libera, il margine è:', ['negativo: non ci si ferma in tempo', 'positivo, di 10 m', 'zero', 'sempre sufficiente con l’ABS'], 0, '60 − 69,6 = −9,6 m: serve rallentare.'),
-      mc('Quale tra queste NON è un modo per aumentare il margine di sicurezza?', ['Aumentare la velocità per uscire prima dalla zona di pericolo', 'Ridurre la velocità', 'Guardare più lontano', 'Anticipare le azioni'], 0, 'Più velocità riduce lo spazio e il tempo a disposizione.'),
+      mc('A 90 km/h lo spazio di arresto è circa 69,6 m. Con 60 m di strada visibile libera, il margine è:', ['negativo: non ci si ferma in tempo', 'positivo, di circa 10 m di margine', 'zero', 'sempre sufficiente se la moto ha l’ABS'], 0, '60 − 69,6 = −9,6 m: serve rallentare.'),
+      mc('Quale tra queste NON è un modo per aumentare il margine di sicurezza?', ['Aumentare la velocità per uscire prima dalla zona di pericolo', 'Ridurre la velocità prima della zona critica', 'Guardare più lontano possibile davanti a sé', 'Anticipare le azioni degli altri utenti della strada'], 0, 'Più velocità riduce lo spazio e il tempo a disposizione.'),
       fill('Se un comportamento rischioso ha probabilità 1/1000 per uscita e lo ripeti 500 volte, la probabilità di non avere problemi è circa (in %, intero): 0,999^500.', ['61', '60,6', '60.6', '60'], '0,999^500 ≈ 0,606.'),
       fill('Su 20 km, passare da 90 a 100 km/h quanti secondi fa risparmiare circa?', ['80'], '20/90 h = 13 min 20 s; 20/100 h = 12 min; differenza 80 s.'),
       order('Ordina le parti del calcolo del margine di sicurezza', ['spazio visibile libero', '−', 'spazio di arresto', '=', 'margine'], 'Il margine è la differenza tra ciò che vedi libero e ciò che ti serve per fermarti.')
@@ -89,10 +89,10 @@ Rivaluta il piano dopo ogni «quasi incidente»: quello è un dato gratuito, una
       fill('Quanto vale 130 km/h in m/s (un decimale)?', ['36,1', '36.1'], '130 / 3,6 ≈ 36,1.'),
       fill('Altezza di caduta equivalente a 50 km/h (13,9 m/s) con g = 9,81: arrotonda al metro.', ['10', '9,8', '9.8'], '13,89² / 19,62 ≈ 9,8 m.'),
       mc('Circa quante volte è più alto il rischio di morire per km percorso per un motociclista rispetto a un occupante d’auto (ordine di grandezza)?', ['15–20 volte', '1,2 volte', '2 volte', '100 volte'], 0, 'Stime europee: ordine di 15–20 volte, con variazioni fra paesi e anni.'),
-      mc('Quale affermazione sull’equipaggiamento è corretta?', ['Riduce la gravità di alcuni traumi ma non sostituisce la prevenzione', 'Rende immuni dagli incidenti', 'Serve solo sopra i 100 km/h', 'È inutile se la moto ha l’ABS'], 0, 'Le protezioni sono l’ultima barriera.'),
+      mc('Quale affermazione sull’equipaggiamento è corretta?', ['Riduce la gravità di alcuni traumi ma non sostituisce la prevenzione', 'Rende immuni dagli incidenti anche ad alta velocità', 'Serve soltanto oltre i 100 km/h, non in città', 'È inutile quando la moto dispone dell’ABS'], 0, 'Le protezioni sono l’ultima barriera.'),
       fill('Vedi la strada libera per 50 m. A 50 km/h lo spazio di arresto (reazione 1 s + frenata a 7 m/s²) è circa 27,7 m. Margine in metri (un decimale)?', ['22,3', '22.3'], '50 − 27,7 = 22,3.'),
-      mc('La «normalizzazione della devianza» consiste nel:', ['considerare normale un comportamento scorretto perché finora non ha causato guai', 'seguire sempre la media del traffico', 'frenare sempre allo stesso punto', 'usare più protezioni'], 0, 'Il rischio resta ma l’abitudine lo nasconde.'),
-      mc('Negli incidenti con un solo veicolo (senza altri coinvolti) l’errore è più spesso:', ['del motociclista, ad esempio velocità eccessiva per la curva', 'dell’asfalto sempre', 'del meteo sempre', 'dell’altro conducente'], 0, 'Senza altri veicoli, le cause tipiche sono velocità, traiettoria e fondo.')
+      mc('La «normalizzazione della devianza» consiste nel:', ['considerare normale un comportamento scorretto perché finora non ha causato guai', 'seguire sempre la velocità media tenuta dal traffico intorno', 'frenare ogni volta nello stesso punto del percorso abituale', 'indossare più protezioni dopo ogni caduta evitata'], 0, 'Il rischio resta ma l’abitudine lo nasconde.'),
+      mc('Negli incidenti con un solo veicolo (senza altri coinvolti) l’errore è più spesso:', ['del motociclista, ad esempio velocità eccessiva per la curva', 'dell’asfalto, quasi sempre dissestato o scivoloso', 'del meteo, in particolare della pioggia improvvisa', 'dell’altro conducente, che non rispetta la precedenza'], 0, 'Senza altri veicoli, le cause tipiche sono velocità, traiettoria e fondo.')
     ]
   });
 
@@ -203,13 +203,13 @@ Regole semplici:
       fill('A 50 km/h, quanti metri percorri in 1 s (un decimale)?', ['13,9', '13.9'], '50/3,6 = 13,89.'),
       fill('A 90 km/h con reazione 1,5 s, quanti metri percorri nel tempo di reazione (un decimale)?', ['37,5', '37.5'], '25 × 1,5 = 37,5.'),
       fill('Distrazione di 2 secondi a 50 km/h: metri percorsi (un decimale)?', ['27,8', '27.8'], '13,89 × 2 = 27,8.'),
-      mc('La frase «dove guardi vai» serve a ricordare di:', ['guardare la via di uscita e non l’ostacolo', 'fissare bene la buca per evitarla', 'guardare sempre il tachimetro', 'guardare solo gli specchietti'], 0, 'La fissazione sul bersaglio porta verso ciò che si fissa.'),
-      mc('Prima di cambiare corsia, la regola è:', ['specchietto e occhiata di spalla', 'solo la freccia', 'solo lo specchietto', 'accelerare e andare'], 0, 'L’angolo cieco non è coperto dagli specchietti.'),
+      mc('La frase «dove guardi vai» serve a ricordare di:', ['guardare la via di uscita e non l’ostacolo', 'fissare bene la buca per riuscire a evitarla', 'guardare sempre il tachimetro per tenere il limite', 'guardare soltanto negli specchietti retrovisori'], 0, 'La fissazione sul bersaglio porta verso ciò che si fissa.'),
+      mc('Prima di cambiare corsia, la regola è:', ['specchietto e occhiata di spalla', 'azionare solo la freccia e spostarsi', 'controllare solo lo specchietto sinistro', 'accelerare e spostarsi prima che altri arrivino'], 0, 'L’angolo cieco non è coperto dagli specchietti.'),
       fill('Distanza di sicurezza di 2 secondi a 72 km/h (20 m/s): quanti metri?', ['40'], '20 × 2 = 40.'),
       mc('Con pioggia la distanza di sicurezza in secondi va:', ['aumentata (3–4 s)', 'diminuita', 'lasciata a 1 s', 'resa uguale in metri alla condizione asciutta'], 0, 'Frenata e aderenza peggiorano: serve più margine.'),
       mc('Se non vedi lo specchietto del camionista davanti a te, di norma:', ['lui non vede te', 'lui ti vede meglio', 'sei nel suo punto cieco ma in sicurezza', 'puoi sorpassare in qualunque punto'], 0, 'Regola dello specchietto: se non vedi il suo specchietto, lui non vede te.'),
       fill('A 90 km/h, 12 secondi di sguardo in avanti equivalgono a quanti metri?', ['300'], '25 × 12 = 300.'),
-      mc('Quale comportamento riduce davvero le distrazioni?', ['Impostare il navigatore prima di partire e usare un supporto', 'Guardare il telefono ai semafori in movimento', 'Rispondere ai messaggi se la strada è dritta', 'Alzare la musica per concentrarsi'], 0, 'La preparazione prima di partire evita di distogliere lo sguardo.'),
+      mc('Quale comportamento riduce davvero le distrazioni?', ['Impostare il navigatore prima di partire e usare un supporto', 'Guardare il telefono ai semafori mentre si è ancora in movimento', 'Rispondere ai messaggi quando il tratto di strada è dritto', 'Alzare molto la musica per riuscire a concentrarsi di più'], 0, 'La preparazione prima di partire evita di distogliere lo sguardo.'),
       order('Ordina la scansione visiva dalla più lontana', ['lontano', 'intermedio', 'vicino', 'specchietti', 'strumenti'], 'Si parte dalla visione lontana e si ritorna spesso a essa.')
     ],
     test: [
@@ -217,9 +217,9 @@ Regole semplici:
       fill('A 108 km/h (30 m/s), distanza di 2 secondi in metri?', ['60'], '30 × 2 = 60.'),
       fill('A 72 km/h con pioggia e distanza di 4 secondi, quanti metri?', ['80'], '20 × 4 = 80.'),
       mc('Distrazione di 3 secondi a 90 km/h: quanti metri percorri senza guardare?', ['75 m', '25 m', '50 m', '100 m'], 0, '25 × 3 = 75.'),
-      mc('Quale posizione conviene tenere dietro un’auto?', ['Leggermente laterale per vedere davanti e farsi vedere', 'Esattamente dietro al paraurti', 'Sempre sul bordo destro', 'Nell’angolo cieco'], 0, 'Aiuta visibilità e via di fuga.'),
-      mc('Il «tempo di reazione» comprende:', ['percezione, decisione e inizio dell’azione', 'solo il tempo di frenata', 'solo il tempo di accelerazione', 'il tempo di arresto completo'], 0, 'Non include la frenata, che viene dopo.'),
-      mc('Quale fenomeno spiega perché un automobilista può guardare e non vedere la moto?', ['Mancata percezione («guardato ma non visto»)', 'Diffrazione del faro', 'Effetto doppler', 'L’asfalto troppo scuro'], 0, 'Piccole sagome e aspettative portano a non registrare la moto: non contare su essere visto.')
+      mc('Quale posizione conviene tenere dietro un’auto?', ['Leggermente laterale per vedere davanti e farsi vedere', 'Esattamente dietro al paraurti, per non farsi notare', 'Sempre sul bordo destro della corsia, vicino al margine', 'Dentro l’angolo cieco, dove l’auto non può urtare'], 0, 'Aiuta visibilità e via di fuga.'),
+      mc('Il «tempo di reazione» comprende:', ['percezione, decisione e inizio dell’azione', 'soltanto il tempo che serve per frenare', 'soltanto il tempo che serve per accelerare', 'il tempo di arresto completo fino alla fermata'], 0, 'Non include la frenata, che viene dopo.'),
+      mc('Quale fenomeno spiega perché un automobilista può guardare e non vedere la moto?', ['Mancata percezione («guardato ma non visto»)', 'Diffrazione della luce del faro anteriore', 'Effetto doppler sul rumore del motore', 'Asfalto troppo scuro per il contrasto con la moto'], 0, 'Piccole sagome e aspettative portano a non registrare la moto: non contare su essere visto.')
     ]
   });
 
@@ -345,11 +345,11 @@ Pratica: corsi di guida sicura permettono di provare la frenata di emergenza in 
       fill('Frenata da 90 km/h su bagnato con a = 4 m/s²: metri (un decimale)?', ['78,1', '78.1'], '625 / 8 = 78,1.'),
       fill('Spazio di arresto totale a 70 km/h (reazione 1 s, a = 7): metri, un decimale?', ['46,4', '46.4'], '19,4 + 27,0 = 46,4.'),
       mc('Se la velocità raddoppia, lo spazio di frenata:', ['quadruplica', 'raddoppia', 'resta uguale', 'diventa 1,5 volte'], 0, 'd = v²/(2a).'),
-      mc('Perché il freno anteriore è il più efficace?', ['Per il trasferimento di carico in avanti in frenata', 'Perché è sempre più grande', 'Perché il posteriore non frena', 'Perché è più vicino al pilota'], 0, 'L’anteriore si carica, il posteriore si scarica.'),
+      mc('Perché il freno anteriore è il più efficace?', ['Per il trasferimento di carico in avanti in frenata', 'Perché è sempre più grande del freno posteriore', 'Perché il freno posteriore non esercita alcuna forza', 'Perché è più vicino alla mano del pilota'], 0, 'L’anteriore si carica, il posteriore si scarica.'),
       fill('m = 250 kg, a = 7 m/s², h = 0,6 m, L = 1,4 m. Trasferimento di carico ΔN in newton?', ['750'], '250 × 7 × 0,6 / 1,4 = 750.'),
       mc('Cosa non può fare l’ABS?', ['Creare aderenza dove non c’è', 'Evitare il blocco delle ruote', 'Aiutare a mantenere la direzione', 'Compensare errori di dosaggio sul bagnato'], 0, 'L’ABS gestisce il blocco, non aumenta l’attrito disponibile.'),
       mc('In frenata di emergenza con ABS, quando senti pulsare la leva:', ['mantieni la pressione', 'rilasci subito', 'ti fermi con il solo posteriore', 'cambi marcia'], 0, 'È il sistema che interviene: continua a stringere.'),
-      mc('Quando conviene frenare in modo deciso, in una curva?', ['Prima della curva, a moto dritta', 'A metà piega al massimo', 'Mai, in nessun caso', 'Solo con il posteriore'], 0, 'L’aderenza va usata per frenare prima di inclinare.'),
+      mc('Quando conviene frenare in modo deciso, in una curva?', ['Prima della curva, a moto dritta', 'A metà piega, con il massimo della forza', 'Mai, in nessun caso e con nessun freno', 'Solo con il posteriore, mentre si è piegati'], 0, 'L’aderenza va usata per frenare prima di inclinare.'),
       fill('A 90 km/h vedi un ostacolo a 60 m. Dopo 1 s di reazione (25 m) frenando a 7 m/s², a che km/h arrivi all’impatto (arrotonda all’intero)? v² = 625 − 14·35.', ['42', '41,8', '41.8'], 'v² = 135 → 11,6 m/s ≈ 41,8 km/h.'),
       order('Ordina la frenata di emergenza', ['sguardo avanti', 'moto dritta', 'anteriore progressivo e posteriore dosato', 'mantieni la pressione', 'frizione a moto quasi ferma'], 'Sequenza di base, da fare in un corso.')
     ],
@@ -357,10 +357,10 @@ Pratica: corsi di guida sicura permettono di provare la frenata di emergenza in 
       fill('Spazio di arresto totale a 50 km/h (reazione 1 s, a = 7 m/s²), un decimale?', ['27,7', '27.7'], '13,9 + 13,8.'),
       fill('Spazio di frenata da 130 km/h con a = 7 m/s², arrotonda al metro.', ['93', '93,1', '93.1'], '36,11²/14 = 93,1.'),
       fill('Spazio di frenata da 30 km/h con a = 7 m/s²: metri, intero?', ['5', '5,0', '5.0'], '8,33²/14 = 4,96.'),
-      mc('Sul bagnato lo spazio di frenata a 90 km/h (a = 4) rispetto all’asciutto (a = 7) è:', ['circa 33 m più lungo', 'uguale', 'circa 5 m più lungo', 'più corto'], 0, '78,1 − 44,6 = 33,5 m.'),
-      mc('Quale scelta è corretta in curva stretta con moto già molto piegata?', ['Evitare frenate forti e regolare la velocità prima', 'Frenare a fondo con l’anteriore', 'Bloccare il posteriore', 'Chiudere il gas di colpo e frenare forte'], 0, 'L’aderenza è già impegnata dalla curva.'),
+      mc('Sul bagnato lo spazio di frenata a 90 km/h (a = 4) rispetto all’asciutto (a = 7) è:', ['circa 33 m più lungo', 'uguale, perché dipende solo dalla velocità', 'circa 5 m più lungo, quasi uguale', 'più corto, perché si frena con più prudenza'], 0, '78,1 − 44,6 = 33,5 m.'),
+      mc('Quale scelta è corretta in curva stretta con moto già molto piegata?', ['Evitare frenate forti e regolare la velocità prima', 'Frenare a fondo con l’anteriore per fermarsi in curva', 'Bloccare il posteriore per raddrizzare la moto', 'Chiudere il gas di colpo e frenare forte'], 0, 'L’aderenza è già impegnata dalla curva.'),
       mc('Con a_tot² = a_lat² + a_long², se a_lat aumenta, a_long disponibile:', ['diminuisce', 'aumenta', 'resta uguale', 'è sempre nulla'], 0, 'Il totale non può superare μ·g.'),
-      mc('Dove si impara la frenata di emergenza?', ['In un corso di guida sicura o in area chiusa con un istruttore', 'Su una strada extraurbana vuota', 'In autostrada', 'Sul bagnato in città'], 0, 'Mai in strada aperta: prove solo in ambienti controllati.')
+      mc('Dove si impara la frenata di emergenza?', ['In un corso di guida sicura o in area chiusa con un istruttore', 'Su una strada extraurbana vuota, di notte, senza istruttore', 'In autostrada, quando c’è poco traffico intorno', 'Sul bagnato in città, con la moto già carica'], 0, 'Mai in strada aperta: prove solo in ambienti controllati.')
     ]
   });
 
@@ -477,11 +477,11 @@ Un buon allenamento: percorrere la stessa curva in sicurezza, **sempre sotto** i
       fill('μ = 0,8, raggio 50 m: velocità limite teorica in km/h (intero)?', ['71', '71,3', '71.3'], '√(7,85×50) = 19,8 m/s = 71,3 km/h.'),
       fill('μ = 0,4, raggio 50 m: velocità limite teorica in km/h (intero)?', ['50', '50,4', '50.4'], '√(3,92×50) = 14,0 m/s = 50,4 km/h.'),
       mc('Su strada, in una curva la traiettoria deve:', ['restare nella propria corsia', 'usare anche la corsia opposta se è libera', 'tagliare sempre verso la mezzeria', 'essere la più corta possibile'], 0, 'Invadere la corsia opposta è vietato e pericoloso.'),
-      mc('Qual è la regola della visibilità in curva?', ['Fermarsi entro lo spazio visibile e libero', 'Andare al limite di velocità', 'Seguire il veicolo davanti a vista', 'Chiudere gli occhi in piega'], 0, 'Se non vedi l’uscita, riduci.'),
+      mc('Qual è la regola della visibilità in curva?', ['Fermarsi entro lo spazio visibile e libero', 'Andare al limite di velocità segnalato dalla strada', 'Seguire a vista il veicolo che precede in curva', 'Chiudere gli occhi e affidarsi alla piega'], 0, 'Se non vedi l’uscita, riduci.'),
       fill('Spazio visibile 40 m, a = 7 m/s², reazione 1 s: velocità massima in km/h (intero, valore tra 63 e 64)?', ['64', '63,6', '63.6'], 'v = 17,68 m/s = 63,6 km/h.'),
-      mc('Quando conviene frenare, rispetto alla curva?', ['Prima di inclinare, a moto dritta', 'A metà piega', 'In uscita', 'Mai'], 0, 'La velocità si regola prima, per lasciare aderenza alla piega.'),
-      mc('Il controsterzo serve a:', ['avviare l’inclinazione spingendo sul manubrio dal lato della curva', 'frenare', 'cambiare marcia', 'abbassare il baricentro'], 0, 'Spingere il lato interno in avanti fa piegare la moto verso quel lato.'),
-      mc('Se ti accorgi di entrare troppo veloce in curva:', ['guardi l’uscita, mantieni la piega e non freni con violenza', 'freni a fondo con il solo anteriore', 'chiudi il gas di colpo e freni', 'ti irrigidisci sul manubrio'], 0, 'Le azioni brusche consumano l’aderenza.'),
+      mc('Quando conviene frenare, rispetto alla curva?', ['Prima di inclinare, a moto dritta', 'Quando la moto è già inclinata a metà piega', 'Solo all’uscita, per stabilizzare la moto', 'Mai, perché in curva non si deve frenare'], 0, 'La velocità si regola prima, per lasciare aderenza alla piega.'),
+      mc('Il controsterzo serve a:', ['avviare l’inclinazione spingendo sul manubrio dal lato della curva', 'frenare in modo progressivo prima della curva', 'cambiare marcia senza usare la frizione', 'abbassare il baricentro portando il corpo in avanti'], 0, 'Spingere il lato interno in avanti fa piegare la moto verso quel lato.'),
+      mc('Se ti accorgi di entrare troppo veloce in curva:', ['guardi l’uscita, mantieni la piega e non freni con violenza', 'freni a fondo con il solo freno anteriore', 'chiudi il gas di colpo e freni con forza', 'ti irrigidisci sul manubrio e stringi le ginocchia'], 0, 'Le azioni brusche consumano l’aderenza.'),
       fill('Passando da 60 a 70 km/h con r = 50 m, di quanto cresce l’accelerazione laterale (in %, intero)? (a ∝ v²)', ['36', '36,1', '36.1'], '(70/60)² = 1,361.'),
       order('Ordina la sequenza di una curva prudente', ['guardo la curva', 'regolo la velocità', 'freno a moto dritta', 'rilascio e inclino', 'guardo l’uscita e riapro il gas'], 'Velocità prima, poi piega, poi uscita.')
     ],
@@ -489,10 +489,10 @@ Un buon allenamento: percorrere la stessa curva in sicurezza, **sempre sotto** i
       fill('v = 50 km/h = 13,89 m/s, r = 40 m. Accelerazione laterale (un decimale)?', ['4,8', '4.8'], '192,9/40 = 4,82.'),
       fill('Con μ = 0,8 e r = 100 m, velocità limite teorica in km/h (intero)?', ['101', '100,9', '100.9'], '√(7,85 × 100) = 28,0 m/s = 100,9 km/h (≈101).'),
       mc('Se in curva dimezzi la velocità, l’accelerazione laterale (stesso raggio):', ['si divide per 4', 'si dimezza', 'raddoppia', 'resta uguale'], 0, 'a = v²/r.'),
-      mc('La velocità prudente in curva è:', ['il minimo tra quella imposta dalla visibilità e quella dall’aderenza', 'sempre il limite della strada', 'quella del veicolo davanti', 'la massima possibile'], 0, 'Valgono entrambi i vincoli.'),
-      mc('Perché usare solo una parte dell’aderenza?', ['Perché l’asfalto può cambiare e servono margini per errori e imprevisti', 'Perché l’aderenza è infinita', 'Perché l’ABS la compensa sempre', 'Perché le curve sono tutte uguali'], 0, 'Un margine copre sabbia, buche, foglie.'),
-      mc('Che cosa fa una curva a raggio che si stringe?', ['aumenta l’accelerazione laterale e può richiedere di ridurre', 'non cambia nulla', 'riduce il rischio', 'permette di accelerare'], 0, 'a = v²/r cresce al calare di r.'),
-      mc('Dove va lo sguardo in curva?', ['Verso l’uscita, poi sempre più lontano', 'Sulla ruota anteriore', 'Sul guardrail', 'Sul tachimetro'], 0, 'Dove guardi vai.')
+      mc('La velocità prudente in curva è:', ['il minimo tra quella imposta dalla visibilità e quella dall’aderenza', 'sempre il limite di velocità indicato dalla strada', 'quella tenuta dal veicolo che precede', 'la massima possibile entro i limiti di legge'], 0, 'Valgono entrambi i vincoli.'),
+      mc('Perché usare solo una parte dell’aderenza?', ['Perché l’asfalto può cambiare e servono margini per errori e imprevisti', 'Perché l’aderenza disponibile è praticamente infinita', 'Perché l’ABS compensa sempre qualunque errore del pilota', 'Perché le curve su strada sono tutte uguali tra loro'], 0, 'Un margine copre sabbia, buche, foglie.'),
+      mc('Che cosa fa una curva a raggio che si stringe?', ['aumenta l’accelerazione laterale e può richiedere di ridurre', 'non cambia nulla, la velocità resta identica', 'riduce il rischio e consente di accelerare', 'permette di accelerare già a centro curva'], 0, 'a = v²/r cresce al calare di r.'),
+      mc('Dove va lo sguardo in curva?', ['Verso l’uscita, poi sempre più lontano', 'Sulla ruota anteriore, appena sotto il faro', 'Sul guardrail esterno alla curva', 'Sul tachimetro, per controllare la velocità'], 0, 'Dove guardi vai.')
     ]
   });
 
@@ -643,22 +643,22 @@ Equipaggiamento adatto (impermeabile, visibilità, gomme in buono stato) fa part
       fill('Frenata da 50 km/h con μ = 0,3: metri, un decimale?', ['32,8', '32.8'], '192,9 / 5,886 = 32,8.'),
       fill('Frenata da 50 km/h con μ = 0,1: metri, intero?', ['98', '98,3', '98.3'], '192,9 / 1,962 = 98,3.'),
       mc('Se μ si dimezza, lo spazio di frenata:', ['raddoppia', 'si dimezza', 'quadruplica', 'resta uguale'], 0, 'd è inversamente proporzionale a μ.'),
-      mc('Quando conviene attraversare strisce pedonali o tombini bagnati?', ['Con moto dritta, senza frenare né accelerare', 'Frenando forte sopra', 'Piegando molto', 'Accelerando per passarci sopra'], 0, 'L’aderenza è bassa: niente forze extra sull’elemento scivoloso.'),
-      mc('In caso di aquaplaning:', ['non frenare né sterzare, lascia il gas dolcemente e tieni dritto', 'frena a fondo', 'sterza di scatto', 'accelera'], 0, 'Il pneumatico non è a contatto: i comandi non servono.'),
+      mc('Quando conviene attraversare strisce pedonali o tombini bagnati?', ['Con moto dritta, senza frenare né accelerare', 'Frenando forte proprio sopra la superficie bagnata', 'Piegando molto per attraversarli più in fretta', 'Accelerando per passarci sopra con la ruota leggera'], 0, 'L’aderenza è bassa: niente forze extra sull’elemento scivoloso.'),
+      mc('In caso di aquaplaning:', ['non frenare né sterzare, lascia il gas dolcemente e tieni dritto', 'frena a fondo con il solo freno anteriore', 'sterza di scatto per uscire dall’acqua', 'accelera con decisione per risalire sul velo d’acqua'], 0, 'Il pneumatico non è a contatto: i comandi non servono.'),
       fill('Se la temperatura cala di 10 °C, di circa quanti bar cala la pressione di un pneumatico a 2,5 bar relativi (Δp ≈ P_assoluta·ΔT/T)? (due decimali)', ['0,12', '0.12'], '3,51 × 10/293 = 0,12.'),
-      mc('Con pneumatici freddi nei primi km:', ['guida in modo dolce, con poca piega', 'piega al massimo per scaldare', 'frena forte per scaldare i freni', 'non cambia nulla'], 0, 'Meno aderenza da freddo.'),
+      mc('Con pneumatici freddi nei primi km:', ['guida in modo dolce, con poca piega', 'piega al massimo per scaldare le gomme in fretta', 'frena forte per scaldare subito anche i freni', 'non cambia nulla, le gomme sono sempre pronte'], 0, 'Meno aderenza da freddo.'),
       fill('Se la velocità del vento raddoppia, di quante volte cresce la spinta (F ∝ v²)?', ['4', 'quattro'], '2² = 4.'),
-      mc('Su una buca che non puoi evitare:', ['riduci prima e non frenare mentre ci passi', 'frena forte nella buca', 'accelera di colpo', 'sterza bruscamente'], 0, 'La sospensione compressa e la ruota che si blocca sono rischi.'),
+      mc('Su una buca che non puoi evitare:', ['riduci prima e non frenare mentre ci passi', 'frena forte mentre sei dentro la buca', 'accelera di colpo per scavalcarla', 'sterza bruscamente per aggirare il bordo'], 0, 'La sospensione compressa e la ruota che si blocca sono rischi.'),
       fill('A 90 km/h con μ = 0,5: frenata in metri, arrotonda all’intero (v = 25 m/s).', ['64', '63,7', '63.7'], '625 / 9,81 = 63,7.'),
       order('Ordina la strategia sui fondi difficili', ['leggi la strada', 'riduci la velocità', 'aumenta la distanza', 'comandi dolci', 'moto dritta sull’elemento scivoloso'], 'Si anticipa e si usa meno aderenza.')
     ],
     test: [
       fill('Frenata da 30 km/h con μ = 0,25: metri, un decimale? (v = 8,33 m/s)', ['14,1', '14.1'], '69,4 / 4,905 = 14,1.'),
       fill('Frenata da 50 km/h con μ = 0,8: metri, un decimale?', ['12,3', '12.3'], '192,9 / 15,7 = 12,3.'),
-      mc('Il momento più insidioso con la pioggia è:', ['i primi minuti dopo un periodo secco', 'dopo ore di pioggia', 'solo di notte', 'solo in autostrada'], 0, 'Olio e polvere si mescolano all’acqua.'),
-      mc('Con ghiaia in curva è meglio:', ['non frenare, mantenere la piega e ridurre il gas dolcemente', 'frenare con forza', 'piegare di più', 'accelerare'], 0, 'Evitare azioni brusche.'),
-      mc('Qual è un segnale di possibile olio sull’asfalto?', ['Chiazze lucide o iridescenti', 'Asfalto chiaro', 'Segnaletica nuova', 'Nuvole'], 0, 'Spesso agli incroci e ai distributori.'),
-      mc('Con vento forte e raffiche conviene:', ['ridurre, tenere spazio laterale e valutare di sospendere', 'sorpassare i camion', 'andare più veloci', 'stare vicino ai camion'], 0, 'Il rischio è lo spostamento improvviso della traiettoria.'),
+      mc('Il momento più insidioso con la pioggia è:', ['i primi minuti dopo un periodo secco', 'dopo molte ore di pioggia continua', 'solo di notte, con poca luce', 'solo in autostrada, ad alta velocità'], 0, 'Olio e polvere si mescolano all’acqua.'),
+      mc('Con ghiaia in curva è meglio:', ['non frenare, mantenere la piega e ridurre il gas dolcemente', 'frenare con forza per perdere subito velocità', 'piegare di più per aumentare l’aderenza', 'accelerare per uscire dalla ghiaia più velocemente'], 0, 'Evitare azioni brusche.'),
+      mc('Qual è un segnale di possibile olio sull’asfalto?', ['Chiazze lucide o iridescenti', 'Asfalto di colore chiaro e molto ruvido', 'Segnaletica orizzontale appena ridipinta', 'Nuvole basse all’orizzonte'], 0, 'Spesso agli incroci e ai distributori.'),
+      mc('Con vento forte e raffiche conviene:', ['ridurre, tenere spazio laterale e valutare di sospendere', 'sorpassare i camion per uscire dalla scia', 'andare più veloci per ridurre l’effetto del vento', 'stare vicino ai camion per ripararsi dalle raffiche'], 0, 'Il rischio è lo spostamento improvviso della traiettoria.'),
       mc('Distanza di sicurezza sul bagnato a 90 km/h (25 m/s) con 4 secondi:', ['100 m', '50 m', '25 m', '200 m'], 0, '25 × 4 = 100.')
     ]
   });
@@ -777,24 +777,24 @@ Parcheggia in modo **sicuro** e legale: non su marciapiedi dove intralci pedoni,
     exercises: [
       fill('Spazio di arresto totale a 40 km/h (11,1 m/s), reazione 1 s e a = 7 m/s²: metri, un decimale?', ['19,9', '19.9', '20'], '11,1 + 123,5/14 = 11,1 + 8,8.'),
       fill('Semaforo: a 50 km/h con frenata comoda (a = 4) servono quanti metri totali (reazione 1 s inclusa), intero?', ['38', '38,0', '38.0'], '13,9 + 24,1 = 38,0.'),
-      mc('All’incrocio, anche se hai la precedenza, conviene:', ['ridurre e controllare che l’altro ti abbia visto', 'accelerare per passare prima', 'chiudere gli occhi', 'suonare e passare'], 0, 'La precedenza non protegge da un urto.'),
-      mc('Quale informazione è corretta sul filtrare?', ['Le norme variano e cambiano: bisogna informarsi sulle regole vigenti e sulle sanzioni', 'È sempre consentito ovunque', 'È sempre vietato ovunque in modo identico', 'È consentito solo ai ciclomotori'], 0, 'La disciplina dipende dal paese e può cambiare.'),
+      mc('All’incrocio, anche se hai la precedenza, conviene:', ['ridurre e controllare che l’altro ti abbia visto', 'accelerare per passare prima degli altri', 'chiudere gli occhi e affidarsi alla fortuna', 'suonare il clacson e passare senza guardare'], 0, 'La precedenza non protegge da un urto.'),
+      mc('Quale informazione è corretta sul filtrare?', ['Le norme variano e cambiano: bisogna informarsi sulle regole vigenti e sulle sanzioni', 'È sempre consentito ovunque, senza alcun limite', 'È sempre vietato ovunque in modo identico in tutta Europa', 'È consentito solo ai ciclomotori e ai motocicli leggeri'], 0, 'La disciplina dipende dal paese e può cambiare.'),
       fill('Se la differenza di velocità con il traffico passa da 10 a 20 km/h, l’energia d’urto relativa si moltiplica per quante volte?', ['4', 'quattro'], 'Dipende dal quadrato della velocità relativa.'),
-      mc('In rotatoria sul bagnato, rispetto all’asciutto, è corretto:', ['andare molto più piano e non frenare né accelerare sulle strisce dipinte', 'andare più forte per uscire prima', 'tagliare le corsie', 'frenare in piega'], 0, 'Il limite di aderenza è circa la metà.'),
+      mc('In rotatoria sul bagnato, rispetto all’asciutto, è corretto:', ['andare molto più piano e non frenare né accelerare sulle strisce dipinte', 'andare più forte per uscire prima dalla rotatoria', 'tagliare le corsie per accorciare il percorso', 'frenare con decisione mentre si è in piega'], 0, 'Il limite di aderenza è circa la metà.'),
       fill('Rotatoria r = 15 m, 25 km/h (6,94 m/s): accelerazione laterale, un decimale?', ['3,2', '3.2'], '48,2/15 = 3,21.'),
-      mc('Qual è un comportamento sicuro verso un ciclista?', ['Lasciare ampia distanza laterale e non sorpassare prima di un incrocio', 'Passare a pochi centimetri', 'Suonare e stringerlo', 'Superarlo in curva'], 0, 'Distanza laterale e scelta del momento.'),
-      mc('Quando un’auto parcheggiata può aprire la portiera?', ['In qualsiasi momento: lascia circa un metro', 'Mai se ha le luci spente', 'Solo con il motore acceso', 'Solo di notte'], 0, 'Il rischio è imprevedibile: spazio laterale.'),
+      mc('Qual è un comportamento sicuro verso un ciclista?', ['Lasciare ampia distanza laterale e non sorpassare prima di un incrocio', 'Passare a pochi centimetri per fare in fretta', 'Suonare il clacson e stringerlo verso il bordo', 'Superarlo in curva, dove ha meno spazio e meno visibilità'], 0, 'Distanza laterale e scelta del momento.'),
+      mc('Quando un’auto parcheggiata può aprire la portiera?', ['In qualsiasi momento: lascia circa un metro', 'Mai, se ha le luci spente e il motore spento', 'Solo con il motore acceso e il piede sul freno', 'Solo di notte, quando il traffico è ridotto'], 0, 'Il rischio è imprevedibile: spazio laterale.'),
       fill('Passando davanti a un’auto parcheggiata a 30 km/h, quanti metri percorri in 1 secondo (un decimale)?', ['8,3', '8.3'], '30/3,6 = 8,33.'),
-      mc('Per le manovre a bassa velocità si usa:', ['frizione, freno posteriore, gas costante e sguardo verso la direzione', 'solo il freno anteriore a fondo', 'solo l’acceleratore', 'sguardo sulla ruota'], 0, 'Dosaggio e sguardo avanti.'),
+      mc('Per le manovre a bassa velocità si usa:', ['frizione, freno posteriore, gas costante e sguardo verso la direzione', 'solo il freno anteriore azionato a fondo', 'soltanto l’acceleratore, senza usare frizione e freno', 'sguardo sulla ruota anteriore e gas a scatti'], 0, 'Dosaggio e sguardo avanti.'),
       order('Ordina il metodo di approccio a un incrocio', ['riduci', 'scansiona destra-sinistra-destra', 'posizionati visibile', 'dita sui freni', 'passa solo se l’altro ti ha visto'], 'Prima il margine, poi il passaggio.')
     ],
     test: [
       fill('Spazio di arresto totale a 30 km/h (reazione 1 s, a = 7 m/s²), un decimale?', ['13,3', '13.3'], '8,3 + 5,0 = 13,3.'),
       fill('Giallo di 3 secondi a 50 km/h: quanti metri si percorrono (un decimale)?', ['41,7', '41.7'], '13,89 × 3.'),
-      mc('Cosa vuol dire «zona di dilemma» al semaforo?', ['Pochi metri dove sia fermarsi sia passare sono a rischio', 'Una zona senza semaforo', 'Una zona solo pedonale', 'La corsia dei bus'], 0, 'Riducendo prima si evita di trovarcisi.'),
-      mc('Perché lo slalom è rischioso?', ['Ogni cambio di corsia espone a veicoli che non ti vedono e riduce aderenza', 'Perché fa consumare più benzina', 'Perché è lento', 'Perché non si può frenare in piega'], 0, 'Manovre brusche e angoli ciechi.'),
-      mc('Al semaforo verde, prima di partire conviene:', ['controllare che nessuno passi con il rosso', 'accelerare subito', 'passare in diagonale', 'spegnere il motore'], 0, 'Chi «brucia» il rosso è un pericolo.'),
-      mc('Perché si parcheggia con attenzione sui fondi morbidi?', ['Il cavalletto può affondare e la moto cadere', 'Perché si consuma di più', 'Perché si sporca', 'Non è un problema'], 0, 'Serve un appoggio sotto il cavalletto.'),
+      mc('Cosa vuol dire «zona di dilemma» al semaforo?', ['Pochi metri dove sia fermarsi sia passare sono a rischio', 'Una zona priva di semaforo lungo la strada', 'Una zona riservata esclusivamente ai pedoni', 'La corsia riservata ai bus e ai taxi'], 0, 'Riducendo prima si evita di trovarcisi.'),
+      mc('Perché lo slalom è rischioso?', ['Ogni cambio di corsia espone a veicoli che non ti vedono e riduce aderenza', 'Perché fa consumare più benzina del normale', 'Perché rallenta troppo il flusso del traffico', 'Perché in piega non si riesce a frenare mai'], 0, 'Manovre brusche e angoli ciechi.'),
+      mc('Al semaforo verde, prima di partire conviene:', ['controllare che nessuno passi con il rosso', 'accelerare subito, prima degli altri veicoli', 'passare in diagonale per guadagnare spazio', 'spegnere il motore e riaccenderlo in partenza'], 0, 'Chi «brucia» il rosso è un pericolo.'),
+      mc('Perché si parcheggia con attenzione sui fondi morbidi?', ['Il cavalletto può affondare e la moto cadere', 'Perché in quel caso si consuma più carburante', 'Perché la moto si sporca di fango', 'Non è un problema, il cavalletto regge sempre'], 0, 'Serve un appoggio sotto il cavalletto.'),
       mc('Quale distanza di sicurezza minima in città a 50 km/h con regola dei 2 secondi?', ['circa 28 m', 'circa 5 m', 'circa 100 m', 'circa 2 m'], 0, '13,9 × 2 = 27,8 m.')
     ]
   });
@@ -930,14 +930,14 @@ Infine, il piacere del viaggio non dipende dalla velocità: dipende da **panoram
       fill('In scacchiera a 90 km/h, 2 secondi sulla stessa traccia equivalgono a quanti metri?', ['50'], '25 × 2 = 50.'),
       fill('In scacchiera a 90 km/h, 1 secondo dalla moto diagonale equivale a quanti metri?', ['25'], '25 × 1.'),
       fill('A 120 km/h (33,3 m/s), 2 secondi sono quanti metri (intero)?', ['67', '66,7', '66.7', '66'], '33,33 × 2 = 66,7.'),
-      mc('In curva stretta o con pioggia, il gruppo dovrebbe:', ['passare alla fila indiana e aumentare la distanza', 'affiancarsi', 'accelerare', 'sorpassarsi a vicenda'], 0, 'Servono tracce libere e più margine.'),
-      mc('Se un compagno va troppo forte per te, la cosa migliore è:', ['andare al tuo ritmo e ritrovarsi alla sosta', 'inseguirlo', 'sorpassare tutti', 'staccare la frizione'], 0, 'Ognuno è responsabile della propria sicurezza.'),
+      mc('In curva stretta o con pioggia, il gruppo dovrebbe:', ['passare alla fila indiana e aumentare la distanza', 'affiancarsi per restare compatti', 'accelerare per uscire dalla curva insieme', 'sorpassarsi a vicenda per cambiare ordine'], 0, 'Servono tracce libere e più margine.'),
+      mc('Se un compagno va troppo forte per te, la cosa migliore è:', ['andare al tuo ritmo e ritrovarsi alla sosta', 'inseguirlo per non perdere il gruppo', 'sorpassare tutti gli altri per raggiungerlo', 'staccarsi dal gruppo e spingere al massimo'], 0, 'Ognuno è responsabile della propria sicurezza.'),
       fill('Un viaggio di 400 km a 70 km/h di media in movimento richiede quante ore di guida (un decimale)?', ['5,7', '5.7'], '400/70 = 5,71.'),
       mc('Ogni quanto è prudente fare una sosta di riposo?', ['circa ogni 1,5–2 ore', 'ogni 8 ore', 'mai se si è in gruppo', 'solo con il buio'], 0, 'Linea guida generale: la fatica cresce con il tempo.'),
-      mc('Come va disposto il carico?', ['basso, vicino al centro e simmetrico', 'in alto e dietro', 'appeso al manubrio', 'solo da un lato'], 0, 'Alto e laterale peggiora stabilità e sterzo.'),
+      mc('Come va disposto il carico?', ['basso, vicino al centro e simmetrico', 'in alto e dietro, per liberare il peso', 'appeso al manubrio, sui due lati', 'tutto da un solo lato, per bilanciare il pilota'], 0, 'Alto e laterale peggiora stabilità e sterzo.'),
       fill('Massa 280 kg, v = 25 m/s: energia cinetica in kJ (un decimale)? ½mv².', ['87,5', '87.5'], '0,5 × 280 × 625 = 87 500 J.'),
       fill('Con passeggero la massa passa da 280 a 350 kg: di quanto cresce l’energia cinetica a parità di velocità (%)?', ['25'], '350/280 = 1,25.'),
-      mc('Cosa deve fare il passeggero?', ['tenere i piedi sulle pedane e seguire la moto in curva', 'opporsi alla piega', 'togliere il casco in sosta in strada', 'stare in piedi'], 0, 'Seguire senza anticipare.'),
+      mc('Cosa deve fare il passeggero?', ['tenere i piedi sulle pedane e seguire la moto in curva', 'opporsi alla piega, restando dritto sulla sella', 'togliere il casco in sosta in mezzo alla strada', 'stare in piedi sulle pedane nei tratti veloci'], 0, 'Seguire senza anticipare.'),
       order('Ordina la preparazione di un viaggio', ['percorso e meteo', 'controllo moto', 'carico e pressioni', 'briefing e segnali', 'soste e piano B'], 'Si prepara prima di partire.')
     ],
     test: [
@@ -945,9 +945,9 @@ Infine, il piacere del viaggio non dipende dalla velocità: dipende da **panoram
       fill('Tratto di 250 km a 80 km/h in movimento: ore di guida (due decimali)?', ['3,13', '3.13', '3,125', '3.125'], '250/80 = 3,125 h = 3 h 7,5 min.'),
       mc('Con 6 moto, in scacchiera, quale coppia è sulla stessa traccia?', ['una moto e quella due posizioni davanti', 'due moto affiancate', 'una moto e quella subito davanti', 'nessuna'], 0, 'L’alternanza porta alla stessa traccia ogni due moto.'),
       mc('Dopo 400 km con 3 soste da 20 min a 70 km/h medi, il tempo totale è circa:', ['6 h 43 min', '5 h 43 min', '7 h 30 min', '4 h'], 0, '5 h 43 + 60 min.'),
-      mc('Perché il passeggero richiede più distanza?', ['La massa aumenta e la frenata/stabilità cambiano', 'Perché il motore è più forte', 'Perché la moto è più corta', 'Non serve più distanza'], 0, 'Più energia e dinamica diversa.'),
-      mc('L’interfono nel casco:', ['può facilitare la comunicazione ma distrae: va usato poco', 'è obbligatorio', 'sostituisce le frecce', 'è sempre sicuro'], 0, 'Attenzione limitata.'),
-      mc('La caffeina contro la stanchezza:', ['aiuta solo temporaneamente: servono riposo e sosta', 'sostituisce il sonno', 'rende sicuri', 'cura la fatica'], 0, 'Il riposo è l’unica soluzione.')
+      mc('Perché il passeggero richiede più distanza?', ['La massa aumenta e la frenata/stabilità cambiano', 'Perché il motore diventa più forte', 'Perché la moto diventa più corta', 'Perché non serve nessuna distanza in più'], 0, 'Più energia e dinamica diversa.'),
+      mc('L’interfono nel casco:', ['può facilitare la comunicazione ma distrae: va usato poco', 'è obbligatorio per legge in tutti i casi', 'sostituisce le frecce e i segnali', 'è sempre sicuro e non distrae mai'], 0, 'Attenzione limitata.'),
+      mc('La caffeina contro la stanchezza:', ['aiuta solo temporaneamente: servono riposo e sosta', 'sostituisce completamente il sonno perso', 'rende sicuri anche con forte stanchezza', 'cura la fatica in modo definitivo'], 0, 'Il riposo è l’unica soluzione.')
     ]
   });
 
@@ -1074,21 +1074,21 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
       fill('Un microsonno di 4 secondi a 90 km/h: metri percorsi?', ['100'], '25 × 4.'),
       mc('Se ti senti stanco alla guida:', ['ti fermi in un luogo sicuro e riposi', 'accendi la musica forte', 'accelerare per arrivare prima', 'bevi un caffè e continui senza sosta'], 0, 'Solo il riposo risolve.'),
       mc('Per chiamare i soccorsi in Italia/Europa il numero unico di emergenza è:', ['112', '113 solo', '911', '555'], 0, 'Il 112 è il numero unico di emergenza europeo.'),
-      mc('Davanti a un motociclista caduto che respira, il casco:', ['non va rimosso salvo reale necessità e con persone addestrate', 'va tolto subito', 'va tolto tirando forte', 'va tolto sempre'], 0, 'Rischio di aggravare un trauma al collo.'),
-      mc('Se sospetti un trauma alla colonna:', ['non muovere la persona salvo pericolo immediato', 'falla sedere', 'falla camminare', 'trascinala via'], 0, 'Muoverla può peggiorare il danno.'),
-      mc('Come usare un corso di guida sicura?', ['Per imparare in ambiente controllato, non per provare i limiti su strada', 'Per correre in strada', 'Per saltare le regole', 'Non serve'], 0, 'Il corso crea automatismi in sicurezza.'),
-      mc('Un farmaco con avvertenza «può alterare la capacità di guidare»:', ['va letto e, nel dubbio, non si guida', 'si ignora', 'si prende doppia dose', 'va bevuto con alcol'], 0, 'Chiedi al medico o al farmacista.'),
+      mc('Davanti a un motociclista caduto che respira, il casco:', ['non va rimosso salvo reale necessità e con persone addestrate', 'va tolto subito, per farlo respirare meglio', 'va tolto tirando forte verso l’alto', 'va tolto sempre, a chiunque sia caduto'], 0, 'Rischio di aggravare un trauma al collo.'),
+      mc('Se sospetti un trauma alla colonna:', ['non muovere la persona salvo pericolo immediato', 'falla sedere subito per controllare', 'falla camminare per verificare il dolore', 'trascinala via dalla strada tirandola per le braccia'], 0, 'Muoverla può peggiorare il danno.'),
+      mc('Come usare un corso di guida sicura?', ['Per imparare in ambiente controllato, non per provare i limiti su strada', 'Per correre in strada con maggiore sicurezza', 'Per imparare a saltare le regole del codice', 'Non serve a chi ha già la patente da tempo'], 0, 'Il corso crea automatismi in sicurezza.'),
+      mc('Un farmaco con avvertenza «può alterare la capacità di guidare»:', ['va letto e, nel dubbio, non si guida', 'si ignora, è una formula generica', 'si assume una dose doppia per sicurezza', 'si accompagna con alcol per limitare gli effetti'], 0, 'Chiedi al medico o al farmacista.'),
       fill('Da 90 a 80 km/h, di quanto scende l’energia cinetica (in %, intero)? 1 − (80/90)².', ['21'], '(80/90)² = 0,79.'),
       order('Ordina le prime azioni dopo una caduta', ['metti in sicurezza la zona', 'spegni il motore', 'chiama il 112', 'valuta coscienza e respiro', 'non muovere se sospetto trauma'], 'Sicurezza prima, poi soccorsi.')
     ],
     test: [
       fill('Su 50 km, passare da 90 a 100 km/h fa risparmiare quanti minuti e secondi? Rispondi in secondi.', ['200'], '33 min 20 s − 30 min = 3 min 20 s = 200 s.'),
       fill('Con alcol la reazione passa da 1,0 a 1,3 s a 90 km/h: metri in più, un decimale?', ['7,5', '7.5'], '0,3 × 25 = 7,5.'),
-      mc('Quale azione NON è corretta dopo una caduta?', ['Togliere il casco al ferito senza motivo', 'Chiamare il 112', 'Accendere le quattro frecce', 'Non dare da bere'], 0, 'Il casco si lascia, salvo necessità.'),
-      mc('Perché «solo un bicchiere» può essere un problema?', ['L’alcol altera riflessi e giudizio già a basse dosi e lo smaltimento è lento', 'Non lo è mai', 'Si smaltisce con il caffè', 'Dipende dal colore'], 0, 'Smaltimento ≈ 0,1–0,15 g/l all’ora.'),
+      mc('Quale azione NON è corretta dopo una caduta?', ['Togliere il casco al ferito senza motivo', 'Chiamare il 112 e indicare il luogo', 'Accendere le quattro frecce e segnalare', 'Non dare da bere né da mangiare al ferito'], 0, 'Il casco si lascia, salvo necessità.'),
+      mc('Perché «solo un bicchiere» può essere un problema?', ['L’alcol altera riflessi e giudizio già a basse dosi e lo smaltimento è lento', 'Non è mai un problema, se ci si sente bene', 'Si smaltisce in fretta bevendo molto caffè', 'Dipende solo dal colore della bevanda scelta'], 0, 'Smaltimento ≈ 0,1–0,15 g/l all’ora.'),
       mc('Alle prime avvisaglie di rabbia o fretta:', ['rallenti, respiri e lasci andare', 'inseguire chi ti ha tagliato la strada', 'accelerare', 'sorpassare tutti'], 0, 'Non reagire e riduci il ritmo.'),
-      mc('Cosa comunichi al 112?', ['luogo preciso, numero di feriti e condizioni, pericoli', 'solo il tuo nome', 'solo la marca della moto', 'nulla'], 0, 'Serve per inviare i soccorsi giusti.'),
-      mc('Dopo una caduta, anche se ti senti bene:', ['ti fai controllare da un medico', 'riparti subito', 'nascondi i sintomi', 'ignori il dolore'], 0, 'L’adrenalina maschera i danni.')
+      mc('Cosa comunichi al 112?', ['luogo preciso, numero di feriti e condizioni, pericoli', 'solo il tuo nome e il numero di telefono', 'solo la marca e il modello della moto', 'nulla, basta lasciare il telefono acceso'], 0, 'Serve per inviare i soccorsi giusti.'),
+      mc('Dopo una caduta, anche se ti senti bene:', ['ti fai controllare da un medico', 'riparti subito, per non perdere tempo', 'nascondi i sintomi agli altri soccorritori', 'ignori il dolore finché non peggiora'], 0, 'L’adrenalina maschera i danni.')
     ]
   });
 })(window.ST = window.ST || {});

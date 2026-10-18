@@ -96,25 +96,25 @@ Riepilogo dei tipi: naked (agile, versatile), sportiva (pista), touring (viaggio
     ],
     exercises: [
       mc('Quale tipo di moto non ha la carena e ha il busto quasi eretto?', ['Naked', 'Sportiva', 'Touring', 'Scooter'], 0, 'Naked significa «nuda»: niente carene. È agile e adatta a uso misto.'),
-      mc('Quale tipo di moto ha ruote da 17 pollici con gomme stradali ed è derivata dall’enduro?', ['Supermotard', 'Cross', 'Custom', 'Touring'], 0, 'Il supermotard (o motard) è un’enduro con ruote da 17 pollici e freni potenti.'),
+      mc('Quale tipo di moto ha ruote da 17 pollici con gomme stradali ed è derivata dall’enduro?', ['Supermotard', 'Cross da fuoristrada', 'Custom a ruote basse', 'Touring da viaggio'], 0, 'Il supermotard (o motard) è un’enduro con ruote da 17 pollici e freni potenti.'),
       mc('Quale tipo di moto non è omologato per circolare su strada?', ['Cross', 'Enduro', 'Scooter', 'Naked'], 0, 'La cross è solo per il fuoristrada e le gare; l’enduro ha invece luci, targa e omologazione.'),
-      mc('Quale caratteristica rende impegnative per un principiante le adventure?', ['Sella alta e peso elevato', 'Mancanza di freni', 'Cilindrata minima', 'Assenza di cambio'], 0, 'Spesso hanno sella alta e peso notevole: chi è basso può non toccare terra con i piedi.'),
-      mc('Sullo scooter, che cosa fa la leva sinistra?', ['Frena la ruota posteriore', 'Cambia marcia', 'Aziona la frizione', 'Accende le frecce'], 0, 'Lo scooter ha cambio automatico: le due leve sono i due freni, sinistra posteriore e destra anteriore.'),
+      mc('Quale caratteristica rende impegnative per un principiante le adventure?', ['Sella alta e peso elevato', 'Peso contenuto e sella molto bassa', 'Potenza ridotta e cambio semiautomatico', 'Assenza di borse e parabrezza'], 0, 'Spesso hanno sella alta e peso notevole: chi è basso può non toccare terra con i piedi.'),
+      mc('Sullo scooter, che cosa fa la leva sinistra?', ['Frena la ruota posteriore', 'Cambia marcia con la punta', 'Aziona la frizione del cambio', 'Frena la ruota anteriore'], 0, 'Lo scooter ha cambio automatico: le due leve sono i due freni, sinistra posteriore e destra anteriore.'),
       fill('Una moto ha una potenza di 11 kW. Quanti CV sono, circa (arrotonda all’intero; 1 kW = 1,36 CV)?', ['15'], '11 × 1,36 = 14,96, cioè circa 15 CV.'),
       fill('Una moto da 25 kW pesa 150 kg. Quanto vale il rapporto potenza/peso in kW/kg, con tre decimali?', ['0,167', '0.167'], '25 / 150 = 0,1667, cioè 0,167 kW/kg.'),
       fill('Moto da 35 kW e 200 kg. Quanto vale il rapporto potenza/peso in kW/kg, con tre decimali?', ['0,175', '0.175'], '35 / 200 = 0,175 kW/kg.'),
-      mc('Quale scelta è più sensata per chi parte da zero?', ['Una moto leggera con potenza dolce e sella alla propria altezza', 'La sportiva più potente disponibile', 'La moto più pesante per avere stabilità', 'Una moto da cross per la strada'], 0, 'La prima moto serve a imparare: conta controllare facilmente, non le prestazioni massime.'),
-      mc('Perché le prestazioni di una sportiva vanno esplorate in pista?', ['Perché lì c’è uno spazio controllato, senza traffico e con strutture di sicurezza', 'Perché in pista i limiti non esistono', 'Perché su strada le sportive non funzionano', 'Perché è obbligatorio per legge usare la pista'], 0, 'In pista c’è assenza di traffico opposto, vie di fuga e personale: su strada un errore coinvolge altre persone.'),
+      mc('Quale scelta è più sensata per chi parte da zero?', ['Una moto leggera con potenza dolce e sella alla propria altezza', 'La sportiva più potente sul mercato, per imparare in fretta', 'La moto più pesante, che dà stabilità', 'Una enduro molto alta, per dominare meglio il traffico'], 0, 'La prima moto serve a imparare: conta controllare facilmente, non le prestazioni massime.'),
+      mc('Perché le prestazioni di una sportiva vanno esplorate in pista?', ['Perché lì c’è uno spazio controllato, senza traffico e con strutture di sicurezza', 'Perché in pista i limiti non esistono e si può spingere al massimo', 'Perché su strada le sportive non funzionano bene', 'Perché la legge impone di usare solo la pista'], 0, 'In pista c’è assenza di traffico opposto, vie di fuga e personale: su strada un errore coinvolge altre persone.'),
       order('Ordina gli esempi dal rapporto potenza/peso più basso al più alto', ['25 kW su 200 kg (0,125)', '25 kW su 150 kg (0,167)', '35 kW su 175 kg (0,20)', '35 kW su 150 kg (0,233)'], 'Calcola potenza divisa per peso e ordina in senso crescente.')
     ],
     test: [
       mc('Quale tipo di moto ha parabrezza grande, borse e serbatoio capiente ed è pensata per viaggiare?', ['Touring', 'Cross', 'Supermotard', 'Naked'], 0, 'La touring privilegia comfort e autonomia, a costo di peso elevato.'),
-      mc('Che cosa sono i semimanubri tipici delle sportive?', ['Due manubri bassi e separati fissati alla forcella', 'Un manubrio alto e largo', 'Un manubrio con la frizione elettronica', 'Due specchietti aggiuntivi'], 0, 'I semimanubri portano il busto in avanti; sono comodi in pista, meno in città.'),
+      mc('Che cosa sono i semimanubri tipici delle sportive?', ['Due manubri bassi e separati fissati alla forcella', 'Un manubrio alto e largo come sulle naked', 'Un manubrio unico con frizione elettronica integrata nel comando', 'Due specchietti aggiuntivi sulla carena'], 0, 'I semimanubri portano il busto in avanti; sono comodi in pista, meno in città.'),
       fill('Una moto da 14 kW pesa 140 kg. Quanto vale il rapporto potenza/peso in kW/kg?', ['0,1', '0.1', '0,10', '0.10'], '14 / 140 = 0,1 kW/kg.'),
       fill('Una moto ha 35 kW. Quanti CV sono, circa (arrotonda all’intero; 1 kW = 1,36 CV)?', ['48'], '35 × 1,36 = 47,6, cioè circa 48 CV.'),
-      mc('Quale svantaggio tipico ha una custom rispetto a una naked?', ['Peso elevato e poca luce a terra nelle curve', 'Mancanza di freno anteriore', 'Cambio automatico obbligatorio', 'Impossibilità di viaggiare'], 0, 'La custom ha pedane avanzate e peso: meno agile e con limiti di piega.'),
+      mc('Quale svantaggio tipico ha una custom rispetto a una naked?', ['Peso elevato e poca luce a terra nelle curve', 'Assenza del freno anteriore di serie', 'Cambio automatico obbligatorio per omologazione', 'Impossibilità di percorrere strade statali'], 0, 'La custom ha pedane avanzate e peso: meno agile e con limiti di piega.'),
       mc('Quale delle seguenti frasi è un falso mito?', ['Più cc significa sempre moto migliore', 'Il peso incide sulle manovre', 'Il tipo di moto va scelto in base all’uso', 'Lo scooter richiede casco omologato'], 0, 'La cilindrata da sola non dice nulla di sicurezza e usabilità: contano potenza, peso e uso.'),
-      mc('Quale tipo di moto è la scelta migliore per uno spostamento quotidiano in città, per chi comincia?', ['Scooter o naked di media cilindrata', 'Sportiva da 1000 cm³', 'Cross', 'Touring con borse'], 0, 'In città servono agilità, ingombro ridotto e consumi bassi.')
+      mc('Quale tipo di moto è la scelta migliore per uno spostamento quotidiano in città, per chi comincia?', ['Scooter o naked di media cilindrata', 'Sportiva da 1000 cm³ con semimanubri', 'Cross da gara con gomme tassellate', 'Touring completa di borse e bauletto'], 0, 'In città servono agilità, ingombro ridotto e consumi bassi.')
     ]
   });
 
@@ -226,19 +226,19 @@ Mnemonica per le mani e i piedi: **sinistra = frizione, destra = gas e freno ant
       mc('La folle si trova:', ['Tra la 1ª e la 2ª', 'Sotto la 1ª', 'Sopra la 6ª', 'Tra la 5ª e la 6ª'], 0, 'Schema: 1 in giù, poi N, poi 2-3-4-5-6 verso l’alto.'),
       mc('Quale colore ha di solito la spia di pressione olio troppo bassa?', ['Rosso', 'Verde', 'Blu', 'Bianco'], 0, 'Il rosso indica pericolo: si accosta e si spegne il motore.'),
       mc('Quale spia indica gli abbaglianti accesi?', ['Blu', 'Rossa', 'Gialla', 'Nessuna'], 0, 'La spia degli abbaglianti è di solito blu.'),
-      mc('Che cosa significa una spia ABS gialla che resta accesa mentre guidi?', ['L’ABS non funziona; i freni normali sì', 'I freni sono rotti', 'L’ABS è attivo in questo momento', 'Il serbatoio è pieno'], 0, 'L’ABS è disattivato: si guida con più cautela e si va in officina.'),
+      mc('Che cosa significa una spia ABS gialla che resta accesa mentre guidi?', ['L’ABS non funziona; i freni normali sì', 'I freni sono rotti e vanno sostituiti prima di ripartire', 'L’ABS è attivo in questo momento e sta frenando', 'Il serbatoio è quasi pieno'], 0, 'L’ABS è disattivato: si guida con più cautela e si va in officina.'),
       fill('Il contagiri indica 7000 giri/min su un massimo di 14 000. Che percentuale del massimo è?', ['50'], '7000 / 14 000 = 0,5 = 50%.'),
-      mc('Quale operazione va fatta prima di partire?', ['Alzare il cavalletto laterale', 'Abbassare gli specchietti', 'Spegnere le luci', 'Disattivare l’ABS'], 0, 'Il cavalletto abbassato può toccare terra in curva e far cadere.'),
+      mc('Quale operazione va fatta prima di partire?', ['Alzare il cavalletto laterale', 'Abbassare gli specchietti retrovisori', 'Spegnere le luci di posizione', 'Disattivare l’ABS dal quadro'], 0, 'Il cavalletto abbassato può toccare terra in curva e far cadere.'),
       order('Ordina l’avviamento di una moto con cambio manuale', ['Accendi il quadro', 'Verifica folle o tira la frizione', 'Premi l’avviamento', 'Alza il cavalletto', 'Inserisci la prima e parti'], 'La sequenza evita partenze impreviste con la marcia inserita.')
     ],
     test: [
-      mc('Che cos’è la forcella?', ['I due steli anteriori con le sospensioni', 'Il braccio posteriore con la ruota', 'Il serbatoio', 'La catena'], 0, 'La forcella regge la ruota anteriore e assorbe le irregolarità.'),
-      mc('A che cosa serve il forcellone?', ['A reggere la ruota posteriore', 'A frenare la ruota anteriore', 'A tenere ferma la moto', 'A regolare gli specchietti'], 0, 'Il forcellone oscilla insieme all’ammortizzatore posteriore.'),
-      mc('A cosa serve l’interruttore di arresto motore (kill switch)?', ['A spegnere subito il motore in emergenza', 'A inserire la folle', 'A regolare il gas', 'Ad accendere i fari'], 0, 'È un comando rosso a destra, per spegnere velocemente il motore.'),
+      mc('Che cos’è la forcella?', ['I due steli anteriori con le sospensioni', 'Il braccio posteriore che regge la ruota', 'Il serbatoio sotto la sella', 'La catena di trasmissione'], 0, 'La forcella regge la ruota anteriore e assorbe le irregolarità.'),
+      mc('A che cosa serve il forcellone?', ['A reggere la ruota posteriore', 'A frenare la ruota anteriore', 'A tenere ferma la moto in sosta', 'A regolare gli specchietti'], 0, 'Il forcellone oscilla insieme all’ammortizzatore posteriore.'),
+      mc('A cosa serve l’interruttore di arresto motore (kill switch)?', ['A spegnere subito il motore in emergenza', 'A inserire la folle quando ci si ferma al semaforo', 'A regolare il gas in curva', 'Ad accendere i fari abbaglianti'], 0, 'È un comando rosso a destra, per spegnere velocemente il motore.'),
       fill('Un contagiri arriva a 12 000 giri/min. Il motore gira a 3 000 giri/min. Che percentuale del massimo è?', ['25'], '3000 / 12 000 = 0,25 = 25%.'),
-      mc('Quale posizione hanno i piedi sulle pedane, in guida normale?', ['Con la punta in avanti, la pianta sulla pedana', 'Con i talloni fuori e i piedi aperti', 'Appesi in basso senza appoggio', 'Sul pedale del freno, sempre premuto'], 0, 'I piedi restano in posizione di controllo, pronti a cambiare o frenare.'),
+      mc('Quale posizione hanno i piedi sulle pedane, in guida normale?', ['Con la punta in avanti, la pianta sulla pedana', 'Con i talloni in fuori e le punte aperte verso l’esterno', 'Penzolanti in basso, senza alcun appoggio sulle pedane', 'Sul pedale del freno, sempre premuto'], 0, 'I piedi restano in posizione di controllo, pronti a cambiare o frenare.'),
       mc('Quale tra queste spie è di solito verde?', ['La folle (N)', 'La pressione olio', 'La temperatura alta', 'L’ABS guasto'], 0, 'Il verde segnala informazioni normali.'),
-      mc('Sullo scooter, quale elemento non c’è?', ['Pedale del cambio e leva della frizione', 'Il freno anteriore', 'Le frecce', 'Il manubrio'], 0, 'Lo scooter ha cambio automatico: le leve sono i due freni.')
+      mc('Sullo scooter, quale elemento non c’è?', ['Pedale del cambio e leva della frizione', 'Il freno anteriore comandato dalla leva a mano', 'Il pedale del freno posteriore e le luci', 'Il manubrio di guida'], 0, 'Lo scooter ha cambio automatico: le leve sono i due freni.')
     ]
   });
 
@@ -364,20 +364,20 @@ L’equipaggiamento giusto non ti fa guidare meglio, ma ti permette di **rialzar
       mc('Dopo una caduta con urto del casco, anche senza danni visibili, che cosa si fa?', ['Lo si sostituisce', 'Si continua a usarlo', 'Lo si ridipinge', 'Si cambia solo la visiera'], 0, 'La schiuma interna assorbe l’urto e può essere compromessa senza segni esterni.'),
       fill('Un casco comprato nel 2022, sostituzione consigliata dopo 5 anni: entro quale anno?', ['2027'], '2022 + 5 = 2027.'),
       mc('Quale classe EN 17092 offre il livello più alto di protezione all’abrasione?', ['AAA', 'A', 'B', 'C'], 0, 'AAA è il livello più alto, usato per guida sportiva.'),
-      mc('Che cosa significa livello 2 di una protezione CE rispetto al livello 1?', ['Trasmette meno forza al corpo', 'È più grande', 'È meno rigida', 'È solo per il passeggero'], 0, 'Il livello 2 supera test più severi e trasmette meno forza.'),
+      mc('Che cosa significa livello 2 di una protezione CE rispetto al livello 1?', ['Trasmette meno forza al corpo', 'È più grande, ma assorbe lo stesso', 'È meno rigida e più comoda', 'È dedicata solo al passeggero'], 0, 'Il livello 2 supera test più severi e trasmette meno forza.'),
       mc('Quali parti sono tra le più esposte e richiedono protezione dedicata?', ['Mani e caviglie', 'Solo le orecchie', 'Solo il petto', 'Nessuna'], 0, 'Le mani toccano terra per istinto, le caviglie si fratturano facilmente.'),
       fill('Casco 250 €, guanti 80 €, stivali 150 €, giacca 220 €, pantaloni 150 €, paraschiena 70 €: totale in euro?', ['920'], '250 + 80 + 150 + 220 + 150 + 70 = 920.'),
-      mc('Che cosa non fa un airbag per motociclisti?', ['Sostituire casco e altre protezioni', 'Proteggere torace e collo', 'Gonfiarsi in caso di caduta', 'Funzionare con un cavo o sensori'], 0, 'L’airbag è un’aggiunta: il casco e le altre protezioni restano necessari.'),
+      mc('Che cosa non fa un airbag per motociclisti?', ['Sostituire casco e altre protezioni', 'Proteggere torace e collo in caduta', 'Gonfiarsi rapidamente in caso di caduta', 'Funzionare tramite un cavo o dei sensori elettronici'], 0, 'L’airbag è un’aggiunta: il casco e le altre protezioni restano necessari.'),
       order('Ordina le priorità d’acquisto dell’equipaggiamento', ['Casco omologato', 'Guanti e stivali', 'Giacca e pantaloni protettivi', 'Paraschiena', 'Airbag'], 'Si parte da testa, mani e piedi, poi il resto del corpo e le protezioni aggiuntive.')
     ],
     test: [
       mc('Quale tipo di casco copre tutto il viso ed è considerato il più protettivo?', ['Integrale', 'Jet', 'Modulare aperto', 'Casco da bici'], 0, 'Il casco integrale ha la mentoniera fissa.'),
       fill('Una testa misura 61 cm. Quale taglia di casco (lettere) serve secondo la tabella?', ['XL', 'xl'], '61–62 cm corrispondono alla taglia XL.'),
       mc('Cosa significa «E3» nell’etichetta del casco?', ['Omologato in Italia', 'Omologato in Germania', 'Taglia 3', 'Livello di protezione 3'], 0, 'Il numero dopo la E identifica il paese; per l’Italia è 3.'),
-      mc('Perché non conviene comprare un casco usato?', ['Può aver già subito un urto non visibile', 'Costa sempre troppo', 'Non è permesso dalla legge', 'È sempre troppo piccolo'], 0, 'Non sai quale storia ha avuto e la schiuma può essere compromessa.'),
-      mc('Come si possono ridurre i danni dell’abrasione su asfalto?', ['Con capi in pelle o tessuto tecnico certificati', 'Con tessuti leggeri di cotone', 'Con vestiti larghi', 'Con scarpe da ginnastica'], 0, 'I materiali tecnici resistono allo sfregamento molto più dei tessuti normali.'),
+      mc('Perché non conviene comprare un casco usato?', ['Può aver già subito un urto non visibile', 'Costa sempre troppo rispetto al nuovo', 'Non è consentito dalla legge in Italia', 'Risulta sempre di taglia sbagliata per chi lo compra'], 0, 'Non sai quale storia ha avuto e la schiuma può essere compromessa.'),
+      mc('Come si possono ridurre i danni dell’abrasione su asfalto?', ['Con capi in pelle o tessuto tecnico certificati', 'Con tessuti leggeri in cotone o jeans comuni', 'Con vestiti larghi e ariosi nei mesi estivi', 'Con scarpe da ginnastica ben allacciate alla caviglia'], 0, 'I materiali tecnici resistono allo sfregamento molto più dei tessuti normali.'),
       fill('Un paraschiena costa 70 €, un airbag 400 €. Quanto costano insieme?', ['470'], '70 + 400 = 470 €.'),
-      mc('Quale è una buona pratica di visibilità?', ['Indossare colori chiari o fluorescenti con inserti catarifrangenti', 'Guidare con abiti scuri di notte', 'Spegnere le luci di giorno', 'Tenere la visiera sporca'], 0, 'Essere visti riduce molti incidenti, soprattutto agli incroci.')
+      mc('Quale è una buona pratica di visibilità?', ['Indossare colori chiari o fluorescenti con inserti catarifrangenti', 'Guidare con abiti scuri anche di notte per non farsi notare', 'Tenere spente le luci anabbaglianti anche di giorno', 'Lasciare la visiera graffiata e sporca'], 0, 'Essere visti riduce molti incidenti, soprattutto agli incroci.')
     ]
   });
 
@@ -503,7 +503,7 @@ Il rispetto dei limiti vale anche in moto: sulle strade aperte al traffico le pr
       fill('Qual è il rapporto massimo potenza/peso in kW/kg per la patente A1 (con un decimale)?', ['0,1', '0.1'], 'Il limite A1 è 0,1 kW/kg.'),
       fill('Una moto da 35 kW deve avere una massa minima di quanti kg per essere ammessa per la A2 (rapporto 0,2)?', ['175'], '35 / 0,2 = 175 kg.'),
       fill('Una moto da 28 kW pesa 160 kg. Quanto vale il rapporto kW/kg, con tre decimali?', ['0,175', '0.175'], '28 / 160 = 0,175.'),
-      mc('Una moto da 35 kW e 150 kg è ammessa per la A2?', ['No, il rapporto è 0,233 e supera 0,2', 'Sì, perché 35 kW è il limite', 'Sì, in ogni caso', 'Dipende dal colore'], 0, '35 / 150 = 0,233 > 0,2.'),
+      mc('Una moto da 35 kW e 150 kg è ammessa per la A2?', ['No, il rapporto è 0,233 e supera 0,2', 'Sì, perché 35 kW è il limite massimo per la categoria', 'Sì, in ogni caso, conta solo la potenza', 'Dipende dal colore'], 0, '35 / 150 = 0,233 > 0,2.'),
       mc('L’assicurazione RC copre:', ['I danni causati agli altri', 'Solo i danni al proprio mezzo', 'Solo il furto', 'Le spese di benzina'], 0, 'La RC è obbligatoria e copre la responsabilità verso terzi.'),
       mc('Con quale frequenza si fa la revisione di una moto dopo la prima?', ['Ogni 2 anni', 'Ogni anno', 'Ogni 5 anni', 'Mai'], 0, 'La prima dopo 4 anni, poi ogni 2.'),
       mc('Per i neopatentati e under 21 il limite di alcol per guidare è:', ['Zero', '0,5 g/l', '0,8 g/l', '1,5 g/l'], 0, 'Per questi gruppi vale tasso alcolemico zero.'),
@@ -516,7 +516,7 @@ Il rispetto dei limiti vale anche in moto: sulle strade aperte al traffico le pr
       fill('Una moto da 11 kW deve pesare almeno quanti kg per la A1 (rapporto 0,1)?', ['110'], '11 / 0,1 = 110 kg.'),
       mc('Quale documento è il riferimento ufficiale per i dati tecnici di una moto?', ['La carta di circolazione', 'Il depliant del costruttore', 'La pubblicità del concessionario', 'La targa'], 0, 'I dati ufficiali di potenza e massa sono sul libretto.'),
       mc('La patente a punti parte con:', ['20 punti', '10 punti', '30 punti', '100 punti'], 0, 'Ogni infrazione toglie punti, a zero si ripete l’esame.'),
-      mc('Perché è importante verificare le norme invece di impararle a memoria?', ['Perché cambiano nel tempo, importi e limiti compresi', 'Perché non sono mai cambiate', 'Perché valgono solo in Italia del sud', 'Perché sono segrete'], 0, 'Nel 2024 il Codice è stato aggiornato: fonti ufficiali e autoscuola danno il testo vigente.'),
+      mc('Perché è importante verificare le norme invece di impararle a memoria?', ['Perché cambiano nel tempo, importi e limiti compresi', 'Perché non sono mai cambiate negli ultimi decenni', 'Perché valgono solo in alcune regioni', 'Perché sono riservate agli addetti ai lavori e ai medici'], 0, 'Nel 2024 il Codice è stato aggiornato: fonti ufficiali e autoscuola danno il testo vigente.'),
       mc('Qual è il limite di velocità generale, salvo segnaletica, nei centri abitati?', ['50 km/h', '30 km/h', '70 km/h', '90 km/h'], 0, 'Nei centri abitati il limite generale è 50 km/h.')
     ]
   });
@@ -634,26 +634,26 @@ Abitudine che salva: gira attorno alla moto, **tocca e guarda** ogni parte. Con 
 > Ricorda: la moto non ti avvisa con un «bip» quando una gomma è consumata. Il controllo è la tua parte della sicurezza attiva.` }
     ],
     exercises: [
-      mc('Quando si controlla la pressione dei pneumatici?', ['A freddo, con la moto ferma da qualche ora', 'Subito dopo una lunga corsa', 'Solo di notte', 'Mai, si gonfiano da soli'], 0, 'La pressione sale col calore: la misura giusta è a freddo.'),
+      mc('Quando si controlla la pressione dei pneumatici?', ['A freddo, con la moto ferma da qualche ora', 'Subito dopo una lunga corsa, a gomme calde', 'Solo di notte, con poca luce', 'Mai, perché si regolano da sole'], 0, 'La pressione sale col calore: la misura giusta è a freddo.'),
       fill('Il codice DOT 3224 indica una gomma prodotta nella settimana numero…?', ['32'], 'Le prime due cifre sono la settimana, le ultime due l’anno: 32ª settimana del 2024.'),
       fill('Battistrada 5,0 mm, limite 1,6 mm, usura 1 mm ogni 2000 km. Quanti km restano?', ['6800', '6.800', '6 800'], '(5,0 − 1,6) × 2000 = 6800 km.'),
-      mc('Cosa indica una leva del freno «spugnosa»?', ['Possibile aria nell’impianto: non si parte', 'Freni nuovi', 'Liquido in eccesso', 'Una frenata più dolce'], 0, 'Può esserci aria o una perdita: serve l’officina.'),
-      mc('Il liquido di raffreddamento si controlla:', ['A motore freddo, nel vaso di espansione', 'A motore caldo aprendo il radiatore', 'Solo d’inverno', 'Non si controlla'], 0, 'A motore caldo il liquido è in pressione e può scottare.'),
+      mc('Cosa indica una leva del freno «spugnosa»?', ['Possibile aria nell’impianto: non si parte', 'Freni nuovi, ancora da rodare del tutto', 'Liquido in eccesso nel serbatoio', 'Una frenata solo più dolce e facile da modulare'], 0, 'Può esserci aria o una perdita: serve l’officina.'),
+      mc('Il liquido di raffreddamento si controlla:', ['A motore freddo, nel vaso di espansione', 'A motore caldo, aprendo il tappo del radiatore', 'Solo d’inverno, prima delle gelate', 'Mai, perché il liquido dura per sempre'], 0, 'A motore caldo il liquido è in pressione e può scottare.'),
       fill('Serbatoio da 14 litri, consumo 5 l/100 km. Quale autonomia teorica in km?', ['280'], '14 / 5 × 100 = 280 km.'),
-      mc('La catena si lubrifica:', ['A motore spento, ogni 500–1000 km circa', 'Con il motore acceso a pieno gas', 'Una volta nella vita', 'Con acqua'], 0, 'Si evita di infilare le dita su catena e corona in movimento.'),
-      mc('Perché si controllano sia la leva sia il pedale per verificare lo stop?', ['Spesso sono due interruttori separati', 'Perché sono uguali', 'Per consumare le pastiglie', 'Non serve'], 0, 'Lo stop deve accendersi con entrambi i freni.'),
-      mc('Che cosa fai se la moto perde olio visibilmente?', ['Non parti e la fai controllare', 'Parti piano', 'Aggiungi acqua', 'Spegni la spia'], 0, 'Una perdita può portare a bloccare il motore o a farti scivolare.'),
-      mc('Dove si posiziona il carico per non disturbare l’equilibrio?', ['Basso e vicino al centro della moto', 'In alto, dietro la schiena', 'Appeso al manubrio', 'Tutto da un lato'], 0, 'Un carico alto o decentrato peggiora la stabilità.'),
+      mc('La catena si lubrifica:', ['A motore spento, ogni 500–1000 km circa', 'A motore acceso, a pieno gas, per distribuirla', 'Una volta sola nella vita della moto, appena acquistata', 'Con acqua, ogni 500 km circa, e senza asciugare'], 0, 'Si evita di infilare le dita su catena e corona in movimento.'),
+      mc('Perché si controllano sia la leva sia il pedale per verificare lo stop?', ['Spesso sono due interruttori separati', 'Perché sono sempre collegati allo stesso interruttore', 'Per consumare in modo uniforme le pastiglie', 'Perché in realtà non serve controllarli'], 0, 'Lo stop deve accendersi con entrambi i freni.'),
+      mc('Che cosa fai se la moto perde olio visibilmente?', ['Non parti e la fai controllare', 'Parti piano e controlli all’arrivo', 'Aggiungi acqua nel carter', 'Spegni la spia e prosegui'], 0, 'Una perdita può portare a bloccare il motore o a farti scivolare.'),
+      mc('Dove si posiziona il carico per non disturbare l’equilibrio?', ['Basso e vicino al centro della moto', 'In alto, dietro la schiena del pilota', 'Appeso al manubrio, ai due lati', 'Tutto su un lato per bilanciare il peso'], 0, 'Un carico alto o decentrato peggiora la stabilità.'),
       order('Ordina il controllo prima di partire', ['Gomme', 'Comandi', 'Luci', 'Olio e liquidi', 'Catena e telaio', 'Cavalletti'], 'Un ordine fisso evita dimenticanze.')
     ],
     test: [
       fill('Una gomma ha codice DOT 1823. In quale anno è stata prodotta?', ['2023'], 'Le ultime due cifre sono l’anno: 2023, settimana 18.'),
       fill('Battistrada 4,2 mm, limite 1,6 mm, usura 1 mm ogni 2500 km. Quanti km restano?', ['6500', '6.500', '6 500'], '(4,2 − 1,6) × 2500 = 6500 km.'),
-      mc('Il gioco corretto della catena si trova:', ['Nel manuale della moto', 'Chiedendo al vicino', 'Sul casco', 'Non esiste'], 0, 'Spesso 20–30 mm, ma il valore giusto è quello del manuale.'),
-      mc('Che cosa significa che il liquido freni cala nel serbatoio?', ['Pastiglie consumate o possibile perdita', 'Freni perfetti', 'Il serbatoio è troppo piccolo', 'La moto è nuova'], 0, 'Con pastiglie consumate il livello scende: va controllato.'),
+      mc('Il gioco corretto della catena si trova:', ['Nel manuale della moto', 'Chiedendo a un altro motociclista', 'Sul bordo interno del casco', 'Non esiste un valore indicato'], 0, 'Spesso 20–30 mm, ma il valore giusto è quello del manuale.'),
+      mc('Che cosa significa che il liquido freni cala nel serbatoio?', ['Pastiglie consumate o possibile perdita', 'Che i freni sono in perfetto stato e non servono controlli', 'Che il serbatoio del liquido è troppo piccolo', 'Che la moto è nuova di fabbrica'], 0, 'Con pastiglie consumate il livello scende: va controllato.'),
       fill('Serbatoio da 12 litri, consumo 4 l/100 km. Quale autonomia teorica in km?', ['300'], '12 / 4 × 100 = 300 km.'),
-      mc('Se una spia rossa della pressione olio si accende in marcia, che cosa fai?', ['Mi fermo appena sicuro e spengo il motore', 'Continuo fino a casa', 'Accelero per raffreddare', 'Ignoro la spia'], 0, 'Senza olio il motore si danneggia rapidamente.'),
-      mc('Quanto tempo richiede in genere un controllo pre-partenza completo?', ['Circa 2–3 minuti', 'Un’ora', 'Mezza giornata', 'Non serve'], 0, 'È un investimento minimo rispetto ai rischi evitati.')
+      mc('Se una spia rossa della pressione olio si accende in marcia, che cosa fai?', ['Mi fermo appena sicuro e spengo il motore', 'Continuo fino a casa con andatura ridotta', 'Accelero per far raffreddare l’olio', 'Ignoro la spia finché non lampeggia'], 0, 'Senza olio il motore si danneggia rapidamente.'),
+      mc('Quanto tempo richiede in genere un controllo pre-partenza completo?', ['Circa 2–3 minuti', 'Circa un’ora, con smontaggio parziale', 'Mezza giornata in officina', 'Nessuno, basta una sbirciata'], 0, 'È un investimento minimo rispetto ai rischi evitati.')
     ]
   });
 
@@ -784,26 +784,26 @@ Errori da evitare: esercitarsi in strade pubbliche, alzare la velocità per «pr
 Se ti sembra tutto lento: è normale. È così che i gesti diventano automatici.` }
     ],
     exercises: [
-      mc('Come devono essere i gomiti in guida?', ['Morbidi e leggermente piegati', 'Bloccati e dritti', 'Larghi e rigidi', 'Appoggiati al serbatoio'], 0, 'Funzionano da ammortizzatori e permettono di muovere il manubrio con precisione.'),
-      mc('Dove devono stare le ginocchia?', ['A contatto con il serbatoio', 'Aperte', 'Sul manubrio', 'Fuori dalle pedane'], 0, 'Ancorano il corpo alla moto e alleggeriscono le braccia.'),
-      mc('Dove si guarda durante la guida?', ['Lontano, dove si vuole andare', 'La ruota anteriore', 'Il tachimetro', 'Il pavimento'], 0, 'La moto tende ad andare dove guardi.'),
-      mc('Che cos’è il punto di attacco della frizione?', ['Il punto in cui la moto comincia a muoversi rilasciando la leva', 'Il punto più alto della leva', 'Il tasto di avviamento', 'La posizione della folle'], 0, 'È la zona intermedia in cui motore e ruota cominciano a collegarsi.'),
+      mc('Come devono essere i gomiti in guida?', ['Morbidi e leggermente piegati', 'Bloccati e ben dritti sul manubrio', 'Larghi e rigidi per sentire la strada', 'Appoggiati al serbatoio per riposare'], 0, 'Funzionano da ammortizzatori e permettono di muovere il manubrio con precisione.'),
+      mc('Dove devono stare le ginocchia?', ['A contatto con il serbatoio', 'Aperte, lontane dal serbatoio', 'Appoggiate sul manubrio', 'Fuori dalle pedane, verso il basso'], 0, 'Ancorano il corpo alla moto e alleggeriscono le braccia.'),
+      mc('Dove si guarda durante la guida?', ['Lontano, dove si vuole andare', 'Sulla ruota anteriore, poco davanti', 'Sul tachimetro, per i limiti', 'Sul pavimento, appena davanti alla moto'], 0, 'La moto tende ad andare dove guardi.'),
+      mc('Che cos’è il punto di attacco della frizione?', ['Il punto in cui la moto comincia a muoversi rilasciando la leva', 'Il punto più alto di corsa della leva del gas', 'Il tasto che serve all’avviamento', 'La posizione in cui il cambio è in folle e la moto ferma'], 0, 'È la zona intermedia in cui motore e ruota cominciano a collegarsi.'),
       fill('Per passare dalla 1ª alla 3ª quante volte si solleva il pedale del cambio?', ['2'], '1ª→2ª e 2ª→3ª: due passaggi.'),
-      mc('Quale freno si usa con cautela a bassa velocità con il manubrio girato?', ['Il posteriore, l’anteriore con grande cautela', 'Solo l’anteriore a fondo', 'Nessuno', 'Entrambi a fondo'], 0, 'Il posteriore aiuta a controllare; l’anteriore con manubrio girato rischia di far cadere.'),
+      mc('Quale freno si usa con cautela a bassa velocità con il manubrio girato?', ['Il posteriore, l’anteriore con grande cautela', 'Solo l’anteriore, azionato a fondo con il manubrio girato', 'Nessuno dei due, per non cadere', 'Entrambi, azionati a fondo insieme con decisione'], 0, 'Il posteriore aiuta a controllare; l’anteriore con manubrio girato rischia di far cadere.'),
       mc('Che cosa fa il motore se si dà gas troppo poco rilasciando la frizione troppo in fretta?', ['Si spegne (stallo)', 'Aumenta la potenza', 'Cambia marcia da solo', 'Accende la folle'], 0, 'Senza sufficiente gas il motore si spegne.'),
-      mc('Dove ci si esercita all’inizio?', ['Un piazzale vuoto o un’area di scuola guida', 'Una strada trafficata', 'Una autostrada', 'Una strada in discesa ripida'], 0, 'Meno rischio e più possibilità di ripetere.'),
-      mc('Prima di fermarti completamente, che cosa fai con la frizione?', ['La tiri per evitare che il motore si spenga', 'La lasci sempre rilasciata', 'La stacchi con le mani', 'Non la usi mai'], 0, 'A bassa velocità la frizione tirata evita lo stallo.'),
-      mc('Come si stabilizza la moto in una curva stretta a passo d’uomo?', ['Più gas leggero e frizione parziale, sguardo lontano', 'Frenare forte con il davanti', 'Chiudere gli occhi', 'Fermare il motore'], 0, 'Un po’ di gas con frizione parziale stabilizza la moto in lento.'),
+      mc('Dove ci si esercita all’inizio?', ['Un piazzale vuoto o un’area di scuola guida', 'Una strada trafficata, per abituarsi subito', 'Un tratto di autostrada poco frequentato', 'Una strada ripida in discesa e con curve'], 0, 'Meno rischio e più possibilità di ripetere.'),
+      mc('Prima di fermarti completamente, che cosa fai con la frizione?', ['La tiri per evitare che il motore si spenga', 'La lasci sempre rilasciata fino all’arresto', 'La stacchi dal manubrio con le mani', 'Non la usi mai, basta il freno'], 0, 'A bassa velocità la frizione tirata evita lo stallo.'),
+      mc('Come si stabilizza la moto in una curva stretta a passo d’uomo?', ['Più gas leggero e frizione parziale, sguardo lontano', 'Frenare forte con il solo freno anteriore e sterzare', 'Chiudere gli occhi e affidarsi all’equilibrio della moto', 'Spegnere il motore e proseguire in folle'], 0, 'Un po’ di gas con frizione parziale stabilizza la moto in lento.'),
       order('Ordina la partenza da fermo', ['Frizione tirata e prima inserita', 'Guardo indietro e metto la freccia', 'Un po’ di gas', 'Rilascio piano la frizione', 'Piedi sulle pedane'], 'La sequenza fa partire senza scatti.')
     ],
     test: [
-      mc('Perché gli esercizi iniziali si fanno con l’equipaggiamento completo?', ['Perché anche cadute a bassa velocità causano ferite', 'Perché è una moda', 'Perché lo chiede la scuola per estetica', 'Non è necessario'], 0, 'Le cadute da fermo o lente causano comunque abrasioni e fratture.'),
-      mc('Che cosa significa «fissazione sul bersaglio»?', ['Guardare un ostacolo e finirci contro', 'Guardare lontano e superarlo', 'Spegnere il motore', 'Frenare presto'], 0, 'Il corpo segue lo sguardo: meglio guardare il percorso libero.'),
+      mc('Perché gli esercizi iniziali si fanno con l’equipaggiamento completo?', ['Perché anche cadute a bassa velocità causano ferite', 'Perché è una moda diffusa tra i motociclisti', 'Perché la scuola lo richiede soltanto per estetica', 'Perché a bassa velocità non serve proteggersi'], 0, 'Le cadute da fermo o lente causano comunque abrasioni e fratture.'),
+      mc('Che cosa significa «fissazione sul bersaglio»?', ['Guardare un ostacolo e finirci contro', 'Guardare lontano e superare l’ostacolo', 'Spegnere il motore davanti all’ostacolo', 'Frenare molto presto in rettilineo'], 0, 'Il corpo segue lo sguardo: meglio guardare il percorso libero.'),
       fill('Per passare dalla 2ª alla 5ª quante volte si solleva il pedale?', ['3'], '2ª→3ª, 3ª→4ª, 4ª→5ª: tre passaggi.'),
-      mc('In salita, per partire senza far indietreggiare la moto, si usa:', ['Il freno posteriore tenuto, poi rilasciato con gas e frizione', 'Solo il gas', 'Il cavalletto', 'La folle'], 0, 'Il freno tiene la moto mentre si trova il punto di attacco.'),
-      mc('Quando si usa la frizione parzialmente rilasciata?', ['A bassa velocità e nelle manovre', 'Sempre in autostrada', 'Solo a moto spenta', 'Mai'], 0, 'È uno strumento per le manovre lente, non per guidare a lungo.'),
-      mc('Durata consigliata per una sessione iniziale di esercizio?', ['20–30 minuti, con pause', '4 ore senza pause', '5 minuti', 'Tutto il giorno'], 0, 'La stanchezza peggiora la precisione.'),
-      mc('Quale è un errore da evitare nelle prime uscite?', ['Esercitarsi in strade pubbliche senza esperienza', 'Usare un piazzale', 'Chiedere a un istruttore', 'Partire piano'], 0, 'Il traffico aggiunge rischi che non servono nell’apprendimento.')
+      mc('In salita, per partire senza far indietreggiare la moto, si usa:', ['Il freno posteriore tenuto, poi rilasciato con gas e frizione', 'Il solo gas, aumentato in modo progressivo e deciso', 'Il cavalletto laterale lasciato abbassato sul terreno', 'La folle, inserita mentre la moto sta già salendo'], 0, 'Il freno tiene la moto mentre si trova il punto di attacco.'),
+      mc('Quando si usa la frizione parzialmente rilasciata?', ['A bassa velocità e nelle manovre', 'Sempre in autostrada, per i consumi', 'Solo a moto spenta, in garage', 'Mai, perché consuma la frizione'], 0, 'È uno strumento per le manovre lente, non per guidare a lungo.'),
+      mc('Durata consigliata per una sessione iniziale di esercizio?', ['20–30 minuti, con pause', '4 ore di fila, senza pause', '5 minuti, una sola volta alla settimana', 'Una giornata intera, per fare pratica'], 0, 'La stanchezza peggiora la precisione.'),
+      mc('Quale è un errore da evitare nelle prime uscite?', ['Esercitarsi in strade pubbliche senza esperienza', 'Usare un piazzale vuoto o l’area di una scuola guida', 'Chiedere consiglio a un istruttore esperto del posto', 'Partire piano e senza fretta, con l’attrezzatura completa'], 0, 'Il traffico aggiunge rischi che non servono nell’apprendimento.')
     ]
   });
 
@@ -943,25 +943,25 @@ Frenare bene non è un talento: è una competenza che si allena in sicurezza.` }
     ],
     exercises: [
       mc('Quale freno fornisce la maggior parte della frenata?', ['L’anteriore', 'Il posteriore', 'Il freno motore', 'La frizione'], 0, 'Il peso si sposta in avanti e carica la ruota anteriore.'),
-      mc('Che cos’è il trasferimento di carico in frenata?', ['Lo spostamento del peso verso la ruota anteriore', 'Lo spostamento del carburante', 'Il cambio di marcia', 'L’aumento dei giri'], 0, 'Il peso va in avanti: l’anteriore è più carica e può frenare di più.'),
+      mc('Che cos’è il trasferimento di carico in frenata?', ['Lo spostamento del peso verso la ruota anteriore', 'Lo spostamento del carburante dal serbatoio al motore', 'Il cambio di marcia durante la frenata', 'L’aumento dei giri del motore al rilascio del gas'], 0, 'Il peso va in avanti: l’anteriore è più carica e può frenare di più.'),
       fill('Una moto va a 50 km/h. Quanti metri percorre durante 1 secondo di reazione, con un decimale?', ['13,9', '13.9'], '50 / 3,6 = 13,9 m/s, quindi 13,9 m in 1 s.'),
       fill('A 50 km/h e decelerazione 6 m/s², quanti metri di frenata (un decimale)?', ['16,1', '16.1'], '13,89² / (2 × 6) = 16,1 m.'),
       fill('A 100 km/h con a = 6 m/s², quanti metri di frenata, con un decimale?', ['64,3', '64.3'], '27,78² / 12 = 64,3 m.'),
       fill('A 30 km/h con 1 s di reazione e a = 6 m/s², quanti metri totali per fermarsi (un decimale)?', ['14,1', '14.1'], '8,3 + 5,8 = 14,1 m.'),
-      mc('Raddoppiando la velocità, lo spazio di frenata diventa circa:', ['Quattro volte', 'Il doppio', 'Uguale', 'La metà'], 0, 'Lo spazio dipende da v²: raddoppi v, quadruplichi lo spazio.'),
-      mc('Che cosa fa l’ABS?', ['Evita il blocco delle ruote in frenata', 'Aumenta sempre l’aderenza', 'Accorcia sempre la frenata', 'Sostituisce il pilota'], 0, 'Permette di frenare forte mantenendo la ruota in rotazione e la direzione.'),
+      mc('Raddoppiando la velocità, lo spazio di frenata diventa circa:', ['Quattro volte', 'Il doppio, ossia 2 volte quello iniziale', 'Uguale', 'La metà'], 0, 'Lo spazio dipende da v²: raddoppi v, quadruplichi lo spazio.'),
+      mc('Che cosa fa l’ABS?', ['Evita il blocco delle ruote in frenata', 'Aumenta sempre l’aderenza disponibile sul fondo', 'Accorcia sempre lo spazio di frenata, su ogni fondo', 'Sostituisce il pilota nelle situazioni di emergenza'], 0, 'Permette di frenare forte mantenendo la ruota in rotazione e la direzione.'),
       mc('Che cosa senti sulla leva quando l’ABS interviene?', ['Una pulsazione', 'Nulla', 'Un blocco totale', 'Un rumore di motore'], 0, 'È normale: non mollare la leva.'),
-      mc('Che cosa fa il controllo di trazione?', ['Riduce la potenza se la ruota posteriore pattina', 'Aumenta la potenza in curva', 'Frena la ruota anteriore', 'Cambia marcia'], 0, 'Limita il pattinamento, ma non crea aderenza dove non c’è.'),
+      mc('Che cosa fa il controllo di trazione?', ['Riduce la potenza se la ruota posteriore pattina', 'Aumenta la potenza in uscita di curva per spingere', 'Frena la ruota anteriore quando si è in curva', 'Cambia marcia in modo automatico durante l’accelerazione'], 0, 'Limita il pattinamento, ma non crea aderenza dove non c’è.'),
       order('Ordina la tecnica di frenata', ['Sguardo lontano', 'Chiudo il gas', 'Freno anteriore progressivo', 'Posteriore in sostegno', 'Rilascio graduale a fine frenata'], 'La frenata efficace è progressiva e controllata.')
     ],
     test: [
       fill('A 70 km/h con 1 s di reazione e a = 6 m/s², quanti metri di frenata (un decimale)?', ['31,5', '31.5'], '19,44² / 12 ≈ 31,5 m.'),
       fill('A 90 km/h, quanti metri percorri durante 1 s di reazione?', ['25'], '90 / 3,6 = 25 m/s.'),
       fill('A 90 km/h con a = 6 m/s², quanti metri totali per fermarsi (un decimale)?', ['77,1', '77.1'], '25 + 25² / 12 = 25 + 52,1 = 77,1 m.'),
-      mc('Quale è un limite tipico dell’ABS?', ['Su ghiaia può allungare la frenata', 'Funziona solo di notte', 'Non evita mai il bloccaggio', 'Sostituisce i freni'], 0, 'Su fondi sciolti la ruota che si blocca crea un cuneo utile: l’ABS può allungare.'),
-      mc('Che cos’è una mappa «Rain» del motore?', ['Una risposta del gas più dolce con potenza ridotta', 'Un tipo di pneumatico', 'Una luce speciale', 'Un freno aggiuntivo'], 0, 'Riduce gli errori sul gas ma non accorcia la frenata sul bagnato.'),
-      mc('Che cos’è la IMU?', ['Un sensore di inclinazione e accelerazioni', 'Un tipo di freno', 'Una modalità di guida', 'Un sensore di carburante'], 0, 'L’IMU permette controlli più fini, come l’ABS di curva.'),
-      mc('Dove si prova a frenare forte per sentire l’ABS in modo sicuro?', ['In un piazzale con un istruttore', 'In una strada trafficata', 'In autostrada', 'In curva'], 0, 'Prove di frenata forte in un ambiente controllato sono parte dei corsi di guida sicura.')
+      mc('Quale è un limite tipico dell’ABS?', ['Su ghiaia può allungare la frenata', 'Funziona solo con asfalto asciutto e di notte', 'Non evita mai il bloccaggio delle ruote', 'Rende superfluo l’impianto frenante'], 0, 'Su fondi sciolti la ruota che si blocca crea un cuneo utile: l’ABS può allungare.'),
+      mc('Che cos’è una mappa «Rain» del motore?', ['Una risposta del gas più dolce con potenza ridotta', 'Un tipo di pneumatico da bagnato con tasselli', 'Una luce speciale da accendere solo con la pioggia', 'Un freno aggiuntivo sulla ruota posteriore più sensibile'], 0, 'Riduce gli errori sul gas ma non accorcia la frenata sul bagnato.'),
+      mc('Che cos’è la IMU?', ['Un sensore di inclinazione e accelerazioni', 'Un tipo di freno a disco ventilato per la pista', 'Una modalità di guida pensata per il bagnato', 'Un sensore che misura il livello di carburante'], 0, 'L’IMU permette controlli più fini, come l’ABS di curva.'),
+      mc('Dove si prova a frenare forte per sentire l’ABS in modo sicuro?', ['In un piazzale con un istruttore', 'In una strada trafficata, di giorno', 'In autostrada, a velocità elevata', 'In curva, per sentire intervenire l’ABS'], 0, 'Prove di frenata forte in un ambiente controllato sono parte dei corsi di guida sicura.')
     ]
   });
 
@@ -1120,9 +1120,9 @@ Ricorda: la moto è un **mezzo per imparare**, non un esame da superare con la p
 Le prestazioni vere si esplorano **in pista**, con un corso, protezioni e un istruttore, quando sei pronto. Sulla strada contano prudenza, visibilità e rispetto delle regole.` }
     ],
     exercises: [
-      mc('Che cosa conta più della cilindrata per la facilità di guida?', ['Potenza, peso ed erogazione', 'Il colore', 'Il numero di specchietti', 'Il rumore'], 0, 'La cilindrata da sola non dice nulla della docilità.'),
+      mc('Che cosa conta più della cilindrata per la facilità di guida?', ['Potenza, peso ed erogazione', 'Il colore della carena', 'Il numero degli specchietti', 'Il rumore dello scarico'], 0, 'La cilindrata da sola non dice nulla della docilità.'),
       mc('Che cosa devi riuscire a fare da fermo con la moto?', ['Toccare terra con i piedi', 'Salire in piedi sulla sella', 'Rimanere senza equilibrio', 'Non spostarla'], 0, 'L’altezza della sella deve permettere appoggi sicuri.'),
-      mc('Il peso in ordine di marcia è:', ['Il peso con liquidi e carburante', 'Il peso senza liquidi', 'Il peso senza ruote', 'Il peso del pilota'], 0, 'È il peso reale; il peso a secco è più basso.'),
+      mc('Il peso in ordine di marcia è:', ['Il peso con liquidi e carburante', 'Il peso senza liquidi né carburante', 'Il peso senza le ruote montate', 'Il peso del pilota con l’equipaggiamento'], 0, 'È il peso reale; il peso a secco è più basso.'),
       fill('Revisione da 80 € ogni 2 anni: quanti euro all’anno?', ['40'], '80 / 2 = 40.'),
       fill('Equipaggiamento da 700 € ammortizzato in 5 anni: quanti euro all’anno?', ['140'], '700 / 5 = 140.'),
       fill('Deprezzamento 10% su una moto da 4 500 €: quanti euro in un anno?', ['450'], '4 500 × 0,10 = 450.'),
@@ -1130,7 +1130,7 @@ Le prestazioni vere si esplorano **in pista**, con un corso, protezioni e un ist
       fill('270 litri a 1,85 € al litro. Quanti euro di carburante?', ['499,5', '499.5', '499,50', '499.50'], '270 × 1,85 = 499,50.'),
       fill('Costi fissi 480 + 60 + 40 + 140 + 450: quanti euro in totale?', ['1170', '1.170', '1 170'], '480 + 60 + 40 + 140 + 450 = 1 170.'),
       fill('Costo annuo totale di 1 170 fissi + 889,90 variabili, in euro arrotondati all’intero?', ['2060', '2.060', '2 060'], '1 170 + 889,90 = 2 059,90, circa 2 060.'),
-      mc('Qual è il modo più efficace per crescere in sicurezza dopo la patente?', ['Corsi di guida sicura con un istruttore', 'Provare a limite su strada', 'Guardare video', 'Cambiare moto ogni mese'], 0, 'L’istruttore corregge gli errori e fa provare le emergenze in sicurezza.'),
+      mc('Qual è il modo più efficace per crescere in sicurezza dopo la patente?', ['Corsi di guida sicura con un istruttore', 'Provare a limite su strada per capire i limiti', 'Guardare molti video di piloti esperti', 'Cambiare moto ogni mese per variare'], 0, 'L’istruttore corregge gli errori e fa provare le emergenze in sicurezza.'),
       order('Ordina il percorso di crescita consigliato', ['Patente e primi esercizi', 'Moto leggera e docile', 'Corso di guida sicura', 'Moto più potente (se serve)', 'Prestazioni in pista'], 'La potenza cresce con le capacità, non prima.')
     ],
     test: [
@@ -1138,9 +1138,9 @@ Le prestazioni vere si esplorano **in pista**, con un corso, protezioni e un ist
       fill('Assicurazione 600, bollo 70, carburante 380, tagliando 250: quanti euro in totale?', ['1300', '1.300', '1 300'], '600 + 70 + 380 + 250 = 1 300.'),
       fill('Costo annuo 1 300 € su 5 000 km: quanti euro per km (due decimali)?', ['0,26', '0.26'], '1 300 / 5 000 = 0,26.'),
       fill('Deprezzamento 8% su una moto da 5 000 €: quanti euro in un anno?', ['400'], '5 000 × 0,08 = 400.'),
-      mc('Quale è un vantaggio dell’usato rispetto al nuovo?', ['Il deprezzamento maggiore è già avvenuto', 'Garanzia illimitata', 'Zero manutenzione', 'Più potenza'], 0, 'La moto perde più valore nei primi anni.'),
-      mc('Che cosa si controlla su una moto usata prima di comprarla?', ['Documenti, libretto tagliandi, segni di cadute e perdite', 'Solo il colore', 'Solo il prezzo', 'Il numero di borse'], 0, 'Documenti e condizioni dicono molto della storia.'),
-      mc('Dove si esplorano le prestazioni elevate, in modo sicuro?', ['In pista con un corso e un istruttore', 'In autostrada', 'In città', 'Su strade di montagna'], 0, 'La pista è un ambiente protetto, senza traffico opposto.')
+      mc('Quale è un vantaggio dell’usato rispetto al nuovo?', ['Il deprezzamento maggiore è già avvenuto', 'Una garanzia del costruttore senza limiti', 'Una manutenzione quasi nulla nel tempo', 'Una potenza maggiore a parità di prezzo'], 0, 'La moto perde più valore nei primi anni.'),
+      mc('Che cosa si controlla su una moto usata prima di comprarla?', ['Documenti, libretto tagliandi, segni di cadute e perdite', 'Soltanto il colore della carena e gli accessori montati', 'Soltanto il prezzo richiesto e il numero dei proprietari', 'Il numero di borse e portapacchi inclusi nella vendita'], 0, 'Documenti e condizioni dicono molto della storia.'),
+      mc('Dove si esplorano le prestazioni elevate, in modo sicuro?', ['In pista con un corso e un istruttore', 'In autostrada, a velocità elevata', 'In città, tra i semafori', 'Su strade di montagna chiuse al traffico'], 0, 'La pista è un ambiente protetto, senza traffico opposto.')
     ]
   });
 
