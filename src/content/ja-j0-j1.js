@@ -24,7 +24,7 @@
       mc('Quante more ha ビール?', ['2', '3', '4', '1'], 1, 'bi-i-ru = 3.'),
       listen('おばあさん', 'ja', 'Che cosa hai sentito?', ['nonna (おばあさん)', 'zia (おばさん)', 'zio (おじさん)', 'nonno (おじいさん)'], 0, 'おばあ: vocale lunga.'),
       listen('きって', 'ja', 'Che cosa hai sentito?', ['きて (vieni)', 'きって (francobollo)', 'きた', 'きっと'], 1, 'La pausa della っ fa la differenza.'),
-      fillJ('Scrivi in kana: «buonanotte» (è una frase di 5 more + なさい)', ['おやすみなさい'], 'おやすみなさい.'),
+      fillJ('Scrivi in kana: «buonanotte» (おやすみ = 4 more, più なさい)', ['おやすみなさい'], 'おやすみなさい.'),
       mc('Come si pronuncia は in こんにちは?', ['ha', 'wa', 'fa', 'e'], 1),
       mc('Quale elemento NON conta come mora a sé?', ['ん', 'っ', 'ー', 'ゃ in きゃ'], 3, 'I kana piccoli ゃゅょ si fondono con il precedente.')
     ],

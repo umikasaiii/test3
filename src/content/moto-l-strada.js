@@ -145,7 +145,7 @@ Anche gli **altri** hanno angoli ciechi, e la moto è piccola: può sparire diet
 - sorpassa i veicoli lunghi con decisione ma solo dove è consentito, senza indugiare sul fianco;
 - a un incrocio, **sposta leggermente la posizione** nella corsia per essere visibile.
 
-**Farsi vedere**: fari accesi (obbligatori anche di giorno per le moto in Italia, verifica le norme vigenti), abbigliamento chiaro o con inserti riflettenti, casco chiaro. Non basta: l'auto non ti vede anche per un fenomeno detto «guardato ma non visto». Per questo **non farti mai affidamento** sulla visibilità.` },
+**Farsi vedere**: fari accesi (obbligatori anche di giorno per le moto in Italia, verifica le norme vigenti), abbigliamento chiaro o con inserti riflettenti, casco chiaro. Non basta: l'auto non ti vede anche per un fenomeno detto «guardato ma non visto». Per questo **non fare mai affidamento** sulla visibilità.` },
       { h: 'Il tempo di reazione e d = v·t', b: `Il **tempo di reazione** è l'intervallo tra il momento in cui compare un pericolo e il momento in cui inizi a frenare o a sterzare. Comprende percezione, decisione e movimento. Per un conducente attento è tipicamente **0,75–1,5 s**, di più se distratto, stanco o sotto effetto di sostanze.
 
 In quel tempo la moto continua a muoversi a velocità costante e percorre:
