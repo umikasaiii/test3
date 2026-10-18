@@ -13209,7 +13209,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       mc('Il SIT si caratterizza per:', ['Sforzi massimali brevi con recuperi lunghi', 'Sforzi lunghi a bassa intensità con recuperi brevi', 'Recuperi sempre assenti tra uno sforzo e l’altro', 'Intensità sempre sotto la soglia anaerobica'], 0, 'Tipicamente 20–30 s all-out con 2–4 min di recupero.'),
       mc('Quante sedute di HIIT a settimana sono tipiche per la maggior parte delle persone?', ['1–2', '6–7', '0, sono sempre sconsigliate', 'Solo una al mese'], 0, 'Oltre aumenta il rischio di sovraccarico; resto del volume facile.'),
       mc('Cosa mostrano gli studi sulla risposta individuale al HIIT?', ['Ampia variabilità: alcuni migliorano molto, altri poco', 'Tutti migliorano allo stesso modo e nella stessa misura', 'Nessuno migliora, nemmeno dopo settimane di lavoro', 'Il miglioramento è sempre del 50% per tutti'], 0, 'La media nasconde differenze genetiche, di carico totale, di recupero.'),
-      mc('Per un principiante senza base, qual è un ordine corretto?', ['Base facile, poi intervalli moderati, poi aumento graduale', 'Subito sprint massimali ogni giorno, per abituarsi', 'Solo HIIT per sette giorni consecutivi', 'Saltare il riscaldamento per risparmiare energie'], 0, 'Tendini e articolazioni si adattano più lentamente del cuore.'),
+      mc('Per un principiante senza base, qual è un ordine corretto?', ['Base facile, poi intervalli moderati, poi aumento graduale', 'Subito sprint massimali ogni giorno, poi volume lento, poi riposo prolungato', 'Solo HIIT per sette giorni consecutivi', 'Saltare il riscaldamento per risparmiare energie'], 0, 'Tendini e articolazioni si adattano più lentamente del cuore.'),
       mc('Quale sintomo durante HIIT richiede di fermarsi e consultare un medico?', ['Dolore toracico o vertigini intense', 'Lieve sudorazione', 'Fiato corto moderato in uno sforzo duro', 'Fame dopo l’allenamento'], 0, 'Sintomi insoliti vanno valutati da un professionista sanitario.'),
       order('Ordina una seduta 4 × 4', ['Riscaldamento 10–15 min', '4 min a 85–95% FCmax', '3 min recupero attivo', 'Ripeti fino a 4 sforzi', 'Defaticamento'], 'Il recupero segue ogni sforzo tranne l’ultimo, poi si defatica.')
     ],
@@ -13218,10 +13218,10 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('FCmax 180, intensità all’85%. FC in bpm?', ['153'], '0,85 × 180 = 153.'),
       fill('vVO2max 16 km/h. Metri in 30 s (arrotondato all’intero)?', ['133'], '16/3,6 ≈ 4,444 m/s × 30 ≈ 133,3 m.'),
       fill('Sessione con sRPE 7 per 30 minuti. Carico in AU?', ['210'], '7 × 30 = 210.'),
-      mc('Perché l’HIIT è un complemento e non un sostituto della base facile?', ['Perché troppo volume intenso aumenta fatica e rischio senza costruire la base', 'Perché non migliora mai il VO2max, nemmeno in chi si allena', 'Perché è vietato dalle regole federali', 'Perché si può fare solo in laboratorio'], 0, 'La maggior parte del tempo resta a bassa intensità.'),
-      mc('Una media di +4 ml/kg/min in un gruppo significa che:', ['Alcuni individui possono aver migliorato molto di più, altri meno', 'Tutti sono migliorati di circa 4 ml/kg/min, senza eccezioni', 'Nessun individuo è peggiorato dopo l’intervento', 'Il risultato è garantito per ogni nuovo partecipante'], 0, 'La variabilità individuale è ampia.'),
-      mc('Quale segnale suggerisce di ridurre l’HIIT la settimana successiva?', ['Sonno scarso, FC a riposo alta per giorni, qualità in calo', 'Sensazione di freschezza e voglia di correre', 'Voglia di correre e qualità stabile', 'Nessun segnale particolare dopo la seduta'], 0, 'Sono indicatori di fatica accumulata.'),
-      mc('Perché nei recuperi del 4 × 4 si usa un recupero attivo?', ['Per mantenere un VO2 elevato e favorire la rimozione dei metaboliti', 'Per ridurre il VO2 a zero e recuperare del tutto', 'Perché il recupero passivo è proibito dal protocollo', 'Per saltare il defaticamento a fine seduta'], 0, 'Il recupero attivo riduce lo scarto di intensità tra gli sforzi.')
+      mc('Perché l’HIIT è un complemento e non un sostituto della base facile?', ['Perché troppo volume intenso aumenta fatica e rischio senza costruire la base', 'Perché poco volume intenso riduce fatica e rischio costruendo da solo la base', 'Perché è vietato dalle regole federali', 'Perché si può fare solo in laboratorio'], 0, 'La maggior parte del tempo resta a bassa intensità.'),
+      mc('Una media di +4 ml/kg/min in un gruppo significa che:', ['Alcuni individui possono aver migliorato molto di più, altri meno', 'Tutti gli individui hanno migliorato di circa 4 ml/kg/min, con differenze trascurabili', 'Nessun individuo è peggiorato dopo l’intervento', 'Il risultato è garantito per ogni nuovo partecipante'], 0, 'La variabilità individuale è ampia.'),
+      mc('Quale segnale suggerisce di ridurre l’HIIT la settimana successiva?', ['Sonno scarso, FC a riposo alta per giorni, qualità in calo', 'Sensazione di freschezza, FC a riposo bassa per giorni, qualità in aumento', 'Voglia di correre e qualità stabile', 'Nessun segnale particolare dopo la seduta'], 0, 'Sono indicatori di fatica accumulata.'),
+      mc('Perché nei recuperi del 4 × 4 si usa un recupero attivo?', ['Per mantenere un VO2 elevato e favorire la rimozione dei metaboliti', 'Per far scendere il VO2 al minimo e favorire l’accumulo dei metaboliti', 'Perché il recupero passivo è proibito dal protocollo', 'Per saltare il defaticamento a fine seduta'], 0, 'Il recupero attivo riduce lo scarto di intensità tra gli sforzi.')
     ]
   });
 
@@ -13250,10 +13250,10 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Volume-carico di 4 serie × 8 ripetizioni a 75 kg (kg totali)?', ['2400', '2 400', '2.400'], '4 × 8 × 75 = 2 400.'),
       fill('Volume-carico di 5 × 5 a 80 kg?', ['2000', '2 000', '2.000'], '5 × 5 × 80 = 2 000.'),
       mc('Il microciclo corrisponde di solito a:', ['una settimana di allenamento', 'una stagione intera di allenamento', 'una singola ripetizione di un esercizio', 'un blocco di 12 settimane di preparazione'], 0, 'Macrociclo = stagione, mesociclo = 3–6 settimane, microciclo = settimana.'),
-      mc('Che cosa dice l’evidenza sulla periodizzazione per la forza?', ['Piccolo-moderato vantaggio sul non periodizzato; differenze tra modelli piccole', 'Il modello a blocchi è sempre il migliore di tutti', 'La periodizzazione non serve mai, a nessun livello', 'Solo il modello lineare funziona davvero'], 0, 'Le meta-analisi sono eterogenee: volume, intensità e aderenza contano molto.'),
+      mc('Che cosa dice l’evidenza sulla periodizzazione per la forza?', ['Piccolo-moderato vantaggio sul non periodizzato; differenze tra modelli piccole', 'Grande vantaggio sul non periodizzato; differenze tra modelli ampie e ben dimostrate', 'La periodizzazione non serve mai, a nessun livello', 'Solo il modello lineare funziona davvero'], 0, 'Le meta-analisi sono eterogenee: volume, intensità e aderenza contano molto.'),
       mc('Il modello a blocchi è pensato soprattutto per:', ['atleti avanzati con un picco da preparare', 'principianti assoluti senza obiettivo di gara', 'atleti senza alcun obiettivo definito', 'soltanto gli sport di squadra'], 0, 'Concentra pochi obiettivi per blocco e sfrutta gli effetti residui.'),
-      mc('Nella periodizzazione ondulata quotidiana (DUP):', ['intensità e volume variano da una seduta all’altra', 'si cambia programma una sola volta all’anno', 'si fa sempre la stessa seduta ogni settimana', 'l’intensità cresce in modo lineare per mesi'], 0, 'Per esempio forza, ipertrofia e potenza in giorni diversi della stessa settimana.'),
-      mc('Perché si inserisce una settimana di scarico?', ['Per ridurre la fatica accumulata mantenendo parte dell’intensità', 'Per smettere di allenarsi del tutto per un mese', 'Per aumentare il volume del 50% in modo graduale', 'Solo per fare test massimali con carichi pesanti'], 0, 'Si riduce il volume del 20–50% e si facilita il recupero e l’adattamento.'),
+      mc('Nella periodizzazione ondulata quotidiana (DUP):', ['intensità e volume variano da una seduta all’altra', 'intensità e volume restano uguali da una seduta all’altra della settimana', 'si fa sempre la stessa seduta ogni settimana', 'l’intensità cresce in modo lineare per mesi'], 0, 'Per esempio forza, ipertrofia e potenza in giorni diversi della stessa settimana.'),
+      mc('Perché si inserisce una settimana di scarico?', ['Per ridurre la fatica accumulata mantenendo parte dell’intensità', 'Per aumentare la fatica accumulata mantenendo parte dell’intensità abituale', 'Per aumentare il volume del 50% in modo graduale', 'Solo per fare test massimali con carichi pesanti'], 0, 'Si riduce il volume del 20–50% e si facilita il recupero e l’adattamento.'),
       order('Ordina le fasi di un macrociclo tradizionale', ['Preparazione generale', 'Preparazione specifica', 'Pre-gara e tapering', 'Gara', 'Transizione'], 'Si parte da volume e base, si specializza, si riduce il carico, si gareggia e si recupera.')
     ],
     test: [
@@ -13261,8 +13261,8 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Picco 50 km e scarico al −40%. Quanti km?', ['30'], '50 × 0,6 = 30.'),
       fill('Volume-carico di 6 × 2 al 60% con 1RM 100 kg (kg totali)?', ['720'], '6 × 2 × 60 = 720.'),
       fill('Volume-carico di 3 × 10 a 70 kg?', ['2100', '2 100', '2.100'], '3 × 10 × 70 = 2 100.'),
-      mc('Un blocco di accumulo ha tipicamente:', ['volume alto e intensità moderata, per costruire la capacità di base', 'volume minimo e intensità massima, per sviluppare la potenza', 'solo riposo e recupero attivo', 'solo gare e prove di verifica'], 0, 'L’accumulo costruisce la base; la trasmutazione specializza.'),
-      mc('Perché la periodizzazione lineare è adatta ai principianti?', ['È semplice e prevede aumenti graduali con un solo picco', 'Richiede test massimali ogni settimana', 'Prevede intensità massima fin da subito', 'Elimina del tutto il recupero tra le sedute'], 0, 'Un principiante migliora con poche variazioni e progressione ordinata.'),
+      mc('Un blocco di accumulo ha tipicamente:', ['volume alto e intensità moderata, per costruire la capacità di base', 'volume basso e intensità massima, per costruire la potenza specifica di gara', 'solo riposo e recupero attivo', 'solo gare e prove di verifica'], 0, 'L’accumulo costruisce la base; la trasmutazione specializza.'),
+      mc('Perché la periodizzazione lineare è adatta ai principianti?', ['È semplice e prevede aumenti graduali con un solo picco', 'È complessa e prevede aumenti improvvisi con più picchi nell’anno', 'Prevede intensità massima fin da subito', 'Elimina del tutto il recupero tra le sedute'], 0, 'Un principiante migliora con poche variazioni e progressione ordinata.'),
       mc('Per chi ha tempi di recupero lunghi può essere utile uno schema di scarico:', ['2:1 anziché 3:1', 'senza scarico mai', 'una settimana su 10', 'a intensità massima'], 0, 'Si adatta la frequenza dello scarico alla tolleranza individuale.'),
       mc('Quale affermazione è più prudente sul modello a blocchi?', ['L’evidenza a favore è limitata e di qualità variabile', 'È dimostrato superiore a ogni altro modello di periodizzazione', 'È vietato in alcuni sport di squadra', 'Non prevede un picco di forma'], 0, 'Gli studi sono pochi e piccoli.')
     ]
@@ -13291,11 +13291,11 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Con τ₁ = 45 giorni, che % della forma resta dopo 14 giorni (arrotondato all’intero)?', ['73', '73%'], 'e^(−14/45) ≈ 0,7326.'),
       fill('Un tapering migliora del 2% una maratona da 3:30:00 (210 min). Quanti minuti si guadagnano?', ['4,2', '4.2'], '210 × 0,02 = 4,2 min.'),
       fill('Settimana abituale da 8 ore, tapering −50%. Quante ore?', ['4'], '8 × 0,5 = 4.'),
-      mc('La meta-analisi di Bosquet (2007) indica come più efficace:', ['ridurre il volume del 41–60% mantenendo intensità e frequenza, per circa 2 settimane', 'ridurre l’intensità del 50% mantenendo il volume per due settimane', 'fermarsi del tutto per quattro settimane prima della gara', 'non ridurre nulla e allenarsi come sempre fino al giorno prima'], 0, 'Sono ordini di grandezza con ampia variabilità individuale.'),
-      mc('Nel modello di Banister, perché il tapering fa salire la prestazione?', ['La fatica decade più in fretta della forma', 'La forma aumenta anche senza allenarsi', 'La fatica non decade mai in tre settimane', 'Il modello non prevede la fatica'], 0, 'τ della fatica è breve, τ della forma è lunga.'),
-      mc('Quale caratteristica del modello di Banister è un limite?', ['I parametri sono individuali e difficili da stimare con pochi dati', 'Non usa esponenziali e funzioni di decadimento', 'Funziona in modo identico per tutti gli atleti', 'Non ha alcun senso concettuale'], 0, 'Occorrono molti dati e i parametri non sono stabili.'),
-      mc('Perché un tapering di 6 settimane è, in genere, una cattiva idea?', ['Rischia di far perdere la forma specifica (detraining)', 'Aumenta troppo la fatica accumulata', 'È vietato dalle federazioni sportive', 'Aumenta troppo la forza massima'], 0, 'La forma decade lentamente ma decade; 1–3 settimane bastano.'),
-      mc('Nel calendario di gara, a −4 giorni è meglio:', ['una seduta breve di qualità e poi giorni facili', 'un test massimale per verificare la forma', 'un lungo di 30 km a ritmo gara', 'nessuna attività per quattro giorni di fila'], 0, 'Si mantiene il ritmo, evitando di aggiungere fatica nuova.'),
+      mc('La meta-analisi di Bosquet (2007) indica come più efficace:', ['ridurre il volume del 41–60% mantenendo intensità e frequenza, per circa 2 settimane', 'ridurre il volume del 41–60% e anche l’intensità, per circa 6 settimane', 'fermarsi del tutto per quattro settimane prima della gara', 'non ridurre nulla e allenarsi come sempre fino al giorno prima'], 0, 'Sono ordini di grandezza con ampia variabilità individuale.'),
+      mc('Nel modello di Banister, perché il tapering fa salire la prestazione?', ['La fatica decade più in fretta della forma', 'La fatica decade più lentamente della forma, per cui la forma cala', 'La fatica non decade mai in tre settimane', 'Il modello non prevede la fatica'], 0, 'τ della fatica è breve, τ della forma è lunga.'),
+      mc('Quale caratteristica del modello di Banister è un limite?', ['I parametri sono individuali e difficili da stimare con pochi dati', 'I parametri sono universali e facili da stimare con pochi dati', 'Funziona in modo identico per tutti gli atleti', 'Non ha alcun senso concettuale'], 0, 'Occorrono molti dati e i parametri non sono stabili.'),
+      mc('Perché un tapering di 6 settimane è, in genere, una cattiva idea?', ['Rischia di far perdere la forma specifica (detraining)', 'Rischia di far aumentare la forma specifica (supercompensazione eccessiva)', 'È vietato dalle federazioni sportive', 'Aumenta troppo la forza massima'], 0, 'La forma decade lentamente ma decade; 1–3 settimane bastano.'),
+      mc('Nel calendario di gara, a −4 giorni è meglio:', ['una seduta breve di qualità e poi giorni facili', 'una seduta lunga di qualità e poi altri giorni intensi', 'un lungo di 30 km a ritmo gara', 'nessuna attività per quattro giorni di fila'], 0, 'Si mantiene il ritmo, evitando di aggiungere fatica nuova.'),
       order('Ordina le settimane di un tapering da maratona (dal picco alla gara)', ['Picco 60 km', 'Settimana −3: 48 km', 'Settimana −2: 36 km', 'Settimana di gara: 24 km'], 'Il volume scala progressivamente, mantenendo l’intensità.')
     ],
     test: [
@@ -13304,9 +13304,9 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Un tapering migliora del 3% un 10 km da 40:00. Quanti secondi si guadagnano?', ['72'], '2 400 s × 0,03 = 72 s.'),
       fill('Con τ₁ = 45 giorni, che % di forma resta dopo 21 giorni (arrotondata)?', ['63', '63%'], 'e^(−21/45) ≈ 0,627.'),
       fill('Con τ₂ = 11 giorni, che % di fatica resta dopo 21 giorni (arrotondata)?', ['15', '15%'], 'e^(−21/11) ≈ 0,148.'),
-      mc('Per sport di forza (sollevamento) il tapering tipico è:', ['più breve, circa 7–10 giorni, con carichi pesanti mantenuti', 'di 6 settimane senza sollevare nemmeno a vuoto', 'senza alcuna riduzione del volume e del carico', 'solo di intensità, mantenendo il volume alto'], 0, 'La forma neuromuscolare decade in fretta se non si allena.'),
-      mc('Che cosa significa «gara B» nella gestione dei picchi?', ['Gara secondaria, con mini-scarico e senza tapering completo', 'Gara principale della stagione, con tapering completo', 'Gara senza alcuna preparazione specifica', 'Gara vietata dal regolamento'], 0, 'Si programmano 1–3 gare A e altre più leggere.'),
-      mc('Qual è la lettura più prudente dei dati della meta-analisi sul tapering?', ['Sono medie di popolazione: l’individuo può rispondere in modo diverso', 'Valgono in modo identico per ogni atleta', 'Sono errori di stampa degli articoli', 'Non dicono nulla di utile'], 0, 'I miglioramenti vanno da circa 0,5% a 6%, con variabilità individuale.')
+      mc('Per sport di forza (sollevamento) il tapering tipico è:', ['più breve, circa 7–10 giorni, con carichi pesanti mantenuti', 'più lungo, circa 4–6 settimane, con carichi pesanti ridotti al minimo', 'senza alcuna riduzione del volume e del carico', 'solo di intensità, mantenendo il volume alto'], 0, 'La forma neuromuscolare decade in fretta se non si allena.'),
+      mc('Che cosa significa «gara B» nella gestione dei picchi?', ['Gara secondaria, con mini-scarico e senza tapering completo', 'Gara principale, con mini-scarico e tapering completo di due settimane', 'Gara senza alcuna preparazione specifica', 'Gara vietata dal regolamento'], 0, 'Si programmano 1–3 gare A e altre più leggere.'),
+      mc('Qual è la lettura più prudente dei dati della meta-analisi sul tapering?', ['Sono medie di popolazione: l’individuo può rispondere in modo diverso', 'Sono medie di popolazione: ogni individuo risponde sempre allo stesso modo', 'Sono errori di stampa degli articoli', 'Non dicono nulla di utile'], 0, 'I miglioramenti vanno da circa 0,5% a 6%, con variabilità individuale.')
     ]
   });
 
@@ -13334,10 +13334,10 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Carico settimanale 1 740 AU. Media giornaliera su 7 giorni (un decimale)?', ['248,6', '248.6'], '1 740 / 7 ≈ 248,57.'),
       fill('Acuto 2 400, cronico (media di 4 settimane, inclusa l’ultima) 2 150. ACWR (due decimali)?', ['1,12', '1.12'], '2 400 / 2 150 ≈ 1,116.'),
       fill('Per l’EWMA acuta (N = 7) il fattore λ = 2/(N + 1) vale (decimale)?', ['0,25', '0.25'], '2/8 = 0,25.'),
-      mc('La monotonia di Foster si calcola come:', ['media giornaliera / deviazione standard giornaliera', 'somma giornaliera / media giornaliera', 'carico acuto / carico cronico', 'RPE × durata della seduta'], 0, 'Misura quanto i carichi sono uniformi nella settimana.'),
+      mc('La monotonia di Foster si calcola come:', ['media giornaliera / deviazione standard giornaliera', 'carico giornaliero medio / carico massimo giornaliero', 'carico acuto / carico cronico', 'RPE × durata della seduta'], 0, 'Misura quanto i carichi sono uniformi nella settimana.'),
       mc('Lo strain si calcola come:', ['carico settimanale × monotonia', 'RPE × durata della seduta', 'media / 7 giorni', 'ACWR × 2 settimane'], 0, 'Combina quantità e uniformità dei carichi.'),
-      mc('Perché l’ACWR è considerato controverso?', ['Accoppiamento matematico, soglie instabili, evidenza causale debole', 'Perché è sempre uguale a 1 in ogni atleta', 'Perché non usa il tempo nel calcolo', 'Perché è stato vietato dalle federazioni'], 0, 'Impellizzeri e altri ne criticano le basi statistiche e l’uso con soglie rigide.'),
-      mc('Come si interpreta correttamente l’HRV mattutina?', ['Come tendenza (media mobile di 7 giorni) rispetto alla propria base', 'Con una soglia assoluta uguale per tutti gli atleti', 'Solo se è bassa per un singolo giorno', 'Ignorando il sonno e lo stress'], 0, 'Un singolo giorno è rumoroso; contano trend e contesto.'),
+      mc('Perché l’ACWR è considerato controverso?', ['Accoppiamento matematico, soglie instabili, evidenza causale debole', 'Nessun accoppiamento, soglie stabili, evidenza causale solida e replicata', 'Perché non usa il tempo nel calcolo', 'Perché è stato vietato dalle federazioni'], 0, 'Impellizzeri e altri ne criticano le basi statistiche e l’uso con soglie rigide.'),
+      mc('Come si interpreta correttamente l’HRV mattutina?', ['Come tendenza (media mobile di 7 giorni) rispetto alla propria base', 'Come valore singolo del mattino rispetto a una soglia uguale per tutti', 'Solo se è bassa per un singolo giorno', 'Ignorando il sonno e lo stress'], 0, 'Un singolo giorno è rumoroso; contano trend e contesto.'),
       order('Ordina il calcolo del carico settimanale con sRPE', ['Registra RPE di ogni seduta', '× durata in minuti', '= AU della seduta', 'Somma le AU dei giorni', '= carico settimanale'], 'Si calcola ogni seduta e poi si somma.')
     ],
     test: [
@@ -13346,9 +13346,9 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Acuto 1 800, cronico 2 250. ACWR (un decimale)?', ['0,8', '0.8', '0,80', '0.80'], '1 800 / 2 250 = 0,8.'),
       fill('Carico di 2 200 AU aumentato del 20%. Nuovo carico in AU?', ['2640', '2 640', '2.640'], '2 200 × 1,2 = 2 640.'),
       fill('Acuto 3 000 e cronico delle 3 settimane precedenti pari a 2 066,7. ACWR non accoppiato (due decimali)?', ['1,45', '1.45'], '3 000 / 2 066,7 ≈ 1,45.'),
-      mc('Perché è sbagliato intervenire solo perché l’ACWR supera 1,5?', ['Le soglie non sono rigide: dipendono da contesto, sport e calcolo', 'Perché 1,5 è un numero magico sempre pericoloso', 'Perché l’ACWR è sempre pari a 1', 'Perché il carico non conta per il rischio'], 0, 'Il rapporto va letto insieme a carico assoluto e altri segnali.'),
-      mc('L’indice di Hooper si basa su:', ['Sonno, stress, fatica e dolore muscolare', 'Solo la FC a riposo mattutina', 'Il peso corporeo del mattino', 'Il numero di gare disputate'], 0, 'Quattro voci con scala 1–7: punteggio 4–28.'),
-      mc('Che cosa significano le «AU» dell’sRPE?', ['Unità arbitrarie, utili per confrontare la stessa persona nel tempo', 'Unità assolute internazionali, valide per tutti', 'Chilocalorie consumate nella seduta', 'Watt medi prodotti dall’atleta'], 0, 'Dipendono dalla scala di percezione dell’atleta.')
+      mc('Perché è sbagliato intervenire solo perché l’ACWR supera 1,5?', ['Le soglie non sono rigide: dipendono da contesto, sport e calcolo', 'Le soglie sono rigide e valgono uguali per ogni sport e metodo di calcolo', 'Perché l’ACWR è sempre pari a 1', 'Perché il carico non conta per il rischio'], 0, 'Il rapporto va letto insieme a carico assoluto e altri segnali.'),
+      mc('L’indice di Hooper si basa su:', ['Sonno, stress, fatica e dolore muscolare', 'Solo FC a riposo, peso corporeo e numero di gare nella settimana', 'Il peso corporeo del mattino', 'Il numero di gare disputate'], 0, 'Quattro voci con scala 1–7: punteggio 4–28.'),
+      mc('Che cosa significano le «AU» dell’sRPE?', ['Unità arbitrarie, utili per confrontare la stessa persona nel tempo', 'Unità assolute, utili per confrontare atleti diversi in modo diretto', 'Chilocalorie consumate nella seduta', 'Watt medi prodotti dall’atleta'], 0, 'Dipendono dalla scala di percezione dell’atleta.')
     ]
   });
 
@@ -13376,10 +13376,10 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Partita di 90 min a RPE 8. Carico in AU?', ['720'], '90 × 8 = 720.'),
       fill('Settimana: partita 720, MD-4 360, MD-3 450, MD-2 135 AU. Carico totale?', ['1665', '1 665', '1.665'], '720 + 360 + 450 + 135 = 1 665.'),
       fill('Sprint di 30 m in 4,2 s. Velocità media in m/s (un decimale)?', ['7,1', '7.1', '7,14', '7.14'], '30 / 4,2 ≈ 7,14 m/s.'),
-      mc('Che cosa indica MD-1?', ['Il giorno prima della partita: attivazione e poca fatica', 'Il giorno dopo la partita: scarico completo', 'Il giorno di riposo completo', 'Il giorno con il carico massimo'], 0, 'MD-1 è il giorno precedente alla partita: si attiva senza fatica.'),
+      mc('Che cosa indica MD-1?', ['Il giorno prima della partita: attivazione e poca fatica', 'Il giorno dopo la partita: recupero attivo, poca fatica e carico basso', 'Il giorno di riposo completo', 'Il giorno con il carico massimo'], 0, 'MD-1 è il giorno precedente alla partita: si attiva senza fatica.'),
       mc('MD+1 per i giocatori che hanno giocato molto è tipicamente:', ['recupero e sedute leggere', 'una seduta intensa di sprint ripetuti', 'test massimali sui salti', 'un doppio allenamento di forza'], 0, 'Chi ha giocato molto riceve già un forte carico dalla partita.'),
       mc('In-stagione, per mantenere la forza, in genere si usano:', ['1–2 sedute brevi con carichi alti e volume basso', 'nessuna seduta di forza', '5 sedute lunghe', 'solo esercizi a corpo libero a ripetizioni molto alte'], 0, 'La forza si mantiene con poco volume a intensità alta.'),
-      mc('Perché i risultati dei test come lo Yo-Yo vanno letti con prudenza?', ['Le equazioni danno stime con errore: conta il confronto nel tempo', 'Sono sempre esatti in ogni condizione', 'Misurano soltanto la forza massima', 'Sono validi solo in laboratorio'], 0, 'Motivazione, superficie e condizioni influiscono.'),
+      mc('Perché i risultati dei test come lo Yo-Yo vanno letti con prudenza?', ['Le equazioni danno stime con errore: conta il confronto nel tempo', 'Le equazioni danno valori esatti: il confronto nel tempo non serve', 'Misurano soltanto la forza massima', 'Sono validi solo in laboratorio'], 0, 'Motivazione, superficie e condizioni influiscono.'),
       order('Ordina la settimana di partita (domenica)', ['MD+1 recupero', 'MD+2 riposo o scarico', 'MD-4 forza e volume', 'MD-3 alta intensità', 'MD-2 volume ridotto', 'MD-1 attivazione'], 'Il carico sale a metà settimana e scende fino alla partita.')
     ],
     test: [
@@ -13388,9 +13388,9 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('RSA: tempi 4,10; 4,12; 4,15; 4,20; 4,22; 4,26 (somma 25,05; miglior 4,10; n = 6). Decremento % (un decimale)?', ['1,8', '1.8', '1,83', '1.83'], '100 × (25,05 / 24,60) − 100 ≈ 1,83.'),
       fill('Allenamento di 75 min a sRPE 6. Carico in AU?', ['450'], '75 × 6 = 450.'),
       fill('Carico di pre-stagione 1 200 AU, +10% a settimana per 2 settimane. Valore alla terza settimana in AU?', ['1452', '1 452', '1.452'], '1 200 × 1,1 = 1 320; × 1,1 = 1 452.'),
-      mc('Perché i giocatori che giocano poco richiedono attenzione?', ['Rischiano carichi bassi e poi picchi quando devono giocare', 'Non hanno bisogno di alcun carico', 'Non si infortunano mai, perché giocano poco', 'Non devono recuperare tra le partite'], 0, 'Un carico irregolare, con picchi, aumenta il rischio.'),
-      mc('Quale caratteristica distingue i backs dai forwards nel rugby?', ['Più corsa ad alta velocità e sprint, meno contatto statico', 'Solo mischia e lavoro statico di spinta', 'Sono identici nel profilo di carico', 'Più placcaggi e contatti in ogni partita'], 0, 'Le richieste dipendono dal ruolo.'),
-      mc('In una settimana con due partite, in genere:', ['si privilegia il recupero con pochissimo carico aggiuntivo', 'si fanno due test Yo-Yo ravvicinati', 'si triplica il volume di allenamento', 'si evita di dormire per adattarsi'], 0, 'Il tempo tra le partite serve a recuperare.')
+      mc('Perché i giocatori che giocano poco richiedono attenzione?', ['Rischiano carichi bassi e poi picchi quando devono giocare', 'Hanno carichi sempre alti, quindi non rischiano picchi quando giocano', 'Non si infortunano mai, perché giocano poco', 'Non devono recuperare tra le partite'], 0, 'Un carico irregolare, con picchi, aumenta il rischio.'),
+      mc('Quale caratteristica distingue i backs dai forwards nel rugby?', ['Più corsa ad alta velocità e sprint, meno contatto statico', 'Meno corsa ad alta velocità e sprint, più contatto statico e mischia', 'Sono identici nel profilo di carico', 'Più placcaggi e contatti in ogni partita'], 0, 'Le richieste dipendono dal ruolo.'),
+      mc('In una settimana con due partite, in genere:', ['si privilegia il recupero con pochissimo carico aggiuntivo', 'si privilegia il carico con molte sedute intense in più fra le due partite', 'si triplica il volume di allenamento', 'si evita di dormire per adattarsi'], 0, 'Il tempo tra le partite serve a recuperare.')
     ]
   });
 
@@ -13418,10 +13418,10 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Con 1RM di 120 kg, carico all’85% in kg?', ['102'], '120 × 0,85 = 102.'),
       fill('Volume 10 ore/sett. e tapering −40%. Ore?', ['6'], '10 × 0,6 = 6.'),
       fill('Massa magra 60 kg e soglia di disponibilità energetica 30 kcal/kg di massa magra/giorno. Valore in kcal?', ['1800', '1 800', '1.800'], '60 × 30 = 1 800.'),
-      mc('Che profilo metabolico descrive meglio gli sport di combattimento?', ['Intermittente ad alta intensità con importante base aerobica', 'Solo aerobico continuo, a bassa intensità', 'Solo alattacido, senza base aerobica', 'Sedentario, con sforzi quasi nulli'], 0, 'Combinano sforzi esplosivi, lavoro lattacido e recupero aerobico.'),
-      mc('Quale approccio alla gestione del peso è coerente con le posizioni di consenso?', ['Graduale, pianificato in anticipo, con medico e nutrizionista', 'Sauna e disidratazione negli ultimi giorni', 'Digiuno prolungato prima della pesata', 'Diuretici prima della pesata'], 0, 'I tagli rapidi di acqua sono associati a rischi gravi e peggior prestazione.'),
-      mc('Per i minori che praticano sport di categoria:', ['non si deve tagliare il peso: prima di tutto crescita e salute', 'si può usare la sauna prima della pesata', 'si può digiunare per un giorno', 'si può disidratare l’atleta per qualche ora'], 0, 'Le regole federali e la sicurezza vengono prima del peso.'),
-      mc('Quale esercizio è tipico per l’allenamento della presa nel judo?', ['Trazioni al kimono o con asciugamano e dead hang', 'Solo corsa lenta di lunga durata', 'Solo nuoto a stile libero', 'Stretching passivo prolungato'], 0, 'La presa si allena con carichi specifici sulle mani e sugli avambracci.'),
+      mc('Che profilo metabolico descrive meglio gli sport di combattimento?', ['Intermittente ad alta intensità con importante base aerobica', 'Continuo a bassa intensità, con scarsa base aerobica e sforzi brevi', 'Solo alattacido, senza base aerobica', 'Sedentario, con sforzi quasi nulli'], 0, 'Combinano sforzi esplosivi, lavoro lattacido e recupero aerobico.'),
+      mc('Quale approccio alla gestione del peso è coerente con le posizioni di consenso?', ['Graduale, pianificato in anticipo, con medico e nutrizionista', 'Rapida, concentrata negli ultimi giorni, con sauna sotto controllo dell’allenatore', 'Digiuno prolungato prima della pesata', 'Diuretici prima della pesata'], 0, 'I tagli rapidi di acqua sono associati a rischi gravi e peggior prestazione.'),
+      mc('Per i minori che praticano sport di categoria:', ['non si deve tagliare il peso: prima di tutto crescita e salute', 'si può tagliare il peso in poche ore: prima di tutto la categoria di gara', 'si può digiunare per un giorno', 'si può disidratare l’atleta per qualche ora'], 0, 'Le regole federali e la sicurezza vengono prima del peso.'),
+      mc('Quale esercizio è tipico per l’allenamento della presa nel judo?', ['Trazioni al kimono o con asciugamano e dead hang', 'Corsa lenta di lunga durata e nuoto a stile libero senza trazioni', 'Solo nuoto a stile libero', 'Stretching passivo prolungato'], 0, 'La presa si allena con carichi specifici sulle mani e sugli avambracci.'),
       order('Ordina le fasi di un ciclo di 12 settimane verso un torneo', ['Preparazione generale', 'Preparazione specifica', 'Pre-gara con volume ridotto', 'Gara', 'Recupero'], 'Si passa da base e volume a intensità specifica, riduzione del carico, gara e recupero.')
     ],
     test: [
@@ -13430,9 +13430,9 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Atleta di 80 kg, perdita dell’1% a settimana (ordine di grandezza massimo di letteratura). Kg a settimana?', ['0,8', '0.8'], '80 × 0,01 = 0,8.'),
       fill('1RM di 100 kg, carico al 90%. Kg?', ['90'], '100 × 0,9 = 90.'),
       mc('Perché l’indice SJFT va confrontato soprattutto con se stessi?', ['Dipende da tecnica, abilità e partner', 'Perché è sempre uguale per tutti i judoka', 'Perché non usa la frequenza cardiaca', 'Perché è un test di forza massima'], 0, 'Il test è influenzato dalla tecnica e dalle condizioni.'),
-      mc('La bassa disponibilità energetica (RED-S) può comportare:', ['effetti su ossa, ormoni, sistema immunitario e prestazione', 'solo un aumento della forza e della massa magra', 'nessun effetto misurabile sulla salute', 'solo mal di testa occasionale'], 0, 'È una condizione riconosciuta dal CIO.'),
-      mc('In una settimana pre-gara l’approccio più prudente al peso è:', ['mirare a stabilità e idratazione, senza cambiamenti drastici', 'tagliare più acqua possibile negli ultimi giorni', 'saltare i pasti principali', 'allenarsi in tuta termica'], 0, 'Le soluzioni drastiche dell’ultimo momento sono pericolose.'),
-      mc('Perché il pre-gara riduce il volume e mantiene l’intensità?', ['Per ridurre la fatica senza perdere la qualità', 'Per perdere la forma specifica', 'Per smettere di allenarsi del tutto', 'Perché l’intensità danneggia sempre'], 0, 'È la stessa logica del tapering.')
+      mc('La bassa disponibilità energetica (RED-S) può comportare:', ['effetti su ossa, ormoni, sistema immunitario e prestazione', 'effetti solo sulla forza e sul sonno, senza conseguenze su ossa e ormoni', 'nessun effetto misurabile sulla salute', 'solo mal di testa occasionale'], 0, 'È una condizione riconosciuta dal CIO.'),
+      mc('In una settimana pre-gara l’approccio più prudente al peso è:', ['mirare a stabilità e idratazione, senza cambiamenti drastici', 'mirare a perdere molto peso, tagliando liquidi e pasti il giorno prima', 'saltare i pasti principali', 'allenarsi in tuta termica'], 0, 'Le soluzioni drastiche dell’ultimo momento sono pericolose.'),
+      mc('Perché il pre-gara riduce il volume e mantiene l’intensità?', ['Per ridurre la fatica senza perdere la qualità', 'Per ridurre l’intensità e mantenere un volume invariato fino alla gara', 'Per smettere di allenarsi del tutto', 'Perché l’intensità danneggia sempre'], 0, 'È la stessa logica del tapering.')
     ]
   });
 
@@ -13460,10 +13460,10 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Con CSS 1,176 m/s, ritmo in secondi ogni 100 m (arrotondato all’intero)?', ['85'], '100 / 1,176 ≈ 85,0.'),
       fill('1RM di 140 kg, carico all’85% in kg?', ['119'], '140 × 0,85 = 119.'),
       fill('Triatleta con 10 ore e 45% in bici. Ore in bici?', ['4,5', '4.5'], '10 × 0,45 = 4,5.'),
-      mc('Che cos’è la FTP?', ['La potenza massima sostenibile per circa un’ora', 'La potenza massima in 5 secondi', 'La frequenza cardiaca massima', 'Il peso del ciclista'], 0, 'È un riferimento per le zone di intensità in ciclismo.'),
+      mc('Che cos’è la FTP?', ['La potenza massima sostenibile per circa un’ora', 'La potenza massima sostenibile per circa cinque minuti di sforzo', 'La frequenza cardiaca massima', 'Il peso del ciclista'], 0, 'È un riferimento per le zone di intensità in ciclismo.'),
       mc('Nei lavori massimali di potenza e forza i recuperi tipici tra le serie sono:', ['2–5 minuti', '10 secondi', 'nessuno', '30 minuti'], 0, 'Servono recuperi lunghi per mantenere la qualità.'),
-      mc('La doppia periodizzazione è tipica di:', ['atletica su pista con stagione indoor e outdoor', 'sport senza gare ufficiali', 'principianti assoluti', 'sport con una sola gara l’anno'], 0, 'Prevede due picchi nell’anno.'),
-      mc('Quale dei seguenti è un rischio specifico degli sport estetici/tecnico-combinatori?', ['Pressione sul peso e bassa disponibilità energetica', 'Mancanza di tecnica', 'Eccesso di recupero', 'Nessun rischio specifico'], 0, 'Serve prevenzione con medico e dietista.'),
+      mc('La doppia periodizzazione è tipica di:', ['atletica su pista con stagione indoor e outdoor', 'ciclismo su strada con una sola stagione e un unico picco', 'principianti assoluti', 'sport con una sola gara l’anno'], 0, 'Prevede due picchi nell’anno.'),
+      mc('Quale dei seguenti è un rischio specifico degli sport estetici/tecnico-combinatori?', ['Pressione sul peso e bassa disponibilità energetica', 'Eccesso di recupero e scarsa attenzione al peso corporeo', 'Eccesso di recupero', 'Nessun rischio specifico'], 0, 'Serve prevenzione con medico e dietista.'),
       order('Ordina l’anno di un atleta di resistenza', ['Base', 'Costruzione', 'Specifico', 'Tapering e gara', 'Transizione'], 'Si parte da volume e base, poi intensità, specificità, tapering e recupero.')
     ],
     test: [
@@ -13472,8 +13472,8 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('1RM di 140 kg, carico al 90% in kg?', ['126'], '140 × 0,9 = 126.'),
       fill('FTP 240 W e potenza a 70 kg. Rapporto W/kg (due decimali)?', ['3,43', '3.43'], '240 / 70 ≈ 3,43.'),
       fill('Tennis: 150 punti e 25 s di pausa tra punti. Minuti totali di pausa (un decimale)?', ['62,5', '62.5'], '150 × 25 = 3 750 s = 62,5 min.'),
-      mc('Quale caratteristica distingue gli sport di potenza da quelli di resistenza?', ['Volume basso e intensità alta con recuperi lunghi', 'Volume altissimo e intensità sempre bassa', 'Nessuna differenza', 'Solo il tipo di scarpe'], 0, 'La qualità prevale sulla quantità.'),
-      mc('Perché la stima FTP = 95% del test di 20 min va usata con prudenza?', ['È una stima che può sovra- o sottostimare la soglia reale', 'Perché è sempre esatta', 'Perché non usa la potenza', 'Perché vale solo per i corridori'], 0, 'Le differenze individuali possono essere importanti.'),
+      mc('Quale caratteristica distingue gli sport di potenza da quelli di resistenza?', ['Volume basso e intensità alta con recuperi lunghi', 'Volume molto alto e intensità bassa con recuperi brevi e costanti', 'Nessuna differenza', 'Solo il tipo di scarpe'], 0, 'La qualità prevale sulla quantità.'),
+      mc('Perché la stima FTP = 95% del test di 20 min va usata con prudenza?', ['È una stima che può sovra- o sottostimare la soglia reale', 'È una stima sempre esatta, che coincide con la soglia reale di ogni atleta', 'Perché non usa la potenza', 'Perché vale solo per i corridori'], 0, 'Le differenze individuali possono essere importanti.'),
       mc('Nel triathlon le sedute «brick» servono a:', ['abituare al passaggio bici-corsa', 'sostituire il riposo', 'nuotare in piscina senza tecnica', 'evitare la nutrizione'], 0, 'Il passaggio dalla bici alla corsa ha sensazioni specifiche.')
     ]
   });
@@ -15516,15 +15516,15 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       { h: 'Quanti sono, in sintesi', b: `Riassumiamo i numeri, validi per le stagioni recenti.\n\n- Squadre: **10**, con **2 piloti** ciascuna, quindi **20 auto** in pista. Dal **2026** è prevista l’entrata di una squadra in più (con un conseguente aumento delle auto): è un esempio di come il regolamento cambi.\n- Gran Premi per stagione: fino a **24**.\n- Due titoli: **piloti** e **costruttori**.\n\n> Calcolo: 10 squadre × 2 piloti = 20 auto.\n\nIn pratica un tifoso segue due storie in parallelo: la lotta tra i **piloti** per il titolo individuale e quella tra le **squadre** per il titolo costruttori.\n\nNel resto del corso vedremo come è fatto un weekend di gara, chi lavora in una squadra, come si assegnano i punti e come capire una gara dal divano.` }
     ],
     exercises: [
-      mc('Che cosa significa «monoposto»?', ['Auto da corsa con un solo posto, quello del pilota', 'Auto con un solo motore', 'Auto che corre una sola gara', 'Auto con una sola ruota di scorta'], 0, 'Mono = uno: c’è un solo posto, per il pilota.'),
+      mc('Che cosa significa «monoposto»?', ['Auto da corsa con un solo posto, quello del pilota', 'Auto da corsa con un solo motore, senza cambio di marcia', 'Auto da corsa pensata per una sola gara all’anno', 'Auto da corsa con una sola ruota motrice'], 0, 'Mono = uno: c’è un solo posto, per il pilota.'),
       mc('Chi scrive il regolamento della F1 e nomina i commissari?', ['La FIA', 'Il promotore commerciale', 'Le televisioni', 'Gli sponsor'], 0, 'La FIA è l’autorità sportiva: regole, controlli e commissari.'),
-      mc('Che cosa fa il promotore commerciale della F1?', ['Organizza e vende il campionato, ad esempio i diritti TV', 'Costruisce le auto', 'Guida le auto in gara', 'Decide le penalità'], 0, 'Il promotore commercializza lo spettacolo, firma i contratti con i circuiti e vende i diritti TV.'),
+      mc('Che cosa fa il promotore commerciale della F1?', ['Organizza e vende il campionato, ad esempio i diritti TV', 'Costruisce le auto e le vende alle squadre del campionato', 'Gestisce le gare in pista e dirige i commissari sportivi', 'Decide le penalità e le sanzioni sportive durante il weekend'], 0, 'Il promotore commercializza lo spettacolo, firma i contratti con i circuiti e vende i diritti TV.'),
       mc('Quale categoria NON è una gara di monoposto?', ['Rally', 'Formula 2', 'Formula E', 'IndyCar'], 0, 'I rally si corrono con auto derivate da quelle stradali, non monoposto.'),
-      mc('A che cosa serve la Formula 2?', ['A formare piloti giovani in vista della F1', 'A fare prove per i motori della F1', 'A sostituire un Gran Premio', 'A premiare le squadre costruttrici'], 0, 'È una categoria di formazione sulla strada verso la F1.'),
+      mc('A che cosa serve la Formula 2?', ['A formare piloti giovani in vista della F1', 'A fare prove tecniche per i motori della F1', 'A sostituire un Gran Premio quando una gara salta', 'A decidere le regole tecniche dei team di F1'], 0, 'È una categoria di formazione sulla strada verso la F1.'),
       fill('Un pilota ottiene 25 punti e il suo compagno di squadra 18. Quanti punti guadagna la squadra nel campionato costruttori?', ['43'], '25 + 18 = 43.'),
       fill('Nelle stagioni recenti ci sono 10 squadre con 2 piloti ciascuna. Quante auto sono in pista?', ['20'], '10 × 2 = 20.'),
-      mc('Chi vince il campionato piloti?', ['Chi ha più punti a fine stagione', 'Chi vince più gare, sempre', 'Chi guida l’auto più veloce', 'La squadra con più piloti'], 0, 'Conta il totale dei punti; a parità si guardano le vittorie.'),
-      mc('Perché il campionato costruttori è importante per la squadra?', ['Misura la squadra nel suo complesso e determina premi in denaro', 'Assegna il titolo al pilota', 'Serve solo a decidere i circuiti', 'Non conta nulla'], 0, 'La somma dei punti dei due piloti misura la squadra e incide sui premi.'),
+      mc('Chi vince il campionato piloti?', ['Chi ha più punti a fine stagione', 'Chi vince più gare nella stagione', 'Chi guida per la squadra con più titoli', 'Chi parte più volte dalla pole position'], 0, 'Conta il totale dei punti; a parità si guardano le vittorie.'),
+      mc('Perché il campionato costruttori è importante per la squadra?', ['Misura la squadra nel complesso e ne determina i premi', 'Assegna il titolo ai piloti e decide l’ordine di partenza', 'Serve solo a stabilire l’ordine di partenza delle gare', 'Determina solo il numero di vetture iscritte l’anno dopo'], 0, 'La somma dei punti dei due piloti misura la squadra e incide sui premi.'),
       mc('Qual è il documento della FIA indispensabile per correre in F1?', ['La superlicenza', 'La patente stradale', 'Il passaporto sportivo del promotore', 'Il contratto TV'], 0, 'Si ottiene con risultati e punti nelle categorie giovanili.'),
       order('Ordina la scala di categorie, dalla più giovane alla F1', ['Kart', 'Formula 4', 'Formula 3', 'Formula 2', 'Formula 1'], 'Questo è il percorso tipico, anche se non è l’unico.')
     ],
@@ -15532,9 +15532,9 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       mc('In che anno si è disputato il primo campionato mondiale di F1?', ['1950', '1904', '1975', '2000'], 0, 'Il primo mondiale è del 1950 (la FIA invece è del 1904).'),
       mc('Chi è proprietario delle auto che gareggiano in F1?', ['Le squadre', 'La FIA', 'Il promotore', 'I circuiti'], 0, 'Le auto sono progettate e possedute dalle squadre.'),
       fill('Una squadra ha due piloti che finiscono con 12 e 8 punti. Quanti punti prende la squadra?', ['20'], '12 + 8 = 20.'),
-      mc('Che cosa significa «formula» in Formula 1?', ['Un insieme di regole uguali per tutti', 'Una ricetta del carburante', 'Il nome del primo circuito', 'Una formula matematica per i punti'], 0, 'Indica le regole a cui tutti i concorrenti devono attenersi.'),
+      mc('Che cosa significa «formula» in Formula 1?', ['Un insieme di regole uguali per tutti', 'Una ricetta per il carburante da usare', 'Il nome del primo circuito costruito', 'Una formula matematica per i punti'], 0, 'Indica le regole a cui tutti i concorrenti devono attenersi.'),
       mc('Quale titolo premia anche la qualità dell’auto nel suo insieme?', ['Costruttori', 'Piloti', 'Nessuno dei due', 'Il titolo del promotore'], 0, 'La somma dei punti dei due piloti misura la squadra intera.'),
-      mc('Che cosa distingue la Formula E dalla F1?', ['Le monoposto sono elettriche', 'Non ha piloti', 'È una gara di moto', 'Si corre solo di giorno'], 0, 'La E sta per elettrica.'),
+      mc('Che cosa distingue la Formula E dalla F1?', ['Le monoposto sono elettriche', 'Non ha piloti: le vetture sono autonome', 'Si corre solo su circuiti ovali', 'Si corre soltanto in Europa'], 0, 'La E sta per elettrica.'),
       mc('Se un pilota cambia squadra a metà stagione, che fine fanno i punti già ottenuti?', ['Restano suoi nel campionato piloti', 'Si azzerano', 'Passano alla vecchia squadra come punti piloti', 'Si dividono in due'], 0, 'Nel campionato piloti i punti sono personali.')
     ]
   });
@@ -15562,7 +15562,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Alla fine di Q1, quante auto sono eliminate?', ['5'], 'Le 5 più lente, che partono dal 16º posto in poi.'),
       fill('Quante auto partecipano a Q3?', ['10'], '20 − 5 = 15 in Q2; 15 − 5 = 10 in Q3.'),
       fill('Quanto durano in totale Q1 + Q2 + Q3, in minuti? (18 + 15 + 12)', ['45'], '18 + 15 + 12 = 45.'),
-      mc('Chi conquista la pole position?', ['Chi fa il giro più veloce in Q3', 'Chi vince le prove libere', 'Chi vince la gara sprint', 'Chi ha più punti in classifica'], 0, 'La pole è il primo posto in griglia, e va al miglior tempo delle qualifiche.'),
+      mc('Chi conquista la pole position?', ['Chi fa il giro più veloce in Q3', 'Chi fa il giro più veloce in FP3', 'Chi vince la sprint del sabato', 'Chi ha più punti in classifica'], 0, 'La pole è il primo posto in griglia, e va al miglior tempo delle qualifiche.'),
       mc('Qual è la distanza minima di una gara (escluse eccezioni come Monaco)?', ['305 km', '100 km', '500 km', '200 km'], 0, 'Si prende il numero di giri che supera i 305 km.'),
       mc('Quanto può durare al massimo una gara senza interruzioni?', ['2 ore', '1 ora', '3 ore e 30', '45 minuti'], 0, 'Limite di 2 ore (3 ore in totale se c’è una bandiera rossa).'),
       fill('A una media di 200 km/h, quanti minuti servono per 305 km? (arrotonda al minuto più vicino)', ['92', '91'], '305 / 200 = 1,525 h = 91,5 minuti.'),
@@ -15572,7 +15572,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     test: [
       mc('Quando si svolgono le qualifiche nel formato standard?', ['Il sabato', 'Il venerdì', 'La domenica prima della gara', 'Il giovedì'], 0, 'Dopo FP3 del sabato.'),
       fill('Una gara sprint è lunga circa 100 km. Una gara classica è circa 305 km. Circa quante volte è più corta? (numero intero)', ['3'], '305 / 100 ≈ 3: una gara sprint è circa un terzo.'),
-      mc('Perché gli orari delle gare vanno controllati con attenzione?', ['Sono indicati in ora locale del circuito', 'Cambiano ogni minuto', 'Non sono mai pubblicati', 'Sono uguali ovunque'], 0, 'Il fuso orario cambia l’ora corrispondente da noi.'),
+      mc('Perché gli orari delle gare vanno controllati con attenzione?', ['Sono indicati in ora locale del circuito', 'Sono sempre indicati in ora di Greenwich', 'Non sono pubblicati prima del venerdì', 'Sono uguali in tutti i Paesi del mondo'], 0, 'Il fuso orario cambia l’ora corrispondente da noi.'),
       mc('Che cosa si prova nelle prove libere?', ['Assetto, gomme e ritmo gara', 'Solo il pit stop', 'Solo le luci rosse', 'Niente: servono solo al pubblico'], 0, 'Sono sessioni di allenamento e messa a punto.'),
       mc('Nel formato sprint recente, quante sessioni di prove libere ci sono in tutto il weekend?', ['Una', 'Tre', 'Due', 'Nessuna'], 0, 'Solo FP1; poi le qualifiche sprint.'),
       mc('Quante auto passano da Q2 a Q3?', ['10', '5', '15', '20'], 0, 'Dopo Q2 ne restano 10.'),
@@ -15598,26 +15598,26 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       { h: 'La fabbrica e i costi', b: `Quello che si vede al circuito è soltanto una parte del lavoro. Nella **fabbrica** (*factory*) lavorano centinaia di persone: progettisti, aerodinamici, esperti di materiali, programmatori, addetti alla logistica.\n\nI gruppi principali:\n\n- **Progettazione**: disegna l’auto e le sue evoluzioni durante l’anno.\n- **Produzione**: costruisce i pezzi, spesso in carbonio.\n- **Aerodinamica**: studia l’aria con simulazioni al computer e in galleria del vento.\n- **Dati e simulazione**: prepara le strategie.\n\nPer evitare che le squadre più ricche vincano soltanto grazie ai soldi, esiste il **tetto di spesa** (*budget cap*): un limite annuo alle spese, nel regolamento recente dell’ordine di **135 milioni di dollari** (con alcune spese escluse, come quelle dei piloti e dei dirigenti più pagati).\n\nIn sintesi: un’auto sul circuito è il risultato di un lavoro di tantissime persone.` }
     ],
     exercises: [
-      mc('Che cos’è la scuderia (team)?', ['L’organizzazione che iscrive e fa correre le auto', 'Un tipo di gomma', 'Il circuito', 'Il giudice della gara'], 0, 'È la squadra con piloti, meccanici e ingegneri.'),
-      mc('Chi è il team principal?', ['Il responsabile della squadra', 'Il pilota più veloce', 'Un meccanico', 'Il commissario FIA'], 0, 'Coordina, rappresenta la squadra e decide sulle questioni importanti.'),
-      mc('Che cosa fa l’ingegnere di pista?', ['Parla al pilota alla radio e traduce le sue sensazioni in regolazioni', 'Guida l’auto in prova', 'Cambia le gomme', 'Arbitra la gara'], 0, 'È il collegamento tra pilota e squadra tecnica.'),
-      mc('A che cosa serve il pilota di riserva?', ['A sostituire un titolare se non può correre', 'A guidare in gara insieme ai titolari', 'A dare i punti', 'A scegliere le gomme'], 0, 'È una figura di emergenza e di sviluppo.'),
+      mc('Che cos’è la scuderia (team)?', ['L’organizzazione che iscrive e fa correre le auto', 'Il fornitore ufficiale delle gomme di tutto il campionato', 'Il gruppo di piloti iscritti al campionato', 'Il gruppo di commissari che giudica la gara'], 0, 'È la squadra con piloti, meccanici e ingegneri.'),
+      mc('Chi è il team principal?', ['Il responsabile della squadra', 'Il pilota più esperto del team', 'Il capo meccanico dei box', 'Il commissario FIA della squadra'], 0, 'Coordina, rappresenta la squadra e decide sulle questioni importanti.'),
+      mc('Che cosa fa l’ingegnere di pista?', ['Parla via radio al pilota e traduce le sensazioni in assetto', 'Guida l’auto nelle prove libere e decide la strategia di gara', 'Cambia le gomme ai box e regola le ali durante la sosta', 'Arbitra la gara e controlla il rispetto dei limiti di pista'], 0, 'È il collegamento tra pilota e squadra tecnica.'),
+      mc('A che cosa serve il pilota di riserva?', ['A sostituire un titolare se non può correre', 'A guidare in gara insieme ai due piloti titolari', 'A dare i punti ai piloti titolari assenti', 'A scegliere le gomme per i titolari'], 0, 'È una figura di emergenza e di sviluppo.'),
       fill('Quanti piloti titolari schiera ogni squadra?', ['2', 'due'], 'Ogni scuderia ha due piloti titolari.'),
       fill('In una sosta ai box lavorano circa quante persone (ordine di grandezza)? Scrivi il numero.', ['20', 'venti'], 'Una squadra di sosta conta circa venti persone.'),
-      mc('Che cos’è una squadra cliente?', ['Una squadra che compra i motori da un altro costruttore', 'Una squadra che compra anche i piloti', 'Una squadra senza auto', 'Una squadra di tifosi'], 0, 'Progetta la propria auto ma usa la power unit di un altro.'),
-      mc('Che cosa limita il budget cap?', ['Le spese annuali della squadra', 'La velocità massima', 'Il numero di tifosi', 'I giri di qualifica'], 0, 'Un tetto annuo alle spese, per ridurre il divario tra squadre ricche e povere.'),
+      mc('Che cos’è una squadra cliente?', ['Una squadra che compra i motori da un altro costruttore', 'Una squadra che compra anche i piloti da un altro team', 'Una squadra che affitta le monoposto da un’altra squadra', 'Una squadra che gestisce i fan club dei costruttori'], 0, 'Progetta la propria auto ma usa la power unit di un altro.'),
+      mc('Che cosa limita il budget cap?', ['Le spese annuali della squadra', 'La velocità massima in rettilineo', 'Il numero di tifosi nei circuiti', 'I giri di qualifica per pilota'], 0, 'Un tetto annuo alle spese, per ridurre il divario tra squadre ricche e povere.'),
       mc('Dove siede il team principal in gara?', ['Al muretto dei box', 'Sulla vettura', 'In tribuna con gli sponsor', 'Nel box della FIA'], 0, 'Il pit wall è la postazione con gli schermi, accanto ai box.'),
       mc('Il pit stop è, in genere, lungo di auto ferma circa:', ['2–3 secondi', '20 secondi', '1 minuto', '10 minuti'], 0, 'L’auto ferma sta pochi secondi, ma l’intera sosta costa circa 20 secondi.'),
       order('Ordina i passaggi di un pit stop', ['Il pilota entra nella corsia dei box', 'Rallenta al limite di velocità', 'Si ferma nel suo box', 'I meccanici cambiano le gomme', 'L’auto riparte'], 'Dall’ingresso nella corsia box alla ripartenza.')
     ],
     test: [
       fill('Dieci squadre, ciascuna con 2 piloti titolari. Quanti piloti titolari in tutto?', ['20', 'venti'], '10 × 2 = 20.'),
-      mc('Che cosa significa che un pilota e il suo compagno di squadra sono «primi rivali»?', ['Hanno la stessa auto, quindi il confronto è diretto', 'Non si parlano mai', 'Corrono in squadre diverse', 'Non possono finire a punti insieme'], 0, 'Con la stessa auto, il confronto misura il pilota.'),
-      mc('Che cosa fa la telemetria?', ['Invia dati dall’auto alla squadra durante la corsa', 'Misura la distanza del circuito', 'Dà le penalità', 'Cambia le gomme'], 0, 'Sono dati su velocità, temperature, pressioni, usati dagli ingegneri.'),
-      mc('Dove lavorano molti progettisti di una squadra?', ['Nella fabbrica (sede della squadra)', 'Solo sul circuito', 'In tribuna', 'Nei box della concorrenza'], 0, 'Al circuito c’è solo una parte del personale.'),
-      mc('Che cosa è la power unit?', ['Il motore ibrido della monoposto', 'Il volante', 'Il sedile', 'L’ala posteriore'], 0, 'Un motore a combustione con parti elettriche.'),
-      mc('Un team cliente per i motori ha un’auto identica a quella del fornitore?', ['No: telaio e aerodinamica sono propri', 'Sì, sempre', 'Sì, ma con motore diverso', 'Dipende dal pilota'], 0, 'Compra la power unit, non l’intera vettura.'),
-      mc('A che cosa serve il simulatore nella fabbrica?', ['A far provare auto e piste ai piloti senza uscire dalla sede', 'A fare le gare ufficiali', 'A assegnare i punti', 'A lavare le gomme'], 0, 'Riproduce l’auto e permette lavoro di sviluppo e preparazione.')
+      mc('Che cosa significa che un pilota e il suo compagno di squadra sono «primi rivali»?', ['Hanno la stessa auto, quindi il confronto è diretto', 'Non possono parlare tra loro durante la gara', 'Corrono in squadre diverse con la stessa power unit', 'Non possono mai finire a punti nella stessa gara'], 0, 'Con la stessa auto, il confronto misura il pilota.'),
+      mc('Che cosa fa la telemetria?', ['Invia dati dall’auto alla squadra durante la corsa', 'Misura la distanza tra le vetture in pista e le segnala', 'Comunica le penalità ai piloti durante la corsa', 'Cambia le gomme dopo ogni giro in modo automatico'], 0, 'Sono dati su velocità, temperature, pressioni, usati dagli ingegneri.'),
+      mc('Dove lavorano molti progettisti di una squadra?', ['Nella fabbrica (sede della squadra)', 'Solo nel garage sul circuito durante le gare', 'Nella tribuna riservata ai tecnici', 'Nei box della squadra concorrente'], 0, 'Al circuito c’è solo una parte del personale.'),
+      mc('Che cosa è la power unit?', ['Il motore ibrido della monoposto', 'Il volante multifunzione del pilota', 'Il sedile su misura del pilota', 'L’ala posteriore con il DRS'], 0, 'Un motore a combustione con parti elettriche.'),
+      mc('Un team cliente per i motori ha un’auto identica a quella del fornitore?', ['No: telaio e aerodinamica sono propri', 'Sì: il fornitore consegna anche telaio e ali', 'Sì, ma con un motore di potenza diversa', 'Dipende solo dal pilota che la guida'], 0, 'Compra la power unit, non l’intera vettura.'),
+      mc('A che cosa serve il simulatore nella fabbrica?', ['A far provare piste e assetti senza uscire dalla sede', 'A fare le gare ufficiali senza trasferte nei circuiti', 'Ad assegnare punti ai piloti nelle sessioni virtuali', 'A lavare e controllare le gomme prima della gara'], 0, 'Riproduce l’auto e permette lavoro di sviluppo e preparazione.')
     ]
   });
 
@@ -15681,26 +15681,26 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       { h: 'Safety car e virtual safety car', b: `Quando un incidente richiede più tempo per essere gestito ma non è necessaria la bandiera rossa, la direzione gara può inviare la **safety car** (SC): un’auto speciale che entra in pista e **guida il gruppo a velocità ridotta**.\n\nCosa succede con la **safety car**:\n\n- Tutti devono seguire in fila dietro la SC, senza sorpassare; i distacchi si **compattano**.\n- Le soste ai box costano meno tempo, perché gli altri vanno piano: spesso molte squadre ne approfittano.\n- Quando la pista è libera, la SC rientra ai box: la gara riparte con la **ripartenza** lanciata.\n\nLa **virtual safety car** (VSC) è una versione senza auto fisica: i piloti devono **rallentare** e restare sopra un tempo minimo (*delta*) indicato sul volante, senza sorpassare. È usata per incidenti più piccoli, come un’auto ferma a bordo pista.\n\n> Differenza: con la SC il gruppo si **ricompatta**; con la VSC i **distacchi restano** quasi uguali.` }
     ],
     exercises: [
-      mc('Che cosa significa la bandiera gialla?', ['Pericolo: rallentare e non sorpassare', 'Fine della gara', 'Lascia passare', 'Squalifica'], 0, 'Gialla = pericolo sulla pista.'),
-      mc('Che cosa significa la bandiera rossa?', ['Sessione fermata', 'Via libera', 'Veicolo lento', 'Fine della gara'], 0, 'La rossa ferma la sessione quando la pista non è sicura.'),
-      mc('A chi si mostra la bandiera blu?', ['Al pilota doppiato che deve lasciar passare il più veloce', 'Al leader della gara', 'Al pilota squalificato', 'Al pilota che fa il giro veloce'], 0, 'Blu = lascia passare.'),
-      mc('Che cosa significa la bandiera a scacchi?', ['Fine della gara o della sessione', 'Inizio della gara', 'Squalifica', 'Pericolo'], 0, 'È la bandiera del traguardo.'),
-      mc('Che cosa significa la bandiera nera?', ['Squalifica del pilota', 'Pista scivolosa', 'Giro veloce', 'Safety car'], 0, 'Nera con il numero di gara = squalificato.'),
-      mc('Che cosa segnala la bandiera bianca?', ['Un veicolo lento sul percorso', 'Fine della gara', 'Pioggia', 'Penalità'], 0, 'Veicolo lento davanti.'),
-      mc('Quando si mostra la bandiera verde?', ['Quando il pericolo è passato e la pista è libera', 'Alla partenza di una gara con bandiera rossa', 'Al vincitore', 'Quando inizia il giro veloce'], 0, 'Verde = via libera dopo un pericolo.'),
-      mc('Cosa succede ai distacchi con la safety car?', ['Il gruppo si compatta', 'Aumentano molto', 'Restano uguali', 'Si azzerano le gomme'], 0, 'Le auto seguono la SC in fila, quindi i vantaggi si annullano.'),
-      mc('Che cosa distingue la VSC dalla safety car?', ['Non c’è un’auto davanti: i piloti rispettano un tempo minimo', 'È più veloce', 'Si usa solo in qualifica', 'Non vieta i sorpassi'], 0, 'Nella VSC i piloti rallentano ma non si compattano.'),
-      mc('Cosa può fare la squadra durante una bandiera rossa in gara?', ['Cambiare le gomme e riparare l’auto', 'Niente, l’auto è bloccata', 'Cambiare pilota', 'Annullare la gara'], 0, 'Le auto stanno ai box e possono essere lavorate.'),
+      mc('Che cosa significa la bandiera gialla?', ['Pericolo: rallentare e non sorpassare', 'Fine della sessione e rientro ai box', 'Pista libera: si può riprendere a sorpassare', 'Squalifica immediata e rientro ai box'], 0, 'Gialla = pericolo sulla pista.'),
+      mc('Che cosa significa la bandiera rossa?', ['Sessione fermata', 'Pista di nuovo libera', 'Veicolo lento in pista', 'Partenza della gara'], 0, 'La rossa ferma la sessione quando la pista non è sicura.'),
+      mc('A chi si mostra la bandiera blu?', ['Al pilota doppiato che deve far passare il più veloce', 'Al leader quando sta per doppiare un’altra vettura lenta', 'Al pilota squalificato che deve rientrare ai box', 'Al pilota che ha appena segnato il giro veloce'], 0, 'Blu = lascia passare.'),
+      mc('Che cosa significa la bandiera a scacchi?', ['Fine della gara o della sessione', 'Inizio della gara o della sessione', 'Squalifica di un pilota in gara', 'Pericolo sul circuito, sorpassi vietati'], 0, 'È la bandiera del traguardo.'),
+      mc('Che cosa significa la bandiera nera?', ['Squalifica del pilota', 'Pista scivolosa per olio o acqua', 'Giro veloce del pilota in testa', 'Safety car in pista, vietato sorpassare'], 0, 'Nera con il numero di gara = squalificato.'),
+      mc('Che cosa segnala la bandiera bianca?', ['Un veicolo lento sul percorso', 'Fine della gara o della sessione', 'Pioggia in arrivo sul circuito', 'Penalità per partenza anticipata'], 0, 'Veicolo lento davanti.'),
+      mc('Quando si mostra la bandiera verde?', ['Quando il pericolo è passato e la pista è libera', 'Quando un pilota viene doppiato dal leader della gara', 'Quando un pilota è squalificato in gara', 'Quando inizia l’ultimo giro di gara'], 0, 'Verde = via libera dopo un pericolo.'),
+      mc('Cosa succede ai distacchi con la safety car?', ['Il gruppo si compatta', 'Il gruppo si allunga di più', 'Restano uguali', 'Si azzerano i giri veloci'], 0, 'Le auto seguono la SC in fila, quindi i vantaggi si annullano.'),
+      mc('Che cosa distingue la VSC dalla safety car?', ['Non c’è un’auto davanti: i piloti rispettano un tempo minimo', 'Ha un’auto davanti che guida il gruppo a velocità fissa in pista', 'Si usa soltanto nel giro di formazione prima del via', 'Consente i sorpassi purché il gruppo resti compatto'], 0, 'Nella VSC i piloti rallentano ma non si compattano.'),
+      mc('Cosa può fare la squadra durante una bandiera rossa in gara?', ['Cambiare le gomme e riparare l’auto', 'Solo ispezionare l’auto, senza poterla riparare', 'Cambiare pilota se il titolare è stanco', 'Annullare la gara con decisione della squadra'], 0, 'Le auto stanno ai box e possono essere lavorate.'),
       order('Ordina i passi quando il pilota vede la bandiera gialla', ['Vede la bandiera', 'Alza il piede dall’acceleratore', 'Passa il punto del pericolo senza sorpassare', 'Riceve la verde', 'Accelera di nuovo'], 'Prima rallenta, poi quando ripassa verde può riprendere.')
     ],
     test: [
-      mc('Che cosa significa la doppia gialla?', ['Pericolo grave: pronti a fermarsi', 'Via libera', 'Fine gara', 'Veicolo lento'], 0, 'Due bandiere indicano un pericolo più esteso.'),
+      mc('Che cosa significa la doppia gialla?', ['Pericolo grave: pronti a fermarsi', 'Pista libera: si può tornare a sorpassare', 'Fine della gara o della sessione', 'Veicolo lento fermo ai bordi della pista'], 0, 'Due bandiere indicano un pericolo più esteso.'),
       mc('Se un pilota ignora la blu, che cosa rischia?', ['Una penalità', 'Un premio', 'Niente', 'La pole position'], 0, 'Ignorare la blu è sanzionabile.'),
-      mc('Che cosa significa la bandiera nera con cerchio arancione?', ['Problema meccanico: rientrare ai box', 'Squalifica', 'Fine della gara', 'Via libera'], 0, 'Segnala un guasto pericoloso.'),
-      mc('Che cosa è un pilota doppiato?', ['Uno raggiunto da un avversario che ha un giro in più', 'Uno che ha vinto', 'Uno che sorpassa', 'Uno senza gomme'], 0, 'È uno che ha un giro in meno rispetto al leader che lo raggiunge.'),
+      mc('Che cosa significa la bandiera nera con cerchio arancione?', ['Problema meccanico: rientrare ai box', 'Squalifica del pilota dalla gara in corso', 'Penalità: rallentare e scontare un drive-through', 'Via libera: si può ripartire in pista'], 0, 'Segnala un guasto pericoloso.'),
+      mc('Che cosa è un pilota doppiato?', ['Uno raggiunto da un avversario che ha un giro in più', 'Uno che ha vinto con più di un giro di vantaggio sul secondo', 'Uno che sorpassa due volte nello stesso giro', 'Uno che ha perso una ruota e rientra ai box'], 0, 'È uno che ha un giro in meno rispetto al leader che lo raggiunge.'),
       mc('Quale bandiera avvisa di una superficie scivolosa?', ['Gialla e rossa a strisce', 'Bianca', 'Blu', 'Verde'], 0, 'È la bandiera a strisce gialle e rosse.'),
-      mc('Perché con la safety car molte squadre fanno la sosta?', ['Perdono meno tempo perché gli altri vanno piano', 'È obbligatorio', 'Perché le gomme si rompono', 'Per cambiare pilota'], 0, 'La sosta costa meno distacco.'),
-      mc('Dopo la bandiera a scacchi che cosa fanno i piloti?', ['Un giro di rientro e poi il parco chiuso', 'Ricominciano la gara', 'Si fermano subito in pista', 'Vanno ai box della concorrenza'], 0, 'Il giro di rientro porta le auto ai controlli.')
+      mc('Perché con la safety car molte squadre fanno la sosta?', ['Perdono meno tempo perché gli altri vanno piano', 'È obbligatorio rientrare ai box sotto Safety Car', 'Perché le gomme si raffreddano troppo e vanno cambiate', 'Per regolare le ali e cambiare il pilota'], 0, 'La sosta costa meno distacco.'),
+      mc('Dopo la bandiera a scacchi che cosa fanno i piloti?', ['Un giro di rientro e poi il parco chiuso', 'Fanno un altro giro di gara a ritmo pieno', 'Si fermano subito sulla linea del traguardo', 'Vanno nei box di un’altra squadra a festeggiare'], 0, 'Il giro di rientro porta le auto ai controlli.')
     ]
   });
 
@@ -15722,14 +15722,14 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       { h: 'Come leggere la mappa di un circuito', b: `Una **mappa** è la vista dall’alto del circuito. Ecco che cosa cercare.\n\n1. **Linea di partenza/arrivo** e **freccia di direzione**: ti dicono in che verso si corre (orario o antiorario).\n2. **Numeri delle curve**: 1, 2, 3… nell’ordine di percorrenza.\n3. **Tre settori**, spesso evidenziati con colori diversi.\n4. **Zone DRS** e **punti di rilevamento**.\n5. **Corsia dei box** e uscita/ingresso.\n6. **Nomi** di curve celebri.\n\nPer capire se un circuito è «veloce» o «tecnico»:\n\n- Molti lunghi **rettilinei** e curve ampie → circuito veloce.\n- Tante curve lente, tornanti e chicane → circuito tecnico e lento.\n\nSe confronti due mappe, osserva anche la **larghezza**: un circuito cittadino sembra più sinuoso e vicino ai muri.\n\nCon un po’ di pratica, guardando la mappa saprai prevedere dove ci saranno i sorpassi: di solito dopo un lungo rettilineo e una staccata forte.` }
     ],
     exercises: [
-      mc('Che cos’è un tornante (hairpin)?', ['Una curva molto stretta di quasi 180 gradi', 'Un lungo rettilineo', 'Un tipo di gomma', 'Un settore'], 0, 'Costringe a rallentare moltissimo.'),
-      mc('Che cos’è una chicane?', ['Due curve ravvicinate in senso opposto', 'Una zona di sosta', 'Il rettilineo dei box', 'Un tipo di cordolo'], 0, 'Spesso serve a rallentare le auto.'),
+      mc('Che cos’è un tornante (hairpin)?', ['Una curva molto stretta di quasi 180 gradi', 'Un lungo rettilineo con una frenata violenta', 'Un tipo di cordolo rialzato a bordo pista', 'Un settore cronometrato della pista'], 0, 'Costringe a rallentare moltissimo.'),
+      mc('Che cos’è una chicane?', ['Due curve ravvicinate in senso opposto', 'Una zona di sosta per le vetture ferme', 'Il rettilineo principale che porta ai box', 'Un tipo di cordolo rialzato lungo il bordo'], 0, 'Spesso serve a rallentare le auto.'),
       fill('Un giro è lungo 5 km e la gara dura 60 giri. Quanti km è lunga la gara?', ['300'], '5 × 60 = 300.'),
       fill('Un’auto va a 360 km/h. Quanti metri percorre in 1 secondo?', ['100'], '360 / 3,6 = 100 m/s.'),
       fill('Quanti secondi dura un giro con settori 28,4 + 34,1 + 22,5?', ['85', '85,0', '85.0'], '28,4 + 34,1 + 22,5 = 85,0.'),
       fill('Quanti settori ha un circuito di F1?', ['3', 'tre'], 'Ogni circuito è diviso in tre settori.'),
-      mc('A che cosa servono i cordoli?', ['A guidare le traiettorie e segnare il bordo pista', 'Ad accelerare le auto', 'A fermare la gara', 'A cambiare le gomme'], 0, 'Sono strisce rialzate ai bordi delle curve.'),
-      mc('Che differenza c’è tra una via di fuga di ghiaia e una di asfalto?', ['La ghiaia frena e blocca l’auto, l’asfalto permette di rientrare', 'Sono uguali', 'La ghiaia è più veloce', 'L’asfalto blocca sempre l’auto'], 0, 'Dipende dall’obiettivo: frenare o consentire il rientro.'),
+      mc('A che cosa servono i cordoli?', ['A guidare le traiettorie e segnare il bordo pista', 'Ad aumentare la velocità in uscita dalle curve lente', 'A segnalare l’inizio e la fine di ogni settore', 'A guidare i piloti verso la corsia dei box'], 0, 'Sono strisce rialzate ai bordi delle curve.'),
+      mc('Che differenza c’è tra una via di fuga di ghiaia e una di asfalto?', ['La ghiaia frena e blocca l’auto, l’asfalto permette di rientrare', 'La ghiaia è più sicura perché ferma sempre l’auto senza danni', 'La ghiaia è più veloce e permette di rientrare subito in pista', 'La ghiaia consente di rientrare, l’asfalto blocca l’auto'], 0, 'Dipende dall’obiettivo: frenare o consentire il rientro.'),
       mc('Quanto distante deve essere un pilota dal precedente, al punto di rilevamento, per usare il DRS (regolamento fino al 2025)?', ['Meno di 1 secondo', 'Meno di 5 secondi', 'Più di 3 secondi', 'Mai, è libero'], 0, 'Per aprire il DRS in gara serve essere entro 1 secondo.'),
       mc('Quale di questi è un circuito cittadino?', ['Monaco', 'Monza', 'Silverstone', 'Spa-Francorchamps'], 0, 'Monaco usa le strade della città.'),
       order('Ordina i passaggi per calcolare la distanza di gara', ['Lunghezza del giro', 'Numero di giri', 'Moltiplica', 'Distanza di gara'], 'Distanza = lunghezza giro × numero di giri.')
@@ -15737,10 +15737,10 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     test: [
       fill('Un circuito è lungo 4 km e si corrono 76 giri. Quanti km è la gara?', ['304'], '4 × 76 = 304.'),
       fill('Un’auto va a 180 km/h. Quanti metri al secondo?', ['50'], '180 / 3,6 = 50.'),
-      mc('Qual è la funzione dei settori?', ['Dividere il giro per vedere dove si guadagna o si perde tempo', 'Aumentare i punti', 'Fermare la gara', 'Indicare la sosta'], 0, 'Il tempo di giro è la somma dei tre settori.'),
-      mc('Perché i circuiti cittadini sono considerati più rischiosi?', ['Sono stretti, con muri vicini e poche vie di fuga', 'Non hanno curve', 'Non hanno box', 'Sono molto larghi'], 0, 'Un errore ha conseguenze più pesanti.'),
-      mc('Dove ci sono più probabilità di sorpasso?', ['Dopo un lungo rettilineo, alla staccata', 'In mezzo a una curva lenta', 'Sul traguardo, sempre', 'Nei box'], 0, 'Chi insegue guadagna velocità e frena più tardi.'),
-      mc('Che cosa sono i limiti pista (track limits)?', ['Le linee bianche ai bordi della pista', 'I box delle squadre', 'I punti di rilevamento DRS', 'Le tribune'], 0, 'Se si esce ottenendo vantaggio, il giro può essere cancellato.'),
+      mc('Qual è la funzione dei settori?', ['Dividere il giro per vedere dove si guadagna o si perde tempo', 'Stabilire il punteggio delle squadre in ogni parte del giro', 'Segnalare ai piloti dove fermare la vettura in caso di bandiera rossa', 'Indicare in quale giro ogni pilota deve effettuare la sosta'], 0, 'Il tempo di giro è la somma dei tre settori.'),
+      mc('Perché i circuiti cittadini sono considerati più rischiosi?', ['Sono stretti, con muri vicini e poche vie di fuga', 'Non hanno curve ma solo lunghi rettilinei veloci', 'Non hanno barriere di protezione né cordoli ai bordi', 'Sono molto larghi e senza barriere ai bordi'], 0, 'Un errore ha conseguenze più pesanti.'),
+      mc('Dove ci sono più probabilità di sorpasso?', ['Dopo un lungo rettilineo, alla staccata', 'In mezzo a una curva veloce e molto larga', 'Subito dopo il traguardo, in uscita dai box', 'Nella corsia box durante le soste'], 0, 'Chi insegue guadagna velocità e frena più tardi.'),
+      mc('Che cosa sono i limiti pista (track limits)?', ['Le linee bianche ai bordi della pista', 'I confini dell’area dei box delle squadre', 'I punti di rilevamento DRS lungo il tracciato', 'Le tribune e le zone riservate agli spettatori'], 0, 'Se si esce ottenendo vantaggio, il giro può essere cancellato.'),
       mc('Monaco ha circa 3,34 km per giro e 78 giri. Qual è la distanza di gara, circa?', ['260 km', '305 km', '180 km', '350 km'], 0, '3,337 × 78 ≈ 260 km.')
     ]
   });
@@ -15763,26 +15763,26 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       { h: 'Riepilogo con cifre', b: `Tabella di riferimento (ordini di grandezza, stagioni recenti):\n\n| Voce | F1 | Auto familiare |\n|---|---|---|\n| Potenza | circa 1000 CV | 100–150 CV |\n| Peso | circa 800 kg (con pilota, senza carburante) | 1300–1500 kg |\n| Peso/potenza | circa 1,25 CV/kg | circa 0,1 CV/kg |\n| Velocità massima | oltre 300 km/h | 180–200 km/h |\n| Posti | 1 | 5 |\n\nPunti da ricordare:\n\n- La F1 è molto più **potente** e molto più **leggera** di un’auto stradale.\n- L’**aerodinamica** crea carico, che permette curve veloci.\n- Il **pilota** è protetto da halo, sedile su misura, casco e cinture.\n- Il **volante** è un centro di comando.\n\nAttenzione: queste cifre dipendono dalle regole di ogni stagione. Il regolamento tecnico cambia in modo importante nel **2026** (motori e aerodinamica), quindi controlla i valori aggiornati.` }
     ],
     exercises: [
-      mc('Che cos’è il carico aerodinamico (downforce)?', ['Una forza verso il basso creata dall’aria che aumenta l’aderenza', 'Il peso del carburante', 'La potenza del motore', 'La pressione delle gomme'], 0, 'Spinge l’auto contro la pista.'),
-      mc('Qual è il prezzo da pagare per avere più carico?', ['Maggiore resistenza all’aria in rettilineo', 'Meno aderenza', 'Meno freni', 'Più peso del pilota'], 0, 'Più carico significa spesso meno velocità massima.'),
+      mc('Che cos’è il carico aerodinamico (downforce)?', ['Una forza verso il basso creata dall’aria che aumenta l’aderenza', 'Il peso aggiuntivo del carburante che aumenta l’aderenza al suolo', 'La potenza che il motore trasmette alle ruote posteriori', 'La forza verso l’alto che solleva la vettura in rettilineo'], 0, 'Spinge l’auto contro la pista.'),
+      mc('Qual è il prezzo da pagare per avere più carico?', ['Maggiore resistenza all’aria in rettilineo', 'Minore stabilità e meno aderenza nelle curve veloci', 'Maggiore usura dei freni in rettilineo', 'Un peso del pilota maggiore sul sedile'], 0, 'Più carico significa spesso meno velocità massima.'),
       fill('Una F1 ha circa 1000 CV e pesa circa 800 kg. Quanti CV per kg? (due decimali)', ['1,25', '1.25'], '1000 / 800 = 1,25.'),
       fill('Un’auto familiare ha 150 CV e pesa 1500 kg. Quanti CV per kg?', ['0,1', '0.1', '0,10', '0.10'], '150 / 1500 = 0,1.'),
       fill('Quante volte è maggiore il rapporto potenza/peso della F1 (1,25) rispetto all’auto familiare (0,1)?', ['12,5', '12.5'], '1,25 / 0,1 = 12,5.'),
-      mc('Che cos’è l’halo?', ['Una struttura in titanio sopra la testa del pilota', 'Un’ala', 'Un tipo di gomma', 'Il serbatoio'], 0, 'Protegge da detriti e urti.'),
+      mc('Che cos’è l’halo?', ['Una struttura in titanio sopra la testa del pilota', 'Un’ala aggiuntiva in titanio sopra l’abitacolo del pilota', 'Un tipo di gomma con battistrada molto largo', 'Il serbatoio di carburante dietro il pilota'], 0, 'Protegge da detriti e urti.'),
       mc('Il sedile di un pilota è:', ['Modellato sul suo corpo', 'Uguale per tutti', 'Una poltrona regolabile da auto', 'Assente'], 0, 'È su misura, per sostenere il pilota nelle curve.'),
       mc('Che cosa regola il pilota con le palette dietro il volante?', ['Il cambio marcia', 'Il colore delle gomme', 'La radio', 'Il serbatoio'], 0, 'Le palette azionano il cambio.'),
-      mc('Che cosa è la monoscocca?', ['Il guscio in fibra di carbonio dove sta il pilota', 'Il motore', 'La gomma', 'L’ala'], 0, 'È la cellula di sopravvivenza.'),
+      mc('Che cosa è la monoscocca?', ['Il guscio in fibra di carbonio dove sta il pilota', 'Il motore ibrido montato direttamente dietro il pilota', 'La gomma anteriore con la sua cerchiatura', 'L’ala anteriore con i suoi elementi mobili'], 0, 'È la cellula di sopravvivenza.'),
       mc('Quale colore ha la gomma morbida (convenzione recente)?', ['Rosso', 'Giallo', 'Bianco', 'Verde'], 0, 'Rosso morbida, giallo media, bianco dura.'),
       order('Ordina le gomme dalla più morbida alla più dura', ['Morbida (rossa)', 'Media (gialla)', 'Dura (bianca)'], 'Più morbida = più grip ma più degrado.')
     ],
     test: [
       mc('Quanti posti ha una monoposto?', ['Uno', 'Due', 'Quattro', 'Cinque'], 0, 'Mono-posto: un solo posto.'),
       fill('Una F1 pesa 800 kg. Se il pilota con casco pesasse 80 kg, quanto pesa l’auto senza pilota (in kg)?', ['720'], '800 − 80 = 720.'),
-      mc('A quale scopo serve un fondo vettura sagomato?', ['Creare carico aerodinamico', 'Raffreddare il pilota', 'Spostare il carburante', 'Dare più rumore'], 0, 'Il fondo genera una parte importante del carico.'),
-      mc('Perché si dice che nelle F1 i pezzi durano poco?', ['Sono progettati al limite e sostituiti spesso', 'Perché sono di plastica', 'Perché non sono mai testati', 'Perché le gare sono lunghissime'], 0, 'Meno peso e più prestazione vogliono dire meno durata.'),
-      mc('Che cosa fa il dispositivo HANS?', ['Protegge il collo del pilota negli urti', 'Regola il cambio', 'Misura la temperatura gomme', 'Aumenta la potenza'], 0, 'È un sistema di sicurezza per testa e collo.'),
-      mc('Perché la F1 non ha l’aria condizionata né il bagagliaio?', ['Perché ciò che non serve alla velocità è tolto', 'Perché sono vietati', 'Perché costano troppo', 'Perché non esiste pilota'], 0, 'Peso e semplicità: la F1 è fatta per correre.'),
-      mc('Quale grandezza descrive meglio la capacità di accelerare di un’auto?', ['Il rapporto potenza/peso', 'Il colore', 'La lunghezza', 'Il numero di ruote'], 0, 'Più potenza e meno peso significa più accelerazione.')
+      mc('A quale scopo serve un fondo vettura sagomato?', ['Creare carico aerodinamico', 'Raffreddare il pilota in abitacolo', 'Spostare il carburante verso il retro', 'Aumentare il rumore dei motori'], 0, 'Il fondo genera una parte importante del carico.'),
+      mc('Perché si dice che nelle F1 i pezzi durano poco?', ['Sono progettati al limite e sostituiti spesso', 'Perché sono fatti di plastica leggera e poco resistente', 'Perché non vengono mai testati prima delle gare', 'Perché le gare durano più di quattro ore'], 0, 'Meno peso e più prestazione vogliono dire meno durata.'),
+      mc('Che cosa fa il dispositivo HANS?', ['Protegge il collo del pilota negli urti', 'Regola il cambio e la frizione del pilota', 'Misura la temperatura delle gomme in curva', 'Aumenta la potenza del motore in uscita'], 0, 'È un sistema di sicurezza per testa e collo.'),
+      mc('Perché la F1 non ha l’aria condizionata né il bagagliaio?', ['Perché ciò che non serve alla velocità è tolto', 'Perché il regolamento li vieta in tutte le monoposto', 'Perché costano troppo e il budget cap non li consente', 'Perché il pilota non ne ha bisogno durante la gara'], 0, 'Peso e semplicità: la F1 è fatta per correre.'),
+      mc('Quale grandezza descrive meglio la capacità di accelerare di un’auto?', ['Il rapporto potenza/peso', 'La larghezza dell’abitacolo', 'La lunghezza totale del telaio', 'Il numero di pit stop'], 0, 'Più potenza e meno peso significa più accelerazione.')
     ]
   });
 
@@ -15805,24 +15805,24 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     ],
     exercises: [
       mc('Che cos’è il gap?', ['Il distacco dal leader', 'Il distacco dall’auto davanti', 'Il numero di giri', 'La temperatura dell’asfalto'], 0, 'L’intervallo è invece il distacco dall’auto immediatamente davanti.'),
-      mc('Che cos’è l’intervallo?', ['Il distacco dall’auto che precede', 'Il tempo di sosta', 'Il giro veloce', 'La lunghezza della gara'], 0, 'Il valore tra due auto consecutive.'),
+      mc('Che cos’è l’intervallo?', ['Il distacco dall’auto che precede', 'Il tempo trascorso in sosta ai box', 'Il distacco dal leader della gara', 'La differenza tra due tempi di settore'], 0, 'Il valore tra due auto consecutive.'),
       fill('B è a 2,5 s da A (primo). C è a 1,0 s da B. Quale è il gap di C dal leader, in secondi?', ['3,5', '3.5'], '2,5 + 1,0 = 3,5.'),
       fill('Il pilota D ha 25 s di vantaggio su E e fa una sosta che costa 20 s. Quanto vantaggio gli resta, in secondi?', ['5'], '25 − 20 = 5.'),
-      mc('Che cosa significa un tempo di settore viola?', ['Il miglior tempo di tutti in quel settore', 'Il peggior tempo', 'Un errore del pilota', 'Una penalità'], 0, 'Viola = migliore assoluto.'),
-      mc('Che cosa significa un tempo di settore verde?', ['Il miglior tempo personale del pilota', 'Il miglior tempo assoluto', 'Il peggiore', 'Una sosta'], 0, 'Verde = migliorato rispetto al proprio precedente miglior tempo.'),
+      mc('Che cosa significa un tempo di settore viola?', ['Il miglior tempo di tutti in quel settore', 'Il peggior tempo di tutti i piloti in quel settore', 'Un errore del pilota nel settore', 'Una penalità per i limiti pista'], 0, 'Viola = migliore assoluto.'),
+      mc('Che cosa significa un tempo di settore verde?', ['Il miglior tempo personale del pilota', 'Il miglior tempo assoluto di tutti nel settore', 'Il peggior tempo personale del pilota', 'Una sosta ai box nel settore'], 0, 'Verde = migliorato rispetto al proprio precedente miglior tempo.'),
       mc('Una lettera H in un cerchio bianco accanto al pilota indica:', ['Gomma dura', 'Gomma morbida', 'Pioggia estrema', 'Pilota ritirato'], 0, 'H = hard, bianca.'),
-      mc('Che cosa significa «Box, box» alla radio?', ['Rientra ai box in questo giro', 'Rallenta', 'Sorpassa', 'Fine della gara'], 0, 'Chiama il pilota in sosta.'),
+      mc('Che cosa significa «Box, box» alla radio?', ['Rientra ai box in questo giro', 'Rallenta e lascia passare il compagno', 'Sorpassa il pilota davanti subito', 'Risparmia carburante in questo giro'], 0, 'Chiama il pilota in sosta.'),
       mc('Quanto costa in media una sosta ai box in tempo di gara (ordine di grandezza)?', ['Circa 20 secondi', 'Circa 2 minuti', 'Circa 1 secondo', 'Circa 10 minuti'], 0, 'Il passaggio nella corsia box costa circa 20 s.'),
-      mc('Una penalità di 5 secondi significa:', ['5 secondi aggiunti al tempo finale', '5 posizioni in meno', '5 punti persi', 'Squalifica'], 0, 'Si aggiungono al tempo del pilota alla fine.'),
+      mc('Una penalità di 5 secondi significa:', ['5 secondi aggiunti al tempo finale', '5 posizioni perse sulla classifica finale', '5 punti tolti al campionato piloti', 'Squalifica dalla gara in corso'], 0, 'Si aggiungono al tempo del pilota alla fine.'),
       order('Ordina un giro di lettura della torre dei tempi', ['Guardo la posizione', 'Leggo il gap e l’intervallo', 'Controllo le gomme', 'Vedo i colori dei settori'], 'Posizione, distacchi, gomme e settori.')
     ],
     test: [
       fill('In una torre dei tempi, B è a +6,8 e C è a +0,7 da B. Quanto è il gap di C dal leader?', ['7,5', '7.5'], '6,8 + 0,7 = 7,5.'),
       mc('Se l’intervallo è +0,6, che cosa può fare il pilota che insegue (regolamento fino al 2025)?', ['Usare il DRS', 'Fermarsi', 'Prendere punti', 'Chiamare la bandiera'], 0, 'Entro 1 secondo il DRS è utilizzabile nelle zone.'),
-      mc('Una gomma con molti giri è:', ['Probabilmente più lenta per il degrado', 'Sempre più veloce', 'Nuova', 'Vietata'], 0, 'Il degrado la rende meno performante.'),
-      mc('Cosa vuol dire PIT sulla torre dei tempi?', ['Il pilota è in corsia box', 'Il pilota è primo', 'Il pilota è squalificato', 'Il pilota ha vinto'], 0, 'Indica la sosta in corso.'),
-      mc('Una penalità drive-through è:', ['Attraversare la corsia dei box senza fermarsi', 'Un giro in meno', 'Una multa', 'Una sosta di 10 secondi'], 0, 'Si passa nella corsia dei box a velocità limitata.'),
-      mc('Perché la classifica sullo schermo può cambiare alla fine?', ['Per le penalità applicate dopo la gara', 'Perché i dati sono falsi', 'Per il meteo', 'Perché il traguardo si sposta'], 0, 'Le penalità di tempo sono aggiunte al risultato.'),
+      mc('Una gomma con molti giri è:', ['Probabilmente più lenta per il degrado', 'Più veloce perché la gomma è ben scaldata', 'Quasi nuova e al massimo del grip', 'Fuori regolamento se supera i 10 giri'], 0, 'Il degrado la rende meno performante.'),
+      mc('Cosa vuol dire PIT sulla torre dei tempi?', ['Il pilota è in corsia box', 'Il pilota è in prima posizione', 'Il pilota è stato penalizzato', 'Il pilota ha fatto il giro veloce'], 0, 'Indica la sosta in corso.'),
+      mc('Una penalità drive-through è:', ['Attraversare la corsia dei box senza fermarsi', 'Un giro tolto alla distanza di gara del pilota', 'Una multa in denaro pagata alla FIA', 'Una sosta di 10 secondi nel proprio box'], 0, 'Si passa nella corsia dei box a velocità limitata.'),
+      mc('Perché la classifica sullo schermo può cambiare alla fine?', ['Per le penalità applicate dopo la gara', 'Perché i dati del cronometraggio sono errati', 'Per il cambio di meteo durante la gara', 'Perché il traguardo viene spostato dopo la gara'], 0, 'Le penalità di tempo sono aggiunte al risultato.'),
       mc('Quale colore dei settori indica un tempo peggiore del proprio migliore?', ['Giallo', 'Viola', 'Verde', 'Blu'], 0, 'Giallo = non migliorato.')
     ]
   });
@@ -15845,16 +15845,16 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       { h: 'Calcoli semplici', b: `Tre formule bastano per i calcoli di base.\n\n**Velocità media** = distanza / tempo.\n> 306 km in 1,5 ore → 306 / 1,5 = **204 km/h**.\n\n**Tempo** = distanza / velocità.\n> 300 km a 200 km/h → 300 / 200 = 1,5 h = **90 minuti**.\n\n**Distanza di gara** = lunghezza del giro × numero di giri.\n> 5 km × 60 giri = **300 km**.\n\nGiro di 5 km in 80 s: velocità media = 5 / 80 × 3600 = **225 km/h**.\n\n**Punti**: somma della scala per ogni risultato.\n> 3° in gara (15) + 5° nello sprint (4) = **19**.\n\nPer passare da km/h a m/s dividi per 3,6; per passare da m/s a km/h moltiplica per 3,6.\n\nQuesti calcoli sono la base per tutto ciò che seguirà nel corso: strategie, tempi e confronti si fanno con le stesse formule.` }
     ],
     exercises: [
-      mc('Che cos’è la pole position?', ['Il primo posto in griglia, conquistato in qualifica', 'Il giro più veloce in gara', 'La bandiera a scacchi', 'Il primo pit stop'], 0, 'Va al miglior tempo delle qualifiche.'),
-      mc('Che cos’è il parco chiuso?', ['Il regime per cui l’auto non può essere modificata liberamente dopo l’inizio delle qualifiche', 'Un parcheggio per i tifosi', 'La corsia dei box', 'Un tipo di gomma'], 0, 'Evita grandi cambi di assetto tra qualifica e gara.'),
-      mc('Che cosa significa DNF?', ['Non ha finito la gara', 'Non è partito', 'Squalificato', 'Doppiato'], 0, 'Did Not Finish.'),
-      mc('Che cos’è lo stint?', ['Il tratto di gara tra due soste', 'Un tipo di gomma', 'Un settore', 'Un cordolo'], 0, 'Un blocco di giri con lo stesso set di gomme.'),
+      mc('Che cos’è la pole position?', ['Il primo posto in griglia, ottenuto in qualifica', 'Il giro più veloce in gara, che dà un punto extra', 'Il primo posto dopo il giro di formazione', 'Il primo pit stop previsto dalla strategia'], 0, 'Va al miglior tempo delle qualifiche.'),
+      mc('Che cos’è il parco chiuso?', ['Il regime che vieta modifiche libere alla vettura dopo l’inizio delle qualifiche', 'Un’area di sosta dove le vetture restano chiuse a chiave dopo la gara', 'Il regime che consente modifiche libere alla vettura fino al via', 'Il regime che blocca la scelta delle gomme dopo le prove libere'], 0, 'Evita grandi cambi di assetto tra qualifica e gara.'),
+      mc('Che cosa significa DNF?', ['Non ha finito la gara', 'Non è partito alla gara', 'Squalificato dalla gara', 'Doppiato dal leader'], 0, 'Did Not Finish.'),
+      mc('Che cos’è lo stint?', ['Il tratto di gara tra due soste', 'Un tipo di gomma più resistente', 'Una porzione della pista cronometrata', 'Una serie di cordoli in curva'], 0, 'Un blocco di giri con lo stesso set di gomme.'),
       fill('Gara di 60 giri con una sola sosta al giro 24. Quanti giri dura il secondo stint?', ['36'], '60 − 24 = 36.'),
       fill('Distanza 306 km percorsa in 1,5 ore. Velocità media in km/h?', ['204'], '306 / 1,5 = 204.'),
       fill('Quanti minuti servono per 300 km a 200 km/h?', ['90'], '300 / 200 = 1,5 h = 90 minuti.'),
       fill('Giro di 5 km percorso in 80 secondi. Velocità media in km/h?', ['225'], '5 / 80 × 3600 = 225.'),
       fill('Degrado di 0,08 s al giro per 20 giri: quanti secondi in totale? (un decimale)', ['1,6', '1.6'], '0,08 × 20 = 1,6.'),
-      mc('Che cosa è un undercut?', ['Fermarsi prima dell’avversario per sfruttare gomme nuove', 'Fermarsi dopo l’avversario', 'Un sorpasso in curva', 'Una penalità'], 0, 'L’undercut punta sul vantaggio delle gomme fresche.'),
+      mc('Che cosa è un undercut?', ['Fermarsi prima dell’avversario per sfruttare gomme nuove', 'Fermarsi dopo l’avversario per sfruttare gomme più fresche', 'Un sorpasso all’interno della curva con le gomme nuove', 'Una penalità per aver tagliato la chicane'], 0, 'L’undercut punta sul vantaggio delle gomme fresche.'),
       order('Ordina i passaggi per calcolare la velocità media di un giro', ['Lunghezza del giro in km', 'Tempo del giro in secondi', 'Dividi la lunghezza per il tempo', 'Moltiplica per 3600'], 'v = km / s × 3600 = km/h.')
     ],
     test: [
@@ -15862,8 +15862,8 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Una gara di 280 km a 200 km/h media. Quanti minuti dura?', ['84'], '280 / 200 = 1,4 h = 84 minuti.'),
       fill('Un pilota arriva 4° in gara e 2° nello sprint. Quanti punti nel weekend?', ['19'], '12 + 7 = 19.'),
       fill('Una squadra ha piloti al 1° e al 3° posto. Quanti punti prende in gara?', ['40'], '25 + 15 = 40.'),
-      mc('Che differenza c’è tra pole e giro veloce?', ['La pole si ottiene in qualifica, il giro veloce in gara', 'Sono la stessa cosa', 'La pole è in gara, il giro veloce in qualifica', 'Nessuna delle due esiste più'], 0, 'Due momenti e due significati diversi.'),
-      mc('Perché un DNF non significa sempre un incidente?', ['Può essere un guasto meccanico o altro problema', 'Perché non esiste', 'Perché indica una vittoria', 'Perché è un premio'], 0, 'Il ritiro può avere molte cause.'),
+      mc('Che differenza c’è tra pole e giro veloce?', ['La pole si ottiene in qualifica, il giro veloce in gara', 'Sono la stessa cosa e valgono lo stesso numero di punti', 'La pole è in gara, il giro veloce in qualifica', 'Nessuna: entrambe indicano il vincitore della gara'], 0, 'Due momenti e due significati diversi.'),
+      mc('Perché un DNF non significa sempre un incidente?', ['Può essere un guasto meccanico o altro problema', 'Perché il DNF si assegna solo ai piloti squalificati', 'Perché il DNF è un premio assegnato a fine stagione', 'Perché indica soltanto la mancata partenza'], 0, 'Il ritiro può avere molte cause.'),
       mc('Una gara dura 54 giri e fa due soste (ai giri 18 e 36). Quanti giri ha il secondo stint?', ['18', '36', '54', '12'], 0, 'Tra il giro 18 e il giro 36 ci sono 18 giri.'),
       mc('Quanti stint ci sono se si fanno due soste?', ['3', '2', '4', '1'], 0, 'Due soste dividono la gara in tre tratti.')
     ]
@@ -15902,7 +15902,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       mc('Chi è il 17° in Q1 e non passa il turno, da quale posizione parte in gara?', ['17°', '15°', '10°', 'Dall’ultima fila'], 0, 'I piloti eliminati mantengono la posizione ottenuta nella sessione in cui sono usciti.'),
       fill('Punti totali distribuiti dalla gara sprint ai primi otto (8+7+6+5+4+3+2+1)?', ['36'], 'Somma 8..1 = 36.'),
       fill('Un pilota qualifica 4° e ha una penalità di 5 posizioni. In che posizione parte?', ['9', '9°', 'nono'], '4 + 5 = 9.'),
-      mc('Nel formato 2024–2025, la griglia della gara della domenica nei weekend sprint è decisa da:', ['la qualifica del sabato', 'la gara sprint', 'le prove libere', 'la qualifica sprint'], 0, 'Dal 2023 le due qualifiche sono separate: la sprint decide la gara sprint, la qualifica del sabato la gara.'),
+      mc('Nel formato 2024–2025, la griglia della gara della domenica nei weekend sprint è decisa da:', ['la qualifica del sabato', 'la gara sprint del sabato', 'le prove libere del venerdì', 'la qualifica sprint del venerdì'], 0, 'Dal 2023 le due qualifiche sono separate: la sprint decide la gara sprint, la qualifica del sabato la gara.'),
       fill('Circuito da 7,004 km. Quanti giri servono per superare 100 km nella sprint?', ['15'], '14 giri = 98,1 km (non bastano); 15 giri = 105,1 km.'),
       mc('Quanti weekend sprint ci sono stati sia nel 2024 sia nel 2025 (valore indicativo del calendario)?', ['6', '2', '12', '20'], 0, 'Sei weekend sprint in ciascuna stagione; il numero può cambiare in futuro.'),
       order('Ordina un weekend sprint (formato 2024–2025)', ['Prova libera', 'Qualifica sprint', 'Gara sprint', 'Qualifica', 'Gara della domenica'], 'Venerdì: libera + SQ; sabato: sprint + qualifica; domenica: gara.')
@@ -15910,8 +15910,8 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
     test: [
       fill('Una qualifica dà 18 minuti a Q1, 15 a Q2 e 12 a Q3. Quanti minuti in più dura Q1 rispetto a Q3?', ['6'], '18 − 12 = 6.'),
       mc('Qualifica: A1, B2, C3, D4; B riceve 2 posizioni di penalità. Ordine di partenza?', ['A, C, B, D', 'A, B, C, D', 'B, A, C, D', 'A, C, D, B'], 0, 'B era 2° e arretra di due posti: finisce 4°, dopo C e D. L’ordine è A, C, D, B.'),
-      mc('Qual è la differenza tra qualifica sprint e qualifica?', ['La sprint decide la griglia della gara sprint, la qualifica quella della domenica', 'Sono la stessa sessione', 'La sprint non ha eliminazioni', 'La qualifica non ha eliminazioni'], 0, 'Sessioni separate con scopi diversi.'),
-      mc('Perché i tempi di Q1 non si portano in Q2?', ['Conta il miglior giro della singola sessione', 'Perché Q1 è solo prova', 'Perché Q2 non è cronometrata', 'Perché Q1 e Q2 sono la stessa sessione'], 0, 'Ogni parte ha il proprio miglior giro.'),
+      mc('Qual è la differenza tra qualifica sprint e qualifica?', ['La sprint fissa la griglia della sprint, la qualifica quella della domenica', 'Sono la stessa sessione con regole diverse di punteggio', 'La sprint decide la griglia della domenica, la qualifica quella della sprint', 'La qualifica non ha eliminazioni mentre la sprint ha Q1, Q2 e Q3'], 0, 'Sessioni separate con scopi diversi.'),
+      mc('Perché i tempi di Q1 non si portano in Q2?', ['Conta il miglior giro della singola sessione', 'Perché Q1 è una sessione di prova senza classifica', 'Perché Q2 non è cronometrata ma si decide a sorteggio', 'Perché Q1 e Q2 sono la stessa sessione con due fasi'], 0, 'Ogni parte ha il proprio miglior giro.'),
       fill('Una penalità di 10 posizioni a chi ha ottenuto la pole fa partire da che posizione?', ['11', '11°', 'undicesimo'], '1 + 10 = 11.'),
       mc('Quanti punti prende il quarto classificato della gara sprint?', ['5', '4', '6', '3'], 0, 'Scala 8-7-6-5-4-3-2-1: il quarto prende 5.'),
       mc('Con 20 vetture, quante file ha la griglia scaglionata?', ['10', '20', '5', '4'], 0, 'Due vetture per fila.')
@@ -15953,9 +15953,9 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Ungheria: 4,381 km. Giri minimi oltre 305 km?', ['70'], '69 giri = 302,3 km, 70 giri = 306,7 km.'),
       mc('Una gara parte alle 15:00 ed è interrotta con bandiera rossa. Fine massima?', ['18:00', '17:00', '16:00', '19:00'], 0, 'Tre ore dalla partenza.'),
       mc('Squadra con 2° e 4° piloti: punti costruttori?', ['30', '25', '36', '40'], 0, '18 + 12 = 30.'),
-      mc('Il leader passa la bandiera a scacchi. Cosa succede agli altri?', ['Finiscono al passaggio successivo', 'Si fermano subito', 'Perdono un giro', 'Ripartono'], 0, 'Ciascuna vettura termina quando taglia il traguardo dopo il vincitore.'),
+      mc('Il leader passa la bandiera a scacchi. Cosa succede agli altri?', ['Finiscono al passaggio successivo', 'Si fermano subito in pista dove si trovano', 'Rientrano subito ai box senza completare il giro', 'Ripartono per un giro extra di gara'], 0, 'Ciascuna vettura termina quando taglia il traguardo dopo il vincitore.'),
       fill('Gara da 56 giri, punti pieni oltre il 75%. Quanti giri servono?', ['42'], '0,75 × 56 = 42.'),
-      mc('La classifica di gara può cambiare dopo il traguardo?', ['Sì, per penalità o squalifiche', 'Mai', 'Solo per il podio', 'Solo se piove'], 0, 'Penalità e squalifiche modificano la classifica.')
+      mc('La classifica di gara può cambiare dopo il traguardo?', ['Sì, per penalità o squalifiche', 'No, la classifica è definitiva al traguardo', 'Solo per i primi tre classificati', 'Solo se c’è stata pioggia in gara'], 0, 'Penalità e squalifiche modificano la classifica.')
     ]
   });
 
@@ -15983,7 +15983,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Una gara parte alle 13:00 e viene sospesa con bandiera rossa. Entro che ora (formato 24 h, solo il numero dell’ora) deve finire al massimo?', ['16'], 'Tre ore dalla partenza: 13 + 3 = 16.'),
       mc('Dopo una bandiera rossa la ripartenza è:', ['da fermo', 'lanciata', 'dietro la VSC', 'con una safety car'], 0, 'Si ripresenta alla griglia per una partenza da fermo.'),
       mc('Sotto SC la corsia box:', ['è aperta', 'è chiusa', 'è chiusa per i doppiati', 'è aperta solo per le gomme da bagnato'], 0, 'Le squadre possono fermarsi a sostituire le gomme.'),
-      mc('Cosa significa «safety car in this lap»?', ['La SC rientrerà a fine giro e la gara sta per riprendere', 'La SC si ferma sulla griglia', 'La gara è finita', 'Si sorpassa subito'], 0, 'Annuncia la ripartenza imminente.'),
+      mc('Cosa significa «safety car in this lap»?', ['La SC rientrerà a fine giro e la gara sta per riprendere', 'La SC si ferma sulla griglia e attende la bandiera rossa', 'La gara è finita e si va in parco chiuso subito', 'Si può sorpassare subito, prima della linea di controllo'], 0, 'Annuncia la ripartenza imminente.'),
       fill('Con VSC un pilota ha 2,0 s di vantaggio. Quanto vantaggio ha dopo la VSC in secondi (con condizioni uguali)?', ['2', '2,0', '2.0'], 'I distacchi restano invariati.'),
       mc('Dal 2022 sotto SC, quali vetture doppiate possono sdoppiarsi?', ['Tutte', 'Solo quelle in mezzo al gruppo', 'Nessuna', 'Solo la penultima'], 0, 'Tutte le vetture doppiate recuperano il giro.'),
       order('Ordina la ripartenza dopo la SC', ['SC in this lap', 'Luci arancioni spente', 'Leader decide il ritmo', 'Linea di controllo', 'Via ai sorpassi'], 'La SC rientra e il leader accelera in vista della linea di controllo.')
@@ -15993,8 +15993,8 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       mc('Una gara parte alle 14:30 ed è sospesa con bandiera rossa. Termine massimo?', ['17:30', '16:30', '18:30', '17:00'], 0, '14:30 + 3 ore.'),
       mc('Quale strumento mantiene i distacchi esistenti?', ['VSC', 'Safety car', 'Bandiera rossa', 'Ripartenza'], 0, 'La VSC congela i distacchi.'),
       mc('Quale strumento permette di cambiare le gomme senza perdere tempo in pista?', ['Bandiera rossa', 'VSC', 'Bandiera gialla', 'Bandiera blu'], 0, 'Con la bandiera rossa il tempo di sosta non si guadagna.'),
-      mc('Chi decide la neutralizzazione di una gara?', ['Il direttore di gara', 'I piloti', 'Il vincitore', 'Il promotore'], 0, 'È la direzione gara, in contatto con i commissari.'),
-      mc('Dopo la ripartenza, quando sono permessi i sorpassi?', ['Dopo la linea di controllo', 'Subito', 'Dopo 10 giri', 'Mai'], 0, 'Si sorpassa dal passaggio sulla linea indicata.'),
+      mc('Chi decide la neutralizzazione di una gara?', ['Il direttore di gara', 'I piloti con i team principal', 'Il vincitore della gara', 'Il promotore commerciale'], 0, 'È la direzione gara, in contatto con i commissari.'),
+      mc('Dopo la ripartenza, quando sono permessi i sorpassi?', ['Dopo la linea di controllo', 'Subito dopo la ripartenza', 'Dopo almeno 10 giri di gara', 'Mai nei primi tre giri'], 0, 'Si sorpassa dal passaggio sulla linea indicata.'),
       fill('Gara da 40 giri con 10 sotto SC: percentuale di giri neutralizzati (%)?', ['25'], '10/40 = 25%.')
     ]
   });
@@ -16015,24 +16015,24 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       { h: 'Riepilogo', b: `**Da ricordare**:\n\n- I commissari decidono, il direttore di gara dirige.\n- Penalità: 5 s, 10 s, drive-through, stop&go, griglia, squalifica.\n- Super licenza: **12 punti in 12 mesi → una gara di sospensione**.\n- Limiti di pista: violazioni cancellano il giro in qualifica; in gara avvisi poi 5 s.\n- Protesta e appello esistono ma non per tutti i tipi di decisione.\n\n> Cifre e termini precisi (cauzione, giorni per la revisione, numero di avvisi) variano: ordini di grandezza.\n\n> ${AVV}\n\nNella lezione seguente: gomme e carburante nel regolamento.` }
     ],
     exercises: [
-      mc('Chi decide le penalità durante un Gran Premio?', ['I commissari sportivi', 'Il direttore di gara', 'Il team principal', 'Il promotore'], 0, 'Il direttore di gara segnala, i commissari decidono.'),
+      mc('Chi decide le penalità durante un Gran Premio?', ['I commissari sportivi', 'Il direttore di gara della FIA', 'Il team principal della squadra', 'Il promotore commerciale'], 0, 'Il direttore di gara segnala, i commissari decidono.'),
       fill('A ha 8,0 s di vantaggio su B. A riceve 10 s. B passa davanti di quanti secondi?', ['2', '2,0', '2.0'], '10 − 8 = 2 secondi.'),
       fill('A ha 8,0 s di vantaggio e riceve 5 s. Quanto vantaggio rimane?', ['3', '3,0', '3.0'], '8 − 5 = 3.'),
       mc('Quando scatta la sospensione per punti patente?', ['A 12 punti in 12 mesi', 'A 3 punti', 'A 6 punti', 'A 24 punti'], 0, 'Soglia di 12 punti.'),
       fill('Un pilota ha 5 punti e riceve 2 punti: totale?', ['7'], '5 + 2.'),
-      mc('Un drive-through si scatta:', ['percorrendo la corsia box senza fermarsi', 'fermandosi 10 secondi', 'tornando in griglia', 'perdendo un giro'], 0, 'Si passa senza sostare al box, rispettando il limite di velocità.'),
-      mc('Una penalità di 5 secondi si può scontare:', ['durante il pit stop o al tempo finale', 'solo in griglia', 'saltando il podio', 'ritirandosi'], 0, 'Si sconta fermi al box o con l’aggiunta al tempo.'),
+      mc('Un drive-through si scatta:', ['percorrendo la corsia box senza fermarsi', 'fermandosi 10 secondi nel box della squadra', 'ripartendo dall’ultima posizione in griglia', 'scontando un giro in meno a fine gara'], 0, 'Si passa senza sostare al box, rispettando il limite di velocità.'),
+      mc('Una penalità di 5 secondi si può scontare:', ['durante il pit stop o al tempo finale', 'solo in griglia, prima del giro di formazione', 'rinunciando ai punti della gara in corso', 'ritirandosi dalla gara dopo tre giri'], 0, 'Si sconta fermi al box o con l’aggiunta al tempo.'),
       fill('Tempo di gara 1:30:00,0 più penalità di 5 s. Quanti secondi dopo 1:30:00 è il tempo finale?', ['5'], '1:30:05,0.'),
       mc('Un giro in qualifica con violazione dei limiti di pista:', ['viene cancellato', 'vale doppio', 'ha 5 s di penalità', 'viene ripetuto'], 0, 'Il tempo non conta.'),
       mc('Una collisione in cui entrambi sono responsabili è spesso classificata come:', ['incidente di gara', 'squalifica', 'penalità di griglia', 'infrazione tecnica'], 0, 'Racing incident: nessuna penalità.'),
-      mc('Per ricorrere contro una decisione si arriva in ultima istanza a:', ['la Corte d’Appello Internazionale FIA', 'i meccanici', 'la FOM', 'il pubblico'], 0, 'È l’organo di appello previsto.'),
+      mc('Per ricorrere contro una decisione si arriva in ultima istanza a:', ['la Corte d’Appello Internazionale FIA', 'il direttore di gara di Formula 1 e la FOM', 'il collegio dei team principal', 'il consiglio mondiale degli sponsor'], 0, 'È l’organo di appello previsto.'),
       order('Ordina la procedura di indagine', ['Episodio annotato', 'Investigazione', 'Audizione dei piloti', 'Decisione pubblicata'], 'Dall’annotazione alla pubblicazione della decisione.')
     ],
     test: [
       fill('Un pilota ha 9 punti e riceve 3 punti. Quanti punti ha?', ['12'], '9 + 3 = 12: soglia di sospensione.'),
-      mc('Un pilota con 9 punti riceve 2: cosa succede?', ['Arriva a 11, nessuna sospensione', 'Sospeso', 'Squalificato', 'Perde il titolo'], 0, '11 < 12.'),
+      mc('Un pilota con 9 punti riceve 2: cosa succede?', ['Arriva a 11, nessuna sospensione', 'Sospeso dalla gara successiva con 11 punti', 'Squalificato dalla gara in corso', 'Perde i punti del campionato piloti'], 0, '11 < 12.'),
       mc('A è 3° con 4,0 s su B (4°). A riceve 5 s non scontati. Esito?', ['B 3°, A 4°', 'A 3°', 'Pari', 'A squalificato'], 0, '5 − 4 = 1 s a vantaggio di B.'),
-      mc('Quale non è una penalità sportiva prevista?', ['Cambio gomme obbligatorio', 'Stop&go', 'Drive-through', 'Penalità di griglia'], 0, 'È un obbligo regolamentare, non una sanzione.'),
+      mc('Quale non è una penalità sportiva prevista?', ['Cambio gomme obbligatorio', 'Stop&go da dieci secondi', 'Drive-through in corsia box', 'Penalità di griglia in qualifica'], 0, 'È un obbligo regolamentare, non una sanzione.'),
       mc('Quanto restano valide le infrazioni nei punti patente?', ['12 mesi', '1 gara', '5 anni', '3 mesi'], 0, 'Per 12 mesi dalla data.'),
       mc('La decisione «no further action» significa:', ['nessuna sanzione', 'squalifica', 'gara annullata', 'obbligo di sosta'], 0, 'Non si prende alcuna misura.'),
       fill('Un pilota ha 4 punti e riceve due infrazioni da 3 punti ciascuna. Quanti punti ha in totale?', ['10'], '4 + 3 + 3 = 10: ancora sotto la soglia di 12.')
@@ -16058,8 +16058,8 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       mc('Chi fornisce le gomme alla F1?', ['Pirelli', 'Michelin', 'Bridgestone', 'Ogni squadra le sceglie'], 0, 'Pirelli è fornitore unico.'),
       mc('Quale fianco colorato indica le gomme intermedie?', ['Verde', 'Blu', 'Rosso', 'Giallo'], 0, 'Intermedie = verde, full wet = blu.'),
       fill('8 soft + 3 medium + 2 hard: totale set a secco?', ['13'], '8 + 3 + 2.'),
-      mc('In gara asciutta bisogna usare:', ['almeno due mescole a secco diverse', 'sempre la soft', 'una sola mescola', 'solo intermedie'], 0, 'L’obbligo è di due mescole diverse.'),
-      mc('Se la gara è dichiarata bagnata:', ['l’obbligo di due mescole non vale', 'serve la hard', 'servono 2 soste', 'si usano slick'], 0, 'Il vincolo cade con intermedie o full wet.'),
+      mc('In gara asciutta bisogna usare:', ['almeno due mescole a secco diverse', 'sempre la mescola più morbida disponibile', 'una sola mescola per tutta la gara', 'solo gomme intermedie nuove'], 0, 'L’obbligo è di due mescole diverse.'),
+      mc('Se la gara è dichiarata bagnata:', ['l’obbligo di due mescole non vale', 'serve almeno una sosta con la hard', 'servono due soste con mescole diverse', 'si usano solo gomme slick'], 0, 'Il vincolo cade con intermedie o full wet.'),
       fill('Carburante massimo per gara in kg?', ['110'], 'Limite di 110 kg.'),
       fill('Flusso massimo di carburante in kg/h?', ['100'], '100 kg/h.'),
       fill('110 kg a 100 kg/h al flusso massimo bastano per quanti minuti?', ['66'], '110/100 × 60 = 66.'),
@@ -16074,8 +16074,8 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       mc('Nel 2025 il peso minimo della vettura è circa:', ['800 kg', '600 kg', '1000 kg', '500 kg'], 0, 'Valore ricalcolato: circa 800 kg senza carburante.'),
       mc('Il carburante dal 2022 è:', ['E10', 'E85', 'Diesel', 'GPL'], 0, 'Benzina con 10% di etanolo.'),
       fill('4 set di intermedie + 3 full wet: totale set bagnato?', ['7'], '4 + 3.'),
-      mc('Le coperte riscaldanti servono a:', ['portare le gomme in temperatura', 'raffreddare i freni', 'migliorare l’aerodinamica', 'pesare la vettura'], 0, 'Preriscaldano le gomme.'),
-      mc('Cosa cambia dal 2026 (in generale)?', ['Motori e aerodinamica', 'Il numero di ruote', 'Il circuito', 'Nulla'], 0, 'Argomento di lezioni successive.')
+      mc('Le coperte riscaldanti servono a:', ['portare le gomme in temperatura', 'raffreddare i freni prima dei giri veloci', 'migliorare l’aerodinamica del fondo', 'pesare la vettura dopo la gara'], 0, 'Preriscaldano le gomme.'),
+      mc('Cosa cambia dal 2026 (in generale)?', ['Motori e aerodinamica', 'Il numero di ruote motrici', 'La lunghezza del circuito', 'Nulla, regole invariate'], 0, 'Argomento di lezioni successive.')
     ]
   });
 
@@ -16099,23 +16099,23 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       fill('Passo massimo in mm?', ['3600', '3.600', '3 600'], 'Passo massimo 3600 mm.'),
       fill('Spessore nominale del pattino 10 mm, usura massima 1 mm: spessore residuo minimo in mm?', ['9'], '10 − 1 = 9.'),
       mc('Il DRS può essere usato se il pilota è a meno di:', ['1 secondo', '3 secondi', '5 secondi', 'Sempre'], 0, 'Regola dei 1 s al punto di rilevamento.'),
-      mc('Il DRS è vietato:', ['nei primi due giri dopo il via e dopo ripartenze', 'in qualifica', 'in rettilineo', 'dopo il giro 10'], 0, 'Divieto di avvio.'),
+      mc('Il DRS è vietato:', ['nei primi due giri dopo il via e dopo ripartenze', 'in qualifica e in tutte le prove libere del weekend', 'sui rettilinei con zona di rilevamento', 'dopo il decimo giro di gara in poi'], 0, 'Divieto di avvio.'),
       fill('15 000 giri/min equivalgono a quanti giri al secondo?', ['250'], '15 000 / 60.'),
       fill('Flusso massimo di carburante in kg/h?', ['100'], 'Limite regolamentare.'),
       mc('La power unit è un V6 turbo ibrido da:', ['1,6 litri', '2,4 litri', '3,0 litri', '1,0 litro'], 0, 'Regolamento 2014–2025.'),
-      mc('Il parc fermé impedisce:', ['modifiche libere alla vettura dopo la qualifica', 'le soste ai box', 'l’uso delle gomme', 'la safety car'], 0, 'Limita gli interventi sull’assetto.'),
+      mc('Il parc fermé impedisce:', ['modifiche libere alla vettura dopo la qualifica', 'la sosta ai box dopo la fine delle qualifiche', 'l’uso di gomme diverse da quelle in qualifica', 'l’ingresso della safety car in pista'], 0, 'Limita gli interventi sull’assetto.'),
       mc('Una vettura sotto il peso minimo viene:', ['squalificata', 'multata soltanto', 'avvertita', 'ignorata'], 0, 'Il peso minimo è un vincolo da rispettare.'),
-      mc('Cosa rappresenta il pattino (plank)?', ['Un elemento sotto la vettura che limita l’altezza da terra', 'Il paraurti', 'L’ala posteriore', 'Il sedile'], 0, 'Serve a controllare l’altezza.'),
+      mc('Cosa rappresenta il pattino (plank)?', ['Una lastra sotto la vettura che limita l’altezza da terra', 'Un paraurti in carbonio che protegge il muso della vettura', 'Un elemento dell’ala posteriore che regola il DRS', 'Il sedile in fibra di carbonio su misura del pilota'], 0, 'Serve a controllare l’altezza.'),
       order('Ordina i regimi nel weekend normale', ['Prove libere', 'Inizio parc fermé', 'Qualifica', 'Gara'], 'Il parc fermé inizia con la qualifica del sabato.')
     ],
     test: [
       fill('Se il peso minimo è 800 kg e la vettura pesa 797 kg, di quanti kg è sotto?', ['3'], '800 − 797 = 3.'),
       mc('Al punto di rilevamento B è a 0,8 s da A. Può usare il DRS?', ['Sì', 'No', 'Solo in gara sprint', 'Solo con la VSC'], 0, '0,8 < 1,0.'),
-      mc('Cos’è l’effetto suolo?', ['Aderenza dal fondo con tunnel Venturi', 'Una pressione delle gomme', 'Un limite al peso', 'Un tipo di carburante'], 0, 'Dal 2022 gran parte del carico viene dal fondo.'),
+      mc('Cos’è l’effetto suolo?', ['Aderenza dal fondo con tunnel Venturi', 'Una pressione delle gomme sull’asfalto', 'Un limite al peso minimo della vettura', 'Un tipo di carburante sintetico per il fondo'], 0, 'Dal 2022 gran parte del carico viene dal fondo.'),
       mc('Quale elemento è stato abolito dal 2026?', ['MGU-H', 'MGU-K', 'Batteria', 'Il V6'], 0, 'Nel regolamento 2026 l’MGU-H non c’è.'),
       mc('Chi autorizza modifiche a componenti congelati per sicurezza?', ['La FIA', 'Il pubblico', 'Le gomme', 'Il circuito'], 0, 'È un organismo di controllo.'),
       fill('120 kW in CV (valore arrotondato, divisione per 0,7355)?', ['163'], '120 / 0,7355 = 163,15.'),
-      mc('Perché esiste il parc fermé?', ['Per evitare vetture diverse tra qualifica e gara', 'Per i premi', 'Per la sosta', 'Per i media'], 0, 'Impedisce modifiche di setup.')
+      mc('Perché esiste il parc fermé?', ['Per evitare vetture diverse tra qualifica e gara', 'Per assegnare i premi in denaro a fine weekend', 'Per ridurre la durata delle soste ai box', 'Per consentire ai media di fotografare le vetture'], 0, 'Impedisce modifiche di setup.')
     ]
   });
 
@@ -16135,17 +16135,17 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       { h: 'Riepilogo', b: `**Da ricordare**:\n\n- Il budget cap è un tetto alla spesa relativa alla prestazione; ordine **135–145 milioni di dollari** (verificare l’anno).\n- Esclusi: stipendi dei piloti, tre dirigenti, marketing.\n- Soglia **5%**: sotto → violazione minore, sopra → materiale (5% di 135 = 6,75 milioni).\n- ATR: limita galleria del vento e CFD; scala 70%–115%.\n- Sanzioni: multe, riduzione ATR, sanzioni sportive.\n\n> ${AVV}\n\nProssima lezione: **governance**, cioè chi decide le regole.` }
     ],
     exercises: [
-      mc('A cosa serve il budget cap?', ['Limitare le differenze di spesa tra squadre', 'Aumentare il prezzo dei biglietti', 'Pagare i piloti', 'Ridurre il numero di gare'], 0, 'Equilibrio competitivo.'),
+      mc('A cosa serve il budget cap?', ['Limitare le differenze di spesa tra squadre', 'Aumentare i ricavi dei promotori dei circuiti', 'Pagare gli stipendi dei piloti titolari', 'Ridurre il numero di gare in calendario'], 0, 'Equilibrio competitivo.'),
       fill('5% di un tetto di 135 milioni vale quanti milioni?', ['6,75', '6.75'], '135 × 0,05 = 6,75.'),
       mc('Un eccesso di spesa del 3% è in genere una violazione:', ['minore', 'materiale', 'non esiste', 'tecnica'], 0, 'Sotto il 5%.'),
       mc('Un eccesso di spesa del 6% è:', ['materiale', 'minore', 'procedurale', 'non conta'], 0, 'Oltre il 5%.'),
       fill('Spesa 143,1 milioni, tetto 135: eccesso in milioni?', ['8,1', '8.1'], '143,1 − 135.'),
       fill('Eccesso 8,1 su un tetto di 135: percentuale?', ['6'], '8,1 / 135 = 0,06.'),
       mc('Quale voce in genere NON rientra nel tetto?', ['Stipendi dei piloti', 'Costruzione del telaio', 'Galleria del vento', 'Simulatori'], 0, 'Tra le esclusioni.'),
-      mc('L’ATR limita:', ['galleria del vento e CFD', 'i giri in gara', 'le soste', 'le gomme'], 0, 'Restrizioni aerodinamiche.'),
+      mc('L’ATR limita:', ['galleria del vento e CFD', 'i giri di prova dei piloti', 'le soste durante la gara', 'le gomme da bagnato'], 0, 'Restrizioni aerodinamiche.'),
       fill('Quota base 100: il campione ha 70, l’ultimo 115. Differenza?', ['45'], '115 − 70.'),
       fill('Base 200 unità e quota 80%: quante unità?', ['160'], '200 × 0,8.'),
-      mc('Dopo il caso 2021 la FIA ha sanzionato anche con:', ['riduzione del tempo di prove aerodinamiche', 'sospensione del campionato', 'squalifica del pilota', 'cambio dei circuiti'], 0, 'Riduzione ATR del 10% per 12 mesi.'),
+      mc('Dopo il caso 2021 la FIA ha sanzionato anche con:', ['riduzione del tempo di prove aerodinamiche', 'sospensione del campionato per una stagione', 'squalifica del pilota dalla stagione successiva', 'cambio dei circuiti in calendario'], 0, 'Riduzione ATR del 10% per 12 mesi.'),
       order('Ordina una violazione dal meno al più grave', ['Procedurale', 'Minore', 'Materiale'], 'Procedurale è la più lieve, materiale (oltre 5%) la più grave.')
     ],
     test: [
@@ -16153,7 +16153,7 @@ Nei giochi a somma zero, **maximin = minimax** una volta ammesse le strategie mi
       mc('Spesa 144 su tetto 135: tipo di violazione?', ['Materiale (eccesso di 6,7%)', 'Minore (eccesso sotto il 5%)', 'Nessuna', 'Solo procedurale'], 0, '9 / 135 = 6,67%, oltre il 5%.'),
       mc('Chi verifica i rendiconti?', ['La FIA', 'La FOM', 'I piloti', 'I tifosi'], 0, 'Autorità di controllo.'),
       mc('Quale non è una componente dell’ATR?', ['Pit stop', 'Galleria del vento', 'CFD', 'Scala mobile'], 0, 'ATR limita le prove aerodinamiche.'),
-      mc('Perché la scala mobile dell’ATR?', ['Più prove a chi è più indietro', 'Più prove al campione', 'Per i tifosi', 'Per i piloti'], 0, 'Riequilibra le risorse.'),
+      mc('Perché la scala mobile dell’ATR?', ['Più prove a chi è più indietro', 'Più prove alle squadre in testa', 'Per rendere la gara più spettacolare', 'Per favorire i piloti più giovani'], 0, 'Riequilibra le risorse.'),
       fill('5% di 140 milioni (in milioni)?', ['7'], '140 × 0,05.'),
       mc('Gli ordini di grandezza del tetto sono:', ['100–150 milioni di dollari', '10 milioni', '1 miliardo', '10 mila'], 0, 'Ordine di centinaia di milioni.')
     ]
@@ -19363,16 +19363,16 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
     exercises: [
       fill('Ciclo Otto ideale con r = 10 e γ = 1,4. Rendimento in percentuale con un decimale?', ['60,2', '60.2', '60,19', '60.19'], 'η = 1 − 10^(−0,4) = 1 − 0,3981 = 0,6019.'),
       fill('Ciclo Otto ideale con r = 18 e γ = 1,4. Rendimento in percentuale con un decimale?', ['68,5', '68.5', '68,53', '68.53'], 'η = 1 − 18^(−0,4) ≈ 0,6853.'),
-      mc('A parità di rapporto di compressione e γ, il ciclo Diesel ideale rispetto all’Otto ideale ha rendimento:', ['più basso, perché il calore è fornito a pressione costante', 'più alto, perché non c’è detonazione', 'identico', 'dipende solo dal carburante'], 0, 'Il fattore (ρ^γ−1)/(γ(ρ−1)) è maggiore di 1 e riduce η. Il Diesel reale è competitivo perché usa r molto più alti.'),
+      mc('A parità di rapporto di compressione e γ, il ciclo Diesel ideale rispetto all’Otto ideale ha rendimento:', ['più basso, perché il calore è fornito a pressione costante', 'più alto, perché il calore è fornito a volume costante', 'identico, perché γ e rapporto di compressione sono uguali', 'più alto, perché la compressione avviene a pressione costante'], 0, 'Il fattore (ρ^γ−1)/(γ(ρ−1)) è maggiore di 1 e riduce η. Il Diesel reale è competitivo perché usa r molto più alti.'),
       fill('ṁ = 100 kg/h, LHV = 43 MJ/kg, η = 0,50. Potenza al freno in kW (intero)?', ['597', '597,2', '597.2', '600'], 'P = (100/3600) × 43·10⁶ × 0,5 ≈ 597 kW.'),
       fill('Stesso motore: quanti kW guadagni se il rendimento sale di 1 punto percentuale (a 100 kg/h)? Un decimale.', ['11,9', '11.9', '12'], '0,01 × 1,194 MW = 11,9 kW.'),
       fill('LHV = 43 MJ/kg, η = 0,40. Consumo specifico in g/kWh (intero)?', ['209', '209,3', '209.3'], 'bsfc = 3,6·10⁶/(0,40 × 43·10⁶) kg/kWh = 0,2093 kg/kWh.'),
       fill('Serve P = 550 kW con η = 0,47 e LHV = 43 MJ/kg. Portata di carburante in kg/h (un decimale)?', ['98,0', '98.0', '98', '97,9', '97.9'], 'ṁ = 550 000/(0,47 × 43·10⁶) = 0,02721 kg/s = 97,97 ≈ 98,0 kg/h.'),
       fill('Portata di combustibile 100 kg/h e λ = 1,4 (A/F stechiometrico 14,7). Portata d’aria in kg/s, tre decimali?', ['0,572', '0.572', '0,57', '0.57'], '1,4 × 14,7 × 0,02778 = 0,5717 kg/s.'),
-      mc('Perché una miscela magra richiede una sovralimentazione più intensa a parità di carburante?', ['Perché serve più massa d’aria per la stessa massa di combustibile', 'Perché il carburante pesa di più', 'Perché la pressione di iniezione cala', 'Perché il rapporto di compressione sale'], 0, 'ṁ_aria = λ·14,7·ṁ_comb: con λ maggiore serve più aria.'),
-      mc('Qual è la funzione principale di una pre-camera con getti di accensione?', ['Accendere in modo rapido e stabile una miscela magra in più punti', 'Aumentare il rapporto di compressione geometrico', 'Raffreddare lo scarico', 'Ridurre la portata d’aria'], 0, 'I getti turbolenti accendono la miscela principale in molti punti e accelerano il fronte di fiamma.'),
+      mc('Perché una miscela magra richiede una sovralimentazione più intensa a parità di carburante?', ['Perché serve più massa d’aria per la stessa massa di combustibile', 'Perché il carburante a miscela magra ha un potere calorifico minore', 'Perché la pressione di iniezione cala e il getto si disperde', 'Perché il rapporto di compressione sale con la miscela magra'], 0, 'ṁ_aria = λ·14,7·ṁ_comb: con λ maggiore serve più aria.'),
+      mc('Qual è la funzione principale di una pre-camera con getti di accensione?', ['Accendere rapidamente una miscela magra in più punti', 'Aumentare il rapporto di compressione geometrico del motore', 'Raffreddare i gas di scarico prima della turbina', 'Ridurre la portata d’aria in ingresso al cilindro'], 0, 'I getti turbolenti accendono la miscela principale in molti punti e accelerano il fronte di fiamma.'),
       mc('Con portata di carburante limitata dal regolamento, l’unico modo per aumentare la potenza del motore è:', ['aumentare il rendimento η', 'aumentare il LHV oltre i limiti fisici', 'aumentare il numero di cilindri', 'ridurre la pressione di sovralimentazione'], 0, 'P = ṁ·LHV·η: con ṁ fisso (e LHV dato) solo η cambia P.'),
-      mc('Che cosa significa che un rendimento «oltre il 50%» è una dichiarazione del costruttore?', ['Il dato non è verificabile in modo indipendente e va letto con le sue definizioni', 'Il dato è sempre falso', 'È un valore medio sul giro certificato dalla FIA', 'È il rendimento ideale del ciclo'], 0, 'Occorre sapere quale rendimento (indicato o al freno) e a quale regime è riferito.'),
+      mc('Che cosa significa che un rendimento «oltre il 50%» è una dichiarazione del costruttore?', ['Non è verificabile in modo indipendente e va letto con le sue definizioni', 'Il dato è sempre falso perché nessun costruttore pubblica valori di rendimento', 'È un valore medio sul giro certificato dalla FIA a ogni gara', 'È il rendimento del ciclo ideale, senza perdite di calore'], 0, 'Occorre sapere quale rendimento (indicato o al freno) e a quale regime è riferito.'),
       order('Ordina i passi per ricavare η_Otto', ['Q_in = cv(T₃ − T₂)', 'Q_out = cv(T₄ − T₁)', 'η = 1 − (T₄ − T₁)/(T₃ − T₂)', 'T₂/T₁ = T₃/T₄ = r^(γ−1)', 'η = 1 − r^(1−γ)'], 'Si scrivono i calori, si forma η e si usano le isoentropiche per semplificare.'),
       order('Ordina la catena di energia dal carburante all’albero', ['Energia chimica', 'Combustione e calore', 'Lavoro indicato sul pistone', 'Lavoro all’albero (netto di attrito)'], 'Ogni passaggio ha perdite: calore ceduto alle pareti, attrito, pompaggio.')
     ],
@@ -19383,8 +19383,8 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('ṁ = 80 kg/h, LHV = 43 MJ/kg, η = 0,48. Potenza in kW (intero)?', ['459', '458,7', '458.7'], '(80/3600) × 43·10⁶ × 0,48 = 458,7 kW.'),
       fill('LHV = 42 MJ/kg, η = 0,50. Consumo specifico in g/kWh (intero)?', ['171', '171,4', '171.4'], '3,6·10⁶/(0,5 × 42·10⁶) = 0,1714 kg/kWh.'),
       fill('Per ottenere 560 kW con ṁ = 90 kg/h e LHV = 43 MJ/kg serve un rendimento di (percentuale, un decimale):', ['52,1', '52.1', '52'], 'η = 560 000/(0,025 × 43·10⁶) = 0,5209.'),
-      mc('Perché i valori numerici del rendimento ideale sono sempre superiori a quelli reali?', ['Perché il modello ignora le perdite di calore alle pareti, combustione non istantanea e attrito', 'Perché usa un carburante migliore', 'Perché considera una γ minore', 'Perché non c’è compressione'], 0, 'Il ciclo ad aria standard è un limite superiore.'),
-      mc('Aumentando λ (miscela più magra) a ṁ_comb fissa, la portata d’aria:', ['aumenta proporzionalmente a λ', 'diminuisce', 'resta uguale', 'dipende solo dal LHV'], 0, 'ṁ_aria = λ·14,7·ṁ_comb.')
+      mc('Perché i valori numerici del rendimento ideale sono sempre superiori a quelli reali?', ['Perché il modello ignora perdite termiche, combustione non istantanea e attrito', 'Perché assume una γ più bassa e una combustione più lenta di quella reale', 'Perché trascura il lavoro di compressione e il calore ceduto allo scarico', 'Perché ammette una combustione a temperatura costante e senza alcuna espansione'], 0, 'Il ciclo ad aria standard è un limite superiore.'),
+      mc('Aumentando λ (miscela più magra) a ṁ_comb fissa, la portata d’aria:', ['aumenta proporzionalmente a λ', 'diminuisce in proporzione a 1/λ', 'cresce come la radice quadrata di λ', 'resta uguale, perché dipende solo dal LHV'], 0, 'ṁ_aria = λ·14,7·ṁ_comb.')
     ]
   });
 
@@ -19414,9 +19414,9 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('[I] Frenata da 80 a 20 m/s a 4 g, MGU-K a 350 kW. Energia recuperata in MJ (due decimali)?', ['0,53', '0.53', '0,54', '0.54'], 'Tempo 1,53 s; 350 kW × 1,53 s = 0,535 MJ.'),
       fill('[I] Ė = 3 000 MJ/h e LHV = 41 MJ/kg. Portata massica in kg/h (un decimale)?', ['73,2', '73.2'], '3 000/41 = 73,17 kg/h.'),
       mc('Quale elemento del regolamento 2026 è un principio ad alta certezza?', ['L’eliminazione della MGU-H', 'La cifra esatta del limite di flusso di combustibile', 'Il numero esatto di MJ per giro', 'Il nome di tutti i fornitori di batterie'], 0, 'Le cifre dettagliate vanno verificate, il principio (niente MGU-H) è stabile.'),
-      mc('Perché senza MGU-H occorre caricare la batteria anche con il motore termico?', ['Perché il recupero in sola frenata è limitato dalla potenza e dal tempo di frenata', 'Perché i freni non funzionano', 'Perché il motore termico non ha rendimento', 'Perché la batteria non può accumulare energia'], 0, 'Un recupero di soli ~0,5 MJ per frenata non basta a rifornire un deployment ripetuto.'),
-      mc('Che cosa significa trattare una cifra come [M] o [I]?', ['Considerare la conclusione dipendente da quella cifra e da verificare', 'Eliminare il calcolo', 'Usarla come verità ufficiale', 'Ignorare le unità'], 0, 'Il ragionamento resta valido; la cifra va sostituita con quella ufficiale.'),
-      mc('Con limite basato sul flusso di energia, un combustibile con LHV minore comporta:', ['una portata massica maggiore a parità di Ė', 'una portata massica minore', 'nessuna differenza di massa', 'più energia per il motore'], 0, 'ṁ = Ė/LHV.'),
+      mc('Perché senza MGU-H occorre caricare la batteria anche con il motore termico?', ['Perché il recupero in sola frenata è limitato da potenza e tempo di frenata', 'Perché la MGU-K può recuperare solo con il motore termico completamente spento', 'Perché il motore termico non può funzionare a carico parziale', 'Perché la batteria si scarica da sola se non viene ricaricata dal turbo'], 0, 'Un recupero di soli ~0,5 MJ per frenata non basta a rifornire un deployment ripetuto.'),
+      mc('Che cosa significa trattare una cifra come [M] o [I]?', ['Considerare la conclusione dipendente da quella cifra e da verificare', 'Escludere la cifra dal calcolo e sostituirla con un valore di riferimento', 'Considerarla un dato ufficiale FIA, quindi sicuro e non discutibile', 'Trattarla come un dato certo ma senza controllare le unità'], 0, 'Il ragionamento resta valido; la cifra va sostituita con quella ufficiale.'),
+      mc('Con limite basato sul flusso di energia, un combustibile con LHV minore comporta:', ['una portata massica maggiore a parità di Ė', 'una portata massica minore a parità di Ė', 'nessuna differenza di portata, solo di rendimento', 'più energia per il motore a parità di portata'], 0, 'ṁ = Ė/LHV.'),
       order('Ordina il metodo di ragionamento sul bilancio energetico', ['Identifica i limiti di potenza ed energia', 'Converti in energia per giro (E = P·t)', 'Stima il recupero', 'Confronta recupero e consumo (SoC ciclico)', 'Traduci in tempo sul giro'], 'Si parte dai vincoli e si arriva alla prestazione.')
     ],
     test: [
@@ -19424,10 +19424,10 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('[I] Motore termico 400 kW, MGU-K 300 kW. Quota elettrica in percentuale (un decimale)?', ['42,9', '42.9'], '300/700 = 0,4286.'),
       fill('[I] Batteria 5 MJ utilizzabili, deployment a 250 kW. Durata massima in secondi?', ['20'], '5 000 000/250 000 = 20 s.'),
       fill('[I] Recupero di 6 MJ per giro e deployment a 300 kW: secondi di piena potenza per giro?', ['20'], '6 000 000/300 000 = 20 s.'),
-      mc('Quale grandezza limita il recupero in una singola frenata di 1,5 s con MGU-K a potenza fissa?', ['La potenza massima della MGU-K per il tempo disponibile', 'Solo l’energia cinetica', 'La capacità totale della batteria', 'Il peso del pilota'], 0, 'E = P·t: con tempo breve il recupero è basso anche se l’energia cinetica è grande.'),
-      mc('Perché le cifre del regolamento 2026 vanno controllate sulla fonte FIA?', ['Perché possono essere state aggiornate con direttive o modifiche', 'Perché non esiste regolamento', 'Perché sono sempre uguali al 2025', 'Perché le regole non influenzano la prestazione'], 0, 'I regolamenti evolvono; il metodo resta.'),
-      mc('Eliminare la MGU-H fa venir meno:', ['il recupero da scarico e il controllo elettrico del turbo', 'il motore termico', 'la MGU-K', 'il carburante'], 0, 'Erano le due funzioni della MGU-H.'),
-      mc('Due vetture hanno stesso flusso di energia e stesso rendimento. La seconda ha MGU-K più potente. Quale affermazione è corretta?', ['La seconda ha quota elettrica più alta, ma può restare più breve a piena potenza se l’energia è fissa', 'La seconda ha lo stesso rapporto elettrico', 'La seconda ha un motore termico più potente', 'Non cambia nulla'], 0, 'A energia fissa, più potenza = minor durata (t = E/P).')
+      mc('Quale grandezza limita il recupero in una singola frenata di 1,5 s con MGU-K a potenza fissa?', ['La potenza massima della MGU-K per il tempo disponibile', 'Solo l’energia cinetica disponibile all’inizio della frenata', 'La capacità utilizzabile della batteria nel giro', 'La temperatura dell’olio nella scatola del cambio'], 0, 'E = P·t: con tempo breve il recupero è basso anche se l’energia cinetica è grande.'),
+      mc('Perché le cifre del regolamento 2026 vanno controllate sulla fonte FIA?', ['Perché possono essere state aggiornate con direttive o modifiche', 'Perché la FIA non pubblica più i regolamenti tecnici dopo il 2025', 'Perché sono identiche a quelle del regolamento 2025 già note', 'Perché le cifre cambiano ogni gara con le condizioni meteorologiche'], 0, 'I regolamenti evolvono; il metodo resta.'),
+      mc('Eliminare la MGU-H fa venir meno:', ['il recupero da scarico e il controllo elettrico del turbo', 'il recupero in frenata e la ricarica della batteria', 'il turbocompressore e la sua turbina di scarico', 'il recupero cinetico e l’erogazione di coppia alle ruote'], 0, 'Erano le due funzioni della MGU-H.'),
+      mc('Due vetture hanno stesso flusso di energia e stesso rendimento. La seconda ha MGU-K più potente. Quale affermazione è corretta?', ['La seconda ha quota elettrica più alta, ma resta a piena potenza meno a lungo', 'La seconda ha quota elettrica più bassa, perché l’energia disponibile è la stessa', 'La seconda ha un motore termico più potente, perché il flusso è uguale', 'La seconda può restare a piena potenza più a lungo, perché l’energia è fissa'], 0, 'A energia fissa, più potenza = minor durata (t = E/P).')
     ]
   });
 
@@ -19457,10 +19457,10 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('Stesso esempio: di quanti ms l’ottimo supera la ripartizione 2+2 MJ (arrotonda all’intero)?', ['3', '2,9', '2.9'], '0,42286 − 0,42 = 0,00286 s ≈ 3 ms.'),
       fill('Costo del recupero di 2 MJ in T2 pari a 4 centesimi: in centesimi per MJ?', ['2'], '4/2 = 2 centesimi/MJ.'),
       fill('Con 300 tratti, 200 livelli di carica e 50 controlli, numero di operazioni della DP (intero)?', ['3000000', '3.000.000', '3 000 000'], '300 × 200 × 50 = 3·10⁶.'),
-      mc('Nel problema con budget fisso e guadagni concavi, l’ottimo si ha quando:', ['il guadagno marginale (s/MJ) è uguale nei tratti che ricevono energia', 'tutta l’energia va al tratto più lungo', 'ogni tratto riceve la stessa energia', 'si recupera sempre il massimo'], 0, 'È la condizione g_i′(E_i) = λ.'),
-      mc('Il principio di ottimalità di Bellman afferma che:', ['le decisioni restanti di una politica ottima sono ottime per lo stato raggiunto', 'la prima decisione è sempre la migliore', 'tutti i tratti sono indipendenti', 'la soluzione ottima è sempre unica'], 0, 'Permette di scomporre il problema in sottoproblemi.'),
-      mc('Perché recuperare in una zona di frenata costa poco in termini di tempo?', ['Perché la vettura sta già decelerando e la MGU-K sfrutta la decelerazione', 'Perché la batteria si ricarica da sola', 'Perché si frena più tardi', 'Perché i freni non servono'], 0, 'Il costo marginale è basso rispetto al recupero in accelerazione.'),
-      mc('Il super-clipping (concetto) consiste nel:', ['caricare con il motore termico a gas pieno quando il deployment si riduce a fine rettilineo', 'frenare con la batteria', 'spegnere il turbo', 'aumentare il peso della vettura'], 0, 'È un recupero con costo di accelerazione.'),
+      mc('Nel problema con budget fisso e guadagni concavi, l’ottimo si ha quando:', ['il guadagno marginale (s/MJ) è uguale nei tratti che ricevono energia', 'tutta l’energia viene assegnata al tratto con la velocità media più alta', 'ogni tratto riceve la stessa quantità di energia in MJ, per equità', 'si recupera il massimo possibile in ogni frenata del giro'], 0, 'È la condizione g_i′(E_i) = λ.'),
+      mc('Il principio di ottimalità di Bellman afferma che:', ['le decisioni restanti di una politica ottima sono ottime per lo stato raggiunto', 'la prima decisione di una politica ottima è quella che massimizza il guadagno immediato', 'una politica ottima si ottiene ottimizzando ogni tratto separatamente dagli altri', 'una politica ottima lo è solo dallo stato iniziale, non dagli stati successivi'], 0, 'Permette di scomporre il problema in sottoproblemi.'),
+      mc('Perché recuperare in una zona di frenata costa poco in termini di tempo?', ['Perché la vettura sta già decelerando e la MGU-K ne sfrutta l’energia', 'Perché la batteria si ricarica da sola mentre la vettura rallenta', 'Perché in frenata il motore termico rende di più e compensa la perdita', 'Perché il tempo perso in frenata è identico a quello perso in rettilineo'], 0, 'Il costo marginale è basso rispetto al recupero in accelerazione.'),
+      mc('Il super-clipping (concetto) consiste nel:', ['caricare con il motore termico a pieno regime quando il deployment cala', 'scaricare la batteria a piena potenza prima della fine del rettilineo', 'spegnere il turbo a fine rettilineo per ridurre il consumo di carburante', 'aumentare la potenza del motore termico quando la batteria è carica'], 0, 'È un recupero con costo di accelerazione.'),
       order('Ordina i passi della programmazione dinamica a ritroso', ['Definisci stato e decisioni', 'Poni W alla fine (vincolo ciclico)', 'Calcola W_k(s) = max{G + W_{k+1}}', 'Ripeti fino al primo tratto', 'Ricostruisci la politica in avanti'], 'Si calcola a ritroso e si legge la politica in avanti.')
     ],
     test: [
@@ -19468,10 +19468,10 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('Stessi dati: guadagno marginale del secondo MJ nel tratto T1 (centesimi)?', ['7'], '17 − 10 = 7.'),
       fill('Esempio continuo: g₁ = 0,20E − 0,05E², g₂ = 0,10E − 0,02E², budget 3 MJ. Quanti MJ al tratto 1 (due decimali)?', ['1,57', '1.57'], 'λ = 0,0429; E₁ = (0,20 − 0,0429)/0,10 = 1,571.'),
       fill('Stesso esempio: valore di λ in s/MJ (tre decimali)?', ['0,043', '0.043', '0,0429', '0.0429'], 'λ = (0,20/0,10 + 0,10/0,04 − 3)/(1/0,10 + 1/0,04) = 1,5/35 = 0,0429 (con g = aE − bE²/2).'),
-      mc('Perché la DP è più adatta del metodo di Lagrange nell’esempio con vincolo ciclico e scelte discrete?', ['Gestisce vincoli e funzioni non concave in modo esatto su griglia', 'Non richiede calcoli', 'Funziona solo con guadagni concavi', 'Ignora lo stato di carica'], 0, 'La DP non richiede concavità e tratta il vincolo ciclico con W finale.'),
-      mc('Se il valore marginale del deployment in un tratto è 14 centesimi/MJ e il costo del recupero in un altro è 6 centesimi/MJ, spostare energia:', ['conviene: guadagno netto positivo, nel rispetto del vincolo ciclico', 'non conviene mai', 'conviene solo in gara', 'non è confrontabile'], 0, 'Si spende dove rende di più e si recupera dove costa poco: 14 − 6 > 0.'),
-      mc('La curse of dimensionality indica che:', ['il numero di stati cresce esponenzialmente con le variabili di stato', 'il tempo di calcolo è sempre trascurabile', 'serve più memoria per le strategie', 'l’algoritmo non converge'], 0, 'Con n variabili e L livelli, gli stati sono L^n.'),
-      mc('Qual è il limite principale dell’assumere i tratti indipendenti?', ['La velocità di uscita da un tratto influenza il successivo e le gomme si scaldano', 'Il tempo non dipende dall’energia', 'La batteria ha capacità infinita', 'Le curve non esistono'], 0, 'Il modello di guadagno separabile è un’approssimazione.')
+      mc('Perché la DP è più adatta del metodo di Lagrange nell’esempio con vincolo ciclico e scelte discrete?', ['Gestisce vincoli e funzioni non concave in modo esatto su griglia', 'Richiede meno calcoli e fornisce sempre lo stesso risultato', 'Funziona soltanto quando i guadagni di ogni tratto sono concavi', 'Ignora lo stato di carica per ridurre il costo di calcolo'], 0, 'La DP non richiede concavità e tratta il vincolo ciclico con W finale.'),
+      mc('Se il valore marginale del deployment in un tratto è 14 centesimi/MJ e il costo del recupero in un altro è 6 centesimi/MJ, spostare energia:', ['conviene: guadagno netto positivo, nel rispetto del vincolo ciclico', 'non conviene, perché il recupero costa sempre più del deployment', 'conviene solo se il vincolo ciclico viene eliminato dal regolamento tecnico', 'non è confrontabile, perché le unità dei due valori sono diverse'], 0, 'Si spende dove rende di più e si recupera dove costa poco: 14 − 6 > 0.'),
+      mc('La curse of dimensionality indica che:', ['il numero di stati cresce esponenzialmente con le variabili di stato', 'il tempo di calcolo cresce solo linearmente con le variabili di stato', 'il numero di stati resta costante al crescere delle variabili del problema', 'l’algoritmo non converge mai quando le variabili di stato sono più di tre'], 0, 'Con n variabili e L livelli, gli stati sono L^n.'),
+      mc('Qual è il limite principale dell’assumere i tratti indipendenti?', ['La velocità d’uscita di un tratto condiziona il successivo', 'Il tempo di ogni tratto non dipende dall’energia assegnata al tratto', 'La batteria ha capacità infinita e non impone alcun vincolo ciclico', 'Le curve non cambiano la velocità media del tratto in modo apprezzabile'], 0, 'Il modello di guadagno separabile è un’approssimazione.')
     ]
   });
 
@@ -19503,9 +19503,9 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('Kutta–Joukowski: V = 80 m/s, Γ = 5 m²/s, ρ = 1,2. L′ in N/m?', ['480'], 'L′ = ρVΓ = 1,2 × 80 × 5.'),
       fill('Con n = 1 000 parametri di forma, quante simulazioni servono con le differenze finite?', ['1001', '1.001', '1 001'], 'n + 1.'),
       mc('Quale modello di turbolenza è lo standard industriale per iterazioni rapide?', ['RANS', 'DNS', 'LES a risoluzione completa', 'Nessuno'], 0, 'Costo basso; la fedeltà è limitata in flussi separati.'),
-      mc('Perché la DNS è impraticabile per una vettura intera?', ['Il numero di celle cresce come Re^(9/4) e Re è dell’ordine di 10⁷', 'Perché non esiste l’equazione', 'Perché il flusso è laminare', 'Perché le celle sono troppo grandi'], 0, 'Per Re = 2,7·10⁷ servono circa 5·10¹⁶ celle.'),
-      mc('Il vortex lift è:', ['portanza aggiuntiva dovuta a un vortice stabile sopra la superficie', 'un tipo di freno aerodinamico', 'una perdita di carico', 'il carico sul pneumatico'], 0, 'Il vortice mantiene la depressione ad angoli elevati.'),
-      mc('Quale vantaggio ha il metodo aggiunto rispetto alle differenze finite?', ['Il costo del gradiente non cresce con il numero di parametri', 'È sempre più preciso', 'Non richiede una simulazione', 'Funziona senza modello fisico'], 0, 'Circa due soluzioni per tutti i parametri.'),
+      mc('Perché la DNS è impraticabile per una vettura intera?', ['Il numero di celle cresce come Re^(9/4) e Re è dell’ordine di 10⁷', 'Perché le equazioni di Navier–Stokes non valgono nel flusso turbolento', 'Il numero di celle cresce come Re^(3/2) e Re è dell’ordine di 10⁷', 'Il numero di celle cresce come Re^(9/4) ma Re vale solo circa 10³'], 0, 'Per Re = 2,7·10⁷ servono circa 5·10¹⁶ celle.'),
+      mc('Il vortex lift è:', ['portanza aggiuntiva dovuta a un vortice stabile sopra la superficie', 'una perdita di carico dovuta alla rottura di un vortice sull’ala anteriore', 'la portanza aggiuntiva dovuta all’aumento di temperatura del flusso', 'un tipo di freno aerodinamico che sfrutta la separazione del flusso'], 0, 'Il vortice mantiene la depressione ad angoli elevati.'),
+      mc('Quale vantaggio ha il metodo aggiunto rispetto alle differenze finite?', ['Il costo del gradiente non cresce con il numero di parametri', 'È sempre più preciso nel calcolo del gradiente per ogni parametro', 'Non richiede la simulazione del flusso, solo i dati della galleria', 'Il costo del gradiente cresce linearmente con il numero di parametri'], 0, 'Circa due soluzioni per tutti i parametri.'),
       order('Ordina dal livello più economico al più fedele (di norma)', ['RANS', 'DES (ibrido)', 'LES', 'DNS'], 'Costo e fedeltà crescono: RANS, ibrido, LES, DNS.')
     ],
     test: [
@@ -19516,7 +19516,7 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('Venturi: velocità in gola 95 m/s, ingresso 70 m/s, ρ = 1,2, area di 1,8 m². Forza (negativa) in N (intero)?', ['-4455', '−4455', '-4.455', '-4 455'], 'Δp = 0,5 × 1,2 × (4 900 − 9 025) = −2 475 Pa; × 1,8 = −4 455 N.'),
       fill('Kutta–Joukowski con V = 60 m/s, Γ = 3 m²/s, ρ = 1,2. L′ in N/m?', ['216'], '1,2 × 60 × 3.'),
       mc('Il numero di celle per DNS con Re = 10⁶ è circa:', ['10^13,5', '10^6', '10^9', '10^3'], 0, 'Re^(9/4) = (10⁶)^2,25 = 10^13,5.'),
-      mc('Quale è un limite tipico del RANS?', ['Sbaglia nelle zone di separazione e scie instazionarie', 'Non può calcolare la pressione', 'Richiede la DNS', 'Ignora la geometria'], 0, 'Le fluttuazioni sono modellate con ipotesi empiriche.')
+      mc('Quale è un limite tipico del RANS?', ['Sbaglia nelle zone di separazione e scie instazionarie', 'Non può calcolare la pressione sulle superfici della vettura', 'Richiede di risolvere tutte le scale della turbolenza, come la DNS', 'Ignora la geometria della vettura e usa solo un profilo medio'], 0, 'Le fluttuazioni sono modellate con ipotesi empiriche.')
     ]
   });
 
@@ -19548,9 +19548,9 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('Modello termico: C_t = 2 000 J/K, h = 50 W/K. Costante di tempo τ in secondi?', ['40'], 'τ = C_t/h.'),
       fill('Stesso modello con P = 2 000 W e T_amb = 50 °C: temperatura di regime in °C?', ['90'], 'T_reg = 50 + 2 000/50.'),
       fill('Pressione assoluta 2,0 bar a 20 °C. A 100 °C, a volume costante, in bar (due decimali)?', ['2,55', '2.55'], '2,0 × 373,15/293,15 = 2,546.'),
-      mc('Che parametro della Magic Formula controlla la pendenza all’origine?', ['B (insieme a C e D: C_α = B·C·D)', 'E da solo', 'La sola temperatura', 'Nessuno'], 0, 'B è il fattore di rigidezza; la pendenza è il prodotto B·C·D.'),
-      mc('Perché trasferire carico da una ruota all’altra riduce la forza laterale totale dell’asse?', ['Perché μ cala all’aumentare del carico (sensibilità al carico)', 'Perché la ruota esterna pesa meno', 'Perché la gomma si raffredda', 'Perché la Magic Formula è lineare'], 0, 'La forza non è proporzionale al carico: la ruota carica rende meno di quanto la scarica perda.'),
-      mc('La Magic Formula è:', ['un modello empirico di fitting della curva forza–slip', 'una legge fisica esatta', 'un modello solo per la frenata', 'valida senza parametri'], 0, 'Non deriva da principi primi: ha parametri tarati su prove.'),
+      mc('Che parametro della Magic Formula controlla la pendenza all’origine?', ['B (insieme a C e D: C_α = B·C·D)', 'E (insieme a C e D: C_α = E·C·D)', 'D (insieme a E e B: C_α = B·E·D)', 'Solo C (C_α = C), senza B né D'], 0, 'B è il fattore di rigidezza; la pendenza è il prodotto B·C·D.'),
+      mc('Perché trasferire carico da una ruota all’altra riduce la forza laterale totale dell’asse?', ['Perché μ cala all’aumentare del carico (sensibilità al carico)', 'Perché il coefficiente di aderenza μ cresce con la pressione di contatto', 'Perché la ruota esterna si raffredda più di quella interna in curva', 'Perché la Magic Formula è lineare nel carico verticale su ogni ruota'], 0, 'La forza non è proporzionale al carico: la ruota carica rende meno di quanto la scarica perda.'),
+      mc('La Magic Formula è:', ['un modello empirico di fitting della curva forza–slip', 'una legge fisica esatta ricavata dalle equazioni del contatto', 'un modello valido soltanto per la forza longitudinale in frenata', 'una formula valida senza parametri da identificare sulla gomma'], 0, 'Non deriva da principi primi: ha parametri tarati su prove.'),
       order('Ordina i passi per calcolare Fy con la Magic Formula', ['Converti α in radianti', 'Calcola B·x', 'Applica l’arcotangente e il termine in E', 'Moltiplica per C e calcola il seno', 'Moltiplica per D'], 'Dall’angolo al seno, poi il fattore di picco.')
     ],
     test: [
@@ -19561,7 +19561,7 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('μ(F_z) = 2,4 − 1,0·10⁻⁴·F_z, F_z = 6 000 N. Forza massima in N (intero)?', ['10800', '10.800', '10 800'], 'μ = 1,8; 1,8 × 6 000.'),
       fill('Modello termico: T_reg = 90 °C, T₀ = 70 °C, τ = 40 s. T dopo 80 s in °C (un decimale)?', ['87,3', '87.3'], '90 − 20·e⁻² = 87,29.'),
       mc('In un’ellisse di aderenza, usare l’80% della forza longitudinale massima lascia di forza laterale:', ['il 60%', '20%', '80%', '36%'], 0, '√(1 − 0,64) = 0,6.'),
-      mc('Perché usare i gradi al posto dei radianti nella Magic Formula è un errore?', ['Perché B è definito per x in radianti (o slip adimensionale)', 'Perché il seno non accetta gradi', 'Perché E cambia', 'Perché i gradi sono sempre più grandi'], 0, 'Un valore in gradi sovrastima di circa 57 volte l’argomento.')
+      mc('Perché usare i gradi al posto dei radianti nella Magic Formula è un errore?', ['Perché B è definito per x in radianti (o slip adimensionale)', 'Perché la funzione seno non è definita per angoli in gradi', 'Perché il parametro E cambierebbe segno e renderebbe la curva instabile', 'Perché il valore in gradi è sempre minore di quello in radianti'], 0, 'Un valore in gradi sovrastima di circa 57 volte l’argomento.')
     ]
   });
 
@@ -19592,9 +19592,9 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('m = 800 kg, h = 0,27 m, t = 1,6 m, a_y = 2 g. Trasferimento laterale totale in N (intero)?', ['2649', '2.649', '2 649'], '800 × 19,62 × 0,27/1,6.'),
       fill('Frenata a 4 g (39,24 m/s²), m = 800 kg, h = 0,27 m, L = 3,6 m. Trasferimento longitudinale in N (intero)?', ['2354', '2.354', '2 354'], '800 × 39,24 × 0,27/3,6.'),
       mc('K < 0 significa:', ['sovrasterzo, con possibile velocità critica', 'sottosterzo', 'neutralità', 'frenata'], 0, 'K negativo: serve meno sterzo al crescere di a_y; oltre v_crit instabile.'),
-      mc('Come si riduce il sottosterzo variando il trasferimento di carico?', ['Riducendo la quota di trasferimento sull’asse anteriore', 'Aumentando il peso del pilota', 'Aumentando il rapporto di compressione', 'Eliminando la downforce'], 0, 'Meno trasferimento all’anteriore = meno perdita di aderenza anteriore.'),
-      mc('Perché il trasferimento di carico totale dipende da h?', ['Perché il momento della forza centripeta rispetto al suolo vale m·a_y·h', 'Perché la carreggiata varia', 'Perché le molle sono rigide', 'Perché la massa cambia'], 0, 'ΔF_z = m·a_y·h/t.'),
-      mc('Quale limite ha il modello a bicicletta lineare ad alta accelerazione laterale?', ['Non include la saturazione delle gomme (Magic Formula)', 'Non calcola la massa', 'Non usa il passo', 'Non usa le derive'], 0, 'Vicino al picco, le forze non sono più proporzionali alle derive.'),
+      mc('Come si riduce il sottosterzo variando il trasferimento di carico?', ['Riducendo la quota di trasferimento sull’asse anteriore', 'Aumentando la quota di trasferimento sull’asse anteriore', 'Alzando il baricentro per far lavorare meglio l’asse posteriore', 'Eliminando la downforce anteriore per alleggerire il muso'], 0, 'Meno trasferimento all’anteriore = meno perdita di aderenza anteriore.'),
+      mc('Perché il trasferimento di carico totale dipende da h?', ['Perché il momento della forza centripeta sul suolo vale m·a_y·h', 'Perché la carreggiata varia con la velocità e con il carico aerodinamico', 'Perché le molle cambiano rigidezza con l’altezza del baricentro', 'Perché la massa cambia con l’altezza del baricentro durante il giro'], 0, 'ΔF_z = m·a_y·h/t.'),
+      mc('Quale limite ha il modello a bicicletta lineare ad alta accelerazione laterale?', ['Non include la saturazione della forza delle gomme', 'Non include il carico aerodinamico e le sospensioni', 'Non include il passo e la distribuzione dei pesi', 'Non tiene conto degli angoli di deriva delle ruote'], 0, 'Vicino al picco, le forze non sono più proporzionali alle derive.'),
       order('Ordina i passi del calcolo dello sterzo in curva stazionaria', ['Calcola a_y = v²/R', 'Calcola le forze F_yf e F_yr', 'Calcola le derive α_f, α_r', 'δ = L/R + α_f − α_r'], 'Dalla cinematica alle forze, poi alle derive e infine allo sterzo.')
     ],
     test: [
@@ -19604,8 +19604,8 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('Con K = −0,00853 rad, L = 3,6 m: velocità critica in m/s (un decimale)?', ['64,3', '64.3'], '√(9,81 × 3,6/0,00853) = 64,3.'),
       fill('C_f = 150 000, W_f = 3 610, W_r = 4 238. Rigidezza posteriore per sterzo neutro in kN/rad (intero)?', ['176'], 'C_r = W_r·C_f/W_f = 176 087 N/rad.'),
       mc('Una vettura con K > 0 in curva a velocità doppia della caratteristica richiede lo sterzo cinematico moltiplicato per:', ['5', '2', '3', '4'], 0, '1 + (2v_car/v_car)² = 5.'),
-      mc('Perché una vettura reale non può essere descritta solo dal gradiente di sottosterzo?', ['Perché rigidezze, carico e aerodinamica cambiano con velocità e carico', 'Perché K non esiste', 'Perché il passo è variabile', 'Perché la massa è nulla'], 0, 'K dipende dal punto di funzionamento.'),
-      mc('Quale effetto ha un baricentro più basso sul trasferimento di carico laterale?', ['Lo riduce, a parità di a_y e carreggiata', 'Lo aumenta', 'Nessuno', 'Lo inverte'], 0, 'ΔF_z è proporzionale a h.')
+      mc('Perché una vettura reale non può essere descritta solo dal gradiente di sottosterzo?', ['Perché rigidezze, carico e aerodinamica cambiano con velocità', 'Perché K vale zero per tutte le vetture a trazione posteriore', 'Perché il passo varia con la velocità per effetto della portanza', 'Perché la massa varia con l’aerodinamica e con il carico sulle ruote'], 0, 'K dipende dal punto di funzionamento.'),
+      mc('Quale effetto ha un baricentro più basso sul trasferimento di carico laterale?', ['Lo riduce, a parità di a_y e carreggiata', 'Lo aumenta, a parità di a_y e carreggiata', 'Nessuno, a parità di a_y e di carreggiata', 'Lo inverte, spostando il carico sull’asse opposto'], 0, 'ΔF_z è proporzionale a h.')
     ]
   });
 
@@ -19635,10 +19635,10 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('μ = 2,0 (a_max = 2 g), a_y = 1,5 g. Accelerazione longitudinale disponibile in g (due decimali)?', ['1,32', '1.32'], '2 × √(1 − 0,5625) = 1,323.'),
       fill('m = 800, ClA = 3,5, ρ = 1,2, μ = 2,0, R = 80. Velocità di curva con aerodinamica in m/s (un decimale)?', ['52', '52,0', '52.0'], 'v² = 2 × 800 × 9,81/5,8 = 2 706; v = 52,0.'),
       fill('Stessi dati: raggio critico oltre cui l’aderenza non limita la velocità, in m (un decimale)?', ['190,5', '190.5', '190'], 'R = m/(½ρμClA) = 800/4,2 = 190,5.'),
-      mc('Nell’algoritmo avanti-indietro, come si ottiene il profilo di velocità finale?', ['Come minimo tra limite di curva, passata indietro e passata in avanti', 'Come media dei tre', 'Come massimo dei tre', 'Solo dalla passata in avanti'], 0, 'Ogni vincolo deve essere rispettato: vale il più restrittivo.'),
-      mc('Perché T = ∫ ds/v dà più peso ai tratti lenti?', ['Perché il tempo per unità di lunghezza è 1/v, più grande dove v è piccola', 'Perché le curve sono più lunghe', 'Perché la velocità è costante', 'Perché la gomma si scalda'], 0, 'A metà velocità il tempo raddoppia.'),
-      mc('Perché la traiettoria ottima non è quella più corta?', ['Perché una linea più lunga ma più larga permette velocità maggiori', 'Perché la pista è piana', 'Perché i piloti preferiscono andare lenti', 'Perché la vettura non frena'], 0, 'Il compromesso tra lunghezza e velocità minimizza il tempo.'),
-      mc('Un difetto del QSS rispetto all’ottimo transitorio è che:', ['trascura la dinamica del trasferimento di carico e dei transitori', 'non calcola il tempo', 'non conosce la pista', 'richiede la DNS'], 0, 'Assume equilibrio a ogni punto.'),
+      mc('Nell’algoritmo avanti-indietro, come si ottiene il profilo di velocità finale?', ['Come minimo tra limite di curva, passata indietro e passata in avanti', 'Come media tra limite di curva, passata indietro e passata avanti', 'Come massimo tra limite di curva, passata indietro e passata in avanti', 'Solo dalla passata in avanti, ignorando i limiti di curva e frenata'], 0, 'Ogni vincolo deve essere rispettato: vale il più restrittivo.'),
+      mc('Perché T = ∫ ds/v dà più peso ai tratti lenti?', ['Perché il tempo per unità di lunghezza è 1/v, maggiore dove v è bassa', 'Perché i tratti lenti sono quasi sempre più lunghi di quelli veloci', 'Perché la velocità è costante e il tempo dipende solo dalla lunghezza', 'Perché nei tratti lenti la gomma si scalda e perde più tempo'], 0, 'A metà velocità il tempo raddoppia.'),
+      mc('Perché la traiettoria ottima non è quella più corta?', ['Perché una linea più lunga ma più larga consente velocità maggiori', 'Perché la linea più corta passa sul cordolo e danneggia le gomme', 'Perché la linea più corta riduce sempre la velocità massima in rettilineo', 'Perché il regolamento vieta di percorrere la linea geometricamente più corta'], 0, 'Il compromesso tra lunghezza e velocità minimizza il tempo.'),
+      mc('Un difetto del QSS rispetto all’ottimo transitorio è che:', ['trascura la dinamica del trasferimento di carico e dei transitori', 'non calcola il tempo di giro, ma solo la velocità massima', 'non conosce la geometria della pista e usa un circuito medio generico', 'richiede la DNS completa del flusso attorno alla vettura'], 0, 'Assume equilibrio a ogni punto.'),
       order('Ordina i passi del metodo QSS', ['Calcola v_max di curva per ogni punto', 'Passata indietro per la frenata', 'Passata in avanti per l’accelerazione', 'Prendi il minimo dei limiti', 'Somma Δs/v per il tempo'], 'Dai limiti locali al profilo coerente, poi al tempo.')
     ],
     test: [
@@ -19649,7 +19649,7 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('Con aerodinamica (m = 800, ClA = 3,5, ρ = 1,2, μ = 2,0) R = 100 m. Velocità in m/s (un decimale)?', ['64,3', '64.3'], 'Denominatore: 8 − 4,2 = 3,8; v² = 15 696/3,8 = 4 130; v = 64,27.'),
       fill('90° (θ = 1,571 rad), μ = 2,0, R = 80 m, g = 9,81. Tempo sull’arco al limite in secondi (due decimali)?', ['3,17', '3.17'], 'θ·√(R/(μg)) = 1,571 × 2,019.'),
       mc('Un errore del 5% su μ nel circuito a stadio cambia il giro di circa:', ['0,44 s (circa 1,8%)', '5 s', '0,01 s', '12 s'], 0, 'Giro da 25,10 a 24,66 s con μ = 2,1.'),
-      mc('Quale uso dei simulatori è più robusto rispetto all’incertezza dei parametri?', ['Il confronto relativo tra due assetti con gli stessi parametri', 'La previsione assoluta del tempo con tre cifre', 'L’uso senza validazione', 'Il confronto fra circuiti diversi'], 0, 'Gli errori comuni tendono a cancellarsi nelle differenze.')
+      mc('Quale uso dei simulatori è più robusto rispetto all’incertezza dei parametri?', ['Il confronto relativo tra due assetti con gli stessi parametri', 'La previsione assoluta del tempo di giro con tre cifre decimali', 'L’uso del modello senza alcuna validazione su dati di pista', 'Il confronto assoluto tra circuiti diversi con parametri medi'], 0, 'Gli errori comuni tendono a cancellarsi nelle differenze.')
     ]
   });
 
@@ -19681,8 +19681,8 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('Catena di Markov (H→H 0,90, H→D 0,08, H→F 0,02, D→D 0,85, D→F 0,15). P(guasto) dopo 3 gare da H, in percentuale (un decimale)?', ['8,7', '8.7'], 'Dopo 3 gare la distribuzione è (0,729; 0,184; 0,087).'),
       fill('Campione di 8 temperature con media 102,15 e s = 0,444: errore standard (tre decimali)?', ['0,157', '0.157'], '0,444/√8 = 0,157.'),
       mc('Con β > 1 il tasso di guasto h(t):', ['cresce nel tempo (usura)', 'decresce', 'è costante', 'è nullo'], 0, 'h(t) ∝ t^(β−1).'),
-      mc('Perché R(MTBF) non è 100%?', ['Perché l’MTBF è una media e circa il 37–49% dei componenti la supera', 'Perché la media è sempre il massimo', 'Perché Weibull non ha media', 'Perché R è sempre 50%'], 0, 'La media non è la vita garantita.'),
-      mc('Nell’esempio di MDP con costo guasto 8 e sostituzione 2, quale è la politica per un componente degradato?', ['Continuare con 1–2 gare rimaste, sostituire con 3', 'Sostituire sempre', 'Continuare sempre', 'Sostituire solo se guasto'], 0, 'Con più gare residue il rischio cumulato supera il costo di sostituzione.'),
+      mc('Perché R(MTBF) non è 100%?', ['Perché l’MTBF è una media e circa il 37–49% dei componenti la supera', 'Perché l’MTBF è un valore massimo che nessun componente può superare', 'Perché la distribuzione di Weibull non ha una media finita', 'Perché R vale sempre il 50% al tempo pari all’MTBF'], 0, 'La media non è la vita garantita.'),
+      mc('Nell’esempio di MDP con costo guasto 8 e sostituzione 2, quale è la politica per un componente degradato?', ['Continuare con 1–2 gare rimaste, sostituire con 3', 'Sostituire sempre, a prescindere dalle gare rimaste', 'Continuare sempre, qualunque sia il numero di gare rimaste', 'Sostituire solo quando il componente è già guasto'], 0, 'Con più gare residue il rischio cumulato supera il costo di sostituzione.'),
       order('Ordina i passi per stimare η e β dal grafico di Weibull', ['Ordina i tempi di guasto', 'Assegna i ranghi mediani F_i', 'Calcola X = ln t e Y = ln(−ln(1−F))', 'Fai la regressione lineare', 'β = pendenza; η = exp(m_X − m_Y/β)'], 'Dalla linearizzazione alla stima dei parametri.')
     ],
     test: [
@@ -19692,7 +19692,7 @@ La competenza che hai costruito in queste lezioni, fra storia, squadre ed econom
       fill('20 componenti in serie, ciascuno con R = 0,995. Affidabilità del sistema in percentuale (un decimale)?', ['90,5', '90.5'], '0,995²⁰ = 0,9046.'),
       fill('Stessa catena di Markov: probabilità di essere Degradato dopo 2 gare da H, in percentuale (intero)?', ['14'], 'Dopo 2 gare (0,81; 0,14; 0,05).'),
       fill('Su 1 000 campioni con carta di controllo ±3σ (falso allarme 0,27% per campione), quanti falsi allarmi attesi (un decimale)?', ['2,7', '2.7'], '1 000 × 0,0027.'),
-      mc('Perché una regola a soglia «continua se p·8 < 2» può sbagliare nel MDP?', ['Perché considera solo la prossima gara e ignora l’orizzonte', 'Perché p è sempre 0', 'Perché il costo è negativo', 'Perché Markov non esiste'], 0, 'Il rischio cumulato su più gare cambia la decisione.'),
+      mc('Perché una regola a soglia «continua se p·8 < 2» può sbagliare nel MDP?', ['Perché considera solo la prossima gara e ignora l’orizzonte', 'Perché la probabilità p di guasto non cambia con l’usura', 'Perché il costo di sostituzione è sempre maggiore di quello di guasto', 'Perché la proprietà di Markov vale solo per due stati'], 0, 'Il rischio cumulato su più gare cambia la decisione.'),
       mc('Quando la correlazione dei campioni di telemetria è alta, l’intervallo di confidenza calcolato come se fossero indipendenti è:', ['troppo stretto', 'troppo largo', 'esatto', 'negativo'], 0, 'Meno informazione indipendente di quanto sembri.')
     ]
   });

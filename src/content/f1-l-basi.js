@@ -21,15 +21,15 @@
       { h: 'Quanti sono, in sintesi', b: `Riassumiamo i numeri, validi per le stagioni recenti.\n\n- Squadre: **10**, con **2 piloti** ciascuna, quindi **20 auto** in pista. Dal **2026** è prevista l’entrata di una squadra in più (con un conseguente aumento delle auto): è un esempio di come il regolamento cambi.\n- Gran Premi per stagione: fino a **24**.\n- Due titoli: **piloti** e **costruttori**.\n\n> Calcolo: 10 squadre × 2 piloti = 20 auto.\n\nIn pratica un tifoso segue due storie in parallelo: la lotta tra i **piloti** per il titolo individuale e quella tra le **squadre** per il titolo costruttori.\n\nNel resto del corso vedremo come è fatto un weekend di gara, chi lavora in una squadra, come si assegnano i punti e come capire una gara dal divano.` }
     ],
     exercises: [
-      mc('Che cosa significa «monoposto»?', ['Auto da corsa con un solo posto, quello del pilota', 'Auto con un solo motore', 'Auto che corre una sola gara', 'Auto con una sola ruota di scorta'], 0, 'Mono = uno: c’è un solo posto, per il pilota.'),
+      mc('Che cosa significa «monoposto»?', ['Auto da corsa con un solo posto, quello del pilota', 'Auto da corsa con un solo motore, senza cambio di marcia', 'Auto da corsa pensata per una sola gara all’anno', 'Auto da corsa con una sola ruota motrice'], 0, 'Mono = uno: c’è un solo posto, per il pilota.'),
       mc('Chi scrive il regolamento della F1 e nomina i commissari?', ['La FIA', 'Il promotore commerciale', 'Le televisioni', 'Gli sponsor'], 0, 'La FIA è l’autorità sportiva: regole, controlli e commissari.'),
-      mc('Che cosa fa il promotore commerciale della F1?', ['Organizza e vende il campionato, ad esempio i diritti TV', 'Costruisce le auto', 'Guida le auto in gara', 'Decide le penalità'], 0, 'Il promotore commercializza lo spettacolo, firma i contratti con i circuiti e vende i diritti TV.'),
+      mc('Che cosa fa il promotore commerciale della F1?', ['Organizza e vende il campionato, ad esempio i diritti TV', 'Costruisce le auto e le vende alle squadre del campionato', 'Gestisce le gare in pista e dirige i commissari sportivi', 'Decide le penalità e le sanzioni sportive durante il weekend'], 0, 'Il promotore commercializza lo spettacolo, firma i contratti con i circuiti e vende i diritti TV.'),
       mc('Quale categoria NON è una gara di monoposto?', ['Rally', 'Formula 2', 'Formula E', 'IndyCar'], 0, 'I rally si corrono con auto derivate da quelle stradali, non monoposto.'),
-      mc('A che cosa serve la Formula 2?', ['A formare piloti giovani in vista della F1', 'A fare prove per i motori della F1', 'A sostituire un Gran Premio', 'A premiare le squadre costruttrici'], 0, 'È una categoria di formazione sulla strada verso la F1.'),
+      mc('A che cosa serve la Formula 2?', ['A formare piloti giovani in vista della F1', 'A fare prove tecniche per i motori della F1', 'A sostituire un Gran Premio quando una gara salta', 'A decidere le regole tecniche dei team di F1'], 0, 'È una categoria di formazione sulla strada verso la F1.'),
       fill('Un pilota ottiene 25 punti e il suo compagno di squadra 18. Quanti punti guadagna la squadra nel campionato costruttori?', ['43'], '25 + 18 = 43.'),
       fill('Nelle stagioni recenti ci sono 10 squadre con 2 piloti ciascuna. Quante auto sono in pista?', ['20'], '10 × 2 = 20.'),
-      mc('Chi vince il campionato piloti?', ['Chi ha più punti a fine stagione', 'Chi vince più gare, sempre', 'Chi guida l’auto più veloce', 'La squadra con più piloti'], 0, 'Conta il totale dei punti; a parità si guardano le vittorie.'),
-      mc('Perché il campionato costruttori è importante per la squadra?', ['Misura la squadra nel suo complesso e determina premi in denaro', 'Assegna il titolo al pilota', 'Serve solo a decidere i circuiti', 'Non conta nulla'], 0, 'La somma dei punti dei due piloti misura la squadra e incide sui premi.'),
+      mc('Chi vince il campionato piloti?', ['Chi ha più punti a fine stagione', 'Chi vince più gare nella stagione', 'Chi guida per la squadra con più titoli', 'Chi parte più volte dalla pole position'], 0, 'Conta il totale dei punti; a parità si guardano le vittorie.'),
+      mc('Perché il campionato costruttori è importante per la squadra?', ['Misura la squadra nel complesso e ne determina i premi', 'Assegna il titolo ai piloti e decide l’ordine di partenza', 'Serve solo a stabilire l’ordine di partenza delle gare', 'Determina solo il numero di vetture iscritte l’anno dopo'], 0, 'La somma dei punti dei due piloti misura la squadra e incide sui premi.'),
       mc('Qual è il documento della FIA indispensabile per correre in F1?', ['La superlicenza', 'La patente stradale', 'Il passaporto sportivo del promotore', 'Il contratto TV'], 0, 'Si ottiene con risultati e punti nelle categorie giovanili.'),
       order('Ordina la scala di categorie, dalla più giovane alla F1', ['Kart', 'Formula 4', 'Formula 3', 'Formula 2', 'Formula 1'], 'Questo è il percorso tipico, anche se non è l’unico.')
     ],
@@ -37,9 +37,9 @@
       mc('In che anno si è disputato il primo campionato mondiale di F1?', ['1950', '1904', '1975', '2000'], 0, 'Il primo mondiale è del 1950 (la FIA invece è del 1904).'),
       mc('Chi è proprietario delle auto che gareggiano in F1?', ['Le squadre', 'La FIA', 'Il promotore', 'I circuiti'], 0, 'Le auto sono progettate e possedute dalle squadre.'),
       fill('Una squadra ha due piloti che finiscono con 12 e 8 punti. Quanti punti prende la squadra?', ['20'], '12 + 8 = 20.'),
-      mc('Che cosa significa «formula» in Formula 1?', ['Un insieme di regole uguali per tutti', 'Una ricetta del carburante', 'Il nome del primo circuito', 'Una formula matematica per i punti'], 0, 'Indica le regole a cui tutti i concorrenti devono attenersi.'),
+      mc('Che cosa significa «formula» in Formula 1?', ['Un insieme di regole uguali per tutti', 'Una ricetta per il carburante da usare', 'Il nome del primo circuito costruito', 'Una formula matematica per i punti'], 0, 'Indica le regole a cui tutti i concorrenti devono attenersi.'),
       mc('Quale titolo premia anche la qualità dell’auto nel suo insieme?', ['Costruttori', 'Piloti', 'Nessuno dei due', 'Il titolo del promotore'], 0, 'La somma dei punti dei due piloti misura la squadra intera.'),
-      mc('Che cosa distingue la Formula E dalla F1?', ['Le monoposto sono elettriche', 'Non ha piloti', 'È una gara di moto', 'Si corre solo di giorno'], 0, 'La E sta per elettrica.'),
+      mc('Che cosa distingue la Formula E dalla F1?', ['Le monoposto sono elettriche', 'Non ha piloti: le vetture sono autonome', 'Si corre solo su circuiti ovali', 'Si corre soltanto in Europa'], 0, 'La E sta per elettrica.'),
       mc('Se un pilota cambia squadra a metà stagione, che fine fanno i punti già ottenuti?', ['Restano suoi nel campionato piloti', 'Si azzerano', 'Passano alla vecchia squadra come punti piloti', 'Si dividono in due'], 0, 'Nel campionato piloti i punti sono personali.')
     ]
   });
@@ -67,7 +67,7 @@
       fill('Alla fine di Q1, quante auto sono eliminate?', ['5'], 'Le 5 più lente, che partono dal 16º posto in poi.'),
       fill('Quante auto partecipano a Q3?', ['10'], '20 − 5 = 15 in Q2; 15 − 5 = 10 in Q3.'),
       fill('Quanto durano in totale Q1 + Q2 + Q3, in minuti? (18 + 15 + 12)', ['45'], '18 + 15 + 12 = 45.'),
-      mc('Chi conquista la pole position?', ['Chi fa il giro più veloce in Q3', 'Chi vince le prove libere', 'Chi vince la gara sprint', 'Chi ha più punti in classifica'], 0, 'La pole è il primo posto in griglia, e va al miglior tempo delle qualifiche.'),
+      mc('Chi conquista la pole position?', ['Chi fa il giro più veloce in Q3', 'Chi fa il giro più veloce in FP3', 'Chi vince la sprint del sabato', 'Chi ha più punti in classifica'], 0, 'La pole è il primo posto in griglia, e va al miglior tempo delle qualifiche.'),
       mc('Qual è la distanza minima di una gara (escluse eccezioni come Monaco)?', ['305 km', '100 km', '500 km', '200 km'], 0, 'Si prende il numero di giri che supera i 305 km.'),
       mc('Quanto può durare al massimo una gara senza interruzioni?', ['2 ore', '1 ora', '3 ore e 30', '45 minuti'], 0, 'Limite di 2 ore (3 ore in totale se c’è una bandiera rossa).'),
       fill('A una media di 200 km/h, quanti minuti servono per 305 km? (arrotonda al minuto più vicino)', ['92', '91'], '305 / 200 = 1,525 h = 91,5 minuti.'),
@@ -77,7 +77,7 @@
     test: [
       mc('Quando si svolgono le qualifiche nel formato standard?', ['Il sabato', 'Il venerdì', 'La domenica prima della gara', 'Il giovedì'], 0, 'Dopo FP3 del sabato.'),
       fill('Una gara sprint è lunga circa 100 km. Una gara classica è circa 305 km. Circa quante volte è più corta? (numero intero)', ['3'], '305 / 100 ≈ 3: una gara sprint è circa un terzo.'),
-      mc('Perché gli orari delle gare vanno controllati con attenzione?', ['Sono indicati in ora locale del circuito', 'Cambiano ogni minuto', 'Non sono mai pubblicati', 'Sono uguali ovunque'], 0, 'Il fuso orario cambia l’ora corrispondente da noi.'),
+      mc('Perché gli orari delle gare vanno controllati con attenzione?', ['Sono indicati in ora locale del circuito', 'Sono sempre indicati in ora di Greenwich', 'Non sono pubblicati prima del venerdì', 'Sono uguali in tutti i Paesi del mondo'], 0, 'Il fuso orario cambia l’ora corrispondente da noi.'),
       mc('Che cosa si prova nelle prove libere?', ['Assetto, gomme e ritmo gara', 'Solo il pit stop', 'Solo le luci rosse', 'Niente: servono solo al pubblico'], 0, 'Sono sessioni di allenamento e messa a punto.'),
       mc('Nel formato sprint recente, quante sessioni di prove libere ci sono in tutto il weekend?', ['Una', 'Tre', 'Due', 'Nessuna'], 0, 'Solo FP1; poi le qualifiche sprint.'),
       mc('Quante auto passano da Q2 a Q3?', ['10', '5', '15', '20'], 0, 'Dopo Q2 ne restano 10.'),
@@ -103,26 +103,26 @@
       { h: 'La fabbrica e i costi', b: `Quello che si vede al circuito è soltanto una parte del lavoro. Nella **fabbrica** (*factory*) lavorano centinaia di persone: progettisti, aerodinamici, esperti di materiali, programmatori, addetti alla logistica.\n\nI gruppi principali:\n\n- **Progettazione**: disegna l’auto e le sue evoluzioni durante l’anno.\n- **Produzione**: costruisce i pezzi, spesso in carbonio.\n- **Aerodinamica**: studia l’aria con simulazioni al computer e in galleria del vento.\n- **Dati e simulazione**: prepara le strategie.\n\nPer evitare che le squadre più ricche vincano soltanto grazie ai soldi, esiste il **tetto di spesa** (*budget cap*): un limite annuo alle spese, nel regolamento recente dell’ordine di **135 milioni di dollari** (con alcune spese escluse, come quelle dei piloti e dei dirigenti più pagati).\n\nIn sintesi: un’auto sul circuito è il risultato di un lavoro di tantissime persone.` }
     ],
     exercises: [
-      mc('Che cos’è la scuderia (team)?', ['L’organizzazione che iscrive e fa correre le auto', 'Un tipo di gomma', 'Il circuito', 'Il giudice della gara'], 0, 'È la squadra con piloti, meccanici e ingegneri.'),
-      mc('Chi è il team principal?', ['Il responsabile della squadra', 'Il pilota più veloce', 'Un meccanico', 'Il commissario FIA'], 0, 'Coordina, rappresenta la squadra e decide sulle questioni importanti.'),
-      mc('Che cosa fa l’ingegnere di pista?', ['Parla al pilota alla radio e traduce le sue sensazioni in regolazioni', 'Guida l’auto in prova', 'Cambia le gomme', 'Arbitra la gara'], 0, 'È il collegamento tra pilota e squadra tecnica.'),
-      mc('A che cosa serve il pilota di riserva?', ['A sostituire un titolare se non può correre', 'A guidare in gara insieme ai titolari', 'A dare i punti', 'A scegliere le gomme'], 0, 'È una figura di emergenza e di sviluppo.'),
+      mc('Che cos’è la scuderia (team)?', ['L’organizzazione che iscrive e fa correre le auto', 'Il fornitore ufficiale delle gomme di tutto il campionato', 'Il gruppo di piloti iscritti al campionato', 'Il gruppo di commissari che giudica la gara'], 0, 'È la squadra con piloti, meccanici e ingegneri.'),
+      mc('Chi è il team principal?', ['Il responsabile della squadra', 'Il pilota più esperto del team', 'Il capo meccanico dei box', 'Il commissario FIA della squadra'], 0, 'Coordina, rappresenta la squadra e decide sulle questioni importanti.'),
+      mc('Che cosa fa l’ingegnere di pista?', ['Parla via radio al pilota e traduce le sensazioni in assetto', 'Guida l’auto nelle prove libere e decide la strategia di gara', 'Cambia le gomme ai box e regola le ali durante la sosta', 'Arbitra la gara e controlla il rispetto dei limiti di pista'], 0, 'È il collegamento tra pilota e squadra tecnica.'),
+      mc('A che cosa serve il pilota di riserva?', ['A sostituire un titolare se non può correre', 'A guidare in gara insieme ai due piloti titolari', 'A dare i punti ai piloti titolari assenti', 'A scegliere le gomme per i titolari'], 0, 'È una figura di emergenza e di sviluppo.'),
       fill('Quanti piloti titolari schiera ogni squadra?', ['2', 'due'], 'Ogni scuderia ha due piloti titolari.'),
       fill('In una sosta ai box lavorano circa quante persone (ordine di grandezza)? Scrivi il numero.', ['20', 'venti'], 'Una squadra di sosta conta circa venti persone.'),
-      mc('Che cos’è una squadra cliente?', ['Una squadra che compra i motori da un altro costruttore', 'Una squadra che compra anche i piloti', 'Una squadra senza auto', 'Una squadra di tifosi'], 0, 'Progetta la propria auto ma usa la power unit di un altro.'),
-      mc('Che cosa limita il budget cap?', ['Le spese annuali della squadra', 'La velocità massima', 'Il numero di tifosi', 'I giri di qualifica'], 0, 'Un tetto annuo alle spese, per ridurre il divario tra squadre ricche e povere.'),
+      mc('Che cos’è una squadra cliente?', ['Una squadra che compra i motori da un altro costruttore', 'Una squadra che compra anche i piloti da un altro team', 'Una squadra che affitta le monoposto da un’altra squadra', 'Una squadra che gestisce i fan club dei costruttori'], 0, 'Progetta la propria auto ma usa la power unit di un altro.'),
+      mc('Che cosa limita il budget cap?', ['Le spese annuali della squadra', 'La velocità massima in rettilineo', 'Il numero di tifosi nei circuiti', 'I giri di qualifica per pilota'], 0, 'Un tetto annuo alle spese, per ridurre il divario tra squadre ricche e povere.'),
       mc('Dove siede il team principal in gara?', ['Al muretto dei box', 'Sulla vettura', 'In tribuna con gli sponsor', 'Nel box della FIA'], 0, 'Il pit wall è la postazione con gli schermi, accanto ai box.'),
       mc('Il pit stop è, in genere, lungo di auto ferma circa:', ['2–3 secondi', '20 secondi', '1 minuto', '10 minuti'], 0, 'L’auto ferma sta pochi secondi, ma l’intera sosta costa circa 20 secondi.'),
       order('Ordina i passaggi di un pit stop', ['Il pilota entra nella corsia dei box', 'Rallenta al limite di velocità', 'Si ferma nel suo box', 'I meccanici cambiano le gomme', 'L’auto riparte'], 'Dall’ingresso nella corsia box alla ripartenza.')
     ],
     test: [
       fill('Dieci squadre, ciascuna con 2 piloti titolari. Quanti piloti titolari in tutto?', ['20', 'venti'], '10 × 2 = 20.'),
-      mc('Che cosa significa che un pilota e il suo compagno di squadra sono «primi rivali»?', ['Hanno la stessa auto, quindi il confronto è diretto', 'Non si parlano mai', 'Corrono in squadre diverse', 'Non possono finire a punti insieme'], 0, 'Con la stessa auto, il confronto misura il pilota.'),
-      mc('Che cosa fa la telemetria?', ['Invia dati dall’auto alla squadra durante la corsa', 'Misura la distanza del circuito', 'Dà le penalità', 'Cambia le gomme'], 0, 'Sono dati su velocità, temperature, pressioni, usati dagli ingegneri.'),
-      mc('Dove lavorano molti progettisti di una squadra?', ['Nella fabbrica (sede della squadra)', 'Solo sul circuito', 'In tribuna', 'Nei box della concorrenza'], 0, 'Al circuito c’è solo una parte del personale.'),
-      mc('Che cosa è la power unit?', ['Il motore ibrido della monoposto', 'Il volante', 'Il sedile', 'L’ala posteriore'], 0, 'Un motore a combustione con parti elettriche.'),
-      mc('Un team cliente per i motori ha un’auto identica a quella del fornitore?', ['No: telaio e aerodinamica sono propri', 'Sì, sempre', 'Sì, ma con motore diverso', 'Dipende dal pilota'], 0, 'Compra la power unit, non l’intera vettura.'),
-      mc('A che cosa serve il simulatore nella fabbrica?', ['A far provare auto e piste ai piloti senza uscire dalla sede', 'A fare le gare ufficiali', 'A assegnare i punti', 'A lavare le gomme'], 0, 'Riproduce l’auto e permette lavoro di sviluppo e preparazione.')
+      mc('Che cosa significa che un pilota e il suo compagno di squadra sono «primi rivali»?', ['Hanno la stessa auto, quindi il confronto è diretto', 'Non possono parlare tra loro durante la gara', 'Corrono in squadre diverse con la stessa power unit', 'Non possono mai finire a punti nella stessa gara'], 0, 'Con la stessa auto, il confronto misura il pilota.'),
+      mc('Che cosa fa la telemetria?', ['Invia dati dall’auto alla squadra durante la corsa', 'Misura la distanza tra le vetture in pista e le segnala', 'Comunica le penalità ai piloti durante la corsa', 'Cambia le gomme dopo ogni giro in modo automatico'], 0, 'Sono dati su velocità, temperature, pressioni, usati dagli ingegneri.'),
+      mc('Dove lavorano molti progettisti di una squadra?', ['Nella fabbrica (sede della squadra)', 'Solo nel garage sul circuito durante le gare', 'Nella tribuna riservata ai tecnici', 'Nei box della squadra concorrente'], 0, 'Al circuito c’è solo una parte del personale.'),
+      mc('Che cosa è la power unit?', ['Il motore ibrido della monoposto', 'Il volante multifunzione del pilota', 'Il sedile su misura del pilota', 'L’ala posteriore con il DRS'], 0, 'Un motore a combustione con parti elettriche.'),
+      mc('Un team cliente per i motori ha un’auto identica a quella del fornitore?', ['No: telaio e aerodinamica sono propri', 'Sì: il fornitore consegna anche telaio e ali', 'Sì, ma con un motore di potenza diversa', 'Dipende solo dal pilota che la guida'], 0, 'Compra la power unit, non l’intera vettura.'),
+      mc('A che cosa serve il simulatore nella fabbrica?', ['A far provare piste e assetti senza uscire dalla sede', 'A fare le gare ufficiali senza trasferte nei circuiti', 'Ad assegnare punti ai piloti nelle sessioni virtuali', 'A lavare e controllare le gomme prima della gara'], 0, 'Riproduce l’auto e permette lavoro di sviluppo e preparazione.')
     ]
   });
 
@@ -186,26 +186,26 @@
       { h: 'Safety car e virtual safety car', b: `Quando un incidente richiede più tempo per essere gestito ma non è necessaria la bandiera rossa, la direzione gara può inviare la **safety car** (SC): un’auto speciale che entra in pista e **guida il gruppo a velocità ridotta**.\n\nCosa succede con la **safety car**:\n\n- Tutti devono seguire in fila dietro la SC, senza sorpassare; i distacchi si **compattano**.\n- Le soste ai box costano meno tempo, perché gli altri vanno piano: spesso molte squadre ne approfittano.\n- Quando la pista è libera, la SC rientra ai box: la gara riparte con la **ripartenza** lanciata.\n\nLa **virtual safety car** (VSC) è una versione senza auto fisica: i piloti devono **rallentare** e restare sopra un tempo minimo (*delta*) indicato sul volante, senza sorpassare. È usata per incidenti più piccoli, come un’auto ferma a bordo pista.\n\n> Differenza: con la SC il gruppo si **ricompatta**; con la VSC i **distacchi restano** quasi uguali.` }
     ],
     exercises: [
-      mc('Che cosa significa la bandiera gialla?', ['Pericolo: rallentare e non sorpassare', 'Fine della gara', 'Lascia passare', 'Squalifica'], 0, 'Gialla = pericolo sulla pista.'),
-      mc('Che cosa significa la bandiera rossa?', ['Sessione fermata', 'Via libera', 'Veicolo lento', 'Fine della gara'], 0, 'La rossa ferma la sessione quando la pista non è sicura.'),
-      mc('A chi si mostra la bandiera blu?', ['Al pilota doppiato che deve lasciar passare il più veloce', 'Al leader della gara', 'Al pilota squalificato', 'Al pilota che fa il giro veloce'], 0, 'Blu = lascia passare.'),
-      mc('Che cosa significa la bandiera a scacchi?', ['Fine della gara o della sessione', 'Inizio della gara', 'Squalifica', 'Pericolo'], 0, 'È la bandiera del traguardo.'),
-      mc('Che cosa significa la bandiera nera?', ['Squalifica del pilota', 'Pista scivolosa', 'Giro veloce', 'Safety car'], 0, 'Nera con il numero di gara = squalificato.'),
-      mc('Che cosa segnala la bandiera bianca?', ['Un veicolo lento sul percorso', 'Fine della gara', 'Pioggia', 'Penalità'], 0, 'Veicolo lento davanti.'),
-      mc('Quando si mostra la bandiera verde?', ['Quando il pericolo è passato e la pista è libera', 'Alla partenza di una gara con bandiera rossa', 'Al vincitore', 'Quando inizia il giro veloce'], 0, 'Verde = via libera dopo un pericolo.'),
-      mc('Cosa succede ai distacchi con la safety car?', ['Il gruppo si compatta', 'Aumentano molto', 'Restano uguali', 'Si azzerano le gomme'], 0, 'Le auto seguono la SC in fila, quindi i vantaggi si annullano.'),
-      mc('Che cosa distingue la VSC dalla safety car?', ['Non c’è un’auto davanti: i piloti rispettano un tempo minimo', 'È più veloce', 'Si usa solo in qualifica', 'Non vieta i sorpassi'], 0, 'Nella VSC i piloti rallentano ma non si compattano.'),
-      mc('Cosa può fare la squadra durante una bandiera rossa in gara?', ['Cambiare le gomme e riparare l’auto', 'Niente, l’auto è bloccata', 'Cambiare pilota', 'Annullare la gara'], 0, 'Le auto stanno ai box e possono essere lavorate.'),
+      mc('Che cosa significa la bandiera gialla?', ['Pericolo: rallentare e non sorpassare', 'Fine della sessione e rientro ai box', 'Pista libera: si può riprendere a sorpassare', 'Squalifica immediata e rientro ai box'], 0, 'Gialla = pericolo sulla pista.'),
+      mc('Che cosa significa la bandiera rossa?', ['Sessione fermata', 'Pista di nuovo libera', 'Veicolo lento in pista', 'Partenza della gara'], 0, 'La rossa ferma la sessione quando la pista non è sicura.'),
+      mc('A chi si mostra la bandiera blu?', ['Al pilota doppiato che deve far passare il più veloce', 'Al leader quando sta per doppiare un’altra vettura lenta', 'Al pilota squalificato che deve rientrare ai box', 'Al pilota che ha appena segnato il giro veloce'], 0, 'Blu = lascia passare.'),
+      mc('Che cosa significa la bandiera a scacchi?', ['Fine della gara o della sessione', 'Inizio della gara o della sessione', 'Squalifica di un pilota in gara', 'Pericolo sul circuito, sorpassi vietati'], 0, 'È la bandiera del traguardo.'),
+      mc('Che cosa significa la bandiera nera?', ['Squalifica del pilota', 'Pista scivolosa per olio o acqua', 'Giro veloce del pilota in testa', 'Safety car in pista, vietato sorpassare'], 0, 'Nera con il numero di gara = squalificato.'),
+      mc('Che cosa segnala la bandiera bianca?', ['Un veicolo lento sul percorso', 'Fine della gara o della sessione', 'Pioggia in arrivo sul circuito', 'Penalità per partenza anticipata'], 0, 'Veicolo lento davanti.'),
+      mc('Quando si mostra la bandiera verde?', ['Quando il pericolo è passato e la pista è libera', 'Quando un pilota viene doppiato dal leader della gara', 'Quando un pilota è squalificato in gara', 'Quando inizia l’ultimo giro di gara'], 0, 'Verde = via libera dopo un pericolo.'),
+      mc('Cosa succede ai distacchi con la safety car?', ['Il gruppo si compatta', 'Il gruppo si allunga di più', 'Restano uguali', 'Si azzerano i giri veloci'], 0, 'Le auto seguono la SC in fila, quindi i vantaggi si annullano.'),
+      mc('Che cosa distingue la VSC dalla safety car?', ['Non c’è un’auto davanti: i piloti rispettano un tempo minimo', 'Ha un’auto davanti che guida il gruppo a velocità fissa in pista', 'Si usa soltanto nel giro di formazione prima del via', 'Consente i sorpassi purché il gruppo resti compatto'], 0, 'Nella VSC i piloti rallentano ma non si compattano.'),
+      mc('Cosa può fare la squadra durante una bandiera rossa in gara?', ['Cambiare le gomme e riparare l’auto', 'Solo ispezionare l’auto, senza poterla riparare', 'Cambiare pilota se il titolare è stanco', 'Annullare la gara con decisione della squadra'], 0, 'Le auto stanno ai box e possono essere lavorate.'),
       order('Ordina i passi quando il pilota vede la bandiera gialla', ['Vede la bandiera', 'Alza il piede dall’acceleratore', 'Passa il punto del pericolo senza sorpassare', 'Riceve la verde', 'Accelera di nuovo'], 'Prima rallenta, poi quando ripassa verde può riprendere.')
     ],
     test: [
-      mc('Che cosa significa la doppia gialla?', ['Pericolo grave: pronti a fermarsi', 'Via libera', 'Fine gara', 'Veicolo lento'], 0, 'Due bandiere indicano un pericolo più esteso.'),
+      mc('Che cosa significa la doppia gialla?', ['Pericolo grave: pronti a fermarsi', 'Pista libera: si può tornare a sorpassare', 'Fine della gara o della sessione', 'Veicolo lento fermo ai bordi della pista'], 0, 'Due bandiere indicano un pericolo più esteso.'),
       mc('Se un pilota ignora la blu, che cosa rischia?', ['Una penalità', 'Un premio', 'Niente', 'La pole position'], 0, 'Ignorare la blu è sanzionabile.'),
-      mc('Che cosa significa la bandiera nera con cerchio arancione?', ['Problema meccanico: rientrare ai box', 'Squalifica', 'Fine della gara', 'Via libera'], 0, 'Segnala un guasto pericoloso.'),
-      mc('Che cosa è un pilota doppiato?', ['Uno raggiunto da un avversario che ha un giro in più', 'Uno che ha vinto', 'Uno che sorpassa', 'Uno senza gomme'], 0, 'È uno che ha un giro in meno rispetto al leader che lo raggiunge.'),
+      mc('Che cosa significa la bandiera nera con cerchio arancione?', ['Problema meccanico: rientrare ai box', 'Squalifica del pilota dalla gara in corso', 'Penalità: rallentare e scontare un drive-through', 'Via libera: si può ripartire in pista'], 0, 'Segnala un guasto pericoloso.'),
+      mc('Che cosa è un pilota doppiato?', ['Uno raggiunto da un avversario che ha un giro in più', 'Uno che ha vinto con più di un giro di vantaggio sul secondo', 'Uno che sorpassa due volte nello stesso giro', 'Uno che ha perso una ruota e rientra ai box'], 0, 'È uno che ha un giro in meno rispetto al leader che lo raggiunge.'),
       mc('Quale bandiera avvisa di una superficie scivolosa?', ['Gialla e rossa a strisce', 'Bianca', 'Blu', 'Verde'], 0, 'È la bandiera a strisce gialle e rosse.'),
-      mc('Perché con la safety car molte squadre fanno la sosta?', ['Perdono meno tempo perché gli altri vanno piano', 'È obbligatorio', 'Perché le gomme si rompono', 'Per cambiare pilota'], 0, 'La sosta costa meno distacco.'),
-      mc('Dopo la bandiera a scacchi che cosa fanno i piloti?', ['Un giro di rientro e poi il parco chiuso', 'Ricominciano la gara', 'Si fermano subito in pista', 'Vanno ai box della concorrenza'], 0, 'Il giro di rientro porta le auto ai controlli.')
+      mc('Perché con la safety car molte squadre fanno la sosta?', ['Perdono meno tempo perché gli altri vanno piano', 'È obbligatorio rientrare ai box sotto Safety Car', 'Perché le gomme si raffreddano troppo e vanno cambiate', 'Per regolare le ali e cambiare il pilota'], 0, 'La sosta costa meno distacco.'),
+      mc('Dopo la bandiera a scacchi che cosa fanno i piloti?', ['Un giro di rientro e poi il parco chiuso', 'Fanno un altro giro di gara a ritmo pieno', 'Si fermano subito sulla linea del traguardo', 'Vanno nei box di un’altra squadra a festeggiare'], 0, 'Il giro di rientro porta le auto ai controlli.')
     ]
   });
 
@@ -227,14 +227,14 @@
       { h: 'Come leggere la mappa di un circuito', b: `Una **mappa** è la vista dall’alto del circuito. Ecco che cosa cercare.\n\n1. **Linea di partenza/arrivo** e **freccia di direzione**: ti dicono in che verso si corre (orario o antiorario).\n2. **Numeri delle curve**: 1, 2, 3… nell’ordine di percorrenza.\n3. **Tre settori**, spesso evidenziati con colori diversi.\n4. **Zone DRS** e **punti di rilevamento**.\n5. **Corsia dei box** e uscita/ingresso.\n6. **Nomi** di curve celebri.\n\nPer capire se un circuito è «veloce» o «tecnico»:\n\n- Molti lunghi **rettilinei** e curve ampie → circuito veloce.\n- Tante curve lente, tornanti e chicane → circuito tecnico e lento.\n\nSe confronti due mappe, osserva anche la **larghezza**: un circuito cittadino sembra più sinuoso e vicino ai muri.\n\nCon un po’ di pratica, guardando la mappa saprai prevedere dove ci saranno i sorpassi: di solito dopo un lungo rettilineo e una staccata forte.` }
     ],
     exercises: [
-      mc('Che cos’è un tornante (hairpin)?', ['Una curva molto stretta di quasi 180 gradi', 'Un lungo rettilineo', 'Un tipo di gomma', 'Un settore'], 0, 'Costringe a rallentare moltissimo.'),
-      mc('Che cos’è una chicane?', ['Due curve ravvicinate in senso opposto', 'Una zona di sosta', 'Il rettilineo dei box', 'Un tipo di cordolo'], 0, 'Spesso serve a rallentare le auto.'),
+      mc('Che cos’è un tornante (hairpin)?', ['Una curva molto stretta di quasi 180 gradi', 'Un lungo rettilineo con una frenata violenta', 'Un tipo di cordolo rialzato a bordo pista', 'Un settore cronometrato della pista'], 0, 'Costringe a rallentare moltissimo.'),
+      mc('Che cos’è una chicane?', ['Due curve ravvicinate in senso opposto', 'Una zona di sosta per le vetture ferme', 'Il rettilineo principale che porta ai box', 'Un tipo di cordolo rialzato lungo il bordo'], 0, 'Spesso serve a rallentare le auto.'),
       fill('Un giro è lungo 5 km e la gara dura 60 giri. Quanti km è lunga la gara?', ['300'], '5 × 60 = 300.'),
       fill('Un’auto va a 360 km/h. Quanti metri percorre in 1 secondo?', ['100'], '360 / 3,6 = 100 m/s.'),
       fill('Quanti secondi dura un giro con settori 28,4 + 34,1 + 22,5?', ['85', '85,0', '85.0'], '28,4 + 34,1 + 22,5 = 85,0.'),
       fill('Quanti settori ha un circuito di F1?', ['3', 'tre'], 'Ogni circuito è diviso in tre settori.'),
-      mc('A che cosa servono i cordoli?', ['A guidare le traiettorie e segnare il bordo pista', 'Ad accelerare le auto', 'A fermare la gara', 'A cambiare le gomme'], 0, 'Sono strisce rialzate ai bordi delle curve.'),
-      mc('Che differenza c’è tra una via di fuga di ghiaia e una di asfalto?', ['La ghiaia frena e blocca l’auto, l’asfalto permette di rientrare', 'Sono uguali', 'La ghiaia è più veloce', 'L’asfalto blocca sempre l’auto'], 0, 'Dipende dall’obiettivo: frenare o consentire il rientro.'),
+      mc('A che cosa servono i cordoli?', ['A guidare le traiettorie e segnare il bordo pista', 'Ad aumentare la velocità in uscita dalle curve lente', 'A segnalare l’inizio e la fine di ogni settore', 'A guidare i piloti verso la corsia dei box'], 0, 'Sono strisce rialzate ai bordi delle curve.'),
+      mc('Che differenza c’è tra una via di fuga di ghiaia e una di asfalto?', ['La ghiaia frena e blocca l’auto, l’asfalto permette di rientrare', 'La ghiaia è più sicura perché ferma sempre l’auto senza danni', 'La ghiaia è più veloce e permette di rientrare subito in pista', 'La ghiaia consente di rientrare, l’asfalto blocca l’auto'], 0, 'Dipende dall’obiettivo: frenare o consentire il rientro.'),
       mc('Quanto distante deve essere un pilota dal precedente, al punto di rilevamento, per usare il DRS (regolamento fino al 2025)?', ['Meno di 1 secondo', 'Meno di 5 secondi', 'Più di 3 secondi', 'Mai, è libero'], 0, 'Per aprire il DRS in gara serve essere entro 1 secondo.'),
       mc('Quale di questi è un circuito cittadino?', ['Monaco', 'Monza', 'Silverstone', 'Spa-Francorchamps'], 0, 'Monaco usa le strade della città.'),
       order('Ordina i passaggi per calcolare la distanza di gara', ['Lunghezza del giro', 'Numero di giri', 'Moltiplica', 'Distanza di gara'], 'Distanza = lunghezza giro × numero di giri.')
@@ -242,10 +242,10 @@
     test: [
       fill('Un circuito è lungo 4 km e si corrono 76 giri. Quanti km è la gara?', ['304'], '4 × 76 = 304.'),
       fill('Un’auto va a 180 km/h. Quanti metri al secondo?', ['50'], '180 / 3,6 = 50.'),
-      mc('Qual è la funzione dei settori?', ['Dividere il giro per vedere dove si guadagna o si perde tempo', 'Aumentare i punti', 'Fermare la gara', 'Indicare la sosta'], 0, 'Il tempo di giro è la somma dei tre settori.'),
-      mc('Perché i circuiti cittadini sono considerati più rischiosi?', ['Sono stretti, con muri vicini e poche vie di fuga', 'Non hanno curve', 'Non hanno box', 'Sono molto larghi'], 0, 'Un errore ha conseguenze più pesanti.'),
-      mc('Dove ci sono più probabilità di sorpasso?', ['Dopo un lungo rettilineo, alla staccata', 'In mezzo a una curva lenta', 'Sul traguardo, sempre', 'Nei box'], 0, 'Chi insegue guadagna velocità e frena più tardi.'),
-      mc('Che cosa sono i limiti pista (track limits)?', ['Le linee bianche ai bordi della pista', 'I box delle squadre', 'I punti di rilevamento DRS', 'Le tribune'], 0, 'Se si esce ottenendo vantaggio, il giro può essere cancellato.'),
+      mc('Qual è la funzione dei settori?', ['Dividere il giro per vedere dove si guadagna o si perde tempo', 'Stabilire il punteggio delle squadre in ogni parte del giro', 'Segnalare ai piloti dove fermare la vettura in caso di bandiera rossa', 'Indicare in quale giro ogni pilota deve effettuare la sosta'], 0, 'Il tempo di giro è la somma dei tre settori.'),
+      mc('Perché i circuiti cittadini sono considerati più rischiosi?', ['Sono stretti, con muri vicini e poche vie di fuga', 'Non hanno curve ma solo lunghi rettilinei veloci', 'Non hanno barriere di protezione né cordoli ai bordi', 'Sono molto larghi e senza barriere ai bordi'], 0, 'Un errore ha conseguenze più pesanti.'),
+      mc('Dove ci sono più probabilità di sorpasso?', ['Dopo un lungo rettilineo, alla staccata', 'In mezzo a una curva veloce e molto larga', 'Subito dopo il traguardo, in uscita dai box', 'Nella corsia box durante le soste'], 0, 'Chi insegue guadagna velocità e frena più tardi.'),
+      mc('Che cosa sono i limiti pista (track limits)?', ['Le linee bianche ai bordi della pista', 'I confini dell’area dei box delle squadre', 'I punti di rilevamento DRS lungo il tracciato', 'Le tribune e le zone riservate agli spettatori'], 0, 'Se si esce ottenendo vantaggio, il giro può essere cancellato.'),
       mc('Monaco ha circa 3,34 km per giro e 78 giri. Qual è la distanza di gara, circa?', ['260 km', '305 km', '180 km', '350 km'], 0, '3,337 × 78 ≈ 260 km.')
     ]
   });
@@ -268,26 +268,26 @@
       { h: 'Riepilogo con cifre', b: `Tabella di riferimento (ordini di grandezza, stagioni recenti):\n\n| Voce | F1 | Auto familiare |\n|---|---|---|\n| Potenza | circa 1000 CV | 100–150 CV |\n| Peso | circa 800 kg (con pilota, senza carburante) | 1300–1500 kg |\n| Peso/potenza | circa 1,25 CV/kg | circa 0,1 CV/kg |\n| Velocità massima | oltre 300 km/h | 180–200 km/h |\n| Posti | 1 | 5 |\n\nPunti da ricordare:\n\n- La F1 è molto più **potente** e molto più **leggera** di un’auto stradale.\n- L’**aerodinamica** crea carico, che permette curve veloci.\n- Il **pilota** è protetto da halo, sedile su misura, casco e cinture.\n- Il **volante** è un centro di comando.\n\nAttenzione: queste cifre dipendono dalle regole di ogni stagione. Il regolamento tecnico cambia in modo importante nel **2026** (motori e aerodinamica), quindi controlla i valori aggiornati.` }
     ],
     exercises: [
-      mc('Che cos’è il carico aerodinamico (downforce)?', ['Una forza verso il basso creata dall’aria che aumenta l’aderenza', 'Il peso del carburante', 'La potenza del motore', 'La pressione delle gomme'], 0, 'Spinge l’auto contro la pista.'),
-      mc('Qual è il prezzo da pagare per avere più carico?', ['Maggiore resistenza all’aria in rettilineo', 'Meno aderenza', 'Meno freni', 'Più peso del pilota'], 0, 'Più carico significa spesso meno velocità massima.'),
+      mc('Che cos’è il carico aerodinamico (downforce)?', ['Una forza verso il basso creata dall’aria che aumenta l’aderenza', 'Il peso aggiuntivo del carburante che aumenta l’aderenza al suolo', 'La potenza che il motore trasmette alle ruote posteriori', 'La forza verso l’alto che solleva la vettura in rettilineo'], 0, 'Spinge l’auto contro la pista.'),
+      mc('Qual è il prezzo da pagare per avere più carico?', ['Maggiore resistenza all’aria in rettilineo', 'Minore stabilità e meno aderenza nelle curve veloci', 'Maggiore usura dei freni in rettilineo', 'Un peso del pilota maggiore sul sedile'], 0, 'Più carico significa spesso meno velocità massima.'),
       fill('Una F1 ha circa 1000 CV e pesa circa 800 kg. Quanti CV per kg? (due decimali)', ['1,25', '1.25'], '1000 / 800 = 1,25.'),
       fill('Un’auto familiare ha 150 CV e pesa 1500 kg. Quanti CV per kg?', ['0,1', '0.1', '0,10', '0.10'], '150 / 1500 = 0,1.'),
       fill('Quante volte è maggiore il rapporto potenza/peso della F1 (1,25) rispetto all’auto familiare (0,1)?', ['12,5', '12.5'], '1,25 / 0,1 = 12,5.'),
-      mc('Che cos’è l’halo?', ['Una struttura in titanio sopra la testa del pilota', 'Un’ala', 'Un tipo di gomma', 'Il serbatoio'], 0, 'Protegge da detriti e urti.'),
+      mc('Che cos’è l’halo?', ['Una struttura in titanio sopra la testa del pilota', 'Un’ala aggiuntiva in titanio sopra l’abitacolo del pilota', 'Un tipo di gomma con battistrada molto largo', 'Il serbatoio di carburante dietro il pilota'], 0, 'Protegge da detriti e urti.'),
       mc('Il sedile di un pilota è:', ['Modellato sul suo corpo', 'Uguale per tutti', 'Una poltrona regolabile da auto', 'Assente'], 0, 'È su misura, per sostenere il pilota nelle curve.'),
       mc('Che cosa regola il pilota con le palette dietro il volante?', ['Il cambio marcia', 'Il colore delle gomme', 'La radio', 'Il serbatoio'], 0, 'Le palette azionano il cambio.'),
-      mc('Che cosa è la monoscocca?', ['Il guscio in fibra di carbonio dove sta il pilota', 'Il motore', 'La gomma', 'L’ala'], 0, 'È la cellula di sopravvivenza.'),
+      mc('Che cosa è la monoscocca?', ['Il guscio in fibra di carbonio dove sta il pilota', 'Il motore ibrido montato direttamente dietro il pilota', 'La gomma anteriore con la sua cerchiatura', 'L’ala anteriore con i suoi elementi mobili'], 0, 'È la cellula di sopravvivenza.'),
       mc('Quale colore ha la gomma morbida (convenzione recente)?', ['Rosso', 'Giallo', 'Bianco', 'Verde'], 0, 'Rosso morbida, giallo media, bianco dura.'),
       order('Ordina le gomme dalla più morbida alla più dura', ['Morbida (rossa)', 'Media (gialla)', 'Dura (bianca)'], 'Più morbida = più grip ma più degrado.')
     ],
     test: [
       mc('Quanti posti ha una monoposto?', ['Uno', 'Due', 'Quattro', 'Cinque'], 0, 'Mono-posto: un solo posto.'),
       fill('Una F1 pesa 800 kg. Se il pilota con casco pesasse 80 kg, quanto pesa l’auto senza pilota (in kg)?', ['720'], '800 − 80 = 720.'),
-      mc('A quale scopo serve un fondo vettura sagomato?', ['Creare carico aerodinamico', 'Raffreddare il pilota', 'Spostare il carburante', 'Dare più rumore'], 0, 'Il fondo genera una parte importante del carico.'),
-      mc('Perché si dice che nelle F1 i pezzi durano poco?', ['Sono progettati al limite e sostituiti spesso', 'Perché sono di plastica', 'Perché non sono mai testati', 'Perché le gare sono lunghissime'], 0, 'Meno peso e più prestazione vogliono dire meno durata.'),
-      mc('Che cosa fa il dispositivo HANS?', ['Protegge il collo del pilota negli urti', 'Regola il cambio', 'Misura la temperatura gomme', 'Aumenta la potenza'], 0, 'È un sistema di sicurezza per testa e collo.'),
-      mc('Perché la F1 non ha l’aria condizionata né il bagagliaio?', ['Perché ciò che non serve alla velocità è tolto', 'Perché sono vietati', 'Perché costano troppo', 'Perché non esiste pilota'], 0, 'Peso e semplicità: la F1 è fatta per correre.'),
-      mc('Quale grandezza descrive meglio la capacità di accelerare di un’auto?', ['Il rapporto potenza/peso', 'Il colore', 'La lunghezza', 'Il numero di ruote'], 0, 'Più potenza e meno peso significa più accelerazione.')
+      mc('A quale scopo serve un fondo vettura sagomato?', ['Creare carico aerodinamico', 'Raffreddare il pilota in abitacolo', 'Spostare il carburante verso il retro', 'Aumentare il rumore dei motori'], 0, 'Il fondo genera una parte importante del carico.'),
+      mc('Perché si dice che nelle F1 i pezzi durano poco?', ['Sono progettati al limite e sostituiti spesso', 'Perché sono fatti di plastica leggera e poco resistente', 'Perché non vengono mai testati prima delle gare', 'Perché le gare durano più di quattro ore'], 0, 'Meno peso e più prestazione vogliono dire meno durata.'),
+      mc('Che cosa fa il dispositivo HANS?', ['Protegge il collo del pilota negli urti', 'Regola il cambio e la frizione del pilota', 'Misura la temperatura delle gomme in curva', 'Aumenta la potenza del motore in uscita'], 0, 'È un sistema di sicurezza per testa e collo.'),
+      mc('Perché la F1 non ha l’aria condizionata né il bagagliaio?', ['Perché ciò che non serve alla velocità è tolto', 'Perché il regolamento li vieta in tutte le monoposto', 'Perché costano troppo e il budget cap non li consente', 'Perché il pilota non ne ha bisogno durante la gara'], 0, 'Peso e semplicità: la F1 è fatta per correre.'),
+      mc('Quale grandezza descrive meglio la capacità di accelerare di un’auto?', ['Il rapporto potenza/peso', 'La larghezza dell’abitacolo', 'La lunghezza totale del telaio', 'Il numero di pit stop'], 0, 'Più potenza e meno peso significa più accelerazione.')
     ]
   });
 
@@ -310,24 +310,24 @@
     ],
     exercises: [
       mc('Che cos’è il gap?', ['Il distacco dal leader', 'Il distacco dall’auto davanti', 'Il numero di giri', 'La temperatura dell’asfalto'], 0, 'L’intervallo è invece il distacco dall’auto immediatamente davanti.'),
-      mc('Che cos’è l’intervallo?', ['Il distacco dall’auto che precede', 'Il tempo di sosta', 'Il giro veloce', 'La lunghezza della gara'], 0, 'Il valore tra due auto consecutive.'),
+      mc('Che cos’è l’intervallo?', ['Il distacco dall’auto che precede', 'Il tempo trascorso in sosta ai box', 'Il distacco dal leader della gara', 'La differenza tra due tempi di settore'], 0, 'Il valore tra due auto consecutive.'),
       fill('B è a 2,5 s da A (primo). C è a 1,0 s da B. Quale è il gap di C dal leader, in secondi?', ['3,5', '3.5'], '2,5 + 1,0 = 3,5.'),
       fill('Il pilota D ha 25 s di vantaggio su E e fa una sosta che costa 20 s. Quanto vantaggio gli resta, in secondi?', ['5'], '25 − 20 = 5.'),
-      mc('Che cosa significa un tempo di settore viola?', ['Il miglior tempo di tutti in quel settore', 'Il peggior tempo', 'Un errore del pilota', 'Una penalità'], 0, 'Viola = migliore assoluto.'),
-      mc('Che cosa significa un tempo di settore verde?', ['Il miglior tempo personale del pilota', 'Il miglior tempo assoluto', 'Il peggiore', 'Una sosta'], 0, 'Verde = migliorato rispetto al proprio precedente miglior tempo.'),
+      mc('Che cosa significa un tempo di settore viola?', ['Il miglior tempo di tutti in quel settore', 'Il peggior tempo di tutti i piloti in quel settore', 'Un errore del pilota nel settore', 'Una penalità per i limiti pista'], 0, 'Viola = migliore assoluto.'),
+      mc('Che cosa significa un tempo di settore verde?', ['Il miglior tempo personale del pilota', 'Il miglior tempo assoluto di tutti nel settore', 'Il peggior tempo personale del pilota', 'Una sosta ai box nel settore'], 0, 'Verde = migliorato rispetto al proprio precedente miglior tempo.'),
       mc('Una lettera H in un cerchio bianco accanto al pilota indica:', ['Gomma dura', 'Gomma morbida', 'Pioggia estrema', 'Pilota ritirato'], 0, 'H = hard, bianca.'),
-      mc('Che cosa significa «Box, box» alla radio?', ['Rientra ai box in questo giro', 'Rallenta', 'Sorpassa', 'Fine della gara'], 0, 'Chiama il pilota in sosta.'),
+      mc('Che cosa significa «Box, box» alla radio?', ['Rientra ai box in questo giro', 'Rallenta e lascia passare il compagno', 'Sorpassa il pilota davanti subito', 'Risparmia carburante in questo giro'], 0, 'Chiama il pilota in sosta.'),
       mc('Quanto costa in media una sosta ai box in tempo di gara (ordine di grandezza)?', ['Circa 20 secondi', 'Circa 2 minuti', 'Circa 1 secondo', 'Circa 10 minuti'], 0, 'Il passaggio nella corsia box costa circa 20 s.'),
-      mc('Una penalità di 5 secondi significa:', ['5 secondi aggiunti al tempo finale', '5 posizioni in meno', '5 punti persi', 'Squalifica'], 0, 'Si aggiungono al tempo del pilota alla fine.'),
+      mc('Una penalità di 5 secondi significa:', ['5 secondi aggiunti al tempo finale', '5 posizioni perse sulla classifica finale', '5 punti tolti al campionato piloti', 'Squalifica dalla gara in corso'], 0, 'Si aggiungono al tempo del pilota alla fine.'),
       order('Ordina un giro di lettura della torre dei tempi', ['Guardo la posizione', 'Leggo il gap e l’intervallo', 'Controllo le gomme', 'Vedo i colori dei settori'], 'Posizione, distacchi, gomme e settori.')
     ],
     test: [
       fill('In una torre dei tempi, B è a +6,8 e C è a +0,7 da B. Quanto è il gap di C dal leader?', ['7,5', '7.5'], '6,8 + 0,7 = 7,5.'),
       mc('Se l’intervallo è +0,6, che cosa può fare il pilota che insegue (regolamento fino al 2025)?', ['Usare il DRS', 'Fermarsi', 'Prendere punti', 'Chiamare la bandiera'], 0, 'Entro 1 secondo il DRS è utilizzabile nelle zone.'),
-      mc('Una gomma con molti giri è:', ['Probabilmente più lenta per il degrado', 'Sempre più veloce', 'Nuova', 'Vietata'], 0, 'Il degrado la rende meno performante.'),
-      mc('Cosa vuol dire PIT sulla torre dei tempi?', ['Il pilota è in corsia box', 'Il pilota è primo', 'Il pilota è squalificato', 'Il pilota ha vinto'], 0, 'Indica la sosta in corso.'),
-      mc('Una penalità drive-through è:', ['Attraversare la corsia dei box senza fermarsi', 'Un giro in meno', 'Una multa', 'Una sosta di 10 secondi'], 0, 'Si passa nella corsia dei box a velocità limitata.'),
-      mc('Perché la classifica sullo schermo può cambiare alla fine?', ['Per le penalità applicate dopo la gara', 'Perché i dati sono falsi', 'Per il meteo', 'Perché il traguardo si sposta'], 0, 'Le penalità di tempo sono aggiunte al risultato.'),
+      mc('Una gomma con molti giri è:', ['Probabilmente più lenta per il degrado', 'Più veloce perché la gomma è ben scaldata', 'Quasi nuova e al massimo del grip', 'Fuori regolamento se supera i 10 giri'], 0, 'Il degrado la rende meno performante.'),
+      mc('Cosa vuol dire PIT sulla torre dei tempi?', ['Il pilota è in corsia box', 'Il pilota è in prima posizione', 'Il pilota è stato penalizzato', 'Il pilota ha fatto il giro veloce'], 0, 'Indica la sosta in corso.'),
+      mc('Una penalità drive-through è:', ['Attraversare la corsia dei box senza fermarsi', 'Un giro tolto alla distanza di gara del pilota', 'Una multa in denaro pagata alla FIA', 'Una sosta di 10 secondi nel proprio box'], 0, 'Si passa nella corsia dei box a velocità limitata.'),
+      mc('Perché la classifica sullo schermo può cambiare alla fine?', ['Per le penalità applicate dopo la gara', 'Perché i dati del cronometraggio sono errati', 'Per il cambio di meteo durante la gara', 'Perché il traguardo viene spostato dopo la gara'], 0, 'Le penalità di tempo sono aggiunte al risultato.'),
       mc('Quale colore dei settori indica un tempo peggiore del proprio migliore?', ['Giallo', 'Viola', 'Verde', 'Blu'], 0, 'Giallo = non migliorato.')
     ]
   });
@@ -350,16 +350,16 @@
       { h: 'Calcoli semplici', b: `Tre formule bastano per i calcoli di base.\n\n**Velocità media** = distanza / tempo.\n> 306 km in 1,5 ore → 306 / 1,5 = **204 km/h**.\n\n**Tempo** = distanza / velocità.\n> 300 km a 200 km/h → 300 / 200 = 1,5 h = **90 minuti**.\n\n**Distanza di gara** = lunghezza del giro × numero di giri.\n> 5 km × 60 giri = **300 km**.\n\nGiro di 5 km in 80 s: velocità media = 5 / 80 × 3600 = **225 km/h**.\n\n**Punti**: somma della scala per ogni risultato.\n> 3° in gara (15) + 5° nello sprint (4) = **19**.\n\nPer passare da km/h a m/s dividi per 3,6; per passare da m/s a km/h moltiplica per 3,6.\n\nQuesti calcoli sono la base per tutto ciò che seguirà nel corso: strategie, tempi e confronti si fanno con le stesse formule.` }
     ],
     exercises: [
-      mc('Che cos’è la pole position?', ['Il primo posto in griglia, conquistato in qualifica', 'Il giro più veloce in gara', 'La bandiera a scacchi', 'Il primo pit stop'], 0, 'Va al miglior tempo delle qualifiche.'),
-      mc('Che cos’è il parco chiuso?', ['Il regime per cui l’auto non può essere modificata liberamente dopo l’inizio delle qualifiche', 'Un parcheggio per i tifosi', 'La corsia dei box', 'Un tipo di gomma'], 0, 'Evita grandi cambi di assetto tra qualifica e gara.'),
-      mc('Che cosa significa DNF?', ['Non ha finito la gara', 'Non è partito', 'Squalificato', 'Doppiato'], 0, 'Did Not Finish.'),
-      mc('Che cos’è lo stint?', ['Il tratto di gara tra due soste', 'Un tipo di gomma', 'Un settore', 'Un cordolo'], 0, 'Un blocco di giri con lo stesso set di gomme.'),
+      mc('Che cos’è la pole position?', ['Il primo posto in griglia, ottenuto in qualifica', 'Il giro più veloce in gara, che dà un punto extra', 'Il primo posto dopo il giro di formazione', 'Il primo pit stop previsto dalla strategia'], 0, 'Va al miglior tempo delle qualifiche.'),
+      mc('Che cos’è il parco chiuso?', ['Il regime che vieta modifiche libere alla vettura dopo l’inizio delle qualifiche', 'Un’area di sosta dove le vetture restano chiuse a chiave dopo la gara', 'Il regime che consente modifiche libere alla vettura fino al via', 'Il regime che blocca la scelta delle gomme dopo le prove libere'], 0, 'Evita grandi cambi di assetto tra qualifica e gara.'),
+      mc('Che cosa significa DNF?', ['Non ha finito la gara', 'Non è partito alla gara', 'Squalificato dalla gara', 'Doppiato dal leader'], 0, 'Did Not Finish.'),
+      mc('Che cos’è lo stint?', ['Il tratto di gara tra due soste', 'Un tipo di gomma più resistente', 'Una porzione della pista cronometrata', 'Una serie di cordoli in curva'], 0, 'Un blocco di giri con lo stesso set di gomme.'),
       fill('Gara di 60 giri con una sola sosta al giro 24. Quanti giri dura il secondo stint?', ['36'], '60 − 24 = 36.'),
       fill('Distanza 306 km percorsa in 1,5 ore. Velocità media in km/h?', ['204'], '306 / 1,5 = 204.'),
       fill('Quanti minuti servono per 300 km a 200 km/h?', ['90'], '300 / 200 = 1,5 h = 90 minuti.'),
       fill('Giro di 5 km percorso in 80 secondi. Velocità media in km/h?', ['225'], '5 / 80 × 3600 = 225.'),
       fill('Degrado di 0,08 s al giro per 20 giri: quanti secondi in totale? (un decimale)', ['1,6', '1.6'], '0,08 × 20 = 1,6.'),
-      mc('Che cosa è un undercut?', ['Fermarsi prima dell’avversario per sfruttare gomme nuove', 'Fermarsi dopo l’avversario', 'Un sorpasso in curva', 'Una penalità'], 0, 'L’undercut punta sul vantaggio delle gomme fresche.'),
+      mc('Che cosa è un undercut?', ['Fermarsi prima dell’avversario per sfruttare gomme nuove', 'Fermarsi dopo l’avversario per sfruttare gomme più fresche', 'Un sorpasso all’interno della curva con le gomme nuove', 'Una penalità per aver tagliato la chicane'], 0, 'L’undercut punta sul vantaggio delle gomme fresche.'),
       order('Ordina i passaggi per calcolare la velocità media di un giro', ['Lunghezza del giro in km', 'Tempo del giro in secondi', 'Dividi la lunghezza per il tempo', 'Moltiplica per 3600'], 'v = km / s × 3600 = km/h.')
     ],
     test: [
@@ -367,8 +367,8 @@
       fill('Una gara di 280 km a 200 km/h media. Quanti minuti dura?', ['84'], '280 / 200 = 1,4 h = 84 minuti.'),
       fill('Un pilota arriva 4° in gara e 2° nello sprint. Quanti punti nel weekend?', ['19'], '12 + 7 = 19.'),
       fill('Una squadra ha piloti al 1° e al 3° posto. Quanti punti prende in gara?', ['40'], '25 + 15 = 40.'),
-      mc('Che differenza c’è tra pole e giro veloce?', ['La pole si ottiene in qualifica, il giro veloce in gara', 'Sono la stessa cosa', 'La pole è in gara, il giro veloce in qualifica', 'Nessuna delle due esiste più'], 0, 'Due momenti e due significati diversi.'),
-      mc('Perché un DNF non significa sempre un incidente?', ['Può essere un guasto meccanico o altro problema', 'Perché non esiste', 'Perché indica una vittoria', 'Perché è un premio'], 0, 'Il ritiro può avere molte cause.'),
+      mc('Che differenza c’è tra pole e giro veloce?', ['La pole si ottiene in qualifica, il giro veloce in gara', 'Sono la stessa cosa e valgono lo stesso numero di punti', 'La pole è in gara, il giro veloce in qualifica', 'Nessuna: entrambe indicano il vincitore della gara'], 0, 'Due momenti e due significati diversi.'),
+      mc('Perché un DNF non significa sempre un incidente?', ['Può essere un guasto meccanico o altro problema', 'Perché il DNF si assegna solo ai piloti squalificati', 'Perché il DNF è un premio assegnato a fine stagione', 'Perché indica soltanto la mancata partenza'], 0, 'Il ritiro può avere molte cause.'),
       mc('Una gara dura 54 giri e fa due soste (ai giri 18 e 36). Quanti giri ha il secondo stint?', ['18', '36', '54', '12'], 0, 'Tra il giro 18 e il giro 36 ci sono 18 giri.'),
       mc('Quanti stint ci sono se si fanno due soste?', ['3', '2', '4', '1'], 0, 'Due soste dividono la gara in tre tratti.')
     ]

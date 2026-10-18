@@ -29,7 +29,7 @@
       mc('Chi è il 17° in Q1 e non passa il turno, da quale posizione parte in gara?', ['17°', '15°', '10°', 'Dall’ultima fila'], 0, 'I piloti eliminati mantengono la posizione ottenuta nella sessione in cui sono usciti.'),
       fill('Punti totali distribuiti dalla gara sprint ai primi otto (8+7+6+5+4+3+2+1)?', ['36'], 'Somma 8..1 = 36.'),
       fill('Un pilota qualifica 4° e ha una penalità di 5 posizioni. In che posizione parte?', ['9', '9°', 'nono'], '4 + 5 = 9.'),
-      mc('Nel formato 2024–2025, la griglia della gara della domenica nei weekend sprint è decisa da:', ['la qualifica del sabato', 'la gara sprint', 'le prove libere', 'la qualifica sprint'], 0, 'Dal 2023 le due qualifiche sono separate: la sprint decide la gara sprint, la qualifica del sabato la gara.'),
+      mc('Nel formato 2024–2025, la griglia della gara della domenica nei weekend sprint è decisa da:', ['la qualifica del sabato', 'la gara sprint del sabato', 'le prove libere del venerdì', 'la qualifica sprint del venerdì'], 0, 'Dal 2023 le due qualifiche sono separate: la sprint decide la gara sprint, la qualifica del sabato la gara.'),
       fill('Circuito da 7,004 km. Quanti giri servono per superare 100 km nella sprint?', ['15'], '14 giri = 98,1 km (non bastano); 15 giri = 105,1 km.'),
       mc('Quanti weekend sprint ci sono stati sia nel 2024 sia nel 2025 (valore indicativo del calendario)?', ['6', '2', '12', '20'], 0, 'Sei weekend sprint in ciascuna stagione; il numero può cambiare in futuro.'),
       order('Ordina un weekend sprint (formato 2024–2025)', ['Prova libera', 'Qualifica sprint', 'Gara sprint', 'Qualifica', 'Gara della domenica'], 'Venerdì: libera + SQ; sabato: sprint + qualifica; domenica: gara.')
@@ -37,8 +37,8 @@
     test: [
       fill('Una qualifica dà 18 minuti a Q1, 15 a Q2 e 12 a Q3. Quanti minuti in più dura Q1 rispetto a Q3?', ['6'], '18 − 12 = 6.'),
       mc('Qualifica: A1, B2, C3, D4; B riceve 2 posizioni di penalità. Ordine di partenza?', ['A, C, B, D', 'A, B, C, D', 'B, A, C, D', 'A, C, D, B'], 0, 'B era 2° e arretra di due posti: finisce 4°, dopo C e D. L’ordine è A, C, D, B.'),
-      mc('Qual è la differenza tra qualifica sprint e qualifica?', ['La sprint decide la griglia della gara sprint, la qualifica quella della domenica', 'Sono la stessa sessione', 'La sprint non ha eliminazioni', 'La qualifica non ha eliminazioni'], 0, 'Sessioni separate con scopi diversi.'),
-      mc('Perché i tempi di Q1 non si portano in Q2?', ['Conta il miglior giro della singola sessione', 'Perché Q1 è solo prova', 'Perché Q2 non è cronometrata', 'Perché Q1 e Q2 sono la stessa sessione'], 0, 'Ogni parte ha il proprio miglior giro.'),
+      mc('Qual è la differenza tra qualifica sprint e qualifica?', ['La sprint fissa la griglia della sprint, la qualifica quella della domenica', 'Sono la stessa sessione con regole diverse di punteggio', 'La sprint decide la griglia della domenica, la qualifica quella della sprint', 'La qualifica non ha eliminazioni mentre la sprint ha Q1, Q2 e Q3'], 0, 'Sessioni separate con scopi diversi.'),
+      mc('Perché i tempi di Q1 non si portano in Q2?', ['Conta il miglior giro della singola sessione', 'Perché Q1 è una sessione di prova senza classifica', 'Perché Q2 non è cronometrata ma si decide a sorteggio', 'Perché Q1 e Q2 sono la stessa sessione con due fasi'], 0, 'Ogni parte ha il proprio miglior giro.'),
       fill('Una penalità di 10 posizioni a chi ha ottenuto la pole fa partire da che posizione?', ['11', '11°', 'undicesimo'], '1 + 10 = 11.'),
       mc('Quanti punti prende il quarto classificato della gara sprint?', ['5', '4', '6', '3'], 0, 'Scala 8-7-6-5-4-3-2-1: il quarto prende 5.'),
       mc('Con 20 vetture, quante file ha la griglia scaglionata?', ['10', '20', '5', '4'], 0, 'Due vetture per fila.')
@@ -80,9 +80,9 @@
       fill('Ungheria: 4,381 km. Giri minimi oltre 305 km?', ['70'], '69 giri = 302,3 km, 70 giri = 306,7 km.'),
       mc('Una gara parte alle 15:00 ed è interrotta con bandiera rossa. Fine massima?', ['18:00', '17:00', '16:00', '19:00'], 0, 'Tre ore dalla partenza.'),
       mc('Squadra con 2° e 4° piloti: punti costruttori?', ['30', '25', '36', '40'], 0, '18 + 12 = 30.'),
-      mc('Il leader passa la bandiera a scacchi. Cosa succede agli altri?', ['Finiscono al passaggio successivo', 'Si fermano subito', 'Perdono un giro', 'Ripartono'], 0, 'Ciascuna vettura termina quando taglia il traguardo dopo il vincitore.'),
+      mc('Il leader passa la bandiera a scacchi. Cosa succede agli altri?', ['Finiscono al passaggio successivo', 'Si fermano subito in pista dove si trovano', 'Rientrano subito ai box senza completare il giro', 'Ripartono per un giro extra di gara'], 0, 'Ciascuna vettura termina quando taglia il traguardo dopo il vincitore.'),
       fill('Gara da 56 giri, punti pieni oltre il 75%. Quanti giri servono?', ['42'], '0,75 × 56 = 42.'),
-      mc('La classifica di gara può cambiare dopo il traguardo?', ['Sì, per penalità o squalifiche', 'Mai', 'Solo per il podio', 'Solo se piove'], 0, 'Penalità e squalifiche modificano la classifica.')
+      mc('La classifica di gara può cambiare dopo il traguardo?', ['Sì, per penalità o squalifiche', 'No, la classifica è definitiva al traguardo', 'Solo per i primi tre classificati', 'Solo se c’è stata pioggia in gara'], 0, 'Penalità e squalifiche modificano la classifica.')
     ]
   });
 
@@ -110,7 +110,7 @@
       fill('Una gara parte alle 13:00 e viene sospesa con bandiera rossa. Entro che ora (formato 24 h, solo il numero dell’ora) deve finire al massimo?', ['16'], 'Tre ore dalla partenza: 13 + 3 = 16.'),
       mc('Dopo una bandiera rossa la ripartenza è:', ['da fermo', 'lanciata', 'dietro la VSC', 'con una safety car'], 0, 'Si ripresenta alla griglia per una partenza da fermo.'),
       mc('Sotto SC la corsia box:', ['è aperta', 'è chiusa', 'è chiusa per i doppiati', 'è aperta solo per le gomme da bagnato'], 0, 'Le squadre possono fermarsi a sostituire le gomme.'),
-      mc('Cosa significa «safety car in this lap»?', ['La SC rientrerà a fine giro e la gara sta per riprendere', 'La SC si ferma sulla griglia', 'La gara è finita', 'Si sorpassa subito'], 0, 'Annuncia la ripartenza imminente.'),
+      mc('Cosa significa «safety car in this lap»?', ['La SC rientrerà a fine giro e la gara sta per riprendere', 'La SC si ferma sulla griglia e attende la bandiera rossa', 'La gara è finita e si va in parco chiuso subito', 'Si può sorpassare subito, prima della linea di controllo'], 0, 'Annuncia la ripartenza imminente.'),
       fill('Con VSC un pilota ha 2,0 s di vantaggio. Quanto vantaggio ha dopo la VSC in secondi (con condizioni uguali)?', ['2', '2,0', '2.0'], 'I distacchi restano invariati.'),
       mc('Dal 2022 sotto SC, quali vetture doppiate possono sdoppiarsi?', ['Tutte', 'Solo quelle in mezzo al gruppo', 'Nessuna', 'Solo la penultima'], 0, 'Tutte le vetture doppiate recuperano il giro.'),
       order('Ordina la ripartenza dopo la SC', ['SC in this lap', 'Luci arancioni spente', 'Leader decide il ritmo', 'Linea di controllo', 'Via ai sorpassi'], 'La SC rientra e il leader accelera in vista della linea di controllo.')
@@ -120,8 +120,8 @@
       mc('Una gara parte alle 14:30 ed è sospesa con bandiera rossa. Termine massimo?', ['17:30', '16:30', '18:30', '17:00'], 0, '14:30 + 3 ore.'),
       mc('Quale strumento mantiene i distacchi esistenti?', ['VSC', 'Safety car', 'Bandiera rossa', 'Ripartenza'], 0, 'La VSC congela i distacchi.'),
       mc('Quale strumento permette di cambiare le gomme senza perdere tempo in pista?', ['Bandiera rossa', 'VSC', 'Bandiera gialla', 'Bandiera blu'], 0, 'Con la bandiera rossa il tempo di sosta non si guadagna.'),
-      mc('Chi decide la neutralizzazione di una gara?', ['Il direttore di gara', 'I piloti', 'Il vincitore', 'Il promotore'], 0, 'È la direzione gara, in contatto con i commissari.'),
-      mc('Dopo la ripartenza, quando sono permessi i sorpassi?', ['Dopo la linea di controllo', 'Subito', 'Dopo 10 giri', 'Mai'], 0, 'Si sorpassa dal passaggio sulla linea indicata.'),
+      mc('Chi decide la neutralizzazione di una gara?', ['Il direttore di gara', 'I piloti con i team principal', 'Il vincitore della gara', 'Il promotore commerciale'], 0, 'È la direzione gara, in contatto con i commissari.'),
+      mc('Dopo la ripartenza, quando sono permessi i sorpassi?', ['Dopo la linea di controllo', 'Subito dopo la ripartenza', 'Dopo almeno 10 giri di gara', 'Mai nei primi tre giri'], 0, 'Si sorpassa dal passaggio sulla linea indicata.'),
       fill('Gara da 40 giri con 10 sotto SC: percentuale di giri neutralizzati (%)?', ['25'], '10/40 = 25%.')
     ]
   });
@@ -142,24 +142,24 @@
       { h: 'Riepilogo', b: `**Da ricordare**:\n\n- I commissari decidono, il direttore di gara dirige.\n- Penalità: 5 s, 10 s, drive-through, stop&go, griglia, squalifica.\n- Super licenza: **12 punti in 12 mesi → una gara di sospensione**.\n- Limiti di pista: violazioni cancellano il giro in qualifica; in gara avvisi poi 5 s.\n- Protesta e appello esistono ma non per tutti i tipi di decisione.\n\n> Cifre e termini precisi (cauzione, giorni per la revisione, numero di avvisi) variano: ordini di grandezza.\n\n> ${AVV}\n\nNella lezione seguente: gomme e carburante nel regolamento.` }
     ],
     exercises: [
-      mc('Chi decide le penalità durante un Gran Premio?', ['I commissari sportivi', 'Il direttore di gara', 'Il team principal', 'Il promotore'], 0, 'Il direttore di gara segnala, i commissari decidono.'),
+      mc('Chi decide le penalità durante un Gran Premio?', ['I commissari sportivi', 'Il direttore di gara della FIA', 'Il team principal della squadra', 'Il promotore commerciale'], 0, 'Il direttore di gara segnala, i commissari decidono.'),
       fill('A ha 8,0 s di vantaggio su B. A riceve 10 s. B passa davanti di quanti secondi?', ['2', '2,0', '2.0'], '10 − 8 = 2 secondi.'),
       fill('A ha 8,0 s di vantaggio e riceve 5 s. Quanto vantaggio rimane?', ['3', '3,0', '3.0'], '8 − 5 = 3.'),
       mc('Quando scatta la sospensione per punti patente?', ['A 12 punti in 12 mesi', 'A 3 punti', 'A 6 punti', 'A 24 punti'], 0, 'Soglia di 12 punti.'),
       fill('Un pilota ha 5 punti e riceve 2 punti: totale?', ['7'], '5 + 2.'),
-      mc('Un drive-through si scatta:', ['percorrendo la corsia box senza fermarsi', 'fermandosi 10 secondi', 'tornando in griglia', 'perdendo un giro'], 0, 'Si passa senza sostare al box, rispettando il limite di velocità.'),
-      mc('Una penalità di 5 secondi si può scontare:', ['durante il pit stop o al tempo finale', 'solo in griglia', 'saltando il podio', 'ritirandosi'], 0, 'Si sconta fermi al box o con l’aggiunta al tempo.'),
+      mc('Un drive-through si scatta:', ['percorrendo la corsia box senza fermarsi', 'fermandosi 10 secondi nel box della squadra', 'ripartendo dall’ultima posizione in griglia', 'scontando un giro in meno a fine gara'], 0, 'Si passa senza sostare al box, rispettando il limite di velocità.'),
+      mc('Una penalità di 5 secondi si può scontare:', ['durante il pit stop o al tempo finale', 'solo in griglia, prima del giro di formazione', 'rinunciando ai punti della gara in corso', 'ritirandosi dalla gara dopo tre giri'], 0, 'Si sconta fermi al box o con l’aggiunta al tempo.'),
       fill('Tempo di gara 1:30:00,0 più penalità di 5 s. Quanti secondi dopo 1:30:00 è il tempo finale?', ['5'], '1:30:05,0.'),
       mc('Un giro in qualifica con violazione dei limiti di pista:', ['viene cancellato', 'vale doppio', 'ha 5 s di penalità', 'viene ripetuto'], 0, 'Il tempo non conta.'),
       mc('Una collisione in cui entrambi sono responsabili è spesso classificata come:', ['incidente di gara', 'squalifica', 'penalità di griglia', 'infrazione tecnica'], 0, 'Racing incident: nessuna penalità.'),
-      mc('Per ricorrere contro una decisione si arriva in ultima istanza a:', ['la Corte d’Appello Internazionale FIA', 'i meccanici', 'la FOM', 'il pubblico'], 0, 'È l’organo di appello previsto.'),
+      mc('Per ricorrere contro una decisione si arriva in ultima istanza a:', ['la Corte d’Appello Internazionale FIA', 'il direttore di gara di Formula 1 e la FOM', 'il collegio dei team principal', 'il consiglio mondiale degli sponsor'], 0, 'È l’organo di appello previsto.'),
       order('Ordina la procedura di indagine', ['Episodio annotato', 'Investigazione', 'Audizione dei piloti', 'Decisione pubblicata'], 'Dall’annotazione alla pubblicazione della decisione.')
     ],
     test: [
       fill('Un pilota ha 9 punti e riceve 3 punti. Quanti punti ha?', ['12'], '9 + 3 = 12: soglia di sospensione.'),
-      mc('Un pilota con 9 punti riceve 2: cosa succede?', ['Arriva a 11, nessuna sospensione', 'Sospeso', 'Squalificato', 'Perde il titolo'], 0, '11 < 12.'),
+      mc('Un pilota con 9 punti riceve 2: cosa succede?', ['Arriva a 11, nessuna sospensione', 'Sospeso dalla gara successiva con 11 punti', 'Squalificato dalla gara in corso', 'Perde i punti del campionato piloti'], 0, '11 < 12.'),
       mc('A è 3° con 4,0 s su B (4°). A riceve 5 s non scontati. Esito?', ['B 3°, A 4°', 'A 3°', 'Pari', 'A squalificato'], 0, '5 − 4 = 1 s a vantaggio di B.'),
-      mc('Quale non è una penalità sportiva prevista?', ['Cambio gomme obbligatorio', 'Stop&go', 'Drive-through', 'Penalità di griglia'], 0, 'È un obbligo regolamentare, non una sanzione.'),
+      mc('Quale non è una penalità sportiva prevista?', ['Cambio gomme obbligatorio', 'Stop&go da dieci secondi', 'Drive-through in corsia box', 'Penalità di griglia in qualifica'], 0, 'È un obbligo regolamentare, non una sanzione.'),
       mc('Quanto restano valide le infrazioni nei punti patente?', ['12 mesi', '1 gara', '5 anni', '3 mesi'], 0, 'Per 12 mesi dalla data.'),
       mc('La decisione «no further action» significa:', ['nessuna sanzione', 'squalifica', 'gara annullata', 'obbligo di sosta'], 0, 'Non si prende alcuna misura.'),
       fill('Un pilota ha 4 punti e riceve due infrazioni da 3 punti ciascuna. Quanti punti ha in totale?', ['10'], '4 + 3 + 3 = 10: ancora sotto la soglia di 12.')
@@ -185,8 +185,8 @@
       mc('Chi fornisce le gomme alla F1?', ['Pirelli', 'Michelin', 'Bridgestone', 'Ogni squadra le sceglie'], 0, 'Pirelli è fornitore unico.'),
       mc('Quale fianco colorato indica le gomme intermedie?', ['Verde', 'Blu', 'Rosso', 'Giallo'], 0, 'Intermedie = verde, full wet = blu.'),
       fill('8 soft + 3 medium + 2 hard: totale set a secco?', ['13'], '8 + 3 + 2.'),
-      mc('In gara asciutta bisogna usare:', ['almeno due mescole a secco diverse', 'sempre la soft', 'una sola mescola', 'solo intermedie'], 0, 'L’obbligo è di due mescole diverse.'),
-      mc('Se la gara è dichiarata bagnata:', ['l’obbligo di due mescole non vale', 'serve la hard', 'servono 2 soste', 'si usano slick'], 0, 'Il vincolo cade con intermedie o full wet.'),
+      mc('In gara asciutta bisogna usare:', ['almeno due mescole a secco diverse', 'sempre la mescola più morbida disponibile', 'una sola mescola per tutta la gara', 'solo gomme intermedie nuove'], 0, 'L’obbligo è di due mescole diverse.'),
+      mc('Se la gara è dichiarata bagnata:', ['l’obbligo di due mescole non vale', 'serve almeno una sosta con la hard', 'servono due soste con mescole diverse', 'si usano solo gomme slick'], 0, 'Il vincolo cade con intermedie o full wet.'),
       fill('Carburante massimo per gara in kg?', ['110'], 'Limite di 110 kg.'),
       fill('Flusso massimo di carburante in kg/h?', ['100'], '100 kg/h.'),
       fill('110 kg a 100 kg/h al flusso massimo bastano per quanti minuti?', ['66'], '110/100 × 60 = 66.'),
@@ -201,8 +201,8 @@
       mc('Nel 2025 il peso minimo della vettura è circa:', ['800 kg', '600 kg', '1000 kg', '500 kg'], 0, 'Valore ricalcolato: circa 800 kg senza carburante.'),
       mc('Il carburante dal 2022 è:', ['E10', 'E85', 'Diesel', 'GPL'], 0, 'Benzina con 10% di etanolo.'),
       fill('4 set di intermedie + 3 full wet: totale set bagnato?', ['7'], '4 + 3.'),
-      mc('Le coperte riscaldanti servono a:', ['portare le gomme in temperatura', 'raffreddare i freni', 'migliorare l’aerodinamica', 'pesare la vettura'], 0, 'Preriscaldano le gomme.'),
-      mc('Cosa cambia dal 2026 (in generale)?', ['Motori e aerodinamica', 'Il numero di ruote', 'Il circuito', 'Nulla'], 0, 'Argomento di lezioni successive.')
+      mc('Le coperte riscaldanti servono a:', ['portare le gomme in temperatura', 'raffreddare i freni prima dei giri veloci', 'migliorare l’aerodinamica del fondo', 'pesare la vettura dopo la gara'], 0, 'Preriscaldano le gomme.'),
+      mc('Cosa cambia dal 2026 (in generale)?', ['Motori e aerodinamica', 'Il numero di ruote motrici', 'La lunghezza del circuito', 'Nulla, regole invariate'], 0, 'Argomento di lezioni successive.')
     ]
   });
 
@@ -226,23 +226,23 @@
       fill('Passo massimo in mm?', ['3600', '3.600', '3 600'], 'Passo massimo 3600 mm.'),
       fill('Spessore nominale del pattino 10 mm, usura massima 1 mm: spessore residuo minimo in mm?', ['9'], '10 − 1 = 9.'),
       mc('Il DRS può essere usato se il pilota è a meno di:', ['1 secondo', '3 secondi', '5 secondi', 'Sempre'], 0, 'Regola dei 1 s al punto di rilevamento.'),
-      mc('Il DRS è vietato:', ['nei primi due giri dopo il via e dopo ripartenze', 'in qualifica', 'in rettilineo', 'dopo il giro 10'], 0, 'Divieto di avvio.'),
+      mc('Il DRS è vietato:', ['nei primi due giri dopo il via e dopo ripartenze', 'in qualifica e in tutte le prove libere del weekend', 'sui rettilinei con zona di rilevamento', 'dopo il decimo giro di gara in poi'], 0, 'Divieto di avvio.'),
       fill('15 000 giri/min equivalgono a quanti giri al secondo?', ['250'], '15 000 / 60.'),
       fill('Flusso massimo di carburante in kg/h?', ['100'], 'Limite regolamentare.'),
       mc('La power unit è un V6 turbo ibrido da:', ['1,6 litri', '2,4 litri', '3,0 litri', '1,0 litro'], 0, 'Regolamento 2014–2025.'),
-      mc('Il parc fermé impedisce:', ['modifiche libere alla vettura dopo la qualifica', 'le soste ai box', 'l’uso delle gomme', 'la safety car'], 0, 'Limita gli interventi sull’assetto.'),
+      mc('Il parc fermé impedisce:', ['modifiche libere alla vettura dopo la qualifica', 'la sosta ai box dopo la fine delle qualifiche', 'l’uso di gomme diverse da quelle in qualifica', 'l’ingresso della safety car in pista'], 0, 'Limita gli interventi sull’assetto.'),
       mc('Una vettura sotto il peso minimo viene:', ['squalificata', 'multata soltanto', 'avvertita', 'ignorata'], 0, 'Il peso minimo è un vincolo da rispettare.'),
-      mc('Cosa rappresenta il pattino (plank)?', ['Un elemento sotto la vettura che limita l’altezza da terra', 'Il paraurti', 'L’ala posteriore', 'Il sedile'], 0, 'Serve a controllare l’altezza.'),
+      mc('Cosa rappresenta il pattino (plank)?', ['Una lastra sotto la vettura che limita l’altezza da terra', 'Un paraurti in carbonio che protegge il muso della vettura', 'Un elemento dell’ala posteriore che regola il DRS', 'Il sedile in fibra di carbonio su misura del pilota'], 0, 'Serve a controllare l’altezza.'),
       order('Ordina i regimi nel weekend normale', ['Prove libere', 'Inizio parc fermé', 'Qualifica', 'Gara'], 'Il parc fermé inizia con la qualifica del sabato.')
     ],
     test: [
       fill('Se il peso minimo è 800 kg e la vettura pesa 797 kg, di quanti kg è sotto?', ['3'], '800 − 797 = 3.'),
       mc('Al punto di rilevamento B è a 0,8 s da A. Può usare il DRS?', ['Sì', 'No', 'Solo in gara sprint', 'Solo con la VSC'], 0, '0,8 < 1,0.'),
-      mc('Cos’è l’effetto suolo?', ['Aderenza dal fondo con tunnel Venturi', 'Una pressione delle gomme', 'Un limite al peso', 'Un tipo di carburante'], 0, 'Dal 2022 gran parte del carico viene dal fondo.'),
+      mc('Cos’è l’effetto suolo?', ['Aderenza dal fondo con tunnel Venturi', 'Una pressione delle gomme sull’asfalto', 'Un limite al peso minimo della vettura', 'Un tipo di carburante sintetico per il fondo'], 0, 'Dal 2022 gran parte del carico viene dal fondo.'),
       mc('Quale elemento è stato abolito dal 2026?', ['MGU-H', 'MGU-K', 'Batteria', 'Il V6'], 0, 'Nel regolamento 2026 l’MGU-H non c’è.'),
       mc('Chi autorizza modifiche a componenti congelati per sicurezza?', ['La FIA', 'Il pubblico', 'Le gomme', 'Il circuito'], 0, 'È un organismo di controllo.'),
       fill('120 kW in CV (valore arrotondato, divisione per 0,7355)?', ['163'], '120 / 0,7355 = 163,15.'),
-      mc('Perché esiste il parc fermé?', ['Per evitare vetture diverse tra qualifica e gara', 'Per i premi', 'Per la sosta', 'Per i media'], 0, 'Impedisce modifiche di setup.')
+      mc('Perché esiste il parc fermé?', ['Per evitare vetture diverse tra qualifica e gara', 'Per assegnare i premi in denaro a fine weekend', 'Per ridurre la durata delle soste ai box', 'Per consentire ai media di fotografare le vetture'], 0, 'Impedisce modifiche di setup.')
     ]
   });
 
@@ -262,17 +262,17 @@
       { h: 'Riepilogo', b: `**Da ricordare**:\n\n- Il budget cap è un tetto alla spesa relativa alla prestazione; ordine **135–145 milioni di dollari** (verificare l’anno).\n- Esclusi: stipendi dei piloti, tre dirigenti, marketing.\n- Soglia **5%**: sotto → violazione minore, sopra → materiale (5% di 135 = 6,75 milioni).\n- ATR: limita galleria del vento e CFD; scala 70%–115%.\n- Sanzioni: multe, riduzione ATR, sanzioni sportive.\n\n> ${AVV}\n\nProssima lezione: **governance**, cioè chi decide le regole.` }
     ],
     exercises: [
-      mc('A cosa serve il budget cap?', ['Limitare le differenze di spesa tra squadre', 'Aumentare il prezzo dei biglietti', 'Pagare i piloti', 'Ridurre il numero di gare'], 0, 'Equilibrio competitivo.'),
+      mc('A cosa serve il budget cap?', ['Limitare le differenze di spesa tra squadre', 'Aumentare i ricavi dei promotori dei circuiti', 'Pagare gli stipendi dei piloti titolari', 'Ridurre il numero di gare in calendario'], 0, 'Equilibrio competitivo.'),
       fill('5% di un tetto di 135 milioni vale quanti milioni?', ['6,75', '6.75'], '135 × 0,05 = 6,75.'),
       mc('Un eccesso di spesa del 3% è in genere una violazione:', ['minore', 'materiale', 'non esiste', 'tecnica'], 0, 'Sotto il 5%.'),
       mc('Un eccesso di spesa del 6% è:', ['materiale', 'minore', 'procedurale', 'non conta'], 0, 'Oltre il 5%.'),
       fill('Spesa 143,1 milioni, tetto 135: eccesso in milioni?', ['8,1', '8.1'], '143,1 − 135.'),
       fill('Eccesso 8,1 su un tetto di 135: percentuale?', ['6'], '8,1 / 135 = 0,06.'),
       mc('Quale voce in genere NON rientra nel tetto?', ['Stipendi dei piloti', 'Costruzione del telaio', 'Galleria del vento', 'Simulatori'], 0, 'Tra le esclusioni.'),
-      mc('L’ATR limita:', ['galleria del vento e CFD', 'i giri in gara', 'le soste', 'le gomme'], 0, 'Restrizioni aerodinamiche.'),
+      mc('L’ATR limita:', ['galleria del vento e CFD', 'i giri di prova dei piloti', 'le soste durante la gara', 'le gomme da bagnato'], 0, 'Restrizioni aerodinamiche.'),
       fill('Quota base 100: il campione ha 70, l’ultimo 115. Differenza?', ['45'], '115 − 70.'),
       fill('Base 200 unità e quota 80%: quante unità?', ['160'], '200 × 0,8.'),
-      mc('Dopo il caso 2021 la FIA ha sanzionato anche con:', ['riduzione del tempo di prove aerodinamiche', 'sospensione del campionato', 'squalifica del pilota', 'cambio dei circuiti'], 0, 'Riduzione ATR del 10% per 12 mesi.'),
+      mc('Dopo il caso 2021 la FIA ha sanzionato anche con:', ['riduzione del tempo di prove aerodinamiche', 'sospensione del campionato per una stagione', 'squalifica del pilota dalla stagione successiva', 'cambio dei circuiti in calendario'], 0, 'Riduzione ATR del 10% per 12 mesi.'),
       order('Ordina una violazione dal meno al più grave', ['Procedurale', 'Minore', 'Materiale'], 'Procedurale è la più lieve, materiale (oltre 5%) la più grave.')
     ],
     test: [
@@ -280,7 +280,7 @@
       mc('Spesa 144 su tetto 135: tipo di violazione?', ['Materiale (eccesso di 6,7%)', 'Minore (eccesso sotto il 5%)', 'Nessuna', 'Solo procedurale'], 0, '9 / 135 = 6,67%, oltre il 5%.'),
       mc('Chi verifica i rendiconti?', ['La FIA', 'La FOM', 'I piloti', 'I tifosi'], 0, 'Autorità di controllo.'),
       mc('Quale non è una componente dell’ATR?', ['Pit stop', 'Galleria del vento', 'CFD', 'Scala mobile'], 0, 'ATR limita le prove aerodinamiche.'),
-      mc('Perché la scala mobile dell’ATR?', ['Più prove a chi è più indietro', 'Più prove al campione', 'Per i tifosi', 'Per i piloti'], 0, 'Riequilibra le risorse.'),
+      mc('Perché la scala mobile dell’ATR?', ['Più prove a chi è più indietro', 'Più prove alle squadre in testa', 'Per rendere la gara più spettacolare', 'Per favorire i piloti più giovani'], 0, 'Riequilibra le risorse.'),
       fill('5% di 140 milioni (in milioni)?', ['7'], '140 × 0,05.'),
       mc('Gli ordini di grandezza del tetto sono:', ['100–150 milioni di dollari', '10 milioni', '1 miliardo', '10 mila'], 0, 'Ordine di centinaia di milioni.')
     ]
