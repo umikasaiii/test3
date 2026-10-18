@@ -550,7 +550,7 @@ Componenti principali:
 - **MGU-H** (Heat): recupera energia dai gas di scarico e dal turbo;
 - **Batteria** (energy store) e centralina.
 
-Limiti principali: regime massimo **15 000 giri/min**, flusso di carburante massimo **100 kg/h**, e **100 kg** di carburante per l’intera gara (i V8 ne consumavano sensibilmente di più).
+Limiti principali: regime massimo **15 000 giri/min**, flusso di carburante massimo **100 kg/h**, e **100 kg** di carburante per l’intera gara (110 kg dal 2020; i V8 ne consumavano sensibilmente di più).
 
 > Il motore è tra i più efficienti mai costruiti per le corse: l’efficienza termica supera il **50%**, contro il 30–40% di un motore stradale a benzina.
 
@@ -558,7 +558,7 @@ Il passaggio all’ibrido nasce dalla volontà di avvicinare la F1 alle tecnolog
       { h: 'Numeri del power unit', b: `Alcuni calcoli per capire le dimensioni.
 
 - **Cilindrata per cilindro**: 1 600 cm³ / 6 ≈ **267 cm³**.
-- **MGU-K**: massima potenza **120 kW**. In cavalli: 120 × 1,341 ≈ **161 CV**.
+- **MGU-K**: massima potenza **120 kW**. In cavalli: 120 × 1,341 ≈ **161 hp** (≈ 163 CV metrici).
 - **Energia**: per giro l'MGU-K può recuperare al massimo **2 MJ** e rilasciare al massimo **4 MJ** dalla batteria; l'MGU-H non ha un limite equivalente.
 - **Potenza totale**: un power unit di quegli anni supera i **900–1 000 CV** complessivi (motore termico + parte elettrica).
 - **Flusso di carburante**: 100 kg/h. Con un gran premio di circa 90 minuti (1,5 ore) non si potrebbe usare il flusso massimo per tutto il tempo: 100 kg/h × 1,5 h = 150 kg > 100 kg disponibili.
@@ -639,7 +639,7 @@ Per ora, tieni a mente: ogni grande ciclo regolamentare apre una finestra di opp
 
 Conversioni utili:
 
-> 120 kW × 1,341 ≈ 161 CV. 135 milioni / 24 gare ≈ 5,6 milioni per gara. 100 kg/h × 0,5 h = 50 kg in mezz’ora a flusso massimo.
+> 120 kW × 1,341 ≈ 161 hp (≈ 163 CV metrici). 135 milioni / 24 gare ≈ 5,6 milioni per gara. 100 kg/h × 0,5 h = 50 kg in mezz’ora a flusso massimo.
 
 Limiti di questa lezione:
 
@@ -651,7 +651,7 @@ La storia recente è utile perché mostra come **regolamento, ingegneria e strat
     ],
     exercises: [
       mc('Che motore introduce il regolamento 2014?', ['V6 turbo ibrido da 1,6 litri', 'V8 aspirato da 2,4 litri', 'V10 aspirato da 3,0 litri', 'V12 da 3,5 litri'], 0, 'Il power unit combina motore termico e sistema ibrido ERS.'),
-      fill('L’MGU-K ha una potenza massima di 120 kW. Quanti CV (intero approssimato, con 1 kW ≈ 1,341 CV)?', ['161', '160', '160,9', '160.9'], '120 × 1,341 ≈ 161.'),
+      fill('L’MGU-K ha una potenza massima di 120 kW. Quanti hp (intero approssimato, con 1 kW ≈ 1,341 hp)?', ['161', '160', '160,9', '160.9'], '120 × 1,341 ≈ 161 hp (≈ 163 CV metrici).'),
       fill('La Mercedes vinse 16 gare su 19 nel 2014. Percentuale (intera approssimata)?', ['84', '84,2', '84.2'], '16 / 19 = 0,842.'),
       mc('Che cosa recupera l’MGU-H?', ['Energia dai gas di scarico e dal turbo', 'Energia dalla frenata', 'Energia dalle gomme', 'Energia dal vento'], 0, 'H sta per Heat (calore).'),
       fill('Quanti titoli costruttori consecutivi vinse la Mercedes dal 2014 al 2021?', ['8', 'otto'], '2021 − 2014 + 1 = 8.'),
@@ -659,7 +659,7 @@ La storia recente è utile perché mostra come **regolamento, ingegneria e strat
       fill('Il tetto scende da 145 a 135 milioni: di che percentuale (un decimale)?', ['6,9', '6.9', '6,90'], '10 / 145 = 0,069.'),
       mc('Che cosa cambia nel 2022?', ['Ritorna l’effetto suolo con ruote da 18 pollici', 'Si abbandona il turbo', 'Si vietano le gomme', 'Si introduce il rifornimento'], 0, 'Fu il maggior cambio aerodinamico degli ultimi anni.'),
       mc('Quale componente è eliminato dal regolamento 2026?', ['L’MGU-H', 'L’MGU-K', 'Il turbo', 'La batteria'], 0, 'La MGU-H è complessa e costosa.'),
-      mc('Quanti kg di carburante ammette il regolamento per l’intera gara ibrida?', ['100 kg', '50 kg', '150 kg', '200 kg'], 0, 'Il limite è circa 100 kg per gara.'),
+      mc('Quanti kg di carburante ammetteva il regolamento 2014 per l’intera gara?', ['100 kg', '50 kg', '150 kg', '200 kg'], 0, 'Il limite 2014 era di 100 kg per gara (110 kg dal 2020).'),
       fill('Cilindrata di un singolo cilindro di un V6 da 1 600 cm³ (cm³, intero approssimato)?', ['267', '266,7', '266.7', '266'], '1 600 / 6 = 266,7.'),
       order('Ordina cronologicamente', ['2014 power unit ibrido V6', '2021 budget cap', '2022 effetto suolo e ruote da 18 pollici', '2026 power unit senza MGU-H'], 'Dal power unit al nuovo ciclo del 2026.')
     ],
