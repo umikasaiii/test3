@@ -40,3 +40,20 @@ Limite: un agente che ricontrolla a memoria ha gli stessi limiti di chi ha scrit
 | Judo | 22/65 | 0 | registro-revisione-judo.md |
 
 Totale: 126 argomenti su ~500 letti per intero; 17 correzioni. Non rivisti: Inglese e Giapponese (lezioni di lingua; i contenuti nuovi N3/C1 restano senza revisione di madrelingua) e l'80% degli altri argomenti. I dubbi e le voci «da verificare con fonte esterna» restano nei registri per la tua verifica. Lacune di profondità del judo (regole e punteggi IJF, gradi, Gokyo, lavoro a terra, storia) segnalate, non riscritte.
+
+## Fase 2 — seconda ondata e lavori collegati
+| Materia | Letti (2ª ondata) | Errori certi corretti | Ancora da leggere |
+|---|---|---|---|
+| Sport | 22 | 3 (CaO₂ 21,3/17,3; 2 refusi) | 33 |
+| Moto | 22 | 4 (settore 2 e margine; MR aumenta; c_cr 3 553,6; refuso) | 24 + 11 pilota |
+| Cultura | 34 | 3 (Bismarck 1883; corrente alternata 100 inversioni/s; refuso) | 56 |
+| F1 | 25 | 2 (carburante 100/110 kg e 97,98 kg/h) | 27 |
+| Strategia | 21 | 1 (Giuoco Piano: tre pezzi sviluppati dal Nero) | 18 |
+| Cyber | 16 | 1 (spiegazione cookie) | 19 |
+| Mentale | 6 | 1 (tris: forchetta) | 3 |
+| Judo | 28 (8 nuove + 20) | 1 (kanji osaekomi 抑込) | 12 |
+| Inglese | 19 | 2 | n.d. |
+| Giapponese | 41 lezioni + passata su tutti i 1 836+221+115 esercizi | 12 + 13 | – |
+Totale cumulato ≈ 300 argomenti letti per intero su ~750 con ~60 correzioni certe. Dubbi e «da verificare con fonte esterna» restano nei registri `docs/registro-revisione-*.md`. Metodo sempre a memoria da agenti, senza fonti esterne né madrelingua/esperti: non è una garanzia di correttezza.
+
+Cambiamento strutturale: la risposta corretta dei quiz di giapponese j0–j5 era in prima posizione nel ~70% dei casi; ora è rimescolata in modo deterministico. In `cyb-banks.js` la risposta giusta è l'opzione più lunga in 71 casi su 100: la banca è indovinabile e andrebbe riequilibrata.

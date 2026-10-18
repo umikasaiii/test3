@@ -64,3 +64,43 @@ f1-sistema-di-punti, f1-formato-del-weekend, f1-la-gara-distanza-punti (solo il 
 - Campione di 18 argomenti su 70: restano da leggere gli altri 52, compresi f1-adv-gestione-energia-ottimale e f1-adv-tempo-sul-giro (non letti).
 - Regolamenti 2026 e dettagli procedurali (punti ridotti per gare interrotte, penalità, mescole) non verificati su testi FIA aggiornati.
 - Le versioni nei file layer-en/ja non sono state toccate né controllate.
+
+## Seconda revisione
+
+Campione: 25 argomenti nuovi (non presenti nella prima revisione), letti per intero (pagine, esercizi, test). Ricalcolo via Node di tutti i numeri svolti (velocità/rapporti del cambio, frenata, carico e aderenza, curva con aerodinamica, modello a bicicletta, tempo sul giro e sensibilità, stint ottimo, safety car, Monte Carlo e strategia mista, Magic Formula, modello termico della gomma, programmazione dinamica dell'ERS, cicli Otto/Diesel) e controllo di date e fatti storici a memoria. Le classificazioni sono le stesse della prima revisione.
+
+### Argomenti esaminati
+
+f1-glossario-e-numeri, f1-bandiere-e-segnali, f1-il-circuito, f1-trasmissione-e-cambio, f1-freni, f1-pneumatici-struttura-mescole, f1-aderenza-e-finestra-termica, f1-dinamica-del-veicolo, f1-assetto-e-tarature, f1-simulazione-del-giro, f1-tempo-sul-giro, f1-strategia-gomme, f1-safety-car-e-vsc, f1-incertezza-e-decisioni, f1-telemetria, f1-origini-e-primo-mondiale, f1-anni-cinquanta-sessanta, f1-anni-novanta-duemila, f1-sicurezza-e-momenti-decisivi, f1-effetto-suolo-e-fondo, f1-adv-termodinamica-power-unit, f1-adv-modelli-pneumatico, f1-adv-dinamica-veicolo, f1-adv-gestione-energia-ottimale, f1-adv-tempo-sul-giro.
+
+### Segnalazioni
+
+| id | Pagina / punto | Citazione breve | Classificazione | Motivo | Azione |
+|---|---|---|---|---|---|
+| f1-adv-termodinamica-power-unit | p. 5, regole 2014–2025 | «il carburante di gara a 100 kg» | ERRORE CERTO | Il limite di 100 kg vale 2014–2019; dal 2020 è 110 kg (come in f1-gomme-e-carburante, f1-power-unit-ibrida e nella correzione di f1-era-ibrida-e-nuovi-regolamenti). Il testo riferiva 100 kg a tutto il periodo 2014–2025. | corretto («100 kg fino al 2019 e a 110 kg dal 2020») |
+| f1-adv-termodinamica-power-unit | p. 8 ed es. E7 | «0,0272 kg/s ≈ 97,9 kg/h»; risposte 97,9 / 97.9 / 98 | ERRORE CERTO | 550 000 / (0,47 · 43·10⁶) = 0,02721 kg/s = 97,97 kg/h, che a un decimale è 98,0, non 97,9. Chi calcolava correttamente 98,0 era segnato errato (il confronto delle risposte è per stringa). | corretti testo, spiegazione e risposte («98,0», «98.0», «98» e, per chi usa 0,0272, «97,9»/«97.9») |
+| f1-assetto-e-tarature | p. 6, differenziale | «ruota esterna 700 N·m, interna 300 N·m … aiuta la rotazione» | DUBBIO | In un differenziale a slittamento limitato l'attrito interno tende a trasferire coppia dalla ruota che gira più veloce (l'esterna in curva) a quella più lenta (l'interna), quindi in uscita un blocco alto è di norma associato a più sottosterzo, non a più rotazione. Il verso dipende però da assetto, slittamento delle ruote e tipo di differenziale. | nessuna modifica; da rivedere con un ingegnere di trasmissione |
+| f1-strategia-gomme | p. 1 | «da C1 (la più dura) a C5» | DUBBIO | Altre lezioni (f1-pneumatici-struttura-mescole, f1-gomme-e-carburante) parlano di C0–C5. La gamma è cambiata nel tempo (C1–C5 fino al 2022, C0 aggiunta dal 2023): le due scale convivono senza nota. | nessuna modifica |
+| f1-il-circuito | p. 1 ed es. T1 | «la distanza superi i 305 km» / «4 km × 76 giri = 304 km» | DUBBIO | L'esercizio ipotetico dà una gara da 304 km, sotto il minimo dichiarato a p. 1. L'aritmetica è corretta. | nessuna modifica |
+| f1-freni | p. 6 | «ΔT ≈ 415 K» | DUBBIO | 645 / (1,3 · 1,2) = 413,5 K; la cifra è arrotondata ai 5 K. | nessuna modifica |
+| f1-origini-e-primo-mondiale | p. 3 | «Alfa Romeo 158 … 350 CV nella versione iniziale» | DA VERIFICARE CON FONTE ESTERNA | A memoria il 158 del 1938 erogava circa 190–200 CV; i circa 350 CV sono della versione 1950 (il 159 del 1951 arrivò a circa 420). | nessuna modifica |
+| f1-anni-cinquanta-sessanta | p. 1 | «record rimasto imbattuto fino al 2002» | DUBBIO | Schumacher eguagliò i 5 titoli di Fangio nel 2002 e li superò (6°) nel 2003; la formula è ambigua (eguagliato, non battuto, nel 2002). | nessuna modifica |
+| f1-simulazione-del-giro | p. 6 | «tra 3 000 e 4 000 m cresce di 0,398 s» | DUBBIO | Con i valori tabulati 1,652 − 1,253 = 0,399; probabile arrotondamento dei dati di partenza. | nessuna modifica |
+| f1-glossario-e-numeri, f1-adv-gestione-energia-ottimale | varie | peso minimo «circa 800 kg»; cifre ERS illustrative | DA VERIFICARE CON FONTE ESTERNA | Già dichiarati ordini di grandezza o dati illustrativi nel testo. | nessuna modifica |
+
+### Id modificati
+
+- f1-adv-termodinamica-power-unit (f1-l-avanzato.js): limite carburante e arrotondamento di E7/p. 8. Attenzione ai riepiloghi EN/JA (layer-en-f1.js, layer-ja-f1.js): possono riportare «97.9 kg/h» e «100 kg» e non sono stati toccati.
+
+### Id senza problemi
+
+f1-glossario-e-numeri, f1-bandiere-e-segnali, f1-il-circuito (solo il dubbio su T1), f1-trasmissione-e-cambio, f1-freni (solo arrotondamento), f1-pneumatici-struttura-mescole, f1-aderenza-e-finestra-termica, f1-dinamica-del-veicolo, f1-simulazione-del-giro, f1-tempo-sul-giro, f1-strategia-gomme (solo la scala C1–C5), f1-safety-car-e-vsc, f1-incertezza-e-decisioni, f1-telemetria, f1-anni-novanta-duemila, f1-sicurezza-e-momenti-decisivi, f1-effetto-suolo-e-fondo, f1-adv-modelli-pneumatico, f1-adv-dinamica-veicolo, f1-adv-gestione-energia-ottimale, f1-adv-tempo-sul-giro, f1-origini-e-primo-mondiale e f1-anni-cinquanta-sessanta (solo i dubbi indicati). Date, record, punti, tabelle di rapporti, frenata, aderenza, curva, modello a bicicletta, Magic Formula, modello termico, DP dell'ERS e sensibilità risultano coerenti con il ricalcolo.
+
+### Id ancora da leggere
+
+f1-adv-aerodinamica-avanzata, f1-adv-affidabilita-e-dati, f1-affidabilita-e-prestazioni, f1-ali-anteriore-posteriore, f1-analisi-post-gara, f1-bagnato-e-condizioni-variabili, f1-carriere-dietro-le-quinte, f1-che-cose-la-f1, f1-come-e-fatta-una-squadra, f1-come-sistema, f1-confronto-tra-piloti, f1-fia-promotore-costruttori, f1-gestione-dal-muretto, f1-governance-fia-fom, f1-guardare-una-gara, f1-il-weekend-di-gara, f1-la-monoposto-in-sintesi, f1-la-strada-verso-la-formula-1, f1-raffreddamento-e-affidabilita, f1-raffreddamento-e-carrozzeria, f1-schermate-dei-tempi, f1-sicurezza-e-sostenibilita, f1-simulazione-giro-e-gara, f1-sospensioni-e-sterzo, f1-squadre-piloti-ruoli, f1-sviluppo-aerodinamico, f1-telaio-e-monoscocca
+
+### Limiti
+
+- Revisione a memoria, senza fonti esterne né accesso a Internet.
+- Le versioni nei file layer-en/ja non sono state toccate né controllate.

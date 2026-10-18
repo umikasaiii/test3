@@ -48,3 +48,40 @@ str-matrici-di-payoff-e-nash (tutti gli equilibri ricalcolati: 3×3 con (A,X),(B
 - Campione di 12 argomenti su 51: restano da leggere gli altri 39 (tra cui le lezioni su aste, oligopolio, valore attuale e programmazione dinamica).
 - Le posizioni scacchistiche sono state verificate a mano, senza motore né libreria di scacchi.
 - Le versioni nei file layer-en/ja non sono state toccate né controllate.
+
+## Seconda revisione
+
+Campione: 21 argomenti nuovi (non presenti nella prima revisione), letti per intero (pagine, esercizi, test). Ricalcolati via Node: Cournot/Bertrand/grim trigger, aste e maledizione del vincitore, VAN/TIR/annuità, PD (monete, zaino, LCS, edit distance), minimax e alfa-beta, strategie miste (rigori, chicken, sasso-carta-forbici), dilemma del prigioniero e soglie di δ, Dijkstra/Kruskal/cammino critico, utilità attesa e Bayes, break-even, MR = MC e Lerner, logistica, Fearon, assegnamento (6 permutazioni), TSP a 5 città (tutti i 12 giri), CPM/PERT e crashing. Posizioni di scacchi verificate con il motore di gioco dell'app (src/core/chess.js): legalità delle mosse, scacchi, matti e risposte dell'avversario. Le classificazioni sono le stesse della prima revisione.
+
+### Argomenti esaminati
+
+str-eco-oligopolio, str-eco-aste-incentivi, str-eco-valore-attuale, str-opt-programmazione-dinamica, str-giochi-a-somma-zero-e-minimax, str-strategie-miste, str-dilemma-del-prigioniero-e-cooperazione, str-alberi-di-gioco-e-valutazione, str-grafi-e-cammini-minimi, str-scacchi-motivi-tattici, str-scacchi-strutture-di-pedoni, str-utilita-e-avversione-al-rischio, str-decisioni-sotto-incertezza, str-eco-costi, str-eco-mercato, str-mil-logistica, str-mil-deterrenza-giochi, str-opt-assegnamento-combinatori, str-opt-pianificazione-progetto, str-scacchi-principi-di-apertura, str-scacchi-scambi-e-squilibri.
+
+### Segnalazioni
+
+| id | Pagina / punto | Citazione breve | Classificazione | Motivo | Azione |
+|---|---|---|---|---|---|
+| str-scacchi-principi-di-apertura | p. 7, Giuoco Piano | «Entrambi hanno due pezzi sviluppati» | ERRORE CERTO | Dopo 1.e4 e5 2.Cf3 Cc6 3.Ac4 Cf6 4.d3 Ac5 5.O-O d6 6.c3 O-O il Bianco ha mosso due pezzi minori (Cf3, Ac4) e il Nero tre (Cc6, Cf6, Ac5). | corretto («Il Bianco ha sviluppato due pezzi e il Nero tre; entrambi hanno il Re al sicuro e il centro conteso») |
+| str-scacchi-principi-di-apertura | p. 5, Donna in uscita presto | «Cf6 e Cc6 attaccano la Donna» | DUBBIO | Nell'esempio di Dh5 solo Cf6 attacca la donna; Cc6 non attacca h5 (i due Cavalli non controllano mai una casella in comune). Probabile formulazione generica. | nessuna modifica |
+| str-scacchi-motivi-tattici | p. 4, scacco di scoperta | «se 1...De6 interponendo, 2.Txe6+» | DUBBIO (non errore) | Verificato col motore: la posizione è corretta e 1.Cc5+ vince la donna. Il Nero può interporre anche con 1...De2 (2.Txe2+ vince lo stesso); il testo cita un solo esempio. | nessuna modifica |
+| str-scacchi-motivi-tattici | p. 4, scoperta senza scacco | «1.Cf6+» (es. E5) | nessuna | Verificato: 1.Ce7+ non funziona (1...Dxe7), quindi la risposta unica 1.Cf6+ è corretta. | nessuna |
+| str-eco-oligopolio | p. 5 | «la mossa dominante nel gioco isolato è deviare» | DUBBIO | Nel gioco a quantità continue deviare è la risposta ottima al rivale a 22,5, non una strategia dominante in senso stretto; vale per il gioco ridotto a due scelte (collusione / Cournot). | nessuna modifica |
+| str-mil-logistica | p. 6 | «oltre 500 km … rifornimento molto difficile» (van Creveld); «fronte di circa 2 000 km» | DA VERIFICARE CON FONTE ESTERNA | Cifre storiche approssimate, già presentate come ordini di grandezza. | nessuna modifica |
+| str-mil-deterrenza-giochi | p. 6 | «circa 70 000 testate nel 1986; 12 000 oggi» | DA VERIFICARE CON FONTE ESTERNA | Coerenti con le stime pubbliche a memoria; il testo le definisce ordini di grandezza. | nessuna modifica |
+
+### Id modificati
+
+- str-scacchi-principi-di-apertura (str-l-scacchi1.js): descrizione della posizione finale a p. 7. Il riepilogo EN/JA (layer-en-str.js, layer-ja-str.js) potrebbe contenere la stessa frase e non è stato toccato.
+
+### Id senza problemi
+
+str-eco-oligopolio (equilibri di Cournot, grim trigger δ ≥ 0,529, N = 3), str-eco-aste-incentivi (Vickrey, equivalenza dei ricavi 33,33, maledizione +13,33, bonus b ≥ 50), str-eco-valore-attuale (VAN +227,65, TIR 13,1%, annuità, regola del 72), str-opt-programmazione-dinamica (tutte le tabelle ricalcolate), str-giochi-a-somma-zero-e-minimax (albero a 3 livelli = 5, alfa-beta, gioco di entrata), str-strategie-miste (p = 3/5, q = 1/2, v = 1; rigori p = 4/9, q = 2/3), str-dilemma-del-prigioniero-e-cooperazione (δ ≥ 1/2, 2/5, 2/3), str-alberi-di-gioco-e-valutazione (69 finestre di Forza 4, 5 478 posizioni del tris), str-grafi-e-cammini-minimi (Dijkstra 20/20/11, MST 33 contro albero 38, cammino critico 11), str-scacchi-motivi-tattici (tutte le posizioni legali e le linee verificate col motore: Cc7+, d4, Ta1+, Cc5+, Cf6+, Dd7/Te8#, Td8+/Cf7+, Axf6/Dxh7#, Axd5/Te8#, Légal, matto del barbiere), str-scacchi-strutture-di-pedoni, str-utilita-e-avversione-al-rischio, str-decisioni-sotto-incertezza, str-eco-costi, str-eco-mercato, str-mil-logistica, str-mil-deterrenza-giochi (Fearon 50–70, chicken p = 0,99, δ ≥ 1/3, date della crisi di Cuba), str-opt-assegnamento-combinatori (ottimo 12, TSP 44, NN 48, 2-opt, MST 31), str-opt-pianificazione-progetto (ES/LS, slack, PERT, crashing 200/600/1 100/1 750), str-scacchi-scambi-e-squilibri.
+
+### Id ancora da leggere
+
+str-eco-scambio, str-eco-strategia-impresa, str-errori-strategici-e-pre-mortem, str-mil-ooda-asimmetria, str-mil-principi-guerra, str-negoziazione-e-incentivi, str-opt-grafi, str-opt-multiobiettivo-decisioni-reali, str-opt-ricerca-locale-bandit, str-ottimizzazione-greedy-e-dp, str-pensiero-strategico, str-pianificazione-e-vincoli, str-scacchi-allenamento-e-torneo, str-scacchi-analisi-delle-partite, str-scacchi-colonne-diagonali-e-case-forti, str-scacchi-iniziativa-e-attacco, str-scacchi-metodo-di-calcolo, str-strategia-competitiva
+
+### Limiti
+
+- Revisione a memoria, senza fonti esterne né accesso a Internet.
+- Le versioni nei file layer-en/ja non sono state toccate né controllate.
