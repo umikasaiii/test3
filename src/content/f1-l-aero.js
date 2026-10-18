@@ -30,7 +30,7 @@
       mc('Il rapporto carico/resistenza di una vettura, a parità di assetto:', ['non dipende dalla velocità', 'raddoppia se la velocità raddoppia', 'cresce con v³', 'si dimezza se la velocità raddoppia'], 0, 'Carico e resistenza sono entrambi proporzionali a v²: il rapporto resta costante.'),
       fill('Peso di una vettura da 798 kg in newton (g = 9,81), arrotondato alle decine?', ['7830', '7.830', '7 830', '7828', '7.828', '7 828'], '798 × 9,81 ≈ 7 828 N.'),
       fill('A quale velocità (in km/h, intero) il carico di 4,0 m² uguaglia il peso di 7 828 N?', ['206', '205,6', '205.6'], 'v = √(2 × 7 828 / (1,2 × 4,0)) ≈ 57,1 m/s ≈ 206 km/h.'),
-      mc('Che cosa significa “portanza negativa” per una F1?', ['Una forza aerodinamica diretta verso il basso', 'Una forza che solleva la vettura', 'Una riduzione del peso', 'Una resistenza dell’aria'], 0, 'Le ali sono profilate al contrario rispetto a quelle d’aereo: la forza risultante è verso il basso.'),
+      mc('Che cosa significa “portanza negativa” per una F1?', ['Una forza aerodinamica diretta verso il basso', 'Una spinta aerodinamica che alleggerisce la vettura in rettilineo', 'Un calo di peso ottenuto grazie ai materiali compositi', 'La resistenza dell’aria che frena la vettura in rettilineo'], 0, 'Le ali sono profilate al contrario rispetto a quelle d’aereo: la forza risultante è verso il basso.'),
       mc('A Città del Messico (circa 2 240 m) il carico aerodinamico a parità di assetto e velocità è:', ['minore, perché l’aria è meno densa', 'maggiore, perché l’aria è più densa', 'identico', 'nullo'], 0, 'F è proporzionale a ρ, che a quella quota è circa il 20% in meno.'),
       order('Ordina il calcolo del carico a 100 m/s con Cl·A = 4,0 m²', ['q = ½ρv²', '= 0,5 × 1,2 × 100²', '= 6 000 Pa', 'F = q × Cl·A', '= 24 000 N'], 'Si calcola prima la pressione dinamica, poi si moltiplica per l’area efficace.')
     ],
@@ -41,8 +41,8 @@
       fill('Con Cd·A = 0,9 m² e ρ = 1,2 kg/m³, resistenza a 70 m/s in newton?', ['2646', '2.646', '2 646'], '0,6 × 0,9 × 4 900 = 2 646 N.'),
       fill('Carico di 21 000 N e resistenza di 6 000 N alla stessa velocità: qual è il rapporto carico/resistenza?', ['3,5', '3.5', '3,50'], '21 000 / 6 000 = 3,5.'),
       fill('Potenza in kW per vincere la resistenza di 4 583 N a 300 km/h (83,33 m/s), arrotondata?', ['382', '381,9', '381.9', '380'], '4 583 × 83,33 ≈ 381 900 W ≈ 382 kW.'),
-      mc('Perché una F1 ha un rapporto carico/resistenza molto più basso di un aereo di linea?', ['Profili molto carichi, ruote scoperte e vicinanza al suolo', 'Perché non ha ali', 'Perché ha pneumatici più larghi di tutte le altre auto', 'Perché la resistenza non esiste a terra'], 0, 'Il carico elevato richiede alta deflessione del flusso e la vettura ha molti elementi che generano resistenza.'),
-      mc('A parità di velocità, in una giornata molto calda il carico aerodinamico è:', ['leggermente inferiore', 'molto superiore', 'identico', 'sempre doppio'], 0, 'L’aria calda è meno densa e F è proporzionale a ρ.')
+      mc('Perché una F1 ha un rapporto carico/resistenza molto più basso di un aereo di linea?', ['Profili molto carichi, ruote scoperte e vicinanza al suolo', 'Motori meno potenti e carrozzeria completamente chiusa', 'Profili poco carichi, ruote coperte e grande distanza dal suolo', 'Ali di superficie ridotta e massa molto superiore a un aereo'], 0, 'Il carico elevato richiede alta deflessione del flusso e la vettura ha molti elementi che generano resistenza.'),
+      mc('A parità di velocità, in una giornata molto calda il carico aerodinamico è:', ['leggermente inferiore', 'leggermente superiore', 'nettamente superiore', 'identico in ogni caso'], 0, 'L’aria calda è meno densa e F è proporzionale a ρ.')
     ]
   });
 
@@ -65,8 +65,8 @@
     exercises: [
       fill('Per un profilo sottile ideale C ≈ 2π·α. Quanto vale C con α = 6° (due decimali)?', ['0,66', '0.66', '0,658', '0.658'], '6° = 0,1047 rad; C = 2π × 0,1047 ≈ 0,658.'),
       fill('Ala di prova A = 0,5 m², α = 8° (C ≈ 0,877), v = 80 m/s, ρ = 1,2. Carico in newton (arrotondato)?', ['1684', '1.684', '1 684', '1680', '1.680', '1 680'], 'F = 0,6 × 0,877 × 0,5 × 6 400 ≈ 1 684 N.'),
-      mc('Lo stallo di un’ala è:', ['il distacco del flusso dal profilo, con calo di carico e aumento di resistenza', 'un aumento del carico oltre ogni limite', 'la rottura dell’ala', 'la chiusura del flap DRS'], 0, 'Oltre l’angolo critico il flusso non segue più il profilo: il carico cala e la resistenza sale.'),
-      mc('A che cosa servono principalmente le endplate?', ['Ridurre la fuga d’aria alle estremità e orientare i flussi', 'Aumentare il peso della vettura', 'Alimentare il motore', 'Raffreddare i freni'], 0, 'Limitano il vortice d’estremità e dirigono la scia, ad esempio delle ruote anteriori.'),
+      mc('Lo stallo di un’ala è:', ['il distacco del flusso dal profilo, con calo di carico e aumento di resistenza', 'il flusso che si riattacca al profilo, con aumento di carico e calo di resistenza', 'un eccesso di carico che flette l’ala senza modificare la resistenza', 'l’apertura del flap mobile con riduzione del carico e della resistenza'], 0, 'Oltre l’angolo critico il flusso non segue più il profilo: il carico cala e la resistenza sale.'),
+      mc('A che cosa servono principalmente le endplate?', ['Ridurre la fuga d’aria alle estremità e orientare i flussi', 'Aumentare la superficie dell’ala per generare più carico verticale', 'Alimentare il motore con aria pulita proveniente dalle ali', 'Raffreddare i freni anteriori deviando l’aria verso i cerchi'], 0, 'Limitano il vortice d’estremità e dirigono la scia, ad esempio delle ruote anteriori.'),
       fill('Resistenza indotta C²/(π·AR·e) con C = 1,5, AR = 3, e = 0,85 (due decimali)?', ['0,28', '0.28'], '2,25 / (π × 3 × 0,85) = 2,25 / 8,01 ≈ 0,28.'),
       mc('Raddoppiando il coefficiente di carico di un’ala, la resistenza indotta:', ['quadruplica', 'raddoppia', 'resta uguale', 'si dimezza'], 0, 'È proporzionale a C².'),
       fill('Configurazione alta: Cl·A = 4,4 m², v = 90 m/s, ρ = 1,2. Carico in newton?', ['21384', '21.384', '21 384'], '0,6 × 4,4 × 8 100 = 21 384 N.'),
@@ -74,7 +74,7 @@
       fill('+0,3 m² di Cl·A e +0,08 m² di Cd·A: quanti newton di carico per newton di resistenza?', ['3,75', '3.75'], '0,3 / 0,08 = 3,75.'),
       fill('Ridurre del 10% la resistenza a potenza fissa aumenta la velocità massima di circa quanti punti percentuali (un decimale)?', ['3,6', '3.6', '3,5', '3.5'], 'v ∝ (1/Cd·A)^(1/3): (1/0,9)^(1/3) ≈ 1,036.'),
       mc('Quale circuito richiede in genere ali scariche?', ['Monza (rettilinei lunghi)', 'Monaco (curve lente)', 'Budapest', 'Singapore'], 0, 'Dove contano i rettilinei si riduce la resistenza accettando meno carico.'),
-      mc('Dove si trova il beam wing?', ['Nella parte posteriore, sotto l’ala principale vicino al diffusore', 'Sul muso, davanti alle ruote', 'Sul cofano motore', 'Nell’abitacolo'], 0, 'È un’ala inferiore che aiuta anche l’estrazione dell’aria dal diffusore.'),
+      mc('Dove si trova il beam wing?', ['Nella parte posteriore, sotto l’ala principale vicino al diffusore', 'Sul muso, davanti alle ruote anteriori, sotto il profilo principale', 'Sul cofano motore, dietro l’airbox, vicino alla presa d’aria', 'Sull’ala anteriore, in prossimità delle paratie laterali'], 0, 'È un’ala inferiore che aiuta anche l’estrazione dell’aria dal diffusore.'),
       order('Ordina gli effetti di un aumento dell’angolo dell’ala posteriore', ['più angolo', 'più carico al retrotreno', 'più resistenza', 'meno velocità massima'], 'Se non si arriva allo stallo, il carico cresce ma si paga in resistenza.')
     ],
     test: [
@@ -82,10 +82,10 @@
       fill('Configurazione alta (Cd·A = 1,25) a 90 m/s: resistenza in newton?', ['6075', '6.075', '6 075'], '0,6 × 1,25 × 8 100 = 6 075 N.'),
       fill('Configurazione bassa: Cl·A = 3,2 e Cd·A = 0,95. Rapporto carico/resistenza (un decimale)?', ['3,4', '3.4', '3,37', '3.37'], '3,2 / 0,95 ≈ 3,37.'),
       fill('Resistenza indotta con C = 3, AR = 3, e = 0,85 (due decimali)?', ['1,12', '1.12'], '9 / (π × 3 × 0,85) ≈ 1,12.'),
-      mc('Perché le ali F1 hanno più elementi (flap) separati da fessure?', ['Per mantenere il flusso attaccato a inclinazioni elevate', 'Per rendere l’ala più pesante', 'Per ridurre sempre il carico', 'Per ridurre il rumore'], 0, 'Le fessure ricaricano lo strato limite e ritardano lo stallo.'),
+      mc('Perché le ali F1 hanno più elementi (flap) separati da fessure?', ['Per mantenere il flusso attaccato a inclinazioni elevate', 'Per aumentare la superficie e quindi la massa dell’ala complessiva', 'Per ridurre il carico in rettilineo e abbassare il rumore', 'Per far staccare il flusso prima e diminuire il carico generato'], 0, 'Le fessure ricaricano lo strato limite e ritardano lo stallo.'),
       mc('Oltre l’angolo di stallo, aumentando ancora l’angolo, il carico di un’ala:', ['cala e la resistenza sale', 'cresce ancora in modo lineare', 'resta uguale', 'diventa sempre zero'], 0, 'Dopo il picco la curva scende e si paga più resistenza.'),
-      mc('In un circuito con molte curve lente e pochi rettilinei, in genere conviene:', ['configurazione ad alto carico', 'ali quasi piatte', 'togliere l’ala anteriore', 'ridurre il peso a zero'], 0, 'La perdita di velocità massima pesa poco rispetto al guadagno in curva.'),
-      mc('Quale affermazione sul bilanciamento aerodinamico è corretta?', ['È il rapporto tra carico anteriore e totale', 'È la differenza tra carico e resistenza', 'È la pressione delle gomme', 'È la distribuzione dei pesi dei piloti'], 0, 'Nelle vetture 2022–2025 sta indicativamente intorno al 45% anteriore.')
+      mc('In un circuito con molte curve lente e pochi rettilinei, in genere conviene:', ['configurazione ad alto carico', 'configurazione a basso carico con ali scariche', 'ali quasi piatte per ridurre al minimo la resistenza', 'togliere l’ala anteriore per alleggerire la vettura'], 0, 'La perdita di velocità massima pesa poco rispetto al guadagno in curva.'),
+      mc('Quale affermazione sul bilanciamento aerodinamico è corretta?', ['È il rapporto tra carico anteriore e totale', 'È la pressione relativa delle gomme anteriori e posteriori', 'È la differenza tra carico verticale e resistenza all’avanzamento', 'È la distribuzione del peso tra il pilota e la power unit'], 0, 'Nelle vetture 2022–2025 sta indicativamente intorno al 45% anteriore.')
     ]
   });
 
@@ -112,7 +112,7 @@
       fill('v₁ = 50 m/s, rapporto 1,3 (v₂ = 65 m/s), ρ = 1,2: Δp in pascal?', ['1035', '1.035', '1 035'], '0,6 × (4 225 − 2 500) = 0,6 × 1 725 = 1 035 Pa.'),
       mc('Secondo Bernoulli, dove il flusso accelera la pressione:', ['diminuisce', 'aumenta', 'resta uguale', 'diventa infinita'], 0, 'p + ½ρv² è costante: se v cresce, p cala.'),
       mc('Se la velocità di ingresso passa da 50 a 70 m/s, la depressione nel Venturi:', ['cresce di circa due volte (1,96)', 'cresce di 1,4 volte', 'si dimezza', 'resta uguale'], 0, 'Δp ∝ v₁²: (70/50)² = 1,96.'),
-      mc('La funzione principale del diffusore è:', ['permettere alla gola di avere forte depressione recuperando la pressione all’uscita', 'raffreddare i freni', 'alimentare il motore', 'ridurre il peso'], 0, 'Un canale che si allarga fa risalire la pressione e sostiene la depressione a monte.'),
+      mc('La funzione principale del diffusore è:', ['consentire una forte depressione in gola e recuperare pressione in uscita', 'ridurre la resistenza di forma del fondo eliminando ogni zona di bassa pressione', 'convogliare l’aria verso il motore per migliorare il raffreddamento', 'aumentare la velocità del flusso all’uscita riducendo il carico del fondo'], 0, 'Un canale che si allarga fa risalire la pressione e sostiene la depressione a monte.'),
       mc('Da quale anno il fondo piano ha sostituito l’effetto suolo nel regolamento?', ['1983', '1977', '2022', '1994'], 0, 'Dopo le limitazioni dei primi anni Ottanta, nel 1983 fu imposto il fondo piano.'),
       mc('Quale vettura inaugurò l’effetto suolo con i tunnel sotto il fondo?', ['Lotus', 'Ferrari 2022', 'McLaren MP4/4', 'Brawn 2009'], 0, 'La Lotus 78 (1977) e la 79 (1978) furono le pioniere.'),
       fill('Porpoising a 6 Hz: periodo in secondi (tre decimali)?', ['0,167', '0.167'], '1/6 ≈ 0,167 s.'),
@@ -125,10 +125,10 @@
       fill('Δp = 1 215 Pa su 2,0 m²: forza in newton?', ['2430', '2.430', '2 430'], '1 215 × 2,0 = 2 430 N.'),
       fill('Porpoising a 5 Hz e 70 m/s: metri percorsi per ciclo?', ['14'], '70 / 5 = 14 m.'),
       fill('Se il fondo produce il 60% di 24 000 N, quanti newton genera?', ['14400', '14.400', '14 400'], '0,6 × 24 000 = 14 400 N.'),
-      mc('Che cosa succede se il fondo scende troppo?', ['Il flusso si strozza e il carico può calare di colpo', 'Il carico aumenta senza limite', 'La resistenza diventa nulla', 'La vettura vola'], 0, 'Oltre un certo punto la depressione non si sostiene più e il carico crolla.'),
-      mc('Che cosa facevano le gonne dei primi anni?', ['Sigillavano i lati dei tunnel contro l’asfalto', 'Aumentavano il peso', 'Raffreddavano le ruote', 'Spingevano l’aria sopra l’ala'], 0, 'Impedivano all’aria laterale di riempire la depressione sotto la vettura.'),
-      mc('Perché la FIA ha introdotto un limite alle oscillazioni verticali nel 2022?', ['Per ridurre porpoising e rischi per i piloti', 'Per aumentare il carico', 'Per ridurre il peso', 'Per vietare il DRS'], 0, 'Le oscillazioni causavano problemi di salute e guidabilità.'),
-      mc('Quale affermazione sul rapporto tra v e depressione nel Venturi è corretta?', ['La depressione cresce con il quadrato della velocità di ingresso', 'Non dipende dalla velocità', 'Cresce linearmente', 'Diminuisce con la velocità'], 0, 'Δp = ½ρ(v₂² − v₁²) con v₂ proporzionale a v₁.')
+      mc('Che cosa succede se il fondo scende troppo?', ['Il flusso si strozza e il carico può calare di colpo', 'Il flusso si stacca e il carico aumenta in modo più regolare', 'Il fondo tocca la pista e la resistenza scende quasi a zero', 'Il diffusore si chiude e la depressione cresce senza limite'], 0, 'Oltre un certo punto la depressione non si sostiene più e il carico crolla.'),
+      mc('Che cosa facevano le gonne dei primi anni?', ['Sigillavano i lati dei tunnel contro l’asfalto', 'Aumentavano il peso della vettura per migliorare la trazione', 'Raffreddavano i lati dei tunnel e riducevano il carico', 'Spingevano l’aria verso l’alto sopra le ali laterali'], 0, 'Impedivano all’aria laterale di riempire la depressione sotto la vettura.'),
+      mc('Perché la FIA ha introdotto un limite alle oscillazioni verticali nel 2022?', ['Per ridurre porpoising e rischi per i piloti', 'Per aumentare il carico e rendere la vettura più rigida', 'Per ridurre il peso minimo e il costo dei materiali usati', 'Per limitare l’uso del DRS sui rettilinei più lunghi'], 0, 'Le oscillazioni causavano problemi di salute e guidabilità.'),
+      mc('Quale affermazione sul rapporto tra v e depressione nel Venturi è corretta?', ['La depressione cresce con il quadrato della velocità di ingresso', 'La depressione è indipendente dalla velocità di ingresso', 'La depressione cresce in modo lineare con la velocità di ingresso', 'La depressione diminuisce al crescere della velocità d’ingresso'], 0, 'Δp = ½ρ(v₂² − v₁²) con v₂ proporzionale a v₁.')
     ]
   });
 
@@ -152,15 +152,15 @@
       fill('A 300 km/h (83,3 m/s), quanti metri equivalgono a 1,0 s di distacco (intero)?', ['83', '83,3', '83.3'], '83,33 m/s × 1 s ≈ 83 m.'),
       fill('Rettilineo di 1 000 m a 300 km/h costanti: tempo in secondi?', ['12'], '1 000 / 83,33 = 12,00 s.'),
       fill('Con +6 km/h medi (306 km/h) su 1 000 m, quanto tempo si guadagna rispetto a 300 km/h (due decimali)?', ['0,24', '0.24', '0,235', '0.235'], '12,00 − 11,76 ≈ 0,24 s.'),
-      mc('Che cosa apre il DRS?', ['Il flap mobile dell’ala posteriore', 'L’ala anteriore', 'Il fondo', 'La presa d’aria del motore'], 0, 'Un flap dell’ala posteriore che riduce resistenza e carico.'),
-      mc('Quando deve trovarsi la vettura entro 1,0 s da quella che precede per poter usare il DRS?', ['Al punto di rilevamento (detection point)', 'Per tutto il giro', 'Alla partenza', 'Ai box'], 0, 'Il distacco si misura nel punto di rilevamento prima della zona.'),
-      mc('Quale tra queste è una regola DRS in gara 2022–2025?', ['Non si può usare nei primi due giri dopo partenza o ripartenza', 'Si può usare sempre', 'Solo il leader può usarlo', 'Si usa in curva'], 0, 'Dopo il via o la ripartenza il DRS è bloccato per due giri.'),
+      mc('Che cosa apre il DRS?', ['Il flap mobile dell’ala posteriore', 'L’ala anteriore regolabile dal pilota in curva', 'Il diffusore posteriore per aumentare il carico', 'La presa d’aria dell’airbox sopra il pilota'], 0, 'Un flap dell’ala posteriore che riduce resistenza e carico.'),
+      mc('Quando deve trovarsi la vettura entro 1,0 s da quella che precede per poter usare il DRS?', ['Al punto di rilevamento (detection point)', 'Alla linea di partenza, a ogni giro della gara', 'Su tutto il giro, in qualsiasi punto della pista', 'Solo all’uscita dei box dopo una sosta'], 0, 'Il distacco si misura nel punto di rilevamento prima della zona.'),
+      mc('Quale tra queste è una regola DRS in gara 2022–2025?', ['Non si può usare nei primi due giri dopo partenza o ripartenza', 'Si può usare fin dal primo giro, anche subito dopo la ripartenza', 'Si può usare solo dal vincitore della qualifica', 'Si può usare soltanto nelle curve lente del circuito'], 0, 'Dopo il via o la ripartenza il DRS è bloccato per due giri.'),
       fill('Per un arco di 90° a r = 100 m, l’aria sporca (−20% carico) fa perdere circa quanti km/h (un decimale)?', ['13,7', '13.7'], '186,4 − 172,7 = 13,7 km/h.'),
       fill('Per lo stesso arco di 90° (r = 100 m), quanti secondi si perdono (due decimali)?', ['0,24', '0.24'], '3,27 − 3,03 = 0,24 s.'),
-      mc('Perché l’aria sporca fa sottosterzare la vettura che segue?', ['Perché l’ala anteriore perde carico', 'Perché il motore si ferma', 'Perché si riduce il peso', 'Perché le gomme si gonfiano'], 0, 'Meno carico anteriore: le gomme anteriori slittano e la vettura non gira.'),
+      mc('Perché l’aria sporca fa sottosterzare la vettura che segue?', ['Perché l’ala anteriore perde carico', 'Perché il motore riceve meno aria dall’airbox', 'Perché il posteriore ha troppo carico nelle curve lente', 'Perché le gomme posteriori perdono temperatura di colpo'], 0, 'Meno carico anteriore: le gomme anteriori slittano e la vettura non gira.'),
       fill('Una riduzione della resistenza del 10% a potenza costante aumenta la velocità massima di quanti punti percentuali (un decimale)?', ['3,6', '3.6', '3,5', '3.5'], '(1/0,9)^(1/3) ≈ 1,036.'),
       fill('Due vetture a 20 m, zona di 800 m a 83,33 m/s. Che velocità relativa (km/h) basta per colmare la distanza?', ['7,5', '7.5'], 't = 9,6 s; Δv = 20/9,6 ≈ 2,08 m/s ≈ 7,5 km/h.'),
-      mc('Che cosa è lo slipstream?', ['La riduzione di resistenza per chi segue nella scia di un’altra vettura', 'Un tipo di gomma', 'Un freno', 'Un tipo di ala anteriore'], 0, 'Nella scia la pressione dinamica relativa è minore.'),
+      mc('Che cosa è lo slipstream?', ['La riduzione di resistenza per chi segue nella scia di un’altra vettura', 'L’aumento di resistenza per chi segue nella scia di un’altra vettura veloce', 'Un tipo di mescola che resiste meglio alle alte temperature', 'Un profilo dell’ala anteriore con più elementi e fessure'], 0, 'Nella scia la pressione dinamica relativa è minore.'),
       order('Ordina l’uso del DRS in gara', ['entro 1,0 s al punto di rilevamento', 'entrata nella zona di attivazione', 'apertura del flap', 'maggiore velocità in rettilineo', 'frenata e chiusura del flap'], 'Si rileva il distacco, si attiva nella zona, si guadagna velocità e il freno richiude il flap.')
     ],
     test: [
@@ -168,10 +168,10 @@
       fill('Curva a r = 50 m con −20% di carico: tempo perso su 90°, in secondi (due decimali)?', ['0,07', '0.07'], '2,62 − 2,55 = 0,07 s.'),
       fill('Con +10 km/h medi su 1 000 m a 300 km/h, guadagno di tempo in secondi (due decimali)?', ['0,39', '0.39', '0,387', '0.387'], '12,00 − 11,61 = 0,39 s.'),
       fill('Un guadagno di 11 km/h su 320 km/h è pari a quale percentuale (un decimale)?', ['3,4', '3.4'], '11 / 320 = 0,0344.'),
-      mc('Perché l’aria sporca danneggia di più le curve veloci?', ['Perché il carico pesa di più rispetto al peso della vettura', 'Perché il motore è più caldo', 'Perché le curve veloci sono più lunghe', 'Perché non c’è nessuna differenza'], 0, 'A velocità elevata il carico domina l’aderenza: perderne il 20% costa di più.'),
-      mc('Che cosa chiude automaticamente il flap del DRS?', ['La pressione del freno', 'Il cambio marcia', 'La Safety Car', 'Il serbatoio'], 0, 'Alla frenata il flap si richiude per motivi di sicurezza.'),
-      mc('In caso di pista bagnata e non sicura, il DRS:', ['può essere disabilitato dal direttore di gara', 'è sempre obbligatorio', 'si apre da solo', 'raddoppia il carico'], 0, 'Il direttore di gara decide se renderlo disponibile.'),
-      mc('Che cosa sostituisce il DRS nel regolamento 2026?', ['Aerodinamica attiva con ali mobili', 'Un secondo motore', 'Gomme più larghe', 'Il fondo piano'], 0, 'Il 2026 prevede ali anteriore e posteriore mobili e modalità di sorpasso.')
+      mc('Perché l’aria sporca danneggia di più le curve veloci?', ['Perché il carico pesa di più rispetto al peso della vettura', 'Perché il motore soffre di più il calore del traffico', 'Perché il peso della vettura è inferiore nelle curve veloci', 'Perché le curve veloci hanno meno carico aerodinamico richiesto'], 0, 'A velocità elevata il carico domina l’aderenza: perderne il 20% costa di più.'),
+      mc('Che cosa chiude automaticamente il flap del DRS?', ['La pressione del freno', 'Il superamento dei 300 km/h in fondo al rettilineo', 'L’uscita della vettura dalla zona di rilevamento', 'Il passaggio della Safety Car sulla linea del traguardo'], 0, 'Alla frenata il flap si richiude per motivi di sicurezza.'),
+      mc('In caso di pista bagnata e non sicura, il DRS:', ['può essere disabilitato dal direttore di gara', 'può essere imposto a tutte le vetture per sicurezza', 'si apre in automatico quando piove forte', 'viene attivato dalla Safety Car per aiutare i doppiaggi'], 0, 'Il direttore di gara decide se renderlo disponibile.'),
+      mc('Che cosa sostituisce il DRS nel regolamento 2026?', ['Aerodinamica attiva con ali mobili', 'Ali anteriori più larghe e fondo ancora più piatto', 'Un secondo sistema di recupero dell’energia sul retrotreno', 'Un limite di giri imposto ai motori nei rettilinei'], 0, 'Il 2026 prevede ali anteriore e posteriore mobili e modalità di sorpasso.')
     ]
   });
 
@@ -200,10 +200,10 @@
       fill('Di quanto aumenta in percentuale la portata necessaria passando da ΔT = 60 K a 45 K (intero)?', ['33'], '60/45 = 1,333.'),
       mc('Che cosa contengono principalmente i sidepod?', ['I radiatori', 'Il serbatoio dell’olio dei freni', 'L’ala anteriore', 'Il differenziale'], 0, 'Contengono i radiatori e guidano il flusso verso il retro.'),
       mc('Quando sono stati eliminati i bargeboard?', ['Con il regolamento 2022', 'Nel 1983', 'Nel 2014', 'Nel 2026'], 0, 'Il regolamento 2022 li ha eliminati per ridurre l’aria sporca.'),
-      mc('Che cosa significa outwash?', ['Spingere l’aria verso l’esterno rispetto alle ruote anteriori', 'Lavare le gomme', 'Portare l’aria verso il pilota', 'Raffreddare il cambio'], 0, 'Serve a far passare la scia turbolenta delle ruote fuori dal fondo.'),
+      mc('Che cosa significa outwash?', ['Spingere l’aria verso l’esterno rispetto alle ruote anteriori', 'Spingere l’aria verso l’interno, sotto il fondo della vettura', 'Raccogliere l’aria dalle ruote posteriori per alimentare il fondo', 'Lavare le superfici dell’ala per eliminare le particelle sporche'], 0, 'Serve a far passare la scia turbolenta delle ruote fuori dal fondo.'),
       fill('Un’apertura aggiuntiva aumenta il Cd·A del 1,5% (da 1,1 m²). Aumento in m² (quattro decimali)?', ['0,0165', '0.0165'], '0,015 × 1,1 = 0,0165 m².'),
-      mc('Più grandi sono le aperture di raffreddamento:', ['migliore raffreddamento, maggiore resistenza', 'peggiore raffreddamento, minore resistenza', 'nessun effetto', 'solo maggiore carico'], 0, 'Il compromesso è tra temperatura del motore e resistenza.'),
-      mc('Perché si usano i vortici in aerodinamica F1?', ['Hanno un centro a bassa pressione e possono sigillare e guidare il flusso', 'Per far girare le ruote', 'Per produrre elettricità', 'Per rumore'], 0, 'I vortici sono stabili e si usano come cortine d’aria.'),
+      mc('Più grandi sono le aperture di raffreddamento:', ['migliore raffreddamento, maggiore resistenza', 'minore raffreddamento, minore resistenza', 'migliore raffreddamento, minore resistenza', 'peggiore raffreddamento, maggiore resistenza'], 0, 'Il compromesso è tra temperatura del motore e resistenza.'),
+      mc('Perché si usano i vortici in aerodinamica F1?', ['Hanno un centro a bassa pressione e possono guidare il flusso', 'Servono a far girare le ruote più velocemente in curva', 'Producono corrente elettrica per alimentare le batterie del KERS', 'Riducono la pressione dell’aria nei freni durante la frenata'], 0, 'I vortici sono stabili e si usano come cortine d’aria.'),
       order('Ordina il percorso del calore verso l’aria', ['combustione', 'calore nel liquido di raffreddamento', 'radiatore nel sidepod', 'aria riscaldata', 'uscita dall’apertura posteriore'], 'Il calore passa dal liquido al radiatore e dall’aria viene espulso in coda.')
     ],
     test: [
@@ -211,9 +211,9 @@
       fill('Quanti g/s di carburante sono 100 kg/h (un decimale)?', ['27,8', '27.8'], '100 000 / 3 600 ≈ 27,8 g/s.'),
       fill('Q = 250 kW, ΔT = 40 K. Portata d’aria in kg/s (due decimali)?', ['6,22', '6.22'], '250 000 / (1 005 × 40) ≈ 6,22 kg/s.'),
       fill('Se il Cd·A cresce del 1,5%, la velocità massima a potenza fissa varia di circa quanti punti percentuali (un decimale, con segno)?', ['-0,5', '−0,5', '-0.5', '0,5', '0.5'], '(1,015)^(−1/3) ≈ 0,995.'),
-      mc('Perché i team usano kit di raffreddamento diversi da pista a pista?', ['Per adattare raffreddamento e resistenza a temperatura e tracciato', 'Per cambiare colore', 'Per ridurre il peso dei piloti', 'Per rispettare il regolamento sportivo'], 0, 'La necessità di raffreddamento cambia con clima e circuito.'),
-      mc('Dove si trova l’airbox?', ['Sopra la testa del pilota, per alimentare il motore', 'Dentro le ruote', 'Sul fondo', 'Nell’ala anteriore'], 0, 'È la presa d’aria principale del motore.'),
-      mc('Perché una giornata molto calda richiede più aria per il raffreddamento?', ['Perché l’aumento di temperatura disponibile ΔT si riduce', 'Perché l’aria è più densa', 'Perché il carburante pesa di più', 'Perché i freni raffreddano il motore'], 0, 'A parità di Q, ṁ = Q/(cₚ·ΔT): se ΔT cala, ṁ cresce.'),
+      mc('Perché i team usano kit di raffreddamento diversi da pista a pista?', ['Per adattare raffreddamento e resistenza a temperatura e tracciato', 'Per ridurre il peso della vettura sulle piste più veloci e molto calde', 'Per cambiare la livrea secondo gli sponsor di ogni gara', 'Per rispettare i limiti di rumore imposti da ogni circuito'], 0, 'La necessità di raffreddamento cambia con clima e circuito.'),
+      mc('Dove si trova l’airbox?', ['Sopra la testa del pilota, per alimentare il motore', 'Sotto il fondo, per convogliare l’aria verso il diffusore', 'Dentro le ruote anteriori, per raffreddare i freni', 'Nell’ala anteriore, per aumentare il carico sul muso'], 0, 'È la presa d’aria principale del motore.'),
+      mc('Perché una giornata molto calda richiede più aria per il raffreddamento?', ['Perché l’aumento di temperatura disponibile ΔT si riduce', 'Perché l’aria calda è più densa e spinge meno', 'Perché il carburante bolle già a temperature più basse del solito', 'Perché i freni cedono più calore all’aria circostante'], 0, 'A parità di Q, ṁ = Q/(cₚ·ΔT): se ΔT cala, ṁ cresce.'),
       mc('Quale delle seguenti non è una funzione tipica dei bargeboard storici?', ['Produrre elettricità', 'Creare vortici', 'Guidare la scia delle ruote anteriori', 'Controllare il flusso verso il fondo'], 0, 'Erano pannelli aerodinamici, non producevano elettricità.')
     ]
   });
@@ -239,14 +239,14 @@
       fill('Modello al 60% (lunghezza 3,36 m) a 50 m/s: Reynolds in milioni (un decimale)?', ['11,2', '11.2'], '50 × 3,36 / 1,5×10⁻⁵ = 11,2×10⁶.'),
       fill('Per avere lo stesso Reynolds con un modello al 60% servirebbe una velocità del vento di circa quanti m/s?', ['83,3', '83.3', '83'], '50 / 0,6 ≈ 83,3 m/s, oltre il limite di 50 m/s.'),
       mc('Il regolamento sportivo limita il modello in galleria a:', ['60% di scala e 50 m/s di vento', '100% e 100 m/s', '30% e 20 m/s', '80% e 70 m/s'], 0, 'I limiti sono scala 60% e velocità del vento 50 m/s.'),
-      mc('Che cosa significa ATR?', ['Aerodynamic Testing Restrictions', 'Air Temperature Record', 'Automatic Track Racing', 'Aero Tyre Rule'], 0, 'Sono i limiti a galleria del vento e CFD.'),
+      mc('Che cosa significa ATR?', ['Aerodynamic Testing Restrictions', 'Aerodynamic Track Regulation Rules', 'Air Testing Reduction', 'Aero Testing Range'], 0, 'Sono i limiti a galleria del vento e CFD.'),
       fill('Prima squadra al 70% e ultima al 115% dell’assegnazione: rapporto 115/70 (due decimali)?', ['1,64', '1.64'], '115/70 ≈ 1,643.'),
       fill('Galleria prevede +3,0%, pista misura +1,8%: correlazione in percentuale?', ['60'], '1,8 / 3,0 = 0,60.'),
-      mc('Perché la CFD da sola non basta?', ['I modelli di turbolenza sono approssimati e il flusso instabile è difficile da prevedere', 'Perché non esistono computer abbastanza veloci per fare calcoli', 'Perché la CFD è vietata', 'Perché non calcola mai le pressioni'], 0, 'Aria sporca e vortici sono difficili da modellare.'),
+      mc('Perché la CFD da sola non basta?', ['I modelli di turbolenza sono approssimati e il flusso instabile è imprevedibile', 'Gli errori di calcolo restano sempre troppo grandi per i modelli di vetture complete', 'Perché i calcolatori attuali non reggono i modelli con milioni di celle', 'La CFD ignora la turbolenza e non può stimare le pressioni sulle ali'], 0, 'Aria sporca e vortici sono difficili da modellare.'),
       fill('Con 0,169 s per ogni 1% di Cl·A, +3% di carico vale quanti secondi sul giro (due decimali)?', ['0,51', '0.51', '0,5'], '0,169 × 3 ≈ 0,51 s.'),
-      mc('A che cosa serve la vernice flow-vis?', ['Mostra dove il flusso resta attaccato o si stacca', 'Rende la vettura più veloce', 'Misura la temperatura dei freni', 'Colora le gomme'], 0, 'La vernice segue il flusso e lo rende visibile.'),
+      mc('A che cosa serve la vernice flow-vis?', ['Mostra dove il flusso resta attaccato o si stacca', 'Registra la temperatura dei freni durante la frenata dei piloti', 'Riduce l’attrito dell’aria sulla carrozzeria della vettura', 'Misura la pressione dei pneumatici in curva con precisione'], 0, 'La vernice segue il flusso e lo rende visibile.'),
       fill('Carico di 24 000 N a 100 m/s con densità ridotta del 6,5% (a caldo): carico in newton (arrotondato alle decine)?', ['22440', '22.440', '22 440', '22400', '22.400', '22 400'], '24 000 × 0,935 ≈ 22 440 N.'),
-      mc('Che cosa significa “back-to-back”?', ['Confronto a coppie con e senza il pezzo nella stessa sessione', 'Una gara in retromarcia', 'Una prova senza pilota', 'Due piloti in una vettura'], 0, 'Serve a misurare un aggiornamento in condizioni simili.'),
+      mc('Che cosa significa “back-to-back”?', ['Confronto a coppie con e senza il pezzo nella stessa sessione', 'Un confronto tra due vetture diverse nello stesso weekend di gara', 'Una gara a coppie con due piloti in rotazione', 'Due giri consecutivi con serbatoio pieno e poi vuoto'], 0, 'Serve a misurare un aggiornamento in condizioni simili.'),
       order('Ordina il ciclo di sviluppo di un aggiornamento', ['idea', 'CFD', 'galleria del vento', 'produzione', 'prova in pista e correlazione'], 'Dalla simulazione alla verifica in pista.')
     ],
     test: [
@@ -255,9 +255,9 @@
       fill('Galleria prevede +4,0%, pista misura +3,0%: correlazione in percentuale?', ['75'], '3,0 / 4,0 = 0,75.'),
       fill('Squadra al 115% rispetto a quella al 70%: quante prove in più, in percentuale (intero)?', ['64'], '(115 − 70) / 70 ≈ 0,64.'),
       fill('+2% di Cl·A con 0,169 s per 1%: secondi guadagnati (due decimali)?', ['0,34', '0.34'], '0,169 × 2 ≈ 0,34 s.'),
-      mc('Che cosa fa il tappeto mobile in galleria?', ['Simula il movimento dell’asfalto rispetto alla vettura', 'Pulisce la vettura', 'Raffredda il modello', 'Misura il rumore'], 0, 'È essenziale per riprodurre l’effetto suolo.'),
-      mc('Perché è utile una buona correlazione?', ['Per fidarsi delle previsioni di CFD e galleria', 'Per ridurre il peso della vettura', 'Per vincere i test invernali senza prove', 'Per aumentare la velocità del vento'], 0, 'Senza correlazione si sviluppa nella direzione sbagliata.'),
-      mc('Perché un’altitudine elevata riduce il carico?', ['Perché la densità dell’aria è minore', 'Perché la gravità è nulla', 'Perché le gomme sono più dure', 'Perché non esistono ali'], 0, 'F è proporzionale a ρ.')
+      mc('Che cosa fa il tappeto mobile in galleria?', ['Simula il movimento dell’asfalto rispetto alla vettura', 'Riduce il rumore del flusso d’aria nella camera di prova', 'Raffredda i freni e le gomme del modello in prova', 'Mantiene fermo il modello durante i test del vento'], 0, 'È essenziale per riprodurre l’effetto suolo.'),
+      mc('Perché è utile una buona correlazione?', ['Per fidarsi delle previsioni di CFD e galleria', 'Per ridurre il peso e la complessità del modello in prova', 'Per saltare i test di galleria e la validazione in pista', 'Per vincere i test invernali senza usare la CFD'], 0, 'Senza correlazione si sviluppa nella direzione sbagliata.'),
+      mc('Perché un’altitudine elevata riduce il carico?', ['Perché la densità dell’aria è minore', 'Perché la gravità è molto minore e riduce il peso', 'Perché le gomme scaldano troppo e perdono aderenza', 'Perché l’aria più rarefatta aumenta la resistenza'], 0, 'F è proporzionale a ρ.')
     ]
   });
 
@@ -286,9 +286,9 @@
       mc('Di che colore è la spalla della mescola Medium?', ['Gialla', 'Rossa', 'Bianca', 'Verde'], 0, 'Hard bianca, Medium gialla, Soft rossa.'),
       mc('Che colore ha la gomma full wet?', ['Blu', 'Verde', 'Rossa', 'Gialla'], 0, 'Le intermedie sono verdi, le full wet blu.'),
       fill('Quanti set di slick sono assegnati a ciascun pilota in un weekend standard?', ['13'], 'Sono 13 set di slick, 4 di intermedie e 3 di full wet.'),
-      mc('Per una gara asciutta, il regolamento richiede:', ['almeno due mescole diverse di slick', 'una sola mescola', 'solo gomme dure', 'tre soste'], 0, 'È l’obbligo che impone almeno una sosta nelle gare asciutte.'),
+      mc('Per una gara asciutta, il regolamento richiede:', ['almeno due mescole diverse di slick', 'almeno due mescole diverse di pneumatici da bagnato', 'sempre tre soste complete in tutte le gare', 'una sola mescola per tutta la durata della gara'], 0, 'È l’obbligo che impone almeno una sosta nelle gare asciutte.'),
       fill('N = 8 000 N, μ = 1,5, Fy = 9 kN. Forza di frenata massima rimasta in kN (due decimali)?', ['7,94', '7.94', '7,9', '7.9'], '√(12² − 9²) = √63 ≈ 7,94.'),
-      mc('Un pneumatico più morbido rispetto a uno duro, in genere:', ['dà più grip ma si usura prima', 'dura di più e ha più grip', 'non ha grip', 'è vietato in gara'], 0, 'Il compromesso è tra prestazione e durata.'),
+      mc('Un pneumatico più morbido rispetto a uno duro, in genere:', ['dà più grip ma si usura prima', 'dà meno grip ma si usura più lentamente', 'dà più grip e dura più di una mescola dura', 'ha lo stesso grip ma si scalda più in fretta'], 0, 'Il compromesso è tra prestazione e durata.'),
       mc('Quali sono i diametri dei cerchi dal 2022?', ['18 pollici', '13 pollici', '16 pollici', '21 pollici'], 0, 'Dal 2022 i cerchi sono da 18 pollici.'),
       order('Ordina gli strati da fuori a dentro', ['battistrada', 'cinture', 'carcassa', 'innerliner'], 'Dall’asfalto verso l’aria interna.')
     ],
@@ -297,7 +297,7 @@
       fill('25 psi sono circa quanti bar (due decimali)?', ['1,72', '1.72'], '25 × 0,0689 ≈ 1,72 bar.'),
       fill('N = 6 000 N, μ = 1,5, Fy = 6 kN. Forza di frenata rimasta in kN (un decimale)?', ['6,7', '6.7'], '√(9² − 6²) = √45 ≈ 6,7.'),
       fill('Quanti set di gomme (slick + intermedie + full wet) in totale?', ['20'], '13 + 4 + 3 = 20.'),
-      mc('Perché si usano coperte termiche?', ['Per portare la gomma vicino alla temperatura di lavoro prima di partire', 'Per ridurre il peso', 'Per colorare le gomme', 'Per ridurre la pressione'], 0, 'La gomma fredda ha poca aderenza.'),
+      mc('Perché si usano coperte termiche?', ['Per portare la gomma vicino alla temperatura di lavoro prima del via', 'Per aumentare la pressione dei pneumatici prima della partenza in gara', 'Per ridurre il peso delle gomme e il consumo di carburante', 'Per asciugare la gomma e togliere l’umidità dal battistrada'], 0, 'La gomma fredda ha poca aderenza.'),
       mc('Che colore ha la mescola Hard?', ['Bianco', 'Rosso', 'Giallo', 'Verde'], 0, 'Hard bianca, Medium gialla, Soft rossa.'),
       mc('Se le mescole di una gara sono C2, C3 e C4, la Soft è:', ['C4', 'C2', 'C3', 'C5'], 0, 'La più morbida delle tre è la Soft.'),
       mc('Qual è la relazione corretta per il cerchio di aderenza?', ['√(Fx² + Fy²) ≤ μ·N', 'Fx + Fy = N', 'Fx · Fy = μ', 'Fx = Fy sempre'], 0, 'Le forze longitudinale e laterale si compongono vettorialmente.')
@@ -327,13 +327,13 @@
       fill('Con μ(N) = 1,8 − 0,1·(N/1 000 − 3), forza massima per N = 4 000 N in newton?', ['6800', '6.800', '6 800'], 'μ = 1,7; F = 1,7 × 4 000 = 6 800 N.'),
       fill('Un asse passa da 2 × 6 800 N a 9 000 + 3 800 N per trasferimento di carico. Perdita di grip in percentuale (un decimale)?', ['5,9', '5.9'], '(13 600 − 12 800)/13 600 ≈ 5,9%.'),
       fill('Con μ(T) = 1,5 − 0,0005·(T − 100)², coefficiente a 80 °C (due decimali)?', ['1,30', '1.30', '1,3', '1.3'], '1,5 − 0,0005 × 400 = 1,30.'),
-      mc('Il graining si verifica tipicamente quando la gomma è:', ['troppo fredda o scivola a bassa temperatura', 'troppo calda dall’interno', 'nuova al 100%', 'sul cerchio di 13 pollici'], 0, 'Particelle di gomma si staccano e formano granelli sulla superficie.'),
-      mc('Il blistering è:', ['formazione di bolle per surriscaldamento, irreversibile', 'raffreddamento improvviso', 'una regola sportiva', 'un tipo di mescola'], 0, 'Nasce dal calore negli strati interni e danneggia il battistrada.'),
+      mc('Il graining si verifica tipicamente quando la gomma è:', ['troppo fredda o scivola a bassa temperatura', 'troppo calda e va in surriscaldamento oltre il limite', 'nuova e con il battistrada completamente consumato', 'gonfiata con una pressione molto più alta del limite'], 0, 'Particelle di gomma si staccano e formano granelli sulla superficie.'),
+      mc('Il blistering è:', ['formazione di bolle per surriscaldamento, irreversibile', 'raffreddamento improvviso con frammentazione della mescola', 'un consumo uniforme del battistrada, reversibile col riposo', 'un tipo di mescola con battistrada a bolle d’aria'], 0, 'Nasce dal calore negli strati interni e danneggia il battistrada.'),
       fill('Degrado lineare di 0,07 s/giro: perdita al giro 20 in secondi (un decimale)?', ['1,4', '1.4'], '0,07 × 20 = 1,4 s.'),
       fill('Stesso modello (0,07 s/giro): perdita cumulata in 20 giri, in secondi (un decimale)?', ['14,7', '14.7'], '0,07 × 210 = 14,7 s.'),
       fill('Fuel 1,8 kg/giro × 0,03 s/kg e degrado 0,07 s/giro: variazione netta del tempo per giro in secondi (tre decimali)?', ['0,016', '0.016'], '0,07 − 0,054 = 0,016 s/giro.'),
       fill('Modello cliff: 0,06 s/giro fino al giro 16, poi +0,6 s per ogni giro in più. Perdita al giro 20 in secondi?', ['3,6', '3.6'], '0,06 × 20 + 0,6 × 4 = 1,2 + 2,4 = 3,6 s.'),
-      mc('Qual è la differenza tra usura e degrado?', ['L’usura è perdita di materiale, il degrado è perdita di prestazione', 'Sono la stessa cosa', 'Il degrado riguarda solo i freni', 'L’usura riguarda solo le ali'], 0, 'L’usura è fisica, il degrado è nel tempo sul giro.'),
+      mc('Qual è la differenza tra usura e degrado?', ['L’usura è perdita di materiale, il degrado è perdita di prestazione', 'Sono la stessa cosa e si misurano con lo stesso strumento', 'Il degrado riguarda soltanto i freni e le sospensioni', 'L’usura è perdita di prestazione, il degrado è perdita di materiale'], 0, 'L’usura è fisica, il degrado è nel tempo sul giro.'),
       order('Ordina il comportamento di una gomma durante uno stint', ['riscaldamento', 'finestra ottimale', 'degrado progressivo', 'eventuale cliff', 'sosta'], 'Il grip sale, resta al massimo, cala e infine si decide la sosta.')
     ],
     test: [
@@ -342,9 +342,9 @@
       fill('Degrado lineare di 0,05 s/giro: perdita al giro 15 in secondi (due decimali)?', ['0,75', '0.75'], '0,05 × 15 = 0,75 s.'),
       fill('Cliff: 0,06 s/giro fino al giro 16, poi +0,6 s per giro in più. Perdita al giro 18 in secondi (due decimali)?', ['2,28', '2.28'], '1,08 + 1,2 = 2,28 s.'),
       fill('Due stint di 28 e 29 giri con k = 0,07 s/giro: perdita totale in secondi (due decimali)?', ['58,87', '58.87', '58,9', '58.9'], '0,035 × (28 × 29 + 29 × 30) = 58,87 s.'),
-      mc('Perché i giri sembrano costanti pur con gomme che degradano?', ['Il carburante che cala alleggerisce la vettura e compensa il degrado', 'Perché il degrado non esiste', 'Perché la pista si asciuga', 'Perché il DRS è aperto'], 0, 'Il guadagno di 0,03 s/kg può compensare un degrado modesto.'),
+      mc('Perché i giri sembrano costanti pur con gomme che degradano?', ['Il carburante che cala alleggerisce la vettura e compensa il degrado', 'Il pilota si adatta spingendo di più mentre la gomma resta come nuova', 'Il degrado non esiste finché la gomma è sotto i 20 giri', 'Il DRS aperto compensa sempre la perdita di grip'], 0, 'Il guadagno di 0,03 s/kg può compensare un degrado modesto.'),
       mc('Quale tra queste NON è una causa di blistering?', ['Gomma troppo fredda', 'Scivolamenti prolungati', 'Temperature alte della pista', 'Mescola morbida oltre la finestra'], 0, 'Il blistering è dovuto al caldo; la gomma fredda causa graining.'),
-      mc('Con la sensibilità al carico, il trasferimento di carico su un asse:', ['riduce la forza totale disponibile su quell’asse', 'la aumenta sempre', 'non ha effetto', 'annulla la resistenza'], 0, 'Se μ cala col carico, due ruote sbilanciate danno meno forza di due uguali.')
+      mc('Con la sensibilità al carico, il trasferimento di carico su un asse:', ['riduce la forza totale disponibile su quell’asse', 'aumenta la forza totale disponibile su quell’asse', 'non cambia la forza totale ma ne sposta la direzione', 'annulla del tutto la resistenza all’avanzamento'], 0, 'Se μ cala col carico, due ruote sbilanciate danno meno forza di due uguali.')
     ]
   });
 
@@ -374,10 +374,10 @@
       fill('Quanti kg corrispondono a 4 110 N (g = 9,81, arrotondati)?', ['419'], '4 110 / 9,81 ≈ 419 kg.'),
       fill('Frenata a 5 g, h = 0,28 m, passo 3,6 m, m = 798 kg: trasferimento longitudinale in newton (arrotondato)?', ['3044', '3.044', '3 044', '3040'], '798 × 49,05 × 0,28 / 3,6 ≈ 3 044 N.'),
       mc('Nel sottosterzo:', ['scivola per primo l’asse anteriore', 'scivola per primo l’asse posteriore', 'scivolano le quattro ruote insieme', 'si blocca il motore'], 0, 'La vettura tende ad andare dritta.'),
-      mc('Nel sovrasterzo:', ['il posteriore scivola per primo', 'l’anteriore scivola per primo', 'la vettura non sterza', 'i freni sono bloccati'], 0, 'Il retrotreno tende a superare l’avantreno.'),
+      mc('Nel sovrasterzo:', ['il posteriore scivola per primo', 'il posteriore scivola per ultimo e l’anteriore tiene', 'l’anteriore scivola e la vettura allarga la traiettoria', 'le ruote anteriori bloccano e la vettura non gira'], 0, 'Il retrotreno tende a superare l’avantreno.'),
       fill('Angolo di sterzo geometrico L/R con L = 3,6 m e R = 100 m, in gradi (due decimali)?', ['2,06', '2.06', '2,1', '2.1'], '0,036 rad × 57,3 ≈ 2,06°.'),
       fill('δ = L/R + (α_f − α_r) con L/R = 2,06°, α_f = 4,5°, α_r = 3,0°: δ in gradi (due decimali)?', ['3,56', '3.56', '3,6', '3.6'], '2,06 + 1,5 = 3,56°.'),
-      mc('Che cos’è l’angolo di deriva?', ['L’angolo tra la direzione del cerchio e la direzione effettiva del moto della gomma', 'L’angolo dell’ala posteriore', 'L’angolo di camber', 'L’angolo di sterzo del volante'], 0, 'Serve per generare forza laterale.'),
+      mc('Che cos’è l’angolo di deriva?', ['L’angolo tra il piano della ruota e la direzione effettiva del moto', 'L’angolo tra l’asse longitudinale della vettura e il piano dell’ala', 'L’angolo tra l’asse della ruota e il piano verticale', 'L’angolo di rotazione del volante rispetto alla traiettoria'], 0, 'Serve per generare forza laterale.'),
       order('Ordina le fasi di una curva', ['frenata e ingresso', 'rotazione al punto di corda', 'massima accelerazione laterale', 'uscita con potenza'], 'Si frena, si inserisce, si percorre la curva e si accelera in uscita.')
     ],
     test: [
@@ -416,11 +416,11 @@
       mc('Più angolo all’ala posteriore sposta il bilanciamento aerodinamico verso:', ['il retrotreno', 'l’avantreno', 'nessun asse', 'il pilota'], 0, 'Aumenta il carico posteriore.'),
       fill('Ripartizione ideale dei freni a 100 m/s con 5 g (dati del testo), in percentuale (un decimale)?', ['54,7', '54.7', '55'], '17 406 / 31 828 ≈ 0,547.'),
       fill('Ripartizione ideale a 30 m/s con 3 g, in percentuale (un decimale)?', ['63,7', '63.7', '64'], '6 361 / 9 988 ≈ 0,637.'),
-      mc('Una ripartizione troppo spostata all’anteriore causa:', ['bloccaggio delle ruote anteriori', 'bloccaggio posteriore', 'più carico aerodinamico', 'motore spento'], 0, 'Le ruote davanti superano il limite di aderenza in frenata.'),
+      mc('Una ripartizione troppo spostata all’anteriore causa:', ['bloccaggio delle ruote anteriori', 'bloccaggio delle ruote posteriori e perdita di stabilità', 'un aumento del carico aerodinamico sul retrotreno', 'un surriscaldamento dei freni posteriori in uscita'], 0, 'Le ruote davanti superano il limite di aderenza in frenata.'),
       fill('Coppia 1 000 N·m con blocco 40%: coppia sulla ruota esterna in N·m?', ['700'], '(1 000 + 400)/2 = 700 N·m.'),
-      mc('Il blocco in rilascio (coast) del differenziale influisce soprattutto su:', ['stabilità in ingresso curva', 'velocità massima', 'consumo di carburante', 'raffreddamento'], 0, 'Agisce quando si solleva il piede e si frena entrando in curva.'),
-      mc('Quale assetto è tipico di Monza?', ['Ali scariche e bassa resistenza', 'Ali al massimo', 'Vettura molto alta e morbida', 'Ala anteriore doppia'], 0, 'Dominano i rettilinei.'),
-      mc('Quale assetto è tipico di Monaco?', ['Ali al massimo e vettura più alta e morbida', 'Ali scariche', 'Rapporti lunghissimi', 'Nessun carico'], 0, 'Curve lente, cordoli e muretti.'),
+      mc('Il blocco in rilascio (coast) del differenziale influisce soprattutto su:', ['stabilità in ingresso curva', 'velocità massima in rettilineo e consumo', 'raffreddamento dei freni e della power unit', 'pressione delle gomme anteriori in rettilineo'], 0, 'Agisce quando si solleva il piede e si frena entrando in curva.'),
+      mc('Quale assetto è tipico di Monza?', ['Ali scariche e bassa resistenza', 'Ali al massimo e vettura alta e morbida', 'Ala anteriore doppia e rapporti molto corti', 'Assetto con molto carico e fondo quasi a contatto'], 0, 'Dominano i rettilinei.'),
+      mc('Quale assetto è tipico di Monaco?', ['Ali al massimo e vettura più alta e morbida', 'Ali scariche e rapporti molto lunghi in rettilineo', 'Poco carico e vettura bassa e rigida come a Monza', 'Fondo tenuto alto per ridurre l’effetto suolo'], 0, 'Curve lente, cordoli e muretti.'),
       order('Ordina il lavoro di messa a punto in un weekend', ['simulazione di preparazione', 'prove libere', 'confronti a coppie', 'qualifica', 'parc fermé'], 'Dalla preparazione alla gara, con regolazioni via via limitate.')
     ],
     test: [
@@ -429,9 +429,9 @@
       fill('Molla 150 N/mm, massa 200 kg: frequenza in Hz (due decimali)?', ['4,36', '4.36', '4,4', '4.4'], '√750/(2π) ≈ 4,36 Hz.'),
       fill('Ripartizione ideale a 100 m/s con 4 g, in percentuale (un decimale)?', ['52,8', '52.8', '53'], '(3 562 + 10 800 + 2 435)/31 828 ≈ 0,528.'),
       fill('Coppia 800 N·m, blocco 30%: coppia sulla ruota esterna in N·m?', ['520'], '(800 + 240)/2 = 520 N·m.'),
-      mc('A che cosa serve il differenziale?', ['Distribuire la coppia tra le ruote motrici consentendo velocità diverse', 'Frenare', 'Cambiare marcia', 'Produrre carico'], 0, 'È un organo di trasmissione.'),
-      mc('Che cosa vuol dire parc fermé?', ['Assetto sostanzialmente bloccato dopo le qualifiche', 'Vettura ferma ai box', 'Zona del paddock', 'Gara sospesa'], 0, 'Le modifiche sono molto limitate.'),
-      mc('Abbassare l’altezza da terra del fondo, in generale:', ['aumenta il carico fino al rischio di strozzatura e porpoising', 'riduce sempre il carico', 'non ha effetto', 'aumenta la resistenza dell’aria a zero'], 0, 'Il carico cresce finché il flusso non si strozza.')
+      mc('A che cosa serve il differenziale?', ['Dividere la coppia tra le ruote con velocità diverse', 'Frenare le ruote posteriori in modo indipendente', 'Cambiare marcia più velocemente in uscita dalle curve lente', 'Aumentare il carico aerodinamico nelle curve a bassa velocità'], 0, 'È un organo di trasmissione.'),
+      mc('Che cosa vuol dire parc fermé?', ['Assetto sostanzialmente bloccato dopo le qualifiche', 'Vettura ferma ai box per il controllo dei commissari tecnici', 'Zona del paddock riservata alle squadre dopo la gara', 'Gara sospesa per consentire la riparazione della pista'], 0, 'Le modifiche sono molto limitate.'),
+      mc('Abbassare l’altezza da terra del fondo, in generale:', ['aumenta il carico fino al rischio di strozzatura e porpoising', 'riduce sempre il carico aerodinamico a qualsiasi altezza', 'non ha effetto sul carico, solo sul peso della vettura', 'riduce la resistenza dell’aria fino ad annullare il porpoising'], 0, 'Il carico cresce finché il flusso non si strozza.')
     ]
   });
 
@@ -462,8 +462,8 @@
       fill('Distanza di frenata da 200 km/h (55,56 m/s) con 2 g, in metri (un decimale)?', ['78,7', '78.7', '79'], '3 086 / (2 × 19,62) ≈ 78,7 m.'),
       fill('Stessa frenata con 1 g: metri (un decimale)?', ['157,3', '157.3', '157'], '3 086 / (2 × 9,81) ≈ 157,3 m.'),
       fill('Intermedie 90 + 0,8n e slick 100 − 1,5n: in che giro avviene il crossover (due decimali)?', ['4,35', '4.35'], 'n = 10/2,3 ≈ 4,35.'),
-      mc('Che cos’è l’aquaplaning?', ['Perdita di contatto della gomma su un velo d’acqua', 'Un tipo di sosta', 'Un tipo di mescola', 'Una regola sulle bandiere'], 0, 'La gomma galleggia e la vettura non risponde ai comandi.'),
-      mc('Quando la pista si asciuga, la prima zona asciutta è di solito:', ['la traiettoria ideale da asciutto', 'l’esterno delle curve', 'il bordo del cordolo', 'la pit lane'], 0, 'È dove passano più vetture e l’asfalto è più caldo.'),
+      mc('Che cos’è l’aquaplaning?', ['Perdita di contatto della gomma su un velo d’acqua', 'Una sosta con cambio gomme da bagnato e ala nuova', 'Un tipo di mescola con battistrada scolpito per la pioggia', 'Una regola sulle bandiere che vieta i sorpassi con pioggia'], 0, 'La gomma galleggia e la vettura non risponde ai comandi.'),
+      mc('Quando la pista si asciuga, la prima zona asciutta è di solito:', ['la traiettoria ideale da asciutto', 'l’esterno delle curve, dove l’acqua scola prima', 'il bordo del cordolo, dove c’è meno gomma depositata', 'la corsia dei box, dove l’asfalto è più scuro'], 0, 'È dove passano più vetture e l’asfalto è più caldo.'),
       order('Ordina le fasi di una pista che si asciuga', ['pista bagnata', 'full wet o intermedie', 'comparsa della linea asciutta', 'crossover', 'cambio con slick'], 'Il passaggio dalle gomme da pioggia alle slick avviene dopo il crossover.')
     ],
     test: [
@@ -472,9 +472,9 @@
       fill('Curva r = 50 m con μ = 1,1: velocità in km/h (un decimale)?', ['91,5', '91.5', '92'], 'v ≈ 25,4 m/s ≈ 91,5 km/h.'),
       fill('Distanza di frenata da 300 km/h (83,33 m/s) con 4 g, in metri (un decimale)?', ['88,5', '88.5', '89'], '6 944 / (2 × 39,24) ≈ 88,5 m.'),
       fill('Al giro 6 (slick 100 − 1,5n; intermedie 90 + 0,8n): differenza di tempo in secondi (un decimale)?', ['3,8', '3.8'], '94,8 − 91,0 = 3,8 s.'),
-      mc('Che cosa indica il crossover?', ['Il giro in cui le slick diventano più veloci delle intermedie', 'Il giro in cui la gara finisce', 'La sosta obbligatoria', 'L’apertura del DRS'], 0, 'Dopo quel punto conviene passare alle slick.'),
-      mc('Nel bagnato la distanza di frenata, a parità di velocità:', ['aumenta perché la decelerazione massima è minore', 'diminuisce', 'resta uguale', 'dipende solo dal pilota'], 0, 'd = v²/(2a): se a cala, d cresce.'),
-      mc('Come si comportano le temperature con la pioggia?', ['Asfalto e gomme si raffreddano', 'Aumentano molto', 'Non cambiano', 'Si bloccano a 100 °C'], 0, 'L’acqua raffredda pista e gomme.')
+      mc('Che cosa indica il crossover?', ['Il giro in cui le slick diventano più veloci delle intermedie', 'Il giro in cui le intermedie diventano più veloci delle slick', 'Il giro in cui la gara è sospesa per bandiera rossa', 'Il giro in cui scade la sosta obbligatoria'], 0, 'Dopo quel punto conviene passare alle slick.'),
+      mc('Nel bagnato la distanza di frenata, a parità di velocità:', ['aumenta perché la decelerazione massima è minore', 'diminuisce perché la decelerazione massima è maggiore', 'resta uguale perché la velocità è la stessa', 'dipende soltanto dalla mescola scelta dal pilota'], 0, 'd = v²/(2a): se a cala, d cresce.'),
+      mc('Come si comportano le temperature con la pioggia?', ['Asfalto e gomme si raffreddano', 'Asfalto e gomme si scaldano per l’attrito dell’acqua', 'Restano invariati perché la pioggia è fredda quanto l’asfalto', 'Salgono rapidamente fino al superamento dei 100 °C'], 0, 'L’acqua raffredda pista e gomme.')
     ]
   });
 
@@ -505,8 +505,8 @@
       fill('Consumo 1,8 kg/giro × 0,03 s/kg: secondi guadagnati per giro (tre decimali)?', ['0,054', '0.054'], '1,8 × 0,03 = 0,054 s.'),
       fill('+1% di μ riduce il tempo di 0,446 s su 95,36 s. Variazione percentuale del tempo (due decimali, senza segno)?', ['0,47', '0.47'], '0,446 / 95,36 ≈ 0,00468.'),
       mc('In questo modello, quale parametro ha l’elasticità maggiore?', ['L’aderenza μ', 'La resistenza Cd·A', 'La potenza', 'Il carico aerodinamico Cl·A'], 0, 'μ −0,47, massa +0,23, Cl·A −0,18, potenza −0,10, Cd·A +0,05.'),
-      mc('Che cosa significa “quasi-statico”?', ['Si tratta ogni punto come equilibrio, ignorando i transitori', 'Si usa solo la fisica dei fluidi', 'La vettura non si muove', 'Si usano solo dati reali'], 0, 'Ogni punto è all’equilibrio, senza dinamica dei transitori.'),
-      mc('Che cos’è un ghost lap?', ['Il confronto del tempo accumulato tra due giri in funzione della distanza', 'Un giro senza pilota', 'Un giro con la bandiera gialla', 'Un tipo di gomma'], 0, 'Il delta mostra dove si guadagna o si perde.'),
+      mc('Che cosa significa “quasi-statico”?', ['Si tratta ogni punto come equilibrio, ignorando i transitori', 'Si tratta tutto il giro come una sequenza continua di transitori', 'La vettura viene considerata ferma in ogni punto del giro', 'Si usano solo dati reali misurati in pista e non modelli'], 0, 'Ogni punto è all’equilibrio, senza dinamica dei transitori.'),
+      mc('Che cos’è un ghost lap?', ['Il confronto del tempo accumulato tra due giri lungo la distanza', 'Un giro senza pilota ottenuto dal simulatore e confrontato col reale', 'Il tempo di un giro con bandiera gialla di settore', 'Il confronto tra due piste di diversa lunghezza'], 0, 'Il delta mostra dove si guadagna o si perde.'),
       fill('Delta tra 1 000 e 2 000 m (massa +90 kg): 0,835 − 0,204 = ? secondi (tre decimali)', ['0,631', '0.631'], '0,835 − 0,204 = 0,631.'),
       order('Ordina l’algoritmo quasi-statico', ['divido il circuito in punti', 'calcolo la velocità massima di curva', 'passata in avanti con accelerazione', 'passata all’indietro con frenata', 'sommo i tempi dei tratti'], 'Si impone il limite di curva, poi accelerazione e frenata massima, infine si integra il tempo.')
     ],
@@ -517,8 +517,8 @@
       fill('+30 kW di potenza con 0,155 s ogni 10 kW: secondi guadagnati (due decimali)?', ['0,47', '0.47', '0,465', '0.465'], '0,155 × 3 = 0,465 s.'),
       fill('Un pilota più pesante di 5 kg con 0,0259 s/kg: secondi persi (due decimali)?', ['0,13', '0.13'], '5 × 0,0259 ≈ 0,13 s.'),
       fill('Gara con consumo di 1,9 kg/giro e 0,0259 s/kg: secondi guadagnati per giro (tre decimali)?', ['0,049', '0.049', '0,05', '0.05'], '1,9 × 0,0259 ≈ 0,049 s.'),
-      mc('Perché le sensibilità dipendono dalla pista?', ['Cambiano il numero e il tipo di curve, rettilinei e frenate', 'Perché le leggi fisiche cambiano', 'Perché il pilota è diverso', 'Perché i km/h non sono unità'], 0, 'Un circuito con rettilinei lunghi premia la bassa resistenza, uno misto-lento il carico.'),
-      mc('Quale tra queste è una limitazione del modello quasi-statico?', ['Ignora i transitori di sospensioni e temperature', 'Non può calcolare le velocità', 'Non usa la massa', 'Non esiste in F1'], 0, 'Per questo il tempo simulato differisce da quello reale.')
+      mc('Perché le sensibilità dipendono dalla pista?', ['Cambiano il numero e il tipo di curve, rettilinei e frenate', 'Perché le leggi della fisica cambiano da una pista all’altra', 'Perché i km/h dei rettilinei variano con la gomma montata', 'Perché il pilota guida in modo diverso su ogni circuito'], 0, 'Un circuito con rettilinei lunghi premia la bassa resistenza, uno misto-lento il carico.'),
+      mc('Quale tra queste è una limitazione del modello quasi-statico?', ['Ignora i transitori di sospensioni e temperature', 'Non può calcolare le velocità nelle curve veloci', 'Non usa la massa della vettura nei calcoli', 'Ignora la resistenza dell’aria e il carico aerodinamico'], 0, 'Per questo il tempo simulato differisce da quello reale.')
     ]
   });
 

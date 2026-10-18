@@ -29,7 +29,7 @@
       fill('30 km a settimana, +10% per due settimane consecutive. Volume alla terza settimana in km?', ['36,3', '36.3'], '30 × 1,1 = 33; 33 × 1,1 = 36,3.'),
       mc('Una persona riesce a pronunciare solo parole singole, RPE 8. In quale zona del modello a 3 zone si trova?', ['Zona 3 (sopra la seconda soglia)', 'Zona 1 (sotto la prima soglia)', 'Zona 2 (tra le soglie) in modo prudente', 'Non si può dire: la RPE non dà informazioni'], 0, 'Parlare a parole singole e RPE alto indicano intensità sopra la seconda soglia.'),
       mc('Perché la formula 220 − età va usata con prudenza?', ['Ha un errore individuale di circa ±10–12 bpm', 'Sovrastima sempre di 50 bpm', 'È valida solo per i ciclisti', 'È stata dimostrata falsa e non va mai usata'], 0, 'È una media di popolazione: la FCmax reale può differire molto.'),
-      mc('Che cosa dice l’evidenza attuale sulla distribuzione polarizzata?', ['Utile ma non nettamente superiore alla piramidale nelle meta-analisi recenti', 'È la sola efficace per tutti', 'È dannosa per i principianti', 'Non prevede mai lavoro facile'], 0, 'Gli studi sono eterogenei: la base facile e il dosaggio dell’intensità sono i punti solidi.'),
+      mc('Che cosa dice l’evidenza attuale sulla distribuzione polarizzata?', ['Utile ma non nettamente superiore alla piramidale nelle meta-analisi', 'È la sola efficace per tutti gli atleti allenati', 'È dannosa per i principianti', 'Non prevede mai lavoro facile'], 0, 'Gli studi sono eterogenei: la base facile e il dosaggio dell’intensità sono i punti solidi.'),
       mc('La «regola del +10% a settimana» è:', ['Una regola empirica, non una soglia validata', 'Una legge dimostrata che non ammette eccezioni', 'Valida solo per il nuoto', 'Il limite imposto dall’ACSM'], 0, 'Va adattata a storia di infortuni, base di partenza e tolleranza individuale.'),
       order('Ordina il calcolo di Karvonen (FCmax 190, riposo 60, 70%)', ['FCmax − FCriposo', '= 130', '× 0,70', '= 91', '+ FCriposo', '= 151'], 'Prima la riserva, poi la percentuale e infine si somma la FC a riposo.')
     ],
@@ -39,9 +39,9 @@
       fill('Con FCmax 190, quanto vale il 70% della sola FCmax (non Karvonen), in bpm?', ['133'], '0,7 × 190 = 133, più basso del 151 ottenuto con Karvonen a pari %.'),
       fill('Con la formula di Tanaka, FCmax stimata a 60 anni, in bpm?', ['166'], '208 − 0,7 × 60 = 166.'),
       fill('40 km a settimana, +10% e poi una settimana di scarico al −30% sul valore aumentato. Quanti km in scarico?', ['30,8', '30.8'], '40 × 1,1 = 44; 44 × 0,7 = 30,8.'),
-      mc('Quale affermazione sul test di Cooper è corretta?', ['È una stima con errore di alcuni ml/kg/min, utile soprattutto per confronti nel tempo', 'Misura il VO2max esatto', 'Va fatto sempre al massimo anche da sedentari senza controllo', 'Non dipende dal ritmo di partenza'], 0, 'Motivazione, ritmo e condizioni influiscono: è un test di campo.'),
-      mc('Il problema della «zona grigia permanente» è:', ['Troppa fatica senza lo stimolo specifico né il recupero', 'Troppo poco allenamento in assoluto', 'La FC è sempre bassa', 'Non esiste nel modello a 3 zone'], 0, 'Un ritmo medio costante accumula fatica senza i vantaggi di sedute facili né di quelle intense.'),
-      mc('Se in una giornata calda la FC sale a parità di passo, la scelta più sensata è:', ['Regolare lo sforzo con RPE e talk test senza inseguire il numero', 'Forzare il passo per ritornare alla FC abituale', 'Considerarlo un calo di forma definitivo', 'Ignorare l’RPE'], 0, 'Caldo, sonno e stress alzano la FC: la zona va letta con più indicatori.')
+      mc('Quale affermazione sul test di Cooper è corretta?', ['È una stima con errore di alcuni ml/kg/min, utile soprattutto per confronti nel tempo', 'Misura il VO2max esatto di chi lo esegue, anche da sedentari', 'Va fatto sempre al massimo, anche senza controllo medico', 'Non dipende dal ritmo di partenza'], 0, 'Motivazione, ritmo e condizioni influiscono: è un test di campo.'),
+      mc('Il problema della «zona grigia permanente» è:', ['Troppa fatica senza lo stimolo specifico né il recupero', 'Troppo poco allenamento in assoluto e recupero eccessivo', 'La FC è sempre bassa', 'Non esiste nel modello a 3 zone'], 0, 'Un ritmo medio costante accumula fatica senza i vantaggi di sedute facili né di quelle intense.'),
+      mc('Se in una giornata calda la FC sale a parità di passo, la scelta più sensata è:', ['Regolare lo sforzo con RPE e talk test senza inseguire il numero', 'Forzare il passo per riportare la FC al valore abituale della stagione', 'Considerarlo un calo di forma definitivo', 'Ignorare l’RPE'], 0, 'Caldo, sonno e stress alzano la FC: la zona va letta con più indicatori.')
     ]
   });
 
@@ -70,9 +70,9 @@
       fill('Con VO2max 50 ml/kg/min e 43,5 ml/kg/min richiesti dalla corsa, che % del VO2max si usa?', ['87', '87%', '87,0'], '43,5 / 50 = 0,87.'),
       fill('Riegel: 10 km in 50:00 → mezza maratona. Tempo previsto in minuti, arrotondato all’intero?', ['110', '110,3', '110.3', '1:50', '1:50:19'], '50 × 2,10975^1,06 ≈ 110,3 min = 1:50:19.'),
       fill('Riegel: 5 km in 25:00 → 10 km. Tempo previsto in minuti (arrotondato all’intero)?', ['52', '52,1', '52.1', '52:07'], '25 × 2^1,06 ≈ 52,1 min.'),
-      mc('Perché nella formula di Riegel l’esponente è maggiore di 1?', ['Perché il ritmo medio rallenta all’aumentare della distanza', 'Perché il tempo è proporzionale alla distanza', 'Perché il VO2max cresce con la distanza', 'Perché si corre più veloci in gara'], 0, 'Con esponente 1 il ritmo resterebbe costante; 1,06 incorpora il calo medio.'),
-      mc('Quale limite NON va dimenticato nell’uso di Riegel?', ['Assume una preparazione specifica uguale per le due distanze', 'È valida per qualsiasi distanza da 100 m a 100 km', 'Tiene conto del meteo', 'Fornisce un valore esatto'], 0, 'Chi non ha il volume per la maratona rallenterà più del previsto.'),
-      mc('La «soglia dei 4 mmol/L di lattato» è:', ['Una convenzione: il MLSS individuale varia (circa 3–5 mmol/L)', 'Una legge fisiologica universale', 'Sempre uguale alla prima soglia', 'Il VO2max'], 0, 'Il massimo stato stabile del lattato è individuale.'),
+      mc('Perché nella formula di Riegel l’esponente è maggiore di 1?', ['Perché il ritmo medio rallenta all’aumentare della distanza', 'Perché il tempo è proporzionale alla distanza in modo lineare', 'Perché il VO2max cresce con la distanza', 'Perché si corre più veloci in gara'], 0, 'Con esponente 1 il ritmo resterebbe costante; 1,06 incorpora il calo medio.'),
+      mc('Quale limite NON va dimenticato nell’uso di Riegel?', ['Assume una preparazione specifica uguale per le due distanze', 'È valida per qualsiasi distanza da 100 m a 100 km, per ogni atleta', 'Tiene conto del meteo', 'Fornisce un valore esatto'], 0, 'Chi non ha il volume per la maratona rallenterà più del previsto.'),
+      mc('La «soglia dei 4 mmol/L di lattato» è:', ['Una convenzione: il MLSS individuale varia (circa 3–5 mmol/L)', 'Una legge fisiologica universale uguale per tutti gli atleti', 'Sempre uguale alla prima soglia', 'Il VO2max'], 0, 'Il massimo stato stabile del lattato è individuale.'),
       order('Ordina la previsione Riegel 10 km → mezza', ['D2/D1 = 21,0975/10', '= 2,10975', 'elevo alla 1,06', '≈ 2,2064', '× T1 (50 min)', '≈ 110,3 min'], 'Si calcola il rapporto delle distanze, si eleva all’esponente e si moltiplica per T1.')
     ],
     test: [
@@ -82,8 +82,8 @@
       fill('Riegel: 10 km in 40:00 → mezza maratona. Tempo in minuti (arrotondato)?', ['88', '88,3', '88.3', '1:28', '1:28:15'], '40 × 2,10975^1,06 ≈ 88,3 min.'),
       fill('Mezza maratona (21,0975 km) in 1:45:00. Ritmo in min/km (m:ss)?', ['4:59', '4.59'], '105 / 21,0975 ≈ 4,977 min = 4:59.'),
       mc('Due atleti con lo stesso VO2max possono avere prestazioni diverse perché differiscono per:', ['Soglia ed economia', 'Solo il colore della maglia', 'Solo la FC a riposo', 'Il numero di ore di sonno'], 0, 'La velocità sostenibile dipende da VO2max, frazione sostenibile ed economia.'),
-      mc('Quale affermazione sull’economia di corsa è più corretta?', ['Può essere migliorata con volume, forza e tecnica, con ampia variabilità individuale', 'È fissa per tutta la vita', 'Dipende solo dalle scarpe', 'Non influisce sulla prestazione'], 0, 'Le meta-analisi riportano miglioramenti di pochi punti percentuali con la forza.'),
-      mc('Un test di VO2max stimato dà 51 e poi 52 un mese dopo, con errore tipico ±3. Cosa si può dire?', ['La differenza è compresa nell’errore: non è un miglioramento certo', 'Il miglioramento è reale al 100%', 'Il test è sbagliato', 'Il VO2max è sceso'], 0, 'Differenze piccole rispetto all’errore non sono interpretabili da sole.')
+      mc('Quale affermazione sull’economia di corsa è più corretta?', ['Può essere migliorata con volume, forza e tecnica, con ampia variabilità individuale', 'È fissa per tutta la vita e non cambia con volume, forza o tecnica', 'Dipende solo dalle scarpe', 'Non influisce sulla prestazione'], 0, 'Le meta-analisi riportano miglioramenti di pochi punti percentuali con la forza.'),
+      mc('Un test di VO2max stimato dà 51 e poi 52 un mese dopo, con errore tipico ±3. Cosa si può dire?', ['La differenza è compresa nell’errore: non è un miglioramento certo', 'Il miglioramento è reale al 100%, perché il valore è salito', 'Il test è sbagliato', 'Il VO2max è sceso'], 0, 'Differenze piccole rispetto all’errore non sono interpretabili da sole.')
     ]
   });
 
@@ -110,10 +110,10 @@
       fill('vVO2max 18 km/h. Metri percorsi in uno sforzo da 30 s a tale velocità?', ['150'], '18 km/h = 5 m/s; 5 × 30 = 150 m.'),
       fill('SIT: 4 sprint da 30 s con 4 min di recupero tra gli sforzi. Durata del blocco in minuti?', ['14'], '4 × 0,5 + 3 × 4 = 2 + 12 = 14.'),
       fill('Seduta con sRPE 8 per 40 minuti. Carico in unità arbitrarie (AU)?', ['320'], '8 × 40 = 320.'),
-      mc('Il SIT si caratterizza per:', ['Sforzi massimali brevi con recuperi lunghi', 'Sforzi lunghi a bassa intensità', 'Recuperi sempre assenti', 'Intensità sempre sotto la soglia'], 0, 'Tipicamente 20–30 s all-out con 2–4 min di recupero.'),
+      mc('Il SIT si caratterizza per:', ['Sforzi massimali brevi con recuperi lunghi', 'Sforzi lunghi a bassa intensità con recuperi brevi', 'Recuperi sempre assenti tra uno sforzo e l’altro', 'Intensità sempre sotto la soglia anaerobica'], 0, 'Tipicamente 20–30 s all-out con 2–4 min di recupero.'),
       mc('Quante sedute di HIIT a settimana sono tipiche per la maggior parte delle persone?', ['1–2', '6–7', '0, sono sempre sconsigliate', 'Solo una al mese'], 0, 'Oltre aumenta il rischio di sovraccarico; resto del volume facile.'),
-      mc('Cosa mostrano gli studi sulla risposta individuale al HIIT?', ['Ampia variabilità: alcuni migliorano molto, altri poco', 'Tutti migliorano allo stesso modo', 'Nessuno migliora', 'Il miglioramento è sempre del 50%'], 0, 'La media nasconde differenze genetiche, di carico totale, di recupero.'),
-      mc('Per un principiante senza base, qual è un ordine corretto?', ['Base facile, poi intervalli moderati, poi aumento graduale', 'Subito sprint massimali ogni giorno', 'Solo HIIT per 7 giorni', 'Saltare il riscaldamento'], 0, 'Tendini e articolazioni si adattano più lentamente del cuore.'),
+      mc('Cosa mostrano gli studi sulla risposta individuale al HIIT?', ['Ampia variabilità: alcuni migliorano molto, altri poco', 'Tutti migliorano allo stesso modo e nella stessa misura', 'Nessuno migliora, nemmeno dopo settimane di lavoro', 'Il miglioramento è sempre del 50% per tutti'], 0, 'La media nasconde differenze genetiche, di carico totale, di recupero.'),
+      mc('Per un principiante senza base, qual è un ordine corretto?', ['Base facile, poi intervalli moderati, poi aumento graduale', 'Subito sprint massimali ogni giorno, poi volume lento, poi riposo prolungato', 'Solo HIIT per sette giorni consecutivi', 'Saltare il riscaldamento per risparmiare energie'], 0, 'Tendini e articolazioni si adattano più lentamente del cuore.'),
       mc('Quale sintomo durante HIIT richiede di fermarsi e consultare un medico?', ['Dolore toracico o vertigini intense', 'Lieve sudorazione', 'Fiato corto moderato in uno sforzo duro', 'Fame dopo l’allenamento'], 0, 'Sintomi insoliti vanno valutati da un professionista sanitario.'),
       order('Ordina una seduta 4 × 4', ['Riscaldamento 10–15 min', '4 min a 85–95% FCmax', '3 min recupero attivo', 'Ripeti fino a 4 sforzi', 'Defaticamento'], 'Il recupero segue ogni sforzo tranne l’ultimo, poi si defatica.')
     ],
@@ -122,10 +122,10 @@
       fill('FCmax 180, intensità all’85%. FC in bpm?', ['153'], '0,85 × 180 = 153.'),
       fill('vVO2max 16 km/h. Metri in 30 s (arrotondato all’intero)?', ['133'], '16/3,6 ≈ 4,444 m/s × 30 ≈ 133,3 m.'),
       fill('Sessione con sRPE 7 per 30 minuti. Carico in AU?', ['210'], '7 × 30 = 210.'),
-      mc('Perché l’HIIT è un complemento e non un sostituto della base facile?', ['Perché molto volume intenso aumenta fatica e rischio senza costruire la base', 'Perché non migliora mai il VO2max', 'Perché è vietato', 'Perché si fa solo in laboratorio'], 0, 'La maggior parte del tempo resta a bassa intensità.'),
-      mc('Una media di +4 ml/kg/min in un gruppo significa che:', ['Alcuni individui possono aver migliorato molto più, altri meno', 'Tutti sono migliorati di 4', 'Nessuno è peggiorato', 'Il risultato è garantito'], 0, 'La variabilità individuale è ampia.'),
-      mc('Quale segnale suggerisce di ridurre l’HIIT la settimana successiva?', ['Sonno scarso, FC a riposo alta per giorni, qualità in calo', 'Sensazione di freschezza', 'Voglia di correre', 'Nessun segnale'], 0, 'Sono indicatori di fatica accumulata.'),
-      mc('Perché nei recuperi del 4 × 4 si usa un recupero attivo?', ['Per mantenere un VO2 elevato e favorire la rimozione dei metaboliti', 'Per ridurre il VO2 a zero', 'Perché il passivo è proibito', 'Per saltare il defaticamento'], 0, 'Il recupero attivo riduce lo scarto di intensità tra gli sforzi.')
+      mc('Perché l’HIIT è un complemento e non un sostituto della base facile?', ['Perché troppo volume intenso aumenta fatica e rischio senza costruire la base', 'Perché poco volume intenso riduce fatica e rischio costruendo da solo la base', 'Perché è vietato dalle regole federali', 'Perché si può fare solo in laboratorio'], 0, 'La maggior parte del tempo resta a bassa intensità.'),
+      mc('Una media di +4 ml/kg/min in un gruppo significa che:', ['Alcuni individui possono aver migliorato molto di più, altri meno', 'Tutti gli individui hanno migliorato di circa 4 ml/kg/min, con differenze trascurabili', 'Nessun individuo è peggiorato dopo l’intervento', 'Il risultato è garantito per ogni nuovo partecipante'], 0, 'La variabilità individuale è ampia.'),
+      mc('Quale segnale suggerisce di ridurre l’HIIT la settimana successiva?', ['Sonno scarso, FC a riposo alta per giorni, qualità in calo', 'Sensazione di freschezza, FC a riposo bassa per giorni, qualità in aumento', 'Voglia di correre e qualità stabile', 'Nessun segnale particolare dopo la seduta'], 0, 'Sono indicatori di fatica accumulata.'),
+      mc('Perché nei recuperi del 4 × 4 si usa un recupero attivo?', ['Per mantenere un VO2 elevato e favorire la rimozione dei metaboliti', 'Per far scendere il VO2 al minimo e favorire l’accumulo dei metaboliti', 'Perché il recupero passivo è proibito dal protocollo', 'Per saltare il defaticamento a fine seduta'], 0, 'Il recupero attivo riduce lo scarto di intensità tra gli sforzi.')
     ]
   });
 
@@ -153,11 +153,11 @@
       fill('Quanti mesocicli da 4 settimane ci sono in un macrociclo di 24 settimane?', ['6'], '24 / 4 = 6.'),
       fill('Volume-carico di 4 serie × 8 ripetizioni a 75 kg (kg totali)?', ['2400', '2 400', '2.400'], '4 × 8 × 75 = 2 400.'),
       fill('Volume-carico di 5 × 5 a 80 kg?', ['2000', '2 000', '2.000'], '5 × 5 × 80 = 2 000.'),
-      mc('Il microciclo corrisponde di solito a:', ['una settimana di allenamento', 'una stagione intera', 'una singola ripetizione', 'un blocco di 12 settimane'], 0, 'Macrociclo = stagione, mesociclo = 3–6 settimane, microciclo = settimana.'),
-      mc('Che cosa dice l’evidenza sulla periodizzazione per la forza?', ['Piccolo-moderato vantaggio rispetto al non periodizzato; differenze tra modelli piccole e incerte', 'Il modello a blocchi è sempre il migliore', 'La periodizzazione non serve mai', 'Solo il modello lineare funziona'], 0, 'Le meta-analisi sono eterogenee: volume, intensità e aderenza contano molto.'),
-      mc('Il modello a blocchi è pensato soprattutto per:', ['atleti avanzati con un picco da preparare', 'principianti assoluti', 'chi non ha un obiettivo', 'solo sport di squadra'], 0, 'Concentra pochi obiettivi per blocco e sfrutta gli effetti residui.'),
-      mc('Nella periodizzazione ondulata quotidiana (DUP):', ['intensità e volume variano da una seduta all’altra', 'si cambia solo una volta all’anno', 'si fa sempre la stessa seduta', 'l’intensità cresce linearmente'], 0, 'Per esempio forza, ipertrofia e potenza in giorni diversi della stessa settimana.'),
-      mc('Perché si inserisce una settimana di scarico?', ['Per ridurre la fatica accumulata mantenendo parte dell’intensità', 'Per smettere di allenarsi del tutto', 'Per aumentare il volume del 50%', 'Solo per fare test massimali'], 0, 'Si riduce il volume del 20–50% e si facilita il recupero e l’adattamento.'),
+      mc('Il microciclo corrisponde di solito a:', ['una settimana di allenamento', 'una stagione intera di allenamento', 'una singola ripetizione di un esercizio', 'un blocco di 12 settimane di preparazione'], 0, 'Macrociclo = stagione, mesociclo = 3–6 settimane, microciclo = settimana.'),
+      mc('Che cosa dice l’evidenza sulla periodizzazione per la forza?', ['Piccolo-moderato vantaggio sul non periodizzato; differenze tra modelli piccole', 'Grande vantaggio sul non periodizzato; differenze tra modelli ampie e ben dimostrate', 'La periodizzazione non serve mai, a nessun livello', 'Solo il modello lineare funziona davvero'], 0, 'Le meta-analisi sono eterogenee: volume, intensità e aderenza contano molto.'),
+      mc('Il modello a blocchi è pensato soprattutto per:', ['atleti avanzati con un picco da preparare', 'principianti assoluti senza obiettivo di gara', 'atleti senza alcun obiettivo definito', 'soltanto gli sport di squadra'], 0, 'Concentra pochi obiettivi per blocco e sfrutta gli effetti residui.'),
+      mc('Nella periodizzazione ondulata quotidiana (DUP):', ['intensità e volume variano da una seduta all’altra', 'intensità e volume restano uguali da una seduta all’altra della settimana', 'si fa sempre la stessa seduta ogni settimana', 'l’intensità cresce in modo lineare per mesi'], 0, 'Per esempio forza, ipertrofia e potenza in giorni diversi della stessa settimana.'),
+      mc('Perché si inserisce una settimana di scarico?', ['Per ridurre la fatica accumulata mantenendo parte dell’intensità', 'Per aumentare la fatica accumulata mantenendo parte dell’intensità abituale', 'Per aumentare il volume del 50% in modo graduale', 'Solo per fare test massimali con carichi pesanti'], 0, 'Si riduce il volume del 20–50% e si facilita il recupero e l’adattamento.'),
       order('Ordina le fasi di un macrociclo tradizionale', ['Preparazione generale', 'Preparazione specifica', 'Pre-gara e tapering', 'Gara', 'Transizione'], 'Si parte da volume e base, si specializza, si riduce il carico, si gareggia e si recupera.')
     ],
     test: [
@@ -165,10 +165,10 @@
       fill('Picco 50 km e scarico al −40%. Quanti km?', ['30'], '50 × 0,6 = 30.'),
       fill('Volume-carico di 6 × 2 al 60% con 1RM 100 kg (kg totali)?', ['720'], '6 × 2 × 60 = 720.'),
       fill('Volume-carico di 3 × 10 a 70 kg?', ['2100', '2 100', '2.100'], '3 × 10 × 70 = 2 100.'),
-      mc('Un blocco di accumulo ha tipicamente:', ['volume alto e intensità moderata, per capacità di base', 'volume minimo e intensità massima', 'solo riposo', 'solo gare'], 0, 'L’accumulo costruisce la base; la trasmutazione specializza.'),
-      mc('Perché la periodizzazione lineare è adatta ai principianti?', ['È semplice e prevede aumenti graduali con un solo picco', 'Richiede sempre test massimali', 'Prevede intensità massima fin da subito', 'Elimina il recupero'], 0, 'Un principiante migliora con poche variazioni e progressione ordinata.'),
+      mc('Un blocco di accumulo ha tipicamente:', ['volume alto e intensità moderata, per costruire la capacità di base', 'volume basso e intensità massima, per costruire la potenza specifica di gara', 'solo riposo e recupero attivo', 'solo gare e prove di verifica'], 0, 'L’accumulo costruisce la base; la trasmutazione specializza.'),
+      mc('Perché la periodizzazione lineare è adatta ai principianti?', ['È semplice e prevede aumenti graduali con un solo picco', 'È complessa e prevede aumenti improvvisi con più picchi nell’anno', 'Prevede intensità massima fin da subito', 'Elimina del tutto il recupero tra le sedute'], 0, 'Un principiante migliora con poche variazioni e progressione ordinata.'),
       mc('Per chi ha tempi di recupero lunghi può essere utile uno schema di scarico:', ['2:1 anziché 3:1', 'senza scarico mai', 'una settimana su 10', 'a intensità massima'], 0, 'Si adatta la frequenza dello scarico alla tolleranza individuale.'),
-      mc('Quale affermazione è più prudente sul modello a blocchi?', ['L’evidenza a favore è limitata e di qualità variabile', 'È dimostrato superiore a ogni altro', 'È vietato in alcuni sport', 'Non prevede un picco'], 0, 'Gli studi sono pochi e piccoli.')
+      mc('Quale affermazione è più prudente sul modello a blocchi?', ['L’evidenza a favore è limitata e di qualità variabile', 'È dimostrato superiore a ogni altro modello di periodizzazione', 'È vietato in alcuni sport di squadra', 'Non prevede un picco di forma'], 0, 'Gli studi sono pochi e piccoli.')
     ]
   });
 
@@ -195,11 +195,11 @@
       fill('Con τ₁ = 45 giorni, che % della forma resta dopo 14 giorni (arrotondato all’intero)?', ['73', '73%'], 'e^(−14/45) ≈ 0,7326.'),
       fill('Un tapering migliora del 2% una maratona da 3:30:00 (210 min). Quanti minuti si guadagnano?', ['4,2', '4.2'], '210 × 0,02 = 4,2 min.'),
       fill('Settimana abituale da 8 ore, tapering −50%. Quante ore?', ['4'], '8 × 0,5 = 4.'),
-      mc('La meta-analisi di Bosquet (2007) indica come più efficace:', ['ridurre il volume del 41–60% mantenendo intensità e frequenza, per circa 2 settimane', 'ridurre l’intensità del 50% mantenendo il volume', 'fermarsi del tutto per 4 settimane', 'non ridurre nulla'], 0, 'Sono ordini di grandezza con ampia variabilità individuale.'),
-      mc('Nel modello di Banister, perché il tapering fa salire la prestazione?', ['La fatica decade più in fretta della forma', 'La forma aumenta senza allenarsi', 'La fatica non decade', 'Il modello non prevede la fatica'], 0, 'τ della fatica è breve, τ della forma è lunga.'),
-      mc('Quale caratteristica del modello di Banister è un limite?', ['I parametri sono individuali e difficili da stimare', 'Non usa esponenziali', 'Funziona identico per tutti', 'Non ha alcun senso concettuale'], 0, 'Occorrono molti dati e i parametri non sono stabili.'),
-      mc('Perché un tapering di 6 settimane è, in genere, una cattiva idea?', ['Rischia di far perdere la forma specifica (detraining)', 'Aumenta la fatica', 'È vietato', 'Aumenta troppo la forza'], 0, 'La forma decade lentamente ma decade; 1–3 settimane bastano.'),
-      mc('Nel calendario di gara, a −4 giorni è meglio:', ['una seduta breve di qualità e poi giorni facili', 'un test massimale', 'un lungo di 30 km', 'nessuna attività per 4 giorni'], 0, 'Si mantiene il ritmo, evitando di aggiungere fatica nuova.'),
+      mc('La meta-analisi di Bosquet (2007) indica come più efficace:', ['ridurre il volume del 41–60% mantenendo intensità e frequenza, per circa 2 settimane', 'ridurre il volume del 41–60% e anche l’intensità, per circa 6 settimane', 'fermarsi del tutto per quattro settimane prima della gara', 'non ridurre nulla e allenarsi come sempre fino al giorno prima'], 0, 'Sono ordini di grandezza con ampia variabilità individuale.'),
+      mc('Nel modello di Banister, perché il tapering fa salire la prestazione?', ['La fatica decade più in fretta della forma', 'La fatica decade più lentamente della forma, per cui la forma cala', 'La fatica non decade mai in tre settimane', 'Il modello non prevede la fatica'], 0, 'τ della fatica è breve, τ della forma è lunga.'),
+      mc('Quale caratteristica del modello di Banister è un limite?', ['I parametri sono individuali e difficili da stimare con pochi dati', 'I parametri sono universali e facili da stimare con pochi dati', 'Funziona in modo identico per tutti gli atleti', 'Non ha alcun senso concettuale'], 0, 'Occorrono molti dati e i parametri non sono stabili.'),
+      mc('Perché un tapering di 6 settimane è, in genere, una cattiva idea?', ['Rischia di far perdere la forma specifica (detraining)', 'Rischia di far aumentare la forma specifica (supercompensazione eccessiva)', 'È vietato dalle federazioni sportive', 'Aumenta troppo la forza massima'], 0, 'La forma decade lentamente ma decade; 1–3 settimane bastano.'),
+      mc('Nel calendario di gara, a −4 giorni è meglio:', ['una seduta breve di qualità e poi giorni facili', 'una seduta lunga di qualità e poi altri giorni intensi', 'un lungo di 30 km a ritmo gara', 'nessuna attività per quattro giorni di fila'], 0, 'Si mantiene il ritmo, evitando di aggiungere fatica nuova.'),
       order('Ordina le settimane di un tapering da maratona (dal picco alla gara)', ['Picco 60 km', 'Settimana −3: 48 km', 'Settimana −2: 36 km', 'Settimana di gara: 24 km'], 'Il volume scala progressivamente, mantenendo l’intensità.')
     ],
     test: [
@@ -208,9 +208,9 @@
       fill('Un tapering migliora del 3% un 10 km da 40:00. Quanti secondi si guadagnano?', ['72'], '2 400 s × 0,03 = 72 s.'),
       fill('Con τ₁ = 45 giorni, che % di forma resta dopo 21 giorni (arrotondata)?', ['63', '63%'], 'e^(−21/45) ≈ 0,627.'),
       fill('Con τ₂ = 11 giorni, che % di fatica resta dopo 21 giorni (arrotondata)?', ['15', '15%'], 'e^(−21/11) ≈ 0,148.'),
-      mc('Per sport di forza (sollevamento) il tapering tipico è:', ['più breve, circa 7–10 giorni, con carichi pesanti mantenuti', 'di 6 settimane senza sollevare', 'senza nessuna riduzione', 'solo di intensità'], 0, 'La forma neuromuscolare decade in fretta se non si allena.'),
-      mc('Che cosa significa «gara B» nella gestione dei picchi?', ['Gara secondaria, con mini-scarico e senza tapering completo', 'Gara principale', 'Gara senza preparazione', 'Gara vietata'], 0, 'Si programmano 1–3 gare A e altre più leggere.'),
-      mc('Qual è la lettura più prudente dei dati della meta-analisi sul tapering?', ['Sono medie di popolazione: l’individuo può rispondere in modo diverso', 'Valgono identici per tutti', 'Sono errori di stampa', 'Non dicono nulla'], 0, 'I miglioramenti vanno da circa 0,5% a 6%, con variabilità individuale.')
+      mc('Per sport di forza (sollevamento) il tapering tipico è:', ['più breve, circa 7–10 giorni, con carichi pesanti mantenuti', 'più lungo, circa 4–6 settimane, con carichi pesanti ridotti al minimo', 'senza alcuna riduzione del volume e del carico', 'solo di intensità, mantenendo il volume alto'], 0, 'La forma neuromuscolare decade in fretta se non si allena.'),
+      mc('Che cosa significa «gara B» nella gestione dei picchi?', ['Gara secondaria, con mini-scarico e senza tapering completo', 'Gara principale, con mini-scarico e tapering completo di due settimane', 'Gara senza alcuna preparazione specifica', 'Gara vietata dal regolamento'], 0, 'Si programmano 1–3 gare A e altre più leggere.'),
+      mc('Qual è la lettura più prudente dei dati della meta-analisi sul tapering?', ['Sono medie di popolazione: l’individuo può rispondere in modo diverso', 'Sono medie di popolazione: ogni individuo risponde sempre allo stesso modo', 'Sono errori di stampa degli articoli', 'Non dicono nulla di utile'], 0, 'I miglioramenti vanno da circa 0,5% a 6%, con variabilità individuale.')
     ]
   });
 
@@ -238,10 +238,10 @@
       fill('Carico settimanale 1 740 AU. Media giornaliera su 7 giorni (un decimale)?', ['248,6', '248.6'], '1 740 / 7 ≈ 248,57.'),
       fill('Acuto 2 400, cronico (media di 4 settimane, inclusa l’ultima) 2 150. ACWR (due decimali)?', ['1,12', '1.12'], '2 400 / 2 150 ≈ 1,116.'),
       fill('Per l’EWMA acuta (N = 7) il fattore λ = 2/(N + 1) vale (decimale)?', ['0,25', '0.25'], '2/8 = 0,25.'),
-      mc('La monotonia di Foster si calcola come:', ['media giornaliera / deviazione standard giornaliera', 'somma / media', 'carico acuto / carico cronico', 'RPE × durata'], 0, 'Misura quanto i carichi sono uniformi nella settimana.'),
-      mc('Lo strain si calcola come:', ['carico settimanale × monotonia', 'RPE × durata', 'media / 7', 'ACWR × 2'], 0, 'Combina quantità e uniformità dei carichi.'),
-      mc('Perché l’ACWR è considerato controverso?', ['Accoppiamento matematico, soglie instabili, evidenza causale debole', 'Perché è sempre uguale a 1', 'Perché non usa il tempo', 'Perché è stato vietato'], 0, 'Impellizzeri e altri ne criticano le basi statistiche e l’uso con soglie rigide.'),
-      mc('Come si interpreta correttamente l’HRV mattutina?', ['Come tendenza (media mobile di 7 giorni) rispetto alla propria linea di base', 'Con una soglia assoluta uguale per tutti', 'Solo se bassa un singolo giorno', 'Ignorando il sonno'], 0, 'Un singolo giorno è rumoroso; contano trend e contesto.'),
+      mc('La monotonia di Foster si calcola come:', ['media giornaliera / deviazione standard giornaliera', 'carico giornaliero medio / carico massimo giornaliero', 'carico acuto / carico cronico', 'RPE × durata della seduta'], 0, 'Misura quanto i carichi sono uniformi nella settimana.'),
+      mc('Lo strain si calcola come:', ['carico settimanale × monotonia', 'RPE × durata della seduta', 'media / 7 giorni', 'ACWR × 2 settimane'], 0, 'Combina quantità e uniformità dei carichi.'),
+      mc('Perché l’ACWR è considerato controverso?', ['Accoppiamento matematico, soglie instabili, evidenza causale debole', 'Nessun accoppiamento, soglie stabili, evidenza causale solida e replicata', 'Perché non usa il tempo nel calcolo', 'Perché è stato vietato dalle federazioni'], 0, 'Impellizzeri e altri ne criticano le basi statistiche e l’uso con soglie rigide.'),
+      mc('Come si interpreta correttamente l’HRV mattutina?', ['Come tendenza (media mobile di 7 giorni) rispetto alla propria base', 'Come valore singolo del mattino rispetto a una soglia uguale per tutti', 'Solo se è bassa per un singolo giorno', 'Ignorando il sonno e lo stress'], 0, 'Un singolo giorno è rumoroso; contano trend e contesto.'),
       order('Ordina il calcolo del carico settimanale con sRPE', ['Registra RPE di ogni seduta', '× durata in minuti', '= AU della seduta', 'Somma le AU dei giorni', '= carico settimanale'], 'Si calcola ogni seduta e poi si somma.')
     ],
     test: [
@@ -250,9 +250,9 @@
       fill('Acuto 1 800, cronico 2 250. ACWR (un decimale)?', ['0,8', '0.8', '0,80', '0.80'], '1 800 / 2 250 = 0,8.'),
       fill('Carico di 2 200 AU aumentato del 20%. Nuovo carico in AU?', ['2640', '2 640', '2.640'], '2 200 × 1,2 = 2 640.'),
       fill('Acuto 3 000 e cronico delle 3 settimane precedenti pari a 2 066,7. ACWR non accoppiato (due decimali)?', ['1,45', '1.45'], '3 000 / 2 066,7 ≈ 1,45.'),
-      mc('Perché è sbagliato intervenire solo perché l’ACWR supera 1,5?', ['Le soglie non sono rigide e dipendono da contesto, sport e calcolo', 'Perché 1,5 è un numero magico sempre pericoloso', 'Perché l’ACWR è sempre 1', 'Perché il carico non conta'], 0, 'Il rapporto va letto insieme a carico assoluto e altri segnali.'),
-      mc('L’indice di Hooper si basa su:', ['Sonno, stress, fatica e dolore muscolare', 'Solo la FC a riposo', 'Il peso corporeo', 'Il numero di gare'], 0, 'Quattro voci con scala 1–7: punteggio 4–28.'),
-      mc('Che cosa significano le «AU» dell’sRPE?', ['Unità arbitrarie, utili per confronti della stessa persona nel tempo', 'Unità assolute internazionali', 'Chilocalorie', 'Watt'], 0, 'Dipendono dalla scala di percezione dell’atleta.')
+      mc('Perché è sbagliato intervenire solo perché l’ACWR supera 1,5?', ['Le soglie non sono rigide: dipendono da contesto, sport e calcolo', 'Le soglie sono rigide e valgono uguali per ogni sport e metodo di calcolo', 'Perché l’ACWR è sempre pari a 1', 'Perché il carico non conta per il rischio'], 0, 'Il rapporto va letto insieme a carico assoluto e altri segnali.'),
+      mc('L’indice di Hooper si basa su:', ['Sonno, stress, fatica e dolore muscolare', 'Solo FC a riposo, peso corporeo e numero di gare nella settimana', 'Il peso corporeo del mattino', 'Il numero di gare disputate'], 0, 'Quattro voci con scala 1–7: punteggio 4–28.'),
+      mc('Che cosa significano le «AU» dell’sRPE?', ['Unità arbitrarie, utili per confrontare la stessa persona nel tempo', 'Unità assolute, utili per confrontare atleti diversi in modo diretto', 'Chilocalorie consumate nella seduta', 'Watt medi prodotti dall’atleta'], 0, 'Dipendono dalla scala di percezione dell’atleta.')
     ]
   });
 
@@ -280,10 +280,10 @@
       fill('Partita di 90 min a RPE 8. Carico in AU?', ['720'], '90 × 8 = 720.'),
       fill('Settimana: partita 720, MD-4 360, MD-3 450, MD-2 135 AU. Carico totale?', ['1665', '1 665', '1.665'], '720 + 360 + 450 + 135 = 1 665.'),
       fill('Sprint di 30 m in 4,2 s. Velocità media in m/s (un decimale)?', ['7,1', '7.1', '7,14', '7.14'], '30 / 4,2 ≈ 7,14 m/s.'),
-      mc('Che cosa indica MD-1?', ['Il giorno prima della partita: attivazione, poca fatica', 'Il giorno dopo la partita', 'Il giorno di riposo completo', 'Il giorno con il carico massimo'], 0, 'MD-1 è il giorno precedente alla partita: si attiva senza fatica.'),
-      mc('MD+1 per i giocatori che hanno giocato molto è tipicamente:', ['recupero e sedute leggere', 'seduta intensa di sprint', 'test massimali', 'doppio allenamento'], 0, 'Chi ha giocato molto riceve già un forte carico dalla partita.'),
+      mc('Che cosa indica MD-1?', ['Il giorno prima della partita: attivazione e poca fatica', 'Il giorno dopo la partita: recupero attivo, poca fatica e carico basso', 'Il giorno di riposo completo', 'Il giorno con il carico massimo'], 0, 'MD-1 è il giorno precedente alla partita: si attiva senza fatica.'),
+      mc('MD+1 per i giocatori che hanno giocato molto è tipicamente:', ['recupero e sedute leggere', 'una seduta intensa di sprint ripetuti', 'test massimali sui salti', 'un doppio allenamento di forza'], 0, 'Chi ha giocato molto riceve già un forte carico dalla partita.'),
       mc('In-stagione, per mantenere la forza, in genere si usano:', ['1–2 sedute brevi con carichi alti e volume basso', 'nessuna seduta di forza', '5 sedute lunghe', 'solo esercizi a corpo libero a ripetizioni molto alte'], 0, 'La forza si mantiene con poco volume a intensità alta.'),
-      mc('Perché i risultati dei test come lo Yo-Yo vanno letti con prudenza?', ['Le equazioni dànno stime con errore: conta il confronto nel tempo', 'Sono sempre esatti', 'Misurano solo la forza', 'Sono validi solo in laboratorio'], 0, 'Motivazione, superficie e condizioni influiscono.'),
+      mc('Perché i risultati dei test come lo Yo-Yo vanno letti con prudenza?', ['Le equazioni danno stime con errore: conta il confronto nel tempo', 'Le equazioni danno valori esatti: il confronto nel tempo non serve', 'Misurano soltanto la forza massima', 'Sono validi solo in laboratorio'], 0, 'Motivazione, superficie e condizioni influiscono.'),
       order('Ordina la settimana di partita (domenica)', ['MD+1 recupero', 'MD+2 riposo o scarico', 'MD-4 forza e volume', 'MD-3 alta intensità', 'MD-2 volume ridotto', 'MD-1 attivazione'], 'Il carico sale a metà settimana e scende fino alla partita.')
     ],
     test: [
@@ -292,9 +292,9 @@
       fill('RSA: tempi 4,10; 4,12; 4,15; 4,20; 4,22; 4,26 (somma 25,05; miglior 4,10; n = 6). Decremento % (un decimale)?', ['1,8', '1.8', '1,83', '1.83'], '100 × (25,05 / 24,60) − 100 ≈ 1,83.'),
       fill('Allenamento di 75 min a sRPE 6. Carico in AU?', ['450'], '75 × 6 = 450.'),
       fill('Carico di pre-stagione 1 200 AU, +10% a settimana per 2 settimane. Valore alla terza settimana in AU?', ['1452', '1 452', '1.452'], '1 200 × 1,1 = 1 320; × 1,1 = 1 452.'),
-      mc('Perché i giocatori che giocano poco richiedono attenzione?', ['Rischiano carichi bassi e poi picchi quando devono giocare', 'Non hanno bisogno di carico', 'Non si infortunano mai', 'Non devono recuperare'], 0, 'Un carico irregolare, con picchi, aumenta il rischio.'),
-      mc('Quale caratteristica distingue i backs dai forwards nel rugby?', ['Più corsa ad alta velocità e sprint, meno contatto statico', 'Solo mischia', 'Sono identici', 'Più placcaggi sempre'], 0, 'Le richieste dipendono dal ruolo.'),
-      mc('In una settimana con due partite, in genere:', ['si privilegia il recupero con pochissimo carico aggiuntivo', 'si fanno due test Yo-Yo', 'si triplica il volume', 'si evita di dormire'], 0, 'Il tempo tra le partite serve a recuperare.')
+      mc('Perché i giocatori che giocano poco richiedono attenzione?', ['Rischiano carichi bassi e poi picchi quando devono giocare', 'Hanno carichi sempre alti, quindi non rischiano picchi quando giocano', 'Non si infortunano mai, perché giocano poco', 'Non devono recuperare tra le partite'], 0, 'Un carico irregolare, con picchi, aumenta il rischio.'),
+      mc('Quale caratteristica distingue i backs dai forwards nel rugby?', ['Più corsa ad alta velocità e sprint, meno contatto statico', 'Meno corsa ad alta velocità e sprint, più contatto statico e mischia', 'Sono identici nel profilo di carico', 'Più placcaggi e contatti in ogni partita'], 0, 'Le richieste dipendono dal ruolo.'),
+      mc('In una settimana con due partite, in genere:', ['si privilegia il recupero con pochissimo carico aggiuntivo', 'si privilegia il carico con molte sedute intense in più fra le due partite', 'si triplica il volume di allenamento', 'si evita di dormire per adattarsi'], 0, 'Il tempo tra le partite serve a recuperare.')
     ]
   });
 
@@ -322,10 +322,10 @@
       fill('Con 1RM di 120 kg, carico all’85% in kg?', ['102'], '120 × 0,85 = 102.'),
       fill('Volume 10 ore/sett. e tapering −40%. Ore?', ['6'], '10 × 0,6 = 6.'),
       fill('Massa magra 60 kg e soglia di disponibilità energetica 30 kcal/kg di massa magra/giorno. Valore in kcal?', ['1800', '1 800', '1.800'], '60 × 30 = 1 800.'),
-      mc('Che profilo metabolico descrive meglio gli sport di combattimento?', ['Intermittente ad alta intensità con importante base aerobica', 'Solo aerobico continuo', 'Solo alattacido', 'Sedentario'], 0, 'Combinano sforzi esplosivi, lavoro lattacido e recupero aerobico.'),
-      mc('Quale approccio alla gestione del peso è coerente con le posizioni di consenso?', ['Graduale, pianificato in anticipo, con medico e nutrizionista', 'Sauna e disidratazione negli ultimi giorni', 'Digiuno prolungato', 'Diuretici prima della pesata'], 0, 'I tagli rapidi di acqua sono associati a rischi gravi e peggior prestazione.'),
-      mc('Per i minori che praticano sport di categoria:', ['non si deve tagliare il peso: prima di tutto crescita e salute', 'si può usare la sauna', 'si può digiunare', 'si può disidratare'], 0, 'Le regole federali e la sicurezza vengono prima del peso.'),
-      mc('Quale esercizio è tipico per l’allenamento della presa nel judo?', ['Trazioni al kimono o con asciugamano e dead hang', 'Solo corsa lenta', 'Solo nuoto', 'Stretching passivo'], 0, 'La presa si allena con carichi specifici sulle mani e sugli avambracci.'),
+      mc('Che profilo metabolico descrive meglio gli sport di combattimento?', ['Intermittente ad alta intensità con importante base aerobica', 'Continuo a bassa intensità, con scarsa base aerobica e sforzi brevi', 'Solo alattacido, senza base aerobica', 'Sedentario, con sforzi quasi nulli'], 0, 'Combinano sforzi esplosivi, lavoro lattacido e recupero aerobico.'),
+      mc('Quale approccio alla gestione del peso è coerente con le posizioni di consenso?', ['Graduale, pianificato in anticipo, con medico e nutrizionista', 'Rapida, concentrata negli ultimi giorni, con sauna sotto controllo dell’allenatore', 'Digiuno prolungato prima della pesata', 'Diuretici prima della pesata'], 0, 'I tagli rapidi di acqua sono associati a rischi gravi e peggior prestazione.'),
+      mc('Per i minori che praticano sport di categoria:', ['non si deve tagliare il peso: prima di tutto crescita e salute', 'si può tagliare il peso in poche ore: prima di tutto la categoria di gara', 'si può digiunare per un giorno', 'si può disidratare l’atleta per qualche ora'], 0, 'Le regole federali e la sicurezza vengono prima del peso.'),
+      mc('Quale esercizio è tipico per l’allenamento della presa nel judo?', ['Trazioni al kimono o con asciugamano e dead hang', 'Corsa lenta di lunga durata e nuoto a stile libero senza trazioni', 'Solo nuoto a stile libero', 'Stretching passivo prolungato'], 0, 'La presa si allena con carichi specifici sulle mani e sugli avambracci.'),
       order('Ordina le fasi di un ciclo di 12 settimane verso un torneo', ['Preparazione generale', 'Preparazione specifica', 'Pre-gara con volume ridotto', 'Gara', 'Recupero'], 'Si passa da base e volume a intensità specifica, riduzione del carico, gara e recupero.')
     ],
     test: [
@@ -333,10 +333,10 @@
       fill('Boxe professionistica 12 round da 3 min con 11 pause da 1 min. Minuti totali?', ['47'], '36 + 11 = 47.'),
       fill('Atleta di 80 kg, perdita dell’1% a settimana (ordine di grandezza massimo di letteratura). Kg a settimana?', ['0,8', '0.8'], '80 × 0,01 = 0,8.'),
       fill('1RM di 100 kg, carico al 90%. Kg?', ['90'], '100 × 0,9 = 90.'),
-      mc('Perché l’indice SJFT va confrontato soprattutto con se stessi?', ['Dipende da tecnica, abilità e partner', 'Perché è sempre uguale per tutti', 'Perché non usa la FC', 'Perché è un test di forza massima'], 0, 'Il test è influenzato dalla tecnica e dalle condizioni.'),
-      mc('La bassa disponibilità energetica (RED-S) può comportare:', ['effetti su ossa, ormoni, sistema immunitario e prestazione', 'solo un aumento della forza', 'nessun effetto', 'solo mal di testa'], 0, 'È una condizione riconosciuta dal CIO.'),
-      mc('In una settimana pre-gara l’approccio più prudente al peso è:', ['mirare a stabilità e idratazione, senza cambiamenti drastici', 'tagliare più acqua possibile', 'saltare i pasti', 'allenarsi in tuta termica'], 0, 'Le soluzioni drastiche dell’ultimo momento sono pericolose.'),
-      mc('Perché il pre-gara riduce il volume e mantiene l’intensità?', ['Per ridurre la fatica senza perdere la qualità', 'Per perdere la forma', 'Per smettere di allenarsi', 'Perché l’intensità danneggia sempre'], 0, 'È la stessa logica del tapering.')
+      mc('Perché l’indice SJFT va confrontato soprattutto con se stessi?', ['Dipende da tecnica, abilità e partner', 'Perché è sempre uguale per tutti i judoka', 'Perché non usa la frequenza cardiaca', 'Perché è un test di forza massima'], 0, 'Il test è influenzato dalla tecnica e dalle condizioni.'),
+      mc('La bassa disponibilità energetica (RED-S) può comportare:', ['effetti su ossa, ormoni, sistema immunitario e prestazione', 'effetti solo sulla forza e sul sonno, senza conseguenze su ossa e ormoni', 'nessun effetto misurabile sulla salute', 'solo mal di testa occasionale'], 0, 'È una condizione riconosciuta dal CIO.'),
+      mc('In una settimana pre-gara l’approccio più prudente al peso è:', ['mirare a stabilità e idratazione, senza cambiamenti drastici', 'mirare a perdere molto peso, tagliando liquidi e pasti il giorno prima', 'saltare i pasti principali', 'allenarsi in tuta termica'], 0, 'Le soluzioni drastiche dell’ultimo momento sono pericolose.'),
+      mc('Perché il pre-gara riduce il volume e mantiene l’intensità?', ['Per ridurre la fatica senza perdere la qualità', 'Per ridurre l’intensità e mantenere un volume invariato fino alla gara', 'Per smettere di allenarsi del tutto', 'Perché l’intensità danneggia sempre'], 0, 'È la stessa logica del tapering.')
     ]
   });
 
@@ -364,10 +364,10 @@
       fill('Con CSS 1,176 m/s, ritmo in secondi ogni 100 m (arrotondato all’intero)?', ['85'], '100 / 1,176 ≈ 85,0.'),
       fill('1RM di 140 kg, carico all’85% in kg?', ['119'], '140 × 0,85 = 119.'),
       fill('Triatleta con 10 ore e 45% in bici. Ore in bici?', ['4,5', '4.5'], '10 × 0,45 = 4,5.'),
-      mc('Che cos’è la FTP?', ['La potenza massima sostenibile per circa un’ora', 'La potenza massima in 5 secondi', 'La frequenza cardiaca massima', 'Il peso del ciclista'], 0, 'È un riferimento per le zone di intensità in ciclismo.'),
+      mc('Che cos’è la FTP?', ['La potenza massima sostenibile per circa un’ora', 'La potenza massima sostenibile per circa cinque minuti di sforzo', 'La frequenza cardiaca massima', 'Il peso del ciclista'], 0, 'È un riferimento per le zone di intensità in ciclismo.'),
       mc('Nei lavori massimali di potenza e forza i recuperi tipici tra le serie sono:', ['2–5 minuti', '10 secondi', 'nessuno', '30 minuti'], 0, 'Servono recuperi lunghi per mantenere la qualità.'),
-      mc('La doppia periodizzazione è tipica di:', ['atletica su pista con stagione indoor e outdoor', 'sport senza gare', 'principianti assoluti', 'sport con una sola gara l’anno'], 0, 'Prevede due picchi nell’anno.'),
-      mc('Quale dei seguenti è un rischio specifico degli sport estetici/tecnico-combinatori?', ['Pressione sul peso e bassa disponibilità energetica', 'Mancanza di tecnica', 'Eccesso di recupero', 'Nessun rischio'], 0, 'Serve prevenzione con medico e dietista.'),
+      mc('La doppia periodizzazione è tipica di:', ['atletica su pista con stagione indoor e outdoor', 'ciclismo su strada con una sola stagione e un unico picco', 'principianti assoluti', 'sport con una sola gara l’anno'], 0, 'Prevede due picchi nell’anno.'),
+      mc('Quale dei seguenti è un rischio specifico degli sport estetici/tecnico-combinatori?', ['Pressione sul peso e bassa disponibilità energetica', 'Eccesso di recupero e scarsa attenzione al peso corporeo', 'Eccesso di recupero', 'Nessun rischio specifico'], 0, 'Serve prevenzione con medico e dietista.'),
       order('Ordina l’anno di un atleta di resistenza', ['Base', 'Costruzione', 'Specifico', 'Tapering e gara', 'Transizione'], 'Si parte da volume e base, poi intensità, specificità, tapering e recupero.')
     ],
     test: [
@@ -376,8 +376,8 @@
       fill('1RM di 140 kg, carico al 90% in kg?', ['126'], '140 × 0,9 = 126.'),
       fill('FTP 240 W e potenza a 70 kg. Rapporto W/kg (due decimali)?', ['3,43', '3.43'], '240 / 70 ≈ 3,43.'),
       fill('Tennis: 150 punti e 25 s di pausa tra punti. Minuti totali di pausa (un decimale)?', ['62,5', '62.5'], '150 × 25 = 3 750 s = 62,5 min.'),
-      mc('Quale caratteristica distingue gli sport di potenza da quelli di resistenza?', ['Volume basso e intensità alta con recuperi lunghi', 'Volume altissimo e intensità sempre bassa', 'Nessuna differenza', 'Solo il tipo di scarpe'], 0, 'La qualità prevale sulla quantità.'),
-      mc('Perché la stima FTP = 95% del test di 20 min va usata con prudenza?', ['È una stima che può sovra- o sottostimare la soglia reale', 'Perché è sempre esatta', 'Perché non usa la potenza', 'Perché vale solo per i corridori'], 0, 'Le differenze individuali possono essere importanti.'),
+      mc('Quale caratteristica distingue gli sport di potenza da quelli di resistenza?', ['Volume basso e intensità alta con recuperi lunghi', 'Volume molto alto e intensità bassa con recuperi brevi e costanti', 'Nessuna differenza', 'Solo il tipo di scarpe'], 0, 'La qualità prevale sulla quantità.'),
+      mc('Perché la stima FTP = 95% del test di 20 min va usata con prudenza?', ['È una stima che può sovra- o sottostimare la soglia reale', 'È una stima sempre esatta, che coincide con la soglia reale di ogni atleta', 'Perché non usa la potenza', 'Perché vale solo per i corridori'], 0, 'Le differenze individuali possono essere importanti.'),
       mc('Nel triathlon le sedute «brick» servono a:', ['abituare al passaggio bici-corsa', 'sostituire il riposo', 'nuotare in piscina senza tecnica', 'evitare la nutrizione'], 0, 'Il passaggio dalla bici alla corsa ha sensazioni specifiche.')
     ]
   });
