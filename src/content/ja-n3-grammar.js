@@ -3,7 +3,7 @@
   'use strict';
   const C = ST.content, { order, card } = C;
   let rot = 0;
-  /« mc: la risposta giusta va scritta per prima; viene ruotata in modo deterministico »/
+  /* mc: la risposta giusta va scritta per prima; viene ruotata in modo deterministico */
   const mc = (q, o, why) => { const n = o.length, k = (rot++ * 3 + 1) % n, rest = o.slice(1); rest.splice(k, 0, o[0]); return C.mc(q, rest, k, why); };
   const lis = (say, q, o, why) => { const n = o.length, k = (rot++ * 3 + 2) % n, rest = o.slice(1); rest.splice(k, 0, o[0]); return C.listen(say, 'ja', q, rest, k, why); };
   const fillJ = (q, a, why) => ({ t: 'fill', q, a: Array.isArray(a) ? a : [a], why: why || '', ja: true });

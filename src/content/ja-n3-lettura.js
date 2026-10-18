@@ -169,8 +169,8 @@
       fillJ('Completa: あしたも ゆきが つづく みこみ___ す。', ['で'], 'みこみです.'),
       order('Metti in ordine: «Ieri in Hokkaido è caduta molta neve»', ['きのう', 'ほっかいどうで', 'おおきな', 'ゆきが', 'ふりました'], 'Tempo + luogo + fatto.'),
       order('Metti in ordine: «La città ha chiuso le scuole»', ['しは', 'がっこうを', 'やすみに', 'しました'], 'N を N に する.'),
-      lis('あした も ゆきが つづく みこみです。', 'Che cosa è previsto?', ['Altra neve domani', 'Sole domani', 'Pioggia', 'Vento forte']),
-      mc('Quale parte della notizia è una previsione?', ['あした も ゆきが つづく みこみです。', 'きのう ゆきが ふりました。', 'でんしゃが とまりました。', 'しは がっこうを やすみに しました。']),
+      lis('あしたも ゆきが つづく みこみです。', 'Che cosa è previsto?', ['Altra neve domani', 'Sole domani', 'Pioggia', 'Vento forte']),
+      mc('Quale parte della notizia è una previsione?', ['あしたも ゆきが つづく みこみです。', 'きのう ゆきが ふりました。', 'でんしゃが とまりました。', 'しは がっこうを やすみに しました。']),
       mc('«によると» introduce…', ['la fonte dell’informazione', 'una domanda', 'un desiderio', 'un ordine'])
     ],
     test: [
@@ -298,7 +298,7 @@
       mc('«おごる» significa…', ['offrire un pasto o una consumazione', 'chiedere denaro', 'rubare', 'cucinare']),
       fillJ('Completa: らいげつの しゅっちょうの じゅんび___ いそがしいです。', ['で'], 'で = causa/contesto.'),
       fillJ('Completa: なにか てつだい___か。', ['ましょう'], 'V-ましょうか.'),
-      fillJ('Completa: こんど、ごはんでも おごらせて___ ください。', ['いただけませんか', 'ください'], 'おごらせてください.'),
+      fillJ('Completa: こんど、ごはんでも おごら___ ください。(lascia che offra io)', ['せて'], 'おごらせて ください: おごる + させて ください.'),
       order('Metti in ordine: «Se non lo faccio io, non riesco a impararlo»', ['じぶんで', 'やらないと', 'おぼえられない', 'ので'], 'ないと…ので.'),
       order('Metti in ordine: «Resto fino a tardi ogni giorno»', ['まいにち', 'おそくまで', 'のこって', 'います'], 'て います.'),
       lis('なにか てつだいましょうか。ありがとうございます。でも、だいじょうぶです。', 'Che cosa risponde la seconda persona?', ['Ringrazia e rifiuta gentilmente', 'Accetta con piacere', 'Si arrabbia', 'Chiede più aiuto']),

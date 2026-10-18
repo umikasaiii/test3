@@ -49,3 +49,41 @@ cul-rianimazione-cardiopolmonare-dae, cul-ostruzione-ferite-ustioni, cul-traumi-
 - Campione di 26 argomenti su 116: non si può estendere l'esito agli altri 90.
 - Si è corretto solo ciò che era certo; le imprecisioni di taglio (semplificazioni didattiche) sono state lasciate e segnalate come DUBBIO.
 - Non verificati gli aspetti grafici o di funzionamento dell'app, solo i contenuti testuali.
+
+## Seconda revisione
+
+Seconda revisione di affidabilità su 34 argomenti `cul-` non letti nella prima (testo, esercizi e test letti per intero). Revisione a memoria, senza fonti esterne; ricalcolati con Node i calcoli finanziari (rate, montanti, TAEG), con verifica manuale di fisica, chimica, statistica e date.
+
+| id | punto | citazione breve | classificazione | motivo | azione |
+|---|---|---|---|---|---|
+| cul-ottocento-risorgimento-imperialismo | pagina «La questione sociale», assicurazioni sociali | «Bismarck introduce assicurazioni sociali (1880)» | ERRORE CERTO | La prima legge (assicurazione malattia) è del 1883, seguita da infortuni (1884) e invalidità/vecchiaia (1889); il 1880 non corrisponde a nessuna di esse | corretto in «(dal 1883)» |
+| cul-elettricita-e-circuiti | pagina «Carica, corrente e tensione» | «l'alternata (AC) inverte il verso 50 volte al secondo» | ERRORE CERTO | A 50 Hz si hanno 50 cicli al secondo e il verso si inverte 100 volte al secondo | corretto in «inverte il verso 100 volte al secondo (50 cicli al secondo, cioè 50 Hz)» |
+| cul-riconoscere-un-malore | pagina «Convulsioni», elenco azioni | «toglie gli occhiali» | ERRORE CERTO | Refuso: gli altri punti dell'elenco sono all'imperativo («proteggi», «misura», «allenta») | corretto in «togli gli occhiali» |
+| cul-stato-moderno-e-settecento | pagina «La rivoluzione industriale» | «il reddito per persona cresca stabilmente solo dopo la fine dell'Ottocento» | DUBBIO | Le ricostruzioni più citate collocano l'avvio di una crescita stabile del reddito pro capite in Gran Bretagna già a metà Ottocento; la frase è presentata come tema di studio, ma la data tarda è discutibile | lasciato |
+| cul-illuminismo-kant | pagina «Date e collegamenti» | «Tra la nascita e la morte di Kant passano 80 anni (1724–1804)» | DUBBIO | Differenza fra anni solari coerente con l'esercizio; in età effettiva Kant (22 aprile 1724 – 12 febbraio 1804) visse 79 anni. Stesso criterio per altre date di nascita/morte negli esercizi | lasciato |
+| cul-elettricita-e-circuiti | pagina «Sovraccarico e uso responsabile» | «Il fulmine… pochi milioni di volt, ma correnti di decine di migliaia di ampere» | DA VERIFICARE CON FONTE ESTERNA | Le stime di tensione di un fulmine citate di solito sono di ordine molto superiore (decine/centinaia di milioni di volt); cifra incerta, il senso del passaggio (corrente elevata per tempo brevissimo) non cambia | lasciato |
+| cul-riconoscere-un-malore | pagina «Svenimento» | «Una persona sveglia dopo uno svenimento, sconosciuta per il sistema, va comunque valutata da un medico» | DUBBIO | Frase poco chiara («sconosciuta per il sistema»); il consiglio (valutazione medica) è prudente | lasciato |
+| cul-rinascimento | pagina «Brunelleschi e Masaccio» | «Morì a ventisette anni» (Masaccio 1401–1428) | DUBBIO | Per differenza di anni 27, per età effettiva circa 26 (nato a fine dicembre 1401, morto nel 1428) | lasciato |
+| cul-roma-impero-e-caduta | pagina «Augusto e il principato» | «oltre 40 anni di potere… 40 anni» | DUBBIO | Se si conta dal 31 a.C. (Azio) sono 44, dal 27 a.C. sono 40: «oltre 40» e «40» non sono del tutto coerenti, ma il testo esplicita il calcolo da 27 a.C. | lasciato |
+| cul-corpo-umano, cul-sonno-movimento-abitudini | durate del sonno nei bambini | 9–12 ore (corpo/stress) contro 9–11 ore (sonno-movimento) | DUBBIO | Le fasce variano per fonte (AASM 6–12 anni: 9–12; NSF: 9–11); già dichiarate indicative | lasciato |
+| cul-dal-dopoguerra-a-oggi, cul-istituzioni-italiane-e-europee | cifre politiche aggiornabili | UE a 27, area euro a 12 nel 2002, 400+200 parlamentari | DA VERIFICARE CON FONTE ESTERNA | Dati soggetti a modifiche (allargamenti, riforme); coerenti con quanto noto | lasciato |
+
+### Id modificati
+
+- `cul-ottocento-risorgimento-imperialismo` (file `src/content/cul-l-storia.js`): assicurazioni sociali di Bismarck «(1880)» in «(dal 1883)». Possibile ripresa nei riepiloghi EN/JA (`layer-*.js`, non toccati): verificare se citano la data.
+- `cul-elettricita-e-circuiti` (file `src/content/cul-l-scienze1.js`): inversione di verso della corrente alternata, da 50 a 100 volte al secondo (50 cicli, 50 Hz). Possibile ripresa nei riepiloghi EN/JA (`layer-*.js`, non toccati): verificare se citano il numero.
+- `cul-riconoscere-un-malore` (file `src/content/cul-l-salute.js`): refuso «toglie» in «togli» (nessun fatto/numero, nessun impatto sui layer).
+
+Dopo le modifiche: `node tools/validate-content.js` restituisce «Contenuti validi» (con le sole ATTENZIONE già presenti su contenuti non di Cultura) e `node --check` è senza errori su `cul-l-storia.js`, `cul-l-scienze1.js`, `cul-l-salute.js`. Non sono stati toccati file `layer-*.js`.
+
+### Id esaminati senza problemi (nessun errore certo; restano eventuali note di tabella)
+
+cul-grecia-polis-e-ellenismo, cul-roma-impero-e-caduta, cul-alto-medioevo, cul-basso-medioevo, cul-stato-moderno-e-settecento, cul-rivoluzioni-atlantiche-e-napoleone, cul-dal-dopoguerra-a-oggi, cul-filosofia-antica, cul-filosofia-medievale-moderna, cul-illuminismo-kant, cul-filosofia-novecento, cul-logica-ed-etica, cul-rinascimento-barocco, cul-moto-forze-newton, cul-energia-lavoro-potenza, cul-reazioni-acidi-basi-ph, cul-corpo-umano, cul-scienze-della-terra, cul-investire-senza-illusioni, cul-debiti-prestiti-e-mutui, cul-come-funziona-leconomia, cul-bias-decisioni, cul-stress-sonno-benessere, cul-istituzioni-italiane-e-europee, cul-manutenzione-base-auto, cul-la-bicicletta, cul-sonno-movimento-abitudini, cul-statistica-e-dati, cul-numeri-percentuali-proporzioni, cul-primo-soccorso-principi, cul-rinascimento. (Gli altri tre id letti, cul-ottocento-risorgimento-imperialismo, cul-elettricita-e-circuiti e cul-riconoscere-un-malore, hanno solo le correzioni sopra; sul resto non sono emersi errori.)
+
+Verifiche numeriche riuscite (Node): rate e interessi di prestito e mutuo (88,85 €; 188,71 €; 711,32 €; 791,76 €), TAEG circa 6,4%, montanti 43 219 / 40 817 / 28 068 €, revolving 2 391 €, margini di sondaggio ±3,1 e ±2,0, correlazione r ≈ 0,77, paradosso di Simpson, deviazione standard, fisica (frenata, energia, potenza, circuiti), chimica (bilanciamenti, moli, pH), conti di sonno e caffeina.
+
+### Id ancora da leggere (56 dell’elenco, dopo prima e seconda revisione)
+
+cul-algebra-e-funzioni, cul-architettura, cul-argomentare-parlare, cul-arte-medievale, cul-barocco-settecento, cul-budget-e-consumo-consapevole, cul-campeggio-e-vita-allaperto, cul-carne-pesce-uova, cul-cartografia-coordinate, cul-casa-pulizia-manutenzione, cul-cellula-e-vita, cul-chimica-quotidiana, cul-clima-e-biomi, cul-come-funziona-internet, cul-come-funziona-un-motore, cul-comunicazione-scrittura, cul-continenti-e-regioni, cul-cucito-e-riparazioni, cul-dolci-dispensa-spesa, cul-ecologia-e-ambiente, cul-emozioni-motivazione, cul-fai-da-te-misure-trapano, cul-geografia-fisica, cul-geometria-e-trigonometria, cul-giardinaggio-e-orto, cul-guardare-arte-antica, cul-ia-fake-news-fonti, cul-imparare-una-abilita-manuale, cul-impasti-lievitazione, cul-italia-geografia, cul-legami-molecole-moli, cul-letteratura-origini-classica, cul-memoria-apprendimento, cul-meteo-e-sicurezza-in-montagna, cul-musica-fondamenti, cul-musica-popolare, cul-nodi-e-cordame, cul-novecento-contemporanea, cul-novecento-letterario, cul-onde-luce-suono, cul-orientamento-e-mappe, cul-orientarsi-e-viaggiare, cul-ottocento, cul-ottocento-letterario, cul-pasta-riso-cereali-legumi, cul-popolazione-citta-migrazioni, cul-preistoria-e-prime-civilta, cul-privacy-e-dati-personali, cul-psicologia-scienza, cul-psicologia-sociale, cul-riparazioni-idrauliche-pareti, cul-storia-musica, cul-sviluppo-personalita, cul-tecniche-base-cottura, cul-truffe-e-phishing, cul-verdure-zuppe-salse.
+
+Limiti di questa seconda revisione: stessa metodologia della prima (memoria, senza fonti esterne); la classificazione «nessun problema» significa solo che non sono emersi errori certi, non una certificazione.

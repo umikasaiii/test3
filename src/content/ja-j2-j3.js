@@ -1,10 +1,16 @@
 /* Giapponese — stage J2 (forma て e forma semplice) e J3 (esperienze e ragioni). */
 (function (ST) {
   'use strict';
-  const C = ST.content, { mc, order, listen, card } = C;
+  const C = ST.content, { order, card } = C;
+  // Posizione della risposta corretta variata in modo deterministico (solo quando la chiave è scritta per prima; opzioni tipo «Tutte/Nessuna» restano ferme).
+  let rot = 0;
+  const rotOpt = (o, a) => { const n = o.length; if (a !== 0 || n < 3 || o.some(x => /^(Tutt|Entramb|Nessun|Non si sa)/.test(String(x)))) return [o, a]; const k = (rot++ * 3 + 1) % n, rest = o.slice(1); rest.splice(k, 0, o[0]); return [rest, k]; };
+  const mc = (q, o, a, why) => { const r = rotOpt(o, a); return C.mc(q, r[0], r[1], why); };
+  const listen = (say, lang, q, o, a, why) => { const r = rotOpt(o, a); return C.listen(say, lang, q, r[0], r[1], why); };
+  const addTopic = (t) => { [].concat(t.listening || [], t.reading || []).forEach(g => (g.qs || []).forEach(x => { const r = rotOpt(x.o, x.a); x.o = r[0]; x.a = r[1]; })); return C.addTopic(t); };
   const fillJ = (q, a, why) => ({ t: 'fill', q, a: Array.isArray(a) ? a : [a], why: why || '', ja: true });
 
-  C.addTopic({
+  addTopic({
     id: 'jpn-j2-te-form', subject: 'jpn', stage: 'J2', title: 'La forma て: richieste e azioni in corso', minutes: 20, prereq: ['jpn-j1-places-wants'],
     summary: 'Coniugare la forma て; ～てください, ～ています, ～てもいいです, ～てはいけません.',
     objectives: ['Formare la forma て dei tre gruppi di verbi', 'Fare richieste, chiedere e dare permesso, vietare', 'Descrivere azioni in corso e stati'],
@@ -43,7 +49,7 @@
     speaking: [{ prompt: 'In un negozio: chiedi di vedere un prodotto e se puoi provarlo.', model: 'すみません、この くつを みせて ください。はいても いいですか。' }, { prompt: 'Di’ dove abiti e che cosa stai studiando adesso.', model: 'ローマに すんで います。いま にほんごを べんきょうして います。' }]
   });
 
-  C.addTopic({
+  addTopic({
     id: 'jpn-j2-plain-opinion', subject: 'jpn', stage: 'J2', title: 'Forma semplice, opinioni e consigli', minutes: 20, prereq: ['jpn-j2-te-form'],
     summary: 'Forma dizionario e ない; ～と思います, ～と言いました; ～ことができます; ～ほうがいいです.',
     objectives: ['Usare la forma semplice (dizionario e ない)', 'Esprimere opinioni e riportare parole', 'Dire ciò che si può fare e dare consigli'],
@@ -82,7 +88,7 @@
     speaking: [{ prompt: 'Dai la tua opinione sul giapponese e dai un consiglio a un amico che lo studia.', model: 'にほんごは むずかしいと おもいますが、おもしろいです。まいにち すこしずつ べんきょうした ほうが いいです。' }, { prompt: 'Di’ che cosa sai fare in giapponese.', model: 'じこしょうかいを する ことが できます。レストランで ちゅうもんする ことも できます。' }]
   });
 
-  C.addTopic({
+  addTopic({
     id: 'jpn-j3-past-experience', subject: 'jpn', stage: 'J3', title: 'Passato semplice ed esperienze', minutes: 20, prereq: ['jpn-j2-plain-opinion'],
     summary: 'Forma た; ～たことがあります; ～たり～たりします; ～てから, ～まえに, ～あとで.',
     objectives: ['Formare la forma た (passato semplice)', 'Parlare di esperienze passate', 'Ordinare azioni nel tempo'],
@@ -121,7 +127,7 @@
     speaking: [{ prompt: 'Racconta un viaggio che hai fatto: dove, che cosa hai fatto (～たり～たり).', model: 'きょねん ローマへ いきました。ピザを たべたり、こうえんを さんぽしたり しました。' }, { prompt: 'Di’ una cosa che non hai mai fatto ma vorresti fare.', model: 'ふじさんに のぼった ことが ありませんが、のぼりたいです。' }]
   });
 
-  C.addTopic({
+  addTopic({
     id: 'jpn-j3-reasons-contrast', subject: 'jpn', stage: 'J3', title: 'Ragioni, contrasto e probabilità', minutes: 20, prereq: ['jpn-j3-past-experience'],
     summary: 'から, ので, けど/が, のに, ～かもしれません, ～でしょう.',
     objectives: ['Spiegare motivi con から e ので', 'Esprimere contrasto', 'Dire cosa è probabile o possibile'],

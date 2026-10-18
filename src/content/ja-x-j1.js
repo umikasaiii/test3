@@ -1,9 +1,15 @@
 /* Giapponese — ampliamento stage J1 (verbi in forma cortese). */
 (function (ST) {
   'use strict';
-  const C = ST.content, { mc, order, listen, card } = C;
+  const C = ST.content, { order, card } = C;
+  // Posizione della risposta corretta variata in modo deterministico (solo quando la chiave è scritta per prima; opzioni tipo «Tutte/Nessuna» restano ferme).
+  let rot = 0;
+  const rotOpt = (o, a) => { const n = o.length; if (a !== 0 || n < 3 || o.some(x => /^(Tutt|Entramb|Nessun|Non si sa)/.test(String(x)))) return [o, a]; const k = (rot++ * 3 + 1) % n, rest = o.slice(1); rest.splice(k, 0, o[0]); return [rest, k]; };
+  const mc = (q, o, a, why) => { const r = rotOpt(o, a); return C.mc(q, r[0], r[1], why); };
+  const listen = (say, lang, q, o, a, why) => { const r = rotOpt(o, a); return C.listen(say, lang, q, r[0], r[1], why); };
+  const addTopic = (t) => { [].concat(t.listening || [], t.reading || []).forEach(g => (g.qs || []).forEach(x => { const r = rotOpt(x.o, x.a); x.o = r[0]; x.a = r[1]; })); return C.addTopic(t); };
   const fillJ = (q, a, why) => ({ t: 'fill', q, a: Array.isArray(a) ? a : [a], why: why || '', ja: true });
-  const T = (o) => C.addTopic(Object.assign({ subject: 'jpn', stage: 'J1', minutes: 20, prereq: ['jpn-j0-desu'] }, o));
+  const T = (o) => addTopic(Object.assign({ subject: 'jpn', stage: 'J1', minutes: 20, prereq: ['jpn-j0-desu'] }, o));
 
   T({ id: 'jpn-j1-invitations', title: 'Inviti e proposte: ～ませんか, ～ましょう, ～に いきます', summary: 'Invitare, accettare, rifiutare con garbo e dire lo scopo di un movimento.',
     objectives: ['Invitare con ～ませんか e proporre con ～ましょう', 'Accettare o rifiutare con garbo', 'Dire lo scopo con ～に いきます'],
@@ -128,7 +134,7 @@
       mc('«Studio circa due ore»:', ['にじかんぐらい べんきょうします。', 'にじごろ べんきょうします。', 'にじを べんきょうします。', 'にじから べんきょうします。'], 0),
       mc('«Lavoro dalle 9 alle 5»:', ['くじから ごじまで はたらきます。', 'くじまで ごじから はたらきます。', 'くじで ごじに はたらきます。', 'くじは ごじを はたらきます。'], 0),
       listen('ここから えきまで じゅうごふんぐらい かかります。', 'ja', 'Quanto ci vuole?', ['Circa 15 minuti', 'Circa 50 minuti', 'Circa 5 minuti', 'Circa 1 ora'], 0),
-      fillJ('Completa: しゅうに にかい ___ ます。(nuoto) およぎ', ['およぎ'], 'およぎます.'),
+      fillJ('Completa: しゅうに にかい ___ ます。(nuotare: およぐ)', ['およぎ'], 'およぎます: およぐ → およぎ + ます.'),
       mc('Come si dice «4 ore»?', ['よじかん', 'よんじかん', 'しじかん', 'よじ'], 0),
       mc('どのぐらい かかりますか chiede…', ['quanto tempo ci vuole', 'dov’è', 'chi è', 'che cos’è'], 0)
     ],

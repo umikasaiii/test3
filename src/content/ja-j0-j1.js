@@ -2,10 +2,16 @@
    Notazione: [漢字|かんじ] = kanji con lettura (ruby). Nelle attività di ascolto/dettato ogni kanji ha la lettura. */
 (function (ST) {
   'use strict';
-  const C = ST.content, { mc, order, listen, card } = C;
+  const C = ST.content, { order, card } = C;
+  // Posizione della risposta corretta variata in modo deterministico (solo quando la chiave è scritta per prima; opzioni tipo «Tutte/Nessuna» restano ferme).
+  let rot = 0;
+  const rotOpt = (o, a) => { const n = o.length; if (a !== 0 || n < 3 || o.some(x => /^(Tutt|Entramb|Nessun|Non si sa)/.test(String(x)))) return [o, a]; const k = (rot++ * 3 + 1) % n, rest = o.slice(1); rest.splice(k, 0, o[0]); return [rest, k]; };
+  const mc = (q, o, a, why) => { const r = rotOpt(o, a); return C.mc(q, r[0], r[1], why); };
+  const listen = (say, lang, q, o, a, why) => { const r = rotOpt(o, a); return C.listen(say, lang, q, r[0], r[1], why); };
+  const addTopic = (t) => { [].concat(t.listening || [], t.reading || []).forEach(g => (g.qs || []).forEach(x => { const r = rotOpt(x.o, x.a); x.o = r[0]; x.a = r[1]; })); return C.addTopic(t); };
   const fillJ = (q, a, why) => ({ t: 'fill', q, a: Array.isArray(a) ? a : [a], why: why || '', ja: true });
 
-  C.addTopic({
+  addTopic({
     id: 'jpn-j0-sounds', subject: 'jpn', stage: 'J0', title: 'Suoni e ritmo: more, vocali lunghe, っ e ん', minutes: 20, prereq: [],
     summary: 'Come funziona il ritmo del giapponese e perché la durata dei suoni cambia il significato.',
     objectives: ['Contare le more di una parola', 'Distinguere vocali brevi/lunghe e consonanti singole/doppie', 'Usare i saluti di base con pronuncia corretta'],
@@ -45,7 +51,7 @@
     speaking: [{ prompt: 'Saluta in tre momenti della giornata (mattina, pomeriggio, sera) e di’ «grazie» una volta.', model: 'おはようございます。こんにちは。こんばんは。ありがとうございます。' }, { prompt: 'Prima di mangiare e dopo aver mangiato, che cosa dici?', model: 'いただきます。ごちそうさまでした。' }]
   });
 
-  C.addTopic({
+  addTopic({
     id: 'jpn-j0-desu', subject: 'jpn', stage: 'J0', title: 'Presentarsi: A は B です', minutes: 20, prereq: ['jpn-j0-sounds'],
     summary: 'です, は, の, も, か; presentazione, nazionalità, professione, numeri.',
     objectives: ['Presentarsi in modo educato', 'Fare e capire domande semplici con か', 'Usare は, の e も correttamente'],
@@ -84,7 +90,7 @@
     speaking: [{ prompt: 'Presentati in 4 frasi: nome, origine, lavoro, formula finale.', model: 'はじめまして。わたしは マルコです。イタリアの ひとです。かいしゃいんです。よろしく おねがいします。' }, { prompt: 'Chiedi a qualcuno il nome e da dove viene.', model: 'おなまえは なんですか。どこの くにの ひとですか。' }]
   });
 
-  C.addTopic({
+  addTopic({
     id: 'jpn-j1-masu', subject: 'jpn', stage: 'J1', title: 'Verbi in forma cortese: ます e particelle', minutes: 20, prereq: ['jpn-j0-desu'],
     summary: 'ます, ません, ました; を, に, で, へ; tempo e routine.',
     objectives: ['Coniugare i verbi nella forma cortese (presente/passato, affermativa/negativa)', 'Usare を, に, で, へ nei contesti base', 'Parlare della routine quotidiana'],
@@ -123,7 +129,7 @@
     speaking: [{ prompt: 'Racconta la tua routine del mattino in 4 frasi.', model: 'まいあさ ろくじに おきます。コーヒーを のみます。でんしゃで かいしゃへ いきます。きゅうじに しごとを はじめます。' }, { prompt: 'Di’ che cosa NON fai di solito la sera.', model: 'ばんは テレビを あまり みません。ぜんぜん コーヒーを のみません。' }]
   });
 
-  C.addTopic({
+  addTopic({
     id: 'jpn-j1-places-wants', subject: 'jpn', stage: 'J1', title: 'Luoghi, esistenza, aggettivi e desideri', minutes: 20, prereq: ['jpn-j1-masu'],
     summary: 'あります/います, い e な aggettivi, ～が すき, ～が ほしい, ～たいです.',
     objectives: ['Dire dove si trovano cose e persone', 'Descrivere con aggettivi in い e な', 'Esprimere preferenze e desideri'],

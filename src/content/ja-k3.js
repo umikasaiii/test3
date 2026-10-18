@@ -1,10 +1,16 @@
 /* Giapponese — kanji in contesto (3): lavoro e scuola, società, concetti astratti, tempo, quantità e azioni. */
 (function (ST) {
   'use strict';
-  const C = ST.content, { mc, order, listen, card } = C;
+  const C = ST.content, { order, card } = C;
+  // Posizione della risposta corretta variata in modo deterministico (solo quando la chiave è scritta per prima; opzioni tipo «Tutte/Nessuna» restano ferme).
+  let rot = 0;
+  const rotOpt = (o, a) => { const n = o.length; if (a !== 0 || n < 3 || o.some(x => /^(Tutt|Entramb|Nessun|Non si sa)/.test(String(x)))) return [o, a]; const k = (rot++ * 3 + 1) % n, rest = o.slice(1); rest.splice(k, 0, o[0]); return [rest, k]; };
+  const mc = (q, o, a, why) => { const r = rotOpt(o, a); return C.mc(q, r[0], r[1], why); };
+  const listen = (say, lang, q, o, a, why) => { const r = rotOpt(o, a); return C.listen(say, lang, q, r[0], r[1], why); };
+  const addTopic = (t) => { [].concat(t.listening || [], t.reading || []).forEach(g => (g.qs || []).forEach(x => { const r = rotOpt(x.o, x.a); x.o = r[0]; x.a = r[1]; })); return C.addTopic(t); };
   const fillJ = (q, a, why) => ({ t: 'fill', q, a: Array.isArray(a) ? a : [a], why: why || '', ja: true });
   const M = (q, right, wrong, idx) => { const o = wrong.slice(); o.splice(idx, 0, right); return mc(q, o, idx); };
-  const T = (o) => C.addTopic(Object.assign({ subject: 'jpn', stage: 'J0', minutes: 20, prereq: ['jpn-j0-numbers-time'] }, o));
+  const T = (o) => addTopic(Object.assign({ subject: 'jpn', stage: 'J0', minutes: 20, prereq: ['jpn-j0-numbers-time'] }, o));
 
   /* ---------------------------------------------------------------- J2 */
   T({ id: 'jpn-j2-kanji-c1', stage: 'J2', prereq: ['jpn-j2-kanji-2b'], title: 'Kanji c1: lavoro, scuola e studio', summary: '12 kanji N4: 勤 職 務 卒 科 数 授 欠 練 記 暗 留.',

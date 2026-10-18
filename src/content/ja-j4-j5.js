@@ -1,10 +1,16 @@
 /* Giapponese — stage J4 (condizioni e potenziale) e J5 (lingua parlata e lettura). */
 (function (ST) {
   'use strict';
-  const C = ST.content, { mc, order, listen, card } = C;
+  const C = ST.content, { order, card } = C;
+  // Posizione della risposta corretta variata in modo deterministico (solo quando la chiave è scritta per prima; opzioni tipo «Tutte/Nessuna» restano ferme).
+  let rot = 0;
+  const rotOpt = (o, a) => { const n = o.length; if (a !== 0 || n < 3 || o.some(x => /^(Tutt|Entramb|Nessun|Non si sa)/.test(String(x)))) return [o, a]; const k = (rot++ * 3 + 1) % n, rest = o.slice(1); rest.splice(k, 0, o[0]); return [rest, k]; };
+  const mc = (q, o, a, why) => { const r = rotOpt(o, a); return C.mc(q, r[0], r[1], why); };
+  const listen = (say, lang, q, o, a, why) => { const r = rotOpt(o, a); return C.listen(say, lang, q, r[0], r[1], why); };
+  const addTopic = (t) => { [].concat(t.listening || [], t.reading || []).forEach(g => (g.qs || []).forEach(x => { const r = rotOpt(x.o, x.a); x.o = r[0]; x.a = r[1]; })); return C.addTopic(t); };
   const fillJ = (q, a, why) => ({ t: 'fill', q, a: Array.isArray(a) ? a : [a], why: why || '', ja: true });
 
-  C.addTopic({
+  addTopic({
     id: 'jpn-j4-conditionals-potential', subject: 'jpn', stage: 'J4', title: 'Potenziale e condizionali', minutes: 20, prereq: ['jpn-j3-reasons-contrast'],
     summary: 'Forma potenziale; ～たら, ～と, ～ば, ～なら; ～そうです (apparenza).',
     objectives: ['Formare e usare la forma potenziale', 'Distinguere たら, と, ば, なら', 'Descrivere ciò che «sembra» con ～そう'],
@@ -23,7 +29,7 @@
       fillJ('Potenziale di する: ___', ['できる'], 'する → できる.'),
       mc('«Quando arrivi, chiamami»:', ['ついたら、でんわして ください。', 'つくと、でんわして ください。', 'つけば、でんわして ください。', 'ついて、でんわ します。'], 0),
       mc('«In primavera fa caldo» (risultato naturale):', ['はるに なると、あたたかく なります。', 'はるに なったら、あたたかく なります です。', 'はるに ならば。', 'はるなら あたたかい。'], 0),
-      listen('いそげば まに あいます。', 'ja', 'Che cosa significa?', ['Se ti sbrighi, ce la fai', 'Ci siamo perso', 'Sbrigati ora', 'Non ce la farai'], 0),
+      listen('いそげば まに あいます。', 'ja', 'Che cosa significa?', ['Se ti sbrighi, ce la fai', 'Abbiamo perso il treno', 'Sbrigati ora', 'Non ce la farai'], 0),
       mc('Che cosa significa «おいしそう»?', ['Sembra buono', 'È buono', 'Dicono che sia buono', 'Non è buono'], 0)
     ],
     test: [
@@ -43,7 +49,7 @@
     speaking: [{ prompt: 'Fai tre piani condizionali per il weekend (tempo, tempo libero, imprevisti).', model: 'てんきが よかったら、こうえんへ いきます。あめが ふったら、うちで えいがを みます。ともだちが きたら、いっしょに ごはんを たべます。' }, { prompt: 'Di’ che cosa sai fare in giapponese (potenziale).', model: 'にほんごで じこしょうかいが できます。ひらがなと カタカナが よめます。かんたんな てがみが かけます。' }]
   });
 
-  C.addTopic({
+  addTopic({
     id: 'jpn-j4-giving-polite', subject: 'jpn', stage: 'J4', title: 'Dare e ricevere; cortesia e keigo di base', minutes: 20, prereq: ['jpn-j4-conditionals-potential'],
     summary: 'あげる/くれる/もらう, ～てあげる/くれる/もらう, richieste cortesi e formule di servizio.',
     objectives: ['Scegliere tra あげる, くれる, もらう secondo la direzione', 'Fare richieste e rifiuti più cortesi', 'Riconoscere le formule di keigo più frequenti'],
@@ -83,7 +89,7 @@
     speaking: [{ prompt: 'Chiedi con molta cortesia a un commesso di mostrarti un prodotto.', model: 'すみません、これを みせて いただけませんか。' }, { prompt: 'Di’ chi ti ha aiutato di recente e come.', model: 'ともだちが にほんごを おしえて くれました。せんせいに しゅくだいを みて もらいました。' }]
   });
 
-  C.addTopic({
+  addTopic({
     id: 'jpn-j5-casual', subject: 'jpn', stage: 'J5', title: 'Lingua parlata e conversazione tra amici', minutes: 20, prereq: ['jpn-j4-giving-polite'],
     summary: 'Forma semplice nel parlato, contrazioni, particelle finali, riempitivi, registro.',
     objectives: ['Capire e usare il parlato informale con prudenza', 'Riconoscere contrazioni e particelle finali', 'Gestire il passaggio tra registro cortese e informale'],
@@ -122,7 +128,7 @@
     speaking: [{ prompt: 'Invita un amico a mangiare insieme usando la forma informale.', model: 'あした ひま？ いっしょに ごはん たべない？ なに たべたい？' }, { prompt: 'Reagisci a una notizia sorprendente (3 frasi informali).', model: 'えっ、ほんと？ へえ、そうなんだ。すごいね！' }]
   });
 
-  C.addTopic({
+  addTopic({
     id: 'jpn-j5-reading', subject: 'jpn', stage: 'J5', title: 'Leggere e scrivere testi funzionali', minutes: 20, prereq: ['jpn-j4-giving-polite'],
     summary: 'Kanji in contesto, cartelli, messaggi e brevi testi; strategie di lettura e scrittura.',
     objectives: ['Leggere cartelli e avvisi di uso quotidiano', 'Capire il senso generale di un messaggio breve', 'Scrivere un messaggio funzionale in 4–5 frasi'],
