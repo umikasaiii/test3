@@ -22,14 +22,14 @@
     exercises: [
       fill('Hai sollevato 100 kg per 5 ripetizioni. Con Epley la 1RM stimata è (kg, un decimale)?', ['116,7', '116.7', '116,67', '116.67'], '100 × (1 + 5/30) = 116,7.'),
       fill('Stesso dato, 100 kg × 5. Con Brzycki la 1RM stimata è (kg, un decimale)?', ['112,5', '112.5'], '100 × 36 / (37 − 5) = 3 600/32 = 112,5.'),
-      mc('Le formule di Epley e Brzycki forniscono:', ['stime approssimate della 1RM, meno affidabili con molte ripetizioni', 'la 1RM esatta', 'solo il volume di carico', 'il numero di serie ottimale'], 0, 'Sono modelli empirici con errore, che cresce oltre le ~10 ripetizioni.'),
+      mc('Le formule di Epley e Brzycki forniscono:', ['stime approssimate della 1RM, meno affidabili con molte ripetizioni', 'la 1RM esatta, valida per qualunque numero di ripetizioni', 'solo il volume di carico totale della seduta, senza stimare la forza', 'il numero di serie ottimale per ogni muscolo e per ogni atleta'], 0, 'Sono modelli empirici con errore, che cresce oltre le ~10 ripetizioni.'),
       fill('80 kg × 10 ripetizioni. 1RM stimata con Epley (kg, un decimale)?', ['106,7', '106.7', '106,67', '106.67'], '80 × (1 + 10/30) = 80 × 1,3333 = 106,7.'),
       mc('RPE 8 corrisponde a quante ripetizioni di scorta?', ['2', '0', '1', '4'], 0, 'RPE 10 = 0 scorta, 9 = 1, 8 = 2.'),
       fill('4 serie × 6 ripetizioni × 80 kg. Volume di carico in kg?', ['1920', '1.920', '1 920'], '4 × 6 × 80 = 1 920.'),
       fill('1RM = 140 kg. Carico all’85% in kg?', ['119'], '140 × 0,85 = 119.'),
-      mc('Nella doppia progressione 8–12 ripetizioni, quando si aumenta il carico?', ['Quando tutte le serie raggiungono 12 ripetizioni', 'Dopo ogni seduta', 'Quando la prima serie fa 8', 'Solo ogni 6 mesi'], 0, 'Si aumenta solo dopo aver raggiunto il tetto della forbice in tutte le serie.'),
+      mc('Nella doppia progressione 8–12 ripetizioni, quando si aumenta il carico?', ['Quando tutte le serie raggiungono 12 ripetizioni', 'Dopo ogni seduta, indipendentemente dalle ripetizioni fatte', 'Quando la prima serie raggiunge soltanto le 8 ripetizioni', 'Solo dopo sei mesi di allenamento con lo stesso carico'], 0, 'Si aumenta solo dopo aver raggiunto il tetto della forbice in tutte le serie.'),
       fill('Passi da 60 kg a 62,5 kg. Incremento percentuale (un decimale)?', ['4,2', '4.2', '4,17', '4.17'], '2,5/60 = 0,0417.'),
-      mc('A parità di volume settimanale, la frequenza (1, 2 o 3 sedute) ha sulla forza un effetto:', ['piccolo o nullo secondo le meta-analisi', 'sempre enorme a favore di 3 sedute', 'sempre negativo oltre 1 seduta', 'dipende solo dal sesso'], 0, 'Grgic e colleghi (2018) non trovano differenze nette a volume equiparato.'),
+      mc('A parità di volume settimanale, la frequenza (1, 2 o 3 sedute) ha sulla forza un effetto:', ['piccolo o nullo secondo le meta-analisi', 'sempre enorme a favore delle 3 sedute settimanali', 'sempre negativo se si supera una seduta alla settimana', 'che dipende soltanto dal sesso di chi si allena'], 0, 'Grgic e colleghi (2018) non trovano differenze nette a volume equiparato.'),
       mc('Per i fondamentali pesanti (1–6 ripetizioni) il riposo tra le serie indicato è circa:', ['2–5 minuti', '10–20 secondi', '30 secondi', '15 minuti'], 0, 'Riposi più lunghi mantengono carico e ripetizioni nelle serie successive.'),
       order('Ordina i passi della doppia progressione', ['Scegli una forbice di ripetizioni', 'Usa un carico che permette il minimo', 'Aggiungi ripetizioni ad ogni seduta', 'Raggiungi il tetto in tutte le serie', 'Aumenta il carico e riparti'], 'La progressione prima sulle ripetizioni, poi sul carico.')
     ],
@@ -38,7 +38,7 @@
       fill('120 kg × 3 ripetizioni. 1RM stimata con Brzycki (kg, un decimale)?', ['127,1', '127.1', '127,06', '127.06'], '120 × 36 / 34 = 127,06.'),
       mc('Una stima di 1RM ottenuta da una serie da 20 ripetizioni è:', ['poco affidabile', 'più precisa di una da 3', 'identica alla 1RM vera', 'inutile per tutti i carichi'], 0, 'Le formule peggiorano con ripetizioni molto alte.'),
       fill('1RM = 140 kg. Carico al 75% in kg?', ['105'], '140 × 0,75 = 105.'),
-      mc('Perché RIR e RPE sono imprecisi, soprattutto per chi comincia?', ['Si tende a sottostimare le ripetizioni che restano', 'Sono vietati dalla ricerca', 'Funzionano solo con le macchine', 'Richiedono sempre un cardiofrequenzimetro'], 0, 'La stima della scorta migliora con esperienza e con serie vicine al cedimento.'),
+      mc('Perché RIR e RPE sono imprecisi, soprattutto per chi comincia?', ['Si tende a sottostimare le ripetizioni che restano', 'Sono vietati dalla ricerca perché troppo soggettivi', 'Funzionano soltanto con le macchine e non con i pesi liberi', 'Richiedono sempre un cardiofrequenzimetro per essere usati'], 0, 'La stima della scorta migliora con esperienza e con serie vicine al cedimento.'),
       fill('3 serie × 8 ripetizioni × 60 kg. Volume di carico in kg?', ['1440', '1.440', '1 440'], '3 × 8 × 60 = 1 440.'),
       fill('12 serie settimanali distribuite in 3 sedute uguali. Quante serie per seduta?', ['4'], '12 / 3 = 4.'),
       mc('Se perdi più di 1–2 ripetizioni tra una serie e l’altra negli esercizi principali, il riposo probabilmente è:', ['troppo breve', 'troppo lungo', 'perfetto', 'irrilevante'], 0, 'Con riposo insufficiente il volume reale cala.')
@@ -68,21 +68,21 @@
       fill('16 serie settimanali per un muscolo in 2 sedute uguali. Quante serie per seduta?', ['8'], '16 / 2 = 8.'),
       mc('Per la maggior parte delle serie di ipertrofia, la scorta indicativa è:', ['0–3 ripetizioni (RIR 0–3)', 'RIR 8–10', 'sempre cedimento assoluto', 'non conta'], 0, 'Vicino al cedimento ma senza necessità di arrivarci ogni volta.'),
       fill('Persona di 70 kg, proteine a 1,6 g/kg/giorno. Grammi al giorno?', ['112'], '70 × 1,6 = 112.'),
-      mc('Secondo le revisioni sul cedimento (Refalo e colleghi, 2023), serie al cedimento rispetto a serie a 1–2 RIR producono ipertrofia:', ['non significativamente diversa', 'sempre molto superiore', 'sempre inferiore del 50%', 'solo nelle donne'], 0, 'Il cedimento aumenta la fatica senza vantaggi netti.'),
+      mc('Secondo le revisioni sul cedimento (Refalo e colleghi, 2023), serie al cedimento rispetto a serie a 1–2 RIR producono ipertrofia:', ['non significativamente diversa', 'sempre molto superiore, con differenze evidenti in ogni studio', 'sempre inferiore di circa il 50% rispetto a quelle a RIR', 'diversa solo nelle donne e non negli uomini allenati'], 0, 'Il cedimento aumenta la fatica senza vantaggi netti.'),
       mc('Intervallo pratico di serie settimanali per muscolo in una persona allenata:', ['circa 10–20', 'circa 0–2', 'circa 50–60', 'sempre esattamente 30'], 0, 'È una guida, con ampia variabilità individuale e rendimenti decrescenti.'),
       mc('A parità di volume settimanale, la frequenza per l’ipertrofia ha un effetto:', ['piccolo', 'enorme a favore di 1 sola seduta', 'enorme a favore di 6 sedute', 'sempre negativo'], 0, 'Il volume conta più della frequenza; la frequenza serve a distribuirlo.'),
-      mc('Perché si usano sia esercizi multiarticolari sia di isolamento?', ['I primi sono efficienti, i secondi aggiungono volume mirato con poca fatica', 'I multiarticolari non stimolano i muscoli', 'L’isolamento è sempre più sicuro del bilanciere', 'Sono la stessa cosa'], 0, 'Si compensano: efficienza e mirata aggiunta di volume.'),
+      mc('Perché si usano sia esercizi multiarticolari sia di isolamento?', ['I primi sono efficienti, i secondi aggiungono volume mirato con poca fatica', 'I multiarticolari non stimolano affatto i muscoli bersaglio dell’allenamento', 'L’isolamento è sempre più sicuro e produttivo del bilanciere libero', 'Sono la stessa cosa e il volume totale dell’allenamento non cambia'], 0, 'Si compensano: efficienza e mirata aggiunta di volume.'),
       order('Ordina i passi per valutare il volume di un muscolo', ['Elenca gli esercizi che lo allenano', 'Conta le serie dure di ciascuno', 'Somma le serie settimanali', 'Confronta con l’intervallo indicato', 'Aggiusta gradualmente di 1–2 serie']  , 'Conta, somma, confronta e correggi con piccoli passi.')
     ],
     test: [
       fill('Persona di 90 kg, proteine a 1,6 g/kg/giorno. Grammi al giorno?', ['144'], '90 × 1,6 = 144.'),
       fill('4 serie dure per muscolo in ciascuna di 3 sedute settimanali. Serie totali?', ['12'], '4 × 3 = 12.'),
-      mc('Lo stress metabolico («bruciore») e il danno muscolare sono:', ['meccanismi secondari o con ruolo incerto', 'obbligatori per crescere', 'gli unici stimoli utili', 'sinonimo di tensione meccanica'], 0, 'La tensione meccanica è lo stimolo principale; gli altri non sono necessari.'),
+      mc('Lo stress metabolico («bruciore») e il danno muscolare sono:', ['meccanismi secondari o con ruolo incerto', 'obbligatori per ottenere qualsiasi crescita muscolare', 'gli unici stimoli davvero utili per l’ipertrofia', 'sinonimo di tensione meccanica, quindi equivalenti'], 0, 'La tensione meccanica è lo stimolo principale; gli altri non sono necessari.'),
       mc('Un principiante, per il volume settimanale per muscolo, può iniziare con:', ['poche serie (circa 4–10)', 'oltre 30 serie', 'nessuna serie dura', 'solo serie da 1 ripetizione'], 0, 'I principianti rispondono già a volumi bassi.'),
       fill('Fai 12 serie settimanali e il recupero è buono: aggiungi 2 serie. Nuovo volume?', ['14'], '12 + 2 = 14.'),
-      mc('Per fare squat col bilanciere vicino al cedimento in sicurezza serve:', ['spotter o supporti di sicurezza', 'solo più riscaldamento', 'rinunciare al riposo', 'più caffè'], 0, 'Se manca spotter o supporti, lascia ripetizioni di scorta.'),
+      mc('Per fare squat col bilanciere vicino al cedimento in sicurezza serve:', ['uno spotter o dei supporti di sicurezza regolati', 'solo un riscaldamento più lungo e una barra più leggera', 'la rinuncia al riposo tra una serie e l’altra', 'un integratore a base di caffeina prima della serie'], 0, 'Se manca spotter o supporti, lascia ripetizioni di scorta.'),
       fill('18 serie settimanali per muscolo in 3 sedute uguali. Serie per seduta?', ['6'], '18 / 3 = 6.'),
-      mc('Quale affermazione sulla posizione allungata è corretta?', ['Evidenza emergente: da provare, non un obbligo', 'È provata universalmente', 'È sempre pericolosa', 'Sostituisce il volume'], 0, 'Studi brevi e pochi: l’indicazione è provvisoria.')
+      mc('Quale affermazione sulla posizione allungata è corretta?', ['Evidenza emergente: da provare, non un obbligo', 'È provata universalmente per tutti gli esercizi e gli atleti', 'È sempre pericolosa e va evitata dai principianti', 'Sostituisce del tutto il volume settimanale di lavoro'], 0, 'Studi brevi e pochi: l’indicazione è provvisoria.')
     ]
   });
 
@@ -107,23 +107,23 @@
       mc('Nello squat e nello stacco la barra dovrebbe stare idealmente sopra:', ['il mesopiede', 'le dita dei piedi', 'i talloni', 'le ginocchia'], 0, 'Il mesopiede è il centro dell’appoggio e riduce i bracci.'),
       fill('Stacco da 150 kg con braccio lombare di 0,25 m. Momento in N·m (intero)?', ['368'], '150 × 9,81 × 0,25 = 367,9.'),
       fill('Braccio lombare da 0,20 m a 0,25 m: di quanto aumenta il momento (%)?', ['25'], '0,25/0,20 = 1,25.'),
-      mc('Le ginocchia che superano le punte dei piedi nello squat sono:', ['normali se i talloni restano a terra e c’è controllo', 'sempre dannose', 'vietate in tutte le gare', 'segno di debolezza dei glutei'], 0, 'Impedirlo a tutti i costi sposta il carico su anca e schiena.'),
-      mc('Un vantaggio della trap bar per i principianti è:', ['tronco più verticale e minore braccio sulla zona lombare', 'carico sempre minore', 'nessun bisogno di tecnica', 'non richiede riscaldamento'], 0, 'Ma aumenta il braccio sul ginocchio; è una variante più facile da imparare.'),
+      mc('Le ginocchia che superano le punte dei piedi nello squat sono:', ['normali se i talloni restano a terra e c’è controllo', 'sempre dannose per la salute del ginocchio e dei legamenti', 'vietate in tutte le gare di sollevamento', 'segno certo di debolezza dei glutei e di scarsa mobilità'], 0, 'Impedirlo a tutti i costi sposta il carico su anca e schiena.'),
+      mc('Un vantaggio della trap bar per i principianti è:', ['tronco più verticale e meno carico sulla zona lombare', 'un carico massimale sempre minore che con il bilanciere', 'nessun bisogno di imparare la tecnica dell’esercizio', 'la possibilità di non riscaldarsi prima delle serie'], 0, 'Ma aumenta il braccio sul ginocchio; è una variante più facile da imparare.'),
       mc('Nella panca, a livello di sicurezza è importante:', ['spotter o supporti di sicurezza', 'bloccare i fermi di un solo lato', 'rimbalzare la barra', 'usare i gomiti a 90° sempre'], 0, 'Se non è possibile, lascia ripetizioni di scorta.'),
       fill('Hip thrust 100 kg, braccio medio 0,30 m. Momento in N·m (intero)?', ['294'], '981 × 0,30 = 294,3.'),
-      mc('Come si progredisce verso le trazioni complete?', ['Elastico, eccentriche lente, trazioni complete', 'Subito con peso aggiuntivo', 'Solo rematore inverso', 'Con slancio e kipping'], 0, 'Si riduce l’assistenza gradualmente.'),
+      mc('Come si progredisce verso le trazioni complete?', ['Elastico, eccentriche lente, poi trazioni complete', 'Subito con peso aggiuntivo alla cintura, a ripetizioni basse', 'Solo con rematore inverso, senza mai tirarsi su', 'Con slancio e kipping, per fare più ripetizioni'], 0, 'Si riduce l’assistenza gradualmente.'),
       order('Ordina l’impostazione dello stacco', ['Piedi sotto la barra (barra sopra il mesopiede)', 'Afferra la barra', 'Porta le tibie a contatto', 'Metti in tensione il tronco', 'Spingi il pavimento e sali'], 'Dalla posizione alla tensione, poi la spinta.'),
-      mc('Se la spalla non permette la press sopra la testa, una variante ragionevole è:', ['landmine press o manubri con presa neutra', 'forzare l’alzata', 'aumentare il carico', 'evitare ogni allenamento'], 0, 'Si cambia la variante, non si forza il ROM.')
+      mc('Se la spalla non permette la press sopra la testa, una variante ragionevole è:', ['landmine press o manubri con presa neutra', 'forzare l’alzata con uno slancio delle gambe', 'aumentare il carico per vincere il dolore', 'evitare ogni allenamento della parte alta del corpo'], 0, 'Si cambia la variante, non si forza il ROM.')
     ],
     test: [
       fill('Bilanciere da 80 kg, braccio 0,20 m. Momento in N·m (intero)?', ['157'], '80 × 9,81 × 0,20 = 156,96.'),
       fill('Bilanciere da 90 kg, braccio 0,22 m. Momento in N·m (intero)?', ['194'], '90 × 9,81 × 0,22 = 194,2.'),
       mc('Se il braccio del momento raddoppia a parità di carico, il momento:', ['raddoppia', 'si dimezza', 'resta uguale', 'si annulla'], 0, 'Momento = forza × braccio.'),
-      mc('Se i talloni si staccano nello squat, una causa frequente è:', ['mobilità limitata della caviglia o barra troppo avanti', 'carico troppo leggero', 'troppo riposo', 'la scelta del colore delle scarpe'], 0, 'Rialzi sotto i talloni o scarpe adatte possono aiutare.'),
-      mc('Quale scelta sulla schiena nello stacco è prudente?', ['Tronco rigido e controllato; ridurre il carico se perde controllo', 'Arrotondare di proposito per avere più forza', 'Ignorare la tensione', 'Non riscaldarsi'], 0, 'La perdita di controllo sotto carico alto è un segnale per ridurre il peso.'),
-      mc('Se in squat non riesci a risalire, la sicurezza prevede:', ['supporti regolati e un abbandono provato in precedenza', 'tenere la barra fino a cadere', 'rimbalzare', 'saltare dal fondo'], 0, 'Imparare a scaricare il peso con carichi leggeri.'),
-      mc('Nell’overhead press la barra si ferma:', ['sopra il mesopiede, sopra spalle e bacino', 'davanti al naso', 'dietro la schiena', 'sopra le dita dei piedi'], 0, 'Così il carico è sopra l’appoggio.'),
-      mc('Perché il rematore inverso è una buona progressione?', ['Si regola la difficoltà con l’inclinazione del corpo', 'Non lavora la schiena', 'Richiede carichi molto pesanti', 'Sostituisce ogni esercizio'], 0, 'L’inclinazione varia il carico percepito e permette di progredire gradualmente.')
+      mc('Se i talloni si staccano nello squat, una causa frequente è:', ['mobilità limitata della caviglia o barra troppo avanti', 'un carico troppo leggero per la schiena e per le gambe', 'troppo riposo tra una serie e la successiva nello stesso esercizio', 'la scelta della marca e del colore delle scarpe'], 0, 'Rialzi sotto i talloni o scarpe adatte possono aiutare.'),
+      mc('Quale scelta sulla schiena nello stacco è prudente?', ['Tronco rigido e controllato; ridurre il carico se perde controllo', 'Arrotondare di proposito per sfruttare più forza e leva dei dorsali', 'Ignorare la tensione muscolare e tirare più forte, sfruttando lo slancio', 'Non riscaldarsi, per non affaticare i muscoli prima della serie pesante'], 0, 'La perdita di controllo sotto carico alto è un segnale per ridurre il peso.'),
+      mc('Se in squat non riesci a risalire, la sicurezza prevede:', ['supporti regolati e un abbandono provato in precedenza', 'tenere la barra fino a cadere in avanti sul pavimento', 'rimbalzare sul fondo per sfruttare l’elasticità', 'saltare dal fondo spingendo contro la barra con tutto il corpo'], 0, 'Imparare a scaricare il peso con carichi leggeri.'),
+      mc('Nell’overhead press la barra si ferma:', ['sopra il mesopiede, sopra spalle e bacino', 'davanti al naso, con il busto inclinato all’indietro', 'dietro la schiena, a metà della salita', 'sopra la punta dei piedi, davanti al bacino'], 0, 'Così il carico è sopra l’appoggio.'),
+      mc('Perché il rematore inverso è una buona progressione?', ['Si regola la difficoltà con l’inclinazione del corpo', 'Non lavora la schiena e i dorsali', 'Richiede carichi molto pesanti fin dalla prima seduta', 'Sostituisce ogni altro esercizio di trazione'], 0, 'L’inclinazione varia il carico percepito e permette di progredire gradualmente.')
     ]
   });
 
@@ -143,26 +143,26 @@
       { h: 'Scarico, picco e scelta del programma', b: `**Scarico (deload)**: settimana con **volume ridotto** (circa 40–60% in meno), intensità **mantenuta** o poco ridotta. Serve a smaltire la fatica. Frequenza tipica: ogni **4–8 settimane** o quando le prestazioni calano; l’evidenza è limitata e le indicazioni sono di pratica.\n\n> Settimana normale: 5 × 5 × 100 kg = 2 500 kg per esercizio. Scarico al −40% di volume: **1 500 kg**.\n\n**Picco** (peaking): prima della gara o del test, per 1–2 settimane si riduce il volume e si mantiene l’intensità. La forza non cresce da sola: si scarica la fatica accumulata.\n\n**Prova della 1RM**: richiede spotter e supporti. Rampa di avvicinamento verso 140 kg: 60 × 5, 80 × 3, 100 × 2, 120 × 1, 130 × 1 (cioè 43%, 57%, 71%, 86%, 93% della 1RM prevista). Non serve provarla spesso.\n\n**Scelta**:\n\n- **Principiante**: lineare o 5×5/3×5.\n- **Intermedio**: ondulato.\n- **Avanzato**: blocchi, con monitoraggio.\n\nDolore acuto, giramenti di testa o sintomi insoliti: fermati e consulta un professionista.` }
     ],
     exercises: [
-      mc('Nelle prime settimane di allenamento di forza, i guadagni sono in gran parte:', ['neurali e di apprendimento del gesto', 'dovuti solo a ipertrofia', 'nulli', 'legati solo all’alimentazione'], 0, 'Il sistema nervoso migliora reclutamento e coordinazione prima che la massa aumenti molto.'),
+      mc('Nelle prime settimane di allenamento di forza, i guadagni sono in gran parte:', ['neurali e di apprendimento del gesto', 'dovuti soltanto a ipertrofia visibile del muscolo', 'nulli, perché serve almeno un mese per vedere effetti', 'legati soltanto all’alimentazione e all’apporto di proteine'], 0, 'Il sistema nervoso migliora reclutamento e coordinazione prima che la massa aumenti molto.'),
       fill('5 serie × 5 ripetizioni a 100 kg. Volume di carico in kg?', ['2500', '2.500', '2 500'], '5 × 5 × 100 = 2 500.'),
       fill('Lineare: parti da 60 kg e aggiungi 2,5 kg a seduta. Carico dopo 8 sedute in kg?', ['80'], '60 + 2,5 × 8 = 80.'),
       fill('1RM = 160 kg. Carico all’85% in kg?', ['136'], '160 × 0,85 = 136.'),
-      mc('Il DUP prevede di:', ['variare intensità e ripetizioni tra le sedute della stessa settimana', 'usare sempre lo stesso carico', 'allenarsi una volta al mese', 'evitare il riposo'], 0, 'Esempio: pesante, medio, leggero.'),
+      mc('Il DUP prevede di:', ['variare intensità e ripetizioni tra le sedute della settimana', 'usare sempre lo stesso carico e le stesse ripetizioni in ogni seduta', 'allenarsi una sola volta al mese con carichi pesanti', 'evitare il riposo tra le sedute di una stessa settimana'], 0, 'Esempio: pesante, medio, leggero.'),
       mc('Uno scarico tipico mantiene:', ['l’intensità riducendo il volume', 'il volume riducendo l’intensità a zero', 'tutto invariato', 'solo il cardio'], 0, 'Si riduce la fatica senza perdere la «sensazione» dei carichi pesanti.'),
       mc('La specificità indica che per migliorare la 1RM nello squat conviene:', ['fare squat pesanti', 'solo leg extension', 'solo cardio', 'solo stretching'], 0, 'Le varianti sostengono ma non sostituiscono il gesto.'),
       fill('Volume di 2 500 kg ridotto del 40% in settimana di scarico. Volume in kg?', ['1500', '1.500', '1 500'], '2 500 × 0,6 = 1 500.'),
       mc('Riposo tra le serie pesanti per la forza massima:', ['circa 3–5 minuti', 'circa 10 secondi', 'nessuno', 'oltre un’ora'], 0, 'Serve per mantenere il carico alto e la qualità tecnica.'),
       mc('Per un atleta avanzato con una gara in calendario il modello più indicato è:', ['a blocchi, con monitoraggio', 'lineare con +2,5 kg a seduta', 'senza programma', 'solo macchine'], 0, 'Gli avanzati richiedono organizzazione del carico.'),
       order('Ordina i blocchi della periodizzazione a blocchi', ['Accumulo', 'Trasmutazione', 'Realizzazione (picco)'], 'Volume alto, poi intensità, poi picco.'),
-      mc('Perché il +2,5 kg a seduta non può continuare all’infinito?', ['La capacità di adattamento è limitata e il ritmo rallenta', 'Perché i dischi finiscono', 'Perché è vietato', 'Perché il muscolo si atrofizza'], 0, 'Il principiante sfrutta l’apprendimento; poi i progressi rallentano.')
+      mc('Perché il +2,5 kg a seduta non può continuare all’infinito?', ['La capacità di adattamento è limitata e il ritmo rallenta', 'Perché i dischi disponibili in palestra finiscono a un certo punto', 'Perché è vietato dai regolamenti delle gare', 'Perché il muscolo si atrofizza se il carico aumenta troppo in fretta'], 0, 'Il principiante sfrutta l’apprendimento; poi i progressi rallentano.')
     ],
     test: [
       fill('1RM = 180 kg. Carico all’80% in kg?', ['144'], '180 × 0,80 = 144.'),
       fill('Volume settimanale di 3 000 kg, scarico al −50%. Volume risultante in kg?', ['1500', '1.500', '1 500'], '3 000 × 0,5 = 1 500.'),
       fill('Parti da 80 kg e aggiungi 2,5 kg a seduta. Carico dopo 6 sedute in kg?', ['95'], '80 + 2,5 × 6 = 95.'),
-      mc('Quando un principiante ferma la progressione lineare per più sedute, la mossa tipica è:', ['scarico del ~10% e ripartire', 'raddoppiare il carico', 'ignorare il problema', 'smettere per sempre'], 0, 'Un piccolo scarico permette di riprendere e di rifare la progressione.'),
-      mc('Perché non conviene provare la 1RM ogni settimana?', ['Costa molta fatica, richiede spotter e non serve a progredire', 'Perché la 1RM non cambia mai', 'Perché è vietato dalla legge', 'Perché è meno dolorosa'], 0, 'Le prove frequenti accumulano fatica e rischio.'),
-      mc('Per le prove di massimale è prudente avere:', ['spotter e supporti regolati', 'solo un caffè', 'meno riscaldamento', 'una musica forte'], 0, 'Se non disponibili, usa un carico più basso.'),
+      mc('Quando un principiante ferma la progressione lineare per più sedute, la mossa tipica è:', ['uno scarico del ~10% e ripartire', 'raddoppiare il carico per ripartire con più stimolo', 'ignorare il problema e continuare come prima', 'smettere di allenare quel movimento per sempre'], 0, 'Un piccolo scarico permette di riprendere e di rifare la progressione.'),
+      mc('Perché non conviene provare la 1RM ogni settimana?', ['Costa molta fatica, richiede spotter e non serve a progredire', 'Perché la 1RM non cambia mai con l’allenamento regolare', 'Perché è vietato dalla legge in molti paesi europei', 'Perché è meno dolorosa e faticosa delle serie normali'], 0, 'Le prove frequenti accumulano fatica e rischio.'),
+      mc('Per le prove di massimale è prudente avere:', ['spotter e supporti regolati', 'solo un caffè forte prima del tentativo', 'un riscaldamento ridotto per non affaticarsi', 'una musica forte per aumentare la concentrazione'], 0, 'Se non disponibili, usa un carico più basso.'),
       mc('Il vantaggio dell’ondulato sul lineare nelle meta-analisi è:', ['piccolo o incerto', 'enorme e certo', 'sempre negativo', 'valido solo per i principianti'], 0, 'La scelta è spesso pratica.'),
       mc('Un principiante ottiene buoni risultati con:', ['un programma semplice e costante', 'un programma a blocchi molto complesso', 'solo massimali', 'nessun allenamento'], 0, 'Costanza e semplicità sono determinanti.')
     ]
@@ -191,11 +191,11 @@
       fill('Stesso modello (F₀ = 1 800 N): a quale forza (N) si ha la potenza massima?', ['900'], 'F₀/2 = 900.'),
       fill('Tempo di volo 0,50 s. Altezza del salto in cm (un decimale)?', ['30,7', '30.7', '30,66', '30.66'], 'h = 9,81 × 0,25 / 8 = 0,3066 m.'),
       fill('Tempo di volo 0,60 s. Altezza del salto in cm (un decimale)?', ['44,1', '44.1', '44,15', '44.15'], 'h = 9,81 × 0,36 / 8 = 0,4415 m.'),
-      mc('La RFD è:', ['la velocità con cui cresce la forza (ΔF/Δt)', 'la forza massima', 'il tempo di volo', 'il peso del bilanciere'], 0, 'RFD = variazione di forza / variazione di tempo.'),
+      mc('La RFD è:', ['la velocità con cui cresce la forza (ΔF/Δt)', 'la forza massima sviluppabile in un singolo movimento', 'il tempo di volo in un salto verticale', 'il peso del bilanciere diviso per quello corporeo'], 0, 'RFD = variazione di forza / variazione di tempo.'),
       fill('Forza da 200 N a 1 700 N in 0,25 s. RFD in N/s?', ['6000', '6.000', '6 000'], '(1 700 − 200)/0,25 = 6 000.'),
-      mc('Perché la RFD precoce conta nei gesti con contatti di 100–200 ms?', ['La forza massima non fa in tempo a essere raggiunta', 'Perché non si usa la forza', 'Perché la velocità è zero', 'Perché la durata è lunga'], 0, 'Servono oltre 300 ms per la forza massima.'),
-      mc('Il carico ottimale per la potenza è:', ['dipendente da esercizio e persona, con ampi intervalli', 'sempre il 100% della 1RM', 'sempre il peso corporeo', 'sempre 10 kg'], 0, 'I valori in letteratura variano molto.'),
-      mc('Sui complessi / contrasto (PAPE) l’evidenza è:', ['mista: benefici piccoli e individuali', 'unanime e sempre grande', 'inesistente e dannosa', 'valida solo per bambini'], 0, 'Dipende da forza, recupero e metodo.'),
+      mc('Perché la RFD precoce conta nei gesti con contatti di 100–200 ms?', ['La forza massima non fa in tempo a essere raggiunta', 'Perché in questi gesti non si usa quasi alcuna forza', 'Perché la velocità del movimento è sempre zero', 'Perché la durata del contatto è molto lunga'], 0, 'Servono oltre 300 ms per la forza massima.'),
+      mc('Il carico ottimale per la potenza è:', ['dipendente da esercizio e persona, con ampi intervalli', 'sempre il 100% della 1RM, in ogni esercizio e per tutti', 'sempre il solo peso corporeo, senza sovraccarico', 'sempre un carico fisso di 10 kg per ogni atleta'], 0, 'I valori in letteratura variano molto.'),
+      mc('Sui complessi / contrasto (PAPE) l’evidenza è:', ['mista: benefici piccoli e individuali', 'unanime e sempre grande in ogni sport', 'inesistente e dannosa per le prestazioni successive', 'valida soltanto per i bambini in età scolare'], 0, 'Dipende da forza, recupero e metodo.'),
       order('Ordina il protocollo del salto con contromovimento', ['Riscaldamento', 'Mani sui fianchi', 'Salto con contromovimento', 'Atterraggio a gambe tese', 'Registra il tempo di volo e calcola h = g·t²/8'], 'Dalla preparazione al calcolo.')
     ],
     test: [
@@ -206,7 +206,7 @@
       fill('CMJ da 38 cm a 41 cm. Aumento percentuale (un decimale)?', ['7,9', '7.9', '7,89', '7.89'], '3 / 38 = 0,0789.'),
       mc('Se si piegano le ginocchia durante il volo, l’altezza stimata dal tempo di volo risulta:', ['sovrastimata', 'sottostimata', 'invariata', 'sempre zero'], 0, 'Il tempo di volo si allunga.'),
       mc('Un recupero tipico dopo una serie pesante nel contrast training è:', ['circa 3–10 minuti', '5 secondi', '30 secondi', '2 ore'], 0, 'Troppo poco annulla il beneficio; troppo ne perde l’effetto.'),
-      mc('Per imparare l’esercizio olimpico (clean) un principiante dovrebbe:', ['partire con un allenatore qualificato e carichi bassi', 'usare subito il massimale', 'allenarsi senza supervisione', 'saltare il riscaldamento'], 0, 'La tecnica è complessa e il rischio non è trascurabile.')
+      mc('Per imparare l’esercizio olimpico (clean) un principiante dovrebbe:', ['partire con un allenatore qualificato e carichi bassi', 'usare subito il massimale per imparare più in fretta', 'allenarsi senza supervisione, guardando dei video', 'saltare il riscaldamento per non affaticare le spalle'], 0, 'La tecnica è complessa e il rischio non è trascurabile.')
     ]
   });
 
@@ -238,17 +238,17 @@
       mc('Tra due sedute di pliometria ad alta intensità sullo stesso gruppo di strutture servono in genere:', ['48–72 ore', '5 minuti', '1 ora', '2 settimane'], 0, 'Il tessuto ha bisogno di recuperare.'),
       mc('Per un principiante i contatti per seduta indicati sono circa:', ['80–100', '300–400', '10', '500+'], 0, 'Convenzione NSCA: 80–100 per i principianti.'),
       order('Ordina la progressione pliometrica', ['Atterraggio controllato', 'Salti bilaterali a bassa intensità', 'Salti bilaterali moderati', 'Balzi monopodalici e alta intensità'], 'Dal controllo alla complessità e all’intensità.'),
-      mc('Quale superficie è preferibile per la pliometria?', ['stabile e leggermente ammortizzante (erba, parquet, pedane)', 'cemento duro', 'materasso molto soffice', 'ghiaccio'], 0, 'Né troppo dura né instabile.')
+      mc('Quale superficie è preferibile per la pliometria?', ['stabile e leggermente ammortizzante (erba, parquet, pedane)', 'cemento duro, che restituisce di più l’energia elastica', 'materasso molto soffice, per attutire ogni impatto', 'ghiaccio o superfici bagnate per ridurre l’attrito sul contatto'], 0, 'Né troppo dura né instabile.')
     ],
     test: [
       fill('3 esercizi × 4 serie × 7 contatti. Contatti totali?', ['84'], '3 × 4 × 7 = 84.'),
       fill('Caduta libera da 0,30 m. Velocità in m/s (due decimali)?', ['2,43', '2.43'], '√(2 × 9,81 × 0,30) = 2,426.'),
       fill('h = 0,60 m, stop in d = 0,20 m. Forza media in multipli del peso corporeo?', ['4'], '1 + 0,60/0,20 = 4.'),
       fill('Salto di 0,35 m con contatto di 0,25 s. RSI in m/s (un decimale)?', ['1,4', '1.4', '1,40', '1.40'], '0,35/0,25 = 1,4.'),
-      mc('Quale segnale impone di fermare la seduta pliometrica?', ['dolore acuto o atterraggio instabile', 'leggera fatica muscolare', 'sudore', 'un po’ di caldo'], 0, 'Dolore acuto e perdita di controllo sono criteri di stop.'),
+      mc('Quale segnale impone di fermare la seduta pliometrica?', ['dolore acuto o atterraggio instabile', 'una leggera fatica muscolare a fine serie', 'il sudore che compare dopo i primi salti', 'un po’ di caldo nella palestra o nei muscoli'], 0, 'Dolore acuto e perdita di controllo sono criteri di stop.'),
       mc('Un depth jump di 10 s di lavoro richiede un recupero di circa:', ['50–100 s', '1 s', '5 s', '20 minuti'], 0, 'Rapporto 1:5–1:10 per alta intensità.'),
       mc('Per risultati significativi la pliometria dovrebbe durare in genere:', ['almeno 8–10 settimane', '1 seduta', '2 giorni', 'non conta'], 0, 'Gli effetti crescono con la durata del programma.'),
-      mc('Perché l’altezza della cassa nel depth jump non va semplicemente aumentata?', ['Se il contatto si allunga si perde il vantaggio elastico e cresce il rischio', 'Perché le casse sono costose', 'Perché è proibito', 'Perché si salta meno in alto in tutti i casi'], 0, 'Esiste un’altezza ottimale individuale.')
+      mc('Perché l’altezza della cassa nel depth jump non va semplicemente aumentata?', ['Il contatto si allunga, si perde il vantaggio elastico e cresce il rischio', 'Perché le casse alte sono costose e ingombranti da spostare', 'Perché è proibito dalle regole di quasi tutte le gare', 'Perché si salta meno in alto in tutti i casi osservati'], 0, 'Esiste un’altezza ottimale individuale.')
     ]
   });
 
@@ -272,14 +272,14 @@
       fill('40 m percorsi in 5,20 s. Velocità media in m/s (due decimali)?', ['7,69', '7.69'], '40/5,2 = 7,692.'),
       fill('I primi 10 m in 1,85 s. Velocità media in m/s (due decimali)?', ['5,41', '5.41'], '10/1,85 = 5,405.'),
       fill('Tratto 10–40 m: 30 m in 3,35 s. Velocità media in m/s (due decimali)?', ['8,96', '8.96'], '30/3,35 = 8,955.'),
-      mc('Quale fase viene dopo l’accelerazione iniziale?', ['transizione e velocità massima', 'ritorno alla partenza', 'riposo', 'solo decelerazione'], 0, 'Dopo i primi 20–30 m ci si avvicina alla velocità massima.'),
-      mc('La differenza fra CoD e agilità è che l’agilità:', ['risponde a uno stimolo con percezione e decisione', 'è sempre pianificata', 'non richiede movimento', 'riguarda solo le braccia'], 0, 'Il CoD è pianificato, l’agilità è reattiva.'),
+      mc('Quale fase viene dopo l’accelerazione iniziale?', ['la transizione e la velocità massima', 'il ritorno alla posizione di partenza', 'un riposo completo prima del tentativo successivo', 'solo la decelerazione finale, senza altre fasi'], 0, 'Dopo i primi 20–30 m ci si avvicina alla velocità massima.'),
+      mc('La differenza fra CoD e agilità è che l’agilità:', ['risponde a uno stimolo con percezione e decisione', 'è sempre pianificata prima di eseguire il movimento', 'non richiede alcun movimento dell’intero corpo', 'riguarda soltanto l’uso delle braccia'], 0, 'Il CoD è pianificato, l’agilità è reattiva.'),
       fill('v = 6 m/s, decelerazione 6 m/s². Distanza di frenata in m?', ['3'], '36 / 12 = 3.'),
       fill('v = 6 m/s, decelerazione 9 m/s². Distanza di frenata in m?', ['2'], '36 / 18 = 2.'),
-      mc('Nell’accelerazione iniziale la postura è tipicamente:', ['inclinata in avanti con contatti più lunghi', 'perfettamente verticale con contatti brevi', 'sdraiata', 'con ginocchia tese'], 0, 'La spinta orizzontale richiede inclinazione.'),
+      mc('Nell’accelerazione iniziale la postura è tipicamente:', ['inclinata in avanti con contatti più lunghi', 'perfettamente verticale con contatti molto brevi', 'quasi sdraiata, con il bacino vicino al suolo', 'con le ginocchia tese e il busto eretto'], 0, 'La spinta orizzontale richiede inclinazione.'),
       mc('Tra gli sprint massimali di qualità i recuperi devono essere:', ['lunghi (circa 1–2 minuti ogni 10 m)', 'di 5 secondi', 'nulli', 'inferiori al tempo di sprint'], 0, 'Servono recuperi che permettano tempi uguali.'),
       order('Ordina la struttura di una seduta di sprint', ['Riscaldamento RAMP', 'Sprint progressivi (60–90%)', 'Sprint massimali con recupero lungo', 'Defaticamento'], 'Dal riscaldamento al defaticamento.'),
-      mc('Perché gli sprint di qualità si fanno da freschi?', ['La fatica peggiora tecnica e velocità e aumenta il rischio', 'Perché si guadagna tempo', 'Perché la fatica è utile', 'Non è importante'], 0, 'La qualità è il centro dell’allenamento della velocità.')
+      mc('Perché gli sprint di qualità si fanno da freschi?', ['La fatica peggiora tecnica e velocità e aumenta il rischio', 'Perché si guadagna tempo nella seduta e si recupera meno', 'Perché la fatica è utile ad adattarsi', 'Perché la fatica non cambia nulla, è solo una consuetudine'], 0, 'La qualità è il centro dell’allenamento della velocità.')
     ],
     test: [
       fill('Passo di 2,2 m, frequenza di 4,6 passi/s. Velocità in m/s (due decimali)?', ['10,12', '10.12'], '2,2 × 4,6 = 10,12.'),
@@ -287,9 +287,9 @@
       fill('v = 8 m/s, decelerazione 8 m/s². Distanza di frenata in m?', ['4'], '64 / 16 = 4.'),
       fill('8 sprint da 30 m. Metri totali di sprint?', ['240'], '8 × 30 = 240.'),
       mc('Quale test è un cambio di direzione pianificato?', ['5-0-5', 'una prova con stimolo luminoso casuale', 'un salto a piedi uniti sul posto', 'una corsa lenta'], 0, 'Il 5-0-5 prevede un percorso noto.'),
-      mc('Nel lavoro di velocità, il peggioramento del tempo oltre circa il 3%:', ['indica di fermare la parte di qualità', 'si ignora', 'è l’obiettivo', 'dice di aumentare le serie'], 0, 'Sotto fatica non si sta più allenando la velocità.'),
+      mc('Nel lavoro di velocità, il peggioramento del tempo oltre circa il 3%:', ['indica di fermare la parte di qualità', 'si ignora, perché è normale per tutta la seduta', 'è l’obiettivo della seduta di velocità', 'dice di aumentare il numero di serie'], 0, 'Sotto fatica non si sta più allenando la velocità.'),
       mc('Negli sport di squadra gli scatti più frequenti sono di:', ['circa 10–20 m', 'oltre 100 m', 'circa 1 m', 'oltre 400 m'], 0, 'L’accelerazione è molto importante.'),
-      mc('Dopo una lunga pausa, per gli sprint massimali è prudente:', ['ripartire al 70–90% e salire gradualmente', 'partire subito al 100%', 'saltare il riscaldamento', 'fare solo la slitta pesante'], 0, 'Aiuta a ridurre il rischio per i muscoli posteriori della coscia.')
+      mc('Dopo una lunga pausa, per gli sprint massimali è prudente:', ['ripartire al 70–90% e salire gradualmente', 'partire subito al 100% per recuperare il tempo perso', 'saltare il riscaldamento specifico dopo la pausa', 'fare solo slitta pesante nelle prime settimane'], 0, 'Aiuta a ridurre il rischio per i muscoli posteriori della coscia.')
     ]
   });
 
@@ -313,24 +313,24 @@
       order('Ordina le fasi del RAMP', ['Raise (aumentare temperatura)', 'Activate (attivare)', 'Mobilise (mobilizzare)', 'Potentiate (potenziare)'], 'R-A-M-P, dal generale allo specifico.'),
       fill('Stretching: 30 s × 2 serie × 5 giorni. Minuti a settimana?', ['5'], '300 s = 5 minuti.'),
       mc('Lo stretching statico di oltre ~60 s subito prima di una prestazione di potenza può:', ['ridurre leggermente forza e potenza', 'aumentarle sempre', 'non avere alcun effetto in nessun caso', 'curare un infortunio'], 0, 'Con durate brevi l’effetto è trascurabile; meglio lo stretching dinamico prima.'),
-      mc('Sullo stretching statico come unica misura di prevenzione l’evidenza indica:', ['nessun effetto chiaro sugli infortuni', 'riduzione dell’80%', 'obbligo per legge', 'risultati identici alla forza'], 0, 'Lauersen e colleghi (2014): nessun effetto chiaro.'),
+      mc('Sullo stretching statico come unica misura di prevenzione l’evidenza indica:', ['nessun effetto chiaro sugli infortuni', 'una riduzione dell’80% degli infortuni muscolari', 'un obbligo per legge per gli atleti agonisti', 'risultati identici all’allenamento della forza'], 0, 'Lauersen e colleghi (2014): nessun effetto chiaro.'),
       fill('Una squadra ha 10 infortuni a stagione e un programma riduce del 35%. Infortuni attesi?', ['6,5', '6.5'], '10 × 0,65 = 6,5. Stima media di gruppo.'),
       mc('Nordic hamstring: gli studi indicano una riduzione degli infortuni agli ischiocrurali di circa:', ['la metà, con ampia incertezza', 'il 100%', 'nessuna', 'il 5%'], 0, 'Il risultato dipende da sport, aderenza e studio.'),
-      mc('Un limite dei programmi di prevenzione è che:', ['riducono il rischio ma non lo azzerano', 'garantiscono zero infortuni', 'sono dannosi', 'funzionano solo se fatti una volta'], 0, 'Gli infortuni sono multifattoriali e la protezione è probabilistica.'),
+      mc('Un limite dei programmi di prevenzione è che:', ['riducono il rischio ma non lo azzerano', 'garantiscono zero infortuni se applicati con costanza', 'sono dannosi e aumentano il rischio muscolare', 'funzionano solo se eseguiti una volta'], 0, 'Gli infortuni sono multifattoriali e la protezione è probabilistica.'),
       fill('20 km a settimana con +10% per due settimane. Volume alla fine in km?', ['24,2', '24.2'], '20 × 1,1 × 1,1 = 24,2.'),
-      mc('La regola del +10% a settimana è:', ['un’euristica senza una solida prova di superiorità', 'una legge fisica', 'obbligatoria', 'valida solo per il nuoto'], 0, 'Gli studi non mostrano differenze nette di infortunio.'),
-      mc('Quale sintomo richiede di fermarsi subito?', ['dolore acuto o sensazione di cedimento articolare', 'leggero affanno in una corsa', 'sudore', 'lieve rigidità del giorno dopo'], 0, 'Dolore acuto e instabilità sono segnali di stop.'),
-      mc('Se un dolore dura oltre 1–2 settimane o limita le attività, in genere conviene:', ['consultare un professionista sanitario', 'aumentare il carico', 'ignorarlo', 'smettere di bere acqua'], 0, 'Diagnosi e terapia spettano a medico o fisioterapista.'),
-      mc('Quale combinazione ha più evidenza di prevenzione secondo le meta-analisi?', ['forza, equilibrio e programmi regolari', 'solo stretching statico', 'solo massaggi', 'solo riposo'], 0, 'La forza e gli esercizi neuromuscolari mostrano i risultati migliori.')
+      mc('La regola del +10% a settimana è:', ['un’euristica senza una solida prova di superiorità', 'una legge fisica verificata in laboratorio', 'una regola obbligatoria nelle federazioni', 'valida soltanto per il nuoto e per il ciclismo su strada'], 0, 'Gli studi non mostrano differenze nette di infortunio.'),
+      mc('Quale sintomo richiede di fermarsi subito?', ['un dolore acuto o una sensazione di cedimento articolare', 'un leggero affanno durante una corsa lenta di riscaldamento', 'il sudore abbondante dopo il riscaldamento e le prime serie', 'una lieve rigidità avvertita al risveglio il giorno dopo'], 0, 'Dolore acuto e instabilità sono segnali di stop.'),
+      mc('Se un dolore dura oltre 1–2 settimane o limita le attività, in genere conviene:', ['consultare un professionista sanitario', 'aumentare il carico per superare il fastidio', 'ignorarlo e aspettare che passi da solo', 'smettere di bere acqua durante la seduta'], 0, 'Diagnosi e terapia spettano a medico o fisioterapista.'),
+      mc('Quale combinazione ha più evidenza di prevenzione secondo le meta-analisi?', ['forza, equilibrio e programmi regolari', 'solo stretching statico prima di ogni seduta', 'solo massaggi dopo ogni allenamento', 'solo riposo prolungato tra una stagione e l’altra'], 0, 'La forza e gli esercizi neuromuscolari mostrano i risultati migliori.')
     ],
     test: [
       fill('20 km a settimana con +10% per tre settimane consecutive. Volume finale in km (un decimale)?', ['26,6', '26.6'], '20 × 1,1³ = 26,62.'),
       fill('Settimane precedenti: 20, 22, 24, 26 km; questa settimana 30 km. ACWR (un decimale)?', ['1,3', '1.3', '1,30', '1.30'], '30 / 23 = 1,304.'),
       fill('Stretching: 30 s × 3 serie × 4 giorni. Minuti a settimana?', ['6'], '360 s = 6 minuti.'),
       fill('Una squadra ha 20 infortuni a stagione e un programma li dimezza (−50%). Infortuni attesi?', ['10'], '20 × 0,5 = 10.'),
-      mc('Il Copenhagen adduction ha mostrato la riduzione migliore su:', ['problemi inguinali (calcio amatoriale maschile)', 'fratture del polso', 'tendinite del gomito', 'mal di testa'], 0, 'Harøy e colleghi, 2019: circa −40%, con evidenza limitata ad altri sport.'),
-      mc('L’allenamento di equilibrio riduce in particolare:', ['le recidive di distorsione di caviglia', 'le fratture di stress', 'il mal di schiena in ogni caso', 'la forza massimale'], 0, 'Soprattutto dopo una distorsione precedente.'),
-      mc('Quale caratteristica rende incerti i risultati dei programmi di prevenzione?', ['eterogeneità degli studi e aderenza variabile', 'nessuna ricerca disponibile', 'divieto di misurazione', 'la loro durata sempre di un giorno'], 0, 'Gli effetti dipendono da sport, livello e regolarità.'),
+      mc('Il Copenhagen adduction ha mostrato la riduzione migliore su:', ['problemi inguinali (calcio amatoriale maschile)', 'fratture da stress del polso nei giovani atleti', 'tendinite del gomito del tennista nei lanciatori', 'mal di testa da sforzo nei ciclisti amatoriali'], 0, 'Harøy e colleghi, 2019: circa −40%, con evidenza limitata ad altri sport.'),
+      mc('L’allenamento di equilibrio riduce in particolare:', ['le recidive di distorsione di caviglia', 'le fratture da stress della tibia', 'il mal di schiena in ogni caso', 'la forza massimale degli arti inferiori'], 0, 'Soprattutto dopo una distorsione precedente.'),
+      mc('Quale caratteristica rende incerti i risultati dei programmi di prevenzione?', ['eterogeneità degli studi e aderenza variabile', 'l’assenza di ricerche disponibili sull’argomento', 'il divieto di misurare gli infortuni sul campo', 'la loro durata sempre limitata a un solo giorno'], 0, 'Gli effetti dipendono da sport, livello e regolarità.'),
       mc('L’ACWR tra 0,8 e 1,3 come «zona sicura» è:', ['una soglia discussa, non rigida', 'una legge accertata', 'un limite legale', 'un valore valido per tutti i sport'], 0, 'Impellizzeri e colleghi (2020) ne criticano l’uso.')
     ]
   });

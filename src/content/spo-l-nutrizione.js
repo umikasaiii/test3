@@ -30,8 +30,8 @@
       fill('Spuntino con 50 g di carboidrati, 25 g di proteine e 10 g di grassi. Kcal totali?', ['390'], '200 + 100 + 90 = 390.'),
       fill('Quante kcal forniscono 20 g di alcol (7 kcal/g)?', ['140'], '20 × 7 = 140.'),
       fill('Con la regola dei 7 700 kcal/kg, un deficit di 500 kcal/giorno per 7 giorni dà quale calo teorico in kg (due decimali)?', ['0,45', '0.45'], '3 500 / 7 700 ≈ 0,4545.'),
-      mc('Perché la regola dei 7 700 kcal/kg sovrastima spesso la perdita di peso a lungo termine?', ['Il dispendio cala con il peso e per adattamento, e non si perde solo grasso', 'Perché il grasso non contiene energia', 'Perché le calorie non esistono', 'Perché il deficit aumenta sempre il metabolismo'], 0, 'È un modello statico che trascura le risposte dell’organismo.'),
-      mc('L’adattamento metabolico indica che, dopo una perdita di peso, il dispendio:', ['può scendere più di quanto spieghi il solo calo di massa', 'sale sempre', 'resta identico', 'è sempre 0'], 0, 'L’entità è variabile e dibattuta.'),
+      mc('Perché la regola dei 7 700 kcal/kg sovrastima spesso la perdita di peso a lungo termine?', ['Il dispendio cala col peso e per adattamento, e non si perde solo grasso', 'Perché il grasso corporeo non contiene energia utilizzabile', 'Perché le calorie non esistono come unità di misura', 'Perché il deficit calorico aumenta sempre il metabolismo'], 0, 'È un modello statico che trascura le risposte dell’organismo.'),
+      mc('L’adattamento metabolico indica che, dopo una perdita di peso, il dispendio:', ['può scendere più di quanto spieghi il solo calo di massa', 'sale sempre rispetto al valore iniziale prima della dieta', 'resta identico, a parità di peso e attività svolta', 'è sempre pari a zero a riposo'], 0, 'L’entità è variabile e dibattuta.'),
       order('Ordina i passi per stimare il TDEE', ['Calcolo il BMR', '→', 'Scelgo un fattore di attività prudente', '→', 'Moltiplico BMR × fattore', '→', 'Verifico nel tempo con il peso'], 'La stima è un’ipotesi da controllare nella pratica.')
     ],
     test: [
@@ -40,7 +40,7 @@
       fill('Pasto con 60 g di carboidrati, 30 g di proteine, 25 g di grassi. Kcal totali?', ['585'], '240 + 120 + 225 = 585.'),
       mc('Nello stesso pasto da 585 kcal (grassi 225 kcal) la quota di energia dai grassi è circa:', ['38%', '25%', '60%', '12%'], 0, '225 / 585 ≈ 0,385.'),
       mc('La spesa netta di una corsa da 8 MET per 0,5 h con 70 kg è:', ['245 kcal (MET − 1)', '280 kcal', '560 kcal', '140 kcal'], 0, 'Si sottrae il metabolismo di riposo: (8 − 1) × 70 × 0,5 = 245.'),
-      mc('Quale grandezza NON è considerata dall’equazione di Mifflin-St Jeor?', ['La composizione corporea (massa magra)', 'Il peso', 'L’altezza', 'L’età'], 0, 'Usa peso, altezza, età e sesso; non misura la massa magra.'),
+      mc('Quale grandezza NON è considerata dall’equazione di Mifflin-St Jeor?', ['La composizione corporea (massa magra)', 'Il peso corporeo della persona', 'L’altezza della persona misurata in cm', 'L’età della persona espressa in anni'], 0, 'Usa peso, altezza, età e sesso; non misura la massa magra.'),
       mc('Un deficit giornaliero di 500 kcal per 30 giorni dà secondo la regola semplice circa:', ['2 kg di tessuto adiposo come stima teorica', '10 kg', '0,2 kg', '5 kg'], 0, '15 000 / 7 700 ≈ 1,95 kg; nella realtà si osserva spesso meno.')
     ]
   });
@@ -68,11 +68,11 @@
       fill('Dieta da 2 000 kcal con saturi < 10% dell’energia. Grammi massimi di saturi (un decimale)?', ['22,2', '22.2', '22'], '200 / 9 = 22,2.'),
       fill('Dieta da 2 000 kcal con zuccheri liberi < 10%. Grammi massimi?', ['50'], '200 / 4 = 50.'),
       fill('IG 70, porzione con 30 g di carboidrati. Carico glicemico?', ['21'], '70 × 30 / 100 = 21.'),
-      mc('Il carico glicemico, rispetto all’indice, aggiunge:', ['la quantità di carboidrati della porzione', 'il contenuto di grassi', 'le calorie totali', 'il prezzo'], 0, 'CG = IG × g di carboidrati / 100.'),
+      mc('Il carico glicemico, rispetto all’indice, aggiunge:', ['la quantità di carboidrati della porzione', 'il contenuto di grassi dell’alimento consumato', 'le calorie totali della porzione consumata', 'il prezzo medio al chilo dell’alimento scelto'], 0, 'CG = IG × g di carboidrati / 100.'),
       mc('Quale limite OMS vale per i grassi trans industriali?', ['meno dell’1% dell’energia', 'meno del 20%', 'meno del 10%', 'nessuno'], 0, 'L’OMS raccomanda < 1% dell’energia e punta all’eliminazione dei trans industriali.'),
-      mc('Cereali e legumi insieme nella giornata forniscono un buon profilo di amminoacidi perché:', ['si completano (lisina nei legumi, metionina nei cereali)', 'contengono entrambi tutti i grassi', 'sono privi di amminoacidi', 'hanno lo stesso profilo'], 0, 'Le carenze di un gruppo sono compensate dall’altro.'),
-      mc('La RDA proteica di 0,8 g/kg rappresenta:', ['un livello per evitare la carenza in persone sane poco attive', 'il massimo consentito', 'l’ottimo per un atleta', 'il valore per ogni patologia'], 0, 'Chi è attivo ha proposte più alte (ordine di 1,2–2,0 g/kg).'),
-      mc('Quale fonte è ricca di EPA e DHA?', ['Pesce azzurro e pesce grasso', 'Olio di cocco', 'Riso', 'Burro'], 0, 'Sono gli omega-3 a catena lunga; i LARN indicano circa 250 mg/giorno.'),
+      mc('Cereali e legumi insieme nella giornata forniscono un buon profilo di amminoacidi perché:', ['si completano (lisina nei legumi, metionina nei cereali)', 'contengono entrambi tutti i grassi essenziali necessari', 'sono privi di amminoacidi essenziali, quindi si compensano', 'hanno lo stesso identico profilo di amminoacidi essenziali'], 0, 'Le carenze di un gruppo sono compensate dall’altro.'),
+      mc('La RDA proteica di 0,8 g/kg rappresenta:', ['un livello per evitare la carenza in persone sane poco attive', 'il massimo consentito dalle linee guida per un adulto', 'l’ottimo indicato per un atleta di forza o di potenza', 'il valore consigliato in qualsiasi patologia e per ogni età'], 0, 'Chi è attivo ha proposte più alte (ordine di 1,2–2,0 g/kg).'),
+      mc('Quale fonte è ricca di EPA e DHA?', ['Pesce azzurro e pesce grasso', 'Olio di cocco e olio di palma', 'Riso e cereali integrali', 'Burro e latticini interi'], 0, 'Sono gli omega-3 a catena lunga; i LARN indicano circa 250 mg/giorno.'),
       order('Ordina il calcolo del carico glicemico', ['Trovo l’IG dell’alimento', '→', 'Calcolo i g di carboidrati della porzione', '→', 'Moltiplico IG × g', '→', 'Divido per 100'], 'CG = IG × carboidrati della porzione / 100.')
     ],
     test: [
@@ -81,8 +81,8 @@
       mc('Un carico glicemico di 21 per porzione è considerato:', ['alto (≥ 20)', 'basso', 'medio', 'nullo'], 0, 'Basso ≤ 10, medio 11–19, alto ≥ 20.'),
       fill('Dieta da 2 500 kcal con carboidrati al 55%. Grammi (arrotonda all’unità)?', ['344', '343,75', '343.75', '343'], '1 375 kcal / 4 = 343,75.'),
       mc('Qual è l’obiettivo minimo comune di fibre per adulti (OMS, LARN)?', ['circa 25 g/giorno', '5 g/giorno', '100 g/giorno', 'nessun obiettivo'], 0, 'Circa 12,6 g ogni 1 000 kcal.'),
-      mc('Sostituire grassi saturi con insaturi in generale:', ['riduce il rischio cardiovascolare', 'lo aumenta sempre', 'è irrilevante', 'è dannoso per il cuore'], 0, 'L’effetto dipende dalla sostituzione: se sono rimpiazzati da zuccheri raffinati il beneficio svanisce.'),
-      mc('Per una persona sana, apporti proteici fino a circa 2 g/kg:', ['non hanno mostrato danno renale dimostrato; con malattia renale serve il medico', 'danneggiano sempre i reni', 'sono vietati', 'sono tossici'], 0, 'La cautela vale per chi ha patologie renali.')
+      mc('Sostituire grassi saturi con insaturi in generale:', ['riduce il rischio cardiovascolare', 'lo aumenta sempre, a ogni livello', 'è irrilevante per la salute del cuore', 'è dannoso per il cuore e le arterie'], 0, 'L’effetto dipende dalla sostituzione: se sono rimpiazzati da zuccheri raffinati il beneficio svanisce.'),
+      mc('Per una persona sana, apporti proteici fino a circa 2 g/kg:', ['non hanno mostrato danno renale dimostrato; con malattia renale serve il medico', 'danneggiano sempre i reni di chiunque, anche se sani e giovani', 'sono vietati dalle linee guida per gli adulti sani', 'sono tossici per il fegato e per i reni in tutti i casi'], 0, 'La cautela vale per chi ha patologie renali.')
     ]
   });
 
@@ -110,10 +110,10 @@
       fill('15 µg di vitamina D, sapendo che 1 µg = 40 UI. Quante UI?', ['600'], '15 × 40 = 600.'),
       fill('25(OH)D = 20 ng/mL. Quanti nmol/L (× 2,5)?', ['50'], '20 × 2,5 = 50.'),
       mc('Quale gruppo ha una indicazione chiara all’integrazione di B12?', ['I vegani', 'Chi mangia pesce due volte a settimana', 'Chi beve latte', 'Chi mangia uova'], 0, 'La B12 si trova solo in alimenti animali o fortificati.'),
-      mc('Che cosa favorisce l’assorbimento del ferro non eme?', ['Vitamina C nello stesso pasto', 'Tè e caffè con il pasto', 'Grandi quantità di calcio', 'Il digiuno'], 0, 'Tè, caffè e calcio ne riducono l’assorbimento.'),
-      mc('Perché si integra il ferro solo dopo esami e su indicazione medica?', ['Perché l’eccesso si accumula ed è tossico', 'Perché non fa mai bene', 'Perché non esistono carenze', 'Perché è vietato'], 0, 'Esiste anche l’emocromatosi, e la stanchezza ha molte cause.'),
-      mc('Qual è la misura di sanità pubblica per la carenza di iodio in Italia?', ['Sale iodato usato con moderazione', 'Integratori a tutti', 'Eliminare il sale', 'Mangiare solo alghe'], 0, 'È la iodoprofilassi raccomandata.'),
-      mc('Quale indicazione sul potassio è corretta?', ['Almeno 3,5 g/giorno da frutta, verdura e legumi', 'Va evitato sempre', 'Si ottiene solo con integratori', 'Più di 20 g al giorno'], 0, 'OMS: almeno 3,5 g/giorno, soprattutto da vegetali.'),
+      mc('Che cosa favorisce l’assorbimento del ferro non eme?', ['Vitamina C nello stesso pasto', 'Tè e caffè bevuti durante il pasto', 'Grandi quantità di calcio nello stesso pasto', 'Il digiuno prima e dopo il pasto'], 0, 'Tè, caffè e calcio ne riducono l’assorbimento.'),
+      mc('Perché si integra il ferro solo dopo esami e su indicazione medica?', ['Perché l’eccesso si accumula ed è tossico', 'Perché non fa mai bene all’organismo', 'Perché non esistono carenze di ferro negli atleti', 'Perché l’integrazione è vietata dalle norme sportive'], 0, 'Esiste anche l’emocromatosi, e la stanchezza ha molte cause.'),
+      mc('Qual è la misura di sanità pubblica per la carenza di iodio in Italia?', ['Sale iodato usato con moderazione', 'Integratori di iodio dati a tutta la popolazione', 'Eliminare il sale dall’alimentazione quotidiana', 'Mangiare solo alghe marine ogni giorno'], 0, 'È la iodoprofilassi raccomandata.'),
+      mc('Quale indicazione sul potassio è corretta?', ['Almeno 3,5 g al giorno da frutta, verdura e legumi', 'Va evitato sempre, perché fa salire la pressione arteriosa', 'Si ottiene soltanto con integratori in compresse o bustine', 'Almeno 20 g al giorno da frutta e verdura'], 0, 'OMS: almeno 3,5 g/giorno, soprattutto da vegetali.'),
       order('Ordina un approccio prudente a una possibile carenza', ['Noto sintomi o fattori di rischio', 'Parlo con il medico', 'Si fanno gli esami', 'Se c’è indicazione, integrazione per un tempo definito', 'Controllo'], 'La diagnosi precede l’integrazione.')
     ],
     test: [
@@ -121,9 +121,9 @@
       fill('Integratore da 25 µg di vitamina D. Quante UI (1 µg = 40 UI)?', ['1000', '1.000', '1 000'], '25 × 40 = 1 000.'),
       fill('25(OH)D = 30 nmol/L. Quanti ng/mL (dividi per 2,5)?', ['12'], '30 / 2,5 = 12.'),
       fill('200 mL di latte (120 mg/100 mL) e 125 g di yogurt (120 mg/100 g). Quanti mg di calcio mancano per arrivare a 1 000 mg?', ['610'], '240 + 150 = 390; 1 000 − 390 = 610.'),
-      mc('I multivitaminici in una popolazione sana ben nutrita:', ['non hanno dimostrato in modo solido di prevenire malattie', 'prevengono tutti i tumori', 'sono necessari a tutti', 'sono sempre dannosi'], 0, 'Possono servire in casi specifici, non come regola.'),
-      mc('Che cosa significa UL?', ['Livello massimo di assunzione tollerabile', 'Livello minimo utile', 'Unità di liquido', 'Dose ideale'], 0, 'Sopra l’UL il rischio di effetti avversi cresce.'),
-      mc('Crampi e stanchezza in uno sportivo sano indicano di certo una carenza di magnesio?', ['No, hanno molte cause e l’evidenza per integrare è debole', 'Sì, sempre', 'Sì, ma solo di inverno', 'Sì, se bevi caffè'], 0, 'Serve valutare la causa prima di integrare.')
+      mc('I multivitaminici in una popolazione sana ben nutrita:', ['non hanno dimostrato di prevenire malattie in modo solido', 'prevengono tutti i tumori più comuni se presi ogni giorno', 'sono necessari a tutti dopo i 30 anni per evitare carenze', 'sono sempre dannosi per il fegato anche a dosi normali'], 0, 'Possono servire in casi specifici, non come regola.'),
+      mc('Che cosa significa UL?', ['Livello massimo di assunzione tollerabile', 'Livello minimo utile per prevenire le carenze', 'Unità di liquido consigliata ogni giorno', 'Dose ideale per un atleta di resistenza'], 0, 'Sopra l’UL il rischio di effetti avversi cresce.'),
+      mc('Crampi e stanchezza in uno sportivo sano indicano di certo una carenza di magnesio?', ['No, hanno molte cause e l’evidenza per integrare è debole', 'Sì, sempre, perché il magnesio è l’unica causa nota', 'Sì, ma solo nei mesi invernali', 'Sì, soprattutto se si beve caffè o tè ogni giorno'], 0, 'Serve valutare la causa prima di integrare.')
     ]
   });
 
@@ -150,21 +150,21 @@
       fill('Con rischio che passa dal 2% al 3%, quante persone vanno esposte perché una in più si ammali (NNH)?', ['100'], '1 / 0,01 = 100.'),
       fill('Riduzione relativa del 30% su un rischio base del 10%. Rischio finale in %?', ['7'], '10 × 0,7 = 7.'),
       mc('La classificazione NOVA identifica gli ultra-processati come:', ['gruppo 4', 'gruppo 1', 'solo i cibi con più di 3 ingredienti', 'solo i dolci'], 0, 'Gruppo 4 della classificazione NOVA.'),
-      mc('PREDIMED è:', ['un trial randomizzato sulla dieta mediterranea in persone ad alto rischio', 'uno studio su animali', 'un’indagine su vegani', 'un aneddoto'], 0, 'RCT spagnolo; riduzione relativa di circa 30% degli eventi CV.'),
+      mc('PREDIMED è:', ['un trial randomizzato sulla dieta mediterranea ad alto rischio', 'uno studio su animali alimentati con olio d’oliva e frutta secca', 'un’indagine sulle abitudini alimentari dei soli vegani', 'un aneddoto raccolto da un medico di base in pensione'], 0, 'RCT spagnolo; riduzione relativa di circa 30% degli eventi CV.'),
       mc('Perché un’associazione osservazionale non prova la causalità?', ['Per confondenti e causalità inversa', 'Perché gli studi osservazionali sono sempre falsi', 'Perché non hanno dati', 'Perché usano solo animali'], 0, 'Chi segue un pattern spesso ha altre abitudini favorevoli.'),
-      mc('Quale nutriente richiede integrazione nei vegani?', ['Vitamina B12', 'Vitamina C', 'Fibre', 'Potassio'], 0, 'La B12 non è presente negli alimenti vegetali non fortificati.'),
-      mc('La dieta DASH è nata per:', ['abbassare la pressione arteriosa', 'aumentare la massa muscolare', 'eliminare i carboidrati', 'trattare la B12'], 0, 'Riduce la sistolica di circa 5–6 mmHg in media.'),
-      mc('Che cosa dice l’OMS sull’alcol?', ['Nessun livello di consumo è privo di rischio per la salute', 'Un bicchiere al giorno fa bene al cuore', 'Fa bene se è vino rosso', 'È innocuo sotto 4 UA'], 0, 'Il rischio cresce con la quantità.'),
+      mc('Quale nutriente richiede integrazione nei vegani?', ['Vitamina B12', 'Vitamina C, presente solo in alimenti animali', 'Fibre, assenti negli alimenti vegetali', 'Potassio, assente in frutta e legumi'], 0, 'La B12 non è presente negli alimenti vegetali non fortificati.'),
+      mc('La dieta DASH è nata per:', ['abbassare la pressione arteriosa', 'aumentare la massa muscolare negli anziani', 'eliminare del tutto i carboidrati dalla dieta', 'trattare la carenza di vitamina B12 nei vegani'], 0, 'Riduce la sistolica di circa 5–6 mmHg in media.'),
+      mc('Che cosa dice l’OMS sull’alcol?', ['Nessun livello di consumo è privo di rischio', 'Un bicchiere al giorno fa bene al cuore di tutti', 'Fa bene se è vino rosso e si beve ai pasti', 'È innocuo sotto le quattro unità alcoliche al giorno'], 0, 'Il rischio cresce con la quantità.'),
       order('Ordina la gerarchia di evidenza dal più debole al più forte', ['Aneddoto', 'Studio su cellule o animali', 'Studio osservazionale', 'RCT', 'Revisione sistematica di RCT'], 'In generale si sale dall’aneddoto alla revisione sistematica di RCT.')
     ],
     test: [
       fill('Vino da 125 mL al 12% (densità 0,789). Grammi di alcol (un decimale)?', ['11,8', '11.8'], '125 × 0,12 × 0,789 ≈ 11,8.'),
       fill('Rischio base 1% con RR = 2. Rischio assoluto in %?', ['2'], '1% × 2 = 2%.'),
       fill('Riduzione assoluta del rischio di 4 punti percentuali. NNT?', ['25'], '1 / 0,04 = 25.'),
-      mc('Gli ultra-processati hanno mostrato un maggiore consumo di energia in:', ['un piccolo RCT controllato (circa +500 kcal/giorno)', 'nessuno studio', 'tutte le coorti', 'solo studi su topi'], 0, 'Hall et al., 2019: 20 adulti, 2 settimane; i risultati sono suggestivi ma limitati.'),
-      mc('Perché il “beneficio del vino” è dubbio?', ['Confondenti: i non bevitori includono ex bevitori malati', 'Perché il vino è tossico solo ai bambini', 'Perché è un RCT', 'Perché contiene omega-3'], 0, 'Gli studi di randomizzazione mendeliana non confermano il beneficio.'),
-      mc('Circonferenza vita ≥ 94 cm (uomini europei, IDF) indica:', ['maggiore rischio cardiometabolico', 'sicura obesità grave', 'normalità', 'carenza di ferro'], 0, 'È un criterio di rischio, non di diagnosi.'),
-      mc('Quale combinazione è comune a mediterranea e DASH?', ['Molti vegetali, pochi processati e poco sale', 'Molta carne rossa', 'Zero carboidrati', 'Bevande zuccherate'], 0, 'La sovrapposizione è il segnale più robusto.')
+      mc('Gli ultra-processati hanno mostrato un maggiore consumo di energia in:', ['un piccolo RCT controllato (circa +500 kcal al giorno)', 'nessuno studio: il dato è soltanto un’ipotesi teorica', 'tutte le coorti osservazionali pubblicate finora nel mondo', 'solo studi sui topi alimentati liberamente con cibo'], 0, 'Hall et al., 2019: 20 adulti, 2 settimane; i risultati sono suggestivi ma limitati.'),
+      mc('Perché il “beneficio del vino” è dubbio?', ['Confondenti: tra i non bevitori ci sono ex bevitori malati', 'Perché il vino è tossico soltanto per i bambini piccoli', 'Perché gli studi sono tutti RCT di lunga durata', 'Perché contiene omega-3 che mascherano l’effetto'], 0, 'Gli studi di randomizzazione mendeliana non confermano il beneficio.'),
+      mc('Circonferenza vita ≥ 94 cm (uomini europei, IDF) indica:', ['maggiore rischio cardiometabolico', 'obesità grave certa, da trattare con farmaci', 'normalità, senza alcun rischio metabolico', 'carenza di ferro tipica dello sportivo'], 0, 'È un criterio di rischio, non di diagnosi.'),
+      mc('Quale combinazione è comune a mediterranea e DASH?', ['Molti vegetali, pochi processati e poco sale', 'Molta carne rossa e salumi in porzioni giornaliere', 'Zero carboidrati e molte proteine di origine animale', 'Bevande zuccherate e dolci industriali a ogni pasto'], 0, 'La sovrapposizione è il segnale più robusto.')
     ]
   });
 
@@ -191,11 +191,11 @@
       fill('Snack da 500 kcal/100 g, porzione da 40 g. Kcal nella porzione?', ['200'], '500 × 40 / 100 = 200.'),
       fill('Bevanda con 5 g di zuccheri/100 mL, bottiglia da 500 mL. Grammi di zuccheri totali?', ['25'], '5 × 5 = 25.'),
       mc('Per mostrare «ricco di fibre» un prodotto deve contenere almeno:', ['6 g/100 g', '1 g/100 g', '0,5 g/100 g', '3 g/100 mL come minimo per porzione'], 0, '3 g/100 g è «fonte», 6 g/100 g «ricco».'),
-      mc('«Senza zuccheri aggiunti» significa che:', ['non sono stati aggiunti zuccheri, ma ce ne possono essere di naturali', 'non contiene alcuno zucchero', 'ha zero calorie', 'è sempre dietetico'], 0, 'Frutta e latte contengono zuccheri naturali.'),
+      mc('«Senza zuccheri aggiunti» significa che:', ['non sono stati aggiunti zuccheri, ma ci possono essere quelli naturali', 'non contiene alcuno zucchero, nemmeno quello naturale della frutta', 'ha zero calorie per porzione e si può mangiare senza limiti', 'è sempre un prodotto dietetico adatto a chi vuole dimagrire'], 0, 'Frutta e latte contengono zuccheri naturali.'),
       mc('Il limite EFSA di sicurezza per la caffeina in dose singola (adulti sani) è circa:', ['200 mg', '1 000 mg', '20 mg', '50 mg'], 0, 'EFSA 2015: 200 mg per singola dose, 400 mg/giorno.'),
-      mc('Il «8 bicchieri al giorno» è:', ['una regola semplificata senza base solida valida per tutti', 'un valore di legge', 'un limite massimo', 'una soglia EFSA'], 0, 'Il fabbisogno dipende da molti fattori; le bevande diverse dall’acqua contano.'),
-      mc('Uno studio su topi con dosi molto elevate di un additivo mostra che:', ['è un’indicazione preliminare non automaticamente trasferibile all’uomo', 'l’additivo fa male sicuramente', 'il topo è un modello perfetto', 'lo studio è inutile'], 0, 'Va confermato su umani con dosi realistiche.'),
-      mc('Perché la tabella nutrizionale si confronta per 100 g?', ['Perché permette di confrontare prodotti a parità di peso', 'Perché è una legge fisica', 'Perché le porzioni non esistono', 'Perché sono gli ingredienti'], 0, 'Poi si calcola la porzione reale.'),
+      mc('Il «8 bicchieri al giorno» è:', ['una regola semplificata, senza solida base, non valida per tutti', 'un valore stabilito per legge in tutta l’Unione europea', 'un limite massimo da non superare in nessun caso', 'una soglia ufficiale fissata dall’EFSA per gli adulti'], 0, 'Il fabbisogno dipende da molti fattori; le bevande diverse dall’acqua contano.'),
+      mc('Uno studio su topi con dosi molto elevate di un additivo mostra che:', ['un’indicazione preliminare, non trasferibile all’uomo in automatico', 'che l’additivo fa male di sicuro anche all’uomo', 'che il topo è un modello perfetto per l’uomo', 'che lo studio è inutile e va scartato del tutto'], 0, 'Va confermato su umani con dosi realistiche.'),
+      mc('Perché la tabella nutrizionale si confronta per 100 g?', ['Perché permette di confrontare prodotti a parità di peso', 'Perché è una legge fisica sul contenuto di energia', 'Perché le porzioni non esistono nel commercio europeo', 'Perché indica gli ingredienti in ordine di quantità'], 0, 'Poi si calcola la porzione reale.'),
       order('Ordina i passi per leggere un’etichetta', ['Guardo gli ingredienti', 'Confronto i valori per 100 g', 'Calcolo la porzione reale', 'Controllo sale, zuccheri e saturi', 'Decido'], 'Si parte dai dati confrontabili e poi si calcola la quantità consumata.')
     ],
     test: [
@@ -204,8 +204,8 @@
       fill('Biscotti con 25 g di zuccheri/100 g, porzione da 40 g. Grammi di zuccheri?', ['10'], '25 × 40 / 100 = 10.'),
       fill('Un titolo dice «+100% di rischio», con rischio base 0,5%. Rischio finale in %?', ['1', '1,0', '1.0'], '0,5 × 2 = 1.'),
       mc('Quale definizione è corretta per «fonte di fibre» nel regolamento UE?', ['almeno 3 g/100 g', 'almeno 20 g/100 g', 'qualsiasi quantità', 'almeno 15 g/100 g'], 0, 'Fonte ≥ 3 g/100 g; ricco ≥ 6 g/100 g.'),
-      mc('Perché il colore dell’urina è un indicatore approssimativo?', ['Dipende anche da cibo, vitamine e farmaci', 'Non dipende da nulla', 'È sempre identico', 'È uno strumento di diagnosi'], 0, 'È utile come guida, non come diagnosi.'),
-      mc('Quale tra queste è un confondente tipico di uno studio sul caffè?', ['Fumo e stile di vita dei consumatori', 'Il colore della tazza', 'Il nome dello studio', 'La marca del caffè'], 0, 'I bevitori di caffè possono differire per abitudini che influenzano il rischio.')
+      mc('Perché il colore dell’urina è un indicatore approssimativo?', ['Dipende anche da cibo, vitamine e farmaci', 'Non dipende da nulla, è sempre un segnale fedele', 'È sempre identico in tutte le persone sane', 'È uno strumento di diagnosi medica affidabile'], 0, 'È utile come guida, non come diagnosi.'),
+      mc('Quale tra queste è un confondente tipico di uno studio sul caffè?', ['Fumo e stile di vita dei consumatori', 'Il colore della tazza usata dai consumatori', 'Il nome scientifico del chicco di caffè', 'La marca del caffè venduta al bar'], 0, 'I bevitori di caffè possono differire per abitudini che influenzano il rischio.')
     ]
   });
 
@@ -236,8 +236,8 @@
       fill('Dose di proteine di 0,3 g/kg per pasto, atleta di 70 kg. Grammi per pasto?', ['21'], '0,3 × 70 = 21.'),
       fill('Recupero con sedute ravvicinate: 1,0 g/kg/ora per 4 ore, 70 kg. Grammi totali?', ['280'], '1,0 × 70 × 4 = 280.'),
       mc('Per una prova di 1–2,5 ore l’intervallo di carboidrati durante la gara è circa:', ['30–60 g/ora', '0 g/ora', '120–150 g/ora', '5 g/ora'], 0, 'Oltre 2,5–3 ore si arriva a 90 g/ora con carboidrati multipli.'),
-      mc('Perché si usano più tipi di carboidrati (glucosio + fruttosio) a dosi alte?', ['Usano trasportatori intestinali diversi', 'Perché sono più dolci', 'Perché sono senza calorie', 'Perché sostituiscono l’acqua'], 0, 'Permettono ossidazione più alta, fino a circa 90 g/ora.'),
-      mc('Il carico di carboidrati è indicato soprattutto per:', ['prove continue oltre 90 minuti', 'sedute di 30 minuti', 'sport di tiro', 'qualsiasi allenamento'], 0, 'Non migliora le prove brevi.'),
+      mc('Perché si usano più tipi di carboidrati (glucosio + fruttosio) a dosi alte?', ['Usano trasportatori intestinali diversi e assorbono di più', 'Perché sono più dolci e si digeriscono più in fretta', 'Perché non apportano calorie e non affaticano l’intestino', 'Perché sostituiscono del tutto l’acqua da bere in gara'], 0, 'Permettono ossidazione più alta, fino a circa 90 g/ora.'),
+      mc('Il carico di carboidrati è indicato soprattutto per:', ['prove continue oltre 90 minuti', 'sedute di 30 minuti a bassa intensità', 'sport di tiro e di precisione', 'qualsiasi allenamento, anche breve'], 0, 'Non migliora le prove brevi.'),
       order('Ordina una sequenza tipica per una gara di endurance', ['Carico nei giorni precedenti', 'Pasto pre-gara 1–4 ore prima', 'Carboidrati durante la prova', 'Recupero con carboidrati e proteine'], 'Le fasi seguono la cronologia della gara.')
     ],
     test: [
@@ -247,7 +247,7 @@
       fill('Atleta di 75 kg, recupero a 1,2 g/kg/ora per 4 ore. Grammi totali?', ['360'], '1,2 × 75 × 4 = 360.'),
       mc('Quale intervallo di proteine è comunemente citato (ISSN) per atleti?', ['1,4–2,0 g/kg/giorno', '0,2–0,4 g/kg', '3,5–5 g/kg', 'nessun intervallo'], 0, 'ACSM indica 1,2–2,0 g/kg; ISSN 1,4–2,0.'),
       mc('Per attività inferiori a 45 minuti i carboidrati durante la prova sono in genere:', ['non necessari', 'obbligatori a 90 g/ora', 'vietati', 'solo alcol'], 0, 'Basta il glicogeno; a volte sciacqui con soluzione zuccherina.'),
-      mc('La “finestra anabolica” di 30 minuti oggi è:', ['ridimensionata: conta di più il totale giornaliero, tranne con sedute ravvicinate', 'confermata come assoluta', 'dimostrata dopo 2 ore', 'irrilevante in ogni caso'], 0, 'Il timing conta di più con poco recupero tra le sedute.')
+      mc('La “finestra anabolica” di 30 minuti oggi è:', ['ridimensionata: conta di più il totale giornaliero', 'confermata come assoluta: va rispettata in ogni caso', 'dimostrata solo dopo le due ore dal pasto serale', 'irrilevante in ogni caso, per qualsiasi tipo di seduta'], 0, 'Il timing conta di più con poco recupero tra le sedute.')
     ]
   });
 
@@ -277,8 +277,8 @@
       fill('Sudore 1,5 L/ora con 0,92 g/L di sodio. Grammi di sodio persi in un’ora (due decimali)?', ['1,38', '1.38'], '1,5 × 0,92 = 1,38.'),
       fill('4 ore di gara, sudore 0,8 L/ora, bevuti 1,0 L/ora. Surplus di liquidi in litri (un decimale)?', ['0,8', '0.8'], 'Bevuti 4,0 − sudore 3,2 = 0,8.'),
       mc('Iponatriemia da esercizio: sodio sierico inferiore a:', ['135 mmol/L', '150 mmol/L', '100 mmol/L', '200 mmol/L'], 0, 'Il valore normale è circa 135–145 mmol/L.'),
-      mc('La causa principale dell’iponatriemia da esercizio è:', ['bere più di quanto si suda', 'bere troppo poco', 'mangiare sale', 'correre veloce'], 0, 'Il bere in eccesso diluisce il sodio.'),
-      mc('Quale segnale in gara è un campanello d’allarme per l’iponatriemia?', ['Aumento di peso durante la prova con nausea e gonfiore', 'Sete lieve', 'Sudore abbondante', 'Frequenza cardiaca bassa'], 0, 'Il peso che sale in gara indica un surplus di liquidi.'),
+      mc('La causa principale dell’iponatriemia da esercizio è:', ['bere più di quanto si suda', 'bere troppo poco durante la gara', 'mangiare troppo sale nei giorni prima', 'correre molto veloce a stomaco vuoto'], 0, 'Il bere in eccesso diluisce il sodio.'),
+      mc('Quale segnale in gara è un campanello d’allarme per l’iponatriemia?', ['Aumento di peso in gara con nausea e gonfiore', 'Sete lieve durante una prova lunga e calda', 'Sudore abbondante fin dai primi chilometri della prova', 'Frequenza cardiaca bassa per tutta la prova di gara'], 0, 'Il peso che sale in gara indica un surplus di liquidi.'),
       order('Ordina i passi del test di sudorazione', ['Svuoto la vescica e mi peso', 'Mi alleno annotando i liquidi bevuti', 'Mi asciugo e mi peso', 'Calcolo (prima − dopo + bevuto − urina)', 'Divido per le ore'], 'La differenza di peso, corretta per liquidi e urina, dà il sudore.')
     ],
     test: [
@@ -286,9 +286,9 @@
       fill('Perdita di 1,2 kg per un atleta di 80 kg. Perdita percentuale (un decimale)?', ['1,5', '1.5'], '1,2 / 80 = 1,5%.'),
       fill('Soglia del 2% per un atleta di 60 kg. Quanti kg?', ['1,2', '1.2'], '60 × 0,02 = 1,2.'),
       mc('Pre-idratazione ACSM (2007): 5–7 mL/kg circa 4 ore prima. Per 60 kg:', ['300–420 mL', '3–4 L', '30–42 mL', '1 L fisso'], 0, '60 × 5 = 300; 60 × 7 = 420.'),
-      mc('Quale è la strategia più sicura per evitare l’iponatriemia?', ['Non superare il sudore: bere secondo sete e non aumentare di peso in gara', 'Bere il più possibile', 'Bere solo acqua pura in grandi quantità', 'Prendere compresse di sale a caso'], 0, 'Il consenso 2015 raccomanda il bere secondo la sete.'),
-      mc('Quando l’acqua semplice basta per l’idratazione durante l’esercizio?', ['Sedute brevi (meno di circa 1 ora) in clima temperato', 'Sempre, anche 5 ore nel caldo', 'Mai', 'Solo per uomini'], 0, 'Per prove lunghe e calde servono sodio e carboidrati.'),
-      mc('Che cosa fare se compaiono confusione e pelle molto calda durante una gara nel caldo?', ['Emergenza: chiamare i soccorsi e raffreddare rapidamente', 'Continuare', 'Bere molto sale', 'Mangiare un gel'], 0, 'È un possibile colpo di calore: emergenza medica.')
+      mc('Quale è la strategia più sicura per evitare l’iponatriemia?', ['Non superare il sudore: bere secondo sete, senza aumentare di peso', 'Bere il più possibile, anche senza avere sete, per anticipare la sete', 'Bere solo acqua pura in grandi quantità prima di ogni tratto', 'Prendere compresse di sale a caso, senza controllo'], 0, 'Il consenso 2015 raccomanda il bere secondo la sete.'),
+      mc('Quando l’acqua semplice basta per l’idratazione durante l’esercizio?', ['Sedute brevi (meno di circa 1 ora) in clima temperato', 'Sempre, anche con 5 ore di sforzo nel caldo intenso', 'Mai, perché l’acqua da sola non idrata in nessuna seduta', 'Solo per gli uomini in sedute brevi'], 0, 'Per prove lunghe e calde servono sodio e carboidrati.'),
+      mc('Che cosa fare se compaiono confusione e pelle molto calda durante una gara nel caldo?', ['Emergenza: chiamare i soccorsi e raffreddare subito', 'Continuare l’andatura, riducendo soltanto la velocità di gara', 'Bere molto sale sciolto in poca acqua in un solo sorso', 'Mangiare un gel e proseguire per qualche chilometro ancora'], 0, 'È un possibile colpo di calore: emergenza medica.')
     ]
   });
 
@@ -315,21 +315,21 @@
       fill('Fabbisogno 112 g di proteine, la dieta ne fornisce 90 g. Quanti grammi mancano?', ['22'], '112 − 90 = 22.'),
       fill('25(OH)D = 20 ng/mL. Quanti nmol/L?', ['50'], '20 × 2,5 = 50.'),
       mc('Quale integratore ha il maggior supporto per sforzi brevi e ad alta intensità?', ['Creatina monoidrato', 'Un brucia-grassi', 'Un «booster ormonale»', 'Vitamine a caso'], 0, 'La creatina ha numerosi trial; effetti modesti ma consistenti.'),
-      mc('Effetto avverso più frequente del bicarbonato di sodio:', ['Disturbi gastrointestinali', 'Insonnia da caffeina', 'Urine rosa', 'Formicolio'], 0, 'Può peggiorare la prestazione e contiene molto sodio.'),
-      mc('Effetto avverso tipico della beta-alanina:', ['Parestesia (formicolio)', 'Urine rosa', 'Alopecia', 'Ipercalcemia'], 0, 'È fastidioso ma generalmente non pericoloso.'),
-      mc('La «responsabilità oggettiva» WADA significa che:', ['l’atleta è sempre responsabile di ciò che c’è nel suo corpo', 'risponde solo l’allenatore', 'vale solo per i professionisti', 'non vale per gli integratori'], 0, 'Anche una contaminazione inconsapevole può comportare sanzioni.'),
-      mc('La certificazione indipendente (es. Informed Sport) di un integratore:', ['riduce ma non azzera il rischio di contaminazione', 'garantisce l’assenza totale di rischio', 'è obbligatoria per legge', 'rende il prodotto un farmaco'], 0, 'È una misura di mitigazione, non una garanzia assoluta.'),
-      mc('Per assumere un farmaco necessario ma vietato in agonismo si deve:', ['richiedere una TUE prima, con documentazione medica', 'assumerlo e poi spiegare', 'non dirlo a nessuno', 'sostituirlo con un integratore'], 0, 'La TUE è l’esenzione per uso terapeutico approvata prima dell’uso.'),
+      mc('Effetto avverso più frequente del bicarbonato di sodio:', ['Disturbi gastrointestinali', 'Insonnia da caffeina presente nel prodotto', 'Urine rosa dopo l’assunzione', 'Formicolio alle estremità del corpo'], 0, 'Può peggiorare la prestazione e contiene molto sodio.'),
+      mc('Effetto avverso tipico della beta-alanina:', ['Parestesia (formicolio) alla pelle', 'Urine rosa per alcune ore dopo la dose', 'Alopecia dopo alcune settimane di assunzione', 'Ipercalcemia con calcoli renali'], 0, 'È fastidioso ma generalmente non pericoloso.'),
+      mc('La «responsabilità oggettiva» WADA significa che:', ['l’atleta è sempre responsabile di ciò che c’è nel suo corpo', 'risponde soltanto l’allenatore o il medico della squadra', 'vale solo per gli atleti professionisti di alto livello', 'non vale per le sostanze assunte con gli integratori'], 0, 'Anche una contaminazione inconsapevole può comportare sanzioni.'),
+      mc('La certificazione indipendente (es. Informed Sport) di un integratore:', ['riduce ma non azzera il rischio di contaminazione', 'garantisce l’assenza totale di rischio di contaminazione', 'è obbligatoria per legge in tutta Europa', 'rende il prodotto un farmaco registrato'], 0, 'È una misura di mitigazione, non una garanzia assoluta.'),
+      mc('Per assumere un farmaco necessario ma vietato in agonismo si deve:', ['richiedere una TUE prima, con documentazione medica', 'assumerlo subito e spiegare la situazione dopo', 'non dirlo a nessuno, perché è coperto dal segreto medico', 'sostituirlo con un integratore equivalente non vietato'], 0, 'La TUE è l’esenzione per uso terapeutico approvata prima dell’uso.'),
       order('Ordina il ragionamento prima di usare un integratore', ['Verifico se allenamento, dieta e sonno sono a posto', 'Cerco evidenza e rischi', 'Parlo con un medico o dietista dello sport', 'Se agonista controllo WADA e certificazione', 'Provo in allenamento, non in gara'], 'Priorità: base prima, evidenza, professionista, regole, prova.')
     ],
     test: [
       fill('Caffeina a 200 mg (dose singola EFSA). Quanti espressi da 80 mg (un decimale)?', ['2,5', '2.5'], '200 / 80 = 2,5.'),
       fill('Creatina a 5 g/giorno per 30 giorni. Grammi totali?', ['150'], '5 × 30 = 150.'),
       fill('Sotto quale valore di 25(OH)D in nmol/L si parla di carenza?', ['30'], 'Sotto 30 nmol/L (12 ng/mL).'),
-      mc('Qual è il significato di «naturale» su un integratore?', ['Non indica sicurezza né efficacia', 'Che è sicuro', 'Che è efficace', 'Che non è contaminabile'], 0, 'Naturale non vuol dire privo di rischi o contaminazioni.'),
-      mc('La lista WADA delle sostanze vietate:', ['viene aggiornata ogni anno', 'è fissa dal 1960', 'vale solo per l’Italia', 'riguarda solo i farmaci'], 0, 'Va controllata ogni anno.'),
-      mc('Quale è un rischio documentato degli steroidi anabolizzanti?', ['Danni cardiovascolari ed epatici, infertilità e alterazioni dell’umore', 'Solo acne', 'Nessun rischio', 'Aumento della fertilità'], 0, 'I rischi sono ben noti; per questo la lezione non dà indicazioni d’uso.'),
-      mc('Le proteine in polvere sono utili soprattutto:', ['quando la dieta non copre il fabbisogno', 'sempre, a tutti', 'al posto dei pasti', 'se si è già oltre 3 g/kg'], 0, 'Sono alimenti concentrati: «prima il cibo».')
+      mc('Qual è il significato di «naturale» su un integratore?', ['Non indica né sicurezza né efficacia', 'Che il prodotto è sicuro per tutti gli atleti', 'Che il prodotto è efficace secondo gli studi', 'Che il prodotto non può essere contaminato'], 0, 'Naturale non vuol dire privo di rischi o contaminazioni.'),
+      mc('La lista WADA delle sostanze vietate:', ['viene aggiornata ogni anno', 'è fissa dal 1960 e non cambia', 'vale solo per gli atleti italiani', 'riguarda soltanto i farmaci e non gli integratori'], 0, 'Va controllata ogni anno.'),
+      mc('Quale è un rischio documentato degli steroidi anabolizzanti?', ['Danni cardiovascolari ed epatici, infertilità e alterazioni dell’umore', 'Solo acne e lieve ritenzione idrica nei primi giorni di uso', 'Nessun rischio se la dose è piccola e il ciclo è breve', 'Aumento della fertilità e della libido nei maschi'], 0, 'I rischi sono ben noti; per questo la lezione non dà indicazioni d’uso.'),
+      mc('Le proteine in polvere sono utili soprattutto:', ['quando la dieta non copre il fabbisogno', 'sempre, per tutti gli sportivi, ogni giorno', 'al posto dei pasti principali della giornata', 'se si è già oltre i 3 g/kg di proteine'], 0, 'Sono alimenti concentrati: «prima il cibo».')
     ]
   });
 
@@ -358,9 +358,9 @@
       fill('Disponibilità energetica con 2 200 kcal assunte, 800 kcal in allenamento e 48 kg di massa magra (un decimale)?', ['29,2', '29.2'], '1 400 / 48 = 29,17.'),
       fill('Deficit da 0,5 kg/settimana secondo la regola 7 700: kcal al giorno (arrotonda)?', ['550'], '0,5 × 7 700 / 7 = 550.'),
       fill('Proteine a 2,4 g/kg per 80 kg. Grammi al giorno?', ['192'], '80 × 2,4 = 192.'),
-      mc('Perché il BMI classifica male molti atleti?', ['Non distingue massa magra da massa grassa', 'Perché non usa il peso', 'Perché usa solo l’età', 'Perché usa l’età'], 0, 'Un atleta muscoloso può risultare «in sovrappeso» con poco grasso.'),
-      mc('Che cosa indica la sigla RED-S?', ['Deficit energetico relativo nello sport', 'Un nuovo integratore', 'Una categoria di gara', 'Una dieta ad alto contenuto proteico'], 0, 'Effetti della bassa disponibilità energetica su ormoni, ossa e prestazione.'),
-      mc('Quale tra questi è un segnale di possibile RED-S?', ['Perdita del ciclo mestruale e fratture da stress ripetute', 'Aumento della forza', 'Sonno profondo', 'Appetito regolare'], 0, 'Ormoni e ossa sono colpiti per primi.'),
+      mc('Perché il BMI classifica male molti atleti?', ['Non distingue massa magra da massa grassa', 'Perché non usa il peso della persona', 'Perché considera solo l’età e non la statura', 'Perché misura direttamente la massa grassa'], 0, 'Un atleta muscoloso può risultare «in sovrappeso» con poco grasso.'),
+      mc('Che cosa indica la sigla RED-S?', ['Deficit energetico relativo nello sport', 'Un nuovo integratore per il recupero', 'Una categoria di gara per atleti master', 'Una dieta ad alto contenuto proteico'], 0, 'Effetti della bassa disponibilità energetica su ormoni, ossa e prestazione.'),
+      mc('Quale tra questi è un segnale di possibile RED-S?', ['Perdita del ciclo mestruale e fratture da stress ripetute', 'Aumento costante della forza e della massa magra', 'Sonno profondo e riposante, con ottimo recupero ogni notte', 'Appetito regolare e peso corporeo stabile da molti mesi'], 0, 'Ormoni e ossa sono colpiti per primi.'),
       order('Ordina un approccio prudente a un obiettivo di peso', ['Definisco con un professionista l’obiettivo', 'Scelgo una velocità moderata (0,25–0,75%/settimana)', 'Mantengo forza e proteine', 'Monitoro peso medio, energia e segnali', 'Correggo con il professionista'], 'Una variazione sicura è graduale, monitorata e supervisionata.')
     ],
     test: [
@@ -369,8 +369,8 @@
       fill('Siri con D = 1,070 (un decimale)?', ['12,6', '12.6'], '495 / 1,07 − 450 = 12,62.'),
       fill('Disponibilità energetica con 2 800 kcal assunte, 800 spese e 48 kg di massa magra (un decimale)?', ['41,7', '41.7'], '2 000 / 48 = 41,67.'),
       mc('L’errore tipico della plicometria è dell’ordine di:', ['3–4 punti percentuali', '0,1 punti', '30 punti', 'nessun errore'], 0, 'Dipende da operatore ed equazione; conta più la tendenza.'),
-      mc('Qual è la posizione corretta sui tagli di peso estremi prima della gara?', ['Sono pericolosi e vanno evitati; qualunque variazione va programmata con professionisti', 'Sono sicuri se brevi', 'Sono consigliati', 'Sono necessari per vincere'], 0, 'Possono causare insufficienza renale, aritmie e colpo di calore; sono noti decessi.'),
-      mc('A chi rivolgersi di fronte a segnali di un disturbo alimentare in un atleta?', ['Medico, dietista e psicologo/psichiatra, senza giudizio', 'Solo all’allenatore', 'A nessuno', 'A chi vende integratori'], 0, 'L’intervento precoce migliora la prognosi; non si diagnostica né si impone una dieta.')
+      mc('Qual è la posizione corretta sui tagli di peso estremi prima della gara?', ['Sono pericolosi e da evitare; ogni variazione va programmata con professionisti', 'Sono sicuri se durano pochi giorni e si bevono molti liquidi', 'Sono consigliati a tutti gli atleti prima di ogni gara importante', 'Sono necessari per vincere la categoria e ottenere un vantaggio'], 0, 'Possono causare insufficienza renale, aritmie e colpo di calore; sono noti decessi.'),
+      mc('A chi rivolgersi di fronte a segnali di un disturbo alimentare in un atleta?', ['Medico, dietista e psicologo/psichiatra, senza giudizio', 'Solo all’allenatore, perché conosce bene l’atleta', 'A nessuno, perché il problema passa da solo col tempo', 'A chi vende integratori in palestra, per un consiglio rapido'], 0, 'L’intervento precoce migliora la prognosi; non si diagnostica né si impone una dieta.')
     ]
   });
 
