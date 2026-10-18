@@ -39,8 +39,8 @@
     shadowing: [{ text: 'We came up with several ideas, but we had to put off the decision.', lang: 'en-GB', tip: 'Phrasal verbs: stress sulla particella.' }, { text: 'It turned out that the budget was too small.', lang: 'en-US', tip: 'Turned out: legati.' }, { text: 'I’d like to point out one thing.', lang: 'en-AU', tip: 'Point out: stress su out.' }],
     speaking: [{ prompt: 'Describe a project at work or study using five phrasal verbs from the lesson.', model: 'We set up a study group and carried out some research. We came up with a plan, but we had to put off the final meeting. In the end, it turned out well.' }, { prompt: 'Talk about a habit you have taken up or cut down on.', model: 'I’ve taken up running, and I’ve cut down on coffee. I gave up smoking years ago, and I’m trying to get over my fear of public speaking.' }] });
 
-  T({ id: 'eng-l4-idioms', title: 'Idiomi e espressioni fisse ad alta frequenza', summary: '40 idiomi e collocazioni fisse per conversazione e scrittura informale.',
-    objectives: ['Capire gli idiomi più frequenti nel parlato', 'Usare 20 idiomi in modo appropriato', 'Evitare di tradurre gli idiomi letteralmente'],
+  T({ id: 'eng-l4-idioms', title: 'Idiomi e espressioni fisse ad alta frequenza', summary: '24 idiomi e collocazioni fisse per conversazione e scrittura informale.',
+    objectives: ['Capire gli idiomi più frequenti nel parlato', 'Usare 24 idiomi in modo appropriato', 'Evitare di tradurre gli idiomi letteralmente'],
     pages: [
       { h: 'Obiettivo', b: 'Gli idiomi sono espressioni il cui significato non si deduce dalle parole. Sono frequenti in film, podcast e conversazioni. Non serve conoscerne centinaia: ne bastano **pochi molto comuni**, usati con naturalezza.' },
       { h: 'Lavoro e difficoltà', b: '- **a piece of cake** = facilissimo\n- **under the weather** = poco bene\n- **in the same boat** = nella stessa situazione\n- **hit the nail on the head** = centrare il punto\n- **the last straw** = la goccia che fa traboccare il vaso\n- **on the ball** = attento e pronto\n- **back to square one** = punto e a capo\n- **go the extra mile** = fare di più\n\n> {{en-GB|The exam was a piece of cake.}} / {{en-GB|I’m feeling a bit under the weather.}}' },
@@ -49,7 +49,7 @@
       { h: 'Come usarli', b: '1. Impara l’**esempio completo**, non solo il significato.\n2. Usa gli idiomi con **moderazione**: uno ogni tanto suona naturale.\n3. Attenzione al **registro**: molti sono informali.\n4. Non modificare la forma (*a piece of the cake* è sbagliato).\n5. Se non sei sicuro, usa un’espressione neutra.' },
       { h: 'Esempio guidato', b: 'Racconta: *L’esame era facilissimo, ma ieri mi sentivo poco bene. L’ultimo ostacolo è stato il traffico, così ho dovuto stringere i denti e arrivare all’ultimo minuto.*\n\n→ **The exam was a piece of cake, but yesterday I was under the weather. The last straw was the traffic, so I had to bite the bullet and arrive at the last minute.**\n\nControllo: ogni idioma ha la forma esatta?' },
       { h: 'Errori comuni', b: '- Tradurre dall’italiano: *rompere una gamba* non è «break a leg» in questo senso (è un augurio teatrale).\n- Usare idiomi in testi accademici.\n- Cambiare una parola: *a piece of the cake*.\n- Esagerare: troppi idiomi suonano forzati.\n- Non conoscere il significato reale.' },
-      { h: 'Riepilogo', b: '- 40 idiomi comuni divisi per tema.\n- Impara l’esempio completo.\n- Registro informale; moderazione.\n- Forma fissa.' }
+      { h: 'Riepilogo', b: '- 24 idiomi comuni divisi per tema.\n- Impara l’esempio completo.\n- Registro informale; moderazione.\n- Forma fissa.' }
     ],
     exercises: [
       mc('«A piece of cake» means…', ['very easy', 'a dessert', 'a small gift', 'difficult'], 0),
