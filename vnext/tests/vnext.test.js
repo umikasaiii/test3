@@ -29,13 +29,14 @@ test('profilo: sette dimensioni separate, nessun punteggio unico, conteggio senz
   assert.equal(p.planning.n, 0); assert.equal('total' in p, false);
 });
 test('laboratori: non presentati come disponibili finché non registrati', () => {
-  assert.equal(ST.sma.labState('strategos'), null);
+  assert.equal(ST.sma.labState('lab-inesistente'), null);
   ST.sma.registerLab({ id: 'zz-test', title: 't', ready: true, view: 'x' });
   assert.ok(ST.sma.labState('zz-test'));
 });
 test('hub: mostra pilastri e dichiara i laboratori non implementati', () => {
-  const h = ST.sma.hub(fresh());
-  assert.match(h, /Detective Intelligence/); assert.match(h, /Non ancora implementato/); assert.match(h, /non è una valutazione psicometrica/);
+  ST.sma.pendingLabs.push({ id: 'lab-finto', title: 'Lab finto', milestone: 'M9' });
+  const h = ST.sma.hub(fresh()); ST.sma.pendingLabs.pop();
+  assert.match(h, /Detective Intelligence/); assert.match(h, /Non ancora implementato/); assert.match(h, /Lab finto/); assert.match(h, /non è una valutazione psicometrica/);
 });
 test('livelli: raccomandazione soft, L0 sempre aperto', () => {
   const s = fresh();
@@ -186,4 +187,69 @@ test('process: gli esiti di un imprevisto dipendono dalla probabilità dichiarat
   const sc = Pr.byId('proc-progetto-ritardo'); let hit = 0; const N = 2000, rng = (() => { let x = 7; return () => (x = (x * 16807) % 2147483647) / 2147483647; })();
   for (let i = 0; i < N; i++) { const st = Pr.start(sc); Pr.choose(sc, st, 2, rng); if (st.path[0].risk) hit++; }
   assert.ok(Math.abs(hit / N - 0.3) < 0.04, 'frequenza osservata ' + hit / N);
+});
+
+/* ---- STRATEGOS ---- */
+const St = ST.sma.strategos;
+const fillSteps = inst => St.PROTOCOL.forEach(p => St.saveStep(inst, p.n, 'passo ' + p.n + ' scritto con dettaglio'));
+const fullMission = (s, mid, mode, cls, result, extra) => {
+  const inst = St.start(s, mid, mode); fillSteps(inst);
+  assert.ok(St.decide(s, inst, { p: 70, planB: 'piano B concreto', check: '2026-01-01' }).ok);
+  const r = St.observe(s, inst, Object.assign({ result, observed: 'è successo questo e quest’altro', cls }, extra)); assert.ok(r.ok, r.err); return inst;
+};
+test('strategos: tutte le missioni sono valide e coprono le 9 aree', () => {
+  St.missions.forEach(m => assert.ok(St.validate(m).ok, m.id));
+  assert.equal(new Set(St.missions.map(m => m.area)).size, 9);
+});
+test('strategos: la decisione richiede 7 passi, stima, piano B e data di verifica; entra nel diario esistente', () => {
+  const s = fresh(), inst = St.start(s, 'mis-tempo-settimana', 'guided');
+  assert.equal(St.decide(s, inst, { p: 60, planB: 'piano B concreto', check: '2026-01-01' }).ok, false, 'passi incompleti');
+  fillSteps(inst);
+  assert.equal(St.decide(s, inst, { p: 0, planB: 'piano B concreto', check: '2026-01-01' }).ok, false);
+  assert.equal(St.decide(s, inst, { p: 60, planB: '', check: '2026-01-01' }).ok, false);
+  assert.equal(St.decide(s, inst, { p: 60, planB: 'piano B concreto', check: 'domani' }).ok, false);
+  const r = St.decide(s, inst, { p: 60, planB: 'piano B concreto', check: '2026-01-01' }); assert.ok(r.ok);
+  assert.equal(s.journal.length, 1); assert.equal(s.journal[0].p, 60); assert.equal(inst.status, 'decided');
+  assert.equal(St.decide(s, inst, { p: 60, planB: 'piano B concreto', check: '2026-01-01' }).ok, false, 'una sola decisione');
+});
+test('strategos: le classi di evidenza sono distinte e «documentato»/«esterna» richiedono dettagli', () => {
+  const s = fresh(), inst = St.start(s, 'mis-studio-esame', 'auto'); fillSteps(inst); St.decide(s, inst, { p: 50, planB: 'piano B concreto', check: '2026-01-01' });
+  assert.equal(St.observe(s, inst, { result: 'ok', observed: 'descrizione sufficiente', cls: 'doc', proof: 'breve' }).ok, false);
+  assert.equal(St.observe(s, inst, { result: 'ok', observed: 'descrizione sufficiente', cls: 'ext', source: '' }).ok, false);
+  assert.equal(St.observe(s, inst, { result: 'ok', observed: 'breve', cls: 'self' }).ok, false);
+  assert.equal(St.observe(s, inst, { result: 'boh', observed: 'descrizione sufficiente', cls: 'self' }).ok, false);
+  assert.ok(St.observe(s, inst, { result: 'ok', observed: 'descrizione sufficiente', cls: 'doc', proof: 'il 3 marzo 12 pagine su 40; test al 70%' }).ok);
+  assert.equal(St.stats(s).by.doc, 1); assert.equal(St.stats(s).by.self, 0);
+});
+test('strategos: il livello deriva solo da evidenze reali, non da autovalutazioni', () => {
+  const s = fresh(); assert.equal(St.level(s).level, 0);
+  // sei missioni solo autodichiarate: non superano L2
+  ['mis-tempo-settimana', 'mis-studio-esame', 'mis-progetto-personale', 'mis-soldi-acquisto', 'mis-persone-richiesta', 'mis-imprevisti-ritardo'].forEach(m => fullMission(s, m, 'guided', 'self', 'ok'));
+  assert.ok(St.level(s).level <= 1, 'autodichiarate e guidate: livello ' + St.level(s).level);
+  // documentate in 3 aree + verifiche differite: sale
+  const s2 = fresh();
+  [['mis-tempo-settimana', 'auto'], ['mis-studio-esame', 'auto'], ['mis-progetto-personale', 'auto'], ['mis-soldi-acquisto', 'auto'], ['mis-persone-richiesta', 'auto'], ['mis-imprevisti-ritardo', 'auto']].forEach(([m, mode]) => {
+    const inst = fullMission(s2, m, mode, 'doc', 'ok', { proof: 'dati e date verificabili: 3 marzo, 12 pagine' }); inst.guess = St.byId(m).model;
+  });
+  assert.ok(St.level(s2).level >= 4, 'documentate e autonome: livello ' + St.level(s2).level);
+  assert.ok(St.level(s2).level < 5, 'senza verifiche differite non è L5');
+});
+test('strategos: verifiche differite a 7/30/90 giorni dalla data dell’esito, mai prima', () => {
+  const s = fresh(), inst = fullMission(s, 'mis-tempo-settimana', 'guided', 'self', 'ok'), d0 = inst.obs.d;
+  const plus = n => new Date(Date.parse(d0 + 'T00:00:00Z') + n * 864e5).toISOString().slice(0, 10);
+  assert.equal(St.due(s, plus(3)).length, 0); const ck = d => JSON.stringify(St.due(s, plus(d)).map(x => x.check)); assert.equal(ck(7), '[7]'); assert.equal(ck(100), '[7,30,90]');
+  assert.ok(St.check(s, inst, 7, 'ok', '').ok); assert.equal(St.check(s, inst, 7, 'ok', '').ok, false, 'una sola volta');
+  assert.equal(ck(100), '[30,90]');
+});
+test('strategos: calibrazione delle stime di successo (Brier) e retrospettiva', () => {
+  const s = fresh(), inst = fullMission(s, 'mis-tempo-settimana', 'guided', 'self', 'fail'); // stima 70, esito non riuscito
+  assert.equal(St.brier(s).brier, 0.49);
+  assert.equal(St.retrospect(s, inst, { learned: 'corto' }).ok, false);
+  assert.ok(St.retrospect(s, inst, { learned: 'ho sottostimato gli imprevisti', principle: 'margine del 20%' }).ok);
+  assert.equal(inst.status, 'closed'); assert.ok(s.journal[0].closed);
+});
+test('strategos: laboratorio registrato; le evidenze finiscono nel profilo (applicazione, decisione)', () => {
+  assert.ok(ST.sma.labState('strategos'));
+  const s = fresh(); fullMission(s, 'mis-tempo-settimana', 'limited', 'ext', 'ok', { source: 'il mio tutor' });
+  const p = ST.sma.profile(s); assert.equal(p.application.n, 1); assert.equal(p.decision.n, 1); assert.equal(p.application.kinds.external, 1);
 });

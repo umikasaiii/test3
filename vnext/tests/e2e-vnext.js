@@ -13,7 +13,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-sma-tile]'); await page.waitForTimeout(250);
   const txt = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Strategic Mastery Academy/.test(txt) && /Detective Intelligence/.test(txt) && /Leadership & Decisions/.test(txt), 'il hub mostra i quattro percorsi');
-  ok(/Non ancora implementato/.test(txt), 'i laboratori non implementati sono dichiarati tali');
+  ok((txt.match(/disponibile/g) || []).length === 7 && !/Non ancora implementato/.test(txt), 'sette laboratori disponibili e nessuno finto');
   ok(/L5/.test(txt) && /non è una valutazione psicometrica/.test(txt), 'livelli e avvertenza sul profilo');
   ok(await page.evaluate(() => { const r = document.querySelector('.sma-hub').getBoundingClientRect(); return r.width <= innerWidth; }), 'nessun overflow orizzontale a 360px');
   // Deduction Lab: partita completa nell'interfaccia
@@ -50,6 +50,18 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => { const e = ST.app.state.sma.sims['proc:proc-progetto-ritardo']; return e && e.tries === 1 && e.bestProc === 1; }), 'crisi: risultato salvato');
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-comm', {}); }); await page.waitForTimeout(120);
   ok(await page.evaluate(() => document.querySelectorAll('[data-act="smaProcOpen"]').length === 2), 'comunicazione: due scenari elencati');
+  // STRATEGOS: missione completa
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-strategos', {}); }); await page.waitForTimeout(150);
+  await page.click('[data-act="smaMisStart"][data-m="mis-tempo-settimana"][data-mode="guided"]'); await page.waitForTimeout(150);
+  for (let n = 1; n <= 7; n++) await page.fill('#sma-st-' + n, 'passo ' + n + ' scritto con abbastanza dettaglio');
+  await page.fill('#sma-p', '65'); await page.fill('#sma-chk', '2026-12-31'); await page.fill('#sma-planb', 'taglio il terzo impegno');
+  await page.click('[data-act="smaMisDecide"]'); await page.waitForTimeout(200);
+  ok(await page.evaluate(() => ST.app.state.journal.length === 1 && ST.app.state.sma.missions[0].status === 'decided'), 'la decisione entra nel diario esistente');
+  await page.click('input[name="sma-res"][value="ok"]'); await page.fill('#sma-obs', 'Ho completato due priorità su tre'); await page.selectOption('#sma-cls', 'self');
+  await page.click('[data-act="smaMisObserve"]'); await page.waitForTimeout(200);
+  ok(await page.evaluate(() => ST.app.state.sma.missions[0].obs.cls === 'self'), 'esito registrato come autodichiarato, non come verificato');
+  await page.fill('#sma-learn', 'Ho imparato a lasciare margine'); await page.click('[data-act="smaMisRetro"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => ST.app.state.sma.missions[0].status === 'closed' && /L1/.test(ST.sma.strategos.level(ST.app.state).level === 1 ? 'L1' : 'x')), 'missione chiusa; livello di transfer L1 (una sola evidenza non dichiarata reale)');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
