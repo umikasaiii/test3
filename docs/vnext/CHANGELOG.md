@@ -1,6 +1,9 @@
 # Changelog vNext
 
-## 1.0.0 — M1–M9 (iterazione unica, pacchetto separato)
+## 1.2.0 — integrazione nel build principale
+Il pacchetto vNext è stato unito ai sorgenti: `src/vnext/` in `tools/build.js`, CSS in `style.css`, test in `tests/vnext/`; `tools/build-vnext.js` rimosso; versione dell'app 1.2.0. `index.html` ≈ 15,7 MB.
+
+## 1.0.0 — M1–M9 (sviluppo come pacchetto separato)
 **Aggiunto** (tutto in `vnext/`; `index.html` invariato; integrazione: `vnext/INTEGRATION.md`):
 - M1 Audit sul codice reale e matrice delle funzionalità; architettura a pacchetto separato (`tools/build-vnext.js`).
 - M2 Strategic Mastery Academy: L0–L5, quattro pilastri, 24 moduli, profilo a 7 dimensioni, verifica per livello.

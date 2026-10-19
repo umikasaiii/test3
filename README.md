@@ -44,3 +44,6 @@ Il modulo propone **solo** esercizi solitari a vuoto. Nessuna proiezione, nessun
 Conversazione simulata: 17 dialoghi ramificati scritti (nessuna IA), a livelli, pianificati due volte a settimana nella missione linguistica. Contenuti graduati: `src/content/resources.js` (Pratica → Contenuti graduati).
 
 Stato dell'audit e limiti noti: [`docs/AUDIT.md`](docs/AUDIT.md).
+
+## Strategic Mastery Academy e laboratori (v1.2.0)
+Specializzazione facoltativa e 19 laboratori (deduzione, avversari adattivi, previsioni, crisi e comunicazione, STRATEGOS, conversazione inglese/giapponese, ascolto di file locali, judo tattico, terminale cyber simulato, programmazione in JavaScript isolato, strategia F1, scienze dello sport, missioni interdisciplinari). Sorgenti in `src/vnext/`; test in `tests/vnext/`; documentazione e limiti in `docs/vnext/` (`MATRICE.md`, `CHANGELOG.md`, `TEST-REPORT.md`, `INTEGRATION.md`).

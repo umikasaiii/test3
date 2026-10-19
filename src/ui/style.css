@@ -120,3 +120,11 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 .practice-sec>summary{cursor:pointer;list-style:none;padding:2px 0}.practice-sec>summary::-webkit-details-marker{display:none}.practice-sec>summary::before{content:'▸ ';color:var(--acc)}.practice-sec[open]>summary::before{content:'▾ '}.practice-sec>.card{margin-left:0;margin-right:0}
 .lang-fab.fade{opacity:.12;pointer-events:none}.lang-fab.nolayer{opacity:.5}
 .lang-pop .tabs2 button{white-space:nowrap;font-size:.85rem;padding:8px 4px}
+
+/* vNext — Strategic Mastery Academy (stesso stile dark/neon dell'app) */
+.sma-dim{display:grid;grid-template-columns:minmax(110px,1.2fr) 2fr;gap:4px 10px;align-items:center;margin:8px 0}
+.sma-dim small{grid-column:1/-1;color:var(--mute,#8a93b8)}
+.sma-bar{display:block;height:8px;border-radius:6px;background:rgba(130,140,200,.18);overflow:hidden}
+.sma-bar i{display:block;height:100%;background:linear-gradient(90deg,#5aa9ff,#b48cff)}
+.sma-hub h2{background:linear-gradient(90deg,#7aa2ff,#b48cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+@media (prefers-reduced-motion:reduce){.sma-bar i{transition:none}}

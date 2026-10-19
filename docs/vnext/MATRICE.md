@@ -1,7 +1,7 @@
 # Matrice delle funzionalità — vNext (stato finale di questa iterazione, M1–M9)
 
 Legenda: **Implementato** = accessibile dall'interfaccia, usabile, con test automatici passati in questa sessione · **Parziale** = esiste ma con limiti dichiarati · **Non fatto**.
-Tutti i conteggi vengono da `node tools/vnext-report.js` (dal codice, non scritti a mano). Il pacchetto è in `vnext/` e NON modifica `index.html`.
+Tutti i conteggi vengono da `node tools/vnext-report.js` (dal codice, non scritti a mano). I sorgenti sono ora integrati in `src/vnext/` e nel build di `index.html`.
 
 | Area del mandato | Stato | Dove | Limiti dichiarati |
 |---|---|---|---|

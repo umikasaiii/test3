@@ -1,7 +1,7 @@
 /* Test vNext: carica l'app + il pacchetto in un contesto Node (senza DOM reale). Uso: node vnext/tests/vnext.test.js */
 const test = require('node:test'), assert = require('node:assert/strict');
-const load = require('../../tests/load.js'), vn = require('../../tools/build-vnext.js');
-const ST = load({ extra: vn.sources() });
+const load = require('../load.js');
+const ST = load();
 const fresh = () => ST.storage.migrate({ onboarded: true });
 
 test('registrazione: soggetto sma con sei stage e quattro pilastri', () => {

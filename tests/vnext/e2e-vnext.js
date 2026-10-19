@@ -1,8 +1,8 @@
-/* E2E vNext: apre index.vnext.html (index + pacchetto) in Chromium e verifica tessera in home, hub dell'Academy e assenza di errori JS.
-   Prima: node tools/build-vnext.js --combined */
+/* E2E Strategic Mastery Academy: apre index.html in Chromium e verifica tessera in home, hub dell'Academy e assenza di errori JS.
+   Prima: node tools/build.js */
 const path = require('path');
 let chromium; try { ({ chromium } = require('playwright')); } catch (e) { ({ chromium } = require('/opt/node22/lib/node_modules/playwright')); }
-const file = 'file://' + path.join(__dirname, '..', '..', 'dist-vnext', 'index.vnext.html');
+const file = 'file://' + path.join(__dirname, '..', '..', 'index.html');
 let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m); if (!c) fails++; };
 (async () => {
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', args: ['--no-sandbox'] });

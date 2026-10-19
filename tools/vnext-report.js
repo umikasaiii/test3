@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /* Conteggi REALI dei contenuti vNext rispetto agli obiettivi minimi del mandato (nessun numero scritto a mano). */
 const fs = require('fs'), path = require('path');
-const ST = require('../tests/load.js')({ extra: require('./build-vnext.js').sources() });
-const M = ST.sma, C = ST.content, bundle = require('./build-vnext.js').bundle();
+const ST = require('../tests/load.js')();
+const M = ST.sma, C = ST.content, bundle = fs.readdirSync(path.join(__dirname, '..', 'src', 'vnext')).filter(f => /\.js$/.test(f)).map(f => fs.readFileSync(path.join(__dirname, '..', 'src', 'vnext', f), 'utf8')).join('\n');
 const T = C.topicsOf('sma'), words = t => t.pages.reduce((a, p) => a + String(p.h + ' ' + p.b).split(/\s+/).length, 0);
 const rows = [
   ['Livelli strutturati', 6, M.LEVELS.length],
@@ -19,5 +19,5 @@ console.log('Obiettivo minimo del mandato vs realizzato (conteggi dal codice):')
 rows.forEach(r => console.log((r[2] >= r[1] ? '  ✓ ' : '  ✗ ') + r[0] + ': ' + r[2] + ' / ' + r[1]));
 const w = T.map(words); console.log('\nModuli: parole medie per modulo ' + Math.round(w.reduce((a, b) => a + b, 0) / (w.length || 1)) + ' · esercizi ' + T.reduce((a, t) => a + t.exercises.length, 0) + ' · domande di verifica ' + T.reduce((a, t) => a + (t.test || []).length, 0));
 console.log('Altro: scenari conversazione ' + M.convo.scenarios.length + ' (EN ' + M.convo.scenarios.filter(s => s.lang === 'en').length + ', JA ' + M.convo.scenarios.filter(s => s.lang === 'ja').length + '), situazioni judo ' + M.combat.situations.length + ', esercizi cyber ' + M.cyberlab.challenges.length + ', esercizi programmazione ' + M.proglab.exercises.length + ', scenari F1 ' + M.f1lab.scenarios.length + ', casi/studi sport ' + M.sportlab.STUDIES.length);
-console.log('Dimensione del pacchetto: ' + Math.round(bundle.length / 1024) + ' KB (index.html resta invariato)');
+console.log('Sorgenti Strategic Mastery Academy: ' + Math.round(bundle.length / 1024) + ' KB (integrati in index.html)');
 process.exit(rows.every(r => r[2] >= r[1]) ? 0 : 1);

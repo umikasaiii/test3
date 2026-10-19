@@ -1,3 +1,14 @@
+# Integrazione vNext — STATO: GIÀ INTEGRATO NELL'APP
+
+Dalla versione 1.2.0 la Strategic Mastery Academy e i laboratori sono **parte dei sorgenti dell'app**:
+- sorgenti in `src/vnext/` (31 file, registrati in `tools/build.js` → `ORDER`, dopo `ui/views-other` e prima di `ui/boot`);
+- stili aggiunti in coda a `src/ui/style.css`;
+- test in `tests/vnext/` (`vnext.test.js` unitari, `e2e-vnext.js` Chromium, `perf-vnext.js` profilo telefono);
+- `node tools/build.js` produce un unico `index.html` (≈15,7 MB: sotto il limite di 16 MB dell'artefatto, con poco margine);
+- `node tools/vnext-report.js` stampa i conteggi reali dei contenuti.
+Le sezioni seguenti descrivono il contratto con l'app (ancora valido) e la procedura originale a pacchetto separato, ora superata (`tools/build-vnext.js` è stato rimosso).
+
+---
 # Integrazione del pacchetto vNext in SkillTree
 
 Il pacchetto è **separato** da `index.html` per non superare il limite dell'artefatto (16 MB; `index.html` è già a ~14,9 MB).

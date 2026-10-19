@@ -11,9 +11,9 @@ const boot = async (browser, file) => {
 };
 (async () => {
   const browser = await chromium.launch({ executablePath: process.env.CHROMIUM || '/opt/pw-browsers/chromium', args: ['--no-sandbox'] });
-  const base = await boot(browser, path.join(root, 'index.html')), vn = await boot(browser, path.join(root, 'dist-vnext', 'index.vnext.html'));
-  console.log('Avvio (CPU 4×): solo app ' + base.t + ' ms · app + vNext ' + vn.t + ' ms · differenza ' + (vn.t - base.t) + ' ms');
-  ok(vn.t - base.t < 2500, 'il pacchetto vNext aggiunge meno di 2,5 s all’avvio con CPU rallentata 4× (misure ripetute: ~0,9–2,1 s)');
+  const vn = await boot(browser, path.join(root, 'index.html'));
+  console.log('Avvio completo (CPU 4×): ' + vn.t + ' ms');
+  ok(vn.t < 9000, 'avvio entro 9 s con CPU rallentata 4× (profilo emulato)');
   const m = await vn.page.evaluate(() => {
     const T = (f) => { const t = performance.now(); f(); return Math.round(performance.now() - t); }, M = ST.sma, out = {};
     out.f1Best = T(() => { M.f1lab.scenarios.filter(s => s.kind === 'plan').forEach(s => M.f1lab.best(s)); });

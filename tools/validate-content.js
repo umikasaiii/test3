@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Validazione strutturale dei contenuti: id, prerequisiti, risposte, ruby, copertura. Esce con codice 1 se ci sono errori. */
 const load = require('../tests/load.js');
-const ST = load(process.argv.includes('--vnext') ? { extra: require('./build-vnext.js').sources() } : undefined); // --vnext: valida anche i moduli del pacchetto vNext
+const ST = load(); // include i moduli della Strategic Mastery Academy (src/vnext)
 const C = ST.content;
 const errs = [], warns = [];
 const E = m => errs.push(m), W = m => warns.push(m);
