@@ -29,7 +29,7 @@ test('profilo: sette dimensioni separate, nessun punteggio unico, conteggio senz
   assert.equal(p.planning.n, 0); assert.equal('total' in p, false);
 });
 test('laboratori: non presentati come disponibili finché non registrati', () => {
-  assert.equal(ST.sma.labState('multimove'), null);
+  assert.equal(ST.sma.labState('strategos'), null);
   ST.sma.registerLab({ id: 'zz-test', title: 't', ready: true, view: 'x' });
   assert.ok(ST.sma.labState('zz-test'));
 });
