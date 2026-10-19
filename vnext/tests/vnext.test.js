@@ -322,3 +322,54 @@ test('combat: competenza teorica e motoria restano separate; la conferma richied
 test('combat: il laboratorio è registrato e dichiara il limite di sicurezza', () => {
   assert.ok(ST.sma.labState('combat')); assert.match(Cb.SAFETY, /istruttore qualificato/);
 });
+
+/* ---- Cybersecurity Practical Lab (terminale simulato) ---- */
+const Y = ST.sma.cyberlab;
+const sh = (ch, cmds) => { const st = Y.session(ch); const outs = cmds.map(c => Y.run(st, c, ch)); return { st, outs }; };
+const CH = () => Y.byId('cyb-count-failed');
+test('cyberlab: tutti gli esercizi sono validi e la soluzione dichiarata li risolve', () => {
+  assert.equal(Y.challenges.length, 10);
+  Y.challenges.forEach(c => { const v = Y.validate(c); assert.ok(v.ok, c.id + ': ' + v.errors.join('; ')); });
+});
+test('cyberlab: navigazione, pipe, redirezioni e virgolette', () => {
+  const { st, outs } = sh(CH(), ['pwd', 'cd /srv/app', 'ls', 'cat app.conf | grep db_ | wc -l', "echo 'ciao mondo' > /home/user/t.txt", 'cat /home/user/t.txt', "echo riga2 >> /home/user/t.txt", 'cat /home/user/t.txt | wc -l', 'cd /nonesiste']);
+  assert.equal(outs[0], '/home/user'); assert.equal(outs[2], 'app.conf  old.conf  readme.md'); assert.equal(outs[3], '2'); assert.equal(outs[5], 'ciao mondo'); assert.equal(outs[7], '2'); assert.match(outs[8], /nessun file/);
+});
+test('cyberlab: grep (-c -i -v -n -o), sort, uniq, cut, head, tail, find, glob', () => {
+  const { outs } = sh(CH(), ["grep -c 'Failed password' /var/log/auth.log", "grep -ci 'ACCEPTED' /var/log/auth.log", "grep -n Accepted /var/log/auth.log | head -n 1 | cut -d: -f1", 'find /srv -name "*.conf"', "grep db_host /srv/app/*.conf", 'ls -l /home/user/.ssh', "echo -e a | wc -c"]);
+  assert.equal(outs[0], String(Y.byId('cyb-count-failed').answers[0] * 1 + 17 + 9)); assert.equal(outs[1], '7');
+  assert.equal(outs[3], '/srv/app/app.conf\n/srv/app/old.conf'); assert.match(outs[4], /app\.conf:db_host=db-internal\.test/); assert.match(outs[4], /old\.conf:db_host=db-legacy\.test/);
+  assert.match(outs[5], /-rw-r--r-- user .* id_rsa/);
+});
+test('cyberlab: chmod, sed -i e rm modificano solo la copia di sessione, mai l’originale', () => {
+  const ch = Y.byId('cyb-perms-key'), a = Y.session(ch), b = Y.session(ch);
+  Y.run(a, 'chmod 600 /home/user/.ssh/id_rsa', ch); assert.ok(a.solved);
+  Y.run(b, 'ls -l /home/user/.ssh', ch); assert.equal(b.solved, false, 'l’altra sessione non è toccata');
+  assert.equal(Y.run(a, 'chmod 6x0 /home/user/.ssh/id_rsa', ch).slice(0, 6), 'chmod:');
+  const c2 = Y.byId('cyb-ssh-hardening'), s = Y.session(c2); Y.run(s, "sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config", c2); assert.equal(s.solved, false, 'serve anche PasswordAuthentication');
+  Y.run(s, "sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config", c2); assert.ok(s.solved);
+  assert.match(Y.byId('cyb-ssh-hardening').fs.kids.etc.kids.ssh.kids.sshd_config.content, /PermitRootLogin yes/, 'l’originale è invariato');
+  const r = Y.session(CH()); Y.run(r, 'rm /home/user/note.txt', CH()); assert.match(Y.run(r, 'cat /home/user/note.txt', CH()), /nessun file/);
+});
+test('cyberlab: rete e comandi sconosciuti sono simulati, nessun accesso reale', () => {
+  const { outs } = sh(CH(), ['curl https://example.com', 'curl -I https://shop.test', 'ping 8.8.8.8', 'rm -rf /', 'sudo reboot', 'ls /']);
+  assert.match(outs[0], /rete simulata/); assert.match(outs[1], /X-Frame-Options/); assert.match(outs[2], /simulata/); assert.match(outs[4], /comando non trovato/);
+  assert.match(outs[5], /home/, 'rm -rf / non può rimuovere la radice virtuale e non tocca nulla di reale');
+});
+test('cyberlab: risposte testuali, tentativi e indizi a consumo', () => {
+  const ch = Y.byId('cyb-open-ports'), st = Y.session(ch);
+  assert.match(Y.run(st, 'answer 22', ch), /Non è/); assert.equal(st.solved, false); assert.equal(st.tries, 1);
+  assert.equal(Y.hint(st, ch).length > 5, true); assert.equal(st.hints, 1); Y.hint(st, ch); assert.equal(Y.hint(st, ch), null);
+  assert.match(Y.run(st, 'answer 23', ch), /corretta/); assert.ok(st.solved);
+});
+test('cyberlab: il validatore respinge esercizi senza indizi, senza spiegazione difensiva o con soluzione errata', () => {
+  const b = () => Object.assign({}, Y.byId('cyb-open-ports'));
+  let c = b(); c.hints = ['uno']; assert.equal(Y.validate(c).ok, false);
+  c = b(); delete c.explain; assert.equal(Y.validate(c).ok, false);
+  c = b(); c.solution = ['pwd']; assert.equal(Y.validate(c).ok, false);
+});
+test('cyberlab: i dati sintetici usano solo intervalli riservati alla documentazione', () => {
+  const auth = Y.byId('cyb-count-failed').fs.kids.var.kids.log.kids['auth.log'].content, ips = [...new Set(auth.match(/\d+\.\d+\.\d+\.\d+/g))];
+  ips.forEach(ip => assert.match(ip, /^(192\.0\.2\.|198\.51\.100\.|203\.0\.113\.)/, ip));
+});
+test('cyberlab: il laboratorio è registrato', () => { assert.ok(ST.sma.labState('cyberlab')); });

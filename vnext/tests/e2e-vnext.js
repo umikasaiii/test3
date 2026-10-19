@@ -13,7 +13,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-sma-tile]'); await page.waitForTimeout(250);
   const txt = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Strategic Mastery Academy/.test(txt) && /Detective Intelligence/.test(txt) && /Leadership & Decisions/.test(txt), 'il hub mostra i quattro percorsi');
-  ok((txt.match(/disponibile/g) || []).length === 9 && !/Non ancora implementato/.test(txt), 'nove laboratori disponibili e nessuno finto');
+  ok((txt.match(/disponibile/g) || []).length === 10 && !/Non ancora implementato/.test(txt), 'dieci laboratori disponibili e nessuno finto');
   ok(/L5/.test(txt) && /non è una valutazione psicometrica/.test(txt), 'livelli e avvertenza sul profilo');
   ok(await page.evaluate(() => { const r = document.querySelector('.sma-hub').getBoundingClientRect(); return r.width <= innerWidth; }), 'nessun overflow orizzontale a 360px');
   // Deduction Lab: partita completa nell'interfaccia
@@ -89,6 +89,14 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => !!document.querySelector('svg[aria-label^="Schema"] marker')), 'lo schema dall\'alto è disegnato');
   for (let i = 0; i < 3; i++) { await page.click('[data-act="smaCmbPick"][data-o="0"]'); await page.waitForTimeout(80); await page.click('[data-act="smaCmbNext"]'); await page.waitForTimeout(80); }
   ok(await page.evaluate(() => /Risultato: 100%/.test(document.getElementById('app').innerText) && ST.app.state.sma.combat.theory['cmb-l2-kuzushi'].tries === 1 && ST.app.state.sma.combat.motor.length === 0), 'risultato teorico salvato senza alcun progresso motorio');
+  // Cybersecurity Practical Lab: terminale simulato
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-cyber', {}); }); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /Ambiente simulato e isolato/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaCybOpen"]').length === 10), 'dieci esercizi con avviso di ambiente simulato');
+  await page.click('[data-act="smaCybOpen"][data-id="cyb-perms-key"]'); await page.waitForTimeout(150);
+  await page.fill('#sma-cmd', 'ls -l /home/user/.ssh'); await page.press('#sma-cmd', 'Enter'); await page.waitForTimeout(120);
+  ok(await page.evaluate(() => /-rw-r--r--/.test(document.getElementById('sma-term').innerText)), 'un comando inviato con Invio produce output nel terminale');
+  await page.fill('#sma-cmd', 'chmod 600 /home/user/.ssh/id_rsa'); await page.click('[data-act="smaCybRun"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /Obiettivo raggiunto/.test(document.getElementById('sma-term').innerText) && ST.app.state.sma.tech.cyber['cyb-perms-key'].solved), 'obiettivo raggiunto e risultato salvato');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
