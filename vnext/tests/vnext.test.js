@@ -469,3 +469,46 @@ test('sportlab: lettura critica degli studi — limiti pertinenti premiati, non 
   const j = Sp.judgeStudy(st, [st.limits[0]]); assert.equal(j.hit, 1); assert.equal(j.missed.length, st.limits.length - 1);
 });
 test('sportlab: il laboratorio è registrato', () => { assert.ok(ST.sma.labState('sportlab')); });
+
+/* ---- Conversation labs (motore comune) ---- */
+const Cv = ST.sma.convo;
+test('convo/en: le regole riconoscono errori tipici e NON segnalano frasi corrette (nessun falso positivo sui casi di controllo)', () => {
+  const bad = { 'I am agree with you': /agree/, 'It depends of the weather': /depend on/, 'I have 25 years': /25/, 'I live here since three years': /for/, 'Can you explain me this?': /explain to me/, 'She have a car': /has/, 'He don\'t like it': /doesn’t/, 'This is more better': /better/, 'I need some informations': /information/, 'People is happy': /are/, 'Do you can help me?': /can you/, 'I am interested on it': /in/, 'He is married with Anna': /married to/, 'I look forward to see you': /-ing/, 'See you in the monday': /on Monday/ };
+  Object.keys(bad).forEach(t => { const f = Cv.enFlags(t); assert.ok(f.length >= 1, 'non riconosciuto: ' + t); assert.match(f[0].msg, bad[t], t); });
+  ['I agree with you.', 'It depends on the weather.', 'I am 25 years old.', 'I have 25 years of experience.', 'I have lived here for three years.', 'She has a car.', 'He doesn\'t like it.', 'She has to go.', 'I need some information.', 'People are happy.', 'Can you help me?', 'I am interested in it.', 'He is married to Anna.', 'I look forward to seeing you.', 'See you on Monday.', 'I have been here since 2020.', 'I work in a bank.'].forEach(t => assert.equal(Cv.enFlags(t).length, 0, 'falso positivo: ' + t + ' → ' + JSON.stringify(Cv.enFlags(t))));
+});
+test('convo/ja: confronto robusto fra kana, katakana e romaji (anche varianti kunrei)', () => {
+  assert.equal(Cv.jaKey('ください'), Cv.jaKey('kudasai')); assert.equal(Cv.jaKey('ラーメン'), Cv.jaKey('raamen')); assert.equal(Cv.jaKey('らーめん'), Cv.jaKey('RAAMEN'));
+  assert.equal(Cv.jaKey('ありがとうございます'), Cv.jaKey('arigatou gozaimasu')); assert.equal(Cv.jaKey('arigatoo gozaimasu'), Cv.jaKey('arigatou gozaimasu')); assert.equal(Cv.jaKey('sumimasen'), Cv.jaKey('すみません'));
+  assert.equal(Cv.jaKey('shitsurei shimasu'), Cv.jaKey('siturei simasu')); assert.equal(Cv.jaKey('お願いします。'), Cv.jaKey('お願いします'));
+});
+test('convo: la valutazione della produzione separa copertura delle informazioni, errori, registro e lunghezza', () => {
+  const t = { must: [{ label: 'saluto', any: ['hello|hi\\b|good (morning|afternoon)'] }, { label: 'richiesta di un caffè', any: ['coffee'] }], min: 4, model: 'Hello, I would like a coffee, please.' };
+  let r = Cv.evalProduce('en', t, 'Hello, I would like a coffee, please.'); assert.equal(r.score, 3); assert.equal(r.coverage, 1); assert.equal(r.flags.length, 0);
+  r = Cv.evalProduce('en', t, 'Hello'); assert.deepEqual(JSON.parse(JSON.stringify(r.missing)), ['richiesta di un caffè']); assert.ok(r.score <= 1);
+  r = Cv.evalProduce('en', t, 'Hi, I am agree and I want coffee since three years'); assert.ok(r.flags.length >= 2); assert.ok(r.score < 3, 'più errori abbassano il punteggio');
+  assert.equal(Cv.evalProduce('en', t, '').score, 0);
+  const tj = { register: 'polite', must: [{ label: 'chiedere il ramen', any: ['ラーメン'] }], min: 3 };
+  assert.equal(Cv.evalProduce('ja', tj, 'ラーメンをください').score, 3); assert.equal(Cv.evalProduce('ja', tj, 'raamen wo kudasai').score, 3, 'romaji accettato');
+  const plain = Cv.evalProduce('ja', tj, 'ラーメンちょうだい'); assert.ok(plain.flags.some(f => /Registro/.test(f.msg)));
+  assert.ok(Cv.evalProduce('ja', tj, 'raamen').flags.some(f => f.k === 'info'));
+});
+test('convo: ordine delle parole e validatore degli scenari (grafo, produzione, risposta modello)', () => {
+  assert.equal(Cv.evalOrder('en', { accept: ['I would like a coffee'] }, 'I would like a coffee'.split(' ')).ok, true); assert.equal(Cv.evalOrder('en', { accept: ['I would like a coffee'] }, ['coffee', 'I']).ok, false);
+  assert.equal(Cv.evalOrder('ja', { accept: ['コーヒーをください'] }, ['コーヒー', 'を', 'ください']).ok, true);
+  const T = (o) => Object.assign({ npc: { t: 'Hello', tr: 'Salve' } }, o), ch = n => ({ kind: 'choose', opts: [{ t: 'a', q: 3, why: 'x', next: n }, { t: 'b', q: 1, why: 'y', next: n }, { t: 'c', q: 0, why: 'z', next: n }] });
+  const pr = n => ({ kind: 'produce', prompt: 'p', must: [{ label: 'a', any: ['coffee'] }, { label: 'b', any: ['please'] }], model: 'A coffee, please.', next: n });
+  const sc = () => ({ id: 'x', title: 't', lang: 'en', level: 'B1', area: 'a', start: 'n1', nodes: { n1: T({ task: ch('n2') }), n2: T({ unexpected: true, task: pr('n3') }), n3: T({ task: ch('n4') }), n4: T({ task: pr('n5') }), n5: T({ task: ch('n6') }), n6: T({ end: true }) } });
+  assert.ok(Cv.validate(sc()).ok, Cv.validate(sc()).errors.join('; '));
+  let s = sc(); s.nodes.n2.task.model = 'I am agree coffee please'; assert.ok(Cv.validate(s).errors.some(e => /risposta modello/.test(e)));
+  s = sc(); s.nodes.n5.task.opts[0].next = 'n1'; assert.ok(Cv.validate(s).errors.some(e => /ciclo/.test(e)));
+  s = sc(); delete s.nodes.n2.unexpected; assert.ok(Cv.validate(s).errors.some(e => /imprevista/.test(e)));
+  s = sc(); s.nodes.n3.task.opts.forEach(o => { o.q = 2; }); assert.ok(Cv.validate(s).errors.some(e => /opzioni insufficienti/.test(e)));
+});
+test('convo: gli errori trovati vengono salvati con ripasso dilazionato e senza duplicati; i laboratori compaiono solo con scenari validi', () => {
+  const s = fresh(); Cv.saveErr(s, 'en', 'I am agree', 'Si dice «I agree».'); Cv.saveErr(s, 'en', 'I am agree', 'x'); assert.equal(Object.keys(Cv.S(s).errs).length, 1); assert.equal(Cv.dueErrs(s).length, 0);
+  Cv.S(s).errs['en:i am agree'].due = ST.util.today(); assert.equal(Cv.dueErrs(s).length, 1); Cv.gradeErr(s, 'en:i am agree', 2); assert.equal(Cv.dueErrs(s).length, 0);
+  Cv.refresh(); // senza scenari validi nel pacchetto base i laboratori non compaiono come disponibili
+  const n = Cv.scenarios.filter(x => x.lang === 'en').length; assert.equal(!!ST.sma.labState('convoEn'), Cv.scenarios.filter(x => x.lang === 'en' && Cv.validate(x).ok).length >= 6, 'EN: ' + n);
+  assert.ok(ST.sma.pendingLabs.some(p => p.id === 'convoEn') && ST.sma.pendingLabs.some(p => p.id === 'convoJa'));
+});

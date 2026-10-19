@@ -13,7 +13,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-sma-tile]'); await page.waitForTimeout(250);
   const txt = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Strategic Mastery Academy/.test(txt) && /Detective Intelligence/.test(txt) && /Leadership & Decisions/.test(txt), 'il hub mostra i quattro percorsi');
-  ok(await page.evaluate(() => document.querySelectorAll('#app .item .tag.good').length) === 13 && !/Non ancora implementato/.test(txt), 'tredici laboratori disponibili e nessuno finto');
+  ok(await page.evaluate(() => document.querySelectorAll('#app .item .tag.good').length) === 13 && (txt.match(/Non ancora implementato/g) || []).length === 2, 'tredici laboratori disponibili; English/Japanese dichiarati «in arrivo» finché non hanno scenari');
   ok(/L5/.test(txt) && /non è una valutazione psicometrica/.test(txt), 'livelli e avvertenza sul profilo');
   ok(await page.evaluate(() => { const r = document.querySelector('.sma-hub').getBoundingClientRect(); return r.width <= innerWidth; }), 'nessun overflow orizzontale a 360px');
   // Deduction Lab: partita completa nell'interfaccia
