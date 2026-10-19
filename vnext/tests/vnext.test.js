@@ -288,3 +288,37 @@ test('listening: il laboratorio è registrato e non dichiara valutazione automat
   assert.ok(ST.sma.labState('listening'));
   assert.match(ST.views['sma-listen'].toString() + '', /non valuta la pronuncia/);
 });
+
+/* ---- Combat Tactical Recognition ---- */
+const Cb = ST.sma.combat;
+test('combat: tutte le situazioni sono valide, una per livello L0–L5', () => {
+  Cb.situations.forEach(s => assert.ok(Cb.validate(s).ok, s.id + ' ' + Cb.validate(s).errors.join('; ')));
+  assert.equal(JSON.stringify([...new Set(Cb.situations.map(s => s.level))].sort()), JSON.stringify(['L0', 'L1', 'L2', 'L3', 'L4', 'L5']));
+});
+test('combat: il validatore pretende «dipende da» quando più risposte sono plausibili e respinge opzioni malformate', () => {
+  const base = () => JSON.parse(JSON.stringify(Cb.byId('cmb-l1-kumikata')));
+  let s = base(); delete s.steps[0].depends; assert.ok(Cb.validate(s).errors.some(e => /dipende|depends/.test(e)));
+  s = base(); s.steps[0].opts.forEach(o => { if (o.q === 3) o.q = 2; }); assert.ok(Cb.validate(s).errors.some(e => /qualità 3/.test(e)));
+  s = base(); s.steps[0].fig.kuzushi = 'zz'; assert.ok(Cb.validate(s).errors.some(e => /direzione/.test(e)));
+});
+test('combat: lo schema SVG mostra tori, uke, presa e freccia di squilibrio solo quando previsti', () => {
+  const a = Cb.svg(Cb.byId('cmb-l2-kuzushi').steps[0].fig), b = Cb.svg(Cb.byId('cmb-l0-distanza').steps[0].fig);
+  assert.match(a, /<svg/); assert.match(a, /marker-end/); assert.ok((a.match(/<circle/g) || []).length === 2); assert.doesNotMatch(b, /marker-end/);
+  assert.match(Cb.svg(Cb.byId('cmb-l1-kumikata').steps[0].fig), /<line[^>]*stroke="#ffd166"/);
+});
+test('combat: nessuna risposta unica quando dipende — il giudizio è graduato 0–3', () => {
+  const st = Cb.byId('cmb-l3-combinazione').steps[0], js = st.opts.map((o, i) => Cb.judge(st, i).q);
+  assert.equal(Math.max(...js), 3); assert.ok(js.filter(q => q >= 2).length >= 2); assert.ok(Cb.judge(st, 0).depends.length > 10);
+});
+test('combat: competenza teorica e motoria restano separate; la conferma richiede un istruttore', () => {
+  const s = fresh(), sit = Cb.byId('cmb-l2-kuzushi');
+  Cb.record(s, sit, [{ q: 3 }, { q: 3 }, { q: 3 }]); const st = Cb.stats(s);
+  assert.equal(st.theoryGood, 1); assert.equal(st.motorCoach, 0); assert.equal(st.motorSelf, 0, 'il teorico non crea competenza motoria');
+  assert.equal(Cb.motorAdd(s, { what: 'uchi-komi', cls: 'coach', coach: '' }).ok, false);
+  assert.equal(Cb.motorAdd(s, { what: 'x', cls: 'self' }).ok, false);
+  assert.ok(Cb.motorAdd(s, { what: 'uchi-komi e ukemi', cls: 'self' }).ok); assert.ok(Cb.motorAdd(s, { what: 'randori leggero', cls: 'coach', coach: 'Maestro Rossi, club X' }).ok);
+  const st2 = Cb.stats(s); assert.equal(st2.motorSelf, 1); assert.equal(st2.motorCoach, 1); assert.equal(st2.theoryGood, 1);
+});
+test('combat: il laboratorio è registrato e dichiara il limite di sicurezza', () => {
+  assert.ok(ST.sma.labState('combat')); assert.match(Cb.SAFETY, /istruttore qualificato/);
+});

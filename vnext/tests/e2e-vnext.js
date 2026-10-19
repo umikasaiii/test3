@@ -13,7 +13,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-sma-tile]'); await page.waitForTimeout(250);
   const txt = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Strategic Mastery Academy/.test(txt) && /Detective Intelligence/.test(txt) && /Leadership & Decisions/.test(txt), 'il hub mostra i quattro percorsi');
-  ok((txt.match(/disponibile/g) || []).length === 8 && !/Non ancora implementato/.test(txt), 'otto laboratori disponibili e nessuno finto');
+  ok((txt.match(/disponibile/g) || []).length === 9 && !/Non ancora implementato/.test(txt), 'nove laboratori disponibili e nessuno finto');
   ok(/L5/.test(txt) && /non è una valutazione psicometrica/.test(txt), 'livelli e avvertenza sul profilo');
   ok(await page.evaluate(() => { const r = document.querySelector('.sma-hub').getBoundingClientRect(); return r.width <= innerWidth; }), 'nessun overflow orizzontale a 360px');
   // Deduction Lab: partita completa nell'interfaccia
@@ -82,6 +82,13 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => Object.keys(ST.sma.listen.S(ST.app.state).saved).length === 1), 'una parola può essere salvata per il ripasso');
   await page.click('[data-act="smaLiCloze"]'); await page.waitForTimeout(150);
   ok(await page.evaluate(() => document.querySelectorAll('[data-act="smaLiAns"]').length === 4), 'domanda di comprensione generata dai sottotitoli');
+  // Combat Tactical Recognition
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-combat', {}); }); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /istruttore qualificato/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaCmbOpen"]').length === 8), 'situazioni elencate con avviso di sicurezza');
+  await page.click('[data-act="smaCmbOpen"][data-id="cmb-l2-kuzushi"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => !!document.querySelector('svg[aria-label^="Schema"] marker')), 'lo schema dall\'alto è disegnato');
+  for (let i = 0; i < 3; i++) { await page.click('[data-act="smaCmbPick"][data-o="0"]'); await page.waitForTimeout(80); await page.click('[data-act="smaCmbNext"]'); await page.waitForTimeout(80); }
+  ok(await page.evaluate(() => /Risultato: 100%/.test(document.getElementById('app').innerText) && ST.app.state.sma.combat.theory['cmb-l2-kuzushi'].tries === 1 && ST.app.state.sma.combat.motor.length === 0), 'risultato teorico salvato senza alcun progresso motorio');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
