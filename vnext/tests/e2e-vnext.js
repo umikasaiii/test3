@@ -13,7 +13,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-sma-tile]'); await page.waitForTimeout(250);
   const txt = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Strategic Mastery Academy/.test(txt) && /Detective Intelligence/.test(txt) && /Leadership & Decisions/.test(txt), 'il hub mostra i quattro percorsi');
-  ok(await page.evaluate(() => document.querySelectorAll('#app .item .tag.good').length) === 11 && !/Non ancora implementato/.test(txt), 'undici laboratori disponibili e nessuno finto');
+  ok(await page.evaluate(() => document.querySelectorAll('#app .item .tag.good').length) === 12 && !/Non ancora implementato/.test(txt), 'dodici laboratori disponibili e nessuno finto');
   ok(/L5/.test(txt) && /non è una valutazione psicometrica/.test(txt), 'livelli e avvertenza sul profilo');
   ok(await page.evaluate(() => { const r = document.querySelector('.sma-hub').getBoundingClientRect(); return r.width <= innerWidth; }), 'nessun overflow orizzontale a 360px');
   // Deduction Lab: partita completa nell'interfaccia
@@ -111,6 +111,15 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => /undefined\|undefined\|undefined/.test(document.getElementById('app').innerText.replace(/"/g, '')) || /ottenuto "undefined\|undefined\|undefined"/.test(document.getElementById('app').innerText)), 'nel Worker non ci sono né DOM né rete');
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-ai', {}); }); await page.waitForTimeout(120);
   ok(await page.evaluate(() => /XOR[^\n]*non può imparare/.test(document.getElementById('app').innerText)), 'esperimento di AI: il perceptron non impara XOR');
+  // Formula 1 Strategy Lab
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-f1', {}); }); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /SINTETICI/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaF1Open"]').length === 5), 'cinque scenari con modello dichiarato sintetico');
+  await page.click('[data-act="smaF1Open"][data-id="f1-piano-asciutto"]'); await page.waitForTimeout(150);
+  await page.click('[data-act="smaF1Add"]'); await page.waitForTimeout(100); await page.click('[data-act="smaF1Run"]'); await page.waitForTimeout(400);
+  ok(await page.evaluate(() => /Tempo totale/.test(document.getElementById('app').innerText) && /Ottimo del modello/.test(document.getElementById('app').innerText) && !!document.querySelector('svg[aria-label^="Tempi"]')), 'piano simulato: tempo, ottimo del modello e telemetria sintetica');
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-f1-play', { id: 'f1-safety-car' }); }); await page.waitForTimeout(150);
+  await page.click('[data-act="smaF1Sc"][data-k="stay"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /classifica 4ª su 4/.test(document.getElementById('app').innerText)), 'Safety Car: restare in pista è l’ultima scelta del modello');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);

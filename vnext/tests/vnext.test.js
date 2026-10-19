@@ -404,3 +404,36 @@ test('ai: il perceptron impara AND e OR ma non XOR; la discesa del gradiente con
   assert.equal(Ai.knn(Ai.KNN, [4, 5], 1), 'A'); assert.equal(Ai.knn(Ai.KNN, [4, 5], 5), 'B');
 });
 test('proglab: il laboratorio è registrato', () => { assert.ok(ST.sma.labState('proglab')); });
+
+/* ---- Formula 1 Strategy Lab ---- */
+const Fl = ST.sma.f1lab;
+test('f1lab: tutti gli scenari sono validi e il modello è dichiarato sintetico', () => {
+  assert.equal(Fl.scenarios.length, 5); Fl.scenarios.forEach(s => assert.ok(Fl.validate(s).ok, s.id)); assert.match(Fl.DISCLAIMER, /SINTETICI/);
+});
+test('f1lab: il tempo sul giro cresce col degrado, crolla oltre il limite e dipende dalle condizioni', () => {
+  const sc = Fl.byId('f1-piano-asciutto'), lt = (t, a, c) => Fl.lapTime(sc, t, a, 10, c);
+  assert.ok(lt('M', 10) > lt('M', 0)); assert.ok(lt('S', 20) - lt('S', 19) > lt('S', 10) - lt('S', 9), 'il crollo accelera il degrado');
+  assert.ok(lt('S', 0) < lt('M', 0) && lt('H', 0) > lt('M', 0), 'morbida più veloce da nuova, dura più lenta');
+  assert.equal(lt('M', 5, { sc: true }), 90 * 1.38); assert.ok(lt('M', 5, { rain: true }) > lt('M', 5) + 15, 'gomma asciutta sul bagnato');
+  assert.ok(lt('I', 5, { rain: true }) < lt('M', 5, { rain: true }), 'intermedia meglio sul bagnato'); assert.ok(lt('I', 5) > lt('M', 5), 'intermedia peggio sull’asciutto');
+});
+test('f1lab: la simulazione somma i giri, applica la sosta e il regolamento modellato', () => {
+  const sc = Fl.byId('f1-piano-asciutto'), a = Fl.simulate(sc, { start: 'M', stops: [] }), b = Fl.simulate(sc, { start: 'M', stops: [{ lap: 25, tyre: 'H' }] });
+  assert.equal(a.laps.length, 50); assert.ok(Math.abs(a.total - a.laps.reduce((x, l) => x + l.time, 0)) < 1e-9); assert.ok(b.laps[24].time > b.laps[23].time + 15, 'la sosta costa circa 21 s');
+  assert.equal(Fl.legal(sc, { start: 'M', stops: [] }), false, 'serve almeno una seconda mescola asciutta'); assert.equal(Fl.legal(sc, { start: 'M', stops: [{ lap: 20, tyre: 'M' }] }), false); assert.equal(Fl.legal(sc, { start: 'M', stops: [{ lap: 20, tyre: 'H' }] }), true);
+});
+test('f1lab: l’ottimo è un vero ottimo fra i piani legali e cambia con le ipotesi (degrado alto → più soste)', () => {
+  const sc = Fl.byId('f1-piano-asciutto'), best = Fl.best(sc);
+  for (const plan of [{ start: 'M', stops: [{ lap: 25, tyre: 'H' }] }, { start: 'S', stops: [{ lap: 12, tyre: 'M' }, { lap: 32, tyre: 'H' }] }, { start: 'H', stops: [{ lap: 30, tyre: 'M' }] }]) assert.ok(Fl.simulate(sc, plan).total >= best.total - 1e-9);
+  assert.ok(best.plan.stops.length <= Fl.best(Fl.byId('f1-piano-degrado')).plan.stops.length); assert.equal(Fl.best(Fl.byId('f1-piano-degrado')).plan.stops.length, 2);
+  const sc2 = Fl.score(sc, { start: 'M', stops: [{ lap: 25, tyre: 'H' }] }); assert.ok(sc2.legal && sc2.gap >= 0 && sc2.eff <= 1);
+});
+test('f1lab: con la Safety Car la sosta costa meno e fermarsi conviene più che restare; con pioggia prevista conviene anticipare il cambio', () => {
+  const s = Fl.byId('f1-safety-car'), tb = Fl.scBest(s, s.state); assert.notEqual(tb[0].o, 'stay'); assert.equal(tb[tb.length - 1].o, 'stay');
+  const noSc = Object.assign({}, s, { scPit: 1 }); assert.ok(Fl.tyreFromState(noSc, s.state, 'H') > Fl.tyreFromState(s, s.state, 'H'));
+  const r = Fl.byId('f1-pioggia'), b = Fl.best(r); assert.ok(b.plan.stops.some(x => x.tyre === 'I')); assert.ok(b.plan.stops[0].lap <= 21);
+});
+test('f1lab: undercut — fermarsi prima del rivale batte la sosta simultanea; ritardare è peggio', () => {
+  const d = Fl.byId('f1-undercut'), best = Fl.duelBest(d); assert.ok(best.pit < d.rivalPit && best.margin > 0, 'esiste un undercut vincente'); assert.ok(Fl.duel(d, d.rivalPit).margin < 0); assert.ok(Fl.duel(d, d.rivalPit + 3).margin < Fl.duel(d, d.rivalPit).margin);
+});
+test('f1lab: il laboratorio è registrato', () => { assert.ok(ST.sma.labState('f1lab')); });
