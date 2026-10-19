@@ -124,7 +124,7 @@
     if (a.step === 'rec') h += '<div class="card"><h3>Registrazione in corso…</h3><p class="timer" id="rt">0:00</p><button class="btn block" data-act="shadow-stop">■ Stop</button></div>';
     if (a.step === 'compare') h += '<div class="card"><h3>2 · Confronta con il modello</h3>' + (a.blob ? '<div class="row wrap"><button class="btn alt sm" data-act="shadow-say">🔊 Modello</button><button class="btn alt sm" data-act="shadow-mine">▶ La mia voce</button></div>' : '<p class="mute small">Nessuna registrazione: valuta comunque la ripetizione ad alta voce.</p>') +
       '<p class="mute small">Autovalutazione (1 = lontano dal modello, 5 = molto vicino):</p>' + rubric.map(r => '<label class="small">' + r[1] + '</label><input type="range" min="1" max="5" value="3" data-r="' + r[0] + '" class="rg" style="width:100%">').join('') +
-      '<p class="warn small">Il confronto autonomo <b>non equivale</b> a una valutazione di pronuncia da parte di un docente.</p><button class="btn block" data-act="shadow-next">' + (a.i + 1 >= a.items.length ? 'Concludi' : 'Salva e avanti') + '</button></div>';
+      '<button class="btn block" data-act="shadow-next">' + (a.i + 1 >= a.items.length ? 'Concludi' : 'Salva e avanti') + '</button></div>';
     return h;
   };
   X['shadow-quit'] = () => { ST.audio.stop(); A.back(); };
@@ -170,7 +170,7 @@
     if (a.step === 'review') h += (a.blob ? '<div class="card"><button class="btn alt" data-act="speak-mine">▶ Riascolta la tua risposta</button></div>' : '') +
       '<div class="card"><h3>Risposta modello (confronto)</h3><p>' + U.ruby(it.model) + '</p><button class="btn alt sm" data-act="say" data-lang="' + (a.lang === 'ja' ? 'ja-JP' : 'en') + '" data-text="' + E(U.speechText(it.model)) + '">🔊 Ascolta il modello</button></div>' +
       '<div class="card"><h3>Autovalutazione</h3>' + ['Ho risposto alla consegna', 'Ho usato le strutture della lezione', 'Ho parlato senza lunghe pause (>3 s)', 'Mi sono corretto quando sbagliavo'].map((t, i) => '<label class="row" style="margin:6px 0"><input type="checkbox" class="chk" data-i="' + i + '" style="width:22px;height:22px"> <span>' + t + '</span></label>').join('') +
-      '<p class="warn small">Parlato e pronuncia vanno verificati periodicamente con un docente o un madrelingua: questa è solo autovalutazione.</p><button class="btn block" data-act="speak-done">Salva</button></div>';
+      '<button class="btn block" data-act="speak-done">Salva</button></div>';
     return h;
   };
   X['speak-quit'] = () => { ST.audio.stop(); A.back(); };
@@ -201,7 +201,7 @@
       '<textarea id="wtxt" placeholder="Scrivi qui…"></textarea><p class="mute small" id="wcount">0 parole</p>' +
       '<div class="card"><h3>Lista di controllo</h3>' + ['Ho risposto alla consegna', 'Ho controllato tempi verbali e accordi', 'Ho usato almeno due connettori/strutture della lezione', 'Ho riletto e corretto'].map((t, i) => '<label class="row" style="margin:6px 0"><input type="checkbox" class="chk" style="width:22px;height:22px"> <span>' + t + '</span></label>').join('') + '</div>' +
       '<div class="card"><button class="btn alt sm" data-act="write-model">Mostra testo modello</button><div id="wmodel"></div></div>' +
-      '<p class="warn small">Per dichiarare un B2 scritto serve la correzione di un docente o un esame: l’app non corregge da sola la scrittura libera.</p><button class="btn block" data-act="write-save">Salva</button>';
+      '<button class="btn block" data-act="write-save">Salva</button>';
   };
   ST.after.write = () => { const t = A.$('#wtxt'); if (t) t.addEventListener('input', () => { A.$('#wcount').textContent = (t.value.trim() ? t.value.trim().split(/\s+/).length : 0) + ' parole'; }); };
   X['write-model'] = () => { A.$('#wmodel').innerHTML = '<p>' + U.ruby(A.act.item.model) + '</p>'; };

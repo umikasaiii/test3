@@ -47,3 +47,9 @@ Stato dell'audit e limiti noti: [`docs/AUDIT.md`](docs/AUDIT.md).
 
 ## Strategic Mastery Academy e laboratori (v1.2.0)
 Specializzazione facoltativa e 19 laboratori (deduzione, avversari adattivi, previsioni, crisi e comunicazione, STRATEGOS, conversazione inglese/giapponese, ascolto di file locali, judo tattico, terminale cyber simulato, programmazione in JavaScript isolato, strategia F1, scienze dello sport, missioni interdisciplinari). Sorgenti in `src/vnext/`; test in `tests/vnext/`; documentazione e limiti in `docs/vnext/` (`MATRICE.md`, `CHANGELOG.md`, `TEST-REPORT.md`, `INTEGRATION.md`).
+
+## Progressione guidata (v1.3.0)
+- **Livelli richiudibili** in ogni materia (Materia → Livello → Argomento → Attività); si apre il livello consigliato e si ricorda la scelta.
+- **Contextual Practice Engine** (`src/core/activity.js`): collegamenti argomento→laboratorio/simulazione per argomento, stati persistenti (Da iniziare / In corso / Completata / Da ripassare), completamento automatico o conferma manuale esplicita, suggerimenti in Home (max 2) e a fine lezione.
+- **Strategic Mastery**: «Continua» e missioni STRATEGOS a cinque stati.
+- Dettagli, test eseguiti e limiti: `docs/v5/CHANGELOG.md`, `docs/v5/TEST-REPORT.md`. Test: `npm test`, `node tests/v5/e2e-v5.js`.

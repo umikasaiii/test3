@@ -37,7 +37,6 @@
   const st = (id, title, desc) => ({ id, title, desc, topics: [] });
   C.defineSubject({ id: 'sma', title: 'Strategic Mastery Academy', icon: '🜂', primary: false, optional: true, color: '#b48cff',
     goal: 'Specializzazione facoltativa: ragionamento deduttivo, pianificazione, previsione, adattamento e decisioni, con simulazioni, laboratori e applicazione nella vita reale.',
-    stageNote: M.LEVEL_NOTE,
     stages: M.LEVELS.map(l => st(l.id, l.title, l.goals.join(' · '))) });
   /* registra un modulo didattico (stesso DSL delle altre materie) con il pilastro di appartenenza */
   M.topic = o => {
@@ -83,9 +82,9 @@
   /* ---- hub (anteposto alla vista standard della materia, che continua a mostrare livelli e argomenti) ---- */
   M.hub = s => {
     const prof = M.profile(s), lab = M.labs;
-    let h = '<div class="card glow sma-hub"><h2 style="margin:0">Strategic Mastery Academy</h2>' +
+    let h = (ST.smaContinue ? ST.smaContinue(s) : '') + '<div class="card glow sma-hub"><h2 style="margin:0">Strategic Mastery Academy</h2>' +
       '<p class="small mute">Specializzazione facoltativa: 2 sedute settimanali da 15–45 min (consigliati 20–30) e una terza opzionale di transfer reale. Non fa parte delle 3 missioni quotidiane e nessuna settimana saltata penalizza il percorso principale.</p>' +
-      '<p class="warn small">' + E(M.LEVEL_NOTE) + '</p></div>';
+      '</div>';
     h += '<div class="card"><h3>Quattro percorsi</h3><div class="list">' + M.PILLAR_IDS.map(id => {
       const p = M.PILLARS[id], n = C.topicsOf('sma').filter(t => t.pillar === id).length;
       return '<div class="item" style="border-left:3px solid ' + p.color + '"><span class="ic">' + p.icon + '</span><span class="tx"><b>' + E(p.title) + '</b><span>' + n + ' moduli · ' + E(p.skills.slice(0, 4).join(' · ')) + '…</span></span></div>';
@@ -96,10 +95,6 @@
     }).join('') + '</div>';
     h += '<div class="card"><h3>Laboratori</h3><div class="list">' + lab.map(l => '<button class="item" data-act="' + E(l.act || 'go') + '"' + (l.act ? '' : ' data-view="' + E(l.view) + '"') + (l.p ? ' data-p=\'' + E(JSON.stringify(l.p)) + '\'' : '') + Object.keys(l.data || {}).map(k => ' data-' + k + '="' + E(l.data[k]) + '"').join('') + '><span class="tx"><b>' + E(l.title) + '</b><span>' + E(l.desc || '') + '</span></span><span class="tag good">disponibile</span></button>').join('') +
       M.pendingLabs.filter(p => !labState(p.id)).map(p => '<div class="item"><span class="tx"><b>' + E(p.title) + '</b><span>Non ancora implementato · previsto in ' + p.milestone + '</span></span><span class="tag">in arrivo</span></div>').join('') + '</div></div>';
-    h += '<div class="card"><h3>Livelli consigliati</h3>' + M.LEVELS.map((l, i) => {
-      const p = M.levelProgress(s, l.id);
-      return '<p class="small" style="margin:6px 0"><b>' + l.id + ' · ' + E(l.title) + '</b> ' + (M.levelRecommended(s, i) ? '' : '<span class="tag">consigliato dopo ' + M.LEVELS[i - 1].id + '</span> ') + '<span class="mute">' + p.total + ' moduli · ' + p.practiced + ' esercitati · ' + p.verified + ' verificati</span>' + (M.levelCheck && p.total ? ' <button class="btn sm ghost" data-act="smaLvCheck" data-l="' + l.id + '">Verifica del livello</button>' + M.levelCheck.badge(s, l.id) : '') + '</p>';
-    }).join('') + '</div>';
     return h;
   };
 

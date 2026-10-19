@@ -14,7 +14,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   const txt = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Strategic Mastery Academy/.test(txt) && /Detective Intelligence/.test(txt) && /Leadership & Decisions/.test(txt), 'il hub mostra i quattro percorsi');
   ok(await page.evaluate(() => document.querySelectorAll('#app .item .tag.good').length === ST.sma.labs.length && (document.getElementById('app').innerText.match(/Non ancora implementato/g) || []).length === ST.sma.pendingLabs.filter(p => !ST.sma.labState(p.id)).length), 'ogni laboratorio disponibile è registrato e ogni mancante è dichiarato «in arrivo»');
-  ok(/L5/.test(txt) && /non è una valutazione psicometrica/.test(txt), 'livelli e avvertenza sul profilo');
+  ok(/L5/.test(txt) && !/psicometrica/.test(txt) && /Continua Strategic Mastery/.test(txt), 'livelli presenti, riquadro informativo rimosso, «Continua» visibile');
   ok(await page.evaluate(() => { const r = document.querySelector('.sma-hub').getBoundingClientRect(); return r.width <= innerWidth; }), 'nessun overflow orizzontale a 360px');
   // Deduction Lab: partita completa nell'interfaccia
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-deduction', {}); }); await page.waitForTimeout(150);
@@ -57,6 +57,9 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.fill('#sma-p', '65'); await page.fill('#sma-chk', '2026-12-31'); await page.fill('#sma-planb', 'taglio il terzo impegno');
   await page.click('[data-act="smaMisDecide"]'); await page.waitForTimeout(200);
   ok(await page.evaluate(() => ST.app.state.journal.length === 1 && ST.app.state.sma.missions[0].status === 'decided'), 'la decisione entra nel diario esistente');
+  ok(await page.evaluate(() => !document.querySelector('input[name="sma-res"]') && ST.sma.strategos.stage(ST.app.state.sma.missions[0]) === 'planned'), 'dopo la decisione l’esito non è ancora registrabile: prima va dichiarata l’applicazione');
+  await page.fill('#sma-app', 'Ho applicato il piano per tutta la settimana'); await page.click('[data-act="smaMisApply"]'); await page.waitForTimeout(200);
+  ok(await page.evaluate(() => ST.sma.strategos.stage(ST.app.state.sma.missions[0]) === 'applied'), 'applicazione dichiarata (stato distinto)');
   await page.click('input[name="sma-res"][value="ok"]'); await page.fill('#sma-obs', 'Ho completato due priorità su tre'); await page.selectOption('#sma-cls', 'self');
   await page.click('[data-act="smaMisObserve"]'); await page.waitForTimeout(200);
   ok(await page.evaluate(() => ST.app.state.sma.missions[0].obs.cls === 'self'), 'esito registrato come autodichiarato, non come verificato');

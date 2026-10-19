@@ -14,7 +14,7 @@
     kana: { items: {}, placed: false, lastSession: null },
     motor: {}, mental: {}, theory: {}, skills: {}, vocab: {}, tt: {}, kanji: {}, jprod: {}, ext: [], journal: [], forecasts: [], 
     exams: [], gates: { en: {} }, rec: [],
-    daily: {}, resume: {}, settings: { sound: true },
+    daily: {}, resume: {}, settings: { sound: true }, act: { v: 1, rec: {}, snooze: {} },
     log: []
   });
 

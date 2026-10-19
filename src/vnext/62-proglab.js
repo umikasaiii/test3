@@ -76,7 +76,7 @@
   X.smaProgOpen = el => { A.go('sma-prog-play', { id: el.dataset.id }); };
   X.smaProgRun = async el => {
     const x = P.byId(el.dataset.id), s = st[x.id], t = document.getElementById('sma-code'); if (t) s.code = t.value; s.runs++; s.res = await P.run(s.code, x.fn, x.tests);
-    if (s.res.ok) { const S = stat(); if (!S[x.id] || !S[x.id].solved) { S[x.id] = { solved: true, d: U.today(), runs: s.runs, hints: s.hint, solution: s.shown }; try { A.xp(s.hint || s.shown ? 2 : 3, 'sma:prog:' + x.id); } catch (e) { /* ignora */ } A.save(); } } A.render();
+    if (s.res.ok) { const S = stat(); if (!S[x.id] || !S[x.id].solved) { S[x.id] = { solved: true, d: U.today(), runs: s.runs, hints: s.hint, solution: s.shown }; ST.act.record(A.state, 'proglab', { item: x.id, ok: !s.shown }); try { A.xp(s.hint || s.shown ? 2 : 3, 'sma:prog:' + x.id); } catch (e) { /* ignora */ } A.save(); } } A.render();
   };
   X.smaProgHint = el => { const x = P.byId(el.dataset.id), s = st[x.id]; if (s.hint < x.hints.length) s.hint++; const t = document.getElementById('sma-code'); if (t) s.code = t.value; A.render(); };
   X.smaProgReset = el => { const x = P.byId(el.dataset.id); st[x.id].code = x.starter; st[x.id].res = null; A.render(); };

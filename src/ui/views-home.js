@@ -60,11 +60,12 @@
     return '<div class="hero ' + heroName + '"><div class="shade"><span class="kick">LA TUA AVVENTURA DI APPRENDIMENTO</span><h1>Ogni lezione<br><em>fa crescere il tuo albero.</em></h1><p class="mute small" style="margin:0">Il bordo luminoso delle materie indica attività recente, non padronanza.</p></div></div>' + strip() +
       '<div class="card glow"><div class="row"><h2 style="margin:0">' + hi + 'Le tue 3 missioni</h2></div><p class="mute small">' + E(U.today()) + ' · ' + E(m.phase) + ' · mese ' + m.month + ' · piano ' + m.total + ' minuti' + (m.b2 ? ' · B2 verificato' : '') + '</p>' +
       (m.note ? '<p class="warn small">' + E(m.note) + '</p>' : '') +
+      (due > 0 ? '<p class="small">🔁 Ripassi in scadenza: <b>' + due + '</b> — hanno la precedenza e sono già inclusi nel tempo delle missioni di lingua.</p>' : '') +
       '<div class="list">' +
       mission('en', '🇬🇧', 'Inglese', m.en, nextTopicLine('en'), d, A.activeMin('en')) +
       mission('ja', '🇯🇵', 'Giapponese', m.ja, nextTopicLine('ja'), d, A.activeMin('ja')) +
       '<button class="item' + (genDone === 3 ? ' done' : '') + '" data-act="go" data-view="general"><span class="ic">🧠</span><span class="tx"><b>Generale · 15 min</b><span>5′ mentale · 5′ judo (' + E(PL.JUDO_LABEL[slot]) + ') · 5′ ' + E(PL.THEORY_LABEL[PL.theorySlot(A.state, U.weekday())]) + '</span></span><span class="tag ' + (genDone === 3 ? 'good' : '') + '">' + genDone + '/3</span></button>' +
-      '</div></div>' +
+      '</div></div>' + (ST.homePractice ? ST.homePractice() : '') +
       '<div class="grid2"><button class="tile" data-act="go" data-view="optlab"><b>🧪 Laboratori facoltativi</b><span>15 · 20 · 30 · 45 min</span></button><button class="tile" data-act="go" data-view="transfer"><b>🧭 Laboratorio decisioni</b><span>diario · previsioni · competenze</span></button><button class="tile" data-act="go" data-view="review" data-p=\'{"lang":""}\'><b>🔁 Ripassi dovuti</b><span>' + due + ' elementi</span></button>' +
       '<button class="tile" data-act="tab" data-tab="progress"><b>📊 Progresso</b><span>Livelli e verifiche</span></button></div>' +
       '<p class="mute small center" style="margin-top:14px">Il tempo viene stimato dall’interazione reale (inattività esclusa).</p>';
@@ -99,7 +100,7 @@
     const s = C.subject(p.id), st = A.state;
     if (s.motor) return ST.judoHub();
     if (s.generated) return ST.mentalHub();
-    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + bg(s.id) + '"></div><h1>' + s.icon + ' ' + E(s.title) + '</h1><p class="mute">' + E(s.goal) + '</p>' + (s.stageNote ? '<p class="warn small">' + E(s.stageNote) + '</p>' : '');
+    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + bg(s.id) + '"></div><h1>' + s.icon + ' ' + E(s.title) + '</h1><p class="mute">' + E(s.goal) + '</p>' + '';
     let hub = '';
     if (p.id === 'sec') hub += ST.culHub();
     if (s.id === 'cyb') hub += ST.cyberHub();
@@ -113,16 +114,7 @@
       hub = '<details class="card practice-sec" data-subj="' + s.id + '"' + (open ? ' open' : '') + '><summary><b>🧪 Pratica, laboratori e simulazioni</b><span class="mute small"> · tocca per aprire</span></summary>' + hub + '</details>';
     }
     h += hub;
-    C.stagesOf(s.id).forEach(stg => {
-      h += '<h2>' + E(stg.id) + ' — ' + E(stg.title) + '</h2>' + (stg.desc ? '<p class="mute small">' + E(stg.desc) + '</p>' : '') + '<div class="list">';
-      if (!stg.topics.length) h += '<p class="mute small">Contenuti non ancora disponibili in questo stage.</p>';
-      stg.topics.forEach(id => {
-        const t = C.topic(id), sta = P.topicStatus(st, id), un = PL.unlocked(st, t);
-        const pre = (t.prereq || []).filter(x => !P.atLeast(P.topicStatus(st, x), 'practiced')).map(x => C.topic(x).title);
-        h += '<button class="item' + (un ? '' : ' locked') + (P.atLeast(sta, 'verified') ? ' done' : '') + '" data-act="go" data-view="topic" data-p=\'{"id":"' + id + '"}\'><span class="ic">' + (un ? '📖' : '🔒') + '</span><span class="tx"><b>' + E(t.title) + '</b><span>' + E(t.summary) + (pre.length ? ' · Prima: ' + E(pre[0]) : '') + '</span></span>' + statusTag(sta) + '</button>';
-      });
-      h += '</div>';
-    });
+    h += ST.levels.html(s.id);
     return h;
   };
 })(window.ST = window.ST || {});

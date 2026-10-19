@@ -33,7 +33,10 @@
   F.hit = (q, lo, hi) => lo <= hi && q.v >= lo && q.v <= hi;
   /* un intervallo troppo largo è «sicuro» ma inutile: la larghezza relativa è riportata insieme al tasso di successo */
   F.stats = s => { const h = (M.S(s).forecast || []); const n = h.length; if (!n) return { n: 0 }; const hits = h.filter(x => x.hit).length; return { n, hits, rate: +(100 * hits / n).toFixed(1), verdict: n < 8 ? 'Pochi intervalli: continua per avere un dato affidabile.' : hits / n < 0.65 ? 'I tuoi intervalli «all’80%» contengono il valore vero meno spesso di quanto dichiari: sei troppo sicuro.' : hits / n > 0.95 ? 'Intervalli molto prudenti: probabilmente troppo larghi per essere informativi.' : 'Intervalli ben calibrati rispetto all’80% dichiarato.' }; };
-  F.answer = (s, id, lo, hi) => { const q = F.BANK.find(x => x.id === id), hit = F.hit(q, lo, hi); (M.S(s).forecast = M.S(s).forecast || []).push({ id, lo, hi, hit, d: U.today() }); M.record(s, 'calibration', 'int:' + id, 'auto', hit, { conf: 80 }); return { hit, v: q.v }; };
+  F.answer = (s, id, lo, hi) => { const q = F.BANK.find(x => x.id === id), hit = F.hit(q, lo, hi); (M.S(s).forecast = M.S(s).forecast || []).push({ id, lo, hi, hit, d: U.today() }); M.record(s, 'calibration', 'int:' + id, 'auto', hit, { conf: 80 });
+    const st = F.stats(s), enough = st.n >= 8;   // completata dopo almeno 8 intervalli; «sufficiente» se il tasso di successo è fra 65% e 95%
+    ST.act.record(s, 'forecast', { item: 'int:' + id, done: enough, ok: enough ? (st.rate >= 65 && st.rate <= 95) : undefined, score: enough ? st.rate / 100 : undefined });
+    return { hit, v: q.v }; };
 
   M.registerLab({ id: 'forecast', title: 'Forecasting & Calibration Lab', view: 'sma-forecast', desc: 'Analisi della calibrazione delle tue previsioni reali e allenamento sugli intervalli all’80%.', ready: true });
   let qi = 0, last = null;

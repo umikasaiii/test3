@@ -75,5 +75,5 @@
   X.smaSpRun = () => { const v = id => (document.getElementById(id) || {}).value; Object.assign(form, { goal: v('sma-sp-goal'), weeks: +v('sma-sp-weeks'), sessions: +v('sma-sp-ses'), setsPerMuscle: +v('sma-sp-sets'), prog: v('sma-sp-prog'), deload: +v('sma-sp-deload'), endurance: +v('sma-sp-end'), order: v('sma-sp-order') }); form.res = { meso: S.mesocycle(form), crit: S.critique(form) }; A.render(); };
   X.smaSpStudy = el => { delete sg[el.dataset.id]; A.go('sma-sport-study', { id: el.dataset.id }); };
   X.smaSpPick = el => { const g = sg[el.dataset.id], i = g.picked.indexOf(el.dataset.o); if (i >= 0) g.picked.splice(i, 1); else g.picked.push(el.dataset.o); };
-  X.smaSpJudge = el => { const st = S.STUDIES.find(x => x.id === el.dataset.id), g = sg[st.id]; g.res = S.judgeStudy(st, g.picked); const e = stat(); e[st.id] = { good: g.res.good, d: U.today() }; M.record(A.state, 'deduction', 'sport:' + st.id, 'auto', g.res.good, {}); A.save(); A.render(); };
+  X.smaSpJudge = el => { const st = S.STUDIES.find(x => x.id === el.dataset.id), g = sg[st.id]; g.res = S.judgeStudy(st, g.picked); const e = stat(); e[st.id] = { good: g.res.good, d: U.today() }; ST.act.record(A.state, 'sportlab', { item: st.id, ok: !!g.res.good }); M.record(A.state, 'deduction', 'sport:' + st.id, 'auto', g.res.good, {}); A.save(); A.render(); };
 })(window.ST = window.ST || {});

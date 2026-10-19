@@ -162,8 +162,7 @@
     const P = ST.progress, topics = C.topicsOf('mnt');
     if (!topics.length) return '';
     const done = topics.filter(t => P.atLeast(P.topicStatus(s, t.id), 'studied')).length;
-    return '<h2>Lezioni di strategia (' + done + ' / ' + topics.length + ' lette)</h2><p class="mute small">Tecniche che funzionano davvero: memoria, calcolo, ragionamento, attenzione. Gli esercizi generati misurano la prestazione; le strategie la rendono trasferibile.</p><div class="list">' +
-      topics.map(t => '<button class="item" data-act="go" data-view="topic" data-p=\'{"id":"' + t.id + '"}\'><span class="ic">📖</span><span class="tx"><b>' + E(t.title) + '</b><span>' + E(t.stage) + ' · ' + E(P.statusLabel[P.topicStatus(s, t.id)]) + ' · ~' + t.minutes + ' min</span></span></button>').join('') + '</div>';
+    return '<h2>Lezioni di strategia (' + done + ' / ' + topics.length + ' lette)</h2><p class="mute small">Tecniche che funzionano davvero: memoria, calcolo, ragionamento, attenzione. Gli esercizi generati misurano la prestazione; le strategie la rendono trasferibile.</p>' + ST.levels.html('mnt');
   };
   ST.mentalHub = () => {
     const s = A.state, bench = MN.trend(s, 'bench', 6), daily = MN.trend(s, 'daily', 8), wd = U.weekday(), cal = s.mentalCalib;
@@ -189,17 +188,14 @@
     const techOf = t => { const m = /^jud-(?!th-)(.+)$/.exec(t.id); return m ? M.def(m[1]) : null; };
     const topics = C.topicsOf('grp').filter(t => { const te = techOf(t); return !te || tr.includes(te.track || 'judo') || (s.topics[t.id] && s.topics[t.id].studied); });
     if (!topics.length) return '';
-    const row = t => '<button class="item" data-act="go" data-view="topic" data-p=\'{"id":"' + t.id + '"}\'><span class="ic">📖</span><span class="tx"><b>' + E(t.title) + '</b><span>' + E(t.stage) + ' · ' + E(P.statusLabel[P.topicStatus(s, t.id)]) + ' · ~' + t.minutes + ' min</span></span></button>';
-    const th = topics.filter(t => /^jud-th-/.test(t.id)), te = topics.filter(t => !/^jud-th-/.test(t.id));
-    const done = topics.filter(t => P.atLeast(P.topicStatus(s, t.id), 'studied')).length;
-    return '<h2>Lezioni approfondite (' + done + ' / ' + topics.length + ' lette)</h2><p class="mute small">Ogni tecnica ha una lezione con principi, passi, errori e correzioni, esercizi e verifica. La teoria spiega principi, sicurezza e biomeccanica.</p>' +
-      '<h3>Teoria</h3><div class="list">' + th.map(row).join('') + '</div><h3>Tecniche</h3><div class="list">' + te.map(row).join('') + '</div>';
+    const done = topics.filter(t => P.atLeast(P.topicStatus(s, t.id), 'studied')).length, ids = new Set(topics.map(t => t.id));
+    return '<h2>Lezioni approfondite (' + done + ' / ' + topics.length + ' lette)</h2><p class="mute small">Ogni tecnica ha una lezione con principi, passi, errori e correzioni, esercizi e verifica. La teoria spiega principi, sicurezza e biomeccanica.</p>' + ST.levels.html('grp', { filter: t => ids.has(t.id) });
   };
   ST.judoHub = () => {
     const s = A.state, J = C.judo, act = M.active(s), stg = M.stage(s), today = U.today();
     const pick = M.pickForDay(s);
     const due = act.filter(id => s.motor[id].card.due <= today).length;
-    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('grp') + '"></div><h1>🥋 Judo e lotta libera</h1><p class="mute">Stadio motorio attuale: <b>' + stg + '</b> (livello didattico interno, non una cintura).</p>' +
+    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('grp') + '"></div><h1>🥋 Judo e lotta libera</h1><p class="mute">Stadio motorio attuale: <b>' + stg + '</b>.</p>' +
       '<div class="card"><h3>Che cosa questo modulo può e non può fare</h3><p class="small">' + E(J.scope) + '</p></div>' +
       '<div class="card glow"><h3>Oggi: ' + E(PL.JUDO_LABEL[PL.JUDO_SLOT[U.weekday()]]) + '</h3><p class="mute small">' + E(pick.reason || '') + '</p><button class="btn block" data-act="go" data-view="judoSession">▶ Sessione da 5 minuti</button></div>' +
       '<div class="card"><h3>Percorsi</h3><p class="small">Judo: cadute in progressione, proiezioni a vuoto, entrate. Lotta/no-gi (sprawl, stance, ingressi alle gambe, lavoro a terra): <b>' + (M.tracks(s).includes('lotta') ? 'attivo' : 'disattivato') + '</b>. Clinch con ginocchiate stile muay thai (a vuoto): <b>' + (M.tracks(s).includes('clinch') ? 'attivo' : 'disattivato') + '</b>.</p><div class="row"><button class="btn alt" data-act="j-clinch">' + (M.tracks(s).includes('clinch') ? 'Disattiva clinch' : 'Attiva clinch') + '</button><button class="btn alt" data-act="j-track">' + (M.tracks(s).includes('lotta') ? 'Disattiva percorso lotta/no-gi' : 'Attiva percorso lotta/no-gi') + '</button></div></div>' +

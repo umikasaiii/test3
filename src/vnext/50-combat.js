@@ -44,6 +44,7 @@
   K.record = (s, sit, answers) => {
     const x = K.S(s), q = answers.reduce((a, r) => a + r.q, 0), max = answers.length * 3, e = (x.theory[sit.id] = x.theory[sit.id] || { tries: 0, best: 0 });
     e.tries++; e.best = Math.max(e.best, q / max); e.last = q / max;
+    ST.act.record(s, 'combat', { item: sit.id, ok: q / max >= 0.67, score: max ? q / max : undefined });
     M.record(s, 'planning', 'cmb:' + sit.id, 'auto', q / max >= 0.67, {}); return e;
   };
   /* competenza motoria: registro separato; mai ricavata dal teorico; la conferma richiede il nome di un istruttore/club */

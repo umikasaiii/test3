@@ -117,7 +117,7 @@
   X.smaCybOpen = el => { A.go('sma-cyber-play', { id: el.dataset.id }); };
   X.smaCybRun = () => {
     const ch = Y.byId(cur()), st = sess[ch.id], i = document.getElementById('sma-cmd'); if (!i || !i.value.trim()) return; const was = st.solved; Y.run(st, i.value.trim(), ch);
-    if (st.solved && !was) { const S = (M.S(A.state).tech = M.S(A.state).tech || {}).cyber = (M.S(A.state).tech.cyber || {}); S[ch.id] = { solved: true, d: U.today(), hints: st.hints, cmds: st.cmds }; try { A.xp(st.hints ? 2 : 3, 'sma:cyb:' + ch.id); } catch (e) { /* ignora */ } A.save(); }
+    if (st.solved && !was) { const S = (M.S(A.state).tech = M.S(A.state).tech || {}).cyber = (M.S(A.state).tech.cyber || {}); S[ch.id] = { solved: true, d: U.today(), hints: st.hints, cmds: st.cmds }; ST.act.record(A.state, 'cyberlab', { item: ch.id, ok: true }); try { A.xp(st.hints ? 2 : 3, 'sma:cyb:' + ch.id); } catch (e) { /* ignora */ } A.save(); }
     A.render();
     const n = document.getElementById('sma-cmd'); if (n) n.focus();
   };

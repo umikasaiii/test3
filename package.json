@@ -6,8 +6,8 @@
   "scripts": {
     "build": "node tools/build.js",
     "validate": "node tools/validate-content.js",
-    "test": "node --test tests/engine.test.js",
-    "e2e": "node tests/e2e.js && node tests/e2e-smoke.js && node tests/e2e-mental.js",
+    "test": "node --test tests/engine.test.js tests/vnext/vnext.test.js tests/v5/act.test.js",
+    "e2e": "node tests/e2e.js && node tests/e2e-smoke.js && node tests/e2e-mental.js && node tests/vnext/e2e-vnext.js && node tests/v5/e2e-v5.js",
     "check": "npm run build && npm run validate && npm test && git diff --exit-code index.html"
   }
 }

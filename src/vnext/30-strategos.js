@@ -27,10 +27,18 @@
   S.start = (s, mid, mode) => {
     if (!S.byId(mid) || !S.MODES[mode]) throw new Error('missione/modalità sconosciuta');
     const inst = { iid: Date.now().toString(36) + L(s).length, mid, mode, started: U.today(), steps: {}, hints: 0, guess: null, p: null, planB: '', status: 'active', journal: null, obs: null, retro: null, checks: {} };
-    L(s).push(inst); return inst;
+    L(s).push(inst); ST.act.begin(s, 'strategos'); return inst;
   };
   S.saveStep = (inst, n, text) => { inst.steps[n] = String(text || '').trim(); return inst; };
   S.complete = inst => S.PROTOCOL.every(p => (inst.steps[p.n] || '').length >= 8);
+  /* cinque stati distinti: una missione NON è verificata solo perché è stata aperta */
+  S.STAGES = { assigned: 'Missione assegnata', planned: 'Pianificazione completata', applied: 'Applicazione dichiarata', outcome: 'Esito registrato', reviewed: 'Revisione completata' };
+  S.stage = inst => inst.status === 'closed' ? 'reviewed' : inst.status === 'observed' ? 'outcome' : inst.status === 'decided' ? (inst.applied ? 'applied' : 'planned') : 'assigned';
+  S.apply = (s, inst, note) => {
+    if (inst.status !== 'decided') return { ok: false, err: 'registra prima la decisione' };
+    note = String(note || '').trim(); if (note.length < 10) return { ok: false, err: 'descrivi che cosa hai fatto in pratica (almeno 10 caratteri)' };
+    inst.applied = { d: U.today(), note }; return { ok: true };
+  };
   S.guessOk = inst => !inst.guess ? null : inst.guess === S.byId(inst.mid).model;
   /* decisione: riusa il diario esistente (stessa struttura di T.jAdd), nessuna duplicazione */
   S.decide = (s, inst, o) => {
@@ -50,6 +58,7 @@
     if (!o.observed || o.observed.trim().length < 10) return { ok: false, err: 'descrivi che cosa hai osservato' };
     if (o.cls === 'doc' && (!o.proof || o.proof.trim().length < 30)) return { ok: false, err: 'per «documentato» indica date, fatti o numeri (almeno 30 caratteri)' };
     if (o.cls === 'ext' && (!o.source || o.source.trim().length < 3)) return { ok: false, err: 'per «verifica esterna» indica chi o che cosa l’ha verificato' };
+    if (!inst.applied) inst.applied = { d: U.today(), note: '', implied: true };
     const ok = o.result === 'ok';
     inst.obs = { d: U.today(), result: o.result, observed: o.observed.trim(), cls: o.cls, proof: (o.proof || '').trim(), source: (o.source || '').trim() }; inst.status = 'observed';
     const kind = o.cls === 'ext' ? 'external' : o.cls === 'sim' ? 'guided' : 'auto', help = inst.mode !== 'auto';
@@ -60,7 +69,7 @@
   S.retrospect = (s, inst, o) => {
     if (inst.status !== 'observed') return { ok: false, err: 'registra prima l’esito' };
     if (!o.learned || o.learned.trim().length < 10) return { ok: false, err: 'scrivi che cosa hai imparato' };
-    inst.retro = { learned: o.learned.trim(), principle: (o.principle || '').trim(), d: U.today() }; inst.status = 'closed';
+    inst.retro = { learned: o.learned.trim(), principle: (o.principle || '').trim(), d: U.today() }; inst.status = 'closed'; ST.act.record(s, 'strategos', { item: inst.iid, ok: inst.obs.result !== 'fail' });
     T.jClose(s, inst.journal, inst.obs.observed, inst.retro.learned); return { ok: true };
   };
   /* verifiche differite: solo per missioni con esito osservato; contano da quella data */
@@ -92,7 +101,7 @@
     let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>🛰 STRATEGOS</h1><p class="small mute">Applica il metodo a situazioni vere e registra che cosa succede. Distinguiamo sempre: <b>simulato</b>, <b>autodichiarato</b>, <b>documentato</b> (con fatti e date) e <b>verifica esterna</b>. L’app non conferma da sola nessuna abilità reale.</p>';
     h += '<div class="card glow"><h2 style="margin:0">Livello di transfer: L' + lv.level + '</h2><p class="small">' + st.started + ' avviate · ' + st.observed + ' con esito · documentate/esterne ' + st.real + ' (' + st.areas + ' aree) · verifiche differite riuscite ' + st.delayedOk + (st.brier ? ' · Brier previsioni ' + st.brier.brier + ' su ' + st.brier.n : '') + '</p><p class="small mute">Prossimo passo: ' + E(lv.next) + '</p></div>';
     if (due.length) h += '<div class="card"><h3>Verifiche differite in scadenza</h3><div class="list">' + due.map(d => '<button class="item" data-act="smaMisOpen" data-i="' + E(d.iid) + '"><span class="tx"><b>' + E(S.byId(d.mid).title) + '</b><span>Verifica a ' + d.check + ' giorni</span></span></button>').join('') + '</div></div>';
-    if (active.length) h += '<div class="card"><h3>In corso</h3><div class="list">' + active.map(i => '<button class="item" data-act="smaMisOpen" data-i="' + E(i.iid) + '"><span class="tx"><b>' + E(S.byId(i.mid).title) + '</b><span>' + ({ active: 'da completare', decided: 'decisa: attende l’esito', observed: 'esito registrato: manca la retrospettiva' })[i.status] + '</span></span></button>').join('') + '</div></div>';
+    if (active.length) h += '<div class="card"><h3>In corso</h3><div class="list">' + active.map(i => '<button class="item" data-act="smaMisOpen" data-i="' + E(i.iid) + '"><span class="tx"><b>' + E(S.byId(i.mid).title) + '</b><span>' + S.STAGES[S.stage(i)] + ({ assigned: ': completa i sette passi e decidi', planned: ': applica il piano e dichiaralo', applied: ': attende l’esito', outcome: ': manca la revisione' })[S.stage(i)] + '</span></span></button>').join('') + '</div></div>';
     h += '<div class="card"><h3>Il protocollo</h3><ol class="small">' + S.PROTOCOL.map(p => '<li><b>' + E(p.t) + '</b> — ' + E(p.q) + '</li>').join('') + '</ol></div>';
     h += '<div class="card"><h3>Missioni disponibili (' + S.missions.length + ')</h3><div class="list">' + S.missions.map(m => '<div class="item"><span class="tx"><b>' + E(m.title) + '</b><span>' + E(S.AREAS[m.area]) + ' · L' + m.level + ' · ' + E(m.goal) + '</span></span><span class="row" style="gap:4px">' + Object.keys(S.MODES).map(k => '<button class="btn sm ghost" data-act="smaMisStart" data-m="' + E(m.id) + '" data-mode="' + k + '">' + ({ guided: 'Guidata', limited: 'Pochi hint', auto: 'Autonoma' })[k] + '</button>').join('') + '</span></div>').join('') + '</div></div>';
     return h;
@@ -103,12 +112,15 @@
     if (inst.mode === 'guided') h += '<p class="small good">Modello suggerito: ' + E(S.MODELS[m.model]) + '</p>';
     else if (inst.mode === 'auto' && inst.status === 'active') h += '<p class="small">Quale modello applicheresti? ' + Object.keys(S.MODELS).map(k => '<button class="btn sm' + (inst.guess === k ? '' : ' ghost') + '" data-act="smaMisGuess" data-i="' + E(inst.iid) + '" data-k="' + k + '">' + E(S.MODELS[k]) + '</button>').join(' ') + '</p>' + (inst.guess ? '<p class="small mute">Scelta registrata. ' + (S.guessOk(inst) ? 'È il modello previsto per questa missione.' : 'Il modello previsto era un altro: ' + E(S.MODELS[m.model]) + '. Puoi comunque proseguire.') + '</p>' : '');
     h += '</div>';
+    { const cur = S.stage(inst), keys = Object.keys(S.STAGES), ci = keys.indexOf(cur); h += '<p class="small mstages">' + keys.map((k, n) => '<span class="tag' + (n < ci ? ' good' : n === ci ? ' acc' : '') + '">' + (n < ci ? '✓ ' : '') + E(S.STAGES[k]) + '</span>').join(' ') + '</p>'; }
     if (inst.status === 'active') {
       h += '<div class="card"><h3>I sette passi</h3>' + S.PROTOCOL.map(p => '<p class="small" style="margin:10px 0 2px"><b>' + p.n + '. ' + E(p.t) + '</b><br><span class="mute">' + E(p.q) + '</span>' + (inst.mode === 'guided' ? '<br><span class="good">Suggerimento: ' + E(m.hints[p.n - 1]) + '</span>' : inst.mode === 'limited' ? ' <button class="btn sm ghost" data-act="smaMisHint" data-i="' + E(inst.iid) + '" data-n="' + p.n + '">Mostra suggerimento</button><span id="sma-hint-' + p.n + '" class="good"></span>' : '') + '</p>' + ta('sma-st-' + p.n, inst.steps[p.n])).join('') + '<button class="btn alt" data-act="smaMisSave" data-i="' + E(inst.iid) + '">Salva i passi</button></div>' +
         '<div class="card"><h3>Decisione</h3><p class="small">Stima di riuscita (%) <input id="sma-p" type="number" min="1" max="99" value="' + (inst.p || '') + '" style="width:80px"> · Verifica il <input id="sma-chk" type="date" value="' + E(inst.check || '') + '"></p>' + ta('sma-planb', inst.planB, 'Piano B e segnale per cambiare') + '<button class="btn" data-act="smaMisDecide" data-i="' + E(inst.iid) + '">Registra la decisione (entra nel Diario)</button></div>';
     } else {
       h += '<div class="card"><h3>La tua decisione</h3><p class="small">Stima di riuscita: <b>' + inst.p + '%</b> · Piano B: ' + E(inst.planB) + '</p></div>';
-      if (inst.status === 'decided') h += '<div class="card"><h3>Esito osservato</h3><div class="row" style="gap:6px">' + [['ok', 'Riuscita'], ['partial', 'Parziale'], ['fail', 'Non riuscita']].map(r => '<label class="small"><input type="radio" name="sma-res" value="' + r[0] + '"> ' + r[1] + '</label>').join(' ') + '</div>' + ta('sma-obs', '', 'Che cosa è successo, concretamente?') +
+      if (inst.status === 'decided' && !inst.applied) h += '<div class="card"><h3>Applicazione</h3><p class="small">Il piano è pronto. Quando lo hai messo in pratica, dichiaralo: è una dichiarazione tua, non verificata dall’app.</p>' + ta('sma-app', '', 'Che cosa hai fatto concretamente, e quando?') + '<button class="btn" style="margin-top:8px" data-act="smaMisApply" data-i="' + E(inst.iid) + '">Dichiaro di aver applicato il piano</button></div>';
+      else if (inst.status === 'decided') h += '<div class="card"><p class="small"><b>Applicazione dichiarata</b> il ' + E(inst.applied.d) + (inst.applied.note ? ': ' + E(inst.applied.note) : '') + '</p></div>';
+      if (inst.status === 'decided' && inst.applied) h += '<div class="card"><h3>Esito osservato</h3><div class="row" style="gap:6px">' + [['ok', 'Riuscita'], ['partial', 'Parziale'], ['fail', 'Non riuscita']].map(r => '<label class="small"><input type="radio" name="sma-res" value="' + r[0] + '"> ' + r[1] + '</label>').join(' ') + '</div>' + ta('sma-obs', '', 'Che cosa è successo, concretamente?') +
         '<p class="small">Classe di evidenza: <select id="sma-cls">' + Object.keys(S.CLASSES).map(k => '<option value="' + k + '">' + E(S.CLASSES[k]) + '</option>').join('') + '</select></p>' + ta('sma-proof', '', 'Per «documentato»: date, fatti, numeri') + '<input id="sma-src" placeholder="Per «verifica esterna»: chi/che cosa l’ha verificato" style="width:100%"><button class="btn" style="margin-top:8px" data-act="smaMisObserve" data-i="' + E(inst.iid) + '">Registra l’esito</button></div>';
       if (inst.obs) h += '<div class="card"><h3>Esito</h3><p class="small">' + ({ ok: 'Riuscita', partial: 'Parziale', fail: 'Non riuscita' })[inst.obs.result] + ' · <span class="tag">' + E(S.CLASSES[inst.obs.cls]) + '</span><br>' + E(inst.obs.observed) + '</p></div>';
       if (inst.status === 'observed') h += '<div class="card"><h3>Retrospettiva</h3>' + ta('sma-learn', '', 'Che cosa hai imparato? Che cosa cambieresti?') + '<input id="sma-prin" placeholder="Principio appreso (una frase)" style="width:100%"><button class="btn" style="margin-top:8px" data-act="smaMisRetro" data-i="' + E(inst.iid) + '">Chiudi la missione</button></div>';
@@ -127,6 +139,7 @@
   X.smaMisHint = act((inst, el) => { const m = S.byId(inst.mid), n = +el.dataset.n, sp = document.getElementById('sma-hint-' + n); if (sp && !sp.textContent) { sp.textContent = ' ' + m.hints[n - 1]; inst.hints++; A.save(); } });
   X.smaMisSave = act(inst => { saveSteps(inst); A.save(); A.toast('Passi salvati'); });
   X.smaMisDecide = act(inst => { saveSteps(inst); const r = S.decide(A.state, inst, { p: val('sma-p'), check: val('sma-chk'), planB: val('sma-planb') }); if (!r.ok) { A.toast(r.err); A.save(); return; } A.save(); A.render(); });
+  X.smaMisApply = act(inst => { const r = S.apply(A.state, inst, val('sma-app')); if (!r.ok) { A.toast(r.err); return; } A.save(); A.render(); });
   X.smaMisObserve = act(inst => { const res = (document.querySelector('input[name="sma-res"]:checked') || {}).value; const r = S.observe(A.state, inst, { result: res, observed: val('sma-obs'), cls: val('sma-cls'), proof: val('sma-proof'), source: val('sma-src') }); if (!r.ok) { A.toast(r.err); return; } A.save(); A.render(); });
   X.smaMisRetro = act(inst => { const r = S.retrospect(A.state, inst, { learned: val('sma-learn'), principle: val('sma-prin') }); if (!r.ok) { A.toast(r.err); return; } A.save(); A.render(); });
   X.smaMisCheck = act((inst, el) => { S.check(A.state, inst, +el.dataset.c, el.dataset.r, ''); A.save(); A.render(); });

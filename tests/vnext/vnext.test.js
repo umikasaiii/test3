@@ -36,7 +36,7 @@ test('laboratori: non presentati come disponibili finché non registrati', () =>
 test('hub: mostra pilastri e dichiara i laboratori non implementati', () => {
   ST.sma.pendingLabs.push({ id: 'lab-finto', title: 'Lab finto', milestone: 'M9' });
   const h = ST.sma.hub(fresh()); ST.sma.pendingLabs.pop();
-  assert.match(h, /Detective Intelligence/); assert.match(h, /Non ancora implementato/); assert.match(h, /Lab finto/); assert.match(h, /non è una valutazione psicometrica/);
+  assert.match(h, /Detective Intelligence/); assert.match(h, /Non ancora implementato/); assert.match(h, /Lab finto/); assert.doesNotMatch(h, /non è una valutazione psicometrica/); assert.match(h, /Continua Strategic Mastery/);
 });
 test('livelli: raccomandazione soft, L0 sempre aperto', () => {
   const s = fresh();

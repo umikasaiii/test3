@@ -63,6 +63,7 @@
     if (O.done(st) && !st.saved) {
       st.saved = true; const r = O.result(st), s = A.state, S = M.S(s), e = (S.sims['opp:' + t] = S.sims['opp:' + t] || { tries: 0, bestEff: 0 });
       e.tries++; e.bestEff = Math.max(e.bestEff, r.eff);
+      ST.act.record(s, 'opponent', { item: t, ok: r.eff >= 0.75, score: r.eff });
       M.record(s, 'adaptability', 'opp:' + t, 'auto', r.eff >= 0.75, {});
       if (st.guess) M.record(s, 'deduction', 'opp:' + t, 'auto', r.guessOk, { conf: null });
       try { A.xp(r.eff >= 0.75 ? 3 : 1, 'sma:opp:' + t + ':' + e.tries); } catch (err) { /* ignora */ }

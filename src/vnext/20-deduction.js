@@ -90,6 +90,7 @@
   D.save = (s, c, st, ans, r) => {
     const S = M.S(s), e = (S.cases[c.id] = S.cases[c.id] || { tries: 0, hist: [] });
     e.tries++; e.hist.push({ d: U.today(), ok: r.outcome, good: r.goodProcess, conf: r.conf, spent: st.spent }); if (e.hist.length > 20) e.hist.shift();
+    ST.act.record(s, 'deduction', { item: c.id, ok: !!(r.outcome && r.goodProcess) });
     M.record(s, 'deduction', c.id, 'auto', r.outcome, { conf: r.conf });
     M.record(s, 'decision', 'ded:' + c.id, 'auto', r.goodProcess, {});
     if (r.conf != null) M.record(s, 'calibration', 'ded:' + c.id, 'auto', Math.abs(r.conf / 100 - r.post[ans.pick]) <= 0.3, { conf: r.conf });

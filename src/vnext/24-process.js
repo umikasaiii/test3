@@ -83,6 +83,7 @@
     if (P.done(st)) {
       const r = P.result(sc, st), s = A.state, S = M.S(s), e = (S.sims['proc:' + sc.id] = S.sims['proc:' + sc.id] || { tries: 0, bestProc: 0, bestOut: 0 });
       e.tries++; e.bestProc = Math.max(e.bestProc, r.process); e.bestOut = Math.max(e.bestOut, r.outcome);
+      ST.act.record(s, KIND[sc.kind].lab, { item: sc.id, ok: !!r.good, score: r.process });
       M.record(s, KIND[sc.kind].dim, 'proc:' + sc.id, 'auto', r.good, {}); if (sc.kind === 'crisis') M.record(s, 'adaptability', 'proc:' + sc.id, 'auto', r.process >= 0.6, {});
       try { A.xp(r.good ? 3 : 1, 'sma:proc:' + sc.id + ':' + e.tries); } catch (err) { /* ignora */ } A.save();
     }

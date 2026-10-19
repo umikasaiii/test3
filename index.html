@@ -140,6 +140,33 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 .sma-hub h2{background:linear-gradient(90deg,#7aa2ff,#b48cff);-webkit-background-clip:text;background-clip:text;color:transparent}
 @media (prefers-reduced-motion:reduce){.sma-bar i{transition:none}}
 
+/* v5: livelli richiudibili, sezioni dell'argomento, pratica consigliata */
+details.lv{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:8px 0;overflow:hidden}
+details.lv.rec{border-color:var(--acc)}
+details.lv>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center;padding:12px;min-height:48px}
+details.lv>summary::-webkit-details-marker{display:none}
+details.lv>summary .lv-tt{display:flex;flex-direction:column;min-width:0}
+details.lv>summary .lv-tt b::before{content:'▸ ';color:var(--acc)}
+details.lv[open]>summary .lv-tt b::before{content:'▾ '}
+details.lv>summary small{color:var(--mute);font-size:.78rem}
+details.lv>summary .prog{grid-column:1/-1;height:5px;margin-top:6px}
+details.lv>.lv-desc,details.lv>.list,details.lv>.lv-extra{margin:0 10px 10px}
+details.lv>.list{display:flex;flex-direction:column;gap:8px}
+.lv-extra{border-top:1px dashed var(--line);padding-top:8px}
+.lv-empty{padding:10px 12px;border:1px dashed var(--line);border-radius:14px;margin:8px 0}
+.item.next{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+.item .tags{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+details.tsec{padding:0;margin:10px 0}
+details.tsec>summary{cursor:pointer;list-style:none;padding:12px;min-height:48px}
+details.tsec>summary::-webkit-details-marker{display:none}
+details.tsec>summary::before{content:'▸ ';color:var(--acc)}details.tsec[open]>summary::before{content:'▾ '}
+details.tsec>.list{padding:0 10px 10px;display:flex;flex-direction:column;gap:8px}
+.item.act{align-items:flex-start}.item.act .why{display:block;color:var(--text);font-size:.82rem;margin-top:2px}
+.item.act .btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.nextstep{border-left:3px solid var(--acc);padding-left:10px;margin:8px 0}
+#home-practice .item .tag:first-child{margin-bottom:3px}
+.item.act .tx>span{display:block}.item.act .tx>span.btns{display:flex}
+
 </style>
 </head>
 <body>
@@ -274,7 +301,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 })(window.ST = window.ST || {});
 
 /* ---- core/version ---- */
-(function (ST) { 'use strict'; ST.VERSION = '1.2.0'; })(window.ST = window.ST || {});
+(function (ST) { 'use strict'; ST.VERSION = '1.3.0'; })(window.ST = window.ST || {});
 
 /* ---- core/srs ---- */
 /* SkillTree — ripetizione dilazionata adattiva.
@@ -954,6 +981,336 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   PL.currentTopic = (state, subjectId) => PL.nextLesson(state, subjectId) || PL.pendingTest(state, subjectId) || PL.practiceTopic(state, subjectId);
 })(window.ST = window.ST || {});
 
+/* ---- core/activity ---- */
+/* SkillTree — Contextual Practice Engine: registro persistente delle attività (laboratori e simulazioni), collegamenti
+   argomento→pratica pertinente e motore dei suggerimenti.
+   Principi: (1) lo stato vive dentro lo stato esistente (s.act): backup, esportazione e importazione lo includono;
+   (2) completamento ≠ padronanza: una pratica può essere completata con un risultato insufficiente («Da ripassare»);
+   (3) nessuna regola di verifica esistente viene toccata; (4) i collegamenti seguono gli argomenti, non la sola materia. */
+(function (ST) {
+  'use strict';
+  const U = ST.util, P = ST.progress, PL = ST.plan;
+  const Z = ST.act = {};
+
+  Z.STATUS = { todo: 'Da iniziare', doing: 'In corso', done: 'Completata', review: 'Da ripassare' };
+  Z.DIFF = { base: 'Base', media: 'Media', alta: 'Alta' };
+  Z.RECENT_DAYS = 10;      // una lezione è «recente» per i suggerimenti entro questa soglia
+  Z.SNOOZE_DAYS = 3;       // «più tardi» nasconde l'attività per questo numero di giorni
+  Z.REPEAT_DAYS = 10;      // distanza minima prima di riproporre una pratica già completata con buon risultato
+
+  /* ---- stato persistente: s.act = { v, rec: { id → record }, snooze: { id → data } } ---- */
+  Z.S = s => { const a = (s.act = s.act || {}); a.v = 1; a.rec = a.rec || {}; a.snooze = a.snooze || {}; return a; };
+  Z.rec = (s, id) => Z.S(s).rec[id] || null;
+  const mk = (s, id) => (Z.S(s).rec[id] = Z.S(s).rec[id] || { id, att: 0, first: null, last: null, begun: null, done: null, doneN: 0, best: null, score: null, ok: null, ms: null, manual: false, items: {} });
+
+  /* L'utente (o un pulsante «Inizia») segna che sta cominciando: «In corso» finché non c'è un completamento. */
+  Z.begin = (s, id) => { const r = mk(s, id); r.begun = r.begun || U.today(); return r; };
+  /* Registra la fine di un tentativo.
+     o: { item?, done = true, ok?, score? (0–1), ms? (solo se misurato), manual? }
+     done=false → tentativo registrato ma non completato (attività «In corso»). */
+  Z.record = (s, id, o) => {
+    o = o || {}; const r = mk(s, id), day = U.today(), done = o.done !== false;
+    r.att++; r.last = day; r.first = r.first || day; r.begun = r.begun || day;
+    if (typeof o.score === 'number' && isFinite(o.score)) { r.score = +o.score.toFixed(3); r.best = r.best == null ? r.score : Math.max(r.best, r.score); }
+    if (typeof o.ms === 'number' && o.ms > 0) r.ms = Math.round(o.ms);
+    if (typeof o.ok === 'boolean') r.ok = o.ok;
+    if (o.item != null) {
+      const it = (r.items[o.item] = r.items[o.item] || { att: 0, ok: false, best: null, last: null });
+      it.att++; it.last = day; if (o.ok === true || (o.ok == null && done)) it.ok = true;
+      if (typeof o.score === 'number' && isFinite(o.score)) it.best = it.best == null ? +o.score.toFixed(3) : Math.max(it.best, +o.score.toFixed(3));
+    }
+    r.days = (r.days || []).filter(d => d !== day).concat(day).slice(-40);
+    if (done) { r.done = r.done || day; r.doneN++; if (o.manual) r.manual = true; else if (r.doneN === 1) r.manual = false; }
+    return r;
+  };
+  /* Conferma manuale, esplicita: usata solo per attività senza una condizione verificabile dall'app. */
+  Z.confirm = (s, id) => Z.record(s, id, { manual: true });
+  Z.finish = (id, o) => { try { const A = ST.app; if (!A || !A.state) return null; const r = Z.record(A.state, id, o); A.save(); return r; } catch (e) { return null; } };
+  Z.snooze = (s, id, days) => { Z.S(s).snooze[id] = U.addDays(U.today(), days || Z.SNOOZE_DAYS); };
+  Z.snoozed = (s, id) => { const d = Z.S(s).snooze[id]; return !!d && d > U.today(); };
+  Z.itemsDone = (s, id) => { const r = Z.rec(s, id); return r ? Object.values(r.items).filter(i => i.ok).length : 0; };
+
+  /* Stato di un'attività: completamento, non padronanza.
+     «Da ripassare» = già completata ma l'ultimo tentativo non ha raggiunto il criterio dell'attività. */
+  Z.status = (s, id) => {
+    const r = Z.rec(s, id); if (!r) return 'todo';
+    if (r.done) return r.ok === false ? 'review' : 'done';
+    return (r.begun || r.att) ? 'doing' : 'todo';
+  };
+
+  /* ---- catalogo ---- */
+  const META = {
+    deduction: { kind: 'lab', skill: 'Ragionamento deduttivo e aggiornamento delle ipotesi', mins: 15, diff: 'media', auto: 'Completato quando concludi un caso (esito registrato).' },
+    opponent: { kind: 'sim', skill: 'Lettura dell’avversario e adattamento', mins: 10, diff: 'media', auto: 'Completata a fine partita.' },
+    forecast: { kind: 'lab', skill: 'Calibrazione delle previsioni', mins: 10, diff: 'media', auto: 'Completato dopo almeno 8 intervalli.' },
+    crisis: { kind: 'sim', skill: 'Decisioni sotto pressione in una crisi', mins: 15, diff: 'alta', auto: 'Completata a fine scenario.' },
+    comm: { kind: 'sim', skill: 'Comunicazione strategica', mins: 15, diff: 'media', auto: 'Completata a fine scenario.' },
+    multimove: { kind: 'sim', skill: 'Pianificazione a più mosse', mins: 15, diff: 'media', auto: 'Completata a fine partita.' },
+    strategos: { kind: 'lab', skill: 'Applicazione del metodo nella vita reale', mins: 20, diff: 'alta', auto: 'Completata quando chiudi la revisione di una missione.' },
+    listening: { kind: 'lab', skill: 'Ascolto di parlato reale', mins: 20, diff: 'media', auto: null },
+    combat: { kind: 'lab', skill: 'Riconoscimento tattico nel judo e nella lotta', mins: 10, diff: 'media', auto: 'Completato a fine situazione.' },
+    cyberlab: { kind: 'lab', skill: 'Analisi difensiva con comandi (simulata)', mins: 20, diff: 'media', auto: 'Completato quando risolvi un esercizio.' },
+    proglab: { kind: 'lab', skill: 'Programmazione e debugging', mins: 25, diff: 'alta', auto: 'Completato quando superi tutti i test di un esercizio.' },
+    f1lab: { kind: 'sim', skill: 'Strategia di gara', mins: 15, diff: 'media', auto: 'Completata quando esegui un piano, un duello o un confronto.' },
+    sportlab: { kind: 'lab', skill: 'Progettazione e critica dei programmi di allenamento', mins: 20, diff: 'alta', auto: 'Completato quando concludi uno studio.' },
+    convoEn: { kind: 'sim', skill: 'Conversazione in inglese', mins: 15, diff: 'media', auto: 'Completata a fine scenario.' },
+    convoJa: { kind: 'sim', skill: 'Conversazione in giapponese', mins: 15, diff: 'media', auto: 'Completata a fine scenario.' },
+    cross: { kind: 'lab', skill: 'Integrazione di più materie', mins: 30, diff: 'alta', auto: 'Completata quando salvi la sintesi finale.' },
+    cog: { kind: 'lab', skill: 'Prestazione cognitiva', mins: 15, diff: 'media', auto: 'Completato a fine sessione.' },
+    decision: { kind: 'lab', skill: 'Decisioni quantitative', mins: 15, diff: 'media', auto: 'Completato a fine sessione.' },
+    sportcalc: { kind: 'lab', skill: 'Calcoli di scienze dello sport', mins: 15, diff: 'media', auto: 'Completato a fine sessione.' },
+    audio: { kind: 'lab', skill: 'Ripetizione e ascolto della propria voce', mins: 10, diff: 'base', auto: null }
+  };
+  Z.META = META;
+  /* attività non registrate dal pacchetto Strategic Mastery */
+  const EXTRA = [{ id: 'sportcalc', title: 'Sport Science · laboratori di calcolo', act: 'optStart', data: { k: 'sport' }, desc: 'Carichi, energia, nutrizione e prestazione con calcoli verificati.', ready: true }];
+
+  const simDefs = () => ((ST.sim && ST.sim.templates) || []).map(t => ({ id: 'sim:' + t.id, title: t.title, icon: t.icon, act: 'startSim', data: { id: t.id }, desc: 'Scenario a turni su uno scenario inventato.', ready: true, meta: { kind: 'sim', skill: 'Decisioni a più turni (' + (({ str: 'strategia', sport: 'sport', f1: 'Formula 1', sec: 'vita quotidiana', moto: 'moto' })[t.subject || 'str'] || 'strategia') + ')', mins: 15, diff: 'media', auto: 'Completata a fine partita.' }, subject: t.subject || 'str' }));
+  Z.defs = () => {
+    const labs = ((ST.sma && ST.sma.labs) || []).filter(l => l.ready).concat(EXTRA).map(l => Object.assign({}, l, { meta: META[l.id] || { kind: 'lab', skill: l.title, mins: 20, diff: 'media', auto: null } }));
+    return labs.concat(simDefs());
+  };
+  Z.def = id => Z.defs().find(d => d.id === id) || null;
+  Z.kindOf = d => d.meta.kind;
+  /* avvia un'attività: segna «in corso» e apre la schermata giusta */
+  Z.launch = (id) => {
+    const d = Z.def(id), A = ST.app; if (!d) return false;
+    Z.begin(A.state, id); A.save();
+    if (d.act && ST.acts[d.act]) { ST.acts[d.act]({ dataset: Object.assign({}, d.data || {}) }); return true; }
+    if (d.view) { A.go(d.view, d.p || {}); return true; }
+    return false;
+  };
+
+  /* ---- collegamenti argomento → pratica (basati su argomento, non solo su materia) ---- */
+  const L = (lab, subj, re, why) => ({ lab, subj, re, why });
+  Z.LINKS = [
+    L('forecast', 'str', /decisioni-sotto-incertezza|bayes-nelle-decisioni|kelly|utilita-e-avversione|probabilita-nei-giochi/, 'Applica la probabilità: stima intervalli e controlla se sei troppo sicuro.'),
+    L('forecast', 'mnt', /previsione-e-calibrazione|bias-cognitivi-e-probabilita/, 'Misura quanto le tue stime sono calibrate.'),
+    L('forecast', 'sec', /^(probabilita|statistica-e-dati)$/, 'Allena la stima con intervalli di confidenza sul tuo livello di sicurezza.'),
+    L('forecast', 'sma', /det-l1-confronto|det-l4-previsioni|ada-l4/, 'Confronta previsioni ed esiti per verificare la tua calibrazione.'),
+    L('forecast', 'cyb', /rischio-quantitativo/, 'Stimare probabilità e perdite richiede intervalli onesti.'),
+    L('forecast', 'moto', /rischio-e-statistica/, 'Rischio e statistica: allena la stima di probabilità.'),
+    L('forecast', 'f1', /incertezza-e-decisioni/, 'Decidere con incertezza: verifica la calibrazione delle tue stime.'),
+    L('forecast', 'sport', /adv-statistica-applicata/, 'Statistica applicata: allena la stima con intervalli.'),
+    L('deduction', 'mnt', /logica-sillogismi|ragionamento-condizionale|enigmi-strategie|bias-cognitivi/, 'Applica il ragionamento a un caso con indizi progressivi.'),
+    L('deduction', 'str', /^(bias|errori-strategici-e-pre-mortem|bayes-nelle-decisioni|pensiero-strategico)$/, 'Metti alla prova ipotesi concorrenti e aggiornamento delle convinzioni.'),
+    L('deduction', 'sec', /logica-ed-etica|bias-decisioni|psicologia-scienza|ia-fake-news-fonti/, 'Distingui prove, ipotesi e opinioni in un caso concreto.'),
+    L('deduction', 'sma', /^det-/, 'Il Deduction Lab allena proprio questa competenza.'),
+    L('deduction', 'cyb', /forense-digitale|rilevamento-e-threat-hunting|threat-intelligence/, 'Ragiona su indizi e ipotesi concorrenti come in un’indagine.'),
+    L('multimove', 'str', /alberi-di-gioco|pianificazione-e-vincoli|nim-e-sprague|scacchi-metodo-di-calcolo|opt-pianificazione-progetto|opt-programmazione-dinamica|strategia-competitiva|mil-/, 'Pianifica su più turni vedendo le conseguenze delle tue scelte.'),
+    L('multimove', 'sma', /^(pln|ada)-/, 'Il simulatore a più mosse applica la pianificazione ai turni successivi.'),
+    L('opponent', 'str', /dilemma-del-prigioniero|matrici-di-payoff|strategie-miste|giochi-a-somma-zero|negoziazione-e-incentivi|eco-aste|eco-oligopolio|mil-deterrenza/, 'Leggi la regola dell’avversario e adattati.'),
+    L('opponent', 'sma', /pln-l2|pln-l3|ada-l2|ada-l3/, 'Allena la lettura di avversari che reagiscono alle tue mosse.'),
+    L('crisis', 'cyb', /incident-response|continuita-operativa/, 'Decidi sotto pressione in un incidente simulato.'),
+    L('crisis', 'sma', /ldr-l3|pln-l4|ada-l4|ldr-l2/, 'Gestisci un imprevisto con informazioni incomplete.'),
+    L('crisis', 'str', /^errori-strategici-e-pre-mortem$/, 'Metti alla prova il piano quando qualcosa va storto.'),
+    L('comm', 'sma', /^ldr-/, 'Allena la comunicazione di una decisione.'),
+    L('comm', 'sec', /comunicazione-scrittura|argomentare-parlare/, 'Applica la comunicazione a uno scenario con scelte e conseguenze.'),
+    L('comm', 'str', /negoziazione-e-incentivi/, 'Comunica e negozia in uno scenario ramificato.'),
+    L('combat', 'grp', /^(kumikata|hand-fighting|tai-sabaki|kuzushi|deashi-timing|level-change|penetration-step|plum-clinch|sprawl|single-leg-entry|double-leg-entry|guard-frames|turtle-sit-out|th-kuzushi|th-fisica-della-proiezione|th-albero|th-concatenazioni|th-ne-waza|th-classificazione|th-prese|ogoshi-entry|osoto-entry|seoi-entry)/, 'Riconosci il momento tattico su schemi dall’alto (teoria, non competenza motoria).'),
+    L('f1lab', 'f1', /pit-stop-e-strategie|undercut|strategia-gomme|safety-car|incertezza-e-decisioni|gestione-dal-muretto|gomme-e-carburante|^tyres$|pneumatici-struttura|aderenza-e-finestra|bagnato|simulazione-del-giro|tempo-sul-giro|adv-modelli-pneumatico|adv-tempo-sul-giro/, 'Prova una strategia di gara su un modello sintetico dichiarato.'),
+    L('sportlab', 'sport', /periodizz|tapering|monitoraggio|principi-costruzione-forza|ipertrofia|adattamento-allenamento|recupero-fatica|forza-massimale|hiit|adv-programmazione|adv-modellazione|adv-statistica|adv-vbt|adv-eccentrico|adv-profilo-fv|adv-organizzazione/, 'Progetta e critica un programma sulla base di questo argomento.'),
+    L('sportcalc', 'sport', /sistemi-energetici|energia-e-bilancio|macronutrienti|nutrizione-per-la-performance|idratazione|peso-e-composizione|soglie-vo2max|allenamento-aerobico|adv-bioenergetica|adv-potenza-critica|adv-cinetica|adv-periodizzazione-carboidrati/, 'Esercitati sui calcoli di questo argomento.'),
+    L('cyberlab', 'cyb', /modelli-osi|indirizzamento|dns-dhcp|tls-e-https|firewall-ids|attacchi-di-rete|linux-sicurezza|windows-sicurezza|hardening|http-sessioni|log-e-siem|controllo-accessi|rilevamento-e-threat-hunting|forense-digitale|autenticazione-e-password/, 'Metti in pratica l’argomento in un terminale simulato (solo analisi e difesa).'),
+    L('proglab', 'str', /opt-programmazione-dinamica|ottimizzazione-greedy-e-dp|grafi-e-cammini-minimi|opt-grafi|opt-ricerca-locale/, 'Implementa e testa l’algoritmo in JavaScript, in un ambiente isolato.'),
+    L('proglab', 'cyb', /injection-e-prevenzione|sdlc-sicuro/, 'Leggi, correggi e testa codice in un ambiente isolato.'),
+    L('convoEn', 'eng', /^(l[0-9]-)(habits|past|questions|comparatives|quantity|prepositions|be-have|time-dates|modals|future|gerund|present-perfect|phrasal|smalltalk|linking|past-continuous|defining-relative|reported|passive|articles|preferences|describing|mixed-conditionals|conditionals|argument$|narrative|speaking|future-advanced|hypothetical|modals-speculation|idioms|collocations|register|emphasis|spoken-discourse|presenting-debating|vocab-daily|vocab-work|vocab-health)/, 'Usa la struttura in una conversazione guidata, con domande impreviste.'),
+    L('convoJa', 'jpn', /^j[0-5]-(desu|masu|places|numbers|demonstr|family|food|invitations|comparison|time-routine|directions|te-uses|te-form|intentions|travel|noun-modification|obligation|hearsay|phone|past-experience|reasons|passive|causative|volitional|work|keigo|conversation|casual|conditionals|giving|shopping|greetings|particles|weather|purpose|sentence-final|connectors|formal-vs-casual|plain-opinion|nai-form)|^j6-gram|^j7-(vita|lavoro|viaggi|dialoghi|email)/, 'Usa la forma in uno scenario quotidiano con riconoscimento, comprensione e risposta.'),
+    L('listening', null, /(^|-)(connected-speech|accents|discussion-podcast|hedging-markers-listening|spoken-discourse|dialoghi|listening-strategies)/, 'Allena l’ascolto di parlato reale con sottotitoli locali.'),
+    L('audio', null, /pronunciation-stress|intonation-meaning|j0-sounds|^j0-sounds$|l1-connected-speech/, 'Ripeti con velocità regolabile e confrontati a orecchio.'),
+    L('cog', 'mnt', /memoria-come|chunking|palazzo|nomi-e-liste|calcolo-trucchi|stima-fermi|concentrazione/, 'Allena la prestazione negli stessi compiti con esercizi adattivi.'),
+    L('cog', 'sec', /^memoria-apprendimento$/, 'Allena la memoria di lavoro con esercizi adattivi.'),
+    L('decision', 'str', /decisioni-sotto-incertezza|utilita-e-avversione|kelly|opt-multiobiettivo|opportunity|strategia-competitiva/, 'Applica valore atteso e ottimizzazione a decisioni quantitative.'),
+    L('strategos', 'sma', /-l[345]-/, 'Applica il metodo a una situazione reale e registra l’esito.'),
+    L('strategos', 'str', /^(decisioni-sotto-incertezza|pianificazione-e-vincoli|errori-strategici-e-pre-mortem|negoziazione-e-incentivi|alberi-di-gioco)/, 'Porta il modello in una situazione vera con una missione guidata.')
+  ];
+  const SL = (subj, re, ids, why) => ({ subj, re, ids, why });
+  Z.SIMLINKS = [
+    SL('str', /pensiero-strategico|giochi-a-somma-zero|strategia-competitiva|mil-principi|mil-sun-tzu|mil-clausewitz/, ['blotto'], 'Distribuisci risorse su più fronti e vedi le conseguenze.'),
+    SL('str', /mil-lanchester|mil-logistica|mil-ooda/, ['campagna', 'assedio'], 'Applica il principio a una campagna a turni.'),
+    SL('str', /mil-deterrenza|negoziazione-e-incentivi|eco-aste/, ['diplomazia', 'negoziazione'], 'Negozia e reagisci a un avversario con interessi diversi.'),
+    SL('str', /kelly|utilita-e-avversione|decisioni-sotto-incertezza|bayes-nelle-decisioni/, ['rischio'], 'Quanto rischiare? Scegli puntate con vantaggio.'),
+    SL('str', /eco-strategia-impresa|eco-oligopolio|eco-mercato|eco-valore/, ['mercato', 'impresa'], 'Decisioni d’impresa su più turni.'),
+    SL('str', /opt-pianificazione-progetto|pianificazione-e-vincoli|opt-multiobiettivo/, ['progetto', 'evento'], 'Pianifica con vincoli e imprevisti.'),
+    SL('str', /errori-strategici-e-pre-mortem/, ['crisi'], 'Un piano alla prova di una crisi.'),
+    SL('str', /eco-costi|opt-assegnamento/, ['team'], 'Assegna risorse e persone a più turni.'),
+    SL('sma', /pln-l4|ldr-l3|ldr-l4/, ['crisi', 'team'], 'Un piano reale sotto pressione.'),
+    SL('sport', /^(periodizzazione|tapering|adv-periodizzazione)/, ['spo-gara', 'spo-adv-blocchi'], 'Pianifica un ciclo e correggilo strada facendo.'),
+    SL('sport', /ipertrofia|costruzione-forza|forza-massimale|adv-ipertrofia/, ['spo-forza'], 'Gestisci un ciclo di forza di 12 settimane.'),
+    SL('sport', /nutrizione|macronutrienti|energia-e-bilancio|peso-e-composizione/, ['spo-nutrizione'], 'Costruisci un’alimentazione per un atleta amatoriale.'),
+    SL('sport', /recupero-fatica|infortun|mobilita-prevenzione/, ['spo-rientro'], 'Rientro graduale dopo uno stop.'),
+    SL('sport', /sport-di-squadra|monitoraggio-del-carico/, ['spo-stagione'], 'Gestisci una stagione di squadra.'),
+    SL('sport', /sport-di-combattimento|adv-combattimento/, ['spo-adv-torneo'], 'Un torneo di combattimento in due giorni.'),
+    SL('sport', /adv-ambienti-estremi/, ['spo-adv-altura'], 'Un campo in altura.'),
+    SL('sport', /adv-monitoraggio|adv-statistica/, ['spo-adv-dati'], 'Leggi dati rumorosi con senso critico.'),
+    SL('sport', /adv-mezzofondo|resistenza|allenamento-aerobico/, ['spo-adv-ultra', 'spo-gara'], 'Gestisci una gara di resistenza.'),
+    SL('f1', /pit-stop-e-strategie|strategia-gomme|undercut|gomme-e-carburante/, ['f1-gp'], 'Gestisci una gara asciutta di 60 giri.'),
+    SL('f1', /bagnato|safety-car/, ['f1-meteo'], 'Una gara con pioggia variabile.'),
+    SL('f1', /simulazione-del-giro|tempo-sul-giro|adv-tempo-sul-giro/, ['f1-quali'], 'Una sessione di qualifica.'),
+    SL('f1', /gestione-dal-muretto|incertezza-e-decisioni/, ['f1-muretto'], 'Decisioni dal muretto con due piloti.'),
+    SL('f1', /budget-cap|economia-e-budget/, ['f1-stagione'], 'Una stagione sotto il budget cap.'),
+    SL('f1', /la-strada-verso|carriere-dietro/, ['f1-carriera'], 'La carriera di un giovane pilota.'),
+    SL('sec', /risparmio-e-interesse|budget-e-consumo|investire|lavoro-busta/, ['cul-budget'], 'Un anno di bilancio personale.'),
+    SL('sec', /orientarsi-e-viaggiare|orientamento-e-mappe/, ['cul-viaggio'], 'Due settimane all’estero.'),
+    SL('sec', /casa-pulizia|fai-da-te|riparazioni|elettricita-domestica/, ['cul-casa'], 'Ristrutturare una stanza.'),
+    SL('sec', /meteo-e-sicurezza-in-montagna|campeggio/, ['cul-escursione'], 'Un’escursione in montagna.'),
+    SL('sec', /primo-soccorso|rianimazione|ostruzione|traumi|riconoscere-un-malore/, ['cul-emergenza'], 'Emergenze in casa e primo soccorso.'),
+    SL('sec', /imparare-una-abilita/, ['cul-imparare'], 'Imparare un’abilità in 10 settimane.'),
+    SL('mnt', /memoria-come|allenare-bene|concentrazione|sonno-esercizio/, ['esame'], 'Prepararsi a una prova importante applicando ciò che sai sull’apprendimento.'),
+    SL('sec', /memoria-apprendimento/, ['esame'], 'Prepararsi a una prova importante in 8 settimane.'),
+    SL('str', /eco-valore|kelly|utilita-e-avversione/, ['investimenti'], 'Gestisci un capitale tenendo conto del rischio.'),
+    SL('sec', /investire-senza-illusioni|risparmio-e-interesse/, ['investimenti'], 'Gestisci un capitale tenendo conto del rischio.'),
+    SL('moto', /^(track-day|dati-bandiere|preparazione-del-pilota)/, ['moto-trackday'], 'Una giornata in pista.'),
+    SL('moto', /guida-difensiva|visione-e-distanza|frenata-corretta|frenata-trail/, ['moto-imparare'], 'Dodici settimane per imparare la guida sportiva.'),
+    SL('moto', /diagnostica-problemi|manutenzione-programmata/, ['moto-meccanica'], 'Diagnosi e manutenzione della tua moto.'),
+    SL('moto', /gruppo-e-viaggi/, ['moto-viaggio'], 'Una settimana di viaggio in moto.'),
+    SL('moto', /assetto|sospensioni|adv-telemetria/, ['moto-assetto'], 'Messa a punto in un weekend.'),
+    SL('moto', /campionati|weekend-di-gara/, ['moto-stagione'], 'Una stagione di campionato amatoriale.')
+  ];
+  const key = t => t.id.replace(/^[a-z0-9]+-/, '');
+  const matches = (rule, t) => (!rule.subj || rule.subj === t.subject) && rule.re.test(key(t));
+  /* pratiche pertinenti a un argomento: [{ id, why, kind }] — nessuna se non esiste un collegamento reale */
+  Z.linksFor = t => {
+    const out = [], seen = new Set(), defs = {}; Z.defs().forEach(d => { defs[d.id] = d; });
+    Z.LINKS.forEach(r => { if (matches(r, t) && defs[r.lab] && !seen.has(r.lab)) { seen.add(r.lab); out.push({ id: r.lab, why: r.why, kind: defs[r.lab].meta.kind }); } });
+    Z.SIMLINKS.forEach(r => { if (matches(r, t)) r.ids.forEach(sid => { const id = 'sim:' + sid; if (defs[id] && !seen.has(id)) { seen.add(id); out.push({ id, why: r.why, kind: 'sim' }); } }); });
+    return out;
+  };
+  /* Requisiti: la pratica si propone dopo la lezione e solo se i prerequisiti dell'argomento sono soddisfatti */
+  Z.blockedReason = (s, t) => {
+    if (!PL.unlocked(s, t)) return 'prerequisiti dell’argomento non soddisfatti';
+    if (P.topicStatus(s, t.id) === 'new') return 'prima la lezione';
+    return null;
+  };
+
+  /* ---- struttura di un argomento: Lezione → Esercizi → Laboratorio → Simulazione → Verifica ---- */
+  /* lettura dell'archivio dell'argomento SENZA crearne il record (le viste non devono modificare lo stato) */
+  const EMPTY = Object.freeze({ page: 0, studied: null, ex: {}, tests: [], retests: [] });
+  const trec = (s, id) => (s.topics && s.topics[id]) || EMPTY;
+  Z.topicParts = (s, t) => {
+    const r = trec(s, t.id), st = P.topicStatus(s, t.id), total = t.exercises.length, need = Math.min(5, total);
+    const okN = Object.values(r.ex || {}).filter(e => e.ok).length, tried = Object.values(r.ex || {}).filter(e => e.n).length;
+    const lesson = r.studied ? 'done' : (r.page > 0 ? 'doing' : 'todo');
+    const practice = !total ? 'done' : okN >= need ? 'done' : (tried || okN) ? 'doing' : 'todo';
+    const testsN = (r.tests || []).length + (r.retests || []).length;
+    const retest = P.atLeast(st, 'verified') && st !== 'retained' && r.studied && (r.tests || []).some(x => x.score >= P.PASS && U.diffDays(r.studied, x.date) >= 1 && U.diffDays(x.date, U.today()) >= 14);
+    const test = P.atLeast(st, 'verified') ? (retest ? 'review' : 'done') : testsN ? 'review' : 'todo';
+    return { lesson, practice, test, okN, need, total, retest: !!retest, status: st };
+  };
+  /* completamento dell'argomento = lezione letta + esercizi svolti; la padronanza (verifica) resta separata */
+  Z.topicState = (s, t) => {
+    const p = Z.topicParts(s, t);
+    if (p.test === 'review' && p.retest) return 'review';
+    if (p.lesson === 'done' && p.practice === 'done') return 'done';
+    if (p.lesson === 'todo' && p.practice === 'todo') return 'todo';
+    return 'doing';
+  };
+  /* ordine dei livelli e degli argomenti (come nel curriculum) */
+  Z.orderedTopics = sid => { const out = []; ST.content.stagesOf(sid).forEach(stg => stg.topics.forEach(id => out.push(ST.content.topic(id)))); return out; };
+  /* prossimo argomento consigliato: prima lezioni/esercizi (in ordine di curriculum), poi la verifica */
+  Z.nextTopic = (s, sid, filter) => {
+    const ts = Z.orderedTopics(sid).filter(t => !filter || filter(t));
+    return ts.find(t => { const st = P.topicStatus(s, t.id); return (st === 'new' || st === 'studied') && PL.unlocked(s, t); }) || ts.find(t => P.topicStatus(s, t.id) === 'practiced') || null;
+  };
+  Z.recommendedStage = (s, sid, filter) => { const t = Z.nextTopic(s, sid, filter); if (t) return t.stage; const st = ST.content.stagesOf(sid).filter(g => g.topics.length); return st.length ? st[st.length - 1].id : null; };
+  Z.levelStats = (s, sid, stage, filter) => {
+    const ts = Z.orderedTopics(sid).filter(t => t.stage === stage && (!filter || filter(t)));
+    const o = { total: ts.length, done: 0, verified: 0, doing: 0, review: 0 };
+    ts.forEach(t => { const x = Z.topicState(s, t); if (x === 'done') o.done++; else if (x === 'doing') o.doing++; else if (x === 'review') { o.done++; o.review++; } if (P.atLeast(P.topicStatus(s, t.id), 'verified')) o.verified++; });
+    return o;
+  };
+  /* sequenza di passi di un argomento con il prossimo da fare (per «Continua» e per l'hub dell'argomento) */
+  Z.topicSteps = (s, t) => {
+    const p = Z.topicParts(s, t), steps = [];
+    steps.push({ part: 'lesson', status: p.lesson });
+    if (t.exercises.length) steps.push({ part: 'practice', status: p.practice });
+    const blocked = Z.blockedReason(s, t);
+    Z.linksFor(t).forEach(l => steps.push({ part: l.kind === 'sim' ? 'sim' : 'lab', id: l.id, status: Z.status(s, l.id), why: l.why, snoozed: Z.snoozed(s, l.id), blocked: !!blocked && p.lesson !== 'done' }));
+    const canTest = trec(s, t.id).studied && U.diffDays(trec(s, t.id).studied, U.today()) >= 1;
+    steps.push({ part: 'test', status: p.test, later: !canTest });
+    // il prossimo passo: ordine didattico; le pratiche posticipate o già buone e la verifica non ancora valida si saltano
+    steps.forEach(x => { x.next = false; });
+    const nx = steps.find(x => x.status !== 'done' && !x.snoozed && !x.blocked && !x.later && (x.part !== 'lab' && x.part !== 'sim' || x.status === 'todo' || x.status === 'doing' || x.status === 'review'));
+    if (nx) nx.next = true;
+    return steps;
+  };
+
+  /* ---- suggerimenti della Home ---- */
+  Z.profileWeak = s => {
+    const M = ST.sma; if (!M || !M.profile) return [];
+    const prof = M.profile(s), map = { deduction: 'deduction', planning: 'multimove', adaptability: 'opponent', calibration: 'forecast', leadership: 'comm', application: 'strategos', decision: 'decision' };
+    return Object.keys(prof).filter(d => map[d] && prof[d].n >= 3 && prof[d].ok / prof[d].n < 0.6).map(d => ({ dim: d, lab: map[d], pct: Math.round(100 * prof[d].ok / prof[d].n) }));
+  };
+  Z.recommend = (s, max, opts) => {
+    max = max == null ? 2 : max; opts = opts || {};
+    const today = U.today(), defs = {}; Z.defs().forEach(d => { defs[d.id] = d; });
+    const cand = {}, add = (id, prio, topic, reason) => {
+      const d = defs[id]; if (!d || Z.snoozed(s, id)) return;
+      const st = Z.status(s, id), r = Z.rec(s, id);
+      if (st === 'done' && prio !== 5) return;                                       // già completata con buon risultato
+      if (prio === 5 && !(st === 'done' && r && r.last && U.diffDays(r.last, today) >= Z.REPEAT_DAYS)) return;
+      if (!cand[id] || cand[id].prio > prio) cand[id] = { id, prio, topic: topic || null, reason, status: st };
+    };
+    const topics = []; ST.content.subjects.forEach(sub => ST.content.topicsOf(sub.id).forEach(t => topics.push(t)));
+    const touched = id => { const r = s.topics[id]; return !!(r && r.studied); };
+    // Strategic Mastery è facoltativa: entra nei suggerimenti solo se l'utente l'ha già iniziata
+    const smaStarted = ST.content.topicsOf('sma').some(t => touched(t.id)) || (s.sma && Object.keys(s.sma.labs || {}).length > 0);
+    topics.forEach(t => {
+      if (!touched(t.id) || Z.blockedReason(s, t)) return;
+      if (t.subject === 'sma' && !smaStarted) return;
+      const r = s.topics[t.id], age = U.diffDays(r.studied, today), links = Z.linksFor(t);
+      links.forEach(l => {
+        if (age <= Z.RECENT_DAYS) add(l.id, 1, t, 'Collegata alla lezione «' + t.title + '», completata ' + (age === 0 ? 'oggi' : age === 1 ? 'ieri' : age + ' giorni fa') + '. ' + l.why);
+        else if (Z.status(s, l.id) === 'review') add(l.id, 2, t, 'L’ultimo risultato era sotto il criterio: ripetila per consolidare «' + t.title + '».');
+        else if (P.topicStatus(s, t.id) !== 'verified' && P.topicStatus(s, t.id) !== 'retained') add(l.id, 3, t, 'Pertinente all’argomento che stai consolidando: «' + t.title + '». ' + l.why);
+        else if (l.kind === 'sim') add(l.id, 4, t, 'Simulazione non ancora affrontata su «' + t.title + '». ' + l.why);
+        else add(l.id, 5, t, 'Consolidamento di «' + t.title + '»: è passato del tempo dall’ultima volta.');
+      });
+    });
+    // competenze con risultati insufficienti (Strategic Mastery)
+    if (smaStarted) Z.profileWeak(s).forEach(w => add(w.lab, 2, null, 'Nel profilo «' + (ST.sma.DIMS[w.dim] || w.dim) + '» hai il ' + w.pct + '% di successo: un’altra prova aiuta a consolidare.'));
+    // attività completate ma sotto il criterio
+    Z.defs().forEach(d => { if (Z.status(s, d.id) === 'review' && (d.meta.kind === 'lab' || d.meta.kind === 'sim')) add(d.id, 2, null, 'L’ultimo tentativo era sotto il criterio: ripetila per consolidare.'); });
+    const list = Object.values(cand).sort((a, b) => a.prio - b.prio || (a.status === 'doing' ? -1 : 0) - (b.status === 'doing' ? -1 : 0));
+    // varietà: prima una proposta per materia di partenza; se ne mancano, completa con le restanti
+    const out = [], used = new Set();
+    list.forEach(x => { const sj = x.topic ? x.topic.subject : '_' + x.id; if (out.length < max && !used.has(sj)) { out.push(x); used.add(sj); } });
+    list.forEach(x => { if (out.length < max && out.indexOf(x) < 0) out.push(x); });
+    return out.slice(0, max).map(c => {
+      const d = defs[c.id], sub = c.topic ? ST.content.subject(c.topic.subject) : null;
+      return Object.assign({}, c, { def: d, subjectTitle: sub ? sub.title : (d.subject ? (ST.content.subject(d.subject) || {}).title : 'Pratica') });
+    });
+  };
+
+  /* giorni di attività Strategic Mastery negli ultimi n giorni (laboratori, moduli studiati, verifiche) */
+  Z.smaDays = (s, n) => {
+    const from = U.addDays(U.today(), -(n - 1)), days = new Set(), M = ST.sma; if (!M) return 0;
+    const ids = new Set(M.labs.map(l => l.id).concat(((ST.sim && ST.sim.templates) || []).map(t => 'sim:' + t.id)));
+    Object.keys(Z.S(s).rec).forEach(id => { if (ids.has(id)) (Z.S(s).rec[id].days || []).forEach(d => { if (d >= from) days.add(d); }); });
+    ST.content.topicsOf('sma').forEach(t => { const r = s.topics[t.id]; if (!r) return; if (r.studied && r.studied >= from) days.add(r.studied); (r.tests || []).concat(r.retests || []).forEach(x => { if (x.date >= from) days.add(x.date); }); });
+    return days.size;
+  };
+
+  /* ---- Strategic Mastery: «Continua» — prossimo modulo/esercizio pertinente ---- */
+  Z.smaNext = s => {
+    const M = ST.sma; if (!M) return null;
+    // 1) verifiche differite STRATEGOS in scadenza (reali, già previste a 7/30/90 giorni)
+    const S = M.strategos; if (S && S.due) { const d = S.due(s)[0]; if (d) return { type: 'check', iid: d.iid, check: d.check, title: 'Verifica a ' + d.check + ' giorni — ' + ((S.byId(d.mid) || {}).title || 'missione'), mins: 5, act: 'smaMisOpen', data: { i: d.iid } }; }
+    // 2) prossimo argomento in ordine di livello; poi i passi pratica (laboratori, simulazioni) non rimandati
+    const t = Z.nextTopic(s, 'sma');
+    if (t) {
+      const st = Z.topicSteps(s, t), n = st.find(x => x.next);
+      if (n) return Object.assign({ type: n.part, topic: t }, n);
+      return { type: 'lesson', topic: t, part: 'lesson', status: 'todo' };
+    }
+    // 3) argomenti tutti studiati: se un laboratorio collegato non è stato affrontato, proponilo
+    for (const tp of Z.orderedTopics('sma')) { const x = Z.topicSteps(s, tp).find(y => (y.part === 'lab' || y.part === 'sim') && y.status !== 'done' && !y.snoozed); if (x) return Object.assign({ type: x.part, topic: tp }, x); }
+    // 4) verifica di livello disponibile e non superata
+    const lc = M.levelCheck; if (lc) { const lv = M.LEVELS.find((l, i) => { const p = M.levelProgress(s, l.id); const e = lc.S(s)[l.id]; return p.total && p.practiced === p.total && !(e && e.pass); }); if (lv) return { type: 'levelcheck', level: lv.id, title: 'Verifica di livello ' + lv.id + ' · ' + lv.title, mins: 15 }; }
+    return null;
+  };
+})(window.ST = window.ST || {});
+
 /* ---- core/kana ---- */
 /* SkillTree — Kana Trainer: riconoscimento rapido di hiragana e katakana.
    Gli errori vengono riproposti più spesso (peso adattivo). Tempo massimo consigliato: 3′ al giorno. */
@@ -1589,7 +1946,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     kana: { items: {}, placed: false, lastSession: null },
     motor: {}, mental: {}, theory: {}, skills: {}, vocab: {}, tt: {}, kanji: {}, jprod: {}, ext: [], journal: [], forecasts: [], 
     exams: [], gates: { en: {} }, rec: [],
-    daily: {}, resume: {}, settings: { sound: true },
+    daily: {}, resume: {}, settings: { sound: true }, act: { v: 1, rec: {}, snooze: {} },
     log: []
   });
 
@@ -3863,7 +4220,6 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 
   C.defineSubject({ id: 'eng', title: 'Inglese', icon: '🇬🇧', primary: true, lang: 'en', color: '#5aa9ff',
     goal: 'B2 solido nelle quattro abilità, con priorità a comprensione del parlato naturale e conversazione spontanea.',
-    stageNote: 'Gli stage L0–L5 sono livelli didattici interni. Completare le lezioni NON assegna un livello CEFR: il B2 si dichiara solo con prove sulle quattro abilità.',
     stages: [
       st('L0', 'Fondamenta B1', 'Consolida tempi base e struttura della frase (partenza: B1 iniziale).'),
       st('L1', 'B1 solido', 'Modali, futuro, condizionali reali e parlato connesso.'),
@@ -3875,7 +4231,6 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
     ] });
   C.defineSubject({ id: 'jpn', title: 'Giapponese', icon: '🇯🇵', primary: true, lang: 'ja', color: '#ff7a9c',
     goal: 'Autonomia comunicativa quotidiana su argomenti familiari: capire, rispondere, esprimere bisogni e opinioni, leggere e scrivere testi non avanzati.',
-    stageNote: 'J0–J5 sono livelli didattici interni e NON equivalgono a JLPT o CEFR. Il parlato con persone reali va verificato con un docente o madrelingua.',
     stages: [
       st('J0', 'Suoni e frasi di sopravvivenza', 'Mora, ritmo, です/は/か, numeri, presentarsi.'),
       st('J1', 'Verbi in forma cortese', 'ます, particelle, tempo, luoghi, desideri.'),
@@ -3893,7 +4248,7 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
   P('moto', 'Moto e guida sportiva', '🏍️', 'Dalla prima moto alla guida sportiva in pista: sicurezza, meccanica completa, dinamica del veicolo, tecnica di guida (moto, kart e auto), mondo delle corse e ingegneria avanzata, con laboratori di calcolo e scenari di decisione.', { pillOnly: false, stages: [st('L0', 'Capire la moto', 'Tipi di moto, parti, equipaggiamento, patenti e codice, controlli e comandi, partenza e arresto, ABS e aiuti elettronici.'), st('L1', 'Guida sicura su strada', 'Percezione del rischio, visione, frenata, curva, pioggia e fondi difficili, guida in città e in gruppo.'), st('L2', 'Meccanica della moto', 'Motore a quattro e due tempi, architetture, alimentazione, trasmissione, impianto elettrico, telaio, sospensioni, freni, pneumatici, manutenzione e diagnosi.'), st('L3', 'Dinamica del veicolo', 'Angolo di piega, giroscopio e controsterzo, aderenza, trasferimenti di carico, geometria e baricentro, aerodinamica, pneumatici.'), st('L4', 'Guida sportiva in pista', 'Track day, posizione, frenata e trail braking, traiettorie, gas e uscita, cambio e freno motore, kart e auto, allenamento, dati e sicurezza.'), st('L5', 'Il mondo delle corse', 'Campionati, storia, regolamenti, team, piloti e carriere, tecnologia e sicurezza nelle corse.'), st('L6', 'Ingegneria avanzata', 'Motore e potenza, elettronica (IMU, controlli di trazione), aerodinamica moderna, modelli di pneumatico, assetto, telemetria, preparazione e simulazione.'), st('L7', 'Guida urbana in sicurezza', 'Traffico cittadino, angoli ciechi, incroci, tram e rotaie, pedoni e ciclisti, filtraggio, parcheggio, manovre a bassa velocità, scenari reali.')] });
   P('f1', 'Formula 1', '🏎️', 'Da zero a una formazione molto approfondita: weekend di gara, regolamenti, vettura, aerodinamica, gomme, strategia, dati, storia, business e tecnica avanzata, con laboratori di calcolo e simulazioni di strategia.', { pillOnly: false, stages: [st('L0', 'Basi: capire la F1 da zero', 'Che cos’è la F1, weekend di gara, squadre e piloti, punti, bandiere, circuiti, glossario. Include le pillole introduttive.'), st('L1', 'Regolamento sportivo e tecnico', 'Qualifiche, gara, sprint, safety car, penalità, gomme e carburante, budget cap, commissari.'), st('L2', 'La monoposto', 'Telaio, power unit, ERS, trasmissione, freni, sospensioni, raffreddamento, sicurezza.'), st('L3', 'Aerodinamica', 'Carico e resistenza, effetto suolo, ali, DRS, scia, galleria del vento e CFD.'), st('L4', 'Gomme e dinamica del veicolo', 'Mescole, degrado, finestra termica, aderenza, trasferimenti di carico, assetto.'), st('L5', 'Strategia di gara', 'Soste, undercut e overcut, safety car, carburante, decisioni sotto incertezza, teoria dei giochi e simulazioni.'), st('L6', 'Dati e ingegneria di pista', 'Telemetria, schermate dei tempi, simulazione del giro, confronto piloti, analisi.'), st('L7', 'Storia e cultura', 'Ere, campioni, rivoluzioni tecniche, gare e sicurezza.'), st('L8', 'Squadre, business e carriere', 'Organizzazione, sponsor, budget cap, FIA e promotori, ruoli, la strada verso la F1.'), st('L9', 'Tecnica avanzata', 'Power unit e regolamento 2026, gestione dell’energia, aerodinamica attiva, modelli di gomma e dinamica, simulazione e ottimizzazione.')] });
   P('str', 'Strategia e logica', '♟️', 'Decisioni, teoria dei giochi, economia, strategia militare, ottimizzazione e scacchi: dal pensiero strategico al calcolo concreto, con laboratori generati e verificati.', { pillOnly: false, stages: [st('L0', 'Pensiero strategico', 'Obiettivi, vincoli, incertezza e decisioni. Include le pillole introduttive.'), st('L1', 'Teoria dei giochi', 'Minimax, matrici di payoff, equilibrio di Nash, dilemma del prigioniero, strategie miste.'), st('L2', 'Giochi combinatori e ottimizzazione', 'Nim e Grundy, alberi di gioco, euristiche, programmazione dinamica, grafi, probabilità nei giochi.'), st('L3', 'Scacchi: fondamenti e tattica', 'Principi, matti elementari, motivi tattici, finali essenziali, metodo di calcolo.'), st('L4', 'Scacchi: strategia posizionale', 'Strutture, colonne aperte, qualità, coppia degli alfieri, iniziativa, analisi delle partite.'), st('L5', 'Decisioni avanzate e competizione', 'Utilità, Bayes, Kelly, negoziazione, strategia competitiva, errori strategici.'), st('L6', 'Strategia economica', 'Costi e margini, domanda e prezzo ottimo, valore attuale, vantaggio comparato, oligopolio, aste e incentivi, strategia d’impresa.'), st('L7', 'Strategia militare e conflitto', 'Sun Tzu, Clausewitz, principi della guerra, Lanchester, logistica, OODA, deterrenza (analisi storica e concettuale).'), st('L8', 'Ottimizzazione e pianificazione avanzata', 'Programmazione lineare e dinamica, grafi e flussi, cammino critico, assegnamento, euristiche e metaeuristiche, compromessi multi-obiettivo.')] });
-  C.defineSubject({ id: 'grp', title: 'Judo e lotta libera', icon: '🥋', primary: true, motor: true, goal: 'Memoria motoria, coordinazione, footwork e fluidità con pratica solitaria e sicura.', stageNote: 'Livelli L0–L5 interni, non cinture né gradi ufficiali. Ciò che richiede partner o resistenza non è allenabile qui.', stages: ['L0', 'L1', 'L2', 'L3', 'L4', 'L5'].map((id, i) => st(id, ['Fondamenta', 'Prime entrate', 'Coordinazione e meccaniche', 'Ne-waza e transizioni', 'Combinazioni e variabilità', 'Fluidità e automatizzazione'][i], '')) });
+  C.defineSubject({ id: 'grp', title: 'Judo e lotta libera', icon: '🥋', primary: true, motor: true, goal: 'Memoria motoria, coordinazione, footwork e fluidità con pratica solitaria e sicura.', stages: ['L0', 'L1', 'L2', 'L3', 'L4', 'L5'].map((id, i) => st(id, ['Fondamenta', 'Prime entrate', 'Coordinazione e meccaniche', 'Ne-waza e transizioni', 'Combinazioni e variabilità', 'Fluidità e automatizzazione'][i], '')) });
   C.defineSubject({ id: 'mnt', title: 'Allenamento mentale', icon: '🧠', primary: true, generated: true, goal: 'Memoria di lavoro, attenzione, ragionamento, calcolo, velocità decisionale — esercizi generati e adattivi.', stages: [st('L0', 'Esercizi generati', 'Livello adattivo per tipo di esercizio (1–10).'), st('L1', 'Strategie di memoria', 'Come funziona la memoria e le tecniche che migliorano davvero la ritenzione.'), st('L2', 'Calcolo e stima', 'Trucchi di calcolo mentale, percentuali, stime e ordini di grandezza.'), st('L3', 'Ragionamento', 'Logica, sillogismi, ragionamento condizionale, bias e probabilità.'), st('L4', 'Attenzione e apprendimento', 'Concentrazione, sonno, esercizio e limiti dell’allenamento cognitivo.')] });
 
   C.secondary = [
@@ -67124,11 +67479,12 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     return '<div class="hero ' + heroName + '"><div class="shade"><span class="kick">LA TUA AVVENTURA DI APPRENDIMENTO</span><h1>Ogni lezione<br><em>fa crescere il tuo albero.</em></h1><p class="mute small" style="margin:0">Il bordo luminoso delle materie indica attività recente, non padronanza.</p></div></div>' + strip() +
       '<div class="card glow"><div class="row"><h2 style="margin:0">' + hi + 'Le tue 3 missioni</h2></div><p class="mute small">' + E(U.today()) + ' · ' + E(m.phase) + ' · mese ' + m.month + ' · piano ' + m.total + ' minuti' + (m.b2 ? ' · B2 verificato' : '') + '</p>' +
       (m.note ? '<p class="warn small">' + E(m.note) + '</p>' : '') +
+      (due > 0 ? '<p class="small">🔁 Ripassi in scadenza: <b>' + due + '</b> — hanno la precedenza e sono già inclusi nel tempo delle missioni di lingua.</p>' : '') +
       '<div class="list">' +
       mission('en', '🇬🇧', 'Inglese', m.en, nextTopicLine('en'), d, A.activeMin('en')) +
       mission('ja', '🇯🇵', 'Giapponese', m.ja, nextTopicLine('ja'), d, A.activeMin('ja')) +
       '<button class="item' + (genDone === 3 ? ' done' : '') + '" data-act="go" data-view="general"><span class="ic">🧠</span><span class="tx"><b>Generale · 15 min</b><span>5′ mentale · 5′ judo (' + E(PL.JUDO_LABEL[slot]) + ') · 5′ ' + E(PL.THEORY_LABEL[PL.theorySlot(A.state, U.weekday())]) + '</span></span><span class="tag ' + (genDone === 3 ? 'good' : '') + '">' + genDone + '/3</span></button>' +
-      '</div></div>' +
+      '</div></div>' + (ST.homePractice ? ST.homePractice() : '') +
       '<div class="grid2"><button class="tile" data-act="go" data-view="optlab"><b>🧪 Laboratori facoltativi</b><span>15 · 20 · 30 · 45 min</span></button><button class="tile" data-act="go" data-view="transfer"><b>🧭 Laboratorio decisioni</b><span>diario · previsioni · competenze</span></button><button class="tile" data-act="go" data-view="review" data-p=\'{"lang":""}\'><b>🔁 Ripassi dovuti</b><span>' + due + ' elementi</span></button>' +
       '<button class="tile" data-act="tab" data-tab="progress"><b>📊 Progresso</b><span>Livelli e verifiche</span></button></div>' +
       '<p class="mute small center" style="margin-top:14px">Il tempo viene stimato dall’interazione reale (inattività esclusa).</p>';
@@ -67163,7 +67519,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     const s = C.subject(p.id), st = A.state;
     if (s.motor) return ST.judoHub();
     if (s.generated) return ST.mentalHub();
-    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + bg(s.id) + '"></div><h1>' + s.icon + ' ' + E(s.title) + '</h1><p class="mute">' + E(s.goal) + '</p>' + (s.stageNote ? '<p class="warn small">' + E(s.stageNote) + '</p>' : '');
+    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + bg(s.id) + '"></div><h1>' + s.icon + ' ' + E(s.title) + '</h1><p class="mute">' + E(s.goal) + '</p>' + '';
     let hub = '';
     if (p.id === 'sec') hub += ST.culHub();
     if (s.id === 'cyb') hub += ST.cyberHub();
@@ -67177,16 +67533,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
       hub = '<details class="card practice-sec" data-subj="' + s.id + '"' + (open ? ' open' : '') + '><summary><b>🧪 Pratica, laboratori e simulazioni</b><span class="mute small"> · tocca per aprire</span></summary>' + hub + '</details>';
     }
     h += hub;
-    C.stagesOf(s.id).forEach(stg => {
-      h += '<h2>' + E(stg.id) + ' — ' + E(stg.title) + '</h2>' + (stg.desc ? '<p class="mute small">' + E(stg.desc) + '</p>' : '') + '<div class="list">';
-      if (!stg.topics.length) h += '<p class="mute small">Contenuti non ancora disponibili in questo stage.</p>';
-      stg.topics.forEach(id => {
-        const t = C.topic(id), sta = P.topicStatus(st, id), un = PL.unlocked(st, t);
-        const pre = (t.prereq || []).filter(x => !P.atLeast(P.topicStatus(st, x), 'practiced')).map(x => C.topic(x).title);
-        h += '<button class="item' + (un ? '' : ' locked') + (P.atLeast(sta, 'verified') ? ' done' : '') + '" data-act="go" data-view="topic" data-p=\'{"id":"' + id + '"}\'><span class="ic">' + (un ? '📖' : '🔒') + '</span><span class="tx"><b>' + E(t.title) + '</b><span>' + E(t.summary) + (pre.length ? ' · Prima: ' + E(pre[0]) : '') + '</span></span>' + statusTag(sta) + '</button>';
-      });
-      h += '</div>';
-    });
+    h += ST.levels.html(s.id);
     return h;
   };
 })(window.ST = window.ST || {});
@@ -67640,7 +67987,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     if (a.step === 'rec') h += '<div class="card"><h3>Registrazione in corso…</h3><p class="timer" id="rt">0:00</p><button class="btn block" data-act="shadow-stop">■ Stop</button></div>';
     if (a.step === 'compare') h += '<div class="card"><h3>2 · Confronta con il modello</h3>' + (a.blob ? '<div class="row wrap"><button class="btn alt sm" data-act="shadow-say">🔊 Modello</button><button class="btn alt sm" data-act="shadow-mine">▶ La mia voce</button></div>' : '<p class="mute small">Nessuna registrazione: valuta comunque la ripetizione ad alta voce.</p>') +
       '<p class="mute small">Autovalutazione (1 = lontano dal modello, 5 = molto vicino):</p>' + rubric.map(r => '<label class="small">' + r[1] + '</label><input type="range" min="1" max="5" value="3" data-r="' + r[0] + '" class="rg" style="width:100%">').join('') +
-      '<p class="warn small">Il confronto autonomo <b>non equivale</b> a una valutazione di pronuncia da parte di un docente.</p><button class="btn block" data-act="shadow-next">' + (a.i + 1 >= a.items.length ? 'Concludi' : 'Salva e avanti') + '</button></div>';
+      '<button class="btn block" data-act="shadow-next">' + (a.i + 1 >= a.items.length ? 'Concludi' : 'Salva e avanti') + '</button></div>';
     return h;
   };
   X['shadow-quit'] = () => { ST.audio.stop(); A.back(); };
@@ -67686,7 +68033,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     if (a.step === 'review') h += (a.blob ? '<div class="card"><button class="btn alt" data-act="speak-mine">▶ Riascolta la tua risposta</button></div>' : '') +
       '<div class="card"><h3>Risposta modello (confronto)</h3><p>' + U.ruby(it.model) + '</p><button class="btn alt sm" data-act="say" data-lang="' + (a.lang === 'ja' ? 'ja-JP' : 'en') + '" data-text="' + E(U.speechText(it.model)) + '">🔊 Ascolta il modello</button></div>' +
       '<div class="card"><h3>Autovalutazione</h3>' + ['Ho risposto alla consegna', 'Ho usato le strutture della lezione', 'Ho parlato senza lunghe pause (>3 s)', 'Mi sono corretto quando sbagliavo'].map((t, i) => '<label class="row" style="margin:6px 0"><input type="checkbox" class="chk" data-i="' + i + '" style="width:22px;height:22px"> <span>' + t + '</span></label>').join('') +
-      '<p class="warn small">Parlato e pronuncia vanno verificati periodicamente con un docente o un madrelingua: questa è solo autovalutazione.</p><button class="btn block" data-act="speak-done">Salva</button></div>';
+      '<button class="btn block" data-act="speak-done">Salva</button></div>';
     return h;
   };
   X['speak-quit'] = () => { ST.audio.stop(); A.back(); };
@@ -67717,7 +68064,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
       '<textarea id="wtxt" placeholder="Scrivi qui…"></textarea><p class="mute small" id="wcount">0 parole</p>' +
       '<div class="card"><h3>Lista di controllo</h3>' + ['Ho risposto alla consegna', 'Ho controllato tempi verbali e accordi', 'Ho usato almeno due connettori/strutture della lezione', 'Ho riletto e corretto'].map((t, i) => '<label class="row" style="margin:6px 0"><input type="checkbox" class="chk" style="width:22px;height:22px"> <span>' + t + '</span></label>').join('') + '</div>' +
       '<div class="card"><button class="btn alt sm" data-act="write-model">Mostra testo modello</button><div id="wmodel"></div></div>' +
-      '<p class="warn small">Per dichiarare un B2 scritto serve la correzione di un docente o un esame: l’app non corregge da sola la scrittura libera.</p><button class="btn block" data-act="write-save">Salva</button>';
+      '<button class="btn block" data-act="write-save">Salva</button>';
   };
   ST.after.write = () => { const t = A.$('#wtxt'); if (t) t.addEventListener('input', () => { A.$('#wcount').textContent = (t.value.trim() ? t.value.trim().split(/\s+/).length : 0) + ' parole'; }); };
   X['write-model'] = () => { A.$('#wmodel').innerHTML = '<p>' + U.ruby(A.act.item.model) + '</p>'; };
@@ -68015,8 +68362,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     const P = ST.progress, topics = C.topicsOf('mnt');
     if (!topics.length) return '';
     const done = topics.filter(t => P.atLeast(P.topicStatus(s, t.id), 'studied')).length;
-    return '<h2>Lezioni di strategia (' + done + ' / ' + topics.length + ' lette)</h2><p class="mute small">Tecniche che funzionano davvero: memoria, calcolo, ragionamento, attenzione. Gli esercizi generati misurano la prestazione; le strategie la rendono trasferibile.</p><div class="list">' +
-      topics.map(t => '<button class="item" data-act="go" data-view="topic" data-p=\'{"id":"' + t.id + '"}\'><span class="ic">📖</span><span class="tx"><b>' + E(t.title) + '</b><span>' + E(t.stage) + ' · ' + E(P.statusLabel[P.topicStatus(s, t.id)]) + ' · ~' + t.minutes + ' min</span></span></button>').join('') + '</div>';
+    return '<h2>Lezioni di strategia (' + done + ' / ' + topics.length + ' lette)</h2><p class="mute small">Tecniche che funzionano davvero: memoria, calcolo, ragionamento, attenzione. Gli esercizi generati misurano la prestazione; le strategie la rendono trasferibile.</p>' + ST.levels.html('mnt');
   };
   ST.mentalHub = () => {
     const s = A.state, bench = MN.trend(s, 'bench', 6), daily = MN.trend(s, 'daily', 8), wd = U.weekday(), cal = s.mentalCalib;
@@ -68042,17 +68388,14 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     const techOf = t => { const m = /^jud-(?!th-)(.+)$/.exec(t.id); return m ? M.def(m[1]) : null; };
     const topics = C.topicsOf('grp').filter(t => { const te = techOf(t); return !te || tr.includes(te.track || 'judo') || (s.topics[t.id] && s.topics[t.id].studied); });
     if (!topics.length) return '';
-    const row = t => '<button class="item" data-act="go" data-view="topic" data-p=\'{"id":"' + t.id + '"}\'><span class="ic">📖</span><span class="tx"><b>' + E(t.title) + '</b><span>' + E(t.stage) + ' · ' + E(P.statusLabel[P.topicStatus(s, t.id)]) + ' · ~' + t.minutes + ' min</span></span></button>';
-    const th = topics.filter(t => /^jud-th-/.test(t.id)), te = topics.filter(t => !/^jud-th-/.test(t.id));
-    const done = topics.filter(t => P.atLeast(P.topicStatus(s, t.id), 'studied')).length;
-    return '<h2>Lezioni approfondite (' + done + ' / ' + topics.length + ' lette)</h2><p class="mute small">Ogni tecnica ha una lezione con principi, passi, errori e correzioni, esercizi e verifica. La teoria spiega principi, sicurezza e biomeccanica.</p>' +
-      '<h3>Teoria</h3><div class="list">' + th.map(row).join('') + '</div><h3>Tecniche</h3><div class="list">' + te.map(row).join('') + '</div>';
+    const done = topics.filter(t => P.atLeast(P.topicStatus(s, t.id), 'studied')).length, ids = new Set(topics.map(t => t.id));
+    return '<h2>Lezioni approfondite (' + done + ' / ' + topics.length + ' lette)</h2><p class="mute small">Ogni tecnica ha una lezione con principi, passi, errori e correzioni, esercizi e verifica. La teoria spiega principi, sicurezza e biomeccanica.</p>' + ST.levels.html('grp', { filter: t => ids.has(t.id) });
   };
   ST.judoHub = () => {
     const s = A.state, J = C.judo, act = M.active(s), stg = M.stage(s), today = U.today();
     const pick = M.pickForDay(s);
     const due = act.filter(id => s.motor[id].card.due <= today).length;
-    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('grp') + '"></div><h1>🥋 Judo e lotta libera</h1><p class="mute">Stadio motorio attuale: <b>' + stg + '</b> (livello didattico interno, non una cintura).</p>' +
+    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><div class="banner ' + ST.artBg('grp') + '"></div><h1>🥋 Judo e lotta libera</h1><p class="mute">Stadio motorio attuale: <b>' + stg + '</b>.</p>' +
       '<div class="card"><h3>Che cosa questo modulo può e non può fare</h3><p class="small">' + E(J.scope) + '</p></div>' +
       '<div class="card glow"><h3>Oggi: ' + E(PL.JUDO_LABEL[PL.JUDO_SLOT[U.weekday()]]) + '</h3><p class="mute small">' + E(pick.reason || '') + '</p><button class="btn block" data-act="go" data-view="judoSession">▶ Sessione da 5 minuti</button></div>' +
       '<div class="card"><h3>Percorsi</h3><p class="small">Judo: cadute in progressione, proiezioni a vuoto, entrate. Lotta/no-gi (sprawl, stance, ingressi alle gambe, lavoro a terra): <b>' + (M.tracks(s).includes('lotta') ? 'attivo' : 'disattivato') + '</b>. Clinch con ginocchiate stile muay thai (a vuoto): <b>' + (M.tracks(s).includes('clinch') ? 'attivo' : 'disattivato') + '</b>.</p><div class="row"><button class="btn alt" data-act="j-clinch">' + (M.tracks(s).includes('clinch') ? 'Disattiva clinch' : 'Attiva clinch') + '</button><button class="btn alt" data-act="j-track">' + (M.tracks(s).includes('lotta') ? 'Disattiva percorso lotta/no-gi' : 'Attiva percorso lotta/no-gi') + '</button></div></div>' +
@@ -68270,6 +68613,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
       r.n++; r.best = Math.max(r.best, Math.round(d.quality * 100)); r.last = Math.round(d.quality * 100);
       if (d.quality >= 0.85 && r.level < 10) r.level++; else if (d.quality < 0.55 && r.level > 1) r.level--;
       s.simLog = (s.simLog || []).concat({ d: U.today(), tpl: a.inst.tpl, lv: a.inst.level, q: Math.round(d.quality * 100), final: Math.round(d.final) }).slice(-60);
+      { const okq = d.quality >= 0.7, tid = a.inst.tpl; ST.act.record(s, 'sim:' + tid, { item: tid, ok: okq, score: d.quality }); ST.act.record(s, 'multimove', { item: tid, ok: okq, score: d.quality }); }
       A.xp(Math.round(d.quality * 20), 'sim'); A.subjectTouch((SIM.templates.find(t => t.id === a.inst.tpl) || {}).subject || 'str'); A.save();
     }
     A.render();
@@ -68632,7 +68976,9 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   X.optStart = el => {
     const s = A.state, k = el.dataset.k, c = CATS[k], m = A.optMin || 15, n = Math.round(m / 5);
     const items = c.build(s, n); A.ctx = 'general';
-    ST.runner.start({ title: c.t + ' · ' + m + ' min', kind: 'free', items, ctx: 'general', onAnswer: record(s) });
+    const aid = ({ cog: 'cog', decision: 'decision', sport: 'sportcalc' })[k];
+    ST.runner.start({ title: c.t + ' · ' + m + ' min', kind: 'free', items, ctx: 'general', onAnswer: record(s),
+      onFinish: res => { if (aid && res && res.length) { const acc = res.filter(x => x.ok).length / res.length; ST.act.record(s, aid, { ok: acc >= 0.6, score: acc }); A.save(); } return ''; } });
   };
 })(window.ST = window.ST || {});
 
@@ -68745,7 +69091,7 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   V.b2 = () => {
     const s = A.state, rep = PL.b2Report(s);
     const lab = { none: 'Nessuna prova', partial: 'Prove parziali', 'in-app': 'Indicatore in-app superato', external: 'Evidenza esterna' };
-    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>🎯 Prove B2</h1><p class="warn small">Queste prove sono <b>indicatori in-app</b> su materiali limitati. Per dichiarare un B2 servono prove indipendenti e rappresentative sulle quattro abilità; parlato e scrittura richiedono sempre evidenza esterna (docente o esame).</p>' +
+    return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>🎯 Prove B2</h1>' +
       '<div class="card"><h3>Criterio in-app</h3><p class="small">Ascolto o lettura: almeno 6 prove diverse, svolte in almeno 3 giorni diversi, con media ≥ 75%. Ogni prova si usa una sola volta.</p>' + rep.map(r => '<p class="row"><b style="width:90px">' + ({ listening: 'Ascolto', reading: 'Lettura', speaking: 'Parlato', writing: 'Scrittura' })[r.skill] + '</b><span class="tag ' + (r.status === 'in-app' || r.status === 'external' ? 'good' : r.status === 'partial' ? 'warn' : '') + '">' + lab[r.status] + '</span></p>').join('') + '</div>' +
       '<div class="grid2"><button class="tile" data-act="gate" data-s="listening"><b>🎧 Prova di ascolto</b><span>' + gateLeft('listening') + ' disponibili</span></button><button class="tile" data-act="gate" data-s="reading"><b>📰 Prova di lettura</b><span>' + gateLeft('reading') + ' disponibili</span></button></div>' +
       '<button class="btn alt block" style="margin-top:12px" data-act="evidence" data-lang="en">+ Registra evidenza esterna (certificato, docente, esame)</button>';
@@ -68777,13 +69123,13 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     C.subjects.filter(x => x.primary && !x.motor && !x.generated).concat([C.subject('sec')]).forEach(sub => {
       const c = ST.topicCounts(sub.id);
       h += '<div class="card"><h3>' + sub.icon + ' ' + E(sub.title) + '</h3><dl class="kv"><dt>Lezioni lette</dt><dd>' + c.studied + '/' + c.total + bar(c.studied, c.total) + '</dd><dt>Esercitati</dt><dd>' + c.practiced + '/' + c.total + bar(c.practiced, c.total) + '</dd><dt>Verificati</dt><dd>' + c.verified + '/' + c.total + bar(c.verified, c.total, 'good') + '</dd><dt>Mantenuti</dt><dd>' + c.retained + '/' + c.total + bar(c.retained, c.total, 'good') + '</dd></dl>' +
-        (sub.lang ? '<p class="mute small">Stage interni ' + sub.stages[0].id + '–' + sub.stages[5].id + ' · ' + (sub.id === 'jpn' ? 'non equivalgono a JLPT/CEFR.' : 'non equivalgono a livelli CEFR.') + '</p>' : '<p class="mute small">Pillole introduttive: non assegnano livelli.</p>') + '</div>';
+        '</div>';
     });
     // inglese B2
     const rep = PL.b2Report(s);
     h += '<div class="card"><h3>🇬🇧 Inglese · gate B2 (quattro abilità)</h3>' + rep.map(r => '<p class="row"><b style="width:90px">' + ({ listening: 'Ascolto', reading: 'Lettura', speaking: 'Parlato', writing: 'Scrittura' })[r.skill] + '</b><span class="tag ' + (['in-app', 'external'].includes(r.status) ? 'good' : r.status === 'partial' ? 'warn' : '') + '">' + ({ none: 'non verificato', partial: 'parziale', 'in-app': 'indicatore in-app', external: 'evidenza esterna' })[r.status] + '</span></p>').join('') +
       '<p class="' + (m.b2 ? '' : 'warn') + ' small">' + (m.b2 ? 'B2 verificato su tutte le abilità: la fase 3 (inglese 15′) può applicarsi dal mese 17.' : 'B2 NON verificato: la fase 3 non si applica; l’inglese resta a 20–25 minuti.') + '</p><button class="btn alt sm" data-act="go" data-view="b2">Prove B2</button></div>';
-    h += '<div class="card"><h3>🇯🇵 Giapponese · evidenza esterna</h3><p class="small">' + (((s.gates.ja && Object.keys(s.gates.ja).length) ? Object.keys(s.gates.ja).map(k => '<span class="tag good">' + E(k) + '</span>').join(' ') : 'Nessuna evidenza registrata.')) + '</p><p class="mute small">L’autonomia comunicativa va confermata con un docente o madrelingua (o una prova ufficiale). Gli stage J0–J5 non sono livelli JLPT.</p><button class="btn alt sm" data-act="evidence" data-lang="ja">+ Registra evidenza</button></div>';
+    h += '<div class="card"><h3>🇯🇵 Giapponese · evidenza esterna</h3><p class="small">' + (((s.gates.ja && Object.keys(s.gates.ja).length) ? Object.keys(s.gates.ja).map(k => '<span class="tag good">' + E(k) + '</span>').join(' ') : 'Nessuna evidenza registrata.')) + '</p><p class="mute small">L’autonomia comunicativa va confermata con un docente o madrelingua (o una prova ufficiale).</p><button class="btn alt sm" data-act="evidence" data-lang="ja">+ Registra evidenza</button></div>';
     // judo
     const J = C.judo.techniques;
     h += '<div class="card"><h3>🥋 Judo · memoria motoria (autovalutata)</h3><table class="t"><tr><th>Tecnica</th><th>Stato</th><th>Ultimo</th><th>Prossimo</th></tr>' + J.map(t => { const r = s.motor[t.id]; return '<tr><td>' + E(t.name.split(':')[0]) + '</td><td>' + (r ? E(ST.motor.label(r)) : '—') + '</td><td>' + (r ? r.card.last || '—' : '') + '</td><td>' + (r ? r.card.due : '') + '</td></tr>'; }).join('') + '</table><p class="mute small">Stadio motorio: ' + ST.motor.stage(s) + '. Nessun dato qui prova la capacità di applicare la tecnica contro un avversario che resiste.</p></div>';
@@ -68829,6 +69175,180 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   X['mic-test'] = async () => { const out = A.$('#mic-out'); try { out.textContent = 'Registrazione…'; await ST.audio.rec.start(); await new Promise(r => setTimeout(r, 3000)); const b = await ST.audio.rec.stop(); out.textContent = 'Registrato ' + Math.round(b.size / 1024) + ' KB. Riproduzione…'; const r = await ST.audio.playBlob(b); out.textContent = r.ok ? 'Riproduzione completata ✓' : 'Riproduzione non riuscita'; } catch (e) { out.textContent = e.message; } };
 })(window.ST = window.ST || {});
 
+/* ---- ui/levels ---- */
+/* SkillTree — progressione guidata: livelli richiudibili (Materia → Livello → Argomento → Attività), hub dell'argomento organizzato
+   per categorie, pratica consigliata dopo la lezione e nella Home, «Continua Strategic Mastery».
+   Usa componenti nativi (<details>): leggeri e compatibili con Android e Safari. Nessuna regola di verifica viene modificata. */
+(function (ST) {
+  'use strict';
+  const U = ST.util, P = ST.progress, PL = ST.plan, C = ST.content, A = ST.app, E = U.esc, V = ST.views, X = ST.acts, Z = ST.act;
+  const Lv = ST.levels = {};
+
+  const CHIP = { todo: ['', 'Da iniziare'], doing: ['acc', 'In corso'], done: ['good', 'Completata'], review: ['warn', 'Da ripassare'] };
+  const chip = st => '<span class="tag ' + CHIP[st][0] + '">' + CHIP[st][1] + '</span>';
+  Lv.chip = chip;
+  const pct = x => Math.round(100 * x) + '%';
+
+  /* ---- stato di apertura delle sezioni: si memorizza solo ciò che l'utente cambia rispetto al valore predefinito ---- */
+  const store = (kind) => { const st = A.state.settings = A.state.settings || {}; return (st[kind] = st[kind] || {}); };
+  Lv.isOpen = (kind, k1, k2, def) => { const m = store(kind)[k1]; return m && typeof m[k2] === 'boolean' ? m[k2] : def; };
+  document.addEventListener('toggle', ev => {
+    const d = ev.target; if (!d || !d.classList || !A.state) return;
+    const kind = d.classList.contains('lv') ? 'lv' : d.classList.contains('tsec') ? 'tsec' : null; if (!kind) return;
+    const k1 = d.dataset.k1, k2 = d.dataset.k2, def = d.dataset.def === '1', m = store(kind);
+    if (d.open === def) { if (m[k1]) { delete m[k1][k2]; if (!Object.keys(m[k1]).length) delete m[k1]; A.save(); } return; }
+    (m[k1] = m[k1] || {})[k2] = d.open; A.save();
+  }, true);
+
+  /* ---- riga di un argomento ---- */
+  const rowHtml = (t, isNext) => {
+    const s = A.state, sta = P.topicStatus(s, t.id), un = PL.unlocked(s, t), zs = Z.topicState(s, t);
+    const pre = (t.prereq || []).filter(x => !P.atLeast(P.topicStatus(s, x), 'practiced')).map(x => C.topic(x).title);
+    const nl = Z.linksFor(t).length;
+    return '<button class="item' + (un ? '' : ' locked') + (zs === 'done' ? ' done' : '') + (isNext ? ' next' : '') + '" data-act="go" data-view="topic" data-p=\'{"id":"' + t.id + '"}\'><span class="ic">' + (un ? '📖' : '🔒') + '</span><span class="tx"><b>' + E(t.title) + '</b><span>' + E(t.summary) + (pre.length ? ' · Prima: ' + E(pre[0]) : '') + (nl ? ' · 🧪 ' + nl + (nl === 1 ? ' pratica' : ' pratiche') : '') + '</span></span><span class="tags">' + (isNext ? '<span class="tag acc">Prossimo</span>' : '') + (zs !== 'todo' ? chip(zs) : '') + (P.atLeast(sta, 'verified') ? ST.statusTag(sta) : '') + '</span></button>';
+  };
+  Lv.rowHtml = rowHtml;
+
+  /* ---- livelli richiudibili di una materia ----
+     o.filter(t) limita gli argomenti; o.extra(stage) aggiunge HTML in fondo al livello (es. verifica di livello) */
+  Lv.html = (sid, o) => {
+    o = o || {}; const s = A.state, f = o.filter, rec = Z.recommendedStage(s, sid, f), nx = Z.nextTopic(s, sid, f);
+    return C.stagesOf(sid).map(stg => {
+      const ts = stg.topics.map(id => C.topic(id)).filter(t => !f || f(t));
+      if (!ts.length) return f ? '' : '<div class="lv-empty"><b>' + E(stg.id) + ' — ' + E(stg.title) + '</b><span class="mute small"> · contenuti non ancora disponibili</span></div>';
+      const st = Z.levelStats(s, sid, stg.id, f), def = stg.id === rec, open = Lv.isOpen('lv', sid, stg.id, def);
+      const pc = st.total ? Math.round(100 * st.done / st.total) : 0;
+      return '<details class="lv' + (def ? ' rec' : '') + '" data-k1="' + sid + '" data-k2="' + stg.id + '" data-def="' + (def ? 1 : 0) + '"' + (open ? ' open' : '') + '><summary><span class="lv-tt"><b>' + E(stg.id) + ' — ' + E(stg.title) + '</b><small>' + st.done + '/' + st.total + ' completati · ' + st.verified + ' verificati' + (st.review ? ' · ' + st.review + ' da ripassare' : '') + '</small></span>' + (def ? '<span class="tag acc">Consigliato</span>' : '') + '<span class="prog' + (st.done === st.total ? ' good' : '') + '"><i style="width:' + pc + '%"></i></span></summary>' +
+        (stg.desc ? '<p class="mute small lv-desc">' + E(stg.desc) + '</p>' : '') + '<div class="list">' + ts.map(t => rowHtml(t, !!nx && nx.id === t.id)).join('') + '</div>' + ((o.extra || (sid === 'sma' ? Lv.smaExtra : null)) ? (o.extra || Lv.smaExtra)(stg) : '') + '</details>';
+    }).join('');
+  };
+
+  /* Strategic Mastery: la verifica di livello (soglia 70%, già esistente) compare in fondo a ogni livello */
+  Lv.smaExtra = stg => {
+    const M = ST.sma, s = A.state; if (!M || !M.levelCheck) return '';
+    const p = M.levelProgress(s, stg.id); if (!p.total) return '';
+    return '<div class="lv-extra"><b>✅ Verifica del livello</b> <span class="mute small">domande dei moduli di ' + E(stg.id) + ' · soglia ' + Math.round(100 * M.levelCheck.THRESHOLD) + '%</span><br><button class="btn sm ghost" data-act="smaLvCheck" data-l="' + E(stg.id) + '">Verifica del livello</button> ' + M.levelCheck.badge(s, stg.id) + '</div>';
+  };
+
+  /* ---- blocco attività (laboratorio / simulazione / missione) ---- */
+  const statusLine = (s, id) => {
+    const r = Z.rec(s, id), st = Z.status(s, id); if (!r) return 'Nessun tentativo';
+    const p = [];
+    if (r.done) p.push('completata' + (r.manual ? ' (conferma manuale)' : '') + ' il ' + r.done);
+    if (r.att) p.push(r.att + (r.att === 1 ? ' tentativo' : ' tentativi'));
+    if (r.best != null) p.push('migliore ' + pct(r.best));
+    if (r.last && r.last !== r.done) p.push('ultimo ' + r.last);
+    if (r.ms) p.push('~' + Math.max(1, Math.round(r.ms / 60000)) + ' min');
+    const n = Z.itemsDone(s, id); if (n) p.push(n + (n === 1 ? ' elemento svolto' : ' elementi svolti'));
+    return (st === 'review' ? 'Risultato sotto il criterio: da consolidare. ' : '') + (p.join(' · ') || 'Iniziata');
+  };
+  /* o: { why, compact, topic } */
+  Lv.actHtml = (id, o) => {
+    o = o || {}; const s = A.state, d = Z.def(id); if (!d) return '';
+    const st = Z.status(s, id), icon = d.icon || (d.meta.kind === 'sim' ? '🎮' : '🧪'), manual = !d.meta.auto && st !== 'done';
+    return '<div class="item act' + (st === 'done' ? ' done' : '') + '"><span class="ic">' + icon + '</span><span class="tx"><b>' + E(d.title) + '</b><span>' + E(d.meta.skill) + ' · ~' + d.meta.mins + ' min · difficoltà ' + Z.DIFF[d.meta.diff] + '</span>' +
+      (o.why ? '<span class="why">' + E(o.why) + '</span>' : '') + (o.compact ? '' : '<span>' + E(statusLine(s, id)) + '</span>' + (d.meta.auto ? '<span class="mute small">' + E(d.meta.auto) + '</span>' : '<span class="mute small">Nessuna condizione verificabile dall’app: il completamento è una conferma manuale.</span>')) +
+      '<span class="btns"><button class="btn sm" data-act="actGo" data-id="' + E(id) + '">' + (st === 'done' || st === 'review' ? '↻ Ripeti' : '▶ Inizia') + '</button><button class="btn sm ghost" data-act="actSnooze" data-id="' + E(id) + '">Più tardi</button>' +
+      (manual ? '<button class="btn sm ghost" data-act="actConfirm" data-id="' + E(id) + '">Segna come completata (conferma manuale)</button>' : '') + '</span></span>' + chip(st) + '</div>';
+  };
+  X.actGo = el => { if (!Z.launch(el.dataset.id)) A.toast('Attività non disponibile'); };
+  X.actSnooze = el => { Z.snooze(A.state, el.dataset.id); A.save(); A.toast('Rimandata di ' + Z.SNOOZE_DAYS + ' giorni'); A.render(); };
+  X.actConfirm = el => { const d = Z.def(el.dataset.id); if (!d || d.meta.auto) return; if (!confirm('Confermi di aver svolto «' + d.title + '»? Il completamento sarà registrato come conferma manuale, non verificata dall’app.')) return; Z.confirm(A.state, d.id); A.save(); A.toast('Segnata come completata (manuale)'); A.render(); };
+
+  /* ---- hub dell'argomento: Lezioni · Esercizi · Laboratori · Simulazioni · Verifiche ---- */
+  const section = (part, icon, title, items, n) => items ? '<details class="tsec card" data-k1="topic" data-k2="' + part + '" data-def="1"' + (Lv.isOpen('tsec', 'topic', part, true) ? ' open' : '') + '><summary><b>' + icon + ' ' + title + '</b><span class="mute small"> · ' + n + '</span></summary><div class="list">' + items + '</div></details>' : '';
+  const langOf = t => t.subject === 'eng' ? 'en' : t.subject === 'jpn' ? 'ja' : null;
+  V.topic = p => {
+    const t = C.topic(p.id), s = A.state, r = P.topicRec(s, t.id), st = P.topicStatus(s, t.id), zs = Z.topicState(s, t), parts = Z.topicParts(s, t), steps = Z.topicSteps(s, t);
+    const nEx = t.exercises.length, lastTest = (r.tests || []).slice(-1)[0], canTest = r.studied && U.diffDays(r.studied, U.today()) >= 1;
+    const nxt = steps.find(x => x.next);
+    const act = (icon, title, sub, view, tag, extra) => '<button class="item" data-act="go" data-view="' + view + '" data-p=\'' + JSON.stringify(Object.assign({ id: t.id }, extra || {})) + '\'><span class="ic">' + icon + '</span><span class="tx"><b>' + title + '</b><span>' + sub + '</span></span>' + (tag || '') + '</button>';
+    let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + E(t.title) + '</h1><p class="mute">' + E(t.summary) + '</p>' +
+      '<p>' + (C.subject(t.subject) ? '<span class="tag">' + E(C.subject(t.subject).title) + '</span>' : '') + '<span class="tag">Stage ' + E(t.stage) + '</span><span class="tag">~' + t.minutes + ' min</span>' + chip(zs) + (P.atLeast(st, 'verified') ? ST.statusTag(st) : '<span class="tag">Competenza non ancora verificata</span>') + '</p>';
+    h += (function () { const r = ST.kg.related(t); if (!r.prs.length) return ''; return '<div class="card"><p class="small"><b>Collegamenti trasversali</b> (per parole chiave): ' + r.prs.map(p => '<button class="btn alt sm" data-act="go" data-view="transfer" data-p=\'{"t":"tt"}\'>' + E(ST.kg.PRINCIPLES[p].t) + '</button>').join(' ') + (r.shared.length ? '<br>Anche in: ' + r.shared.map(id => '<button class="btn alt sm" data-act="go" data-view="topic" data-p=\'{"id":"' + id + '"}\'>' + E(ST.content.topics[id].title) + '</button>').join(' ') : '') + '</p></div>'; })();
+    if (t.objectives && t.objectives.length) h += '<div class="card"><h3>Obiettivi</h3><ul>' + t.objectives.map(o => '<li>' + E(o) + '</li>').join('') + '</ul>' + ((t.prereq || []).length ? '<p class="mute small">Prerequisiti: ' + t.prereq.map(x => E(C.topic(x).title)).join(', ') + '</p>' : '') + '</div>';
+    if (nxt) {
+      const lbl = { lesson: 'la lezione', practice: 'gli esercizi applicativi', lab: 'la pratica «' + (Z.def(nxt.id) || { title: '' }).title + '»', sim: 'la simulazione «' + (Z.def(nxt.id) || { title: '' }).title + '»', test: 'la verifica' }[nxt.part];
+      h += '<p class="nextstep small">➜ Prossimo passo consigliato: <b>' + E(lbl) + '</b></p>';
+    }
+    /* Lezioni */
+    const lesson = act('📖', 'Lezione', t.pages.length + ' pagine' + (r.studied ? ' · letta' : r.page ? ' · riprendi da pagina ' + (r.page + 1) : ''), 'lesson', chip(parts.lesson));
+    h += section('lessons', '📖', 'Lezioni', lesson, '1');
+    /* Esercizi */
+    const ex = (nEx ? act('✍️', 'Esercizi applicativi', parts.okN + '/' + nEx + ' svolti correttamente (completati con ' + parts.need + ')', 'practiceTopic', chip(parts.practice)) : '') +
+      (t.listening ? act('🎧', 'Ascolto senza testo', t.listening.length + ' brano · comprensione esplicita e implicita', 'listenTopic') : '') +
+      (t.dictation ? act('📝', 'Dettato', t.dictation.length + ' frasi', 'dictTopic') : '') +
+      (t.shadowing ? act('🗣️', 'Shadowing e pronuncia', t.shadowing.length + ' frasi · registrazione facoltativa', 'shadowTopic') : '') +
+      (t.speaking ? act('💬', 'Risposta spontanea', t.speaking.length + ' consegne', 'speakTopic') : '') +
+      (t.reading ? act('📰', 'Lettura', t.reading.length + ' testi', 'readTopic') : '');
+    h += section('exercises', '✍️', 'Esercizi', ex, (nEx ? 1 : 0) + ['listening', 'dictation', 'shadowing', 'speaking', 'reading'].filter(k => t[k]).length);
+    /* Laboratori, simulazioni, missione reale: solo quelli realmente pertinenti */
+    const lk = Z.linksFor(t), why = id => (lk.find(l => l.id === id) || {}).why;
+    const sel = k => lk.filter(l => k === 'sim' ? l.kind === 'sim' : k === 'mission' ? l.id === 'strategos' : l.kind === 'lab' && l.id !== 'strategos');
+    const blocked = Z.blockedReason(s, t);
+    ['lab', 'sim', 'mission'].forEach(k => {
+      const L = sel(k); if (!L.length) return;
+      const body = blocked && parts.lesson !== 'done' ? '<p class="mute small">Disponibile dopo la lezione (' + E(blocked) + '). I laboratori sono facoltativi e non bloccano la progressione.</p>' : L.map(l => Lv.actHtml(l.id, { why: l.why })).join('');
+      h += section(k === 'lab' ? 'labs' : k === 'sim' ? 'sims' : 'mission', k === 'lab' ? '🧪' : k === 'sim' ? '🎮' : '🛰', k === 'lab' ? 'Laboratori' : k === 'sim' ? 'Simulazioni' : 'Missione reale', body, L.length);
+    });
+    /* Verifica */
+    const tst = act('🧪', 'Verifica dell’argomento', (t.test || []).length + ' domande · ' + (lastTest ? 'ultimo: ' + Math.round(lastTest.score * 100) + '% (' + lastTest.date + ')' : 'non ancora svolta') + (canTest ? '' : ' · conta come verifica da domani'), 'testTopic', chip(parts.test));
+    h += section('tests', '✅', 'Verifiche', tst, '1');
+    if (t.cards && t.cards.length) {
+      const first = (r.tests || []).find(x => x.score >= P.PASS && r.studied && U.diffDays(r.studied, x.date) >= 1);
+      h += '<div class="card"><h3>Ripasso programmato · lessico dell’argomento</h3><p class="mute small">Entra nel ripasso dilazionato dopo la lezione.' + (first && st === 'verified' ? ' Ritest consigliato dal ' + U.addDays(first.date, 14) + '.' : '') + '</p><p>' + t.cards.map(c => '<span class="tag">' + U.ruby(c.b) + ' · ' + E(c.f) + '</span>').join(' ') + '</p></div>';
+    }
+    return h;
+  };
+
+  /* ---- fine lezione: «Pratica consigliata per consolidare questa lezione» ---- */
+  ST.practiceCta = t => {
+    const s = A.state, lk = Z.linksFor(t).filter(l => l.id !== 'strategos' || t.subject === 'sma').slice(0, 3);
+    if (!lk.length || Z.blockedReason(s, t)) return '';
+    return '<div class="card practice-cta"><h3>Pratica consigliata per consolidare questa lezione</h3><p class="mute small">Facoltativa: non blocca la progressione. Puoi rimandarla.</p><div class="list">' + lk.map(l => Lv.actHtml(l.id, { why: l.why, compact: true })).join('') + '</div></div>';
+  };
+  const baseLesson = V.lesson;
+  V.lesson = p => {
+    const h = baseLesson(p), t = C.topic(p.id), n = t.pages.length, i = Math.max(0, Math.min(n - 1, typeof p.page === 'number' ? p.page : (A.state.topics[t.id] || {}).page || 0));
+    if (i !== n - 1) return h;
+    const cta = ST.practiceCta(t); if (!cta) return h;
+    // dopo il riepilogo (se presente) e prima dei pulsanti di navigazione
+    const j = h.lastIndexOf('</div><div class="footnav">'); return j > 0 ? h.slice(0, j) + cta + h.slice(j) : h + cta;
+  };
+
+  /* ---- Home: Pratica consigliata (max 2, facoltativa, non modifica le tre missioni) ---- */
+  ST.homePractice = () => {
+    let rec; try { rec = Z.recommend(A.state, 2); } catch (e) { return ''; }
+    if (!rec.length) return '';
+    return '<div class="card" id="home-practice"><h2 style="margin:0">Pratica consigliata</h2><p class="mute small">Facoltativa: non cambia le tre missioni né i ripassi.</p><div class="list">' + rec.map(c =>
+      Lv.actHtml(c.id, { why: c.reason, compact: true }).replace('<span class="tx"><b>', '<span class="tx"><span class="tag">' + E(c.subjectTitle) + '</span><b>')).join('') + '</div></div>';
+  };
+
+  /* ---- Multi-Move: elenco delle simulazioni per materia (il pulsante del laboratorio apre questa vista) ---- */
+  V['sma-sims'] = () => '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>♟ Multi-Move Strategy Simulator</h1><p class="mute small">Scenari a più turni: le scelte modificano lo stato e il debrief giudica il processo. Gli scenari sono inventati e semplificati.</p>' + ['str', 'sport', 'f1', 'sec', 'moto'].map(sj => '<div class="card">' + ST.simHub(sj) + '</div>').join('');
+
+  /* ---- Strategic Mastery: «Continua» ---- */
+  ST.smaContinue = st0 => {
+    const s = st0 || A.state, n = Z.smaNext(s), M = ST.sma;
+    const wk = Z.smaDays(s, 7);
+    let body;
+    if (!n) body = '<p class="small">Hai completato tutti i moduli e le pratiche collegate. Puoi ripetere i laboratori o affrontare una missione reale.</p>';
+    else if (n.type === 'check') body = '<p class="small"><b>' + E(n.title) + '</b> · ~' + n.mins + ' min</p><button class="btn block" data-act="smaMisOpen" data-i="' + E(n.iid) + '">▶ Continua</button>';
+    else if (n.type === 'levelcheck') body = '<p class="small"><b>' + E(n.title) + '</b> · ~' + n.mins + ' min</p><button class="btn block" data-act="smaLvCheck" data-l="' + E(n.level) + '">▶ Continua</button>';
+    else {
+      const t = n.topic, d = n.id ? Z.def(n.id) : null;
+      const what = n.part === 'lesson' ? 'Lezione' : n.part === 'practice' ? 'Esercizi' : n.part === 'test' ? 'Verifica' : n.part === 'sim' ? 'Simulazione' : n.part === 'mission' ? 'Missione reale' : 'Laboratorio';
+      body = '<p class="small"><b>' + E(t.title) + '</b> · ' + E(t.stage) + '<br><span class="mute">Prossimo passo: ' + E(what) + (d ? ' — ' + E(d.title) + ' (~' + d.meta.mins + ' min)' : ' (~' + t.minutes + ' min)') + '</span></p><button class="btn block" data-act="smaCont">▶ Continua Strategic Mastery</button>';
+    }
+    return '<div class="card glow" id="sma-continue"><h3 style="margin-top:0">Continua Strategic Mastery</h3><p class="mute small">Sedute negli ultimi 7 giorni: <b>' + wk + '</b> (consigliate 2, la terza è facoltativa · 20–30 minuti). Il laboratorio resta liberamente accessibile dall’elenco qui sotto.</p>' + body + '</div>';
+  };
+  X.smaCont = () => {
+    const n = Z.smaNext(A.state); if (!n || !n.topic) return;
+    if (n.part === 'lab' || n.part === 'sim' || n.part === 'mission') { if (n.id && Z.launch(n.id)) return; }
+    if (n.part === 'lesson') A.go('lesson', { id: n.topic.id }); else if (n.part === 'practice') A.go('practiceTopic', { id: n.topic.id }); else if (n.part === 'test') A.go('testTopic', { id: n.topic.id }); else A.go('topic', { id: n.topic.id });
+  };
+})(window.ST = window.ST || {});
+
 /* ---- vnext/00-core ---- */
 /* SkillTree vNext — Strategic Mastery Academy: nucleo condiviso (registrazione, stato, profilo, registro dei laboratori).
    Pacchetto SEPARATO da index.html (vedi vnext/INTEGRATION.md). Usa solo le API esistenti: ST.content, ST.views, ST.after, ST.acts,
@@ -68869,7 +69389,6 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   const st = (id, title, desc) => ({ id, title, desc, topics: [] });
   C.defineSubject({ id: 'sma', title: 'Strategic Mastery Academy', icon: '🜂', primary: false, optional: true, color: '#b48cff',
     goal: 'Specializzazione facoltativa: ragionamento deduttivo, pianificazione, previsione, adattamento e decisioni, con simulazioni, laboratori e applicazione nella vita reale.',
-    stageNote: M.LEVEL_NOTE,
     stages: M.LEVELS.map(l => st(l.id, l.title, l.goals.join(' · '))) });
   /* registra un modulo didattico (stesso DSL delle altre materie) con il pilastro di appartenenza */
   M.topic = o => {
@@ -68915,9 +69434,9 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
   /* ---- hub (anteposto alla vista standard della materia, che continua a mostrare livelli e argomenti) ---- */
   M.hub = s => {
     const prof = M.profile(s), lab = M.labs;
-    let h = '<div class="card glow sma-hub"><h2 style="margin:0">Strategic Mastery Academy</h2>' +
+    let h = (ST.smaContinue ? ST.smaContinue(s) : '') + '<div class="card glow sma-hub"><h2 style="margin:0">Strategic Mastery Academy</h2>' +
       '<p class="small mute">Specializzazione facoltativa: 2 sedute settimanali da 15–45 min (consigliati 20–30) e una terza opzionale di transfer reale. Non fa parte delle 3 missioni quotidiane e nessuna settimana saltata penalizza il percorso principale.</p>' +
-      '<p class="warn small">' + E(M.LEVEL_NOTE) + '</p></div>';
+      '</div>';
     h += '<div class="card"><h3>Quattro percorsi</h3><div class="list">' + M.PILLAR_IDS.map(id => {
       const p = M.PILLARS[id], n = C.topicsOf('sma').filter(t => t.pillar === id).length;
       return '<div class="item" style="border-left:3px solid ' + p.color + '"><span class="ic">' + p.icon + '</span><span class="tx"><b>' + E(p.title) + '</b><span>' + n + ' moduli · ' + E(p.skills.slice(0, 4).join(' · ')) + '…</span></span></div>';
@@ -68928,10 +69447,6 @@ La moto è un mezzo che regala libertà: la sicurezza è ciò che ti permette di
     }).join('') + '</div>';
     h += '<div class="card"><h3>Laboratori</h3><div class="list">' + lab.map(l => '<button class="item" data-act="' + E(l.act || 'go') + '"' + (l.act ? '' : ' data-view="' + E(l.view) + '"') + (l.p ? ' data-p=\'' + E(JSON.stringify(l.p)) + '\'' : '') + Object.keys(l.data || {}).map(k => ' data-' + k + '="' + E(l.data[k]) + '"').join('') + '><span class="tx"><b>' + E(l.title) + '</b><span>' + E(l.desc || '') + '</span></span><span class="tag good">disponibile</span></button>').join('') +
       M.pendingLabs.filter(p => !labState(p.id)).map(p => '<div class="item"><span class="tx"><b>' + E(p.title) + '</b><span>Non ancora implementato · previsto in ' + p.milestone + '</span></span><span class="tag">in arrivo</span></div>').join('') + '</div></div>';
-    h += '<div class="card"><h3>Livelli consigliati</h3>' + M.LEVELS.map((l, i) => {
-      const p = M.levelProgress(s, l.id);
-      return '<p class="small" style="margin:6px 0"><b>' + l.id + ' · ' + E(l.title) + '</b> ' + (M.levelRecommended(s, i) ? '' : '<span class="tag">consigliato dopo ' + M.LEVELS[i - 1].id + '</span> ') + '<span class="mute">' + p.total + ' moduli · ' + p.practiced + ' esercitati · ' + p.verified + ' verificati</span>' + (M.levelCheck && p.total ? ' <button class="btn sm ghost" data-act="smaLvCheck" data-l="' + l.id + '">Verifica del livello</button>' + M.levelCheck.badge(s, l.id) : '') + '</p>';
-    }).join('') + '</div>';
     return h;
   };
 
@@ -69857,6 +70372,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
   D.save = (s, c, st, ans, r) => {
     const S = M.S(s), e = (S.cases[c.id] = S.cases[c.id] || { tries: 0, hist: [] });
     e.tries++; e.hist.push({ d: U.today(), ok: r.outcome, good: r.goodProcess, conf: r.conf, spent: st.spent }); if (e.hist.length > 20) e.hist.shift();
+    ST.act.record(s, 'deduction', { item: c.id, ok: !!(r.outcome && r.goodProcess) });
     M.record(s, 'deduction', c.id, 'auto', r.outcome, { conf: r.conf });
     M.record(s, 'decision', 'ded:' + c.id, 'auto', r.goodProcess, {});
     if (r.conf != null) M.record(s, 'calibration', 'ded:' + c.id, 'auto', Math.abs(r.conf / 100 - r.post[ans.pick]) <= 0.3, { conf: r.conf });
@@ -70318,6 +70834,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
     if (O.done(st) && !st.saved) {
       st.saved = true; const r = O.result(st), s = A.state, S = M.S(s), e = (S.sims['opp:' + t] = S.sims['opp:' + t] || { tries: 0, bestEff: 0 });
       e.tries++; e.bestEff = Math.max(e.bestEff, r.eff);
+      ST.act.record(s, 'opponent', { item: t, ok: r.eff >= 0.75, score: r.eff });
       M.record(s, 'adaptability', 'opp:' + t, 'auto', r.eff >= 0.75, {});
       if (st.guess) M.record(s, 'deduction', 'opp:' + t, 'auto', r.guessOk, { conf: null });
       try { A.xp(r.eff >= 0.75 ? 3 : 1, 'sma:opp:' + t + ':' + e.tries); } catch (err) { /* ignora */ }
@@ -70365,7 +70882,10 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
   F.hit = (q, lo, hi) => lo <= hi && q.v >= lo && q.v <= hi;
   /* un intervallo troppo largo è «sicuro» ma inutile: la larghezza relativa è riportata insieme al tasso di successo */
   F.stats = s => { const h = (M.S(s).forecast || []); const n = h.length; if (!n) return { n: 0 }; const hits = h.filter(x => x.hit).length; return { n, hits, rate: +(100 * hits / n).toFixed(1), verdict: n < 8 ? 'Pochi intervalli: continua per avere un dato affidabile.' : hits / n < 0.65 ? 'I tuoi intervalli «all’80%» contengono il valore vero meno spesso di quanto dichiari: sei troppo sicuro.' : hits / n > 0.95 ? 'Intervalli molto prudenti: probabilmente troppo larghi per essere informativi.' : 'Intervalli ben calibrati rispetto all’80% dichiarato.' }; };
-  F.answer = (s, id, lo, hi) => { const q = F.BANK.find(x => x.id === id), hit = F.hit(q, lo, hi); (M.S(s).forecast = M.S(s).forecast || []).push({ id, lo, hi, hit, d: U.today() }); M.record(s, 'calibration', 'int:' + id, 'auto', hit, { conf: 80 }); return { hit, v: q.v }; };
+  F.answer = (s, id, lo, hi) => { const q = F.BANK.find(x => x.id === id), hit = F.hit(q, lo, hi); (M.S(s).forecast = M.S(s).forecast || []).push({ id, lo, hi, hit, d: U.today() }); M.record(s, 'calibration', 'int:' + id, 'auto', hit, { conf: 80 });
+    const st = F.stats(s), enough = st.n >= 8;   // completata dopo almeno 8 intervalli; «sufficiente» se il tasso di successo è fra 65% e 95%
+    ST.act.record(s, 'forecast', { item: 'int:' + id, done: enough, ok: enough ? (st.rate >= 65 && st.rate <= 95) : undefined, score: enough ? st.rate / 100 : undefined });
+    return { hit, v: q.v }; };
 
   M.registerLab({ id: 'forecast', title: 'Forecasting & Calibration Lab', view: 'sma-forecast', desc: 'Analisi della calibrazione delle tue previsioni reali e allenamento sugli intervalli all’80%.', ready: true });
   let qi = 0, last = null;
@@ -70474,6 +70994,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
     if (P.done(st)) {
       const r = P.result(sc, st), s = A.state, S = M.S(s), e = (S.sims['proc:' + sc.id] = S.sims['proc:' + sc.id] || { tries: 0, bestProc: 0, bestOut: 0 });
       e.tries++; e.bestProc = Math.max(e.bestProc, r.process); e.bestOut = Math.max(e.bestOut, r.outcome);
+      ST.act.record(s, KIND[sc.kind].lab, { item: sc.id, ok: !!r.good, score: r.process });
       M.record(s, KIND[sc.kind].dim, 'proc:' + sc.id, 'auto', r.good, {}); if (sc.kind === 'crisis') M.record(s, 'adaptability', 'proc:' + sc.id, 'auto', r.process >= 0.6, {});
       try { A.xp(r.good ? 3 : 1, 'sma:proc:' + sc.id + ':' + e.tries); } catch (err) { /* ignora */ } A.save();
     }
@@ -70581,7 +71102,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
 (function (ST) {
   'use strict';
   const M = ST.sma;
-  if (ST.sim && ST.views.sim) M.registerLab({ id: 'multimove', title: 'Multi-Move Strategy Simulator', view: 'sim', desc: ST.sim.templates.length + ' scenari a più turni (già presenti nell’app): le scelte modificano lo stato, con imprevisti e giudizio del processo.', ready: true });
+  if (ST.sim && ST.views.sim) M.registerLab({ id: 'multimove', title: 'Multi-Move Strategy Simulator', view: 'sma-sims', desc: ST.sim.templates.length + ' scenari a più turni (già presenti nell’app): le scelte modificano lo stato, con imprevisti e giudizio del processo.', ready: true });
 })(window.ST = window.ST || {});
 
 /* ---- vnext/30-strategos ---- */
@@ -70614,10 +71135,18 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
   S.start = (s, mid, mode) => {
     if (!S.byId(mid) || !S.MODES[mode]) throw new Error('missione/modalità sconosciuta');
     const inst = { iid: Date.now().toString(36) + L(s).length, mid, mode, started: U.today(), steps: {}, hints: 0, guess: null, p: null, planB: '', status: 'active', journal: null, obs: null, retro: null, checks: {} };
-    L(s).push(inst); return inst;
+    L(s).push(inst); ST.act.begin(s, 'strategos'); return inst;
   };
   S.saveStep = (inst, n, text) => { inst.steps[n] = String(text || '').trim(); return inst; };
   S.complete = inst => S.PROTOCOL.every(p => (inst.steps[p.n] || '').length >= 8);
+  /* cinque stati distinti: una missione NON è verificata solo perché è stata aperta */
+  S.STAGES = { assigned: 'Missione assegnata', planned: 'Pianificazione completata', applied: 'Applicazione dichiarata', outcome: 'Esito registrato', reviewed: 'Revisione completata' };
+  S.stage = inst => inst.status === 'closed' ? 'reviewed' : inst.status === 'observed' ? 'outcome' : inst.status === 'decided' ? (inst.applied ? 'applied' : 'planned') : 'assigned';
+  S.apply = (s, inst, note) => {
+    if (inst.status !== 'decided') return { ok: false, err: 'registra prima la decisione' };
+    note = String(note || '').trim(); if (note.length < 10) return { ok: false, err: 'descrivi che cosa hai fatto in pratica (almeno 10 caratteri)' };
+    inst.applied = { d: U.today(), note }; return { ok: true };
+  };
   S.guessOk = inst => !inst.guess ? null : inst.guess === S.byId(inst.mid).model;
   /* decisione: riusa il diario esistente (stessa struttura di T.jAdd), nessuna duplicazione */
   S.decide = (s, inst, o) => {
@@ -70637,6 +71166,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
     if (!o.observed || o.observed.trim().length < 10) return { ok: false, err: 'descrivi che cosa hai osservato' };
     if (o.cls === 'doc' && (!o.proof || o.proof.trim().length < 30)) return { ok: false, err: 'per «documentato» indica date, fatti o numeri (almeno 30 caratteri)' };
     if (o.cls === 'ext' && (!o.source || o.source.trim().length < 3)) return { ok: false, err: 'per «verifica esterna» indica chi o che cosa l’ha verificato' };
+    if (!inst.applied) inst.applied = { d: U.today(), note: '', implied: true };
     const ok = o.result === 'ok';
     inst.obs = { d: U.today(), result: o.result, observed: o.observed.trim(), cls: o.cls, proof: (o.proof || '').trim(), source: (o.source || '').trim() }; inst.status = 'observed';
     const kind = o.cls === 'ext' ? 'external' : o.cls === 'sim' ? 'guided' : 'auto', help = inst.mode !== 'auto';
@@ -70647,7 +71177,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
   S.retrospect = (s, inst, o) => {
     if (inst.status !== 'observed') return { ok: false, err: 'registra prima l’esito' };
     if (!o.learned || o.learned.trim().length < 10) return { ok: false, err: 'scrivi che cosa hai imparato' };
-    inst.retro = { learned: o.learned.trim(), principle: (o.principle || '').trim(), d: U.today() }; inst.status = 'closed';
+    inst.retro = { learned: o.learned.trim(), principle: (o.principle || '').trim(), d: U.today() }; inst.status = 'closed'; ST.act.record(s, 'strategos', { item: inst.iid, ok: inst.obs.result !== 'fail' });
     T.jClose(s, inst.journal, inst.obs.observed, inst.retro.learned); return { ok: true };
   };
   /* verifiche differite: solo per missioni con esito osservato; contano da quella data */
@@ -70679,7 +71209,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
     let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>🛰 STRATEGOS</h1><p class="small mute">Applica il metodo a situazioni vere e registra che cosa succede. Distinguiamo sempre: <b>simulato</b>, <b>autodichiarato</b>, <b>documentato</b> (con fatti e date) e <b>verifica esterna</b>. L’app non conferma da sola nessuna abilità reale.</p>';
     h += '<div class="card glow"><h2 style="margin:0">Livello di transfer: L' + lv.level + '</h2><p class="small">' + st.started + ' avviate · ' + st.observed + ' con esito · documentate/esterne ' + st.real + ' (' + st.areas + ' aree) · verifiche differite riuscite ' + st.delayedOk + (st.brier ? ' · Brier previsioni ' + st.brier.brier + ' su ' + st.brier.n : '') + '</p><p class="small mute">Prossimo passo: ' + E(lv.next) + '</p></div>';
     if (due.length) h += '<div class="card"><h3>Verifiche differite in scadenza</h3><div class="list">' + due.map(d => '<button class="item" data-act="smaMisOpen" data-i="' + E(d.iid) + '"><span class="tx"><b>' + E(S.byId(d.mid).title) + '</b><span>Verifica a ' + d.check + ' giorni</span></span></button>').join('') + '</div></div>';
-    if (active.length) h += '<div class="card"><h3>In corso</h3><div class="list">' + active.map(i => '<button class="item" data-act="smaMisOpen" data-i="' + E(i.iid) + '"><span class="tx"><b>' + E(S.byId(i.mid).title) + '</b><span>' + ({ active: 'da completare', decided: 'decisa: attende l’esito', observed: 'esito registrato: manca la retrospettiva' })[i.status] + '</span></span></button>').join('') + '</div></div>';
+    if (active.length) h += '<div class="card"><h3>In corso</h3><div class="list">' + active.map(i => '<button class="item" data-act="smaMisOpen" data-i="' + E(i.iid) + '"><span class="tx"><b>' + E(S.byId(i.mid).title) + '</b><span>' + S.STAGES[S.stage(i)] + ({ assigned: ': completa i sette passi e decidi', planned: ': applica il piano e dichiaralo', applied: ': attende l’esito', outcome: ': manca la revisione' })[S.stage(i)] + '</span></span></button>').join('') + '</div></div>';
     h += '<div class="card"><h3>Il protocollo</h3><ol class="small">' + S.PROTOCOL.map(p => '<li><b>' + E(p.t) + '</b> — ' + E(p.q) + '</li>').join('') + '</ol></div>';
     h += '<div class="card"><h3>Missioni disponibili (' + S.missions.length + ')</h3><div class="list">' + S.missions.map(m => '<div class="item"><span class="tx"><b>' + E(m.title) + '</b><span>' + E(S.AREAS[m.area]) + ' · L' + m.level + ' · ' + E(m.goal) + '</span></span><span class="row" style="gap:4px">' + Object.keys(S.MODES).map(k => '<button class="btn sm ghost" data-act="smaMisStart" data-m="' + E(m.id) + '" data-mode="' + k + '">' + ({ guided: 'Guidata', limited: 'Pochi hint', auto: 'Autonoma' })[k] + '</button>').join('') + '</span></div>').join('') + '</div></div>';
     return h;
@@ -70690,12 +71220,15 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
     if (inst.mode === 'guided') h += '<p class="small good">Modello suggerito: ' + E(S.MODELS[m.model]) + '</p>';
     else if (inst.mode === 'auto' && inst.status === 'active') h += '<p class="small">Quale modello applicheresti? ' + Object.keys(S.MODELS).map(k => '<button class="btn sm' + (inst.guess === k ? '' : ' ghost') + '" data-act="smaMisGuess" data-i="' + E(inst.iid) + '" data-k="' + k + '">' + E(S.MODELS[k]) + '</button>').join(' ') + '</p>' + (inst.guess ? '<p class="small mute">Scelta registrata. ' + (S.guessOk(inst) ? 'È il modello previsto per questa missione.' : 'Il modello previsto era un altro: ' + E(S.MODELS[m.model]) + '. Puoi comunque proseguire.') + '</p>' : '');
     h += '</div>';
+    { const cur = S.stage(inst), keys = Object.keys(S.STAGES), ci = keys.indexOf(cur); h += '<p class="small mstages">' + keys.map((k, n) => '<span class="tag' + (n < ci ? ' good' : n === ci ? ' acc' : '') + '">' + (n < ci ? '✓ ' : '') + E(S.STAGES[k]) + '</span>').join(' ') + '</p>'; }
     if (inst.status === 'active') {
       h += '<div class="card"><h3>I sette passi</h3>' + S.PROTOCOL.map(p => '<p class="small" style="margin:10px 0 2px"><b>' + p.n + '. ' + E(p.t) + '</b><br><span class="mute">' + E(p.q) + '</span>' + (inst.mode === 'guided' ? '<br><span class="good">Suggerimento: ' + E(m.hints[p.n - 1]) + '</span>' : inst.mode === 'limited' ? ' <button class="btn sm ghost" data-act="smaMisHint" data-i="' + E(inst.iid) + '" data-n="' + p.n + '">Mostra suggerimento</button><span id="sma-hint-' + p.n + '" class="good"></span>' : '') + '</p>' + ta('sma-st-' + p.n, inst.steps[p.n])).join('') + '<button class="btn alt" data-act="smaMisSave" data-i="' + E(inst.iid) + '">Salva i passi</button></div>' +
         '<div class="card"><h3>Decisione</h3><p class="small">Stima di riuscita (%) <input id="sma-p" type="number" min="1" max="99" value="' + (inst.p || '') + '" style="width:80px"> · Verifica il <input id="sma-chk" type="date" value="' + E(inst.check || '') + '"></p>' + ta('sma-planb', inst.planB, 'Piano B e segnale per cambiare') + '<button class="btn" data-act="smaMisDecide" data-i="' + E(inst.iid) + '">Registra la decisione (entra nel Diario)</button></div>';
     } else {
       h += '<div class="card"><h3>La tua decisione</h3><p class="small">Stima di riuscita: <b>' + inst.p + '%</b> · Piano B: ' + E(inst.planB) + '</p></div>';
-      if (inst.status === 'decided') h += '<div class="card"><h3>Esito osservato</h3><div class="row" style="gap:6px">' + [['ok', 'Riuscita'], ['partial', 'Parziale'], ['fail', 'Non riuscita']].map(r => '<label class="small"><input type="radio" name="sma-res" value="' + r[0] + '"> ' + r[1] + '</label>').join(' ') + '</div>' + ta('sma-obs', '', 'Che cosa è successo, concretamente?') +
+      if (inst.status === 'decided' && !inst.applied) h += '<div class="card"><h3>Applicazione</h3><p class="small">Il piano è pronto. Quando lo hai messo in pratica, dichiaralo: è una dichiarazione tua, non verificata dall’app.</p>' + ta('sma-app', '', 'Che cosa hai fatto concretamente, e quando?') + '<button class="btn" style="margin-top:8px" data-act="smaMisApply" data-i="' + E(inst.iid) + '">Dichiaro di aver applicato il piano</button></div>';
+      else if (inst.status === 'decided') h += '<div class="card"><p class="small"><b>Applicazione dichiarata</b> il ' + E(inst.applied.d) + (inst.applied.note ? ': ' + E(inst.applied.note) : '') + '</p></div>';
+      if (inst.status === 'decided' && inst.applied) h += '<div class="card"><h3>Esito osservato</h3><div class="row" style="gap:6px">' + [['ok', 'Riuscita'], ['partial', 'Parziale'], ['fail', 'Non riuscita']].map(r => '<label class="small"><input type="radio" name="sma-res" value="' + r[0] + '"> ' + r[1] + '</label>').join(' ') + '</div>' + ta('sma-obs', '', 'Che cosa è successo, concretamente?') +
         '<p class="small">Classe di evidenza: <select id="sma-cls">' + Object.keys(S.CLASSES).map(k => '<option value="' + k + '">' + E(S.CLASSES[k]) + '</option>').join('') + '</select></p>' + ta('sma-proof', '', 'Per «documentato»: date, fatti, numeri') + '<input id="sma-src" placeholder="Per «verifica esterna»: chi/che cosa l’ha verificato" style="width:100%"><button class="btn" style="margin-top:8px" data-act="smaMisObserve" data-i="' + E(inst.iid) + '">Registra l’esito</button></div>';
       if (inst.obs) h += '<div class="card"><h3>Esito</h3><p class="small">' + ({ ok: 'Riuscita', partial: 'Parziale', fail: 'Non riuscita' })[inst.obs.result] + ' · <span class="tag">' + E(S.CLASSES[inst.obs.cls]) + '</span><br>' + E(inst.obs.observed) + '</p></div>';
       if (inst.status === 'observed') h += '<div class="card"><h3>Retrospettiva</h3>' + ta('sma-learn', '', 'Che cosa hai imparato? Che cosa cambieresti?') + '<input id="sma-prin" placeholder="Principio appreso (una frase)" style="width:100%"><button class="btn" style="margin-top:8px" data-act="smaMisRetro" data-i="' + E(inst.iid) + '">Chiudi la missione</button></div>';
@@ -70714,6 +71247,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
   X.smaMisHint = act((inst, el) => { const m = S.byId(inst.mid), n = +el.dataset.n, sp = document.getElementById('sma-hint-' + n); if (sp && !sp.textContent) { sp.textContent = ' ' + m.hints[n - 1]; inst.hints++; A.save(); } });
   X.smaMisSave = act(inst => { saveSteps(inst); A.save(); A.toast('Passi salvati'); });
   X.smaMisDecide = act(inst => { saveSteps(inst); const r = S.decide(A.state, inst, { p: val('sma-p'), check: val('sma-chk'), planB: val('sma-planb') }); if (!r.ok) { A.toast(r.err); A.save(); return; } A.save(); A.render(); });
+  X.smaMisApply = act(inst => { const r = S.apply(A.state, inst, val('sma-app')); if (!r.ok) { A.toast(r.err); return; } A.save(); A.render(); });
   X.smaMisObserve = act(inst => { const res = (document.querySelector('input[name="sma-res"]:checked') || {}).value; const r = S.observe(A.state, inst, { result: res, observed: val('sma-obs'), cls: val('sma-cls'), proof: val('sma-proof'), source: val('sma-src') }); if (!r.ok) { A.toast(r.err); return; } A.save(); A.render(); });
   X.smaMisRetro = act(inst => { const r = S.retrospect(A.state, inst, { learned: val('sma-learn'), principle: val('sma-prin') }); if (!r.ok) { A.toast(r.err); return; } A.save(); A.render(); });
   X.smaMisCheck = act((inst, el) => { S.check(A.state, inst, +el.dataset.c, el.dataset.r, ''); A.save(); A.render(); });
@@ -70994,6 +71528,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
   K.record = (s, sit, answers) => {
     const x = K.S(s), q = answers.reduce((a, r) => a + r.q, 0), max = answers.length * 3, e = (x.theory[sit.id] = x.theory[sit.id] || { tries: 0, best: 0 });
     e.tries++; e.best = Math.max(e.best, q / max); e.last = q / max;
+    ST.act.record(s, 'combat', { item: sit.id, ok: q / max >= 0.67, score: max ? q / max : undefined });
     M.record(s, 'planning', 'cmb:' + sit.id, 'auto', q / max >= 0.67, {}); return e;
   };
   /* competenza motoria: registro separato; mai ricavata dal teorico; la conferma richiede il nome di un istruttore/club */
@@ -71217,7 +71752,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
   X.smaCybOpen = el => { A.go('sma-cyber-play', { id: el.dataset.id }); };
   X.smaCybRun = () => {
     const ch = Y.byId(cur()), st = sess[ch.id], i = document.getElementById('sma-cmd'); if (!i || !i.value.trim()) return; const was = st.solved; Y.run(st, i.value.trim(), ch);
-    if (st.solved && !was) { const S = (M.S(A.state).tech = M.S(A.state).tech || {}).cyber = (M.S(A.state).tech.cyber || {}); S[ch.id] = { solved: true, d: U.today(), hints: st.hints, cmds: st.cmds }; try { A.xp(st.hints ? 2 : 3, 'sma:cyb:' + ch.id); } catch (e) { /* ignora */ } A.save(); }
+    if (st.solved && !was) { const S = (M.S(A.state).tech = M.S(A.state).tech || {}).cyber = (M.S(A.state).tech.cyber || {}); S[ch.id] = { solved: true, d: U.today(), hints: st.hints, cmds: st.cmds }; ST.act.record(A.state, 'cyberlab', { item: ch.id, ok: true }); try { A.xp(st.hints ? 2 : 3, 'sma:cyb:' + ch.id); } catch (e) { /* ignora */ } A.save(); }
     A.render();
     const n = document.getElementById('sma-cmd'); if (n) n.focus();
   };
@@ -71353,7 +71888,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
   X.smaProgOpen = el => { A.go('sma-prog-play', { id: el.dataset.id }); };
   X.smaProgRun = async el => {
     const x = P.byId(el.dataset.id), s = st[x.id], t = document.getElementById('sma-code'); if (t) s.code = t.value; s.runs++; s.res = await P.run(s.code, x.fn, x.tests);
-    if (s.res.ok) { const S = stat(); if (!S[x.id] || !S[x.id].solved) { S[x.id] = { solved: true, d: U.today(), runs: s.runs, hints: s.hint, solution: s.shown }; try { A.xp(s.hint || s.shown ? 2 : 3, 'sma:prog:' + x.id); } catch (e) { /* ignora */ } A.save(); } } A.render();
+    if (s.res.ok) { const S = stat(); if (!S[x.id] || !S[x.id].solved) { S[x.id] = { solved: true, d: U.today(), runs: s.runs, hints: s.hint, solution: s.shown }; ST.act.record(A.state, 'proglab', { item: x.id, ok: !s.shown }); try { A.xp(s.hint || s.shown ? 2 : 3, 'sma:prog:' + x.id); } catch (e) { /* ignora */ } A.save(); } } A.render();
   };
   X.smaProgHint = el => { const x = P.byId(el.dataset.id), s = st[x.id]; if (s.hint < x.hints.length) s.hint++; const t = document.getElementById('sma-code'); if (t) s.code = t.value; A.render(); };
   X.smaProgReset = el => { const x = P.byId(el.dataset.id); st[x.id].code = x.starter; st[x.id].res = null; A.render(); };
@@ -71493,9 +72028,9 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
   X.smaF1Start = el => { g[el.dataset.id].start = el.dataset.k; A.render(); };
   X.smaF1Add = el => { const s = F.byId(el.dataset.id); const al = (s.allowed || ['S', 'M', 'H']).filter(k => !F.TYRES[k].wet); g[s.id].stops.push({ lap: Math.round(s.laps / 2), tyre: al.find(k => k !== g[s.id].start) || al[0] }); A.render(); };
   X.smaF1Del = el => { g[el.dataset.id].stops.splice(+el.dataset.i, 1); A.render(); };
-  X.smaF1Run = el => { const s = F.byId(el.dataset.id), x = g[s.id], plan = { start: x.start, stops: x.stops.map(t => ({ lap: +t.lap, tyre: t.tyre })) }; x.res = { sim: F.simulate(s, plan), sc: F.score(s, plan) }; if (x.res.sc.legal) { const S = stat(), e = (S[s.id] = S[s.id] || { tries: 0, bestEff: 0 }); e.tries++; e.bestEff = Math.max(e.bestEff, x.res.sc.eff); M.record(A.state, 'planning', 'f1:' + s.id, 'auto', x.res.sc.eff >= 0.99, {}); try { A.xp(x.res.sc.eff >= 0.99 ? 3 : 1, 'sma:f1:' + s.id); } catch (e2) { /* ignora */ } A.save(); } A.render(); };
-  X.smaF1Duel = el => { const s = F.byId(el.dataset.id), x = g[s.id], v = parseInt((document.getElementById('sma-duel-lap') || {}).value, 10); if (!(v >= 5 && v <= s.laps - 5)) { A.toast('Giro non valido'); return; } x.pit = v; x.res = { me: F.duel(s, v), best: F.duelBest(s) }; const S = stat(), e = (S[s.id] = S[s.id] || { tries: 0, bestEff: 0 }); e.tries++; const ok = x.res.me.margin >= x.res.best.margin - 0.5; e.bestEff = Math.max(e.bestEff, ok ? 1 : 0.5); M.record(A.state, 'planning', 'f1:' + s.id, 'auto', ok, {}); A.save(); A.render(); };
-  X.smaF1Sc = el => { const s = F.byId(el.dataset.id), x = g[s.id], tb = F.scBest(s, s.state), i = tb.findIndex(o => o.o === el.dataset.k); x.res = { table: tb, rank: i }; const S = stat(), e = (S[s.id] = S[s.id] || { tries: 0, bestEff: 0 }); e.tries++; e.bestEff = Math.max(e.bestEff, tb[0].t / tb[i].t); M.record(A.state, 'decision', 'f1:' + s.id, 'auto', i === 0, {}); A.save(); A.render(); };
+  X.smaF1Run = el => { const s = F.byId(el.dataset.id), x = g[s.id], plan = { start: x.start, stops: x.stops.map(t => ({ lap: +t.lap, tyre: t.tyre })) }; x.res = { sim: F.simulate(s, plan), sc: F.score(s, plan) }; if (x.res.sc.legal) { const S = stat(), e = (S[s.id] = S[s.id] || { tries: 0, bestEff: 0 }); e.tries++; e.bestEff = Math.max(e.bestEff, x.res.sc.eff); ST.act.record(A.state, 'f1lab', { item: s.id + ':plan', ok: x.res.sc.eff >= 0.99, score: x.res.sc.eff }); M.record(A.state, 'planning', 'f1:' + s.id, 'auto', x.res.sc.eff >= 0.99, {}); try { A.xp(x.res.sc.eff >= 0.99 ? 3 : 1, 'sma:f1:' + s.id); } catch (e2) { /* ignora */ } A.save(); } A.render(); };
+  X.smaF1Duel = el => { const s = F.byId(el.dataset.id), x = g[s.id], v = parseInt((document.getElementById('sma-duel-lap') || {}).value, 10); if (!(v >= 5 && v <= s.laps - 5)) { A.toast('Giro non valido'); return; } x.pit = v; x.res = { me: F.duel(s, v), best: F.duelBest(s) }; const S = stat(), e = (S[s.id] = S[s.id] || { tries: 0, bestEff: 0 }); e.tries++; const ok = x.res.me.margin >= x.res.best.margin - 0.5; e.bestEff = Math.max(e.bestEff, ok ? 1 : 0.5); ST.act.record(A.state, 'f1lab', { item: s.id + ':duel', ok }); M.record(A.state, 'planning', 'f1:' + s.id, 'auto', ok, {}); A.save(); A.render(); };
+  X.smaF1Sc = el => { const s = F.byId(el.dataset.id), x = g[s.id], tb = F.scBest(s, s.state), i = tb.findIndex(o => o.o === el.dataset.k); x.res = { table: tb, rank: i }; const S = stat(), e = (S[s.id] = S[s.id] || { tries: 0, bestEff: 0 }); e.tries++; e.bestEff = Math.max(e.bestEff, tb[0].t / tb[i].t); ST.act.record(A.state, 'f1lab', { item: s.id + ':sc', ok: i === 0, score: tb[0].t / tb[i].t }); M.record(A.state, 'decision', 'f1:' + s.id, 'auto', i === 0, {}); A.save(); A.render(); };
 })(window.ST = window.ST || {});
 
 /* ---- vnext/71-f1lab-scenarios ---- */
@@ -71598,7 +72133,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
   X.smaSpRun = () => { const v = id => (document.getElementById(id) || {}).value; Object.assign(form, { goal: v('sma-sp-goal'), weeks: +v('sma-sp-weeks'), sessions: +v('sma-sp-ses'), setsPerMuscle: +v('sma-sp-sets'), prog: v('sma-sp-prog'), deload: +v('sma-sp-deload'), endurance: +v('sma-sp-end'), order: v('sma-sp-order') }); form.res = { meso: S.mesocycle(form), crit: S.critique(form) }; A.render(); };
   X.smaSpStudy = el => { delete sg[el.dataset.id]; A.go('sma-sport-study', { id: el.dataset.id }); };
   X.smaSpPick = el => { const g = sg[el.dataset.id], i = g.picked.indexOf(el.dataset.o); if (i >= 0) g.picked.splice(i, 1); else g.picked.push(el.dataset.o); };
-  X.smaSpJudge = el => { const st = S.STUDIES.find(x => x.id === el.dataset.id), g = sg[st.id]; g.res = S.judgeStudy(st, g.picked); const e = stat(); e[st.id] = { good: g.res.good, d: U.today() }; M.record(A.state, 'deduction', 'sport:' + st.id, 'auto', g.res.good, {}); A.save(); A.render(); };
+  X.smaSpJudge = el => { const st = S.STUDIES.find(x => x.id === el.dataset.id), g = sg[st.id]; g.res = S.judgeStudy(st, g.picked); const e = stat(); e[st.id] = { good: g.res.good, d: U.today() }; ST.act.record(A.state, 'sportlab', { item: st.id, ok: !!g.res.good }); M.record(A.state, 'deduction', 'sport:' + st.id, 'auto', g.res.good, {}); A.save(); A.render(); };
 })(window.ST = window.ST || {});
 
 /* ---- vnext/80-convo ---- */
@@ -71685,7 +72220,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
   Cv.saveErr = (s, lang, bad, msg) => { const x = Cv.S(s), id = lang + ':' + bad.toLowerCase(); if (!x.errs[id]) x.errs[id] = ST.srs.newCard({ kind: 'convo', lang, bad, msg, due: U.addDays(U.today(), 1), reps: 1, last: U.today(), interval: 1, step: 1, state: 'learning' }); return x.errs[id]; };
   Cv.dueErrs = s => ST.srs.dueList(Cv.S(s).errs, U.today()).map(c => Object.assign({ id: c.id }, Cv.S(s).errs[c.id]));
   Cv.gradeErr = (s, id, g) => { const x = Cv.S(s); if (x.errs[id]) x.errs[id] = Object.assign(x.errs[id], ST.srs.review(x.errs[id], g)); };
-  Cv.finish = (s, sc, answers) => { const x = Cv.S(s), q = answers.reduce((a, r) => a + r.q, 0), max = answers.length * 3, e = (x.runs[sc.id] = x.runs[sc.id] || { tries: 0, best: 0 }); e.tries++; e.best = Math.max(e.best, max ? q / max : 0); return { pct: max ? q / max : 0, e }; };
+  Cv.finish = (s, sc, answers) => { const x = Cv.S(s), q = answers.reduce((a, r) => a + r.q, 0), max = answers.length * 3, e = (x.runs[sc.id] = x.runs[sc.id] || { tries: 0, best: 0 }); e.tries++; e.best = Math.max(e.best, max ? q / max : 0); ST.act.record(s, sc.lang === 'en' ? 'convoEn' : 'convoJa', { item: sc.id, ok: (max ? q / max : 0) >= 0.67, score: max ? q / max : 0 }); return { pct: max ? q / max : 0, e }; };
 
   const LABS = [['en', 'convoEn', 'English Conversation Lab', 'sma-conv-en', 'Dialoghi ramificati, domande impreviste, produzione scritta con controlli limitati sugli errori tipici e ripasso degli errori. Livello CEFR come riferimento didattico.'], ['ja', 'convoJa', 'Japanese Immersion Lab', 'sma-conv-ja', 'Scenari quotidiani (konbini, stazione, ristorante…) con riconoscimento, comprensione e produzione separati; scrittura in kana, kanji o romaji. Livello JLPT come riferimento didattico.']];
   LABS.forEach(([lang, id, title]) => { if (!M.pendingLabs.some(p => p.id === id)) M.pendingLabs.push({ id, title, milestone: 'M5' }); });
@@ -72278,7 +72813,7 @@ Somma = 0,59; media = **0,118**.\n\nConfronto utile: dire sempre 50% darebbe (0,
     return { ok: !er.length, errors: er };
   };
   Xd.progress = (s, m) => { const parts = m.parts.map(p => ({ p, done: !!Xd.CHECK[p.lab](s, p.ref) })), syn = (M.S(s).cross = M.S(s).cross || {})[m.id]; return { parts, doneN: parts.filter(x => x.done).length, total: parts.length, synthesis: syn && syn.text, complete: parts.every(x => x.done) && !!(syn && syn.text) }; };
-  Xd.synthesize = (s, m, text) => { text = String(text || '').trim(); const pr = Xd.progress(s, m); if (pr.doneN < pr.total) return { ok: false, err: 'completa prima tutte le parti' }; if (text.length < 60) return { ok: false, err: 'scrivi almeno 60 caratteri: quale principio collega le parti?' }; (M.S(s).cross = M.S(s).cross || {})[m.id] = { text, d: U.today() }; M.record(s, 'application', 'x:' + m.id, 'guided', true, { help: false }); return { ok: true }; };
+  Xd.synthesize = (s, m, text) => { text = String(text || '').trim(); const pr = Xd.progress(s, m); if (pr.doneN < pr.total) return { ok: false, err: 'completa prima tutte le parti' }; if (text.length < 60) return { ok: false, err: 'scrivi almeno 60 caratteri: quale principio collega le parti?' }; (M.S(s).cross = M.S(s).cross || {})[m.id] = { text, d: U.today() }; ST.act.record(s, 'cross', { item: m.id, ok: true }); M.record(s, 'application', 'x:' + m.id, 'guided', true, { help: false }); return { ok: true }; };
   M.registerLab({ id: 'cross', title: 'Cross-Disciplinary Lab', view: 'sma-cross', desc: 'Missioni che richiedono più laboratori e materie insieme, con una sintesi finale scritta. Esercizio simulato.', ready: true });
   V['sma-cross'] = () => {
     const s = A.state; return '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>🔀 Cross-Disciplinary Lab</h1><p class="small mute">Ogni missione si completa solo se i risultati salvati nei laboratori coinvolti sono sufficienti: aprirli non basta. Poi scrivi una sintesi che collega i principi. È un esercizio simulato: per l’applicazione reale usa STRATEGOS.</p><div class="list">' +

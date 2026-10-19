@@ -4,5 +4,5 @@
 (function (ST) {
   'use strict';
   const M = ST.sma;
-  if (ST.sim && ST.views.sim) M.registerLab({ id: 'multimove', title: 'Multi-Move Strategy Simulator', view: 'sim', desc: ST.sim.templates.length + ' scenari a più turni (già presenti nell’app): le scelte modificano lo stato, con imprevisti e giudizio del processo.', ready: true });
+  if (ST.sim && ST.views.sim) M.registerLab({ id: 'multimove', title: 'Multi-Move Strategy Simulator', view: 'sma-sims', desc: ST.sim.templates.length + ' scenari a più turni (già presenti nell’app): le scelte modificano lo stato, con imprevisti e giudizio del processo.', ready: true });
 })(window.ST = window.ST || {});

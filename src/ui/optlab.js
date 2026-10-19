@@ -36,6 +36,8 @@
   X.optStart = el => {
     const s = A.state, k = el.dataset.k, c = CATS[k], m = A.optMin || 15, n = Math.round(m / 5);
     const items = c.build(s, n); A.ctx = 'general';
-    ST.runner.start({ title: c.t + ' · ' + m + ' min', kind: 'free', items, ctx: 'general', onAnswer: record(s) });
+    const aid = ({ cog: 'cog', decision: 'decision', sport: 'sportcalc' })[k];
+    ST.runner.start({ title: c.t + ' · ' + m + ' min', kind: 'free', items, ctx: 'general', onAnswer: record(s),
+      onFinish: res => { if (aid && res && res.length) { const acc = res.filter(x => x.ok).length / res.length; ST.act.record(s, aid, { ok: acc >= 0.6, score: acc }); A.save(); } return ''; } });
   };
 })(window.ST = window.ST || {});

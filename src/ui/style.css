@@ -128,3 +128,30 @@ table.t{width:100%;border-collapse:collapse;font-size:.85rem}table.t td,table.t 
 .sma-bar i{display:block;height:100%;background:linear-gradient(90deg,#5aa9ff,#b48cff)}
 .sma-hub h2{background:linear-gradient(90deg,#7aa2ff,#b48cff);-webkit-background-clip:text;background-clip:text;color:transparent}
 @media (prefers-reduced-motion:reduce){.sma-bar i{transition:none}}
+
+/* v5: livelli richiudibili, sezioni dell'argomento, pratica consigliata */
+details.lv{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:8px 0;overflow:hidden}
+details.lv.rec{border-color:var(--acc)}
+details.lv>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center;padding:12px;min-height:48px}
+details.lv>summary::-webkit-details-marker{display:none}
+details.lv>summary .lv-tt{display:flex;flex-direction:column;min-width:0}
+details.lv>summary .lv-tt b::before{content:'▸ ';color:var(--acc)}
+details.lv[open]>summary .lv-tt b::before{content:'▾ '}
+details.lv>summary small{color:var(--mute);font-size:.78rem}
+details.lv>summary .prog{grid-column:1/-1;height:5px;margin-top:6px}
+details.lv>.lv-desc,details.lv>.list,details.lv>.lv-extra{margin:0 10px 10px}
+details.lv>.list{display:flex;flex-direction:column;gap:8px}
+.lv-extra{border-top:1px dashed var(--line);padding-top:8px}
+.lv-empty{padding:10px 12px;border:1px dashed var(--line);border-radius:14px;margin:8px 0}
+.item.next{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+.item .tags{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+details.tsec{padding:0;margin:10px 0}
+details.tsec>summary{cursor:pointer;list-style:none;padding:12px;min-height:48px}
+details.tsec>summary::-webkit-details-marker{display:none}
+details.tsec>summary::before{content:'▸ ';color:var(--acc)}details.tsec[open]>summary::before{content:'▾ '}
+details.tsec>.list{padding:0 10px 10px;display:flex;flex-direction:column;gap:8px}
+.item.act{align-items:flex-start}.item.act .why{display:block;color:var(--text);font-size:.82rem;margin-top:2px}
+.item.act .btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.nextstep{border-left:3px solid var(--acc);padding-left:10px;margin:8px 0}
+#home-practice .item .tag:first-child{margin-bottom:3px}
+.item.act .tx>span{display:block}.item.act .tx>span.btns{display:flex}

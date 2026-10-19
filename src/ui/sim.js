@@ -19,6 +19,7 @@
       r.n++; r.best = Math.max(r.best, Math.round(d.quality * 100)); r.last = Math.round(d.quality * 100);
       if (d.quality >= 0.85 && r.level < 10) r.level++; else if (d.quality < 0.55 && r.level > 1) r.level--;
       s.simLog = (s.simLog || []).concat({ d: U.today(), tpl: a.inst.tpl, lv: a.inst.level, q: Math.round(d.quality * 100), final: Math.round(d.final) }).slice(-60);
+      { const okq = d.quality >= 0.7, tid = a.inst.tpl; ST.act.record(s, 'sim:' + tid, { item: tid, ok: okq, score: d.quality }); ST.act.record(s, 'multimove', { item: tid, ok: okq, score: d.quality }); }
       A.xp(Math.round(d.quality * 20), 'sim'); A.subjectTouch((SIM.templates.find(t => t.id === a.inst.tpl) || {}).subject || 'str'); A.save();
     }
     A.render();
