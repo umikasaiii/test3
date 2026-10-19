@@ -165,6 +165,17 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => document.getElementById('app').innerText.length > 150), 'la scheda di un modulo si apre');
   await page.evaluate(id => { ST.app.stack = []; ST.app.go('lesson', { id, page: 0 }); }, modId); await page.waitForTimeout(200);
   ok(await page.evaluate(() => document.getElementById('app').innerText.length > 400), 'la lezione a pagine mostra il testo del modulo');
+  // Salvataggio, esportazione e importazione dello stato vNext
+  const snap = await page.evaluate(() => { const s = ST.app.state.sma; return { keys: Object.keys(s).sort().join(','), cases: Object.keys(s.cases).length, sims: Object.keys(s.sims).length, missions: s.missions.length, tech: Object.keys(s.tech || {}).join(',') }; });
+  await page.evaluate(() => ST.app.save()); await page.waitForTimeout(500);
+  const backup = await page.evaluate(async () => JSON.stringify(await ST.storage.exportAll(false)));
+  ok(backup.indexOf('"sma"') > 0 && JSON.parse(backup).state.sma.cases && Object.keys(JSON.parse(backup).state.sma.cases).length === snap.cases, 'l’esportazione include lo stato vNext');
+  await page.reload(); await page.waitForTimeout(1200);
+  ok(await page.evaluate(s => { const x = ST.app.state.sma; return !!x && Object.keys(x.cases).length === s.cases && x.missions.length === s.missions && Object.keys(x.tech || {}).join(',') === s.tech; }, snap), 'dopo il ricaricamento i progressi vNext sono ancora lì');
+  const ctx2 = await browser.newContext({ viewport: { width: 360, height: 740 } }), p2 = await ctx2.newPage(); await p2.goto(file); await p2.waitForSelector('#ob-name');
+  await p2.evaluate(async b => { ST.app.state = await ST.storage.importAll(JSON.parse(b)); ST.app.save(); }, backup); await p2.waitForTimeout(400); await p2.reload(); await p2.waitForTimeout(1200);
+  ok(await p2.evaluate(s => { const x = ST.app.state.sma; return !!x && Object.keys(x.cases).length === s.cases && Object.keys(x.sims).length === s.sims; }, snap), 'l’importazione in un altro profilo ripristina lo stato vNext');
+  await ctx2.close();
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
