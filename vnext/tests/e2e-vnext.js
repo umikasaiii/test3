@@ -140,6 +140,11 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-audio', {}); }); await page.waitForTimeout(150);
   await page.click('[data-act="smaAuDiag"]'); await page.waitForTimeout(1800);
   ok(await page.evaluate(() => /Sintesi vocale:/.test(document.getElementById('app').innerText) && /Registrazione/.test(document.getElementById('app').innerText) && /non misura la pronuncia/.test(document.getElementById('app').innerText)), 'diagnostica audio reale e dichiarazione sul feedback di pronuncia');
+  // Moduli didattici e verifica del livello
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('subject', { id: 'sma' }); }); await page.waitForTimeout(200);
+  ok(await page.evaluate(() => /24 moduli|6 moduli/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaLvCheck"]').length === 6), 'sei livelli con verifica; ogni pilastro mostra i suoi moduli');
+  await page.click('[data-act="smaLvCheck"][data-l="L0"]'); await page.waitForTimeout(250);
+  ok(await page.evaluate(() => /Verifica L0/.test(document.getElementById('app').innerText)), 'la verifica del livello parte nel runner esistente');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);

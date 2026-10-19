@@ -98,7 +98,7 @@
       M.pendingLabs.filter(p => !labState(p.id)).map(p => '<div class="item"><span class="tx"><b>' + E(p.title) + '</b><span>Non ancora implementato · previsto in ' + p.milestone + '</span></span><span class="tag">in arrivo</span></div>').join('') + '</div></div>';
     h += '<div class="card"><h3>Livelli consigliati</h3>' + M.LEVELS.map((l, i) => {
       const p = M.levelProgress(s, l.id);
-      return '<p class="small" style="margin:6px 0"><b>' + l.id + ' · ' + E(l.title) + '</b> ' + (M.levelRecommended(s, i) ? '' : '<span class="tag">consigliato dopo ' + M.LEVELS[i - 1].id + '</span> ') + '<span class="mute">' + p.total + ' moduli · ' + p.practiced + ' esercitati · ' + p.verified + ' verificati</span></p>';
+      return '<p class="small" style="margin:6px 0"><b>' + l.id + ' · ' + E(l.title) + '</b> ' + (M.levelRecommended(s, i) ? '' : '<span class="tag">consigliato dopo ' + M.LEVELS[i - 1].id + '</span> ') + '<span class="mute">' + p.total + ' moduli · ' + p.practiced + ' esercitati · ' + p.verified + ' verificati</span>' + (M.levelCheck && p.total ? ' <button class="btn sm ghost" data-act="smaLvCheck" data-l="' + l.id + '">Verifica del livello</button>' + M.levelCheck.badge(s, l.id) : '') + '</p>';
     }).join('') + '</div>';
     return h;
   };

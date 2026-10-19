@@ -540,3 +540,13 @@ test('links/audio: i laboratori esistenti sono collegati senza duplicare puntegg
   assert.match(ST.sma.hub(fresh()), /data-act="optStart"[^>]*data-k="cog"/);
   const au = ST.sma.labs.find(l => l.id === 'audio'); assert.match(au.desc, /Nessun punteggio automatico di pronuncia/);
 });
+
+/* ---- verifica per livello ---- */
+const Lc = ST.sma.levelCheck;
+test('levelcheck: raccoglie le domande di verifica dei moduli del livello (max 20) e rispetta la soglia del 70%', () => {
+  ST.sma.PILLAR_IDS.forEach(() => { }); const lv = ST.content.topicsOf('sma'); assert.ok(lv.length >= 24, 'moduli presenti: ' + lv.length);
+  ['L0', 'L1', 'L2', 'L3', 'L4', 'L5'].forEach(l => { const it = Lc.items(l); assert.ok(it.length >= 15 && it.length <= 20, l + ': ' + it.length); assert.ok(it.every(q => q.srcLabel && ['mc', 'fill', 'order'].includes(q.t))); });
+  const s = fresh(); let r = Lc.record(s, 'L0', Array(10).fill({ ok: true }).map((x, i) => ({ ok: i < 7 }))); assert.equal(r.pass, true); assert.equal(r.pct, 0.7);
+  r = Lc.record(s, 'L0', Array(10).fill(0).map((x, i) => ({ ok: i < 6 }))); assert.equal(r.pass, false); assert.equal(Lc.S(s).L0.best, 0.7); assert.equal(Lc.S(s).L0.pass, true, 'il miglior risultato resta'); assert.equal(Lc.S(s).L0.tries, 2);
+  assert.match(Lc.badge(s, 'L0'), /70%/);
+});
