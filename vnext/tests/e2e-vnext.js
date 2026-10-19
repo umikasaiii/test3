@@ -37,6 +37,10 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   const og = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Conservativo/.test(og) && /il massimo possibile/.test(og) && /30/.test(og), 'a fine partita compaiono regola, punteggio e massimo possibile');
   ok(await page.evaluate(() => { const e = ST.app.state.sma.sims['opp:cons']; return e && e.tries === 1; }), 'risultato salvato');
+  // Forecasting: intervallo all'80%
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-forecast', {}); }); await page.waitForTimeout(150);
+  await page.fill('#sma-lo', '1700'); await page.fill('#sma-hi', '1800'); await page.click('[data-act="smaFcAns"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /Dentro|Fuori/.test(document.getElementById('app').innerText) && ST.app.state.sma.forecast.length === 1), 'un intervallo viene valutato e salvato');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);

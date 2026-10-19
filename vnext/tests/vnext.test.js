@@ -121,3 +121,30 @@ test('opponent: partita completa, punteggio e risultato coerenti', () => {
   const r = O.result(st); assert.equal(r.you, 30); assert.equal(r.them, 30); assert.equal(r.best, 32); assert.ok(r.eff > 0.9);
 });
 test('opponent: il laboratorio è registrato', () => { assert.ok(ST.sma.labState('opponent')); });
+
+/* ---- Forecasting & Calibration ---- */
+const Fc = ST.sma.forecast;
+test('forecast: curva di calibrazione e eccesso di sicurezza calcolati solo sugli esiti risolti', () => {
+  const s = fresh(); ST.transfer.fAdd(s, 'a', 90); ST.transfer.fAdd(s, 'b', 90); ST.transfer.fAdd(s, 'c', 90); ST.transfer.fAdd(s, 'aperta', 90);
+  const [a, b, c] = s.forecasts; ST.transfer.fResolve(s, a.id, true); ST.transfer.fResolve(s, b.id, false); ST.transfer.fResolve(s, c.id, false);
+  const an = Fc.analyze(s);
+  assert.equal(an.n, 3); assert.equal(an.hitRate, 33.3); assert.equal(an.meanConf, 90); assert.equal(an.overconf, 56.7);
+  assert.ok(Math.abs(an.brier - (0.01 + 0.81 + 0.81) / 3) < 0.001); assert.match(an.verdict, /almeno 10/);
+  assert.equal(an.buckets[4].n, 3); assert.equal(Math.round(an.buckets[4].rate), 33);
+});
+test('forecast: senza esiti risolti nessun giudizio (nessun esito assegnato in automatico)', () => {
+  const s = fresh(); ST.transfer.fAdd(s, 'x', 70); assert.equal(Fc.analyze(s).n, 0);
+});
+test('forecast: previsioni sul lato opposto (p basso) contano correttamente', () => {
+  const s = fresh(); ST.transfer.fAdd(s, 'no', 10); ST.transfer.fResolve(s, s.forecasts[0].id, false);
+  const an = Fc.analyze(s); assert.equal(an.hitRate, 100); assert.equal(an.meanConf, 90);
+});
+test('forecast: intervalli all’80% — esito e registro delle evidenze', () => {
+  const s = fresh(); assert.equal(Fc.answer(s, 'q-ossa', 200, 210).hit, true); assert.equal(Fc.answer(s, 'q-rivfr', 1800, 1850).hit, false);
+  const st = Fc.stats(s); assert.equal(st.n, 2); assert.equal(st.hits, 1); assert.equal(ST.sma.profile(s).calibration.n, 2);
+  assert.equal(Fc.hit(Fc.BANK[0], 1790, 1780), false, 'intervallo invertito non valido');
+});
+test('forecast: valori del banco coerenti e id unici', () => {
+  assert.equal(new Set(Fc.BANK.map(q => q.id)).size, Fc.BANK.length); assert.ok(Fc.BANK.length >= 12);
+  assert.equal(Fc.BANK.find(q => q.id === 'q-ossa').v, 206); assert.equal(Fc.BANK.find(q => q.id === 'q-scacchi').v, 32);
+});
