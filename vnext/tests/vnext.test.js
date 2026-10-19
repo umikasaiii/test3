@@ -148,3 +148,42 @@ test('forecast: valori del banco coerenti e id unici', () => {
   assert.equal(new Set(Fc.BANK.map(q => q.id)).size, Fc.BANK.length); assert.ok(Fc.BANK.length >= 12);
   assert.equal(Fc.BANK.find(q => q.id === 'q-ossa').v, 206); assert.equal(Fc.BANK.find(q => q.id === 'q-scacchi').v, 32);
 });
+
+/* ---- Crisis Management e Strategic Communication ---- */
+const Pr = ST.sma.process;
+const play = (sc, idx, rng) => { const st = Pr.start(sc); idx.forEach(i => Pr.choose(sc, st, i, rng)); return st; };
+test('process: tutti gli scenari superano il validatore del grafo', () => {
+  Pr.scenarios.forEach(s => { const v = Pr.validate(s); assert.ok(v.ok, s.id + ': ' + v.errors.join('; ')); });
+  assert.ok(Pr.scenarios.filter(s => s.kind === 'crisis').length >= 2 && Pr.scenarios.filter(s => s.kind === 'comm').length >= 2);
+});
+test('process: il validatore respinge cicli, nodi irraggiungibili, manipolazione premiata', () => {
+  const base = () => JSON.parse(JSON.stringify(Pr.byId('proc-conflitto-priorita')));
+  let s = base(); s.nodes.n3.opts[0].next = 'n1'; assert.ok(Pr.validate(s).errors.some(e => /ciclo/.test(e)));
+  s = base(); s.nodes.nX = JSON.parse(JSON.stringify(s.nodes.n3)); assert.ok(Pr.validate(s).errors.some(e => /irraggiungibili/.test(e)));
+  s = base(); s.nodes.n1.opts[2].proc = 2; assert.ok(Pr.validate(s).errors.some(e => /manipolazione/.test(e)));
+  s = base(); s.nodes.n1.opts.forEach(o => { o.proc = 1; }); assert.ok(Pr.validate(s).errors.length > 0);
+});
+test('process: le scelte cambiano lo stato e il processo si separa dall’esito', () => {
+  const sc = Pr.byId('proc-progetto-ritardo'), never = () => 0.99, always = () => 0;
+  const best = play(sc, [0, 0, 0, 0], never);              // tutte le scelte migliori, nessun imprevisto
+  assert.ok(Pr.done(best)); assert.equal(Pr.result(sc, best).process, 1); assert.ok(best.vars.ritardo < sc.vars.ritardo.start); assert.ok(best.vars.fiducia > sc.vars.fiducia.start);
+  const good = Pr.result(sc, best); assert.match(good.label, /Buona decisione, esito favorevole/);
+  // buon processo ma imprevisti sfavorevoli sempre: il processo resta alto, l'esito peggiora
+  const unlucky = play(sc, [0, 0, 0, 0], always), ru = Pr.result(sc, unlucky);
+  assert.equal(ru.process, 1); assert.ok(ru.outcome < good.outcome);
+  // processo debole: etichetta diversa
+  const weak = play(sc, [1, 2, 1, 2], never), rw = Pr.result(sc, weak); assert.ok(rw.process < 0.75); assert.ok(!rw.good);
+});
+test('process: la manipolazione non è mai premiata, nemmeno con esito favorevole', () => {
+  const sc = Pr.byId('proc-conflitto-priorita'), st = play(sc, [2, 0, 0], () => 0.99), r = Pr.result(sc, st);
+  assert.equal(r.manip, true); assert.equal(r.good, false); assert.match(r.label, /manipolatorio o coercitivo/);
+  const sc2 = Pr.byId('proc-progetto-ritardo'), st2 = play(sc2, [0, 0, 2, 0], () => 0.99); assert.equal(Pr.result(sc2, st2).manip, true);
+});
+test('process: salvataggio nelle dimensioni giuste e laboratori registrati', () => {
+  assert.ok(ST.sma.labState('crisis') && ST.sma.labState('comm'));
+});
+test('process: gli esiti di un imprevisto dipendono dalla probabilità dichiarata', () => {
+  const sc = Pr.byId('proc-progetto-ritardo'); let hit = 0; const N = 2000, rng = (() => { let x = 7; return () => (x = (x * 16807) % 2147483647) / 2147483647; })();
+  for (let i = 0; i < N; i++) { const st = Pr.start(sc); Pr.choose(sc, st, 2, rng); if (st.path[0].risk) hit++; }
+  assert.ok(Math.abs(hit / N - 0.3) < 0.04, 'frequenza osservata ' + hit / N);
+});

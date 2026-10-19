@@ -41,6 +41,15 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-forecast', {}); }); await page.waitForTimeout(150);
   await page.fill('#sma-lo', '1700'); await page.fill('#sma-hi', '1800'); await page.click('[data-act="smaFcAns"]'); await page.waitForTimeout(150);
   ok(await page.evaluate(() => /Dentro|Fuori/.test(document.getElementById('app').innerText) && ST.app.state.sma.forecast.length === 1), 'un intervallo viene valutato e salvato');
+  // Crisis e Communication: scenario completo
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-crisis', {}); }); await page.waitForTimeout(150);
+  await page.click('[data-act="smaProcOpen"][data-id="proc-progetto-ritardo"]'); await page.waitForTimeout(150);
+  for (let i = 0; i < 4; i++) { await page.click('[data-act="smaProcChoose"][data-o="0"]'); await page.waitForTimeout(80); }
+  const pr = await page.evaluate(() => document.getElementById('app').innerText);
+  ok(/Processo/.test(pr) && /Le tue decisioni/.test(pr) && /Lezione/.test(pr), 'crisi: esito con processo, decisioni e lezione');
+  ok(await page.evaluate(() => { const e = ST.app.state.sma.sims['proc:proc-progetto-ritardo']; return e && e.tries === 1 && e.bestProc === 1; }), 'crisi: risultato salvato');
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-comm', {}); }); await page.waitForTimeout(120);
+  ok(await page.evaluate(() => document.querySelectorAll('[data-act="smaProcOpen"]').length === 2), 'comunicazione: due scenari elencati');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
