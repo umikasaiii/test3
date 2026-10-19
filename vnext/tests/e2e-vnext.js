@@ -13,7 +13,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-sma-tile]'); await page.waitForTimeout(250);
   const txt = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Strategic Mastery Academy/.test(txt) && /Detective Intelligence/.test(txt) && /Leadership & Decisions/.test(txt), 'il hub mostra i quattro percorsi');
-  ok(await page.evaluate(() => document.querySelectorAll('#app .item .tag.good').length) === 17 && (txt.match(/Non ancora implementato/g) || []).length === 2, 'diciassette laboratori disponibili; English/Japanese dichiarati «in arrivo» finché non hanno scenari');
+  ok(await page.evaluate(() => document.querySelectorAll('#app .item .tag.good').length === ST.sma.labs.length && (document.getElementById('app').innerText.match(/Non ancora implementato/g) || []).length === ST.sma.pendingLabs.filter(p => !ST.sma.labState(p.id)).length), 'ogni laboratorio disponibile è registrato e ogni mancante è dichiarato «in arrivo»');
   ok(/L5/.test(txt) && /non è una valutazione psicometrica/.test(txt), 'livelli e avvertenza sul profilo');
   ok(await page.evaluate(() => { const r = document.querySelector('.sma-hub').getBoundingClientRect(); return r.width <= innerWidth; }), 'nessun overflow orizzontale a 360px');
   // Deduction Lab: partita completa nell'interfaccia
@@ -145,6 +145,14 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => /24 moduli|6 moduli/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaLvCheck"]').length === 6), 'sei livelli con verifica; ogni pilastro mostra i suoi moduli');
   await page.click('[data-act="smaLvCheck"][data-l="L0"]'); await page.waitForTimeout(250);
   ok(await page.evaluate(() => /Verifica L0/.test(document.getElementById('app').innerText)), 'la verifica del livello parte nel runner esistente');
+  // English Conversation Lab
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-conv-en', {}); }); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /Controlli automatici limitati/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaCvOpen"]').length === 8), 'otto scenari e dichiarazione dei limiti dei controlli');
+  await page.click('[data-act="smaCvOpen"][data-id="cv-en-a2-cafe"]'); await page.waitForTimeout(150);
+  await page.click('[data-act="smaCvPick"][data-o="0"]'); await page.waitForTimeout(100); await page.click('[data-act="smaCvNext"]'); await page.waitForTimeout(100);
+  await page.click('[data-act="smaCvPick"][data-o="0"]'); await page.waitForTimeout(100); await page.click('[data-act="smaCvNext"]'); await page.waitForTimeout(100);
+  await page.fill('#sma-cv-text', 'I am agree, I want a cake since three years'); await page.click('[data-act="smaCvProduce"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /Risposta modello/.test(document.getElementById('app').innerText) && /I agree|Mancava/.test(document.getElementById('app').innerText) && Object.keys(ST.app.state.sma.convo.errs).length >= 1), 'la produzione sbagliata mostra errori e risposta modello e salva gli errori per il ripasso');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
