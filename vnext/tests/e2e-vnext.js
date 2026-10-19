@@ -153,6 +153,12 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-act="smaCvPick"][data-o="0"]'); await page.waitForTimeout(100); await page.click('[data-act="smaCvNext"]'); await page.waitForTimeout(100);
   await page.fill('#sma-cv-text', 'I am agree, I want a cake since three years'); await page.click('[data-act="smaCvProduce"]'); await page.waitForTimeout(150);
   ok(await page.evaluate(() => /Risposta modello/.test(document.getElementById('app').innerText) && /I agree|Mancava/.test(document.getElementById('app').innerText) && Object.keys(ST.app.state.sma.convo.errs).length >= 1), 'la produzione sbagliata mostra errori e risposta modello e salva gli errori per il ripasso');
+  // Japanese Immersion Lab
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-conv-ja', {}); }); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => document.querySelectorAll('[data-act="smaCvOpen"]').length === 8), 'otto scenari di giapponese');
+  await page.click('[data-act="smaCvOpen"][data-id="cv-ja-konbini"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => !/\[[^\]]*\|[^\]]*\]/.test(document.getElementById('app').innerText) && !!document.querySelector('#app ruby')), 'il testo giapponese mostra il furigana senza markup grezzo');
+  ok(await page.evaluate(() => { const t = ST.sma.convo.byId('cv-ja-konbini'); return Object.values(t.nodes).some(n => n.task && n.task.kind === 'produce') && Object.values(t.nodes).some(n => n.task && n.task.kind === 'order'); }), 'riconoscimento, produzione e costruzione sono compiti distinti');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);

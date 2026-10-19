@@ -550,3 +550,11 @@ test('levelcheck: raccoglie le domande di verifica dei moduli del livello (max 2
   r = Lc.record(s, 'L0', Array(10).fill(0).map((x, i) => ({ ok: i < 6 }))); assert.equal(r.pass, false); assert.equal(Lc.S(s).L0.best, 0.7); assert.equal(Lc.S(s).L0.pass, true, 'il miglior risultato resta'); assert.equal(Lc.S(s).L0.tries, 2);
   assert.match(Lc.badge(s, 'L0'), /70%/);
 });
+
+test('convo/ja: un’alternativa con soli kanji si cerca come testo letterale e non combacia con qualsiasi frase', () => {
+  const t = { must: [{ label: 'sei ore', any: ['六時', 'ろくじ', 'rokuji'] }, { label: 'foto', any: ['写真'] }], register: 'polite' };
+  assert.ok(Cv.evalProduce('ja', t, '六時に写真をお願いします').coverage === 1);
+  assert.equal(Cv.evalProduce('ja', t, 'こんにちは、おねがいします').coverage, 0, 'nessuna corrispondenza casuale');
+  assert.equal(Cv.evalProduce('ja', t, 'rokuji ni shashin wo onegaishimasu').coverage, 0.5, 'rokuji sì, 写真 solo in kanji: la parte «foto» manca');
+  assert.equal(Cv.evalProduce('ja', { must: [{ label: 'x', any: [''] }] }, 'abc').coverage, 0, 'alternativa vuota non combacia');
+});

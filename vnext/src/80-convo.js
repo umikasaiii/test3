@@ -49,7 +49,9 @@
   Cv.jaFlags = (text, task) => { const out = []; if (task.register === 'polite' && !POLITE.test(text.replace(/\s/g, '')) && !POLITE.test(Cv.jaKey(text))) out.push({ k: 'ja', bad: '', msg: 'Registro: qui serve un tono cortese (です/ます, ください, お願いします…).' }); if (/^[\x00-\x7f\s]+$/.test(text) && text.trim()) out.push({ k: 'info', bad: '', msg: 'Hai scritto in romaji: va bene per esercitarti, ma abituati anche a kana.' }); return out; };
 
   /* ---- valutazione di una produzione ---- */
-  const has = (lang, text, any) => any.some(a => lang === 'ja' ? (Cv.jaKey(text).indexOf(Cv.jaKey(a)) >= 0 || text.toLowerCase().indexOf(String(a).toLowerCase()) >= 0) : new RegExp(a, 'i').test(text));
+  const KANJI = /[一-龯々〆]/;
+  /* giapponese: un'alternativa con kanji si cerca come testo letterale (la chiave in romaji scarta i kanji); le altre anche in romaji/kana */
+  const has = (lang, text, any) => any.some(a => { if (lang !== 'ja') return new RegExp(a, 'i').test(text); a = String(a); if (!a) return false; if (text.toLowerCase().indexOf(a.toLowerCase()) >= 0) return true; if (KANJI.test(a)) return false; const k = Cv.jaKey(a); return !!k && Cv.jaKey(text).indexOf(k) >= 0; });
   Cv.evalProduce = (lang, task, text) => {
     text = String(text || '').trim(); const must = task.must || [], got = must.filter(m => has(lang, text, m.any)), miss = must.filter(m => got.indexOf(m) < 0), cov = must.length ? got.length / must.length : 1;
     const flags = (lang === 'en' ? Cv.enFlags(text) : Cv.jaFlags(text, task)).concat((task.avoid || []).filter(a => has(lang, text, a.any)).map(a => ({ k: 'avoid', bad: '', msg: a.why })));
@@ -100,7 +102,7 @@
     if (n.end || !n.task) return h + '<div class="card"><button class="btn" data-act="smaCvFinish" data-id="' + E(s.id) + '">Concludi</button></div>';
     const t = n.task;
     if (g.res) { h += resHtml(s, n, g.res) + '<div class="row"><button class="btn" data-act="smaCvNext" data-id="' + E(s.id) + '">Continua</button></div>'; return h; }
-    if (t.kind === 'choose') h += '<div class="card">' + (t.q ? '<p>' + E(t.q) + '</p>' : '') + '<div class="list">' + t.opts.map((o, i) => '<button class="item" data-act="smaCvPick" data-id="' + E(s.id) + '" data-o="' + i + '"><span class="tx"><b>' + E(o.t) + '</b></span></button>').join('') + '</div></div>';
+    if (t.kind === 'choose') h += '<div class="card">' + (t.q ? '<p>' + E(t.q) + '</p>' : '') + '<div class="list">' + t.opts.map((o, i) => '<button class="item" data-act="smaCvPick" data-id="' + E(s.id) + '" data-o="' + i + '"><span class="tx"><b>' + (s.lang === 'ja' ? U.ruby(o.t) : E(o.t)) + '</b></span></button>').join('') + '</div></div>';
     else if (t.kind === 'produce') h += '<div class="card"><p>' + E(t.prompt) + '</p><textarea id="sma-cv-text" rows="3" style="width:100%" lang="' + s.lang + '" placeholder="' + (s.lang === 'ja' ? 'Scrivi in kana, kanji o romaji' : 'Write your answer') + '"></textarea><button class="btn" data-act="smaCvProduce" data-id="' + E(s.id) + '">Controlla</button></div>';
     else h += '<div class="card"><p>' + E(t.prompt || 'Costruisci la frase') + '</p><p class="small" style="min-height:28px"><b>' + E(g.built.join(s.lang === 'ja' ? '' : ' ')) + '</b></p><div class="row" style="gap:6px;flex-wrap:wrap">' + t.words.map((w, i) => '<button class="btn sm' + (g.used && g.used.indexOf(i) >= 0 ? ' ghost' : ' alt') + '" data-act="smaCvWord" data-id="' + E(s.id) + '" data-i="' + i + '">' + E(w) + '</button>').join('') + '</div><div class="row" style="gap:6px;margin-top:6px"><button class="btn sm ghost" data-act="smaCvUndo" data-id="' + E(s.id) + '">Annulla</button><button class="btn" data-act="smaCvOrder" data-id="' + E(s.id) + '">Controlla</button></div></div>';
     return h;
