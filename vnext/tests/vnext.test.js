@@ -437,3 +437,35 @@ test('f1lab: undercut — fermarsi prima del rivale batte la sosta simultanea; r
   const d = Fl.byId('f1-undercut'), best = Fl.duelBest(d); assert.ok(best.pit < d.rivalPit && best.margin > 0, 'esiste un undercut vincente'); assert.ok(Fl.duel(d, d.rivalPit).margin < 0); assert.ok(Fl.duel(d, d.rivalPit + 3).margin < Fl.duel(d, d.rivalPit).margin);
 });
 test('f1lab: il laboratorio è registrato', () => { assert.ok(ST.sma.labState('f1lab')); });
+
+/* ---- Sport Science Advanced Lab ---- */
+const Sp = ST.sma.sportlab;
+test('sportlab: formule del 1RM e rapporto acuto:cronico calcolati correttamente', () => {
+  assert.ok(Math.abs(Sp.epley(100, 5) - 116.6667) < 1e-3); assert.equal(Sp.epley(100, 1), 100); assert.ok(Math.abs(Sp.brzycki(100, 5) - 112.5) < 1e-9); assert.ok(Number.isNaN(Sp.brzycki(100, 37)));
+  assert.equal(Sp.pctOf(120, 75), 90); assert.equal(Sp.acwr(Array(28).fill(100)), 1); assert.ok(Math.abs(Sp.acwr(Array(21).fill(100).concat(Array(7).fill(150))) - 150 / 112.5) < 1e-9); assert.equal(Sp.acwr([1, 2, 3]), null);
+  assert.match(Sp.ACWR_NOTE, /non hanno validità predittiva/);
+});
+test('sportlab: il mesociclo ha scarichi nelle settimane giuste, progressione e limiti', () => {
+  const m = Sp.mesocycle({ weeks: 8, prog: 'linear', deload: 4, startPct: 70, baseSets: 10 });
+  assert.equal(m.length, 8); assert.equal(JSON.stringify(m.filter(w => w.deload).map(w => w.week)), '[4,8]');
+  const w1 = m[0], w3 = m[2], w4 = m[3]; assert.ok(w3.pct > w1.pct); assert.ok(w4.sets < w1.sets && w4.pct < w1.pct && w4.rpe === 6); assert.ok(m.every(w => w.pct <= 95));
+  const flat = Sp.mesocycle({ weeks: 6, prog: 'none', deload: 0, startPct: 70, baseSets: 10 }); assert.ok(flat.every(w => w.pct === 70 && w.sets === 10 && !w.deload));
+  assert.equal(Sp.mesocycle({ weeks: 99 }).length, 12); assert.equal(Sp.mesocycle({ weeks: 1 }).length, 4);
+});
+test('sportlab: la critica segnala volume, mancanza di progressione e interferenza e riconosce le scelte sensate', () => {
+  const has = (f, k) => f.some(x => x.lvl === k);
+  let f = Sp.critique({ goal: 'hypertrophy', weeks: 8, sessions: 4, setsPerMuscle: 30, prog: 'none', deload: 0, endurance: 0 }); assert.ok(has(f, 'warn')); assert.ok(f.some(x => /Nessun modello di progressione/.test(x.t))); assert.ok(f.some(x => /molto alto/.test(x.t))); assert.ok(f.some(x => /Nessuna settimana di scarico/.test(x.t)));
+  f = Sp.critique({ goal: 'concurrent', weeks: 8, sessions: 4, setsPerMuscle: 16, prog: 'linear', deload: 4, endurance: 4, order: 'sameday-endurance-first' }); assert.ok(f.some(x => /interferenza/.test(x.why))); assert.ok(f.some(x => /Resistenza prima/.test(x.t)));
+  f = Sp.critique({ goal: 'hypertrophy', weeks: 8, sessions: 4, setsPerMuscle: 14, prog: 'double', deload: 4, endurance: 0 }); assert.ok(f.some(x => x.lvl === 'good' && /intervallo diffuso/.test(x.t))); assert.ok(!has(f, 'warn'));
+  f = Sp.critique({ goal: 'strength', weeks: 4, sessions: 2, setsPerMuscle: 3, prog: 'linear', deload: 0, endurance: 0 }); assert.ok(f.some(x => /molto basso/.test(x.t) && x.lvl === 'info'));
+  assert.ok(Sp.critique({ goal: 'concurrent', setsPerMuscle: 12, endurance: 2, order: 'separate', prog: 'linear' }).some(x => x.lvl === 'good' && /separate/.test(x.t)));
+});
+test('sportlab: ogni segnalazione ha una motivazione e il testo dichiara di non essere una prescrizione', () => {
+  Sp.critique({ goal: 'hypertrophy', weeks: 8, sessions: 6, setsPerMuscle: 28, prog: 'none', deload: 0, endurance: 4, order: 'sameday-endurance-first' }).forEach(x => assert.ok(x.why && x.why.length > 20)); assert.match(Sp.DISCLAIMER, /non è una prescrizione né una consulenza medica/);
+});
+test('sportlab: lettura critica degli studi — limiti pertinenti premiati, non pertinenti penalizzati, opzioni mescolate in modo deterministico', () => {
+  Sp.STUDIES.forEach(st => { assert.ok(st.limits.length >= 2 && st.distractors.length >= 2 && st.why.length > 40); const o = Sp.options(st); assert.equal(o.length, st.limits.length + st.distractors.length); assert.equal(JSON.stringify(o), JSON.stringify(Sp.options(st))); });
+  const st = Sp.STUDIES[2]; assert.equal(Sp.judgeStudy(st, [st.limits[0], st.limits[1]]).good, true); assert.equal(Sp.judgeStudy(st, [st.limits[0], st.distractors[0]]).good, false); assert.equal(Sp.judgeStudy(st, []).good, false);
+  const j = Sp.judgeStudy(st, [st.limits[0]]); assert.equal(j.hit, 1); assert.equal(j.missed.length, st.limits.length - 1);
+});
+test('sportlab: il laboratorio è registrato', () => { assert.ok(ST.sma.labState('sportlab')); });

@@ -13,7 +13,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-sma-tile]'); await page.waitForTimeout(250);
   const txt = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Strategic Mastery Academy/.test(txt) && /Detective Intelligence/.test(txt) && /Leadership & Decisions/.test(txt), 'il hub mostra i quattro percorsi');
-  ok(await page.evaluate(() => document.querySelectorAll('#app .item .tag.good').length) === 12 && !/Non ancora implementato/.test(txt), 'dodici laboratori disponibili e nessuno finto');
+  ok(await page.evaluate(() => document.querySelectorAll('#app .item .tag.good').length) === 13 && !/Non ancora implementato/.test(txt), 'tredici laboratori disponibili e nessuno finto');
   ok(/L5/.test(txt) && /non è una valutazione psicometrica/.test(txt), 'livelli e avvertenza sul profilo');
   ok(await page.evaluate(() => { const r = document.querySelector('.sma-hub').getBoundingClientRect(); return r.width <= innerWidth; }), 'nessun overflow orizzontale a 360px');
   // Deduction Lab: partita completa nell'interfaccia
@@ -120,6 +120,13 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-f1-play', { id: 'f1-safety-car' }); }); await page.waitForTimeout(150);
   await page.click('[data-act="smaF1Sc"][data-k="stay"]'); await page.waitForTimeout(150);
   ok(await page.evaluate(() => /classifica 4ª su 4/.test(document.getElementById('app').innerText)), 'Safety Car: restare in pista è l’ultima scelta del modello');
+  // Sport Science Advanced Lab
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-sport', {}); }); await page.waitForTimeout(150);
+  await page.fill('#sma-sp-sets', '30'); await page.selectOption('#sma-sp-prog', 'none'); await page.click('[data-act="smaSpRun"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /Mesociclo generato/.test(document.getElementById('app').innerText) && /Nessun modello di progressione/.test(document.getElementById('app').innerText) && /non è una prescrizione/.test(document.getElementById('app').innerText)), 'programma analizzato con segnalazioni motivate e avviso');
+  await page.click('[data-act="smaSpStudy"][data-id="st-3"]'); await page.waitForTimeout(150);
+  await page.evaluate(() => { const st = ST.sma.sportlab.STUDIES[2]; document.querySelectorAll('input[data-act="smaSpPick"]').forEach(i => { if (st.limits.indexOf(i.dataset.o) >= 0) i.click(); }); }); await page.click('[data-act="smaSpJudge"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /Lettura critica solida/.test(document.getElementById('app').innerText) && ST.app.state.sma.tech.sport['st-3'].good), 'lettura critica di uno studio valutata e salvata');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
