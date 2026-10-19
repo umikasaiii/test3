@@ -373,3 +373,34 @@ test('cyberlab: i dati sintetici usano solo intervalli riservati alla documentaz
   ips.forEach(ip => assert.match(ip, /^(192\.0\.2\.|198\.51\.100\.|203\.0\.113\.)/, ip));
 });
 test('cyberlab: il laboratorio è registrato', () => { assert.ok(ST.sma.labState('cyberlab')); });
+
+/* ---- Programming & AI Lab ---- */
+const Pg = ST.sma.proglab, Ai = ST.sma.ai;
+test('proglab: tutti gli esercizi hanno soluzione valida, codice iniziale che fallisce, test visibili e nascosti', () => {
+  assert.equal(Pg.exercises.length, 12); Pg.exercises.forEach(x => { const v = Pg.validate(x); assert.ok(v.ok, x.id + ': ' + v.errors.join('; ')); });
+});
+test('proglab: l’esecutore cattura log e tracce, confronta in modo profondo, segnala errori e funzioni mancanti', () => {
+  const r = Pg.runLocal('function f(a){ console.log("x", a); trace("v", a*2); return {b:[a],a:1} }', 'f', [{ args: [1], expect: { a: 1, b: [1] } }, { args: [2], expect: 5 }]);
+  assert.equal(r.tests[0].pass, true, 'l’ordine delle chiavi non conta'); assert.equal(r.tests[1].pass, false); assert.equal(r.logs[0], 'x 1'); assert.equal(r.traces[1].v, '4'); assert.equal(r.ok, false);
+  assert.match(Pg.runLocal('function f( {', 'f', []).error, /SyntaxError/); assert.match(Pg.runLocal('const x = 1;', 'g', []).error, /Non trovo la funzione g/);
+  assert.match(Pg.runLocal('function f(){ throw new TypeError("boom") }', 'f', [{ args: [], expect: 1 }]).tests[0].error, /TypeError: boom/);
+});
+test('proglab: gli argomenti sono copiati (il codice non può alterare i dati dei test) e i log sono limitati', () => {
+  const tests = [{ args: [[3, 1, 2]], expect: [1, 2, 3] }, { args: [[3, 1, 2]], expect: [1, 2, 3] }];
+  const r = Pg.runLocal('function s(a){ a.sort(); for(let i=0;i<500;i++) console.log(i); return a }', 's', tests); assert.ok(r.ok); assert.ok(r.logs.length <= 60);
+  assert.equal(JSON.stringify(tests[0].args), '[[3,1,2]]');
+});
+test('proglab: i test nascosti non rivelano il valore atteso nell’interfaccia (campo hidden)', () => {
+  Pg.exercises.forEach(x => assert.ok(x.tests.some(t => t.hidden) && x.tests.filter(t => !t.hidden).length >= 2));
+  assert.equal(Pg.LANGS.python, false, 'Python dichiarato non disponibile');
+});
+test('proglab: le visualizzazioni producono frame coerenti', () => {
+  const b = Pg.viz.bubble([3, 1, 2]), last = b[b.length - 1].arr; assert.equal(JSON.stringify(last), '[1,2,3]'); assert.equal(b[0].note, 'Inizio');
+  const s = Pg.viz.bsearch([1, 3, 5, 7, 9], 7); assert.match(s[s.length - 1].note, /Trovato in posizione 3/); assert.match(Pg.viz.bsearch([1, 3], 2).pop().note, /Non presente/);
+});
+test('ai: il perceptron impara AND e OR ma non XOR; la discesa del gradiente converge o diverge secondo lr; k-NN dipende da k', () => {
+  assert.equal(Ai.perceptron(Ai.DATA.and).acc, 1); assert.equal(Ai.perceptron(Ai.DATA.or).acc, 1); assert.ok(Ai.perceptron(Ai.DATA.xor).acc <= 0.75);
+  const ok = Ai.gd(Ai.POINTS, 0.03, 60), bad = Ai.gd(Ai.POINTS, 0.1, 60); assert.equal(ok.diverged, false); assert.ok(Math.abs(ok.m - 2) < 0.2); assert.equal(bad.diverged, true);
+  assert.equal(Ai.knn(Ai.KNN, [4, 5], 1), 'A'); assert.equal(Ai.knn(Ai.KNN, [4, 5], 5), 'B');
+});
+test('proglab: il laboratorio è registrato', () => { assert.ok(ST.sma.labState('proglab')); });

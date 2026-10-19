@@ -13,7 +13,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-sma-tile]'); await page.waitForTimeout(250);
   const txt = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Strategic Mastery Academy/.test(txt) && /Detective Intelligence/.test(txt) && /Leadership & Decisions/.test(txt), 'il hub mostra i quattro percorsi');
-  ok((txt.match(/disponibile/g) || []).length === 10 && !/Non ancora implementato/.test(txt), 'dieci laboratori disponibili e nessuno finto');
+  ok(await page.evaluate(() => document.querySelectorAll('#app .item .tag.good').length) === 11 && !/Non ancora implementato/.test(txt), 'undici laboratori disponibili e nessuno finto');
   ok(/L5/.test(txt) && /non è una valutazione psicometrica/.test(txt), 'livelli e avvertenza sul profilo');
   ok(await page.evaluate(() => { const r = document.querySelector('.sma-hub').getBoundingClientRect(); return r.width <= innerWidth; }), 'nessun overflow orizzontale a 360px');
   // Deduction Lab: partita completa nell'interfaccia
@@ -97,6 +97,20 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => /-rw-r--r--/.test(document.getElementById('sma-term').innerText)), 'un comando inviato con Invio produce output nel terminale');
   await page.fill('#sma-cmd', 'chmod 600 /home/user/.ssh/id_rsa'); await page.click('[data-act="smaCybRun"]'); await page.waitForTimeout(150);
   ok(await page.evaluate(() => /Obiettivo raggiunto/.test(document.getElementById('sma-term').innerText) && ST.app.state.sma.tech.cyber['cyb-perms-key'].solved), 'obiettivo raggiunto e risultato salvato');
+  // Programming & AI Lab: esecuzione isolata in un Worker
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-prog', {}); }); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /Python non è disponibile/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaProgOpen"]').length === 12), 'dodici esercizi; Python dichiarato non disponibile');
+  await page.click('[data-act="smaProgOpen"][data-id="prog-sum-even"]'); await page.waitForTimeout(150);
+  await page.click('[data-act="smaProgRun"]'); await page.waitForTimeout(600);
+  ok(await page.evaluate(() => /Alcuni test non passano/.test(document.getElementById('app').innerText)), 'il codice iniziale non supera i test');
+  await page.fill('#sma-code', 'function sumEven(arr){ let s=0; for(const x of arr) if(x%2===0) s+=x; console.log("ok"); return s }'); await page.click('[data-act="smaProgRun"]'); await page.waitForTimeout(700);
+  ok(await page.evaluate(() => /Tutti i test superati/.test(document.getElementById('app').innerText) && ST.app.state.sma.tech.prog['prog-sum-even'].solved), 'la soluzione corretta supera tutti i test (anche i nascosti) ed è salvata');
+  await page.fill('#sma-code', 'function sumEven(arr){ while(true){} }'); await page.click('[data-act="smaProgRun"]'); await page.waitForTimeout(3500);
+  ok(await page.evaluate(() => /Tempo scaduto/.test(document.getElementById('app').innerText)), 'un ciclo infinito viene interrotto dal timeout senza bloccare la pagina');
+  await page.fill('#sma-code', 'function sumEven(arr){ return typeof document + "|" + typeof fetch + "|" + typeof window }'); await page.click('[data-act="smaProgRun"]'); await page.waitForTimeout(700);
+  ok(await page.evaluate(() => /undefined\|undefined\|undefined/.test(document.getElementById('app').innerText.replace(/"/g, '')) || /ottenuto "undefined\|undefined\|undefined"/.test(document.getElementById('app').innerText)), 'nel Worker non ci sono né DOM né rete');
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-ai', {}); }); await page.waitForTimeout(120);
+  ok(await page.evaluate(() => /XOR[^\n]*non può imparare/.test(document.getElementById('app').innerText)), 'esperimento di AI: il perceptron non impara XOR');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
