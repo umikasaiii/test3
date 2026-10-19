@@ -512,3 +512,31 @@ test('convo: gli errori trovati vengono salvati con ripasso dilazionato e senza 
   const n = Cv.scenarios.filter(x => x.lang === 'en').length; assert.equal(!!ST.sma.labState('convoEn'), Cv.scenarios.filter(x => x.lang === 'en' && Cv.validate(x).ok).length >= 6, 'EN: ' + n);
   assert.ok(ST.sma.pendingLabs.some(p => p.id === 'convoEn') && ST.sma.pendingLabs.some(p => p.id === 'convoJa'));
 });
+
+/* ---- Cross-Disciplinary Lab, collegamenti, audio ---- */
+const Xd = ST.sma.cross;
+test('cross: ogni missione combina almeno due laboratori diversi con riferimenti esistenti', () => {
+  assert.ok(Xd.missions.length >= 6); Xd.missions.forEach(m => { const v = Xd.validate(m); assert.ok(v.ok, m.id + ': ' + v.errors.join('; ')); assert.ok(new Set(m.parts.map(p => p.lab)).size >= 2); });
+  const bad = { id: 'x', title: 't', intro: 'i', synthesis: 's', pillars: ['det'], parts: [{ lab: 'cyberlab', ref: 'nope', label: 'a' }, { lab: 'cyberlab', ref: 'cyb-top-ip', label: 'b' }] };
+  assert.ok(Xd.validate(bad).errors.some(e => /riferimento inesistente/.test(e)) && Xd.validate(bad).errors.some(e => /laboratori diversi/.test(e)));
+});
+test('cross: le parti si completano solo con risultati salvati; la sintesi richiede tutte le parti e un testo sostanzioso', () => {
+  const s = fresh(), m = Xd.missions.find(x => x.id === 'xd-strategia-cyber');
+  assert.equal(Xd.progress(s, m).doneN, 0); assert.equal(Xd.synthesize(s, m, 'x'.repeat(80)).ok, false, 'parti incomplete');
+  ST.sma.S(s).tech = { cyber: { 'cyb-sqli-log': { solved: true } } }; assert.equal(Xd.progress(s, m).doneN, 1);
+  ST.sma.S(s).sims['proc:proc-allarme-contraddittorio'] = { bestProc: 0.5 }; assert.equal(Xd.progress(s, m).doneN, 1, 'processo insufficiente');
+  ST.sma.S(s).sims['proc:proc-allarme-contraddittorio'].bestProc = 0.9; ST.sma.S(s).cases['ded-sito-lento'] = { hist: [{ ok: false }] }; assert.equal(Xd.progress(s, m).doneN, 2);
+  ST.sma.S(s).cases['ded-sito-lento'].hist.push({ ok: true }); assert.equal(Xd.progress(s, m).doneN, 3);
+  assert.equal(Xd.synthesize(s, m, 'troppo breve').ok, false); assert.ok(Xd.synthesize(s, m, 'Ho usato la stessa idea in tutte e tre le parti: scegliere la verifica che separa meglio le ipotesi prima di agire.').ok);
+  const p = Xd.progress(s, m); assert.ok(p.complete); assert.equal(ST.sma.profile(s).application.n, 1);
+});
+test('cross: le verifiche per laboratorio rispettano le soglie (previsioni, F1, combat)', () => {
+  const s = fresh(); assert.equal(Xd.CHECK.forecast(s, '6'), false); ST.sma.S(s).forecast = Array(6).fill({ hit: true }); assert.equal(Xd.CHECK.forecast(s, '6'), true);
+  ST.sma.S(s).tech = { f1: { 'f1-undercut': { bestEff: 0.5 } } }; assert.equal(Xd.CHECK.f1lab(s, 'f1-undercut'), false); ST.sma.S(s).tech.f1['f1-undercut'].bestEff = 1; assert.equal(Xd.CHECK.f1lab(s, 'f1-undercut'), true);
+  ST.sma.S(s).combat = { theory: { 'cmb-l2-kuzushi': { best: 0.5 } } }; assert.equal(Xd.CHECK.combat(s, 'cmb-l2-kuzushi'), false);
+});
+test('links/audio: i laboratori esistenti sono collegati senza duplicare punteggi; l’audio dichiara che non valuta la pronuncia', () => {
+  const cog = ST.sma.labs.find(l => l.id === 'cog'), dec = ST.sma.labs.find(l => l.id === 'decision'); assert.equal(cog.act, 'optStart'); assert.equal(dec.data.k, 'decision'); assert.match(cog.desc, /non vengono duplicati/);
+  assert.match(ST.sma.hub(fresh()), /data-act="optStart"[^>]*data-k="cog"/);
+  const au = ST.sma.labs.find(l => l.id === 'audio'); assert.match(au.desc, /Nessun punteggio automatico di pronuncia/);
+});

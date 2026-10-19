@@ -94,7 +94,7 @@
       const o = prof[d], pc = o.n ? Math.round(100 * o.ok / o.n) : null;
       return '<div class="sma-dim"><span>' + E(M.DIMS[d]) + '</span><span class="sma-bar"><i style="width:' + (pc || 0) + '%"></i></span><small>' + (o.n ? pc + '% su ' + o.n + ' prove' + (o.noHelp ? ' · senza aiuto ' + Math.round(100 * o.noHelpOk / o.noHelp) + '%' : '') : 'nessuna prova') + '</small></div>';
     }).join('') + '</div>';
-    h += '<div class="card"><h3>Laboratori</h3><div class="list">' + lab.map(l => '<button class="item" data-act="go" data-view="' + E(l.view) + '"><span class="tx"><b>' + E(l.title) + '</b><span>' + E(l.desc || '') + '</span></span><span class="tag good">disponibile</span></button>').join('') +
+    h += '<div class="card"><h3>Laboratori</h3><div class="list">' + lab.map(l => '<button class="item" data-act="' + E(l.act || 'go') + '"' + (l.act ? '' : ' data-view="' + E(l.view) + '"') + (l.p ? ' data-p=\'' + E(JSON.stringify(l.p)) + '\'' : '') + Object.keys(l.data || {}).map(k => ' data-' + k + '="' + E(l.data[k]) + '"').join('') + '><span class="tx"><b>' + E(l.title) + '</b><span>' + E(l.desc || '') + '</span></span><span class="tag good">disponibile</span></button>').join('') +
       M.pendingLabs.filter(p => !labState(p.id)).map(p => '<div class="item"><span class="tx"><b>' + E(p.title) + '</b><span>Non ancora implementato · previsto in ' + p.milestone + '</span></span><span class="tag">in arrivo</span></div>').join('') + '</div></div>';
     h += '<div class="card"><h3>Livelli consigliati</h3>' + M.LEVELS.map((l, i) => {
       const p = M.levelProgress(s, l.id);

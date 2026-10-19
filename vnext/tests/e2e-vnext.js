@@ -13,7 +13,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-sma-tile]'); await page.waitForTimeout(250);
   const txt = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Strategic Mastery Academy/.test(txt) && /Detective Intelligence/.test(txt) && /Leadership & Decisions/.test(txt), 'il hub mostra i quattro percorsi');
-  ok(await page.evaluate(() => document.querySelectorAll('#app .item .tag.good').length) === 13 && (txt.match(/Non ancora implementato/g) || []).length === 2, 'tredici laboratori disponibili; English/Japanese dichiarati «in arrivo» finché non hanno scenari');
+  ok(await page.evaluate(() => document.querySelectorAll('#app .item .tag.good').length) === 17 && (txt.match(/Non ancora implementato/g) || []).length === 2, 'diciassette laboratori disponibili; English/Japanese dichiarati «in arrivo» finché non hanno scenari');
   ok(/L5/.test(txt) && /non è una valutazione psicometrica/.test(txt), 'livelli e avvertenza sul profilo');
   ok(await page.evaluate(() => { const r = document.querySelector('.sma-hub').getBoundingClientRect(); return r.width <= innerWidth; }), 'nessun overflow orizzontale a 360px');
   // Deduction Lab: partita completa nell'interfaccia
@@ -127,6 +127,19 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-act="smaSpStudy"][data-id="st-3"]'); await page.waitForTimeout(150);
   await page.evaluate(() => { const st = ST.sma.sportlab.STUDIES[2]; document.querySelectorAll('input[data-act="smaSpPick"]').forEach(i => { if (st.limits.indexOf(i.dataset.o) >= 0) i.click(); }); }); await page.click('[data-act="smaSpJudge"]'); await page.waitForTimeout(150);
   ok(await page.evaluate(() => /Lettura critica solida/.test(document.getElementById('app').innerText) && ST.app.state.sma.tech.sport['st-3'].good), 'lettura critica di uno studio valutata e salvata');
+  // Cross-Disciplinary Lab e collegamenti
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-cross', {}); }); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => document.querySelectorAll('[data-act="smaXdOpen"]').length >= 6), 'missioni interdisciplinari elencate');
+  await page.click('[data-act="smaXdOpen"][data-id="xd-strategia-cyber"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => document.querySelectorAll('.tag').length >= 3 && /da fare/.test(document.getElementById('app').innerText) && !!document.querySelector('#sma-xd-text[disabled]')), 'le parti risultano «da fare» e la sintesi è bloccata finché non sono complete');
+  await page.click('[data-act="smaXdGo"][data-lab="cyberlab"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /Cybersecurity Practical Lab|Conta i tentativi|SQL injection/.test(document.getElementById('app').innerText) && !!document.getElementById('sma-cmd')), 'la parte apre il laboratorio giusto');
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('subject', { id: 'sma' }); }); await page.waitForTimeout(150);
+  await page.click('[data-act="optStart"][data-k="cog"]'); await page.waitForTimeout(250);
+  ok(await page.evaluate(() => document.getElementById('app').innerText.length > 40), 'il Cognitive Performance Lab esistente si avvia dall’Academy');
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-audio', {}); }); await page.waitForTimeout(150);
+  await page.click('[data-act="smaAuDiag"]'); await page.waitForTimeout(1800);
+  ok(await page.evaluate(() => /Sintesi vocale:/.test(document.getElementById('app').innerText) && /Registrazione/.test(document.getElementById('app').innerText) && /non misura la pronuncia/.test(document.getElementById('app').innerText)), 'diagnostica audio reale e dichiarazione sul feedback di pronuncia');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
