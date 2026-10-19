@@ -200,7 +200,7 @@
       mc('Quale misura è meno influenzata da un valore estremo?', ['La mediana', 'La media', 'Il range', 'La somma'], 0, 'La mediana dipende solo dalla posizione centrale.'),
       fill('Punteggio 130, media 100, σ = 15. Quanto vale lo z-score?', ['2'], '(130 − 100) / 15 = 2.'),
       mc('In una distribuzione normale, circa quale quota dei dati sta entro 1σ dalla media?', ['68%', '50%', '95%', '99,7%'], 0, 'Regola 68–95–99,7.'),
-      mc('Un grafico a barre ha asse che parte da 48 e valori 50 e 52. Che cosa succede?', ['Le barre sembrano 2 e 4: l’aumento appare esagerato', 'Il grafico è più preciso', 'Non cambia nulla', 'L’aumento appare minore'], 0, 'Tagliare l’asse amplifica le differenze visive.'),
+      mc('Un grafico a barre ha asse che parte da 48 e valori 50 e 52. Che cosa succede?', ['Le barre sembrano 2 e 4: l’aumento appare esagerato', 'Il grafico è più preciso perché mostra meglio le differenze', 'Non cambia nulla nell’impressione di chi guarda', 'L’aumento appare minore di quello reale e quasi invisibile'], 0, 'Tagliare l’asse amplifica le differenze visive.'),
       fill('Sondaggio casuale con n = 1 000 e proporzione vicina al 50%: margine al 95% in punti percentuali, un decimale?', ['3,1', '3.1'], '1,96 × √(0,25/1000) ≈ 3,1.'),
       mc('Vendite di gelati e annegamenti sono correlate. Quale spiegazione è più plausibile?', ['Una causa comune: il caldo', 'I gelati causano annegamenti', 'Gli annegamenti aumentano i gelati', 'Per caso, sempre'], 0, 'Un confondente (la stagione calda) influenza entrambe.'),
       fill('Rischio che scende dal 2% all’1%: quanti punti di riduzione assoluta in percentuale?', ['1'], '2% − 1% = 1 punto percentuale.'),
@@ -250,7 +250,7 @@
       fill('Cassa di 50 kg, μ = 0,4, g = 9,8: forza di attrito in newton?', ['196'], '0,4 × 50 × 9,8 = 196.'),
       fill('Cassa di 50 kg spinta con 300 N, attrito 196 N: accelerazione in m/s²?', ['2,08', '2.08'], '(300 − 196) / 50 = 2,08.'),
       fill('v = 20 m/s e decelerazione 5 m/s². Distanza di frenata in metri?', ['40'], '400 / (2 × 5) = 40.'),
-      mc('Terza legge di Newton: quando spingi un muro, il muro:', ['ti spinge con una forza uguale e opposta', 'non fa nulla', 'ti spinge con forza minore', 'si muove sempre'], 0, 'Azione e reazione sono uguali e contrarie e agiscono su corpi diversi.'),
+      mc('Terza legge di Newton: quando spingi un muro, il muro:', ['ti spinge con una forza uguale e opposta', 'non fa nulla perché è fermo e non può reagire', 'ti spinge con una forza minore della tua', 'si muove nella tua stessa direzione'], 0, 'Azione e reazione sono uguali e contrarie e agiscono su corpi diversi.'),
       order('Ordina il calcolo dell’accelerazione di 0 → 20 m/s in 8 s', ['a = Δv / Δt', '=', '20 / 8', '=', '2,5 m/s²'], 'Si divide la variazione di velocità per il tempo.')
     ],
     test: [
@@ -262,7 +262,7 @@
       fill('v = 30 m/s e decelerazione 6 m/s². Distanza di frenata in metri?', ['75'], '900 / 12 = 75.'),
       mc('Raddoppiando la velocità iniziale (stessa decelerazione) la distanza di frenata:', ['quadruplica', 'raddoppia', 'resta uguale', 'diventa 8 volte'], 0, 'd = v²/(2a) dipende dal quadrato di v.'),
       fill('Piano inclinato di 30°, massa 10 kg, g = 9,8: componente del peso lungo il piano in newton?', ['49'], '10 × 9,8 × 0,5 = 49.'),
-      mc('Quale affermazione è corretta?', ['La massa è la stessa sulla Luna, il peso no', 'Il peso è la stessa cosa della massa', 'La massa dipende da g', 'Il peso si misura in kg'], 0, 'Massa in kg, peso in N; il peso dipende da g.')
+      mc('Quale affermazione è corretta?', ['La massa è la stessa sulla Luna, il peso no', 'Il peso è la stessa cosa della massa su ogni pianeta', 'La massa dipende dall’accelerazione di gravità del luogo', 'Il peso si misura in chilogrammi su una bilancia'], 0, 'Massa in kg, peso in N; il peso dipende da g.')
     ]
   });
 
@@ -294,7 +294,7 @@
       fill('A 0,25 €/kWh, 6 kWh costano quanti euro (due decimali)?', ['1,50', '1.50', '1,5', '1.5'], '6 × 0,25 = 1,50.'),
       fill('Stand-by da 5 W per un anno: consumo in kWh, un decimale?', ['43,8', '43.8'], '5 × 24 × 365 = 43 800 Wh.'),
       fill('Una pompa assorbe 500 W e fornisce 400 W utili. Rendimento in %?', ['80', '80%'], '400 / 500 = 0,8.'),
-      mc('Una pompa di calore con COP = 3 viola la conservazione dell’energia?', ['No: sposta calore, non lo crea', 'Sì, produce energia dal nulla', 'Sì, se lavora a lungo', 'Solo d’inverno'], 0, 'Il calore in più viene dall’ambiente esterno.'),
+      mc('Una pompa di calore con COP = 3 viola la conservazione dell’energia?', ['No: sposta calore, non lo crea', 'Sì, produce energia dal nulla grazie al compressore', 'Sì, se lavora a lungo senza interruzioni', 'Solo d’inverno, quando fuori fa più freddo'], 0, 'Il calore in più viene dall’ambiente esterno.'),
       order('Ordina il calcolo del costo di una stufetta da 2 kW per 3 h a 0,25 €/kWh', ['E = P × t', '=', '2 kW × 3 h', '=', '6 kWh', '→', '6 × 0,25', '=', '1,50 €'], 'Prima si calcola l’energia, poi si moltiplica per il prezzo.')
     ],
     test: [
@@ -347,8 +347,8 @@
       fill('Resistenze 10, 20 e 30 Ω in serie: totale in ohm?', ['60'], '10 + 20 + 30 = 60.'),
       fill('Due resistenze da 20 Ω in parallelo: totale in ohm?', ['10'], '20 / 2 = 10.'),
       fill('Una lampada da 100 W resta accesa 10 h. Energia in kWh?', ['1'], '0,1 kW × 10 h = 1 kWh.'),
-      mc('Tre stufette da 1 000 W su una presa da 10 A a 230 V:', ['superano la potenza massima di 2 300 W', 'consumano 1 000 W in tutto', 'sono sicure', 'non assorbono corrente'], 0, '3 000 W corrispondono a circa 13 A.'),
-      mc('Quale precauzione è corretta se qualcuno è folgorato?', ['Togliere la corrente prima di toccarlo', 'Toccarlo subito a mani nude', 'Gettargli acqua', 'Aspettare senza fare nulla'], 0, 'Evita di diventare un’altra vittima: stacca l’interruttore, poi chiama il 112.'),
+      mc('Tre stufette da 1 000 W su una presa da 10 A a 230 V:', ['superano la potenza massima di 2 300 W', 'consumano 1 000 W in tutto, entro il limite', 'sono sicure perché ogni stufetta è da 1 000 W', 'non assorbono corrente se sono spente di notte'], 0, '3 000 W corrispondono a circa 13 A.'),
+      mc('Quale precauzione è corretta se qualcuno è folgorato?', ['Togliere la corrente prima di toccarlo', 'Toccarlo subito a mani nude per allontanarlo dal filo', 'Gettargli acqua addosso per farlo riprendere', 'Aspettare senza fare nulla finché non si riprende da solo'], 0, 'Evita di diventare un’altra vittima: stacca l’interruttore, poi chiama il 112.'),
       mc('Le prese di casa sono collegate:', ['in parallelo', 'in serie', 'in cortocircuito', 'in modo casuale'], 0, 'Ogni apparecchio riceve 230 V e funziona in modo indipendente.')
     ]
   });
@@ -383,7 +383,7 @@
       fill('Specchio concavo f = 10 cm, oggetto a 30 cm: distanza dell’immagine in cm?', ['15'], '1/q = 1/10 − 1/30 = 2/30.'),
       fill('Luce da aria a vetro (n = 1,5), θ₁ = 30°: angolo rifratto in gradi, un decimale?', ['19,5', '19.5'], 'sen θ₂ = 0,5/1,5 = 0,333; θ₂ ≈ 19,5°.'),
       fill('Una lente con f = 0,5 m ha potenza in diottrie pari a:', ['2'], 'D = 1/0,5 = 2.'),
-      mc('Il suono si propaga nel vuoto?', ['No, serve un mezzo materiale', 'Sì, come la luce', 'Sì ma più lento', 'Solo ad alte frequenze'], 0, 'Il suono è un’onda meccanica.'),
+      mc('Il suono si propaga nel vuoto?', ['No, serve un mezzo materiale', 'Sì, come la luce che arriva dal Sole', 'Sì, ma più lentamente che nell’aria', 'Solo ad alte frequenze, oltre gli ultrasuoni'], 0, 'Il suono è un’onda meccanica.'),
       order('Ordina il calcolo di λ per 100 MHz', ['λ = c / f', '=', '3×10⁸ / 10⁸', '=', '3 m'], 'Si divide la velocità della luce per la frequenza.')
     ],
     test: [
@@ -424,8 +424,8 @@
       mc('Durante la fusione del ghiaccio a pressione normale la temperatura:', ['resta a 0 °C', 'sale continuamente', 'scende sotto 0 °C', 'raggiunge 100 °C'], 0, 'Il calore serve a cambiare stato, non a aumentare la temperatura.'),
       fill('Rendimento massimo di Carnot con Tc = 500 K e Tf = 300 K, in %?', ['40', '40%'], '1 − 300/500 = 0,4.'),
       fill('Doccia: 40 L scaldati da 15 a 40 °C. Energia in kWh, due decimali (c = 4 186)?', ['1,16', '1.16'], '40 × 4 186 × 25 / 3,6 × 10⁶ = 1,163 kWh.'),
-      mc('Il secondo principio della termodinamica afferma, in sintesi, che:', ['il calore passa spontaneamente dal caldo al freddo', 'l’energia può essere creata', 'l’entropia di un sistema isolato diminuisce', 'ogni calore si trasforma in lavoro'], 0, 'I processi spontanei hanno una direzione; l’entropia di un sistema isolato non diminuisce.'),
-      mc('Perché un piumino scalda?', ['Intrappola aria ferma, cattiva conduttrice', 'Produce calore', 'Assorbe il freddo', 'Riflette l’umidità'], 0, 'L’aria ferma è un buon isolante.'),
+      mc('Il secondo principio della termodinamica afferma, in sintesi, che:', ['il calore passa spontaneamente dal caldo al freddo', 'l’energia può essere creata da una macchina ideale', 'l’entropia di un sistema isolato non può mai aumentare', 'ogni quantità di calore si trasforma interamente in lavoro'], 0, 'I processi spontanei hanno una direzione; l’entropia di un sistema isolato non diminuisce.'),
+      mc('Perché un piumino scalda?', ['Intrappola aria ferma, cattiva conduttrice', 'Produce calore proprio, come una piccola stufa', 'Assorbe il freddo dell’ambiente esterno', 'Riflette l’umidità e il vento verso l’esterno'], 0, 'L’aria ferma è un buon isolante.'),
       mc('Quale modo di trasmissione del calore funziona anche nel vuoto?', ['Irraggiamento', 'Conduzione', 'Convezione', 'Nessuno'], 0, 'Il calore del Sole arriva sotto forma di onde elettromagnetiche.'),
       fill('Con 4 monete, in quanti modi si ottengono 2 teste e 2 croci?', ['6'], 'C(4, 2) = 6 su 16 esiti.'),
       order('Ordina il calcolo di Q per 1 kg di acqua da 20 a 100 °C', ['Q = m·c·ΔT', '=', '1 × 4 186 × 80', '=', '334 880 J'], 'Si moltiplicano massa, calore specifico e variazione di temperatura.')
@@ -438,8 +438,8 @@
       fill('Evaporare 0,1 kg d’acqua (2 260 kJ/kg) richiede quanti kJ?', ['226'], '0,1 × 2 260 = 226.'),
       fill('Quanti esiti possibili ha il lancio di 4 monete?', ['16'], '2⁴ = 16.'),
       mc('Cosa significa 0 K?', ['Zero assoluto, −273,15 °C', '0 °C', '100 °C', 'Temperatura ambiente'], 0, '0 K è la temperatura più bassa teoricamente possibile.'),
-      mc('Perché il sudore che evapora raffredda il corpo?', ['L’evaporazione sottrae calore (calore latente)', 'Perché l’acqua è fredda', 'Perché isola la pelle', 'Perché brucia energia'], 0, 'Il passaggio liquido-vapore richiede energia, prelevata dalla pelle.'),
-      mc('Un frigorifero raffredda l’interno. Viola il secondo principio?', ['No: scarica più calore all’esterno, con consumo di energia', 'Sì, perché il calore va dal freddo al caldo', 'Sì, sempre', 'Solo con sportello aperto'], 0, 'Il calore viene spostato con lavoro esterno e l’entropia totale aumenta.')
+      mc('Perché il sudore che evapora raffredda il corpo?', ['L’evaporazione sottrae calore (calore latente)', 'Perché l’acqua che esce dai pori è sempre fredda', 'Perché isola la pelle dall’aria calda', 'Perché brucia energia e quindi produce freddo'], 0, 'Il passaggio liquido-vapore richiede energia, prelevata dalla pelle.'),
+      mc('Un frigorifero raffredda l’interno. Viola il secondo principio?', ['No: scarica più calore all’esterno, con consumo di energia', 'Sì, perché il calore va dal freddo al caldo da solo', 'Sì, in qualunque condizione di funzionamento', 'Solo con lo sportello aperto per molto tempo'], 0, 'Il calore viene spostato con lavoro esterno e l’entropia totale aumenta.')
     ]
   });
 

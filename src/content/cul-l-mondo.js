@@ -92,22 +92,22 @@ Chi collega queste dimensioni passa dal semplice elenco di nomi a una vera compr
       fill('Superficie terrestre 510 milioni di km², 71% acqua. Quanti milioni di km² di acqua (arrotonda all’intero)?', ['362'], '510 × 0,71 = 362,1.'),
       fill('Un oceano si allarga di 2,5 cm l’anno. Di quanti km si allarga in 40 milioni di anni?', ['1000', '1.000', '1 000'], '0,025 m × 4 × 10⁷ = 10⁶ m = 1 000 km.'),
       mc('Quale tipo di bordo tra placche corrisponde a una dorsale oceanica?', ['Divergente', 'Convergente', 'Trasforme', 'Nessuno'], 0, 'Lungo le dorsali le placche si allontanano e si forma nuova crosta.'),
-      mc('Le Alpi e l’Himalaya sono montagne formate soprattutto da:', ['scontro tra placche (corrugamento)', 'accumulo di lava', 'erosione del vento', 'impatti di meteoriti'], 0, 'Sono catene da collisione continentale.'),
+      mc('Le Alpi e l’Himalaya sono montagne formate soprattutto da:', ['scontro tra placche (corrugamento)', 'accumulo di lava dei vulcani sottomarini', 'erosione del vento sulle rocce antiche', 'impatti di meteoriti in epoca remota'], 0, 'Sono catene da collisione continentale.'),
       fill('Un fiume ha sezione di 200 m² e velocità 1,5 m/s. Portata in m³/s?', ['300'], '200 × 1,5 = 300.'),
       fill('Il livello del mare ha 15 °C. Con un gradiente di 6,5 °C/km, che temperatura a 3 000 m (in °C)?', ['-4,5', '-4.5', '−4,5'], '15 − 19,5 = −4,5.'),
       mc('Un terremoto di magnitudo 7 rilascia rispetto a uno di magnitudo 5 circa:', ['1 000 volte più energia', '2 volte più energia', '100 volte più energia', 'la stessa energia'], 0, 'Circa 32 volte per grado: 32 × 32 ≈ 1 000.'),
-      mc('Che cos’è l’epicentro?', ['Il punto in superficie sopra il punto d’origine del terremoto', 'Il punto d’origine in profondità', 'La faglia stessa', 'Il centro della Terra'], 0, 'L’origine in profondità è l’ipocentro.'),
-      mc('Un delta fluviale si forma:', ['dove i sedimenti si depositano alla foce', 'alla sorgente', 'in alta montagna', 'solo nei laghi'], 0, 'I sedimenti portati dal fiume si accumulano allo sbocco.'),
+      mc('Che cos’è l’epicentro?', ['Il punto in superficie sopra l’origine del sisma', 'Il punto d’origine in profondità sotto terra', 'La faglia lungo cui scorrono le due placche', 'Il centro della Terra, sotto la crosta'], 0, 'L’origine in profondità è l’ipocentro.'),
+      mc('Un delta fluviale si forma:', ['dove i sedimenti si depositano alla foce', 'alla sorgente, dove nasce il fiume', 'in alta montagna, nelle valli glaciali', 'nei laghi alpini di origine glaciale'], 0, 'I sedimenti portati dal fiume si accumulano allo sbocco.'),
       order('Ordina dal più basso al più alto (quota/profondità)', ['Fossa delle Marianne', 'Livello del mare', 'Monte Bianco', 'Everest'], 'Da circa −11 000 m, a 0, a circa 4 800 m, a circa 8 850 m.')
     ],
     test: [
       fill('Terre emerse: 29% di 510 milioni di km². Quanti milioni di km² (all’intero)?', ['148'], '510 × 0,29 = 147,9.'),
-      mc('La Cintura di fuoco è una zona del:', ['Pacifico, con molti vulcani e terremoti', 'Atlantico meridionale', 'Mar Mediterraneo', 'Oceano Indiano interno'], 0, 'Lungo il Pacifico si ha subduzione intensa.'),
+      mc('La Cintura di fuoco è una zona del:', ['Pacifico, con molti vulcani e terremoti', 'Atlantico meridionale, lungo il Sudafrica', 'Mediterraneo orientale, tra Grecia e Turchia', 'Oceano Indiano interno, tra India e Africa'], 0, 'Lungo il Pacifico si ha subduzione intensa.'),
       fill('Dislivello approssimato tra una cima di 8 850 m e una fossa di 11 000 m, in metri?', ['19850', '19.850', '19 850'], '8 850 + 11 000.'),
-      mc('Un bacino idrografico è:', ['il territorio che raccoglie le acque verso un fiume', 'il letto del fiume', 'un lago artificiale', 'la foce'], 0, 'Comprende il fiume e tutti i suoi affluenti.'),
-      mc('Una pianura alluvionale è tipicamente fertile perché:', ['formata dai sedimenti dei fiumi', 'ricoperta di ghiaccio', 'molto elevata', 'priva di acqua'], 0, 'I sedimenti sono ricchi di materiale utile alle coltivazioni.'),
+      mc('Un bacino idrografico è:', ['l’area che raccoglie le acque di un fiume', 'il letto del fiume con le sue anse', 'un lago artificiale creato da una diga', 'la foce del fiume nel mare'], 0, 'Comprende il fiume e tutti i suoi affluenti.'),
+      mc('Una pianura alluvionale è tipicamente fertile perché:', ['formata dai sedimenti dei fiumi', 'ricoperta di ghiaccio per molti mesi', 'situata a quote molto elevate', 'priva di acqua e di vegetazione'], 0, 'I sedimenti sono ricchi di materiale utile alle coltivazioni.'),
       fill('A 2 000 m di quota, partendo da 20 °C al livello del mare e 6,5 °C/km, la temperatura (in °C)?', ['7'], '20 − 13 = 7.'),
-      mc('Il Po è:', ['il più lungo fiume italiano, circa 650 km', 'un fiume appenninico di 100 km', 'il fiume più lungo d’Europa', 'un lago'], 0, 'Circa 650 km, e sfocia con un delta nell’Adriatico.')
+      mc('Il Po è:', ['il più lungo fiume italiano (650 km)', 'un fiume appenninico lungo circa 100 km', 'il fiume più lungo d’Europa, oltre 3000 km', 'un lago prealpino dell’Italia del nord'], 0, 'Circa 650 km, e sfocia con un delta nell’Adriatico.')
     ]
   });
 
@@ -208,22 +208,22 @@ Buona informazione significa non confondere questi livelli.` }
       mc('Il clima si definisce su un periodo di tradizionalmente:', ['30 anni', '1 settimana', '1 mese', '1 giorno'], 0, 'Si usano medie su trent’anni.'),
       fill('Temperatura media 22 °C al livello del mare, gradiente 6,5 °C/km. A 2 000 m, in °C?', ['9'], '22 − 13 = 9.'),
       fill('Media di gennaio 4 °C, di luglio 28 °C. Escursione termica annua in °C?', ['24'], '28 − 4 = 24.'),
-      mc('Le stagioni sulla Terra sono dovute soprattutto:', ['all’inclinazione dell’asse terrestre', 'alla distanza dal Sole', 'alle macchie solari', 'alla Luna'], 0, 'L’asse inclinato di circa 23,4° cambia l’angolo dei raggi.'),
-      mc('Il clima mediterraneo è tipicamente:', ['estati calde e secche, inverni miti e piovosi', 'freddo tutto l’anno', 'piovoso tutto l’anno', 'sempre secco'], 0, 'È tipico delle coste del Mediterraneo.'),
+      mc('Le stagioni sulla Terra sono dovute soprattutto:', ['all’inclinazione dell’asse terrestre', 'alla distanza della Terra dal Sole', 'alle macchie solari e al loro ciclo', 'alla Luna e alle maree'], 0, 'L’asse inclinato di circa 23,4° cambia l’angolo dei raggi.'),
+      mc('Il clima mediterraneo è tipicamente:', ['estati calde e secche, inverni miti', 'freddo e innevato per tutto l’anno', 'piovoso e umido in ogni stagione', 'caldo e secco in ogni stagione dell’anno'], 0, 'È tipico delle coste del Mediterraneo.'),
       fill('CO₂ passata da 280 a 420 ppm. Aumento percentuale?', ['50', '50%'], '(420 − 280) / 280 = 0,5.'),
-      mc('La Corrente del Golfo contribuisce a:', ['mitigare gli inverni dell’Europa nord-occidentale', 'raffreddare il Sahara', 'creare monsoni indiani', 'formare El Niño'], 0, 'Porta acqua calda verso nord-est.'),
+      mc('La Corrente del Golfo contribuisce a:', ['mitigare gli inverni dell’Europa nord-ovest', 'raffreddare il clima del deserto del Sahara', 'creare i monsoni estivi dell’India', 'formare El Niño nel Pacifico'], 0, 'Porta acqua calda verso nord-est.'),
       mc('Il bioma con permafrost e vegetazione bassa è:', ['la tundra', 'la savana', 'la foresta pluviale', 'la macchia mediterranea'], 0, 'Il suolo è ghiacciato in profondità.'),
       fill('Il mare sale di 4 mm l’anno. Quanti cm in 25 anni?', ['10'], '4 × 25 = 100 mm = 10 cm.'),
-      mc('Quale affermazione distingue correttamente tempo e clima?', ['Il tempo è lo stato momentaneo, il clima la media di lungo periodo', 'Sono sinonimi', 'Il clima cambia ogni giorno', 'Il tempo si misura in decenni'], 0, 'Un giorno freddo non smentisce una tendenza decennale.'),
+      mc('Quale affermazione distingue correttamente tempo e clima?', ['Tempo: stato momentaneo; clima: media di lungo periodo', 'Sono sinonimi e si usano in modo intercambiabile', 'Il clima cambia ogni giorno, il tempo ogni anno', 'Il tempo si misura in decenni, il clima in ore'], 0, 'Un giorno freddo non smentisce una tendenza decennale.'),
       order('Ordina la logica del riscaldamento globale', ['Emissioni di gas serra', 'Più CO₂ in atmosfera', 'Più calore trattenuto', 'Aumento della temperatura media'], 'Dalle cause agli effetti.')
     ],
     test: [
       fill('Il Sole è allo zenit fino al tropico a circa 23,4° N; il circolo polare è a circa 66,6° N. Differenza in gradi?', ['43,2', '43.2'], '66,6 − 23,4 = 43,2.'),
-      mc('Perché molti deserti si trovano intorno a 30° di latitudine?', ['L’aria che ricade è secca (alta pressione)', 'Sono lontani dal Sole', 'Non c’è vento', 'Sono sempre in alta quota'], 0, 'Dopo aver perso umidità all’equatore, l’aria ridiscende e asciuga.'),
+      mc('Perché molti deserti si trovano intorno a 30° di latitudine?', ['L’aria che ricade è secca (alta pressione)', 'Sono lontani dai raggi diretti del Sole', 'Si trovano quasi tutti in alta quota sui monti', 'Lì i venti soffiano dal mare verso l’interno'], 0, 'Dopo aver perso umidità all’equatore, l’aria ridiscende e asciuga.'),
       mc('Il versante sopravvento di una catena montuosa è di solito:', ['più piovoso', 'più secco', 'senza precipitazioni', 'privo di nubi'], 0, 'L’aria umida sale e scarica pioggia.'),
       fill('A 1 500 m, partendo da 18 °C a livello del mare: quanti °C (arrotonda a 1 decimale, gradiente 6,5)?', ['8,3', '8.3', '8,25', '8.25'], '18 − 9,75 = 8,25.'),
-      mc('L’IPCC è:', ['il panel intergovernativo dell’ONU sul cambiamento climatico', 'un’agenzia che regola il petrolio', 'un trattato', 'un satellite'], 0, 'Valuta e sintetizza la letteratura scientifica.'),
-      mc('Quale è un esempio di adattamento (non di mitigazione)?', ['Costruire difese contro l’innalzamento del mare', 'Installare pannelli solari', 'Piantare foreste', 'Ridurre i consumi'], 0, 'L’adattamento riduce i danni, la mitigazione riduce le cause.'),
+      mc('L’IPCC è:', ['il panel intergovernativo dell’ONU sul clima', 'un’agenzia che regola il prezzo del petrolio', 'un trattato firmato a Kyoto nel 1997', 'un satellite per misurare i ghiacci polari'], 0, 'Valuta e sintetizza la letteratura scientifica.'),
+      mc('Quale è un esempio di adattamento (non di mitigazione)?', ['Costruire difese contro l’innalzamento del mare', 'Installare pannelli solari sui tetti', 'Piantare foreste per assorbire la CO₂', 'Ridurre i consumi di energia in casa e in ufficio'], 0, 'L’adattamento riduce i danni, la mitigazione riduce le cause.'),
       mc('L’effetto serra naturale porta la temperatura media a circa:', ['+15 °C invece di circa −18 °C', '+50 °C', '0 °C', '−50 °C'], 0, 'Senza gas serra la Terra sarebbe quasi interamente ghiacciata.')
     ]
   });
@@ -335,22 +335,22 @@ Ricorda che i dati demografici si aggiornano ogni anno: i **metodi** di calcolo 
       fill('Italia: circa 59 milioni di abitanti su 301 000 km². Densità in ab/km² (arrotonda all’intero)?', ['196', '195', '197'], '59 000 000 / 301 340 ≈ 196.'),
       fill('Popolazione 10 000 000; nati 90 000. Tasso di natalità in ‰?', ['9'], '90 000 / 10 000 000 × 1 000.'),
       fill('Saldo naturale −20 000, saldo migratorio +40 000. Variazione totale?', ['20000', '+20000', '20.000', '20 000'], '−20 000 + 40 000.'),
-      mc('Una piramide con base molto larga indica:', ['molti giovani e forte crescita', 'popolazione molto anziana', 'popolazione in calo', 'migrazioni in uscita'], 0, 'Alta natalità: tante classi giovani.'),
+      mc('Una piramide con base molto larga indica:', ['molti giovani e forte crescita', 'popolazione molto anziana e in calo', 'popolazione in calo da molti anni', 'migrazioni in uscita verso altri paesi'], 0, 'Alta natalità: tante classi giovani.'),
       fill('13 giovani, 24 anziani, 63 in età attiva. Indice di dipendenza (un decimale)?', ['58,7', '58.7'], '37 / 63 × 100.'),
       fill('Crescita annua costante 1,4%. Tempo di raddoppio in anni (regola del 70)?', ['50'], '70 / 1,4 = 50.'),
       mc('La fecondità di sostituzione è circa:', ['2,1 figli per donna', '1,0', '3,5', '5,0'], 0, 'Serve per mantenere stabile la popolazione senza migrazioni.'),
-      mc('Quale è un fattore di attrazione (pull)?', ['Opportunità di lavoro', 'Guerra', 'Siccità', 'Persecuzione'], 0, 'I fattori pull attirano verso la destinazione.'),
+      mc('Quale è un fattore di attrazione (pull)?', ['Opportunità di lavoro', 'Guerra nel paese d’origine', 'Siccità e carestia', 'Persecuzione politica o religiosa'], 0, 'I fattori pull attirano verso la destinazione.'),
       fill('Se 8 miliardi di persone vivono per il 57% in città, quanti miliardi di urbani (due decimali)?', ['4,56', '4.56'], '8 × 0,57.'),
-      mc('Un rifugiato è tutelato da:', ['Convenzione di Ginevra del 1951', 'Trattato di Maastricht', 'Carta del NATO', 'Accordi di Schengen'], 0, 'È la base del diritto internazionale dei rifugiati.'),
+      mc('Un rifugiato è tutelato da:', ['Convenzione di Ginevra del 1951', 'Trattato di Maastricht del 1992', 'Trattato Nord Atlantico del 1949', 'Accordi di Schengen del 1985'], 0, 'È la base del diritto internazionale dei rifugiati.'),
       order('Ordina le fasi della transizione demografica', ['Natalità e mortalità alte', 'Mortalità in calo', 'Natalità in calo', 'Natalità e mortalità basse'], 'La mortalità scende prima della natalità.')
     ],
     test: [
       fill('Valle d’Aosta: circa 123 000 abitanti su 3 263 km². Densità in ab/km² (all’intero)?', ['38'], '123 000 / 3 263 ≈ 37,7.'),
-      mc('La densità è una media perché:', ['nasconde le differenze interne al territorio', 'è sempre uguale ovunque', 'non dipende dalla superficie', 'conta solo le città'], 0, 'Una regione può avere pochi centri molto popolati e molte aree vuote.'),
+      mc('La densità è una media perché:', ['nasconde differenze interne al territorio', 'è uguale in tutte le zone del paese', 'non dipende dalla superficie considerata', 'conta soltanto gli abitanti delle città'], 0, 'Una regione può avere pochi centri molto popolati e molte aree vuote.'),
       fill('Popolazione 2 000 000; morti 24 000. Tasso di mortalità in ‰?', ['12'], '24 000 / 2 000 000 × 1 000.'),
       mc('Una piramide a trottola (base stretta, vertice largo) è tipica di:', ['una popolazione invecchiata', 'un paese in rapida crescita', 'una popolazione appena nata', 'una colonia'], 0, 'Pochi nati e molti anziani, come in Italia o Giappone.'),
       fill('Un paese di 60 milioni ha il 9% di nati all’estero. Quanti milioni (un decimale)?', ['5,4', '5.4'], '60 × 0,09.'),
-      mc('Che cosa sono le baraccopoli?', ['Quartieri urbani informali e poveri', 'Quartieri storici', 'Zone industriali', 'Villaggi rurali'], 0, 'Spesso privi di servizi basilari.'),
+      mc('Che cosa sono le baraccopoli?', ['Quartieri urbani informali e poveri', 'Quartieri storici nel centro città', 'Zone industriali ai margini urbani', 'Villaggi rurali di montagna'], 0, 'Spesso privi di servizi basilari.'),
       mc('Quale combinazione produce crescita naturale negativa?', ['Natalità minore della mortalità', 'Natalità maggiore della mortalità', 'Solo immigrazione', 'Solo emigrazione'], 0, 'Saldo naturale = nati − morti < 0.')
     ]
   });
@@ -446,22 +446,22 @@ Imparare i numeri come **ordini di grandezza** è più utile che memorizzare cif
       fill('Asia ~44,6 e terre emerse totali ~149 milioni di km². Quota percentuale dell’Asia (all’intero)?', ['30'], '44,6 / 149 ≈ 0,30.'),
       fill('L’Africa misura ~30,4 milioni di km², l’Italia ~0,301. Quante volte più grande (all’intero)?', ['100', '101'], '30,4 / 0,301 ≈ 101.'),
       mc('Il confine convenzionale fra Asia e Africa è:', ['il Canale di Suez', 'lo stretto di Gibilterra', 'il Bosforo', 'l’istmo di Panama'], 0, 'Suez collega Mediterraneo e Mar Rosso.'),
-      mc('La catena delle Ande si trova:', ['in America del Sud', 'in Africa', 'in Asia', 'in Oceania'], 0, 'Corre lungo la costa occidentale.'),
+      mc('La catena delle Ande si trova:', ['in America meridionale', 'in Africa australe', 'nell’Asia centrale', 'in Oceania'], 0, 'Corre lungo la costa occidentale.'),
       mc('Quanti stati africani sono membri dell’ONU?', ['54', '12', '30', '80'], 0, 'Sono 54 stati riconosciuti.'),
       fill('Sahara ~9 milioni di km² su ~30,4 dell’Africa. Quota in % (all’intero)?', ['30'], '9 / 30,4 = 0,296.'),
-      mc('L’Antartide è:', ['coperta per circa il 98% da ghiaccio', 'un deserto caldo', 'densamente popolata', 'divisa in molti stati'], 0, 'È un continente quasi interamente glaciale, regolato dal Trattato Antartico.'),
-      mc('La foresta pluviale più grande del mondo è:', ['l’Amazzonia', 'la taiga', 'la savana', 'la Siberia'], 0, 'Occupa il bacino del Rio delle Amazzoni.'),
+      mc('L’Antartide è:', ['coperta al 98% da ghiaccio', 'un deserto caldo e sabbioso', 'densamente popolata da basi civili', 'divisa in molti stati sovrani'], 0, 'È un continente quasi interamente glaciale, regolato dal Trattato Antartico.'),
+      mc('La foresta pluviale più grande del mondo è:', ['l’Amazzonia', 'la taiga siberiana', 'la savana africana', 'la foresta del Congo'], 0, 'Occupa il bacino del Rio delle Amazzoni.'),
       fill('America del Nord 24,7 + America del Sud 17,8 in milioni di km²?', ['42,5', '42.5'], '24,7 + 17,8.'),
       order('Ordina per superficie dal più grande al più piccolo', ['Asia', 'Africa', 'Europa', 'Oceania'], 'Circa 44,6, 30,4, 10,2, 8,5 milioni di km².')
     ],
     test: [
       fill('Africa: 1 500 milioni di abitanti su 30,4 milioni di km². Densità in ab/km² (all’intero)?', ['49', '50'], '1 500 / 30,4 = 49,3.'),
-      mc('L’Australia è:', ['continente-isola e paese molto grande', 'uno stato europeo', 'un arcipelago senza terre grandi', 'parte dell’Asia'], 0, 'Circa 7,7 milioni di km².'),
-      mc('Quale è un carattere dell’Africa?', ['Popolazione molto giovane e in rapida crescita', 'Popolazione molto anziana', 'Assenza di deserti', 'Un unico stato'], 0, 'L’età mediana è fra le più basse.'),
-      mc('Il Trattato Antartico del 1959:', ['dedica il continente a pace e ricerca', 'divide l’Antartide fra gli Stati', 'permette le miniere', 'crea una colonia'], 0, 'Vieta anche attività militari.'),
+      mc('L’Australia è:', ['continente-isola e paese molto grande', 'uno stato europeo dell’emisfero sud', 'un arcipelago senza terre grandi', 'parte dell’Asia sud-orientale'], 0, 'Circa 7,7 milioni di km².'),
+      mc('Quale è un carattere dell’Africa?', ['Popolazione giovane in rapida crescita', 'Popolazione molto anziana e in calo', 'Assenza di deserti e di savane', 'Un solo grande stato federale'], 0, 'L’età mediana è fra le più basse.'),
+      mc('Il Trattato Antartico del 1959:', ['dedica il continente a pace e ricerca', 'divide l’Antartide fra gli Stati firmatari', 'permette lo sfruttamento minerario libero', 'crea una colonia scientifica internazionale'], 0, 'Vieta anche attività militari.'),
       fill('Europa: 740 milioni su 10,2 milioni di km². Densità in ab/km² (all’intero)?', ['73', '72'], '740 / 10,2 ≈ 72,5.'),
       mc('Gli Urali sono il confine convenzionale fra:', ['Europa e Asia', 'Asia e Africa', 'Europa e Africa', 'Nord e Sud America'], 0, 'Insieme al fiume Ural e al Caucaso.'),
-      mc('Perché i confini continentali sono “convenzionali”?', ['Perché dipendono da scelte storiche e culturali, non da barriere naturali nette', 'Perché non esistono', 'Perché cambiano ogni anno', 'Perché sono fissi per legge'], 0, 'Europa e Asia, ad esempio, sono un’unica massa continua.')
+      mc('Perché i confini continentali sono “convenzionali”?', ['Perché dipendono da scelte storiche e culturali', 'Perché in realtà non esistono su nessuna carta', 'Perché cambiano ogni anno con le maree', 'Perché sono fissati per legge dall’ONU'], 0, 'Europa e Asia, ad esempio, sono un’unica massa continua.')
     ]
   });
 
@@ -569,21 +569,21 @@ Metodo: per ogni territorio descrivi posizione, rilievo, acque, clima, popolazio
       fill('Lombardia: 10 milioni di abitanti su 23 863 km². Densità in ab/km² (all’intero)?', ['419', '420'], '10 000 000 / 23 863 ≈ 419.'),
       fill('Da 47° N a 35,5° N: distanza lungo un meridiano in km (111 km/grado, all’intero)?', ['1277', '1276', '1275', '1.276', '1 276', '1.277', '1 277', '1.275', '1 275'], '11,5 × 111 = 1 276,5.'),
       mc('La regione più grande per superficie è:', ['la Sicilia', 'il Piemonte', 'la Lombardia', 'la Sardegna'], 0, 'Circa 25 700 km², leggermente più del Piemonte.'),
-      mc('La cima più alta interamente in territorio italiano è:', ['il Gran Paradiso', 'il Monte Bianco', 'l’Etna', 'il Gran Sasso'], 0, '4 061 m; il Monte Bianco è al confine con la Francia.'),
-      mc('Quali sono regioni a statuto speciale?', ['Sicilia e Sardegna', 'Lazio e Campania', 'Veneto e Piemonte', 'Toscana e Umbria'], 0, 'Insieme a Valle d’Aosta, Trentino-Alto Adige e Friuli-Venezia Giulia.'),
+      mc('La cima più alta interamente in territorio italiano è:', ['il Gran Paradiso', 'il Monte Bianco, condiviso con la Francia', 'l’Etna, in Sicilia', 'il Gran Sasso, negli Appennini'], 0, '4 061 m; il Monte Bianco è al confine con la Francia.'),
+      mc('Quali sono regioni a statuto speciale?', ['Sicilia e Sardegna', 'Lazio e Campania', 'Veneto e Lombardia', 'Toscana e Umbria'], 0, 'Insieme a Valle d’Aosta, Trentino-Alto Adige e Friuli-Venezia Giulia.'),
       fill('Se le pianure sono un quinto di 301 000 km², quanti km² sono (all’intero, circa)?', ['60200', '60000', '60.200', '60 200', '60.000', '60 000'], '301 000 / 5 = 60 200.'),
-      mc('Che cos’è un distretto industriale?', ['Un’area con molte piccole imprese dello stesso settore', 'Un’unica grande fabbrica', 'Una zona agricola', 'Una regione'], 0, 'Esempi: ceramica a Sassuolo, occhialeria a Belluno.'),
+      mc('Che cos’è un distretto industriale?', ['Area con molte piccole imprese dello stesso settore', 'Un’unica grande fabbrica che occupa l’area', 'Una zona agricola con grandi aziende', 'Una regione amministrativa a statuto speciale'], 0, 'Esempi: ceramica a Sassuolo, occhialeria a Belluno.'),
       fill('Reddito pro capite Nord 36 000 €, Sud 24 000 €. Rapporto Sud/Nord (due decimali)?', ['0,67', '0.67'], '24 / 36 = 0,666…'),
       mc('Quale è il più lungo fiume italiano?', ['il Po', 'il Tevere', 'l’Adige', 'l’Arno'], 0, 'Circa 650 km.'),
       order('Ordina da nord a sud (per latitudine)', ['Aosta', 'Milano', 'Roma', 'Palermo'], 'La latitudine diminuisce scendendo verso sud.')
     ],
     test: [
       fill('Una città di 2,8 milioni in un paese di 59 milioni: quale % della popolazione (un decimale)?', ['4,7', '4.7'], '2,8 / 59 = 0,0475.'),
-      mc('I due stati indipendenti dentro il territorio italiano sono:', ['San Marino e Città del Vaticano', 'Monaco e Andorra', 'Malta e Liechtenstein', 'Lussemburgo e Svizzera'], 0, 'Sono due enclave.'),
-      mc('L’Etna è:', ['un vulcano attivo in Sicilia', 'una montagna delle Alpi', 'un fiume', 'un lago'], 0, 'Circa 3 300 m, quota variabile.'),
+      mc('I due stati indipendenti dentro il territorio italiano sono:', ['San Marino e Città del Vaticano', 'Principato di Monaco e Liechtenstein', 'Repubblica di Malta e Andorra', 'Lussemburgo e Confederazione Svizzera'], 0, 'Sono due enclave.'),
+      mc('L’Etna è:', ['un vulcano attivo in Sicilia', 'una montagna calcarea delle Alpi', 'un fiume che sfocia nello Ionio', 'un lago vulcanico del Lazio'], 0, 'Circa 3 300 m, quota variabile.'),
       fill('Basilicata: circa 540 000 abitanti su 10 073 km². Densità in ab/km² (all’intero)?', ['54', '53'], '540 000 / 10 073 ≈ 53,6.'),
       mc('La parte più grande dell’economia italiana per occupazione è:', ['il terziario', 'il primario', 'la pesca', 'l’estrazione'], 0, 'I servizi superano industria e agricoltura.'),
-      mc('Perché il turismo di massa pone problemi al patrimonio?', ['Sovraffollamento e usura di luoghi fragili', 'Non attira visitatori', 'Riduce il PIL', 'Elimina la cultura'], 0, 'Venezia e le Cinque Terre sono esempi.'),
+      mc('Perché il turismo di massa pone problemi al patrimonio?', ['Sovraffollamento e usura di luoghi fragili', 'Non attira abbastanza visitatori stranieri', 'Riduce il prodotto interno lordo locale', 'Elimina del tutto la cultura delle comunità'], 0, 'Venezia e le Cinque Terre sono esempi.'),
       fill('1 milione di visitatori che spendono 400 € ciascuno: quanti milioni di euro?', ['400'], '1 000 000 × 400 = 400 000 000.')
     ]
   });
@@ -697,22 +697,22 @@ Consiglio pratico: per informarti, usa fonti ufficiali (europa.eu, eur-lex) e co
       mc('Quale non faceva parte dei sei paesi fondatori?', ['Spagna', 'Italia', 'Francia', 'Paesi Bassi'], 0, 'La Spagna entrò nel 1986.'),
       fill('Per una maggioranza qualificata serve il 55% di 27 stati: quanti stati (all’intero superiore)?', ['15'], '27 × 0,55 = 14,85.'),
       fill('1 000 000 di lire a 1 936,27 lire per euro: quanti euro (due decimali)?', ['516,46', '516.46'], '1 000 000 / 1 936,27.'),
-      mc('Quale istituzione propone le leggi europee?', ['La Commissione europea', 'La BCE', 'La Corte di giustizia', 'Il Parlamento da solo'], 0, 'Ha il diritto di iniziativa legislativa.'),
-      mc('Che cosa sono le «quattro libertà» del mercato unico?', ['Merci, persone, servizi, capitali', 'Parola, stampa, culto, riunione', 'Pace, lavoro, casa, salute', 'Euro, banca, dogana, tassa'], 0, 'Circolano liberamente tra gli stati dell’UE.'),
+      mc('Quale istituzione propone le leggi europee?', ['La Commissione europea', 'La Banca centrale europea', 'La Corte di giustizia dell’UE', 'Il Parlamento europeo da solo'], 0, 'Ha il diritto di iniziativa legislativa.'),
+      mc('Che cosa sono le «quattro libertà» del mercato unico?', ['Merci, persone, servizi, capitali', 'Libertà di parola, stampa, culto, riunione', 'Pace, lavoro, casa, salute pubblica', 'Euro, banca, dogana, tassa unica'], 0, 'Circolano liberamente tra gli stati dell’UE.'),
       fill('Quale anno vide l’entrata in circolazione di banconote e monete in euro?', ['2002'], '1° gennaio 2002.'),
-      mc('La BCE ha sede a:', ['Francoforte', 'Bruxelles', 'Parigi', 'Roma'], 0, 'La Corte di giustizia è a Lussemburgo.'),
+      mc('La BCE ha sede a:', ['Francoforte', 'Bruxelles', 'Strasburgo', 'Lussemburgo'], 0, 'La Corte di giustizia è a Lussemburgo.'),
       mc('Con il visto Schengen un turista extra-UE può stare al massimo:', ['90 giorni su 180', '30 giorni', '1 anno', '180 giorni su 365'], 0, 'È la regola generale di soggiorno breve.'),
       fill('10 € in lire (al cambio 1 936,27), con arrotondamento all’intero?', ['19363', '19.363', '19 363'], '19 362,70 arrotondato.'),
       order('Ordina cronologicamente', ['CECA', 'Trattati di Roma', 'Trattato di Maastricht', 'Banconote in euro'], '1951, 1957, 1992 (in vigore 1993), 2002.')
     ],
     test: [
       fill('L’UE ha circa 450 milioni di abitanti, l’Italia 59. Quota % dell’Italia (all’intero)?', ['13'], '59 / 450 = 13,1%.'),
-      mc('Un regolamento UE:', ['è direttamente applicabile in tutti gli stati', 'va recepito con legge nazionale', 'vale solo per il Parlamento', 'è facoltativo'], 0, 'Le direttive invece fissano obiettivi da recepire.'),
+      mc('Un regolamento UE:', ['è direttamente applicabile negli Stati', 'va recepito con una legge nazionale', 'vale soltanto per il Parlamento europeo', 'è facoltativo per gli Stati membri'], 0, 'Le direttive invece fissano obiettivi da recepire.'),
       fill('Quanti seggi ha il Parlamento europeo dal 2024?', ['720'], 'Sono 720.'),
-      mc('Il principio di sussidiarietà significa che:', ['l’UE agisce solo se è più efficace dell’azione nazionale', 'tutte le decisioni sono europee', 'gli stati non possono decidere', 'la BCE decide tutto'], 0, 'Le decisioni restano il più vicino possibile ai cittadini.'),
-      mc('Quale materia richiede di norma l’unanimità?', ['Politica estera e di sicurezza comune', 'Marchio CE', 'Concorrenza agricola', 'Erasmus'], 0, 'Ogni stato ha così un diritto di veto.'),
+      mc('Il principio di sussidiarietà significa che:', ['l’UE agisce se è più efficace degli Stati', 'tutte le decisioni spettano alle istituzioni europee', 'gli Stati membri non possono decidere da soli', 'la BCE decide su tutte le politiche europee'], 0, 'Le decisioni restano il più vicino possibile ai cittadini.'),
+      mc('Quale materia richiede di norma l’unanimità?', ['Politica estera e di sicurezza comune', 'Marchio CE sui prodotti industriali', 'Concorrenza agricola tra i produttori', 'Erasmus e mobilità degli studenti'], 0, 'Ogni stato ha così un diritto di veto.'),
       fill('Da 1 000 000 di lire a 516,46 €: un caffè da 1 500 lire in euro (due decimali)?', ['0,77', '0.77'], '1 500 / 1 936,27 = 0,7747.'),
-      mc('Schengen riguarda:', ['i controlli alle frontiere interne', 'la moneta', 'la difesa', 'l’energia'], 0, 'Elimina i controlli sistematici fra gli stati dell’area.')
+      mc('Schengen riguarda:', ['i controlli alle frontiere interne', 'la moneta unica europea', 'la difesa comune dei confini', 'l’energia e le reti elettriche'], 0, 'Elimina i controlli sistematici fra gli stati dell’area.')
     ]
   });
 
@@ -824,19 +824,19 @@ Per ogni notizia nuova, chiediti: chi è l’organizzazione, che cosa può fare 
       fill('Per il Consiglio di sicurezza servono 9 voti su 15. Quale % (all’intero)?', ['60'], '9 / 15 = 0,6.'),
       mc('Quali paesi hanno il veto nel Consiglio di sicurezza?', ['USA, Russia, Cina, Francia, Regno Unito', 'USA, Germania, Giappone, India, Brasile', 'Tutti i membri', 'Solo gli USA'], 0, 'Sono i cinque membri permanenti.'),
       fill('Due terzi di 193 votanti: quanti voti (all’intero superiore)?', ['129'], '193 × 2/3 = 128,67.'),
-      mc('L’articolo 5 della NATO riguarda:', ['la difesa collettiva', 'il commercio', 'la moneta', 'l’ambiente'], 0, 'Un attacco a uno è un attacco a tutti.'),
-      mc('Il G7 comprende:', ['Italia, Francia, Germania, Giappone, Regno Unito, Canada, USA', 'Italia, Cina, India, Brasile, Russia, Egitto, Spagna', 'Solo paesi europei', 'Tutti i membri UE'], 0, 'Più la UE come ospite.'),
+      mc('L’articolo 5 della NATO riguarda:', ['la difesa collettiva', 'il commercio tra gli alleati', 'la moneta comune dell’alleanza', 'l’ambiente e il clima'], 0, 'Un attacco a uno è un attacco a tutti.'),
+      mc('Il G7 comprende:', ['Italia, Francia, Germania, Giappone, UK, Canada, USA', 'Italia, Cina, India, Brasile, Russia, Egitto, Spagna, Turchia', 'Tutti i ventisette membri dell’Unione europea', 'Gli Stati europei più Russia, Turchia e Ucraina'], 0, 'Più la UE come ospite.'),
       fill('51 fondatori su 193 membri attuali: quanti sono entrati dopo?', ['142'], '193 − 51.'),
       mc('Quale organizzazione ha sede a Roma?', ['la FAO', 'l’OMS', 'l’UNESCO', 'la NATO'], 0, 'La FAO si occupa di alimentazione e agricoltura.'),
-      mc('Lo Stretto di Hormuz è importante perché:', ['vi transita una grande parte del petrolio mondiale', 'collega il Mediterraneo al Mar Nero', 'è un canale artificiale', 'è in Europa'], 0, 'Circa un quinto del petrolio consumato.'),
+      mc('Lo Stretto di Hormuz è importante perché:', ['vi transita molto del petrolio mondiale', 'collega il Mediterraneo al Mar Nero', 'è un canale artificiale scavato nell’Ottocento', 'si trova in Europa, tra Danimarca e Svezia'], 0, 'Circa un quinto del petrolio consumato.'),
       fill('Il mondo consuma 100 milioni di barili al giorno e un quinto passa da Hormuz: quanti milioni?', ['20'], '100 / 5.'),
       order('Ordina cronologicamente', ['Bretton Woods', 'ONU', 'Dichiarazione universale dei diritti umani', 'NATO'], '1944, 1945, 1948, 1949.')
     ],
     test: [
       fill('Se il G20 vale l’80% di 100 mila miliardi, quanti mila miliardi?', ['80'], '0,8 × 100.'),
-      mc('Il G20 comprende anche:', ['l’Unione europea e l’Unione africana', 'solo paesi europei', 'tutti i membri ONU', 'solo asiatici'], 0, 'L’UA è membro dal 2023.'),
-      mc('La Dichiarazione universale dei diritti umani (1948) è:', ['una dichiarazione senza forza di trattato, ma con grande autorità', 'un trattato vincolante in sé', 'una legge italiana', 'un accordo commerciale'], 0, 'Ha ispirato patti vincolanti.'),
-      mc('Che cosa significa «integrità territoriale»?', ['I confini di uno stato non si cambiano con la forza', 'Gli stati non possono commerciare', 'Ogni popolo ha uno stato', 'I confini sono sempre naturali'], 0, 'È un principio del diritto internazionale.'),
+      mc('Il G20 comprende anche:', ['l’Unione europea e l’Unione africana', 'soltanto paesi europei e nordamericani', 'tutti i membri delle Nazioni Unite', 'solo paesi asiatici e dell’Oceania'], 0, 'L’UA è membro dal 2023.'),
+      mc('La Dichiarazione universale dei diritti umani (1948) è:', ['una dichiarazione non vincolante ma autorevole', 'un trattato vincolante di per sé per gli Stati', 'una legge italiana del dopoguerra', 'un accordo commerciale tra gli Stati firmatari'], 0, 'Ha ispirato patti vincolanti.'),
+      mc('Che cosa significa «integrità territoriale»?', ['I confini di uno stato non si cambiano con la forza', 'Gli stati non possono commerciare con i vicini', 'Ogni popolo ha diritto a uno stato proprio', 'I confini sono tracciati soltanto da barriere naturali'], 0, 'È un principio del diritto internazionale.'),
       mc('Una risoluzione ottiene 12 voti su 15 ma un membro permanente vota contro. Il risultato è:', ['non passa (veto)', 'passa', 'passa con 2/3', 'passa all’Assemblea'], 0, 'Il veto blocca la decisione.'),
       fill('Se un organo ha 15 membri: 5 permanenti e quanti non permanenti?', ['10'], '15 − 5.'),
       mc('I confini africani attuali sono in larga parte:', ['tracciati nell’epoca coloniale', 'fissati nel 1919', 'originari del Medioevo', 'sempre coincidenti con le etnie'], 0, 'Conferenza di Berlino 1884–85 e spartizione successiva.')
@@ -1109,11 +1109,11 @@ Le competenze si consolidano con l’**uso**: esercitati su itinerari brevi e no
       fill('Azimut di andata 65°. Direzione reciproca in gradi?', ['245'], '65 + 180.'),
       fill('Azimut di andata 310°. Direzione reciproca in gradi?', ['130'], '310 − 180.'),
       fill('Declinazione +4° E, azimut geografico 120°. Azimut da impostare in bussola?', ['116'], '120 − 4.'),
-      mc('La declinazione magnetica è:', ['l’angolo fra nord geografico e nord magnetico', 'l’inclinazione del terreno', 'la latitudine', 'l’altezza del Sole'], 0, 'Varia con il luogo e il tempo.'),
+      mc('La declinazione magnetica è:', ['l’angolo tra nord geografico e magnetico', 'l’inclinazione del terreno su cui si cammina', 'la latitudine del punto in cui ci si trova', 'l’altezza del Sole sull’orizzonte a mezzogiorno'], 0, 'Varia con il luogo e il tempo.'),
       fill('Naismith: 10 km con 900 m di salita. Tempo totale in ore?', ['3,5', '3.5'], '10/5 + 900/600 = 2 + 1,5.'),
       fill('Naismith: 12 km con 600 m di salita. Tempo in minuti?', ['204'], '3,4 h × 60.'),
       fill('Errore di 5° su 2 km: spostamento circa in metri (all’intero, tan 5° ≈ 0,0875)?', ['175', '174'], '2 000 × 0,0875.'),
-      mc('Per portare l’azimut dal nord geografico al magnetico con declinazione est si:', ['sottrae la declinazione', 'somma la declinazione', 'moltiplica per 2', 'non si fa nulla'], 0, 'Magnetico = geografico − D (est).'),
+      mc('Per portare l’azimut dal nord geografico al magnetico con declinazione est si:', ['sottrae la declinazione', 'somma la declinazione all’azimut', 'moltiplica l’azimut per due', 'non si fa nulla: i due nord coincidono'], 0, 'Magnetico = geografico − D (est).'),
       mc('Il numero di emergenza unico europeo è:', ['112', '118', '911', '999'], 0, 'In Italia è attivo il 112 con smistamento ai soccorsi.'),
       order('Ordina una buona pianificazione', ['Scegli l’itinerario', 'Controlla il meteo', 'Calcola tempi e rientro', 'Avvisa qualcuno'], 'Prima il piano, poi la verifica, poi la comunicazione.')
     ],
@@ -1121,9 +1121,9 @@ Le competenze si consolidano con l’**uso**: esercitati su itinerari brevi e no
       fill('Naismith: 14 km con 1 200 m di salita. Ore totali (un decimale)?', ['4,8', '4.8'], '2,8 + 2.'),
       fill('Itinerario di 5 h 18 min con rientro entro le 16:30. Orario massimo di partenza (hh:mm)?', ['11:12', '11.12'], '16:30 − 5:18.'),
       mc('La reciproca di un azimut di 20° è:', ['200°', '160°', '340°', '110°'], 0, '20 + 180.'),
-      mc('Quale documento basta, in genere, per viaggiare tra paesi UE per un cittadino italiano?', ['Carta d’identità valida per l’espatrio', 'Visto', 'Solo il codice fiscale', 'Patente scaduta'], 0, 'Nell’UE vale come documento di viaggio.'),
+      mc('Quale documento basta, in genere, per viaggiare tra paesi UE per un cittadino italiano?', ['Carta d’identità valida per l’espatrio', 'Visto turistico per i Paesi dell’Unione europea', 'Tessera con il solo codice fiscale', 'Patente di guida già scaduta da anni'], 0, 'Nell’UE vale come documento di viaggio.'),
       fill('Declinazione +4° E, azimut geografico 2°. Azimut magnetico (0–360)?', ['358'], '2 − 4 = −2 → 358.'),
-      mc('La TEAM serve per:', ['cure urgenti nel sistema pubblico di altri paesi UE', 'ottenere un visto', 'cambiare moneta', 'assicurare il bagaglio'], 0, 'È sul retro della tessera sanitaria.'),
+      mc('La TEAM serve per:', ['cure necessarie nel sistema pubblico UE', 'ottenere il visto per il Paese ospitante', 'cambiare moneta senza commissioni', 'assicurare il bagaglio contro lo smarrimento'], 0, 'È sul retro della tessera sanitaria.'),
       mc('Se il tempo peggiora e il rischio cresce, la scelta più prudente è:', ['tornare indietro', 'accelerare', 'separare il gruppo', 'ignorare il meteo'], 0, 'La sicurezza viene prima dell’obiettivo.')
     ]
   });

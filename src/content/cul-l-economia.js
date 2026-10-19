@@ -31,7 +31,7 @@
       mc('Uno studente che non lavora e non cerca lavoro è classificato come:', ['inattivo', 'disoccupato', 'occupato', 'parte della forza lavoro'], 0, 'I disoccupati cercano attivamente un lavoro; chi non cerca è inattivo.'),
       mc('Qual è l’obiettivo di inflazione a medio termine della BCE?', ['2%', '0%', '5%', '10%'], 0, 'La BCE punta a un’inflazione del 2% nel medio termine.'),
       fill('Stipendio +4%, prezzi +3%. Di circa quanti punti percentuali cresce il potere d’acquisto?', ['1', '1%'], '1,04 / 1,03 − 1 ≈ 0,97%, cioè circa 1 punto.'),
-      mc('Se la BCE alza i tassi di riferimento, di norma:', ['il credito costa di più e la domanda si raffredda', 'i mutui costano meno', 'i prezzi salgono subito', 'il PIL cresce subito'], 0, 'Tassi più alti rendono il denaro più caro e frenano consumi e investimenti.'),
+      mc('Se la BCE alza i tassi di riferimento, di norma:', ['il credito costa di più e la domanda cala', 'i mutui costano meno e i consumi crescono', 'i prezzi calano subito in tutti i settori', 'il PIL cresce subito per l’effetto sul denaro'], 0, 'Tassi più alti rendono il denaro più caro e frenano consumi e investimenti.'),
       order('Ordina il calcolo di una variazione percentuale', ['valore finale − iniziale', '÷', 'valore iniziale', '×', '100'], 'La differenza si divide per il valore di partenza e si moltiplica per 100.')
     ],
     test: [
@@ -41,8 +41,8 @@
       fill('Prezzi +10% in un anno e +10% nell’anno dopo. Aumento complessivo in %?', ['21', '21%', '+21', '+21%'], '1,1 × 1,1 = 1,21.'),
       fill('Il PIL passa da 2 000 a 1 960. Variazione in %?', ['-2', '−2', '-2%', '−2%'], '(1 960 − 2 000) / 2 000 = −0,02.'),
       mc('Dopo un calo del 50% di un prezzo, quale aumento serve per tornare al valore iniziale?', ['+100%', '+50%', '+25%', '+75%'], 0, 'Da 50 a 100 raddoppia: +100%.'),
-      mc('Un tasso passa dal 2% al 3%. Quale affermazione è corretta?', ['Sale di 1 punto percentuale (+50% in termini relativi)', 'Sale dell’1% in termini relativi', 'Sale di 3 punti', 'Non cambia'], 0, '3 − 2 = 1 punto; 1 / 2 = 50% in termini relativi.'),
-      mc('Il PIL reale, a differenza di quello nominale:', ['tiene conto dell’effetto dei prezzi', 'include solo l’export', 'misura la felicità', 'non cambia mai'], 0, 'Si calcola togliendo l’effetto della variazione dei prezzi.')
+      mc('Un tasso passa dal 2% al 3%. Quale affermazione è corretta?', ['Sale di 1 punto percentuale (+50% relativo)', 'Sale dell’1% in termini relativi, non di punti', 'Sale di 3 punti percentuali rispetto a prima', 'Non cambia perché la variazione è troppo piccola'], 0, '3 − 2 = 1 punto; 1 / 2 = 50% in termini relativi.'),
+      mc('Il PIL reale, a differenza di quello nominale:', ['tiene conto dell’effetto dei prezzi', 'include soltanto le esportazioni del paese', 'misura il livello di felicità dei cittadini', 'resta invariato nel corso degli anni'], 0, 'Si calcola togliendo l’effetto della variazione dei prezzi.')
     ]
   });
 
@@ -70,11 +70,11 @@
       fill('Con gli stessi scaglioni illustrativi, imposta su un imponibile di 27 243 €, arrotondata all’euro?', ['6673', '6.673', '6 673'], '3 000 + 12 243 × 0,30 = 6 672,90 ≈ 6 673.'),
       fill('Netto annuo dell’esempio (27 243 − 6 672,90), arrotondato all’euro?', ['20570', '20.570', '20 570'], '27 243 − 6 672,90 = 20 570,10.'),
       fill('Aliquota media dell’esempio (6 672,90 / 27 243) in %, con un decimale?', ['24,5', '24.5'], '6 672,90 / 27 243 ≈ 0,245.'),
-      mc('In un’imposta a scaglioni, l’aliquota più alta si applica:', ['solo alla parte di reddito che supera la soglia', 'a tutto il reddito', 'solo ai redditi bassi', 'solo ai dipendenti'], 0, 'Ogni aliquota vale per la parte di reddito compresa nel proprio scaglione.'),
+      mc('In un’imposta a scaglioni, l’aliquota più alta si applica:', ['solo alla parte di reddito oltre la soglia', 'a tutto il reddito, anche sotto la soglia', 'ai redditi più bassi della prima fascia', 'ai lavoratori dipendenti di grandi aziende'], 0, 'Ogni aliquota vale per la parte di reddito compresa nel proprio scaglione.'),
       fill('Imponibile 41 000 €: con scaglioni illustrativi, di quanto sale l’imposta rispetto a 40 000 € (in euro)?', ['400'], '1 000 × 0,40 = 400.'),
-      mc('Che cosa significa «cuneo fiscale e contributivo»?', ['La differenza tra costo del lavoro per l’azienda e netto del lavoratore', 'Un tipo di contratto', 'Un bonus statale', 'L’aliquota massima IRPEF'], 0, 'Comprende contributi e imposte che separano il costo aziendale dal netto.'),
+      mc('Che cosa significa «cuneo fiscale e contributivo»?', ['Differenza tra costo del lavoro e netto', 'Un tipo di contratto a tempo determinato', 'Un bonus statale per le nuove assunzioni', 'L’aliquota massima IRPEF sui redditi alti'], 0, 'Comprende contributi e imposte che separano il costo aziendale dal netto.'),
       fill('Orientativamente il TFR annuo è la RAL divisa per 13,5. Con RAL 27 000 €, quanti euro?', ['2000', '2.000', '2 000'], '27 000 / 13,5 = 2 000.'),
-      mc('Quale affermazione sulla tassazione in Italia è corretta?', ['Aliquote, soglie e detrazioni cambiano nel tempo e vanno verificate sulle fonti ufficiali', 'Sono fisse per sempre', 'Sono uguali per tutti i lavoratori', 'Non dipendono dal reddito'], 0, 'Le norme fiscali vengono modificate spesso, ad esempio con le leggi di bilancio.'),
+      mc('Quale affermazione sulla tassazione in Italia è corretta?', ['Aliquote e detrazioni cambiano: vanno verificate', 'Sono fisse e valgono allo stesso modo ogni anno', 'Sono uguali per tutti i lavoratori, a ogni reddito', 'Non dipendono dal reddito ma dall’età'], 0, 'Le norme fiscali vengono modificate spesso, ad esempio con le leggi di bilancio.'),
       order('Ordina il percorso dal lordo al netto (esempio semplificato)', ['RAL', '−', 'contributi', '=', 'imponibile', '−', 'IRPEF', '=', 'netto'], 'Il netto si ottiene togliendo i contributi e poi l’imposta calcolata sull’imponibile.')
     ],
     test: [
@@ -82,9 +82,9 @@
       fill('Con gli stessi scaglioni, imposta su un imponibile di 40 000 €, in euro?', ['10500', '10.500', '10 500'], '3 000 + 25 000 × 0,30 = 10 500.'),
       fill('RAL 24 000 € e contributi al 9,19%: contributi in euro, arrotondati?', ['2206', '2.206', '2 206'], '24 000 × 0,0919 = 2 205,60.'),
       fill('Un netto annuo di 20 570 € su 13 mensilità: importo mensile, arrotondato all’euro?', ['1582', '1.582', '1 582'], '20 570,10 / 13 ≈ 1 582,3.'),
-      mc('Se un aumento ti porta oltre una soglia di scaglione, il tuo netto totale:', ['non diminuisce per questo: l’aliquota superiore pesa solo sulla parte eccedente', 'diminuisce su tutto il reddito', 'diventa uguale al precedente', 'dipende solo dal TFR'], 0, 'In un sistema a scaglioni l’aliquota maggiore vale solo per l’euro oltre soglia.'),
-      mc('Il costo per l’azienda di un dipendente è, di norma:', ['maggiore della retribuzione lorda, per i contributi a carico del datore', 'uguale al netto', 'minore del lordo', 'uguale al TFR'], 0, 'Il datore versa anche contributi propri oltre alla retribuzione lorda.'),
-      mc('Chi è il «sostituto d’imposta» per un lavoratore dipendente?', ['Il datore di lavoro, che trattiene le imposte in busta paga', 'Il commercialista', 'L’INPS', 'Il lavoratore stesso'], 0, 'Il datore trattiene e versa imposte e contributi per conto del lavoratore.')
+      mc('Se un aumento ti porta oltre una soglia di scaglione, il tuo netto totale:', ['non cala: l’aliquota alta pesa solo sull’eccedenza', 'diminuisce su tutto il reddito, non solo sull’eccedenza', 'diventa uguale a quello precedente al rialzo', 'dipende soltanto dal TFR maturato'], 0, 'In un sistema a scaglioni l’aliquota maggiore vale solo per l’euro oltre soglia.'),
+      mc('Il costo per l’azienda di un dipendente è, di norma:', ['maggiore del lordo, per i contributi del datore', 'uguale al netto percepito dal lavoratore', 'minore del lordo, perché include le detrazioni', 'uguale al TFR accantonato nell’anno'], 0, 'Il datore versa anche contributi propri oltre alla retribuzione lorda.'),
+      mc('Chi è il «sostituto d’imposta» per un lavoratore dipendente?', ['Il datore di lavoro, che trattiene le imposte', 'Il commercialista che compila la dichiarazione', 'L’INPS, che incassa i contributi dei lavoratori', 'Il lavoratore stesso, che versa a fine anno'], 0, 'Il datore trattiene e versa imposte e contributi per conto del lavoratore.')
     ]
   });
 
@@ -109,13 +109,13 @@
       fill('Spese essenziali di 1 500 € al mese. Fondo d’emergenza pari a 3 mesi, in euro?', ['4500', '4.500', '4 500'], '3 × 1 500 = 4 500.'),
       fill('Interesse semplice: 1 000 € al 3% per 5 anni. Interessi in euro?', ['150'], '1 000 × 0,03 × 5 = 150.'),
       fill('Interesse composto: 1 000 € al 3% per 5 anni. Montante arrotondato all’euro?', ['1159', '1.159', '1 159'], '1 000 × 1,03⁵ = 1 159,27.'),
-      mc('Che cosa distingue l’interesse composto da quello semplice?', ['Gli interessi maturati producono a loro volta interessi', 'Il tasso è sempre più alto', 'Si applica solo ai debiti', 'Non dipende dal tempo'], 0, 'Nel composto gli interessi si sommano al capitale e fruttano a loro volta.'),
+      mc('Che cosa distingue l’interesse composto da quello semplice?', ['Gli interessi producono altri interessi', 'Il tasso applicato è di solito molto più alto', 'Si applica soltanto ai debiti con le banche', 'Non dipende dal tempo ma dal capitale iniziale'], 0, 'Nel composto gli interessi si sommano al capitale e fruttano a loro volta.'),
       fill('Regola del 72: in quanti anni raddoppia un capitale al 6% annuo?', ['12'], '72 / 6 = 12.'),
       fill('1 000 € al 5% per 10 anni a interesse composto. Montante arrotondato all’euro?', ['1629', '1.629', '1 629'], '1 000 × 1,05¹⁰ = 1 628,89.'),
       fill('Con inflazione 2% annua per 10 anni, 100 € di oggi valgono in potere d’acquisto circa quanti euro (intero)?', ['82'], '100 / 1,02¹⁰ ≈ 82,03.'),
       fill('Su 150 € di interessi con una ritenuta orientativa del 26%, quanto resta in euro?', ['111'], '150 × 0,74 = 111.'),
       mc('Tasso nominale 3% e inflazione 2%: il tasso reale è circa:', ['1 punto', '5 punti', '3 punti', '0 punti'], 0, '1,03 / 1,02 − 1 ≈ 0,98%.'),
-      mc('Dove ha senso tenere il fondo d’emergenza?', ['In uno strumento sicuro e disponibile a breve', 'In un titolo molto volatile', 'In un investimento bloccato per 10 anni', 'In criptovalute'], 0, 'Deve essere subito disponibile e non soggetto a perdite proprio quando serve.'),
+      mc('Dove ha senso tenere il fondo d’emergenza?', ['In uno strumento sicuro e liquido', 'In un titolo molto volatile del settore tecnologico', 'In un investimento bloccato per dieci anni', 'In criptovalute scelte per il rendimento alto'], 0, 'Deve essere subito disponibile e non soggetto a perdite proprio quando serve.'),
       mc('Fino a quale importo il sistema di garanzia dei depositi rimborsa un depositante presso una banca?', ['100 000 €', '10 000 €', '1 000 000 €', 'Nessun limite'], 0, 'Il limite è di 100 000 € per depositante e per banca.'),
       order('Ordina il calcolo del montante composto', ['capitale', '×', '(1 + tasso)', '^', 'anni'], 'Il capitale si moltiplica per il fattore (1 + tasso) elevato al numero di anni.')
     ],
@@ -124,7 +124,7 @@
       fill('Regola del 72: in quanti anni raddoppia un capitale al 4% annuo?', ['18'], '72 / 4 = 18.'),
       fill('Versi 100 € al mese per 10 anni: quanti euro hai versato in totale?', ['12000', '12.000', '12 000'], '100 × 120 = 12 000.'),
       fill('Con inflazione 2% annua per 10 anni, per comprare ciò che oggi costa 1 000 € servono circa quanti euro (intero)?', ['1219', '1.219', '1 219'], '1 000 × 1,02¹⁰ = 1 218,99.'),
-      mc('Versando la stessa cifra mensile, raddoppiando gli anni il montante finale:', ['più che raddoppia, grazie agli interessi composti', 'resta uguale', 'raddoppia esattamente', 'diminuisce'], 0, 'Con 10 anni circa 13 974 €, con 20 anni circa 32 830 €: più del doppio.'),
+      mc('Versando la stessa cifra mensile, raddoppiando gli anni il montante finale:', ['più che raddoppia, per l’interesse composto', 'resta pressoché uguale a quello iniziale', 'raddoppia esattamente, in modo lineare', 'diminuisce per effetto dell’inflazione sugli anni'], 0, 'Con 10 anni circa 13 974 €, con 20 anni circa 32 830 €: più del doppio.'),
       mc('Quale prodotto è più adatto a una riserva per imprevisti?', ['Un conto deposito svincolabile', 'Un fondo azionario a 10 anni', 'Un titolo speculativo', 'Un investimento promesso come «sicuro al 20%»'], 0, 'Conta la disponibilità immediata e la stabilità del capitale.'),
       mc('Se il tasso nominale è inferiore all’inflazione, il rendimento reale è:', ['negativo', 'positivo', 'sempre zero', 'uguale al nominale'], 0, 'Il potere d’acquisto del capitale diminuisce.')
     ]
@@ -149,15 +149,15 @@
     ],
     exercises: [
       fill('Portafoglio ipotetico 60% azioni (rendimento atteso 8%) e 40% obbligazioni (3%). Rendimento atteso in %?', ['6', '6%'], '0,6 × 8 + 0,4 × 3 = 6.'),
-      mc('Un investimento promette un rendimento molto alto e garantito, senza rischi. È probabile che:', ['sia una truffa o nasconda rischi non dichiarati', 'sia il migliore sul mercato', 'sia garantito dallo Stato', 'sia privo di costi'], 0, 'Rendimenti alti garantiti senza rischio sono un classico segnale d’allarme.'),
+      mc('Un investimento promette un rendimento molto alto e garantito, senza rischi. È probabile che:', ['sia una truffa o nasconda dei rischi', 'sia il migliore investimento sul mercato', 'sia garantito dallo Stato italiano', 'sia privo di qualsiasi costo di gestione'], 0, 'Rendimenti alti garantiti senza rischio sono un classico segnale d’allarme.'),
       fill('Dopo un calo del 50%, di quanto in % deve salire il valore per tornare in pari?', ['100', '100%', '+100', '+100%'], 'Da 50 a 100: raddoppia, +100%.'),
       fill('Schema che promette il 10% al mese: 1,10 alla dodicesima ≈ 3,14. Rendimento annuo promesso, in %, arrotondato all’intero?', ['214', '214%', '+214'], '(3,138 − 1) × 100 ≈ 214%.'),
-      mc('Che cos’è uno schema Ponzi?', ['Un meccanismo che paga i vecchi investitori con i soldi dei nuovi', 'Un fondo indicizzato', 'Un tipo di obbligazione', 'Una banca'], 0, 'I rendimenti non derivano da attività reali ma dai versamenti dei nuovi arrivati.'),
+      mc('Che cos’è uno schema Ponzi?', ['Paga i vecchi investitori con i soldi dei nuovi', 'Un fondo indicizzato a basso costo di gestione', 'Un tipo di obbligazione a tasso variabile', 'Una banca che gestisce conti di risparmio'], 0, 'I rendimenti non derivano da attività reali ma dai versamenti dei nuovi arrivati.'),
       fill('10 000 € per 30 anni al 5% lordo, senza costi: montante arrotondato all’euro?', ['43219', '43.219', '43 219'], '10 000 × 1,05³⁰ = 43 219,42.'),
       fill('Stesso caso con costi dell’1,5% (netto 3,5%): montante arrotondato all’euro?', ['28068', '28.068', '28 068'], '10 000 × 1,035³⁰ = 28 067,94.'),
-      mc('Un ETF è:', ['un fondo quotato in Borsa che di solito replica un indice', 'un conto deposito garantito', 'un’obbligazione dello Stato', 'una polizza vita'], 0, 'Si compra e si vende in Borsa e segue un indice di riferimento.'),
+      mc('Un ETF è:', ['un fondo quotato in Borsa che replica un indice', 'un conto deposito con interessi garantiti dalla banca', 'un’obbligazione emessa dallo Stato italiano', 'una polizza vita con capitale garantito'], 0, 'Si compra e si vende in Borsa e segue un indice di riferimento.'),
       fill('Obbligazione da 1 000 € con cedola 3%: euro di cedola annua?', ['30'], '1 000 × 0,03 = 30.'),
-      mc('La diversificazione riduce principalmente:', ['il rischio specifico dei singoli titoli', 'ogni rischio di mercato', 'i costi di gestione', 'le tasse'], 0, 'Distribuire il capitale attenua l’effetto del fallimento di una singola impresa, non il calo generale del mercato.'),
+      mc('La diversificazione riduce principalmente:', ['il rischio specifico dei singoli titoli', 'ogni rischio di mercato, anche sistemico', 'i costi di gestione del portafoglio', 'le tasse sulle plusvalenze'], 0, 'Distribuire il capitale attenua l’effetto del fallimento di una singola impresa, non il calo generale del mercato.'),
       mc('Quale documento riassume obiettivo, rischio e costi di un prodotto d’investimento?', ['Il KID', 'La busta paga', 'Il CUD', 'La visura camerale'], 0, 'Il documento contenente le informazioni chiave per l’investitore.'),
       order('Ordina le domande prima di investire', ['Obiettivo e orizzonte', 'Fondo d’emergenza e debiti', 'Rischio tollerabile', 'Costi e strumento', 'Diversificazione'], 'Si parte dall’obiettivo e dalla solidità di base e si arriva alla scelta dello strumento.')
     ],
@@ -166,9 +166,9 @@
       fill('Obbligazione con cedola annua di 30 € acquistata a 950 €: rendimento corrente in %, con un decimale?', ['3,2', '3.2'], '30 / 950 = 3,16%.'),
       fill('Portafoglio 70% azioni (8%) e 30% obbligazioni (3%): rendimento atteso in %?', ['6,5', '6.5'], '0,7 × 8 + 0,3 × 3 = 6,5.'),
       fill('Un titolo perde il 20%. Di quanto in % deve salire per tornare al valore iniziale?', ['25', '25%', '+25', '+25%'], '1 / 0,8 − 1 = 0,25.'),
-      mc('Quale non è un segnale d’allarme di truffa finanziaria?', ['L’intermediario risulta autorizzato dalle autorità competenti', 'Rendimento garantito altissimo', 'Pressione a decidere subito', 'Premi per chi porta nuovi clienti'], 0, 'Un intermediario autorizzato è un requisito di base, non un campanello d’allarme.'),
+      mc('Quale non è un segnale d’allarme di truffa finanziaria?', ['L’intermediario risulta autorizzato', 'Rendimento garantito altissimo e senza rischi', 'Pressione a decidere subito, entro oggi', 'Premi per chi porta nuovi clienti'], 0, 'Un intermediario autorizzato è un requisito di base, non un campanello d’allarme.'),
       mc('Se il denaro serve tra pochi mesi, è meglio:', ['evitare strumenti molto volatili', 'comprare solo azioni di una singola impresa', 'puntare su prodotti ad alto rischio', 'prendere un prestito per investire'], 0, 'L’orizzonte breve non lascia tempo per recuperare eventuali perdite.'),
-      mc('La gestione passiva si distingue da quella attiva perché:', ['replica un indice con costi di norma più bassi', 'garantisce di battere il mercato', 'non ha rischi', 'investe solo in obbligazioni'], 0, 'Il gestore non sceglie i titoli ma segue un indice di riferimento.')
+      mc('La gestione passiva si distingue da quella attiva perché:', ['replica un indice con costi più bassi', 'garantisce di battere il mercato nel tempo', 'non ha rischi perché segue un indice', 'investe soltanto in obbligazioni a breve'], 0, 'Il gestore non sceglie i titoli ma segue un indice di riferimento.')
     ]
   });
 
@@ -195,12 +195,12 @@
       fill('Prestito 10 000 €, 60 rate da 188,71 €. Totale restituito, arrotondato all’euro?', ['11323', '11.323', '11 323'], '188,71 × 60 ≈ 11 323 (con la rata non arrotondata 11 322,74).'),
       fill('Interessi totali del prestito da 10 000 € restituito con 11 322,74 €, arrotondati all’euro?', ['1323', '1.323', '1 323'], '11 322,74 − 10 000 = 1 322,74.'),
       mc('Per confrontare due offerte di finanziamento conviene guardare soprattutto:', ['il TAEG', 'solo il TAN', 'solo la durata', 'solo la pubblicità'], 0, 'Il TAEG include tutti i costi del finanziamento.'),
-      mc('In un piano a rata costante, con il passare dei mesi la quota di interessi:', ['diminuisce e aumenta la quota di capitale', 'aumenta', 'resta uguale', 'diventa zero subito'], 0, 'Gli interessi si calcolano sul debito residuo, che cala.'),
+      mc('In un piano a rata costante, con il passare dei mesi la quota di interessi:', ['diminuisce e aumenta la quota di capitale', 'aumenta, perché il debito residuo cresce', 'resta identica fino all’ultima rata del piano', 'diventa zero già dopo i primi mesi'], 0, 'Gli interessi si calcolano sul debito residuo, che cala.'),
       fill('Mutuo 150 000 €, tasso mensile 0,25%. Interessi della prima rata in euro?', ['375'], '150 000 × 0,0025 = 375.'),
       fill('Stipendio netto 1 500 €: rata massima della cessione del quinto in euro?', ['300'], '1 500 / 5 = 300.'),
       fill('Saldo di carta revolving 2 000 € al 18% annuo (1,5% al mese), senza pagare per 12 mesi: interessi arrotondati all’euro?', ['391'], '2 000 × 1,015¹² − 2 000 ≈ 391,24.'),
-      mc('L’usura è:', ['un reato che riguarda tassi oltre la soglia fissata per legge', 'un tipo di mutuo', 'una detrazione fiscale', 'una polizza obbligatoria'], 0, 'I tassi soglia vengono pubblicati ogni trimestre.'),
-      mc('Che cos’è l’OCC nel sovraindebitamento?', ['Organismo di composizione della crisi', 'Ordine dei consulenti di credito', 'Obbligazione a cedola costante', 'Ufficio cassa comunale'], 0, 'Assiste i debitori nelle procedure di composizione della crisi.'),
+      mc('L’usura è:', ['un reato: tassi oltre la soglia di legge', 'un tipo di mutuo a tasso fisso agevolato', 'una detrazione fiscale per gli interessi', 'una polizza obbligatoria per chi chiede prestiti'], 0, 'I tassi soglia vengono pubblicati ogni trimestre.'),
+      mc('Che cos’è l’OCC nel sovraindebitamento?', ['Organismo di composizione della crisi', 'Ordine dei consulenti di credito al consumo', 'Obbligazione a cedola costante', 'Ufficio cassa comunale'], 0, 'Assiste i debitori nelle procedure di composizione della crisi.'),
       order('Ordina la formula della rata costante', ['Rata', '=', 'C · i', '÷', '(1 − (1 + i)^−n)'], 'Capitale per tasso mensile, diviso per 1 meno il fattore di sconto.')
     ],
     test: [
@@ -209,8 +209,8 @@
       fill('Reddito netto 1 800 €. Un terzo come soglia di prudenza per le rate, in euro?', ['600', '600 €'], '1 800 / 3 = 600.'),
       fill('Prima rata di un prestito di 10 000 € al TAN 5%: quota interessi arrotondata all’euro?', ['42'], '10 000 × 0,05 / 12 ≈ 41,67.'),
       mc('Il TAEG rispetto al TAN è:', ['maggiore o uguale', 'sempre minore', 'sempre uguale', 'privo di relazione'], 0, 'Include anche spese e commissioni, quindi non può essere inferiore.'),
-      mc('Con un mutuo a tasso variabile la rata può:', ['salire o scendere con l’indice di riferimento', 'restare sempre uguale', 'sparire', 'essere pagata dallo Stato'], 0, 'Segue l’andamento del parametro di mercato (ad esempio l’Euribor).'),
-      mc('Se ti accorgi di non riuscire a pagare le rate, la mossa più sensata è:', ['agire presto: contattare la banca e chiedere una consulenza indipendente', 'prendere un nuovo prestito per pagare quello vecchio', 'ignorare le comunicazioni', 'firmare qualsiasi accordo'], 0, 'Ridurre le spese, rinegoziare e cercare aiuto presto limita i danni.')
+      mc('Con un mutuo a tasso variabile la rata può:', ['variare con l’indice di riferimento', 'restare identica per tutta la durata', 'sparire se la banca cambia politica', 'essere pagata in parte dallo Stato'], 0, 'Segue l’andamento del parametro di mercato (ad esempio l’Euribor).'),
+      mc('Se ti accorgi di non riuscire a pagare le rate, la mossa più sensata è:', ['agire presto: parlare con la banca e cercare consulenza', 'prendere un altro prestito per pagare la vecchia rata', 'ignorare i solleciti della banca e sperare che passino', 'firmare qualsiasi accordo pur di guadagnare tempo'], 0, 'Ridurre le spese, rinegoziare e cercare aiuto presto limita i danni.')
     ]
   });
 
@@ -238,11 +238,11 @@
       fill('Massimale 15 000 €, danno 20 000 €, nessuna franchigia. Quanto paga l’assicuratore, in euro?', ['15000', '15.000', '15 000'], 'Non può superare il massimale.'),
       fill('Danno di 3 000 € con probabilità 2%. Perdita attesa in euro?', ['60'], '0,02 × 3 000 = 60.'),
       mc('Quale assicurazione è obbligatoria per chi circola con un veicolo a motore in Italia?', ['RC auto', 'Furto della casa', 'Polizza vita', 'Assicurazione viaggio'], 0, 'La responsabilità civile auto è obbligatoria.'),
-      mc('Che cosa significa che il sistema pensionistico pubblico è «a ripartizione»?', ['I contributi dei lavoratori di oggi finanziano le pensioni di oggi', 'Ognuno ha un conto personale investito', 'Le pensioni sono pagate dalle banche', 'I contributi sono facoltativi'], 0, 'Non c’è un capitale accantonato per ciascuno: i contributi correnti pagano le pensioni correnti.'),
+      mc('Che cosa significa che il sistema pensionistico pubblico è «a ripartizione»?', ['I contributi di oggi pagano le pensioni di oggi', 'Ognuno ha un conto personale investito sul mercato', 'Le pensioni sono pagate dalle banche private', 'I contributi sono facoltativi per i lavoratori'], 0, 'Non c’è un capitale accantonato per ciascuno: i contributi correnti pagano le pensioni correnti.'),
       fill('Contributi complessivi orientativi al 33% su una RAL di 30 000 €: euro l’anno?', ['9900', '9.900', '9 900'], '30 000 × 0,33 = 9 900.'),
       fill('Montante 300 000 €, coefficiente illustrativo 5%: pensione annua lorda in euro?', ['15000', '15.000', '15 000'], '300 000 × 0,05 = 15 000.'),
       fill('Pensione annua di 15 000 € su 13 mensilità: importo mensile lordo arrotondato all’euro?', ['1154', '1.154', '1 154'], '15 000 / 13 ≈ 1 153,85.'),
-      mc('La franchigia è:', ['la parte di danno che resta a carico dell’assicurato', 'il prezzo della polizza', 'l’importo massimo pagato', 'il periodo di attesa iniziale'], 0, 'Fino alla franchigia il danno non viene risarcito.'),
+      mc('La franchigia è:', ['la parte di danno a carico dell’assicurato', 'il prezzo che si paga per la polizza', 'l’importo massimo che l’assicuratore paga', 'il periodo di attesa prima della copertura'], 0, 'Fino alla franchigia il danno non viene risarcito.'),
       order('Ordina il calcolo di una pensione contributiva', ['Contributi annui', 'Montante', '×', 'Coefficiente', 'Pensione annua'], 'I contributi formano il montante, che si moltiplica per il coefficiente di trasformazione.')
     ],
     test: [
@@ -250,9 +250,9 @@
       fill('Montante 240 000 €, coefficiente illustrativo 4,5%: pensione annua lorda in euro?', ['10800', '10.800', '10 800'], '240 000 × 0,045 = 10 800.'),
       fill('Franchigia fissa 500 €, danno 5 000 €. Rimborso in euro?', ['4500', '4.500', '4 500'], '5 000 − 500 = 4 500.'),
       fill('Scoperto 20% su un danno di 5 000 €. Rimborso in euro?', ['4000', '4.000', '4 000'], '5 000 × 0,80 = 4 000.'),
-      mc('Quali rischi ha più senso assicurare?', ['Quelli gravi e poco probabili che non si potrebbero sostenere da soli', 'Tutti i piccoli danni', 'Solo quelli che non possono mai accadere', 'Nessuno'], 0, 'L’assicurazione protegge da perdite che il bilancio non potrebbe assorbire.'),
-      mc('Il coefficiente di trasformazione dipende soprattutto da:', ['età di pensionamento e speranza di vita', 'colore della polizza', 'numero di figli', 'tipo di conto corrente'], 0, 'Più si ritarda il pensionamento, più alto è il coefficiente.'),
-      mc('Il TFR può essere destinato:', ['a un fondo pensione, oppure lasciato in azienda secondo le regole', 'solo all’acquisto di un’auto', 'solo allo Stato', 'a nessuna di queste opzioni'], 0, 'Il lavoratore può scegliere tra TFR in azienda e previdenza complementare, nei limiti previsti.')
+      mc('Quali rischi ha più senso assicurare?', ['Quelli gravi, poco probabili e non sostenibili da soli', 'Tutti i piccoli danni e le spese quotidiane', 'Quelli che hanno zero probabilità di accadere', 'Nessuno, perché ogni polizza costa più del danno'], 0, 'L’assicurazione protegge da perdite che il bilancio non potrebbe assorbire.'),
+      mc('Il coefficiente di trasformazione dipende soprattutto da:', ['età di pensionamento e speranza di vita', 'numero di figli a carico del lavoratore', 'tipo di conto corrente usato per l’accredito', 'regione di residenza del pensionato'], 0, 'Più si ritarda il pensionamento, più alto è il coefficiente.'),
+      mc('Il TFR può essere destinato:', ['a un fondo pensione o lasciato in azienda', 'esclusivamente all’acquisto di un’auto nuova', 'versato allo Stato come imposta di scopo', 'a nessuna di queste opzioni, per legge'], 0, 'Il lavoratore può scegliere tra TFR in azienda e previdenza complementare, nei limiti previsti.')
     ]
   });
 
@@ -278,12 +278,12 @@
       fill('Netto 1 500 €, regola 50/30/20. Quanti euro per il risparmio?', ['300'], '20% di 1 500 = 300.'),
       fill('Pasta da 500 g a 1,80 €. Prezzo al chilo in euro?', ['3,6', '3.6', '3,60', '3.60'], '1,80 / 0,5 = 3,60.'),
       fill('Pasta da 750 g a 2,55 €. Prezzo al chilo in euro?', ['3,4', '3.4', '3,40', '3.40'], '2,55 / 0,75 = 3,40.'),
-      mc('Confrontando le due paste (3,60 €/kg e 3,40 €/kg), conviene la confezione:', ['da 750 g, se la si consuma tutta', 'da 500 g sempre', 'sono identiche', 'nessuna delle due'], 0, 'Costa meno al chilo, ma ha senso solo se non si spreca.'),
+      mc('Confrontando le due paste (3,60 €/kg e 3,40 €/kg), conviene la confezione:', ['da 750 g, se la si consuma tutta', 'da 500 g, anche se resta in dispensa', 'sono identiche perché il prezzo è simile', 'nessuna delle due, per il prezzo al chilo'], 0, 'Costa meno al chilo, ma ha senso solo se non si spreca.'),
       fill('Sconto 30% su un prezzo di 80 €. Prezzo finale in euro?', ['56'], '80 × 0,70 = 56.'),
       fill('Sconto del 20% seguito da un ulteriore 10%. Sconto totale in %?', ['28', '28%'], '1 − 0,80 × 0,90 = 0,28.'),
       fill('Offerta «3 per 2»: sconto in %, arrotondato all’intero?', ['33', '33%'], 'Si paga 2/3: sconto 1/3 ≈ 33%.'),
       fill('Abbonamento da 9,99 € al mese. Costo annuo in euro?', ['119,88', '119.88'], '9,99 × 12 = 119,88.'),
-      mc('Il costo opportunità di una spesa è:', ['il valore della migliore alternativa a cui si rinuncia', 'il prezzo scontato', 'l’IVA pagata', 'la commissione bancaria'], 0, 'Ogni scelta esclude altre scelte.'),
+      mc('Il costo opportunità di una spesa è:', ['la migliore alternativa a cui si rinuncia', 'il prezzo scontato rispetto al listino', 'l’IVA pagata sull’acquisto effettuato', 'la commissione bancaria pagata per il pagamento'], 0, 'Ogni scelta esclude altre scelte.'),
       fill('Prezzo con IVA al 22% di 244 €. Imponibile in euro?', ['200'], '244 / 1,22 = 200.'),
       order('Ordina i passi per costruire un budget', ['Calcolare il netto', 'Registrare le spese', 'Dividerle in categorie', 'Fissare il risparmio', 'Rivedere ogni mese'], 'Dai dati di partenza si arriva a un piano da verificare periodicamente.')
     ],
@@ -293,7 +293,7 @@
       fill('Caffè da 1,20 € per 220 giorni: spesa annua in euro?', ['264'], '1,20 × 220 = 264.'),
       fill('Scarpe da 120 € che durano 4 anni: costo per anno in euro?', ['30'], '120 / 4 = 30.'),
       fill('Giacca da 150 € scontata del 40%: prezzo finale in euro?', ['90'], '150 × 0,60 = 90.'),
-      mc('La regola delle 24 ore serve a:', ['limitare gli acquisti impulsivi', 'avere più sconto', 'pagare a rate', 'evitare l’IVA'], 0, 'Aspettare un giorno fa decadere l’urgenza e aiuta a valutare l’acquisto.'),
+      mc('La regola delle 24 ore serve a:', ['limitare gli acquisti impulsivi', 'ottenere uno sconto maggiore in negozio', 'pagare a rate senza interessi', 'evitare l’IVA sugli acquisti online'], 0, 'Aspettare un giorno fa decadere l’urgenza e aiuta a valutare l’acquisto.'),
       mc('Il prezzo barrato molto alto che fa sembrare affare quello scontato sfrutta soprattutto:', ['l’ancoraggio', 'la diversificazione', 'la franchigia', 'il costo per uso'], 0, 'Il prezzo di partenza diventa un riferimento che condiziona il giudizio.')
     ]
   });
@@ -320,22 +320,22 @@
       fill('La Parte II (Ordinamento della Repubblica) va dall’art. 55 all’art. 139. Quanti articoli comprende?', ['85'], '139 − 55 + 1 = 85.'),
       mc('Secondo l’art. 1, l’Italia è una Repubblica democratica:', ['fondata sul lavoro', 'fondata sul commercio', 'fondata sulla proprietà', 'fondata sulla tradizione'], 0, 'L’art. 1 afferma che l’Italia è una Repubblica democratica fondata sul lavoro.'),
       mc('Quale articolo afferma che tutti sono eguali davanti alla legge?', ['Art. 3', 'Art. 1', 'Art. 12', 'Art. 139'], 0, 'L’art. 3 sancisce pari dignità sociale e uguaglianza davanti alla legge.'),
-      mc('L’art. 11 stabilisce che l’Italia:', ['ripudia la guerra come strumento di offesa e mezzo di risoluzione delle controversie', 'ha un esercito obbligatorio per tutti', 'non partecipa a organizzazioni internazionali', 'vieta ogni forza armata'], 0, 'Il ripudio riguarda la guerra come strumento di offesa e come mezzo di risoluzione delle controversie internazionali.'),
+      mc('L’art. 11 stabilisce che l’Italia:', ['ripudia la guerra come strumento di offesa', 'ha un esercito obbligatorio per tutti i cittadini', 'non partecipa ad alcuna organizzazione internazionale', 'vieta qualsiasi forza armata sul territorio'], 0, 'Il ripudio riguarda la guerra come strumento di offesa e come mezzo di risoluzione delle controversie internazionali.'),
       mc('Di quali colori è il tricolore secondo l’art. 12?', ['Verde, bianco e rosso', 'Rosso, bianco e blu', 'Verde, giallo e rosso', 'Bianco, rosso e nero'], 0, 'Tre bande verticali di eguali dimensioni: verde, bianco e rosso.'),
       mc('La Costituzione è entrata in vigore il:', ['1° gennaio 1948', '2 giugno 1946', '25 aprile 1945', '1° gennaio 1950'], 0, 'Approvata il 22 dicembre 1947, in vigore dal 1° gennaio 1948.'),
-      mc('L’art. 53 prevede che si contribuisca alle spese pubbliche in ragione:', ['della capacità contributiva', 'dell’età', 'del titolo di studio', 'della residenza'], 0, 'Ognuno concorre in base alla propria capacità contributiva, con un sistema progressivo.'),
-      mc('Che cosa significa che la Costituzione è «rigida»?', ['Non si modifica con una legge ordinaria ma con una procedura speciale', 'Non può mai essere modificata', 'Si modifica con un decreto', 'Vale solo in tempo di pace'], 0, 'L’art. 138 prevede la procedura aggravata di revisione costituzionale.'),
-      mc('Dal 2022 l’art. 9 tutela espressamente anche:', ['l’ambiente, la biodiversità e gli ecosistemi', 'la proprietà privata', 'le imprese quotate', 'il commercio estero'], 0, 'La riforma costituzionale del 2022 ha aggiunto la tutela dell’ambiente nell’interesse delle future generazioni.'),
+      mc('L’art. 53 prevede che si contribuisca alle spese pubbliche in ragione:', ['della capacità contributiva', 'dell’età anagrafica del contribuente', 'del titolo di studio posseduto', 'della residenza fiscale in città'], 0, 'Ognuno concorre in base alla propria capacità contributiva, con un sistema progressivo.'),
+      mc('Che cosa significa che la Costituzione è «rigida»?', ['Si modifica solo con una procedura speciale', 'Non può essere modificata in nessun caso', 'Si modifica con un semplice decreto', 'Vale solo in tempo di pace e non di guerra'], 0, 'L’art. 138 prevede la procedura aggravata di revisione costituzionale.'),
+      mc('Dal 2022 l’art. 9 tutela espressamente anche:', ['l’ambiente, la biodiversità e gli ecosistemi', 'la proprietà privata dei beni immobili', 'le imprese quotate nei mercati regolamentati', 'il commercio estero e le esportazioni'], 0, 'La riforma costituzionale del 2022 ha aggiunto la tutela dell’ambiente nell’interesse delle future generazioni.'),
       order('Ordina le parti della Costituzione secondo la numerazione', ['Principi fondamentali', 'Parte I: Diritti e doveri', 'Parte II: Ordinamento', 'Disposizioni transitorie e finali'], 'Il testo parte dai principi, poi diritti e doveri, poi l’organizzazione dello Stato e infine le disposizioni transitorie.')
     ],
     test: [
       fill('Quanti articoli in tutto ha la Costituzione nella numerazione originaria (12 + 42 + 85)?', ['139'], '12 + 42 + 85 = 139.'),
       fill('Entrata in vigore nel 1948: quanti anni saranno trascorsi nel 2028?', ['80'], '2028 − 1948 = 80.'),
-      mc('L’art. 2 richiede l’adempimento dei:', ['doveri inderogabili di solidarietà politica, economica e sociale', 'doveri di obbedienza', 'doveri di commercio', 'doveri religiosi'], 0, 'L’art. 2 riconosce i diritti inviolabili e richiede il rispetto dei doveri di solidarietà.'),
+      mc('L’art. 2 richiede l’adempimento dei:', ['doveri inderogabili di solidarietà', 'doveri di obbedienza verso il Governo', 'doveri di commercio con gli altri Stati', 'doveri religiosi verso la comunità'], 0, 'L’art. 2 riconosce i diritti inviolabili e richiede il rispetto dei doveri di solidarietà.'),
       mc('Quale articolo tutela la libertà di manifestazione del pensiero?', ['Art. 21', 'Art. 11', 'Art. 52', 'Art. 138'], 0, 'L’art. 21 garantisce la libertà di espressione e di stampa.'),
-      mc('L’art. 32 tutela:', ['la salute come diritto dell’individuo e interesse della collettività', 'la proprietà dei beni mobili', 'il segreto bancario', 'l’orario di lavoro'], 0, 'L’art. 32 garantisce le cure e prevede che i trattamenti obbligatori siano solo per legge.'),
+      mc('L’art. 32 tutela:', ['la salute: diritto individuale e interesse collettivo', 'la proprietà privata come diritto inviolabile', 'il segreto bancario dei correntisti', 'il diritto allo sciopero e alla libera associazione'], 0, 'L’art. 32 garantisce le cure e prevede che i trattamenti obbligatori siano solo per legge.'),
       mc('La difesa della Patria è definita dall’art. 52:', ['un sacro dovere del cittadino', 'un privilegio dei militari', 'una facoltà', 'un obbligo solo per gli uomini'], 0, 'La Costituzione la definisce «sacro dovere del cittadino».'),
-      mc('Che cos’è l’uguaglianza sostanziale (art. 3, secondo comma)?', ['L’impegno della Repubblica a rimuovere gli ostacoli economici e sociali che limitano di fatto l’uguaglianza', 'L’uguaglianza di tutte le retribuzioni', 'L’uguaglianza davanti alla legge soltanto', 'La parità tra Regioni'], 0, 'Va oltre l’uguaglianza formale: chiede interventi per ridurre le disuguaglianze reali.')
+      mc('Che cos’è l’uguaglianza sostanziale (art. 3, secondo comma)?', ['L’impegno a rimuovere gli ostacoli che limitano l’uguaglianza', 'L’uguaglianza di tutte le retribuzioni, fissata per legge dallo Stato', 'L’uguaglianza davanti alla legge, senza altro impegno', 'La parità di risorse tra le Regioni'], 0, 'Va oltre l’uguaglianza formale: chiede interventi per ridurre le disuguaglianze reali.')
     ]
   });
 
@@ -362,12 +362,12 @@
       fill('Maggioranza assoluta alla Camera (metà più uno dei 400 deputati)?', ['201'], '400 / 2 + 1 = 201.'),
       fill('Entro quanti giorni un decreto-legge deve essere convertito dalle Camere?', ['60'], 'Altrimenti perde efficacia fin dall’inizio.'),
       fill('Per quanti anni dura in carica il Presidente della Repubblica?', ['7', 'sette'], 'Il mandato è di sette anni.'),
-      mc('Chi nomina il Presidente del Consiglio?', ['Il Presidente della Repubblica', 'Il Presidente della Camera', 'La Corte costituzionale', 'Il sindaco di Roma'], 0, 'Dopo le consultazioni, il Presidente della Repubblica nomina il Presidente del Consiglio.'),
-      mc('Che cos’è la fiducia?', ['Il voto con cui le Camere sostengono il Governo', 'Una tassa', 'Una sentenza della Corte', 'Una legge elettorale'], 0, 'Il Governo deve ottenere e mantenere la fiducia di entrambe le Camere.'),
+      mc('Chi nomina il Presidente del Consiglio?', ['Il Presidente della Repubblica', 'Il Presidente della Camera dei deputati', 'La Corte costituzionale', 'Il sindaco di Roma'], 0, 'Dopo le consultazioni, il Presidente della Repubblica nomina il Presidente del Consiglio.'),
+      mc('Che cos’è la fiducia?', ['Il voto delle Camere a sostegno del Governo', 'Una tassa pagata dai cittadini ogni anno', 'Una sentenza della Corte costituzionale', 'Una legge elettorale approvata dal Parlamento'], 0, 'Il Governo deve ottenere e mantenere la fiducia di entrambe le Camere.'),
       fill('Quanti sono i giudici della Corte costituzionale?', ['15', 'quindici'], '5 + 5 + 5 = 15.'),
-      mc('La Corte costituzionale giudica:', ['se una legge è conforme alla Costituzione', 'i reati comuni di ogni cittadino', 'le multe stradali', 'il bilancio dei Comuni'], 0, 'Controlla la legittimità costituzionale di leggi e atti con forza di legge.'),
-      mc('Quale organo propone le leggi nell’UE?', ['La Commissione europea', 'La Corte di giustizia', 'La BCE', 'Il Consiglio comunale'], 0, 'Propone la legislazione, che poi Parlamento e Consiglio adottano insieme.'),
-      mc('Una direttiva europea:', ['fissa obiettivi che gli Stati devono recepire con proprie norme', 'si applica direttamente come un regolamento', 'vale solo in Italia', 'è emanata dal sindaco'], 0, 'I regolamenti sono direttamente applicabili, le direttive vanno recepite.'),
+      mc('La Corte costituzionale giudica:', ['se una legge rispetta la Costituzione', 'i reati comuni commessi dai cittadini', 'le multe e le sanzioni amministrative', 'i ricorsi contro le multe stradali dei Comuni'], 0, 'Controlla la legittimità costituzionale di leggi e atti con forza di legge.'),
+      mc('Quale organo propone le leggi nell’UE?', ['La Commissione europea', 'La Corte di giustizia dell’UE', 'La Banca centrale europea', 'Il Comitato europeo delle regioni'], 0, 'Propone la legislazione, che poi Parlamento e Consiglio adottano insieme.'),
+      mc('Una direttiva europea:', ['fissa obiettivi che gli Stati devono recepire', 'si applica direttamente in tutti gli Stati membri', 'vale soltanto per le istituzioni dell’Unione', 'è un parere non vincolante rivolto ai cittadini degli Stati'], 0, 'I regolamenti sono direttamente applicabili, le direttive vanno recepite.'),
       order('Ordina le fasi di una legge ordinaria', ['Iniziativa', 'Approvazione delle due Camere', 'Promulgazione del Presidente', 'Pubblicazione in Gazzetta Ufficiale'], 'Dopo l’approvazione parlamentare, il Presidente promulga e la legge viene pubblicata per entrare in vigore.')
     ],
     test: [
@@ -375,8 +375,8 @@
       fill('Delegati regionali che integrano il Parlamento in seduta comune per eleggere il Presidente della Repubblica?', ['58'], 'Tre per Regione, uno per la Valle d’Aosta.'),
       fill('Grandi elettori (senza senatori a vita): 400 + 200 + 58. Quanti sono?', ['658'], '400 + 200 + 58 = 658.'),
       fill('Entro quanti giorni dalla formazione il Governo si presenta alle Camere per la fiducia?', ['10', 'dieci'], 'L’art. 94 prevede dieci giorni.'),
-      mc('Qual è la funzione principale del Presidente della Repubblica?', ['Garante dell’unità nazionale e della Costituzione', 'Capo del Governo', 'Capo della magistratura inquirente', 'Presidente dei sindacati'], 0, 'Rappresenta l’unità nazionale e ha ruoli di garanzia.'),
-      mc('Il referendum abrogativo serve a:', ['cancellare in tutto o in parte una legge', 'eleggere il Presidente', 'approvare il bilancio', 'cambiare i confini regionali'], 0, 'È uno strumento di democrazia diretta previsto dall’art. 75.'),
+      mc('Qual è la funzione principale del Presidente della Repubblica?', ['Garante dell’unità nazionale e della Carta', 'Capo del Governo e dell’indirizzo politico', 'Capo della magistratura inquirente e giudicante', 'Presidente dei sindacati e delle imprese'], 0, 'Rappresenta l’unità nazionale e ha ruoli di garanzia.'),
+      mc('Il referendum abrogativo serve a:', ['cancellare in tutto o in parte una legge', 'eleggere il Presidente della Repubblica', 'approvare il bilancio annuale dello Stato', 'cambiare i confini delle Regioni italiane'], 0, 'È uno strumento di democrazia diretta previsto dall’art. 75.'),
       mc('Quale tra queste è una Regione a statuto speciale?', ['Sardegna', 'Lombardia', 'Veneto', 'Toscana'], 0, 'Sono speciali Valle d’Aosta, Trentino-Alto Adige, Friuli-Venezia Giulia, Sardegna e Sicilia.')
     ]
   });
@@ -407,8 +407,8 @@
       fill('Entro quanti giorni dal ricevimento si può recedere da un acquisto online?', ['14', 'quattordici'], 'Il diritto di recesso è di 14 giorni.'),
       mc('La garanzia legale di conformità sui beni di consumo dura:', ['2 anni dalla consegna', '3 mesi', '10 anni', '1 settimana'], 0, 'Il venditore risponde dei difetti di conformità per 2 anni.'),
       fill('Da quale anno è applicato il GDPR in tutta l’UE?', ['2018'], 'Dal 25 maggio 2018.'),
-      mc('Il «diritto all’oblio» del GDPR riguarda:', ['la cancellazione dei dati personali nei casi previsti', 'il pagamento delle tasse', 'la scadenza di un contratto', 'la maggiore età'], 0, 'È il diritto alla cancellazione.'),
-      mc('Chi si occupa dei reclami in materia di protezione dei dati personali in Italia?', ['Il Garante per la protezione dei dati personali', 'La Corte costituzionale', 'L’INPS', 'Il Ministero dello sport'], 0, 'È l’autorità di controllo italiana.'),
+      mc('Il «diritto all’oblio» del GDPR riguarda:', ['la cancellazione dei dati nei casi previsti', 'il pagamento delle imposte sul reddito', 'la scadenza di un contratto di fornitura a termine', 'il raggiungimento della maggiore età'], 0, 'È il diritto alla cancellazione.'),
+      mc('Chi si occupa dei reclami in materia di protezione dei dati personali in Italia?', ['Il Garante della protezione dei dati', 'La Corte costituzionale della Repubblica', 'L’INPS, tramite gli sportelli territoriali', 'Il Ministero dello sport e della salute'], 0, 'È l’autorità di controllo italiana.'),
       fill('Danno di 5 000 € con concorso di colpa del danneggiato al 30%: risarcimento in euro?', ['3500', '3.500', '3 500'], '5 000 × 0,70 = 3 500.'),
       mc('Per la compravendita di un immobile è obbligatorio:', ['il notaio', 'il commercialista', 'il giudice di pace', 'il sindacato'], 0, 'Serve un atto pubblico o una scrittura autenticata da un notaio.'),
       order('Ordina i passi consigliati prima di firmare un contratto', ['Leggere', 'Chiedere chiarimenti', 'Confrontare le offerte', 'Conservare una copia'], 'Si legge e si chiariscono i dubbi, si confronta e infine si firma e si conserva una copia.')
@@ -418,9 +418,9 @@
       fill('Settimane di ferie annuali retribuite minime previste dalla normativa italiana (orientativamente)?', ['4', 'quattro'], 'Almeno 4 settimane l’anno.'),
       fill('Danno di 5 000 € con colpa del danneggiato al 40%: risarcimento in euro?', ['3000', '3.000', '3 000'], '5 000 × 0,60 = 3 000.'),
       fill('Bene ricevuto il 10 del mese: ultimo giorno utile per il recesso di 14 giorni (giorno del mese)?', ['24'], '10 + 14 = 24.'),
-      mc('L’art. 2043 del codice civile riguarda:', ['l’obbligo di risarcire il danno ingiusto causato con dolo o colpa', 'l’affitto', 'il testamento', 'la maggiore età'], 0, 'Disciplina la responsabilità civile da fatto illecito.'),
-      mc('Il GDPR prevede sanzioni fino a:', ['20 milioni di euro o il 4% del fatturato mondiale', '100 euro', '1 000 euro', 'nessuna sanzione'], 0, 'Per le violazioni più gravi.'),
-      mc('Chi non ha mezzi sufficienti può in certi casi avere un avvocato grazie a:', ['patrocinio a spese dello Stato', 'cedolare secca', 'garanzia legale', 'franchigia'], 0, 'È un aiuto previsto per i redditi sotto soglie stabilite dalla legge.')
+      mc('L’art. 2043 del codice civile riguarda:', ['l’obbligo di risarcire il danno ingiusto', 'il contratto di affitto di un immobile', 'la redazione del testamento olografo', 'l’acquisto della cittadinanza per matrimonio'], 0, 'Disciplina la responsabilità civile da fatto illecito.'),
+      mc('Il GDPR prevede sanzioni fino a:', ['20 milioni di euro o il 4% del fatturato mondiale', '50 milioni di euro o l’8% del fatturato mondiale', '1 milione di euro o l’1% del fatturato mondiale', 'Nessuna sanzione pecuniaria, solo ammonimenti scritti'], 0, 'Per le violazioni più gravi.'),
+      mc('Chi non ha mezzi sufficienti può in certi casi avere un avvocato grazie a:', ['patrocinio a spese dello Stato', 'la cedolare secca sugli affitti', 'garanzia legale di conformità', 'franchigia assicurativa sul danno'], 0, 'È un aiuto previsto per i redditi sotto soglie stabilite dalla legge.')
     ]
   });
 

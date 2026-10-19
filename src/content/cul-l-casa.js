@@ -29,7 +29,7 @@
       mc('Uno yogurt riporta «da consumarsi preferibilmente entro» ieri, è chiuso e senza gonfiori. Cosa significa quella dicitura?', ['È un termine di qualità, non di sicurezza: controlla aspetto e odore', 'Va buttato subito perché la legge vieta di consumarlo oltre quella data', 'È sicuro e perfettamente conservabile per altri sei mesi', 'È una dicitura priva di qualsiasi significato pratico'], 0, 'Il TMC riguarda la qualità; la data «da consumarsi entro» riguarda la sicurezza.'),
       mc('Una scatoletta ha il coperchio bombato. Cosa fai?', ['La butto senza assaggiare', 'La apro e la annuso', 'La scaldo molto e la mangio', 'La congelo'], 0, 'Può indicare produzione di gas da batteri: si scarta.'),
       mc('L’olio in padella prende fuoco. Qual è la mossa corretta?', ['Spegnere il fuoco e coprire con un coperchio', 'Buttare acqua sulla padella per spegnerla', 'Soffiare forte sulla fiamma per estinguerla', 'Portare la padella fuori casa camminando con calma'], 0, 'L’acqua sull’olio bollente è pericolosissima; il coperchio toglie l’ossigeno.'),
-      mc('Senti forte odore di gas in cucina. Quale sequenza è giusta?', ['Chiudo il gas, apro le finestre, evito interruttori, esco e chiamo aiuto', 'Accendo la luce per individuare con precisione la perdita', 'Accendo un fiammifero per verificare dove sia la perdita', 'Aspetto qualche minuto che l’odore passi da solo e riprendo a cucinare'], 0, 'Una scintilla può innescare l’esplosione: nessun interruttore né fiamma.'),
+      mc('Senti forte odore di gas in cucina. Quale sequenza è giusta?', ['Chiudo il gas, apro le finestre, esco e chiamo aiuto', 'Accendo la luce per individuare con precisione la perdita', 'Accendo un fiammifero per verificare dove sia la perdita', 'Aspetto qualche minuto che l’odore passi da solo e riprendo a cucinare'], 0, 'Una scintilla può innescare l’esplosione: nessun interruttore né fiamma.'),
       order('Ordina il lavaggio corretto delle mani', ['Bagna le mani', 'Applica il sapone', 'Strofina 20 secondi', 'Risciacqua', 'Asciuga con carta'], 'La frizione di almeno 20 secondi con sapone è la fase che rimuove i microrganismi.')
     ],
     test: [
@@ -60,24 +60,24 @@
       { h: 'Scenari: quale cottura scegliere', b: `Scegliere la tecnica giusta dipende dal cibo, dal tempo e dal risultato che vuoi.\n\n- **Una bistecca sottile** (2 cm): rosolatura rapida in padella molto calda, 2–4 minuti per lato, poi riposo. Maillard sulla superficie, centro ancora succoso.\n- **Uno stinco** (tessuto connettivo ricco di collagene): brasatura lenta, 2–3 ore, per trasformare il collagene in gelatina.\n- **Broccoli**: al vapore 5–7 minuti o sbollentati e saltati; se bolliti a lungo perdono colore e vitamine.\n- **Patate a pezzi**: al forno a 200 °C con poco olio per avere una crosta dorata, oppure in acqua per un purè.\n- **Un sugo**: soffritto a fuoco dolce, poi cottura con coperchio socchiuso.\n\n**Tabella mentale**\n\n| Obiettivo | Tecnica |\n|---|---|\n| Crosticina e aroma | Rosolatura, forno alto, grill |\n| Tenerezza di tagli duri | Brasatura, cotture umide lunghe |\n| Colore e croccantezza verdure | Sbollentatura, vapore breve, salto |\n| Cottura delicata | Vapore, bagnomaria |\n\n**Sicurezza finale**: ogni volta che cambi tecnica cambia il rischio. Rosolatura = schizzi e fumo; vapore = ustioni da coperchio; forno = superfici roventi e shock termico; brasatura = pentola pesante e calda per ore. Prima di accendere, immagina dove potrebbe andare l’acqua, l’olio o il calore, e preparati: presine asciutte, spazio libero, piano stabile.` }
     ],
     exercises: [
-      mc('Perché una bistecca bagnata non si rosola bene?', ['L’acqua tiene la superficie a 100 °C: Maillard richiede di più', 'Perché il grasso della padella si scioglie nell’acqua', 'Perché il sale nell’acqua indurisce le fibre della bistecca', 'Perché la padella troppo grande disperde il calore'], 0, 'Finché c’è acqua, la superficie non supera i 100 °C; la reazione parte intorno a 140 °C.'),
+      mc('Perché una bistecca bagnata non si rosola bene?', ['La superficie resta a 100 °C, troppo poco per Maillard', 'Perché il grasso della padella si scioglie nell’acqua', 'Perché il sale nell’acqua indurisce le fibre della bistecca', 'Perché la padella troppo grande disperde il calore'], 0, 'Finché c’è acqua, la superficie non supera i 100 °C; la reazione parte intorno a 140 °C.'),
       fill('Intorno a quale temperatura (°C) parte la reazione di Maillard in modo evidente?', ['140'], 'Circa 140 °C: ordine di grandezza usato in cucina.'),
       mc('Cosa serve per far dorare bene la carne in padella?', ['Superficie asciutta, padella calda, pochi pezzi', 'Molta acqua nella padella e coperchio chiuso', 'Padella fredda, fuoco basso e carne ben bagnata', 'Tanti pezzi insieme per non farli seccare'], 0, 'L’acqua o un eccesso di pezzi abbassano la temperatura.'),
       mc('Quanto deve cuocere circa il soffritto di base a fuoco dolce?', ['8–10 minuti', '30 secondi', '1 ora', 'Finché fuma'], 0, 'Deve ammorbidire e profumare senza bruciare.'),
-      mc('Che cosa è la brasatura?', ['Rosolatura e lunga cottura coperta con poco liquido', 'Cottura in acqua bollente per pochi secondi', 'Cottura diretta alla griglia con fiamma viva', 'Frittura profonda in abbondante olio caldo'], 0, 'Si unisce Maillard e cottura lenta per trasformare il collagene in gelatina.'),
+      mc('Che cosa è la brasatura?', ['Rosolatura e lunga cottura coperta con poco liquido', 'Cottura in acqua bollente per pochi secondi, poi ghiaccio', 'Cottura diretta alla griglia con fiamma viva e senza liquido', 'Frittura profonda in abbondante olio caldo'], 0, 'Si unisce Maillard e cottura lenta per trasformare il collagene in gelatina.'),
       fill('Sbollenti fagiolini 3 minuti. Se cuociono 4 min in più del necessario ogni volta, in 5 preparazioni quanti minuti totali sprechi?', ['20'], '4 × 5 = 20.'),
-      mc('Si apre il coperchio di una pentola con vapore. Cosa è corretto fare?', ['Sollevarlo allontanandolo da sé, con presina', 'Guardare dentro da vicino per controllare', 'Aprirlo verso il viso con la mano nuda', 'Soffiare sul vapore per disperderlo'], 0, 'Il vapore ustiona più dell’acqua bollente.'),
+      mc('Si apre il coperchio di una pentola con vapore. Cosa è corretto fare?', ['Sollevarlo allontanandolo da sé, con presina', 'Guardare dentro da vicino per controllare la cottura', 'Aprirlo verso il viso con la mano nuda e senza presina', 'Soffiare sul vapore per disperderlo'], 0, 'Il vapore ustiona più dell’acqua bollente.'),
       mc('Il grasso nel forno prende fuoco. Cosa fai?', ['Spengo il forno e tengo chiuso lo sportello', 'Apro lo sportello e getto acqua sul grasso', 'Estraggo la teglia a mani nude e la porto fuori', 'Ventilo con uno strofinaccio per spegnere le fiamme'], 0, 'Senza ossigeno la fiamma si spegne; l’acqua o l’aria la alimentano.'),
       fill('Un forno statico è a 200 °C. Con la funzione ventilato si imposta circa 20 °C in meno: quanti °C?', ['180'], '200 − 20 = 180.'),
       mc('Perché lasciar riposare la carne dopo la cottura?', ['I succhi si ridistribuiscono e fuoriescono meno', 'Per far evaporare l’acqua rimasta in superficie', 'Per farla raffreddare completamente prima di tagliarla', 'Per eliminare i batteri con il riposo'], 0, 'Il riposo di pochi minuti rende la carne più succosa.'),
       order('Ordina la brasatura', ['Asciuga e rosola la carne', 'Prepara il soffritto', 'Sfuma e raschia il fondo', 'Aggiungi liquido a un terzo', 'Copri e cuoci a fuoco basso'], 'Prima Maillard, poi aromi, liquido e cottura lenta.')
     ],
     test: [
-      mc('Perché si abbassa il fuoco quando l’acqua bolle?', ['La temperatura non sale oltre i 100 °C: si spreca energia', 'Perché l’acqua si raffredda se resta a fuoco alto', 'Perché la pasta si cuoce prima a fiamma bassa', 'Perché a fuoco alto la pasta si attacca alla pentola'], 0, 'Il calore in eccesso fa solo evaporare più acqua.'),
+      mc('Perché si abbassa il fuoco quando l’acqua bolle?', ['L’acqua non supera i 100 °C: si spreca energia', 'Perché l’acqua si raffredda se resta a fuoco alto', 'Perché la pasta si cuoce prima a fiamma bassa', 'Perché a fuoco alto la pasta si attacca alla pentola'], 0, 'Il calore in eccesso fa solo evaporare più acqua.'),
       fill('Cubetti di carota da 5 mm: quanti mm di lato per il soffritto fine? (solo numero)', ['5'], 'Tagli da 3–5 mm.'),
       mc('Il collagene si trasforma in gelatina con:', ['Calore moderato (70–90 °C), acqua e tempo', 'Fuoco massimo per pochi minuti, senza acqua', 'Freddo intenso e congelamento prolungato', 'Sale grosso in abbondanza e riposo in frigo'], 0, 'La cottura lenta ammorbidisce i tagli duri.'),
       mc('Perché la pirofila di vetro caldo non va messa su un piano bagnato?', ['Rischia di rompersi per shock termico', 'Perché il vetro si dilata troppo ed è fragile', 'Per evitare che l’acqua finisca nel cibo', 'Il vetro caldo non corre rischi su piani bagnati'], 0, 'Differenze brusche di temperatura possono rompere il vetro.'),
-      mc('Come si tiene la mano che guida il coltello mentre si taglia?', ['Dita ripiegate ad artiglio, nocche in avanti', 'Dita ben aperte e distese sul cibo', 'Pollice appoggiato sopra la lama', 'Mano tenuta dietro la lama a coltello'], 0, 'L’artiglio protegge le punte delle dita.'),
+      mc('Come si tiene la mano che guida il coltello mentre si taglia?', ['Dita ad artiglio, nocche in avanti', 'Dita ben aperte e distese sul cibo da tagliare', 'Pollice appoggiato sopra la lama', 'Mano tenuta dietro la lama a coltello'], 0, 'L’artiglio protegge le punte delle dita.'),
       fill('Per un brasato si stimano (in modo semplificato) 90 minuti per ogni kg di carne. Quanti minuti per 2 kg?', ['180'], '90 × 2 = 180 (stima semplificata).'),
       mc('Qual è il vantaggio della cottura al vapore rispetto alla bollitura?', ['Perde meno vitamine solubili', 'È molto più veloce in quasi ogni situazione', 'Fa dorare meglio gli alimenti', 'Non richiede acqua né pentola con coperchio'], 0, 'Il cibo non è immerso, quindi cede meno sostanze solubili.')
     ]
@@ -109,14 +109,14 @@
       mc('Perché i fagioli secchi devono bollire vivacemente per almeno 10 minuti?', ['Per distruggere una tossina presente nei semi crudi', 'Per renderli più bianchi e uniformi dopo la cottura', 'Per accorciare il tempo di ammollo della sera prima', 'Per togliere il sale in eccesso dalla buccia'], 0, 'Se poco cotti i fagioli possono causare intossicazione.'),
       mc('Il riso avanzato cotto si lascia fuori dal frigo tutta la notte. Cosa è corretto?', ['Si butta: Bacillus cereus fa tossine resistenti al calore', 'Si riscalda bene e si mangia anche il giorno dopo', 'Si congela il giorno dopo senza altre precauzioni', 'È sicuro comunque, perché era stato cotto ad alta temperatura'], 0, 'La tossina non è distrutta dal riscaldamento.'),
       mc('Quando si aggiunge il sale all’acqua della pasta?', ['Quando l’acqua bolle', 'A fine cottura', 'Prima di accendere il fuoco sempre', 'Mai'], 0, 'Si sala all’ebollizione, prima di versare la pasta.'),
-      mc('Perché non si riempie la pentola oltre i tre quarti?', ['Perché l’acqua bollente non trabocchi e non scotti', 'Per risparmiare sale e acqua durante la cottura', 'Per far arrivare l’acqua a bollore più tardi', 'Non è un problema: si può riempire fino all’orlo'], 0, 'L’acqua che trabocca può spegnere la fiamma e causare ustioni.'),
+      mc('Perché non si riempie la pentola oltre i tre quarti?', ['Perché l’acqua bollendo non trabocchi', 'Per risparmiare sale e acqua durante la cottura', 'Per far arrivare l’acqua a bollore più tardi', 'Non è un problema: si può riempire fino all’orlo'], 0, 'L’acqua che trabocca può spegnere la fiamma e causare ustioni.'),
       order('Ordina la preparazione dei ceci secchi', ['Ammollo 8–12 ore', 'Scola e risciacqua', 'Copri di acqua fredda pulita', 'Porta a bollore e cuoci', 'Sala nel finale'], 'Reidratazione, nuova acqua, cottura lunga, sale alla fine.')
     ],
     test: [
       fill('Per 3 persone con 100 g di pasta ciascuna: quanti grammi di sale (1 L ogni 100 g, 10 g/L)?', ['30'], '300 g → 3 L → 30 g.'),
       fill('Risotto per 4 persone con 80 g di riso, brodo = 3 × peso del riso. Quanti mL?', ['960'], '320 × 3 = 960.'),
       mc('Per quanto tempo ammollare ceci e fagioli secchi?', ['Circa 8–12 ore', '5 minuti', '48 ore a temperatura ambiente', 'Non si ammollano mai'], 0, 'È il tempo tipico per reidratarli.'),
-      mc('Perché non sciacquare la pasta se la si condisce subito?', ['L’amido in superficie fa aderire il condimento', 'Perché la pasta si fredda troppo in fretta', 'Perché si perde il sale assorbito in cottura', 'Non c’è motivo preciso: è solo un’abitudine'], 0, 'L’amido superficiale lega il sugo.'),
+      mc('Perché non sciacquare la pasta se la si condisce subito?', ['L’amido fa aderire il condimento', 'Perché la pasta si fredda troppo in fretta', 'Perché si perde il sale assorbito in cottura', 'Non c’è motivo preciso: è solo un’abitudine'], 0, 'L’amido superficiale lega il sugo.'),
       fill('Hai 200 g di lenticchie secche. Peso cotto circa 2,5 volte: quanti grammi?', ['500'], '200 × 2,5 = 500.'),
       mc('Quale proporzione indicativa si usa per la quinoa?', ['1 di quinoa : 2 di acqua', '1 : 10', '2 : 1', '1 : 0,5'], 0, 'Circa 1:2, 12–15 minuti.'),
       mc('Dopo la cottura, il riso va messo in frigo entro:', ['1–2 ore', '8 ore', '24 ore', 'Non serve'], 0, 'Un raffreddamento rapido limita la crescita di Bacillus cereus.')
@@ -142,7 +142,7 @@
     exercises: [
       mc('Qual è la temperatura interna indicativa per il pollo?', ['Circa 74 °C', 'Circa 45 °C', 'Circa 55 °C', 'Circa 30 °C'], 0, 'Il pollame va portato a circa 74 °C in tutte le parti.'),
       mc('Dove si inserisce il termometro a sonda?', ['Nel punto più spesso, lontano da osso e teglia', 'Sulla superficie, appena sotto la crosta', 'Vicino all’osso, dove si cuoce più in fretta', 'In un punto qualsiasi, tanto la temperatura è uguale'], 0, 'Il centro è l’ultimo punto a scaldarsi.'),
-      mc('Perché la carne macinata richiede cottura più completa di una bistecca?', ['I batteri di superficie sono mescolati all’interno', 'Perché contiene più acqua e cuoce più lentamente', 'Perché costa meno e proviene da tagli scadenti', 'Perché è più rossa e ha più ferro in superficie'], 0, 'Nella macinazione la contaminazione si distribuisce in tutta la massa.'),
+      mc('Perché la carne macinata richiede cottura più completa di una bistecca?', ['I batteri di superficie finiscono all’interno', 'Perché contiene più acqua e cuoce più lentamente', 'Perché costa meno e proviene da tagli scadenti', 'Perché è più rossa e ha più ferro in superficie'], 0, 'Nella macinazione la contaminazione si distribuisce in tutta la massa.'),
       fill('Vuoi 4 porzioni da 150 g di carne cotta. Quanti grammi cotti servono in totale?', ['600'], '4 × 150 = 600.'),
       fill('Con calo di cottura del 25% (resa 0,75), quanti grammi di carne cruda per ottenere 600 g cotti?', ['800'], '600 ÷ 0,75 = 800.'),
       fill('Resa filetti del 40%: quanti grammi di pesce intero per 600 g di filetti?', ['1500', '1.500', '1 500'], '600 ÷ 0,40 = 1 500.'),
@@ -236,10 +236,10 @@
       fill('Impasto con 600 g di farina al 62% di idratazione: quanti grammi di acqua (arrotonda a intero)?', ['372'], '600 × 0,62 = 372.'),
       fill('Lievito secco pari a 1/3 del fresco: quanti grammi di secco per 9 g di fresco?', ['3'], '9 ÷ 3 = 3.'),
       fill('Ricetta per 4 panetti con 500 g di farina. Quanti grammi di farina per 6 panetti?', ['750'], 'Fattore 1,5.'),
-      mc('Quando si dice che un impasto ha «lievitato» abbastanza?', ['Quando il volume è circa raddoppiato', 'Quando è più duro', 'Dopo esattamente 30 minuti', 'Quando è freddo'], 0, 'Il raddoppio del volume è l’indicazione più pratica.'),
-      mc('Qual è la funzione del glutine nell’impasto?', ['Forma una rete elastica che trattiene i gas', 'Dà solo colore', 'Uccide il lievito', 'Aumenta la salinità'], 0, 'La rete trattiene la CO₂ e fa crescere l’impasto.'),
-      mc('Perché non si mangia l’impasto crudo?', ['La farina cruda può contenere microrganismi e le uova crude possono contenere Salmonella', 'Perché fa lievitare nello stomaco', 'Perché è troppo salato', 'Non c’è motivo'], 0, 'Il crudo non è stato trattato termicamente.'),
-      mc('Il pane è cotto quando:', ['La crosta è dorata, suona vuoto e la temperatura interna è circa 96–98 °C', 'È completamente bianco', 'Dopo 5 minuti', 'È ancora molle'], 0, 'Sono i tre segnali tipici.')
+      mc('Quando si dice che un impasto ha «lievitato» abbastanza?', ['Quando il volume è circa raddoppiato', 'Quando l’impasto è diventato molto più duro', 'Dopo esattamente trenta minuti di riposo', 'Quando si è raffreddato del tutto'], 0, 'Il raddoppio del volume è l’indicazione più pratica.'),
+      mc('Qual è la funzione del glutine nell’impasto?', ['Forma una rete elastica che trattiene i gas', 'Dà colore e profumo alla crosta del pane', 'Uccide il lievito durante la cottura', 'Aumenta la salinità dell’impasto finale'], 0, 'La rete trattiene la CO₂ e fa crescere l’impasto.'),
+      mc('Perché non si mangia l’impasto crudo?', ['La farina e le uova crude possono contenere microrganismi', 'Perché l’impasto crudo continua a lievitare nello stomaco', 'Perché è troppo salato per essere mangiato', 'Perché il lievito crudo è tossico per l’intestino'], 0, 'Il crudo non è stato trattato termicamente.'),
+      mc('Il pane è cotto quando:', ['Crosta dorata, suono vuoto e centro a circa 96–98 °C', 'È completamente bianco in superficie e molto morbido', 'Dopo soli cinque minuti dall’infornata a forno caldo', 'È ancora molle al centro, ma ben dorato fuori'], 0, 'Sono i tre segnali tipici.')
     ]
   });
 
@@ -266,10 +266,10 @@
       fill('Marmellata con zucchero pari al 50% della frutta: quanti g di zucchero per 1,2 kg di frutta pulita?', ['600'], '1 200 × 0,5 = 600.'),
       fill('Costo totale di un piatto 3,58 € per 5 porzioni: costo per porzione in euro (due decimali)?', ['0,72', '0.72'], '3,58 ÷ 5 = 0,716 ≈ 0,72.'),
       fill('Una confezione da 750 g costa 2,40 €: prezzo in €/kg (un decimale o due)?', ['3,2', '3,20', '3.2', '3.20'], '2,40 ÷ 0,75 = 3,20.'),
-      mc('Quale conserva casalinga è più rischiosa per il botulino?', ['Verdure sott’olio senza acidificazione adeguata', 'Marmellata con 50% di zucchero', 'Pomodori secchi essiccati e ben asciutti', 'Pane congelato'], 0, 'Ambiente senza aria e poco acido.'),
+      mc('Quale conserva casalinga è più rischiosa per il botulino?', ['Verdure sott’olio senza acidificazione adeguata', 'Marmellata con il 50% di zucchero e limone', 'Pomodori secchi, essiccati e ben asciutti, in vasetto', 'Pane già cotto e congelato in porzioni'], 0, 'Ambiente senza aria e poco acido.'),
       mc('Un barattolo di conserva è bombato. Cosa fai?', ['Lo butto senza assaggiare', 'Lo assaggio una goccia', 'Lo scaldo a lungo e lo mangio', 'Lo conservo in frigo'], 0, 'Il gonfiore può indicare produzione di gas da microrganismi.'),
-      mc('Cosa significa FIFO in dispensa?', ['I prodotti più vecchi si usano per primi', 'I più cari si usano per primi', 'Mettere tutto in frigo', 'Un tipo di conserva'], 0, 'First in, first out.'),
-      mc('Quale scelta riduce lo spreco?', ['Controllare dispensa e frigo prima di scrivere la lista', 'Fare la spesa senza lista', 'Comprare in grandi formati senza controllare', 'Ignorare le scadenze'], 0, 'Sapere cosa si ha evita doppioni.'),
+      mc('Cosa significa FIFO in dispensa?', ['I prodotti più vecchi si usano per primi', 'I prodotti più cari si usano per primi', 'Mettere ogni alimento in frigo subito', 'Un tipo di conserva sott’aceto'], 0, 'First in, first out.'),
+      mc('Quale scelta riduce lo spreco?', ['Controllare dispensa e frigo prima della lista', 'Fare la spesa senza lista, d’impulso', 'Comprare in grandi formati senza controllare', 'Ignorare le scadenze finché si può'], 0, 'Sapere cosa si ha evita doppioni.'),
       order('Ordina la pianificazione', ['Controlla frigo e dispensa', 'Scrivi il menù settimanale', 'Compila la lista della spesa', 'Fai la spesa', 'Conserva o congela subito'], 'Prima si guarda cosa c’è, poi si pianifica e si compra.')
     ],
     test: [
@@ -277,9 +277,9 @@
       fill('Prodotto A: 500 g a 1,90 €. Prodotto B: 750 g a 2,70 €. Quanto costa al kg B (€/kg)?', ['3,6', '3,60', '3.6', '3.60'], '2,70 ÷ 0,75 = 3,60. A costa 3,80 €/kg.'),
       fill('Budget settimanale 63 € e 21 pasti: quanti euro a pasto?', ['3'], '63 ÷ 21 = 3.'),
       mc('Torta con crema e panna: dove si conserva?', ['In frigorifero', 'In dispensa', 'Sul davanzale', 'Fuori dal frigo 24 ore'], 0, 'Creme e panna sono deperibili.'),
-      mc('Cosa serve per far sì che una marmellata si conservi?', ['Alto contenuto di zucchero, acidità e barattoli sterilizzati', 'Solo il coperchio', 'Poca cottura', 'Più acqua'], 0, 'Sono i tre fattori di conservazione.'),
-      mc('Cosa fai con una confezione di farina con insetti (tignole)?', ['La scarto o, se sospetta, congelo 4 giorni', 'La uso comunque', 'Aggiungo insetticida', 'La metto vicino ad altre'], 0, 'L’infestazione si propaga alle altre confezioni.'),
-      mc('Il caramello è pericoloso perché:', ['Raggiunge circa 170 °C e causa ustioni gravi', 'È dolce', 'È appiccicoso', 'Fa lievitare'], 0, 'Lo zucchero fuso è molto caldo e aderisce alla pelle.')
+      mc('Cosa serve per far sì che una marmellata si conservi?', ['Zucchero, acidità e barattoli sterilizzati', 'Un coperchio avvitato bene, anche a freddo', 'Una cottura molto breve, per salvare il colore', 'Più acqua aggiunta per renderla più fluida'], 0, 'Sono i tre fattori di conservazione.'),
+      mc('Cosa fai con una confezione di farina con insetti (tignole)?', ['La scarto o la congelo per 4 giorni', 'La uso comunque dopo averla setacciata', 'Aggiungo insetticida alla confezione aperta', 'La metto vicino ad altre confezioni di farina'], 0, 'L’infestazione si propaga alle altre confezioni.'),
+      mc('Il caramello è pericoloso perché:', ['Arriva a circa 170 °C e ustiona gravemente', 'È molto dolce e danneggia i denti', 'È appiccicoso e difficile da togliere dalla pentola', 'Fa lievitare i dolci troppo in fretta'], 0, 'Lo zucchero fuso è molto caldo e aderisce alla pelle.')
     ]
   });
 
@@ -301,14 +301,14 @@
     exercises: [
       mc('Quale combinazione di prodotti è pericolosa?', ['Candeggina e ammoniaca', 'Acqua e sapone', 'Detersivo piatti e acqua tiepida', 'Bicarbonato e acqua'], 0, 'Si formano cloroammine, gas tossici.'),
       mc('Candeggina più anticalcare acido produce:', ['Cloro gas', 'Un detergente più forte', 'Vapore acqueo innocuo', 'Sapone'], 0, 'Il cloro gas è tossico per le vie respiratorie.'),
-      mc('Il detergente trovato in una bottiglia d’acqua senza etichetta è un rischio perché:', ['Si può scambiare per una bevanda', 'È sempre scaduto', 'Non pulisce', 'Si evapora'], 0, 'I prodotti vanno nei flaconi originali.'),
+      mc('Il detergente trovato in una bottiglia d’acqua senza etichetta è un rischio perché:', ['Si può scambiare per una bevanda', 'Scade molto più in fretta dopo il travaso', 'Non pulisce bene se travasato', 'Evapora e lascia residui sul fondo'], 0, 'I prodotti vanno nei flaconi originali.'),
       mc('Qual è l’intervallo di umidità relativa ideale in casa?', ['40–60%', '10–20%', '80–90%', '0%'], 0, 'Oltre il 70% per lunghi periodi aumenta il rischio muffa.'),
-      mc('Come si aerano meglio le stanze?', ['Finestre spalancate 5–10 minuti più volte al giorno', 'Finestre socchiuse tutto il giorno', 'Mai in inverno', 'Solo di notte'], 0, 'Un ricambio rapido porta via l’umidità senza raffreddare le pareti.'),
+      mc('Come si aerano meglio le stanze?', ['Spalancare le finestre 5–10 minuti, più volte', 'Tenere le finestre socchiuse tutto il giorno', 'Non aprirle mai in inverno per non disperdere calore', 'Aprirle solo di notte, quando fa più fresco'], 0, 'Un ricambio rapido porta via l’umidità senza raffreddare le pareti.'),
       fill('Forno da 2 kW acceso 1,5 ore: quanti kWh?', ['3'], '2 × 1,5 = 3.'),
       fill('Un forno consuma 3 kWh a 0,25 €/kWh: quanti euro (due decimali)?', ['0,75', '0.75'], '3 × 0,25 = 0,75.'),
       fill('Lampada LED da 10 W accesa 5 h al giorno per 30 giorni: quanti kWh (un decimale)?', ['1,5', '1.5'], '0,01 × 5 × 30 = 1,5.'),
       fill('Doccia di 10 minuti con 8 litri al minuto: quanti litri?', ['80'], '8 × 10 = 80.'),
-      mc('Cosa fai per primo per pulire una muffa leggera su una parete lavabile?', ['Indosso guanti, occhiali e FFP2 e ventilo; non spazzolo a secco', 'Spazzolo a secco', 'Mescolo candeggina e aceto', 'Chiudo la finestra'], 0, 'Evita di disperdere spore e inalare prodotti.'),
+      mc('Cosa fai per primo per pulire una muffa leggera su una parete lavabile?', ['Indosso guanti, occhiali e FFP2 e ventilo', 'Spazzolo a secco per togliere le spore', 'Mescolo candeggina e aceto per fare di più', 'Chiudo la finestra per non diffondere le spore'], 0, 'Evita di disperdere spore e inalare prodotti.'),
       order('Ordina la pulizia di un ambiente', ['Rimuovi gli oggetti', 'Pulisci dall’alto', 'Pulisci i piani', 'Lava il pavimento', 'Risciacqua e asciuga'], 'Dall’alto al basso, poi il pavimento.')
     ],
     test: [
@@ -317,8 +317,8 @@
       fill('Se 1 kWh costa 0,30 €, quanto costano 5 kWh (euro, due decimali)?', ['1,50', '1,5', '1.50', '1.5'], '5 × 0,30 = 1,50.'),
       mc('Il monossido di carbonio è pericoloso perché:', ['È inodore e letale', 'Ha un forte odore', 'Si vede come fumo', 'È innocuo a basse dosi'], 0, 'Non si percepisce con i sensi; servono rilevatori.'),
       mc('L’anticalcare acido NON va usato su:', ['Marmo', 'Ceramica dei sanitari', 'Rubinetti cromati', 'Piastrelle di bagno'], 0, 'L’acido intacca le pietre calcaree.'),
-      mc('Come si scopre una perdita d’acqua nascosta con il contatore?', ['Si controlla se i numeri girano a rubinetti chiusi', 'Si aspetta una bolletta', 'Si apre il rubinetto', 'Si ascolta il tubo'], 0, 'Un consumo senza utilizzo indica una perdita.'),
-      mc('Perché un panno sporco è un problema?', ['Può diffondere i microrganismi su altre superfici', 'Pulisce meglio', 'Evita la muffa', 'Non è un problema'], 0, 'Spugne e panni umidi ospitano batteri.')
+      mc('Come si scopre una perdita d’acqua nascosta con il contatore?', ['Contatore che gira a rubinetti chiusi', 'Si aspetta la bolletta del bimestre successivo', 'Si apre un rubinetto e si guarda il flusso', 'Si ascolta il tubo con uno stetoscopio'], 0, 'Un consumo senza utilizzo indica una perdita.'),
+      mc('Perché un panno sporco è un problema?', ['Sposta i microrganismi su altre superfici', 'Pulisce meglio perché trattiene più sporco', 'Evita la formazione di muffa in cucina', 'Rovina solo l’aspetto estetico delle superfici'], 0, 'Spugne e panni umidi ospitano batteri.')
     ]
   });
 
@@ -347,8 +347,8 @@
       fill('Scala appoggiata a 3 m di altezza: a che distanza in metri va la base (regola 1:4)?', ['0,75', '0.75'], '3 ÷ 4 = 0,75.'),
       fill('Mensola con 40 libri da 0,5 kg ciascuno: quanti kg?', ['20'], '40 × 0,5 = 20.'),
       mc('Con un tassello da 8 mm quale punta per il foro?', ['8 mm', '6 mm', '12 mm', 'Qualsiasi'], 0, 'Il foro deve avere lo stesso diametro del tassello.'),
-      mc('Prima di forare un muro, la misura più importante è:', ['Controllare con rilevatore la presenza di cavi e tubi', 'Spingere forte', 'Usare il trapano più potente', 'Togliere la mascherina'], 0, 'Si evitano folgorazioni e perdite.'),
-      mc('Perché non si usano guanti sciolti o maniche larghe vicino al trapano?', ['Possono agganciarsi alle parti rotanti', 'Perché si sporcano', 'Perché rallentano', 'Non è un rischio'], 0, 'Un indumento agganciato può trascinare la mano.'),
+      mc('Prima di forare un muro, la misura più importante è:', ['Cercare cavi e tubi con un rilevatore', 'Spingere forte per forare in un colpo solo', 'Usare il trapano più potente che si ha', 'Togliere la mascherina per vedere meglio'], 0, 'Si evitano folgorazioni e perdite.'),
+      mc('Perché non si usano guanti sciolti o maniche larghe vicino al trapano?', ['Possono agganciarsi alle parti rotanti', 'Perché si sporcano con la polvere del muro', 'Perché rallentano la rotazione della punta', 'Non è un rischio se il trapano è a batteria'], 0, 'Un indumento agganciato può trascinare la mano.'),
       order('Ordina l’appendere una mensola', ['Rileva cavi e tubi', 'Segna con metro e livella', 'Fora con occhiali', 'Inserisci i tasselli', 'Avvita la staffa e controlla la livella'], 'Prima controlli e segni, poi fori e fissi.')
     ],
     test: [
@@ -356,9 +356,9 @@
       fill('Scatola 30 cm × 40 cm × 50 cm: quanti litri contiene?', ['60'], '60 000 cm³ = 60 L.'),
       fill('Per un battiscopa lungo 12 m con listelli da 2,4 m: quanti listelli (senza scorta)?', ['5'], '12 ÷ 2,4 = 5.'),
       mc('Foro pilota per una vite in legno: diametro rispetto alla vite?', ['Circa 2/3–3/4', 'Il doppio', 'Zero', 'Dieci volte più grande'], 0, 'Evita di spaccare il legno.'),
-      mc('Con quale tipo di punta si fora un muro in cemento?', ['Con inserto in widia/carburo e trapano a percussione', 'Punta per legno', 'Punta per metallo sottile', 'Con le mani'], 0, 'Servono punte per muratura.'),
-      mc('Come cambi la punta del trapano?', ['Con spina staccata o batteria rimossa', 'Con il trapano acceso', 'Mentre tieni il pezzo in mano', 'Con guanti bagnati'], 0, 'Un avvio accidentale è un rischio grave.'),
-      mc('Sulla scala quale pratica è corretta?', ['Tre punti di contatto, mai sull’ultimo gradino', 'Salire con le mani occupate', 'Sporgersi lateralmente', 'Usare una sedia'], 0, 'Riduce il rischio di cadute.')
+      mc('Con quale tipo di punta si fora un muro in cemento?', ['Punta in widia e trapano a percussione', 'Punta a lancia da legno, senza percussione', 'Punta per metallo sottile e trapano lento', 'Punta da legno tenuta a mano, senza trapano'], 0, 'Servono punte per muratura.'),
+      mc('Come cambi la punta del trapano?', ['Con spina staccata o batteria rimossa', 'Con il trapano acceso, a basso regime', 'Tenendo il pezzo in mano, senza bloccarlo', 'Con guanti bagnati per avere più presa'], 0, 'Un avvio accidentale è un rischio grave.'),
+      mc('Sulla scala quale pratica è corretta?', ['Tre punti di contatto, mai sull’ultimo gradino', 'Salire tenendo gli attrezzi in entrambe le mani', 'Sporgersi di lato per raggiungere il punto', 'Usare una sedia sopra il primo piolo per salire'], 0, 'Riduce il rischio di cadute.')
     ]
   });
 
@@ -379,25 +379,25 @@
       { h: 'Scenari: riparazioni e lavori in casa', b: `**Scenario 1 – Gocciolio sotto il lavello.** Metti una bacinella, asciuga e individua da dove arriva: raccordo, ghiera del sifone o guarnizione. Se la goccia compare solo con acqua aperta, probabile sifone o scarico; se compare sempre, tubo di alimentazione. Serra a mano, prova di nuovo; se non basta, sostituisci la guarnizione.\n\n**Scenario 2 – Macchia umida sul soffitto.** Può essere perdita dal piano di sopra o dalla tubazione nel muro. Non bucare; chiama un idraulico, avvisa il vicino, e fotografa la macchia.\n\n**Scenario 3 – Pitturare una camera.** Pareti: perimetro 2 × (4 + 3) = 14 m × altezza 2,7 m = 37,8 m²; sottrai porta (1,89 m²) e finestra (1,5 m²): 37,8 − 3,39 = 34,41 m². Con 2 mani e resa 10 m²/L: 34,41 × 2 ÷ 10 = 6,882 L → 2 barattoli da 4 L (8 L) o uno da 5 L + uno da 2,5 L. Un margine del 10% porta a circa 7,6 L.\n\n**Scenario 4 – Acqua vicino a prese.** Non toccare, tieni lontani i bambini e chiama il 112 o un professionista.\n\n**Checklist**\n\n1. Chiudi l’acqua.\n2. Fotografa prima di smontare.\n3. Pezzi di ricambio identici.\n4. Serraggio moderato.\n5. Prova con acqua per qualche minuto.\n6. Pulisci e ricontrolla il giorno dopo.\n\nSe non sei sicuro, chiama un professionista: una chiamata costa meno di un allagamento.` }
     ],
     exercises: [
-      mc('Qual è il primo passo di un intervento idraulico?', ['Chiudere l’acqua del punto o il generale', 'Smontare il rubinetto', 'Aprire il gas', 'Scollegare la caldaia'], 0, 'Senza chiudere l’acqua si rischia un allagamento.'),
+      mc('Qual è il primo passo di un intervento idraulico?', ['Chiudere l’acqua del punto o il generale', 'Smontare subito il rubinetto e vedere', 'Aprire l’acqua calda per scaldare le tubature', 'Scollegare la caldaia dalla rete elettrica'], 0, 'Senza chiudere l’acqua si rischia un allagamento.'),
       fill('Una goccia da 0,05 mL al secondo: quanti mL in un’ora (3 600 s)?', ['180'], '0,05 × 3 600 = 180.'),
       fill('Una goccia al secondo con 0,05 mL: quanti litri al giorno (due decimali)?', ['4,32', '4.32'], '86 400 × 0,05 = 4 320 mL.'),
-      mc('Perché si mette un tappo sullo scarico quando si smonta un rubinetto?', ['Per non far cadere viti e pezzi nello scarico', 'Per far scorrere meglio l’acqua', 'Per sentire meno rumore', 'Per evitare l’odore'], 0, 'Le viti piccole si perdono facilmente.'),
-      mc('Come si avvolge il nastro di PTFE su un filetto conico?', ['In senso orario guardando l’estremità, 3–5 giri', 'In senso antiorario 20 giri', 'Su qualsiasi guarnizione piana', 'Mai'], 0, 'Così il nastro non si srotola avvitando.'),
+      mc('Perché si mette un tappo sullo scarico quando si smonta un rubinetto?', ['Per non far cadere viti e pezzi nello scarico', 'Per far scorrere meglio l’acqua nel lavello', 'Per attutire il rumore durante lo smontaggio', 'Per evitare che salga cattivo odore dal sifone'], 0, 'Le viti piccole si perdono facilmente.'),
+      mc('Come si avvolge il nastro di PTFE su un filetto conico?', ['In senso orario guardando l’estremità, 3–5 giri', 'In senso antiorario guardando l’estremità, 3–5 giri', 'In senso antiorario per venti giri sovrapposti', 'Su qualsiasi guarnizione piana, per sigillare meglio'], 0, 'Così il nastro non si srotola avvitando.'),
       fill('Parete di 10 m², resa 10 m²/L, 2 mani: quanti litri?', ['2'], '10 × 2 ÷ 10 = 2.'),
       fill('Soffitto 4 m × 3 m, resa 10 m²/L, 2 mani: quanti litri (un decimale)?', ['2,4', '2.4'], '24 ÷ 10 = 2,4.'),
       fill('Parete di 9,45 m², resa 12 m²/L, una mano: quanti litri servono, arrotondando al centesimo?', ['0,79', '0.79'], '9,45 ÷ 12 = 0,7875 ≈ 0,79.'),
-      mc('Perché non si mescolano prodotti sturascarichi?', ['Possono reagire violentemente e produrre schizzi e gas', 'Perché costano', 'Perché sono inutili', 'Per l’odore'], 0, 'Sono corrosivi e reattivi.'),
-      mc('Casa costruita prima del 1978: cosa fai prima di carteggiare vecchie vernici?', ['Verifico la presenza di piombo e, se dubito, chiamo un professionista', 'Carteggio a secco senza protezioni', 'Uso un getto d’aria', 'Ignoro'], 0, 'La polvere di vernici al piombo è tossica.'),
+      mc('Perché non si mescolano prodotti sturascarichi?', ['Possono reagire e produrre schizzi e gas', 'Perché costano troppo usati insieme', 'Perché insieme perdono efficacia sul calcare', 'Perché producono un odore più intenso e persistente'], 0, 'Sono corrosivi e reattivi.'),
+      mc('Casa costruita prima del 1978: cosa fai prima di carteggiare vecchie vernici?', ['Verifico la presenza di piombo, nel dubbio chiamo un esperto', 'Carteggio a secco senza mascherina, aprendo una finestra', 'Uso un getto d’aria compressa per soffiare via le scaglie', 'Ignoro il problema: le vernici vecchie reggono bene'], 0, 'La polvere di vernici al piombo è tossica.'),
       order('Ordina la pulizia del sifone', ['Metti il secchio sotto', 'Svita le ghiere', 'Svuota e pulisci i pezzi', 'Controlla le guarnizioni', 'Rimonta e verifica le perdite'], 'Prima proteggi e smonti, poi pulisci e controlli.')
     ],
     test: [
       fill('Parete di 15 m², resa 10 m²/L, 2 mani: quanti litri?', ['3'], '15 × 2 ÷ 10 = 3.'),
       fill('Se un rubinetto perde 2 L al giorno, quanti litri in 30 giorni?', ['60'], '2 × 30 = 60.'),
-      mc('Hai odore di gas in bagno mentre ripari un tubo. Cosa fai?', ['Chiudo il gas, ventilo, evito interruttori, esco e chiamo i soccorsi', 'Accendo la luce', 'Continuo a lavorare', 'Fumo per verificare'], 0, 'Una scintilla può innescare un’esplosione.'),
-      mc('Perché si carteggia lo stucco prima di verniciare?', ['Per ottenere una superficie liscia', 'Per far evaporare l’acqua', 'Per aggiungere colore', 'Non serve'], 0, 'Le imperfezioni si vedono sotto la vernice.'),
-      mc('Perché stendere all’aperto uno straccio imbevuto di olio o solventi?', ['Può autoriscaldarsi e incendiarsi', 'Per profumarlo', 'Per asciugarlo più in fretta', 'Per la pioggia'], 0, 'Alcuni oli ossidano generando calore.'),
-      mc('Come si controlla se i raccordi di un sifone perdono?', ['Con un foglio di carta asciutta sotto i raccordi', 'Con una fiamma', 'Con la bocca', 'Non si controlla'], 0, 'Una goccia lascia una macchia sul foglio.'),
+      mc('Hai odore di gas in bagno mentre ripari un tubo. Cosa fai?', ['Chiudo il gas, ventilo, esco e chiamo i soccorsi', 'Accendo la luce per vedere dove perde il tubo', 'Continuo a lavorare con le finestre aperte', 'Fumo una sigaretta per verificare la perdita'], 0, 'Una scintilla può innescare un’esplosione.'),
+      mc('Perché si carteggia lo stucco prima di verniciare?', ['Per ottenere una superficie liscia', 'Per far evaporare l’acqua residua dello stucco', 'Per aggiungere colore alla superficie', 'Per eliminare l’odore dello stucco appena steso'], 0, 'Le imperfezioni si vedono sotto la vernice.'),
+      mc('Perché stendere all’aperto uno straccio imbevuto di olio o solventi?', ['Può autoriscaldarsi e incendiarsi', 'Per profumarlo e togliere l’odore di solvente', 'Per asciugarlo più in fretta e lavarlo', 'Per proteggerlo dalla pioggia battente'], 0, 'Alcuni oli ossidano generando calore.'),
+      mc('Come si controlla se i raccordi di un sifone perdono?', ['Con carta asciutta sotto i raccordi', 'Con una fiamma libera accostata ai raccordi', 'Passando la mano nuda sotto il getto d’acqua', 'Non si controlla: si aspetta che goccioli'], 0, 'Una goccia lascia una macchia sul foglio.'),
       mc('Quando conviene chiamare l’idraulico?', ['Perdita da tubi nel muro o arresto che non chiude', 'Per una guarnizione di rubinetto facile da cambiare', 'Per pulire un sifone', 'Per verniciare'], 0, 'Sono lavori oltre il fai da te sicuro.')
     ]
   });
@@ -424,21 +424,21 @@
       fill('Presa da 10 A a 230 V: quanti watt al massimo?', ['2300', '2.300', '2 300'], '230 × 10 = 2 300.'),
       fill('Stufa da 2 000 W + bollitore da 1 800 W: quanti watt in totale?', ['3800', '3.800', '3 800'], '2 000 + 1 800 = 3 800.'),
       mc('Stufa 2 000 W + bollitore 1 800 W su una ciabatta da 16 A (3 680 W): cosa succede?', ['Si supera il limite: sovraccarico', 'Va bene', 'Funziona solo se ci sono prolunghe', 'Dipende dal colore'], 0, '3 800 W > 3 680 W.'),
-      mc('Cosa protegge il differenziale (salvavita)?', ['Le persone dalle dispersioni di corrente', 'Solo i cavi dal sovraccarico', 'Le lampadine', 'Nulla'], 0, 'Confronta corrente di fase e neutro e scatta se c’è dispersione.'),
-      mc('Cosa protegge il magnetotermico?', ['I cavi da sovraccarichi e cortocircuiti', 'Solo da fulmini', 'Le persone dalle scosse', 'Gli elettrodomestici dalla polvere'], 0, 'Parte termica per sovraccarico, magnetica per cortocircuito.'),
-      mc('Ogni quanto si preme il tasto di test del differenziale?', ['Circa una volta al mese', 'Una volta in 10 anni', 'Ogni ora', 'Mai'], 0, 'Controlla che il dispositivo scatti.'),
-      mc('Prima di sostituire una lampadina cosa è necessario?', ['Spegnere la luce e aspettare che si raffreddi, con mani asciutte', 'Tenere la luce accesa', 'Salire su una sedia', 'Usare le pinze con la corrente'], 0, 'Evita scosse e ustioni.'),
-      mc('Hai un odore di bruciato dalla presa. Cosa fai?', ['Smetto di usarla, stacco ciò che posso in sicurezza e chiamo un elettricista', 'La uso ancora', 'Aggiungo nastro isolante', 'Le verso acqua'], 0, 'Può indicare surriscaldamento con rischio di incendio.'),
+      mc('Cosa protegge il differenziale (salvavita)?', ['Le persone dalle dispersioni di corrente', 'I cavi soltanto dal sovraccarico elettrico', 'Le lampadine dagli sbalzi di tensione', 'Gli apparecchi dalla polvere e dal calore'], 0, 'Confronta corrente di fase e neutro e scatta se c’è dispersione.'),
+      mc('Cosa protegge il magnetotermico?', ['I cavi da sovraccarichi e cortocircuiti', 'Le persone dalle scosse e dai fulmini', 'Gli elettrodomestici dalla polvere e dall’umidità', 'Le lampadine dagli sbalzi di tensione'], 0, 'Parte termica per sovraccarico, magnetica per cortocircuito.'),
+      mc('Ogni quanto si preme il tasto di test del differenziale?', ['Circa una volta al mese', 'Una volta ogni dieci anni circa', 'Ogni ora di funzionamento dell’impianto', 'Dopo ogni blackout di lunga durata'], 0, 'Controlla che il dispositivo scatti.'),
+      mc('Prima di sostituire una lampadina cosa è necessario?', ['Spegnere, far raffreddare e avere mani asciutte', 'Tenere la luce accesa per vedere il portalampada', 'Salire su una sedia con una sola mano libera', 'Usare pinze metalliche con la corrente inserita'], 0, 'Evita scosse e ustioni.'),
+      mc('Hai un odore di bruciato dalla presa. Cosa fai?', ['Smetto di usarla, stacco in sicurezza e chiamo un elettricista', 'La uso ancora fino a che non si annerisce del tutto', 'Aggiungo nastro isolante e continuo a usarla per qualche giorno', 'Le verso un po’ d’acqua per raffreddarla'], 0, 'Può indicare surriscaldamento con rischio di incendio.'),
       order('Ordina la sostituzione di una lampadina', ['Spegni la luce', 'Aspetta che si raffreddi', 'Svita la vecchia in senso antiorario', 'Controlla attacco e potenza', 'Avvita la nuova e riaccendi'], 'Prima sicurezza, poi sostituzione.')
     ],
     test: [
       fill('Phon da 1 840 W a 230 V: quanti ampere?', ['8'], '1 840 ÷ 230 = 8.'),
       fill('Contatore da 3 kW a 230 V: circa quanti A (arrotonda all’intero)?', ['13'], '3 000 ÷ 230 ≈ 13,04.'),
       fill('Ferro da stiro da 2 200 W + asciugacapelli da 1 800 W alla stessa presa: quanti A (un decimale)?', ['17,4', '17.4'], '4 000 ÷ 230 = 17,39.'),
-      mc('Perché non si collegano due ciabatte in serie?', ['Si può superare il limite e surriscaldare', 'Si consuma meno', 'Si evitano i fulmini', 'Non c’è motivo'], 0, 'Il limite resta quello della presa a muro.'),
-      mc('Una persona è a contatto con un cavo in tensione. Cosa fai per prima cosa?', ['Interrompo la corrente se posso farlo in sicurezza, senza toccarla', 'La afferro per le braccia', 'La bagno', 'La lascio'], 0, 'Toccandola potresti folgorarti.'),
+      mc('Perché non si collegano due ciabatte in serie?', ['Si può superare il limite e surriscaldare', 'Si consumerebbe meno energia in totale', 'Si evitano meglio i fulmini sulla linea', 'Non c’è un vero motivo, sono equivalenti'], 0, 'Il limite resta quello della presa a muro.'),
+      mc('Una persona è a contatto con un cavo in tensione. Cosa fai per prima cosa?', ['Interrompo la corrente in sicurezza, senza toccarla', 'La afferro per le braccia per staccarla subito', 'Le getto addosso dell’acqua per raffreddarla', 'La lascio lì e aspetto che arrivi qualcuno'], 0, 'Toccandola potresti folgorarti.'),
       mc('Chi può installare o modificare un impianto elettrico?', ['Un elettricista abilitato', 'Chiunque abbia un tutorial', 'Il vicino', 'Nessuno'], 0, 'Serve la dichiarazione di conformità.'),
-      mc('Sul quadro, cosa non si fa mai?', ['Togliere la messa a terra o manomettere i dispositivi', 'Premere il test del differenziale', 'Riarmare dopo aver scollegato gli apparecchi', 'Leggere le etichette'], 0, 'Sono interventi sull’impianto.')
+      mc('Sul quadro, cosa non si fa mai?', ['Eliminare la messa a terra o i dispositivi', 'Premere il test del differenziale di tanto in tanto', 'Riarmare dopo aver scollegato gli apparecchi guasti', 'Leggere le etichette dei dispositivi'], 0, 'Sono interventi sull’impianto.')
     ]
   });
 

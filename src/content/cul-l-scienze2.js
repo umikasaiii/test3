@@ -26,7 +26,7 @@
       fill('Quanti elettroni ha lo ione Na⁺ (Z = 11)?', ['10'], 'L’atomo neutro ne ha 11 e ne perde 1.'),
       mc('Il cloro è nel gruppo 17. Quanti elettroni di valenza ha?', ['7', '17', '1', '8'], 0, 'Per i gruppi principali, le unità del numero di gruppo indicano gli elettroni di valenza: 17 → 7.'),
       fill('Cloro naturale: 75% Cl-35 e 25% Cl-37. Massa atomica media in u?', ['35,5', '35.5'], '0,75 × 35 + 0,25 × 37 = 35,5.'),
-      mc('Perché i gas nobili sono poco reattivi?', ['Hanno l’ultimo guscio pieno', 'Non hanno elettroni', 'Hanno un solo protone', 'Sono tutti radioattivi'], 0, 'Il guscio esterno completo è molto stabile.'),
+      mc('Perché i gas nobili sono poco reattivi?', ['Hanno l’ultimo guscio pieno', 'Non hanno elettroni negli orbitali esterni', 'Hanno un solo protone nel nucleo', 'Sono tutti radioattivi e instabili'], 0, 'Il guscio esterno completo è molto stabile.'),
       fill('Quanti elettroni ha un atomo neutro di ossigeno (Z = 8)?', ['8'], 'Neutro: elettroni = protoni = 8.'),
       fill('Un campione di 80 g con emivita di 5 giorni: quanti grammi restano dopo 15 giorni?', ['10'], '3 emivite: 80 → 40 → 20 → 10.'),
       mc('Che cosa distingue due isotopi dello stesso elemento?', ['Il numero di neutroni', 'Il numero di protoni', 'Il numero di elettroni di valenza', 'Il gruppo della tavola'], 0, 'Stesso Z, diverso A: cambiano i neutroni.'),
@@ -36,7 +36,7 @@
     test: [
       fill('Carbonio-14 (Z = 6). Quanti neutroni?', ['8'], '14 − 6 = 8.'),
       fill('Quanti elettroni ha lo ione Cl⁻ (Z = 17)?', ['18'], '17 + 1 = 18.'),
-      mc('Quale proprietà accomuna gli elementi di uno stesso gruppo?', ['Lo stesso numero di elettroni di valenza', 'Lo stesso numero di neutroni', 'La stessa massa', 'Lo stesso numero di gusci'], 0, 'Il comportamento chimico dipende dagli elettroni esterni.'),
+      mc('Quale proprietà accomuna gli elementi di uno stesso gruppo?', ['Lo stesso numero di elettroni di valenza', 'Lo stesso numero di neutroni nel nucleo', 'La stessa massa atomica approssimata', 'Lo stesso numero di gusci occupati'], 0, 'Il comportamento chimico dipende dagli elettroni esterni.'),
       fill('Boro naturale: 20% B-10 e 80% B-11. Massa atomica media in u (un decimale)?', ['10,8', '10.8'], '0,2 × 10 + 0,8 × 11 = 10,8.'),
       fill('Un isotopo ha emivita di 4 ore. Da 64 g, quanti grammi restano dopo 12 ore?', ['8'], '3 emivite: 64 → 32 → 16 → 8.'),
       mc('Quanti elettroni ha un atomo neutro di Mg (Z = 12)?', ['12', '24', '2', '10'], 0, 'Nell’atomo neutro gli elettroni sono pari ai protoni.'),
@@ -70,8 +70,8 @@
       fill('Quanti grammi pesano 3 mol di CO₂?', ['132'], '3 × 44 = 132.'),
       fill('Massa molare di NH₃ in g/mol? (N = 14, H = 1)', ['17'], '14 + 3 = 17.'),
       mc('Quale legame si forma tra un metallo come Na e un non metallo come Cl?', ['Ionico', 'Covalente apolare', 'Metallico', 'Legame a idrogeno'], 0, 'Na cede un elettrone a Cl: ioni di carica opposta si attraggono.'),
-      mc('Perché l’acqua bolle a 100 °C mentre il metano (massa simile) bolle a −161,5 °C?', ['Per i legami a idrogeno tra molecole d’acqua', 'Perché l’acqua ha atomi più pesanti', 'Perché il metano è ionico', 'Perché l’acqua è un metallo'], 0, 'I legami a idrogeno rendono le forze intermolecolari molto più forti.'),
-      mc('Che cosa spiega la conducibilità elettrica dei metalli?', ['Elettroni delocalizzati', 'Ioni mobili nel solido', 'Neutroni liberi', 'Legami a idrogeno'], 0, 'Gli elettroni di valenza sono liberi di muoversi nel reticolo.'),
+      mc('Perché l’acqua bolle a 100 °C mentre il metano (massa simile) bolle a −161,5 °C?', ['Per i legami a idrogeno tra molecole d’acqua', 'Perché l’acqua ha atomi molto più pesanti', 'Perché il metano è un composto ionico', 'Perché l’acqua è un metallo liquido'], 0, 'I legami a idrogeno rendono le forze intermolecolari molto più forti.'),
+      mc('Che cosa spiega la conducibilità elettrica dei metalli?', ['Elettroni delocalizzati', 'Ioni mobili nel solido cristallino', 'Neutroni liberi di muoversi nel reticolo', 'Legami a idrogeno tra gli atomi'], 0, 'Gli elettroni di valenza sono liberi di muoversi nel reticolo.'),
       fill('Un campione di 5,85 g di NaCl è sciolto fino a 500 mL. Molarità in mol/L?', ['0,2', '0.2'], 'n = 5,85/58,5 = 0,1 mol; M = 0,1/0,5 = 0,2.'),
       fill('Quanti litri occupano 0,5 mol di gas a 0 °C e 1 atm (22,4 L/mol)?', ['11,2', '11.2'], '0,5 × 22,4 = 11,2.'),
       order('Ordina i passi per trovare le moli da una massa', ['Scrivi la formula', 'Calcola M', 'n = m / M', 'Sostituisci i valori', 'Controlla le unità']  , 'Prima la massa molare, poi la formula n = m/M.')
@@ -83,8 +83,8 @@
       mc('Qual è la percentuale in massa dell’ossigeno nell’acqua?', ['circa 89%', 'circa 11%', 'circa 50%', 'circa 16%'], 0, '16/18 ≈ 0,889.'),
       mc('Quale molecola è lineare e apolare nel suo complesso?', ['CO₂', 'H₂O', 'NH₃', 'NaCl'], 0, 'I due legami C=O sono polari ma si compensano per la geometria lineare.'),
       fill('Quanti grammi di NaOH servono per 0,5 L di soluzione 0,5 mol/L? (Na = 23, O = 16, H = 1)', ['10'], 'n = 0,25 mol; m = 0,25 × 40 = 10.'),
-      mc('Che cosa rappresenta il numero di Avogadro?', ['Le particelle contenute in una mole', 'I grammi in una mole', 'I litri di un gas', 'Gli elettroni di un atomo'], 0, '6,022 × 10²³ particelle per mole.'),
-      mc('Il ghiaccio galleggia sull’acqua liquida perché:', ['I legami a idrogeno ne fanno una struttura aperta, meno densa', 'Contiene aria', 'È più pesante', 'È un metallo'], 0, 'Nel ghiaccio le molecole sono disposte in un reticolo con più spazio vuoto.')
+      mc('Che cosa rappresenta il numero di Avogadro?', ['Le particelle contenute in una mole', 'I grammi contenuti in una mole di sostanza', 'I litri occupati da un gas a 0 °C', 'Gli elettroni di un singolo atomo'], 0, '6,022 × 10²³ particelle per mole.'),
+      mc('Il ghiaccio galleggia sull’acqua liquida perché:', ['I legami a idrogeno ne fanno una struttura aperta, meno densa', 'Contiene molta aria intrappolata nei cristalli', 'È più pesante dell’acqua liquida', 'È un metallo leggero come l’alluminio'], 0, 'Nel ghiaccio le molecole sono disposte in un reticolo con più spazio vuoto.')
     ]
   });
 
@@ -126,8 +126,8 @@
       mc('Quale valore di pH ha una soluzione basica?', ['9', '3', '7', '1'], 0, 'pH > 7 è basico.'),
       fill('Quanti mL di NaOH 0,1 mol/L neutralizzano 25 mL di HCl 0,2 mol/L?', ['50'], '0,005 mol / 0,1 mol/L = 0,05 L.'),
       mc('Perché si bilancia un’equazione chimica?', ['Perché gli atomi si conservano', 'Perché le formule cambiano', 'Perché le molecole spariscono', 'Per rendere la reazione più veloce'], 0, 'Lavoisier: la massa totale si conserva.'),
-      mc('Un catalizzatore:', ['accelera la reazione senza consumarsi', 'aumenta la massa dei prodotti', 'cambia il numero di atomi', 'rende la reazione esotermica'], 0, 'Abbassa la barriera di energia senza essere un reagente consumato.'),
-      mc('Una soluzione passa da pH 2 a pH 3 per diluizione. [H⁺] è diventata:', ['10 volte più piccola', '10 volte più grande', 'uguale', '3 volte più piccola'], 0, '10⁻³ è un decimo di 10⁻².')
+      mc('Un catalizzatore:', ['accelera la reazione senza consumarsi', 'aumenta la massa dei prodotti ottenuti', 'cambia il numero di atomi presenti nei reagenti', 'rende sempre la reazione esotermica'], 0, 'Abbassa la barriera di energia senza essere un reagente consumato.'),
+      mc('Una soluzione passa da pH 2 a pH 3 per diluizione. [H⁺] è diventata:', ['10 volte più piccola', '10 volte più grande', 'uguale a quella iniziale', '3 volte più piccola'], 0, '10⁻³ è un decimo di 10⁻².')
     ]
   });
 
@@ -149,14 +149,14 @@
       { h: 'Energia di una batteria: i numeri', b: `La quantità di carica si misura in **ampere-ora (Ah)** o milliampere-ora (mAh); l’energia in **wattora (Wh)**:\n\n> **Energia (Wh) = tensione (V) × capacità (Ah)**\n\n> Smartphone: 3,7 V, 3 000 mAh = 3 Ah → 3,7 × 3 = **11,1 Wh**.\n> Se il telefono consuma in media 2 W: durata = 11,1 / 2 = **5,55 ore**.\n> Pila AA alcalina: 1,5 V × circa 2 Ah = circa **3 Wh**.\n> 4 pile AA in serie: 4 × 1,5 = **6 V**.\n\nConversioni: 1 Ah = 3 600 coulomb (corrente di 1 A per 3 600 s); 1 Wh = 3 600 J.\n\n> Carica fornita da 2 A in un’ora: Q = I × t = 2 × 3 600 = **7 200 C**.\n\nConfronto: 1 kg di benzina contiene circa 12 000 Wh di energia chimica; una buona batteria Li-ion circa 150–250 Wh/kg. Le batterie sono però molto più efficienti nell’uso finale (un motore elettrico converte oltre l’85–90% dell’energia, uno a combustione interna circa 25–35%).\n\nLimiti: costo, materiali (litio, cobalto, nichel), degrado con i cicli di carica, riciclo. Le batterie esauste non vanno mai gettate nei rifiuti indifferenziati, perché possono contenere metalli pesanti e rischiare incendi.` }
     ],
     exercises: [
-      mc('Perché il sapone rimuove lo sporco grasso?', ['Le sue molecole hanno una testa idrofila e una coda idrofoba e formano micelle', 'Il sapone scioglie i grassi come un solvente apolare', 'Il sapone è molto acido', 'Il sapone fa evaporare lo sporco'], 0, 'Le code si legano al grasso, le teste all’acqua: lo sporco viene sospeso nelle micelle.'),
+      mc('Perché il sapone rimuove lo sporco grasso?', ['Le sue molecole hanno una testa idrofila e una coda idrofoba e formano micelle', 'Il sapone scioglie i grassi come un solvente apolare qualsiasi', 'Il sapone è un acido molto forte che brucia lo sporco', 'Il sapone fa evaporare lo sporco dalla superficie'], 0, 'Le code si legano al grasso, le teste all’acqua: lo sporco viene sospeso nelle micelle.'),
       fill('Etilene C₂H₄ (C = 12, H = 1). Massa molare in g/mol?', ['28'], '2 × 12 + 4 = 28.'),
       fill('Polietilene con 1 000 unità di etilene. Massa molare approssimata in g/mol?', ['28000', '28 000', '28.000'], '28 × 1 000 = 28 000.'),
       fill('Propano C₃H₈ (M = 44). Quanti grammi di CO₂ si formano bruciandone 44 g?', ['132'], '1 mol di C₃H₈ → 3 mol di CO₂ = 3 × 44 = 132 g.'),
       mc('Quale gas velenoso si forma in una combustione incompleta?', ['Monossido di carbonio', 'Azoto', 'Argon', 'Vapore acqueo'], 0, 'CO si lega all’emoglobina e impedisce il trasporto dell’ossigeno.'),
       mc('Quali sono i tre elementi del triangolo del fuoco?', ['Combustibile, comburente, innesco', 'Acqua, aria, terra', 'Ossigeno, azoto, argon', 'Legno, carta, benzina'], 0, 'Togliendone uno il fuoco si spegne.'),
-      mc('Perché la zincatura protegge il ferro anche se graffiata?', ['Lo zinco si ossida al posto del ferro', 'Lo zinco è più duro del ferro', 'Lo zinco è un gas', 'Il ferro diventa inossidabile'], 0, 'Lo zinco, più facile da ossidare, funge da anodo sacrificale.'),
-      mc('Perché l’alluminio resiste alla corrosione meglio del ferro?', ['Forma una pellicola di ossido compatta e aderente', 'Non reagisce mai con l’ossigeno', 'Ha più protoni', 'È più pesante'], 0, 'È la passivazione.'),
+      mc('Perché la zincatura protegge il ferro anche se graffiata?', ['Lo zinco si ossida al posto del ferro', 'Lo zinco è molto più duro del ferro', 'Lo zinco è un gas che avvolge il ferro', 'Il ferro diventa inossidabile dopo la zincatura'], 0, 'Lo zinco, più facile da ossidare, funge da anodo sacrificale.'),
+      mc('Perché l’alluminio resiste alla corrosione meglio del ferro?', ['Forma una pellicola di ossido compatta e aderente', 'Non reagisce mai con l’ossigeno dell’aria', 'Ha più protoni e quindi è più stabile', 'È più pesante e quindi si consuma più lentamente'], 0, 'È la passivazione.'),
       fill('Batteria Li-ion da 3,7 V e 3 Ah. Energia in Wh (un decimale)?', ['11,1', '11.1'], '3,7 × 3 = 11,1.'),
       fill('Quante pile AA da 1,5 V in serie per avere 6 V?', ['4'], '6 / 1,5 = 4.'),
       mc('In una pila, la reazione di riduzione avviene:', ['al catodo', 'all’anodo', 'nell’elettrolita', 'nel filo'], 0, 'Al catodo la specie acquista elettroni.'),
@@ -169,7 +169,7 @@
       mc('Quale accelera la ruggine?', ['Acqua salata', 'Aria secca', 'Vernice', 'Zinco'], 0, 'Gli ioni aumentano la conduzione elettrica.'),
       mc('Nella gerarchia dei rifiuti, la prima priorità è:', ['Ridurre', 'Riciclare', 'Incenerire', 'Interrare'], 0, 'Meno rifiuti prodotti, meno da gestire.'),
       fill('Quanti coulomb passano con 2 A per 1 ora?', ['7200', '7 200', '7.200'], '2 × 3 600 = 7 200.'),
-      mc('Nelle batterie Li-ion, durante la scarica gli ioni Li⁺:', ['tornano dall’elettrodo di grafite all’altro elettrodo', 'si trasformano in neutroni', 'escono dalla cella', 'si fermano'], 0, 'Gli ioni migrano avanti e indietro tra gli elettrodi.'),
+      mc('Nelle batterie Li-ion, durante la scarica gli ioni Li⁺:', ['tornano dall’elettrodo di grafite all’altro elettrodo', 'si trasformano in neutroni nell’elettrodo', 'escono dalla cella verso l’esterno', 'si fermano nell’elettrolita senza più muoversi'], 0, 'Gli ioni migrano avanti e indietro tra gli elettrodi.'),
       mc('Un grammo di propano bruciato completamente produce circa:', ['3 g di CO₂', '1 g di CO₂', '0,3 g di CO₂', '44 g di CO₂'], 0, '132 g ogni 44 g di combustibile.')
     ]
   });
@@ -192,7 +192,7 @@
       { h: 'Respirazione cellulare e fotosintesi', b: `La **respirazione cellulare** ossida il glucosio per produrre ATP:\n\n> C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O + energia\n\nFasi: **glicolisi** (nel citoplasma, 2 ATP netti per glucosio, senza ossigeno), poi ciclo di Krebs e catena respiratoria nei **mitocondri** (con ossigeno), per un totale dell’ordine di **30 ATP** per glucosio. Senza ossigeno resta la **fermentazione** (lattica nei muscoli, alcolica nei lieviti), che rende solo 2 ATP.\n\nLa **fotosintesi** nei cloroplasti fa il percorso inverso con l’energia della luce:\n\n> 6 CO₂ + 6 H₂O + luce → C₆H₁₂O₆ + 6 O₂\n\nControllo di massa: glucosio 180 + 6 × 32 = 372 g; prodotti: 6 × 44 + 6 × 18 = 264 + 108 = **372 g** ✓\n\n> 180 g di glucosio (1 mol) producono 6 mol di CO₂ = **264 g** di CO₂ e consumano 6 mol di O₂ = 192 g.\n> Per produrre 1 mol (180 g) di glucosio con la fotosintesi si assorbono 6 mol di CO₂ (264 g).\n\nL’ossigeno che respiriamo viene in gran parte dalla fotosintesi di piante, alghe e cianobatteri; i cianobatteri ne iniziarono l’accumulo circa 2,4 miliardi di anni fa (Grande Ossidazione).\n\nPiante e alghe fanno la **fotosintesi** e la **respirazione**: la prima solo di giorno, la seconda sempre.` }
     ],
     exercises: [
-      mc('Che cosa distingue una cellula eucariotica da una procariotica?', ['Il DNA è racchiuso in un nucleo', 'Contiene DNA', 'Ha una membrana', 'Ha ribosomi'], 0, 'I procarioti non hanno un nucleo delimitato da membrana.'),
+      mc('Che cosa distingue una cellula eucariotica da una procariotica?', ['Il DNA è racchiuso in un nucleo', 'Il DNA è presente solo nella cellula eucariotica', 'La membrana plasmatica è assente nelle procariotiche', 'I ribosomi sono presenti solo nelle eucariotiche'], 0, 'I procarioti non hanno un nucleo delimitato da membrana.'),
       fill('In un DNA il 30% delle basi è A. Qual è la percentuale di G?', ['20'], 'A = T = 30%, restano 40% divisi tra G e C: 20% ciascuna.'),
       fill('Quanti codoni diversi esistono con 4 basi prese a gruppi di 3?', ['64'], '4³ = 64.'),
       fill('Quante basi servono per codificare 100 amminoacidi (escluso il codone di stop)?', ['300'], '100 × 3 = 300.'),
@@ -209,11 +209,11 @@
       fill('Una molecola di glucosio (M = 180): quante moli sono 360 g?', ['2'], '360 / 180 = 2.'),
       fill('Quanti amminoacidi diversi codifica di norma il codice genetico?', ['20'], 'Sono 20.'),
       mc('Quale organulo è presente nelle cellule vegetali ma non in quelle animali?', ['Cloroplasto', 'Mitocondrio', 'Nucleo', 'Ribosoma'], 0, 'I cloroplasti fanno la fotosintesi.'),
-      mc('Cosa caratterizza l’osmosi?', ['Movimento d’acqua attraverso una membrana semipermeabile', 'Trasporto attivo di sali', 'Divisione cellulare', 'Sintesi di ATP'], 0, 'L’acqua va verso la zona a maggiore concentrazione di soluti.'),
+      mc('Cosa caratterizza l’osmosi?', ['Movimento d’acqua attraverso una membrana semipermeabile', 'Trasporto attivo di sali con consumo di ATP', 'Divisione cellulare in due cellule uguali', 'Sintesi di ATP nei mitocondri'], 0, 'L’acqua va verso la zona a maggiore concentrazione di soluti.'),
       fill('Senza ossigeno la fermentazione di una molecola di glucosio produce circa quanti ATP netti (glicolisi)?', ['2'], 'La glicolisi rende 2 ATP netti.'),
-      mc('Perché le cellule sono generalmente molto piccole?', ['Perché il rapporto superficie/volume cala con la dimensione', 'Perché non possono avere nucleo', 'Perché mancano di acqua', 'Per caso'], 0, 'Una cellula grande scambia troppo poco rispetto al suo volume.'),
+      mc('Perché le cellule sono generalmente molto piccole?', ['Perché il rapporto superficie/volume cala con la dimensione', 'Perché non possono avere un nucleo', 'Perché mancano di acqua al loro interno', 'Perché non riescono a dividersi più volte'], 0, 'Una cellula grande scambia troppo poco rispetto al suo volume.'),
       mc('Chi propose, nel 1953, il modello a doppia elica del DNA?', ['Watson e Crick', 'Mendel e Darwin', 'Hooke e Virchow', 'Pasteur e Koch'], 0, 'Usando anche i dati di Rosalind Franklin.'),
-      mc('I virus sono cellule?', ['No: dipendono da una cellula ospite per replicarsi', 'Sì, procarioti', 'Sì, eucarioti', 'Sì, sono batteri piccoli'], 0, 'Non hanno metabolismo autonomo né struttura cellulare.')
+      mc('I virus sono cellule?', ['No: dipendono da una cellula ospite per replicarsi', 'Sì, sono cellule procariotiche molto piccole', 'Sì, sono cellule eucariotiche prive di nucleo', 'Sì, sono batteri piccolissimi senza parete'], 0, 'Non hanno metabolismo autonomo né struttura cellulare.')
     ]
   });
 
@@ -244,7 +244,7 @@
       fill('RrYy × RrYy su 320 piante. Quante con entrambi i caratteri dominanti?', ['180'], '320 × 9/16 = 180.'),
       fill('Malattia recessiva con frequenza 1/10 000: q = ?', ['0,01', '0.01'], 'q² = 0,0001 → q = 0,01.'),
       fill('Stessa malattia: frequenza approssimata dei portatori in percentuale (2pq)?', ['2', '2%', '1,98', '1.98'], '2 × 0,99 × 0,01 ≈ 0,0198.'),
-      mc('Cosa afferma la selezione naturale?', ['I caratteri ereditari vantaggiosi tendono ad aumentare nella popolazione', 'Gli individui si adattano volontariamente', 'Le mutazioni avvengono per bisogno', 'L’evoluzione ha un fine'], 0, 'Variazione ereditaria + riproduzione differenziale.'),
+      mc('Cosa afferma la selezione naturale?', ['I caratteri ereditari vantaggiosi tendono ad aumentare nella popolazione', 'Gli individui si adattano volontariamente all’ambiente', 'Le mutazioni avvengono per rispondere a un bisogno', 'L’evoluzione ha un fine verso cui tende la specie'], 0, 'Variazione ereditaria + riproduzione differenziale.'),
       mc('Ala di un pipistrello e arto anteriore di un uomo sono:', ['Strutture omologhe', 'Strutture analoghe', 'Organi vestigiali', 'Caratteri acquisiti'], 0, 'Hanno la stessa origine evolutiva ma funzioni diverse.'),
       order('Ordina i passi della selezione naturale', ['Variazione ereditaria', 'Competizione per le risorse', 'Sopravvivenza differenziale', 'Riproduzione differenziale', 'Cambio delle frequenze'], 'Le varianti vantaggiose aumentano di frequenza.')
     ],
@@ -254,8 +254,8 @@
       mc('Quale incrocio dà prole 1 : 1 per fenotipo dominante : recessivo?', ['Aa × aa', 'Aa × Aa', 'AA × aa', 'AA × Aa'], 0, 'Metà Aa, metà aa.'),
       mc('Dominanza incompleta: rosso (RR) × bianco (rr). La F₁ è:', ['Rosa', 'Rossa', 'Bianca', 'Metà e metà tra piante'], 0, 'L’eterozigote è intermedio.'),
       fill('Iᴬi × Iᴮi (gruppi sanguigni). Probabilità in % di un figlio di gruppo 0?', ['25', '25%'], 'Solo i i: 1/4.'),
-      mc('Quale non è una prova dell’evoluzione?', ['Gli organismi si impegnano a cambiare', 'I fossili transizionali', 'Le omologie anatomiche', 'La somiglianza del DNA'], 0, 'La volontà non guida l’evoluzione.'),
-      mc('Hardy-Weinberg descrive:', ['Frequenze alleliche stabili in assenza di forze evolutive', 'Il numero di cromosomi', 'La velocità delle mutazioni', 'La replicazione del DNA'], 0, 'Funge da modello di riferimento.'),
+      mc('Quale non è una prova dell’evoluzione?', ['Gli organismi si impegnano a cambiare', 'I fossili transizionali', 'Le omologie anatomiche', 'La somiglianza del DNA tra specie'], 0, 'La volontà non guida l’evoluzione.'),
+      mc('Hardy-Weinberg descrive:', ['Frequenze alleliche stabili in assenza di forze evolutive', 'Il numero di cromosomi di una specie', 'La velocità con cui avvengono le mutazioni', 'La replicazione semiconservativa del DNA'], 0, 'Funge da modello di riferimento.'),
       mc('La deriva genetica ha effetti più forti in:', ['popolazioni piccole', 'popolazioni enormi', 'popolazioni senza mutazioni', 'popolazioni sempre isolate'], 0, 'Il caso pesa di più quando gli individui sono pochi.')
     ]
   });
@@ -283,7 +283,7 @@
       fill('12 atti respiratori al minuto, 0,5 L per atto: litri al minuto?', ['6'], '12 × 0,5 = 6.'),
       mc('Dove avviene lo scambio di gas nei polmoni?', ['Negli alveoli', 'Nei bronchi', 'Nella trachea', 'Nel diaframma'], 0, 'Pareti sottili e capillari favoriscono la diffusione.'),
       mc('Quale ormone abbassa la glicemia?', ['Insulina', 'Glucagone', 'Adrenalina', 'Cortisolo'], 0, 'Il glucagone la alza.'),
-      mc('Cosa significa omeostasi?', ['Mantenere stabile l’ambiente interno', 'Crescere senza limiti', 'Cambiare specie', 'Dormire'], 0, 'Con feedback negativo.'),
+      mc('Cosa significa omeostasi?', ['Mantenere stabile l’ambiente interno', 'Crescere in modo continuo senza limiti', 'Cambiare specie nel corso della vita', 'Dormire per conservare l’energia'], 0, 'Con feedback negativo.'),
       fill('R₀ = 4. Soglia di immunità di gregge in %?', ['75', '75%'], '1 − 1/4 = 0,75.'),
       mc('Gli antibiotici sono efficaci contro:', ['Batteri', 'Virus', 'Entrambi allo stesso modo', 'Allergie'], 0, 'Non agiscono sui virus.'),
       fill('Calorie: 50 g di carboidrati (4 kcal/g) + 20 g di proteine (4 kcal/g) + 15 g di grassi (9 kcal/g). Totale kcal?', ['415'], '200 + 80 + 135 = 415.'),
@@ -299,7 +299,7 @@
       mc('Qual è la funzione principale dell’emoglobina?', ['Trasportare ossigeno', 'Digerire i grassi', 'Produrre anticorpi', 'Coagulare il sangue'], 0, 'Si trova nei globuli rossi.'),
       fill('BMI per 80 kg e 2 m (kg/m²)?', ['20'], '80 / 4 = 20.'),
       mc('Cosa fa il sistema nervoso simpatico?', ['Prepara a «attacco o fuga»', 'Favorisce solo la digestione', 'Produce ormoni sessuali', 'Controlla la vista'], 0, 'Aumenta frequenza cardiaca e vigilanza.'),
-      mc('I vaccini funzionano perché:', ['Stimolano la memoria immunitaria', 'Uccidono ogni batterio', 'Sostituiscono il DNA', 'Sono antibiotici'], 0, 'Preparano linfociti e anticorpi senza causare la malattia.')
+      mc('I vaccini funzionano perché:', ['Stimolano la memoria immunitaria', 'Uccidono ogni batterio presente nel sangue', 'Sostituiscono il DNA delle cellule del corpo', 'Sono antibiotici somministrati in anticipo'], 0, 'Preparano linfociti e anticorpi senza causare la malattia.')
     ]
   });
 
@@ -325,24 +325,24 @@
       fill('Stessi dati: kcal ai carnivori secondari?', ['20'], '200 × 10% = 20.'),
       fill('100 batteri raddoppiano ogni ora. Quanti dopo 6 ore?', ['6400', '6 400', '6.400'], '100 × 2⁶ = 6 400.'),
       fill('Quanti kg di CO₂ si formano bruciando 1 kg di carbonio? (C = 12, O = 16; arrotonda al decimo)', ['3,7', '3.7', '3,67', '3.67'], '44/12 ≈ 3,67.'),
-      mc('Che cosa fanno i decompositori?', ['Riciclano la materia organica in sostanze inorganiche', 'Fanno la fotosintesi', 'Mangiano solo erbivori', 'Producono ossigeno dall’acqua'], 0, 'Batteri e funghi.'),
-      mc('Perché le catene alimentari sono corte?', ['Perché a ogni passaggio si perde gran parte dell’energia', 'Perché i predatori non esistono', 'Perché mancano i produttori', 'Perché le prede si nascondono'], 0, 'Circa il 90% si disperde a ogni livello.'),
-      mc('Qual è la causa principale della perdita di biodiversità?', ['Distruzione e frammentazione degli habitat', 'Le eruzioni vulcaniche', 'La Luna', 'Il rumore'], 0, 'Seguita da specie invasive, inquinamento, sfruttamento e clima.'),
-      mc('Che cos’è la capacità portante?', ['Il numero massimo di individui che l’ambiente sostiene', 'La massa di un animale', 'Il numero di specie', 'Il tasso di natalità'], 0, 'Indicata con K.'),
+      mc('Che cosa fanno i decompositori?', ['Riciclano la materia organica in sostanze inorganiche', 'Fanno la fotosintesi usando la luce', 'Si nutrono solo di erbivori', 'Producono ossigeno dall’acqua'], 0, 'Batteri e funghi.'),
+      mc('Perché le catene alimentari sono corte?', ['Perché a ogni passaggio si perde gran parte dell’energia', 'Perché i predatori non esistono nelle reti trofiche', 'Perché mancano i produttori primari', 'Perché le prede si nascondono dai predatori'], 0, 'Circa il 90% si disperde a ogni livello.'),
+      mc('Qual è la causa principale della perdita di biodiversità?', ['Distruzione e frammentazione degli habitat', 'Le eruzioni vulcaniche e i terremoti', 'Le fasi della Luna sul ciclo biologico', 'Il rumore prodotto dalle città'], 0, 'Seguita da specie invasive, inquinamento, sfruttamento e clima.'),
+      mc('Che cos’è la capacità portante?', ['Il numero massimo di individui che l’ambiente sostiene', 'La massa massima di un singolo animale', 'Il numero totale di specie presenti', 'Il tasso di natalità di una popolazione'], 0, 'Indicata con K.'),
       fill('Concentrazione di CO₂: da 280 ppm a 420 ppm. Di quante volte è aumentata?', ['1,5', '1.5'], '420/280 = 1,5.'),
       mc('I batteri azotofissatori delle leguminose trasformano:', ['N₂ in ammoniaca', 'CO₂ in O₂', 'Nitrato in acqua', 'Glucosio in azoto'], 0, 'Rendono l’azoto disponibile per le piante.'),
-      mc('La biomagnificazione provoca:', ['Maggiori concentrazioni di inquinanti persistenti nei predatori al vertice', 'La scomparsa dei produttori', 'L’aumento dell’ossigeno', 'Un calo del carbonio'], 0, 'Le sostanze persistenti si accumulano lungo la catena.'),
+      mc('La biomagnificazione provoca:', ['Maggiori concentrazioni di inquinanti persistenti nei predatori al vertice', 'La scomparsa dei produttori primari', 'L’aumento dell’ossigeno nell’acqua', 'Un calo del carbonio atmosferico'], 0, 'Le sostanze persistenti si accumulano lungo la catena.'),
       order('Ordina la catena alimentare dal produttore al vertice', ['Erba', 'Cavalletta', 'Rana', 'Serpente', 'Aquila'], 'Ogni livello mangia quello precedente.')
     ],
     test: [
       fill('Una popolazione di 1 000 individui raddoppia ogni 10 anni. Dopo 30 anni?', ['8000', '8 000', '8.000'], '1 000 × 2³ = 8 000.'),
       fill('Produttori 50 000 kcal. Quante kcal al terzo livello (consumatori secondari) con il 10%?', ['500'], '50 000 → 5 000 → 500.'),
       mc('Qual è la temperatura media terrestre senza effetto serra, circa?', ['−18 °C', '+15 °C', '0 °C', '−60 °C'], 0, 'Con effetto serra è +15 °C.'),
-      mc('Cos’è l’eutrofizzazione?', ['Crescita eccessiva di alghe per eccesso di nutrienti', 'Fusione dei ghiacciai', 'Estinzione di massa', 'Erosione costiera'], 0, 'Consumano ossigeno quando muoiono.'),
+      mc('Cos’è l’eutrofizzazione?', ['Crescita eccessiva di alghe per eccesso di nutrienti', 'Fusione dei ghiacciai per il riscaldamento', 'Estinzione di massa di una specie', 'Erosione delle coste per l’azione del mare'], 0, 'Consumano ossigeno quando muoiono.'),
       mc('La simbiosi in cui entrambe le specie traggono vantaggio è:', ['Mutualismo', 'Parassitismo', 'Predazione', 'Competizione'], 0, 'Esempio: api e fiori.'),
       fill('Quanti kg di CO₂ da 100 kg di carbonio (CO₂/C = 44/12)? Arrotonda a 367.', ['367'], '100 × 44/12 ≈ 366,7.'),
       mc('Quale gas serra ha origine anche dall’allevamento (ruminanti) e dalle risaie?', ['Metano', 'Argon', 'Neon', 'Ozono stratosferico'], 0, 'CH₄.'),
-      mc('Energia e materia negli ecosistemi:', ['La materia circola, l’energia fluisce in una direzione', 'Entrambe circolano', 'Entrambe fluiscono in una direzione', 'La materia si perde'], 0, 'L’energia degrada in calore.')
+      mc('Energia e materia negli ecosistemi:', ['La materia circola, l’energia fluisce in una direzione', 'Entrambe circolano e si riciclano', 'Entrambe fluiscono in una sola direzione', 'La materia si perde e l’energia si ricicla'], 0, 'L’energia degrada in calore.')
     ]
   });
 
@@ -380,11 +380,11 @@
       fill('Giove a 5,2 UA: tempo luce in minuti, circa (intero)?', ['43'], '5,2 × 499 s ≈ 2 595 s ≈ 43 min.'),
       fill('Una cometa ha T = 8 anni. Semiasse maggiore in UA? (T² = a³)', ['4'], '8² = 64 = 4³.'),
       fill('Mese sinodico lunare in giorni (arrotondato)?', ['29,5', '29.5', '30', '29'], 'Circa 29,5 giorni.'),
-      mc('La Luna mostra sempre la stessa faccia perché:', ['Rotazione e rivoluzione hanno la stessa durata', 'Non ruota', 'È piatta', 'La Terra la trattiene'], 0, 'Rotazione sincrona.'),
+      mc('La Luna mostra sempre la stessa faccia perché:', ['Rotazione e rivoluzione hanno la stessa durata', 'Non ruota affatto su sé stessa', 'È piatta da un lato', 'La Terra la trattiene con una catena invisibile'], 0, 'Rotazione sincrona.'),
       mc('Il Sole contiene circa quale frazione della massa del sistema solare?', ['99,86%', '50%', '90%', '10%'], 0, 'Il resto è nei pianeti e altri corpi.'),
-      mc('La terza legge di Keplero collega:', ['Periodo e semiasse maggiore', 'Massa e densità', 'Luminosità e colore', 'Velocità e carica'], 0, 'T² ∝ a³.'),
+      mc('La terza legge di Keplero collega:', ['Periodo e semiasse maggiore', 'Massa e densità del pianeta', 'Luminosità e colore della stella', 'Velocità e carica elettrica'], 0, 'T² ∝ a³.'),
       mc('Un’eclissi di Luna avviene a:', ['Luna piena', 'Luna nuova', 'Primo quarto', 'Quando c’è una cometa'], 0, 'La Terra sta fra Sole e Luna.'),
-      mc('Il perielio è:', ['Il punto dell’orbita più vicino al Sole', 'Il più lontano', 'Un tipo di cometa', 'Il centro del Sole'], 0, 'L’afelio è il più lontano.')
+      mc('Il perielio è:', ['Il punto dell’orbita più vicino al Sole', 'Il punto più lontano dal Sole', 'Un tipo di cometa a lungo periodo', 'Il centro del Sole'], 0, 'L’afelio è il più lontano.')
     ]
   });
 
@@ -413,9 +413,9 @@
       fill('H₀ = 70 km/s/Mpc. Galassia a 100 Mpc: velocità di recessione in km/s?', ['7000', '7 000', '7.000'], '70 × 100 = 7 000.'),
       fill('Galassia con z = 0,01 (c = 300 000 km/s, H₀ = 70): distanza in Mpc (intero più vicino)?', ['43'], 'v = 3 000; d = 3 000/70 ≈ 42,9.'),
       mc('Che cosa lascia una stella come il Sole alla fine della sua vita?', ['Una nana bianca', 'Un buco nero', 'Una stella di neutroni', 'Una supernova'], 0, 'Sotto circa 8 masse solari.'),
-      mc('Che cosa è la radiazione cosmica di fondo?', ['Luce residua di quando l’universo divenne trasparente', 'Il rumore di una supernova', 'Luce di Andromeda', 'Radiazione solare'], 0, 'Circa 380 000 anni dopo l’inizio; oggi 2,725 K.'),
+      mc('Che cosa è la radiazione cosmica di fondo?', ['Luce residua di quando l’universo divenne trasparente', 'Il rumore dell’esplosione di una supernova', 'Luce proveniente dalla galassia di Andromeda', 'Radiazione prodotta dal Sole'], 0, 'Circa 380 000 anni dopo l’inizio; oggi 2,725 K.'),
       mc('Quale percentuale dell’universo è materia ordinaria secondo il modello standard?', ['Circa 5%', 'Circa 27%', 'Circa 68%', 'Circa 95%'], 0, 'Il resto è materia oscura (27%) ed energia oscura (68%).'),
-      mc('Il Big Bang è stato:', ['L’espansione dello spazio da uno stato caldo e denso', 'Un’esplosione in un punto dello spazio vuoto', 'La nascita del Sole', 'Una teoria senza prove'], 0, 'Non c’è un centro dell’espansione.'),
+      mc('Il Big Bang è stato:', ['L’espansione dello spazio da uno stato caldo e denso', 'Un’esplosione in un punto dello spazio vuoto', 'La nascita del nostro Sole', 'Una teoria senza alcuna prova osservativa'], 0, 'Non c’è un centro dell’espansione.'),
       mc('Quale elemento segna la fine delle fusioni in una stella massiccia?', ['Ferro', 'Carbonio', 'Oro', 'Elio'], 0, 'La fusione del ferro non libera energia.'),
       order('Ordina la vita di una stella come il Sole', ['Nebulosa', 'Protostella', 'Sequenza principale', 'Gigante rossa', 'Nana bianca'], 'Dalla nube al residuo.')
     ],
@@ -426,8 +426,8 @@
       mc('Chi scoprì la radiazione cosmica di fondo nel 1965?', ['Penzias e Wilson', 'Hubble', 'Einstein', 'Galileo'], 0, 'Premio Nobel nel 1978.'),
       mc('Un buco nero «risucchia» tutto ciò che gli sta intorno?', ['No: a grande distanza attrae come qualsiasi massa uguale', 'Sì, sempre', 'Solo la luce', 'Solo i pianeti'], 0, 'La gravità dipende dalla massa e dalla distanza.'),
       mc('Qual è la galassia grande più vicina alla Via Lattea?', ['Andromeda', 'Sirio', 'Betelgeuse', 'Orione'], 0, 'A circa 2,5 milioni di al.'),
-      mc('La legge di Hubble afferma che:', ['Le galassie lontane si allontanano più velocemente', 'Le stelle sono immobili', 'Il Sole è al centro', 'La luce si ferma'], 0, 'v = H₀d.'),
-      mc('Il tempo di vita di una stella aumenta con la massa?', ['No: le più massicce vivono meno', 'Sì, sempre', 'È uguale per tutte', 'Dipende dal colore soltanto'], 0, 'Bruciano il combustibile molto più in fretta.')
+      mc('La legge di Hubble afferma che:', ['Le galassie lontane si allontanano più velocemente', 'Le stelle sono immobili nel cielo', 'Il Sole è al centro dell’universo', 'La luce si ferma nello spazio vuoto'], 0, 'v = H₀d.'),
+      mc('Il tempo di vita di una stella aumenta con la massa?', ['No: le più massicce vivono meno', 'Sì, vive di più chi è più massiccia', 'È uguale per tutte le stelle', 'Dipende soltanto dal colore della stella'], 0, 'Bruciano il combustibile molto più in fretta.')
     ]
   });
 
@@ -450,16 +450,16 @@
     ],
     exercises: [
       mc('Quale strato interno della Terra è liquido?', ['Il nucleo esterno', 'Il mantello', 'Il nucleo interno', 'La crosta'], 0, 'Le onde S non lo attraversano; i suoi moti generano il campo magnetico.'),
-      mc('Qual è la differenza tra epicentro e ipocentro?', ['L’ipocentro è in profondità, l’epicentro in superficie sopra di esso', 'Sono uguali', 'L’epicentro è più profondo', 'Sono due faglie'], 0, 'Epi- = sopra.'),
+      mc('Qual è la differenza tra epicentro e ipocentro?', ['L’ipocentro è in profondità, l’epicentro in superficie sopra di esso', 'Sono la stessa cosa e coincidono sempre', 'L’epicentro è più profondo dell’ipocentro', 'Sono due diversi tipi di faglia'], 0, 'Epi- = sopra.'),
       fill('Placca che si muove a 2,5 cm/anno per 100 milioni di anni: quanti km percorre?', ['2500', '2 500', '2.500'], '0,025 m × 10⁸ = 2,5 × 10⁶ m.'),
       fill('Con P = 6 km/s e S = 3 km/s, un ritardo S−P di 20 s corrisponde a quanti km?', ['120'], 'd = 6 × 20.'),
       fill('Di quante volte circa aumenta l’energia passando da M 5 a M 7 (ordine di grandezza)?', ['1000', '1 000', '1.000'], '31,6² ≈ 1 000.'),
       mc('Quale tipo di margine è la dorsale medio-atlantica?', ['Divergente', 'Convergente', 'Trasforme', 'Non è un margine'], 0, 'Si crea nuova crosta oceanica.'),
-      mc('Il granito è una roccia:', ['Ignea intrusiva', 'Sedimentaria', 'Metamorfica', 'Organica'], 0, 'Raffreddamento lento del magma.'),
-      mc('Il marmo deriva da:', ['Calcare per metamorfismo', 'Granito per erosione', 'Basalto per fusione', 'Sabbia'], 0, 'Alta pressione e temperatura ricristallizzano il calcare.'),
+      mc('Il granito è una roccia:', ['Ignea intrusiva', 'Sedimentaria, formata da fossili', 'Metamorfica, formata dal calore', 'Organica, formata da resti di piante'], 0, 'Raffreddamento lento del magma.'),
+      mc('Il marmo deriva da:', ['Calcare per metamorfismo', 'Granito per erosione', 'Basalto per fusione', 'Sabbia per compressione'], 0, 'Alta pressione e temperatura ricristallizzano il calcare.'),
       fill('Aria con temperatura al suolo di 15 °C e gradiente di −6,5 °C/km: quanti °C a 10 km?', ['-50', '−50'], '15 − 65 = −50.'),
       mc('Qual è la composizione principale dell’aria secca?', ['78% N₂, 21% O₂', '78% O₂, 21% N₂', '50% N₂, 50% O₂', '80% CO₂'], 0, 'Argon 0,93% e CO₂ 0,04%.'),
-      mc('Qual è la differenza fra tempo e clima?', ['Il clima è la statistica del tempo su lunghi periodi', 'Sono sinonimi', 'Il tempo dura 30 anni', 'Il clima cambia ogni giorno'], 0, 'Una settimana fredda non smentisce il riscaldamento.'),
+      mc('Qual è la differenza fra tempo e clima?', ['Il clima è la statistica del tempo su lunghi periodi', 'Sono sinonimi e indicano la stessa cosa', 'Il tempo dura trent’anni e poi cambia', 'Il clima cambia ogni giorno come il tempo'], 0, 'Una settimana fredda non smentisce il riscaldamento.'),
       order('Ordina gli strati dalla superficie al centro', ['Crosta', 'Mantello', 'Nucleo esterno', 'Nucleo interno'], 'Dal più esterno al più interno.')
     ],
     test: [
@@ -468,9 +468,9 @@
       fill('Sedimenti che si depositano a 1 mm/anno: spessore in km dopo 2 milioni di anni?', ['2'], '2 × 10⁶ mm = 2 km.'),
       mc('Perché le onde S provano che il nucleo esterno è liquido?', ['Non lo attraversano', 'Lo attraversano più veloci', 'Si trasformano in P', 'Non esistono'], 0, 'Le onde di taglio non si propagano nei liquidi.'),
       mc('Quale margine caratterizza la faglia di Sant’Andrea?', ['Trasforme', 'Divergente', 'Convergente', 'Punto caldo'], 0, 'Le placche scorrono lateralmente.'),
-      mc('Che cosa fa lo strato di ozono?', ['Assorbe gran parte dei raggi UV', 'Produce ossigeno per respirare', 'Genera le nuvole', 'Riflette le onde radio'], 0, 'Si trova nella stratosfera.'),
-      mc('Per albedo si intende:', ['La frazione di radiazione solare riflessa', 'La temperatura media', 'La pressione dell’aria', 'La densità del nucleo'], 0, 'Per la Terra circa 0,3.'),
-      mc('Quale eruzione è tipicamente esplosiva?', ['Magma viscoso e ricco di gas', 'Magma basaltico fluido', 'Dorsale oceanica', 'Hawaii in effusione'], 0, 'Come il Vesuvio nel 79 d.C.')
+      mc('Che cosa fa lo strato di ozono?', ['Assorbe gran parte dei raggi UV', 'Produce ossigeno per respirare', 'Genera le nuvole e la pioggia', 'Riflette le onde radio nello spazio'], 0, 'Si trova nella stratosfera.'),
+      mc('Per albedo si intende:', ['La frazione di radiazione solare riflessa', 'La temperatura media del pianeta', 'La pressione dell’aria al suolo', 'La densità del nucleo terrestre'], 0, 'Per la Terra circa 0,3.'),
+      mc('Quale eruzione è tipicamente esplosiva?', ['Magma viscoso e ricco di gas', 'Magma basaltico molto fluido', 'Una dorsale oceanica', 'Hawaii, in effusione di lava'], 0, 'Come il Vesuvio nel 79 d.C.')
     ]
   });
 

@@ -19,25 +19,25 @@
       { h: 'Mappa mentale e interpretazioni', b: `**Linea del tempo essenziale**\n\n- circa 300 000 anni fa: Homo sapiens in Africa\n- circa 10 000 a.C.: agricoltura nella Mezzaluna fertile\n- circa 3300 a.C.: scrittura cuneiforme a Uruk\n- circa 3100 a.C.: unificazione dell’Egitto\n- circa 2600 a.C.: città dell’Indo; piramide di Cheope circa 2560 a.C.\n- circa 1792–1750 a.C.: Hammurabi\n- circa 1600 a.C.: Shang in Cina\n- 221 a.C.: unificazione imperiale della Cina\n\n**Idee da portare via**: agricoltura → eccedenze → specializzazione → città → Stato e scrittura. Il legame è reale, ma non automatico: esistono società complesse senza scrittura (come gli Inca, che usavano i *quipu*, corde annodate).\n\n**Fonti e dibattiti**: le prime fonti scritte sono spesso di palazzo e tempio, quindi mostrano il punto di vista dei potenti. Le storie dei contadini si ricostruiscono dall’archeologia. Gli studiosi discutono ancora l’origine esatta delle disuguaglianze e il ruolo del clima nei crolli delle civiltà. Le datazioni hanno margini di errore: sono «ordini di grandezza», non date di calendario.` }
     ],
     exercises: [
-      mc('Quale caratteristica distingue la storia dalla preistoria?', ['La presenza di fonti scritte', 'L’uso del fuoco', 'La vita nei villaggi', 'L’uso della pietra'], 0, 'Per convenzione la storia inizia con la scrittura, che compare in tempi diversi nelle varie regioni.'),
+      mc('Quale caratteristica distingue la storia dalla preistoria?', ['La presenza di fonti scritte', 'La scoperta del fuoco e della sua lavorazione', 'L’organizzazione della vita in villaggi stabili', 'L’uso della pietra levigata per gli utensili'], 0, 'Per convenzione la storia inizia con la scrittura, che compare in tempi diversi nelle varie regioni.'),
       mc('Che cosa caratterizza il Paleolitico?', ['Cacciatori-raccoglitori nomadi', 'Agricoltura e villaggi stabili', 'Scrittura e città', 'Uso del ferro'], 0, 'Il Neolitico è invece l’età dell’agricoltura.'),
       fill('Circa quanti anni fa compare Homo sapiens in Africa, in migliaia (stima comune)?', ['300', '300000', '300 000', '300.000'], 'Circa 300 000 anni fa (Jebel Irhoud).'),
-      mc('Che cos’è la Mezzaluna fertile?', ['L’area dal Levante alla Mesopotamia dove nasce l’agricoltura', 'Una catena montuosa del Nilo', 'Il delta del Nilo', 'Una città sumera'], 0, 'È la regione dei primi cereali e animali domestici.'),
-      mc('Quale conseguenza ebbe l’agricoltura?', ['Eccedenze e specializzazione del lavoro', 'La fine della proprietà', 'La scomparsa dei villaggi', 'Il ritorno al nomadismo'], 0, 'Chi non produce cibo può fare l’artigiano, il sacerdote, il capo.'),
+      mc('Che cos’è la Mezzaluna fertile?', ['L’area dal Levante alla Mesopotamia dove nasce l’agricoltura', 'Una catena montuosa che circonda il corso del Nilo e il suo delta', 'La zona del delta del Nilo, dove si coltivava il papiro', 'Una città sumera dove nasce l’allevamento degli animali'], 0, 'È la regione dei primi cereali e animali domestici.'),
+      mc('Quale conseguenza ebbe l’agricoltura?', ['Eccedenze e specializzazione del lavoro', 'La fine di ogni forma di proprietà della terra', 'La scomparsa dei villaggi a favore dei campi aperti', 'Il ritorno al nomadismo per cercare nuovi pascoli'], 0, 'Chi non produce cibo può fare l’artigiano, il sacerdote, il capo.'),
       fill('In quale anno a.C. circa nasce la scrittura cuneiforme a Uruk (arrotondato al secolo)?', ['3300', '3200'], 'Circa 3300–3200 a.C.'),
       fill('Hammurabi regna circa dal 1792 al 1750 a.C. Per quanti anni circa?', ['42'], '1792 − 1750 = 42.'),
       mc('Che cosa permise a Champollion di decifrare i geroglifici nel 1822?', ['La Stele di Rosetta', 'Il Codice di Hammurabi', 'Le tavolette di Uruk', 'I papiri di Qadesh'], 0, 'La stele riportava lo stesso testo in geroglifico, demotico e greco.'),
       fill('Circa quanti anni passano fra la scrittura cuneiforme (3200 a.C.) e la piramide di Cheope (2560 a.C.)?', ['640'], '3200 − 2560 = 640.'),
-      mc('Quale civiltà ha una scrittura che non è stata ancora decifrata?', ['Quella della valle dell’Indo', 'Quella egizia', 'Quella sumera', 'Quella cinese Shang'], 0, 'Le iscrizioni di Harappa sono brevi e senza bilingui.'),
+      mc('Quale civiltà ha una scrittura che non è stata ancora decifrata?', ['Quella della valle dell’Indo', 'Quella egizia dei geroglifici', 'Quella sumera dei segni a cuneo', 'Quella cinese Shang delle ossa oracolari'], 0, 'Le iscrizioni di Harappa sono brevi e senza bilingui.'),
       order('Ordina cronologicamente (dal più antico)', ['Agricoltura nella Mezzaluna fertile', 'Scrittura cuneiforme a Uruk', 'Unificazione dell’Egitto', 'Codice di Hammurabi', 'Unificazione della Cina'], 'Circa 10 000 a.C., 3300, 3100, 1754 a.C. circa, 221 a.C.')
     ],
     test: [
-      mc('Perché le prime civiltà nascono lungo i grandi fiumi?', ['Acqua e terreni fertili, ma serve organizzare irrigazione e piene', 'Perché i fiumi non esondano', 'Perché si evita il commercio', 'Per difendersi dal mare'], 0, 'I fiumi offrono fertilità e vie di comunicazione, e spingono a coordinare il lavoro.'),
-      mc('Per quale scopo nasce probabilmente la scrittura a Uruk?', ['Contabilità di merci e tributi', 'Poesia epica', 'Preghiere private', 'Lettere d’amore'], 0, 'Le prime tavolette sono registri amministrativi.'),
+      mc('Perché le prime civiltà nascono lungo i grandi fiumi?', ['Acqua e terreni fertili, ma serve organizzare irrigazione e piene', 'Perché i fiumi non esondano e non richiedono alcuna organizzazione', 'Perché sulle rive si evita il commercio e lo scambio', 'Perché i fiumi servono a difendersi dal mare aperto'], 0, 'I fiumi offrono fertilità e vie di comunicazione, e spingono a coordinare il lavoro.'),
+      mc('Per quale scopo nasce probabilmente la scrittura a Uruk?', ['Contabilità di merci e tributi', 'Poesia epica da recitare nelle feste', 'Preghiere private dei singoli cittadini', 'Lettere personali tra familiari lontani'], 0, 'Le prime tavolette sono registri amministrativi.'),
       fill('L’unificazione della Cina sotto Qin avviene nel 221 a.C. Quanti anni dopo il 1046 a.C. circa (inizio degli Zhou)?', ['825'], '1046 − 221 = 825.'),
-      mc('Che cosa significa «Mandato del Cielo» nella Cina Zhou?', ['Il sovrano governa finché è giusto', 'Il re è un dio', 'Il re è eletto dal popolo', 'Il re è sempre un sacerdote'], 0, 'Se il governo era ingiusto, la dinastia poteva perdere legittimità.'),
-      mc('Chi costruì le grandi piramidi, secondo le ricerche archeologiche recenti?', ['Lavoratori organizzati e retribuiti', 'Soltanto schiavi stranieri', 'Gli Ittiti', 'I Sumeri'], 0, 'Gli scavi dei villaggi operai a Giza lo mostrano.'),
-      mc('Quale affermazione sulle date preistoriche è corretta?', ['Sono stime con margini di errore', 'Sono tutte esatte al giorno', 'Si basano solo sui testi', 'Non si possono stimare'], 0, 'Per questo si usa «circa».'),
+      mc('Che cosa significa «Mandato del Cielo» nella Cina Zhou?', ['Il sovrano governa finché è giusto', 'Il re è un dio disceso in terra', 'Il re è eletto dal popolo di tutta la regione', 'Il re è sempre anche un sacerdote supremo'], 0, 'Se il governo era ingiusto, la dinastia poteva perdere legittimità.'),
+      mc('Chi costruì le grandi piramidi, secondo le ricerche archeologiche recenti?', ['Lavoratori organizzati e retribuiti', 'Soltanto schiavi stranieri portati in catene', 'Gli Ittiti, venuti dall’Anatolia', 'I Sumeri, venuti dalla Mesopotamia'], 0, 'Gli scavi dei villaggi operai a Giza lo mostrano.'),
+      mc('Quale affermazione sulle date preistoriche è corretta?', ['Sono stime con margini di errore', 'Sono tutte esatte al giorno e all’ora', 'Si basano soltanto sui testi scritti', 'Non si possono stimare in nessun modo'], 0, 'Per questo si usa «circa».'),
       fill('Il Codice di Hammurabi è del 1754 a.C. circa. Quanti anni prima dell’unificazione della Cina del 221 a.C.?', ['1533'], '1754 − 221 = 1533.')
     ]
   });
@@ -59,24 +59,24 @@
       { h: 'Mappa mentale e fonti', b: `**Date chiave**\n\n- circa 800 a.C.: nascita della polis; 776 a.C.: prime Olimpiadi (tradizione)\n- 508–507 a.C.: riforme di Clistene\n- 490 a.C.: Maratona; 480 a.C.: Termopili e Salamina; 479: Platea\n- 461–429 a.C. circa: età di Pericle\n- 431–404 a.C.: guerra del Peloponneso\n- 399 a.C.: morte di Socrate\n- 338 a.C.: Cheronea; 336–323 a.C.: Alessandro\n- 146 a.C.: Corinto distrutta e Grecia sotto Roma\n\n**Fonti**: Erodoto (guerre persiane), Tucidide (Peloponneso), Senofonte (continuazione), Plutarco e Arriano per Alessandro (molto più tardi). Ogni fonte ha un punto di vista; per gli storici la domanda è sempre: *chi scrive, quando e perché?*\n\n**Interpretazioni**: le guerre persiane sono state lette per secoli come lo scontro «Occidente libero contro Oriente dispotico», schema oggi giudicato troppo semplice (molte città greche combatterono con i Persiani). La Grecia ha lasciato eredità durevoli (filosofia, teatro, geometria, vocabolario politico: democrazia, tirannide, aristocrazia), senza dimenticare che era una società schiavista.` }
     ],
     exercises: [
-      mc('Che cos’è una polis?', ['Una città-stato indipendente con il suo territorio', 'Un impero', 'Un tempio', 'Un esercito'], 0, 'Il mondo greco era formato da molte poleis autonome.'),
-      mc('Chi non partecipava alla vita politica ad Atene?', ['Donne, schiavi e stranieri (meteci)', 'Tutti i maschi adulti', 'I contadini ateniesi', 'I soldati'], 0, 'Solo i maschi adulti figli di ateniesi erano cittadini.'),
+      mc('Che cos’è una polis?', ['Una città-stato indipendente con il suo territorio', 'Un grande impero con un solo sovrano', 'Un tempio dedicato alla divinità protettrice della città', 'Un esercito permanente di cittadini-soldati'], 0, 'Il mondo greco era formato da molte poleis autonome.'),
+      mc('Chi non partecipava alla vita politica ad Atene?', ['Donne, schiavi e stranieri (meteci)', 'Tutti i maschi adulti nati ad Atene', 'I contadini ateniesi che vivevano fuori città', 'I soldati e i marinai della flotta'], 0, 'Solo i maschi adulti figli di ateniesi erano cittadini.'),
       fill('In quale anno a.C. si svolge la battaglia di Maratona?', ['490'], 'Dario I, vittoria ateniese di Milziade.'),
-      mc('Chi vinse a Salamina nel 480 a.C.?', ['La flotta greca guidata da Temistocle', 'I Persiani di Serse', 'Gli Spartani di Leonida', 'Alessandro Magno'], 0, 'Dopo le Termopili e l’incendio di Atene.'),
+      mc('Chi vinse a Salamina nel 480 a.C.?', ['La flotta greca guidata da Temistocle', 'I Persiani di Serse, guidati dal re in persona', 'Gli Spartani di Leonida, nel passo delle Termopili', 'Alessandro Magno alla testa dei Macedoni'], 0, 'Dopo le Termopili e l’incendio di Atene.'),
       fill('La guerra del Peloponneso va dal 431 al 404 a.C. Quanti anni dura?', ['27'], '431 − 404 = 27.'),
       mc('Quale città greca sconfisse Sparta a Leuttra nel 371 a.C.?', ['Tebe', 'Atene', 'Corinto', 'Argo'], 0, 'Epaminonda guidò i Tebani.'),
       fill('Alessandro regna dal 336 al 323 a.C. Per quanti anni?', ['13'], '336 − 323 = 13.'),
       mc('Dove muore Alessandro Magno nel 323 a.C.?', ['A Babilonia', 'Ad Atene', 'In India', 'Ad Alessandria'], 0, 'La causa esatta è dibattuta.'),
-      mc('Che cosa è la koinè?', ['Il greco comune diffuso nel mondo ellenistico', 'Una legge ateniese', 'Una moneta', 'Un tempio'], 0, 'Fu lingua di cultura e di commercio.'),
+      mc('Che cosa è la koinè?', ['Il greco comune diffuso nel mondo ellenistico', 'Una legge di Atene sull’uguaglianza fra i cittadini', 'Una moneta d’argento diffusa nel Mediterraneo', 'Un tempio costruito sull’acropoli di Atene'], 0, 'Fu lingua di cultura e di commercio.'),
       fill('Quanti anni passano dalle riforme di Clistene (508 a.C.) a Maratona (490 a.C.)?', ['18'], '508 − 490 = 18.'),
       order('Ordina cronologicamente (dal più antico)', ['Riforme di Clistene', 'Battaglia di Maratona', 'Battaglia di Salamina', 'Inizio della guerra del Peloponneso', 'Battaglia di Gaugamela'], '508, 490, 480, 431, 331 a.C.')
     ],
     test: [
-      mc('Qual è, secondo Tucidide, la causa profonda della guerra del Peloponneso?', ['La paura di Sparta per la crescita della potenza ateniese', 'Una rivalità sportiva', 'Un’invasione persiana', 'Una questione religiosa'], 0, 'I pretesti furono altre dispute.'),
-      mc('Chi erano gli iloti?', ['Popolazione asservita al servizio degli Spartiati', 'I re di Sparta', 'Gli efori', 'I mercanti ateniesi'], 0, 'Erano la base economica dell’élite spartana.'),
+      mc('Qual è, secondo Tucidide, la causa profonda della guerra del Peloponneso?', ['La paura di Sparta per la crescita della potenza ateniese', 'Una rivalità sportiva nata durante i giochi olimpici a Olimpia', 'Un’invasione persiana contro tutte le città greche', 'Una questione religiosa legata all’oracolo di Delfi'], 0, 'I pretesti furono altre dispute.'),
+      mc('Chi erano gli iloti?', ['Popolazione asservita al servizio degli Spartiati', 'I re di Sparta, che guidavano l’esercito', 'Gli efori, magistrati eletti ogni anno', 'I mercanti ateniesi stabiliti nella città di Sparta'], 0, 'Erano la base economica dell’élite spartana.'),
       fill('Alessandro morì nel 323 a.C. ed era nato nel 356 a.C.: quanti anni di differenza fra le due date?', ['33'], '356 − 323 = 33 (la sua età fu circa 32 anni).'),
-      mc('Quale fra questi è un regno ellenistico?', ['Quello dei Tolomei in Egitto', 'L’impero persiano di Dario', 'La Lega delio-attica', 'La repubblica romana'], 0, 'Capitale Alessandria.'),
-      mc('Perché Erodoto non basta da solo per ricostruire le guerre persiane?', ['Scrive dopo i fatti, con un punto di vista e cifre spesso esagerate', 'Non conosceva il greco', 'Non parla della Persia', 'Scrive prima dei fatti'], 0, 'Bisogna confrontare le fonti.'),
+      mc('Quale fra questi è un regno ellenistico?', ['Quello dei Tolomei in Egitto', 'L’impero persiano di Dario il Grande', 'La Lega delio-attica guidata da Atene', 'La repubblica romana dei consoli'], 0, 'Capitale Alessandria.'),
+      mc('Perché Erodoto non basta da solo per ricostruire le guerre persiane?', ['Scrive dopo i fatti, con un punto di vista e cifre spesso esagerate', 'Non conosceva abbastanza bene la lingua greca', 'Non parla mai della Persia nelle sue Storie', 'Scrive molto prima dei fatti, quindi ne ignora gli esiti e le loro cause'], 0, 'Bisogna confrontare le fonti.'),
       fill('Quanti anni dalla morte di Alessandro (323 a.C.) alla fine dell’età ellenistica con la caduta dell’Egitto tolemaico (30 a.C.)?', ['293'], '323 − 30 = 293.'),
       mc('Quale istituzione guidò Atene contro i Persiani dopo il 478 a.C.?', ['La Lega delio-attica', 'La Lega peloponnesiaca', 'La Lega achea', 'L’Impero seleucide'], 0, 'Divenne gradualmente un impero ateniese.')
     ]
@@ -102,21 +102,21 @@
       mc('Quale organo della repubblica romana era composto da ex magistrati e guidava la politica estera?', ['Il senato', 'I comizi', 'I tribuni della plebe', 'La gerusia'], 0, 'Il senato dirigeva politica estera, finanze e religione.'),
       fill('In che anno a.C., secondo la tradizione, inizia la repubblica?', ['509'], 'Cacciata di Tarquinio il Superbo.'),
       fill('Quanti anni separano la fondazione tradizionale (753 a.C.) dalla fine della monarchia (509 a.C.)?', ['244'], '753 − 509 = 244.'),
-      mc('A che cosa serviva il tribuno della plebe?', ['A difendere i plebei, anche con il veto', 'A comandare l’esercito', 'A giudicare i reati', 'A coniare moneta'], 0, 'Fu creato dopo la secessione del 494 a.C.'),
+      mc('A che cosa serviva il tribuno della plebe?', ['A difendere i plebei, anche con il veto', 'A comandare l’esercito in tempo di guerra', 'A giudicare i reati commessi dai patrizi', 'A coniare la moneta e a fissarne il valore'], 0, 'Fu creato dopo la secessione del 494 a.C.'),
       mc('Quale testo del 451–450 a.C. rese noto il diritto a tutti?', ['Le XII Tavole', 'La Magna Carta', 'Il Codice di Hammurabi', 'Il Digesto'], 0, 'Fu la prima legislazione scritta di Roma.'),
       fill('La prima guerra punica va dal 264 al 241 a.C. Quanti anni dura?', ['23'], '264 − 241 = 23.'),
       fill('Seconda guerra punica: 218–201 a.C. Quanti anni?', ['17'], '218 − 201 = 17.'),
       mc('Dove vince Scipione contro Annibale nel 202 a.C.?', ['A Zama', 'A Canne', 'Al Trasimeno', 'A Farsalo'], 0, 'Fu la battaglia decisiva in Africa.'),
-      mc('Quale riforma propose Tiberio Gracco nel 133 a.C.?', ['Una ridistribuzione delle terre pubbliche', 'La fine del senato', 'La cittadinanza agli schiavi', 'La nomina di un re'], 0, 'Voleva sostenere i piccoli contadini.'),
+      mc('Quale riforma propose Tiberio Gracco nel 133 a.C.?', ['Una ridistribuzione delle terre pubbliche', 'La fine del senato e dei suoi poteri', 'La cittadinanza romana estesa agli schiavi', 'La nomina di un re al posto dei consoli'], 0, 'Voleva sostenere i piccoli contadini.'),
       fill('Cesare attraversa il Rubicone nel 49 a.C. Quanti anni prima della morte del 44 a.C.?', ['5'], '49 − 44 = 5.'),
       order('Ordina cronologicamente (dal più antico)', ['Leggi delle XII Tavole', 'Presa di Taranto', 'Battaglia di Canne', 'Distruzione di Cartagine', 'Battaglia di Azio'], '450, 272, 216, 146, 31 a.C.')
     ],
     test: [
-      mc('Perché le conquiste portarono problemi sociali a Roma?', ['Latifondi e schiavi sostituirono i piccoli contadini-soldati', 'Gli schiavi furono liberati', 'Le terre vennero divise ugualmente', 'Non portarono problemi'], 0, 'Molti contadini persero la terra e si spostarono in città.'),
-      mc('Che cosa cambia con la riforma dell’esercito di Mario (107 a.C.)?', ['Si arruolano anche i nullatenenti, legati al comandante', 'Si abolisce l’esercito', 'Solo i patrizi combattono', 'Si arruolano solo stranieri'], 0, 'Ciò favorì gli eserciti personali.'),
+      mc('Perché le conquiste portarono problemi sociali a Roma?', ['Latifondi e schiavi sostituirono i piccoli contadini-soldati', 'Gli schiavi furono liberati in massa e divennero cittadini romani', 'Le terre vennero divise in parti uguali fra tutti i soldati', 'Le conquiste non portarono alcun problema sociale'], 0, 'Molti contadini persero la terra e si spostarono in città.'),
+      mc('Che cosa cambia con la riforma dell’esercito di Mario (107 a.C.)?', ['Si arruolano anche i nullatenenti, legati al comandante', 'Si abolisce l’esercito e si assumono soltanto mercenari greci', 'Solo i patrizi possono combattere nelle legioni', 'Si arruolano solo stranieri, mai cittadini romani'], 0, 'Ciò favorì gli eserciti personali.'),
       fill('Da quanti anni dura la repubblica se la si calcola dal 509 al 27 a.C.?', ['482'], '509 − 27 = 482.'),
-      mc('Che cosa fu la guerra sociale (91–88 a.C.)?', ['La rivolta degli alleati italici per ottenere la cittadinanza', 'Una guerra tra patrizi e plebei', 'La rivolta di Spartaco', 'La guerra contro Cartagine'], 0, 'Roma alla fine concesse la cittadinanza.'),
-      mc('Perché la data del saccheggio gallico (390 a.C.) è «tradizionale»?', ['Viene da fonti scritte secoli dopo e alcuni propongono il 387', 'Perché non è mai avvenuto', 'Perché è certa al giorno', 'Perché è moderna'], 0, 'La cronologia romana più antica è ricostruita.'),
+      mc('Che cosa fu la guerra sociale (91–88 a.C.)?', ['La rivolta degli alleati italici per ottenere la cittadinanza', 'Una guerra tra patrizi e plebei per le cariche', 'La rivolta degli schiavi guidata da Spartaco', 'La guerra contro Cartagine per il controllo del mare e della Sicilia'], 0, 'Roma alla fine concesse la cittadinanza.'),
+      mc('Perché la data del saccheggio gallico (390 a.C.) è «tradizionale»?', ['Viene da fonti scritte secoli dopo e alcuni propongono il 387', 'Perché in realtà non è mai avvenuto', 'Perché è certa al giorno e all’ora', 'Perché è stata stabilita soltanto in epoca moderna dagli storici dell’Ottocento'], 0, 'La cronologia romana più antica è ricostruita.'),
       fill('Quanti anni dura la terza guerra punica, dal 149 al 146 a.C.?', ['3'], '149 − 146 = 3.'),
       mc('Quale battaglia nel 31 a.C. segna la vittoria di Ottaviano su Antonio e Cleopatra?', ['Azio', 'Farsalo', 'Filippi', 'Zama'], 0, 'Aprì la strada al principato.')
     ]
@@ -139,13 +139,13 @@
       { h: 'Perché cadde? Interpretazioni e mappa', b: `Le spiegazioni sono molte, e gli storici non concordano su una sola causa.\n\n- **Edward Gibbon** (1776–1788): declino dovuto a corruzione interna e al cristianesimo che indebolì le virtù civiche; tesi molto discussa.\n- Cause **militari ed esterne**: pressioni di Goti, Unni, Vandali, Persiani.\n- Cause **economiche e fiscali**: tasse pesanti, calo dei commerci, dipendenza dalle truppe barbariche.\n- Cause **politiche**: rivalità interne, guerre civili, debolezza dell’imperatore.\n- **Trasformazione invece di caduta**: studiosi come **Peter Brown** parlano di «tarda antichità», con continuità di diritto, lingua e Chiesa e un’integrazione graduale dei popoli germanici.\n- Un’ipotesi recente aggiunge fattori **climatici ed epidemici** (peste di Giustiniano, 541–542).\n\n**Mappa del tempo**\n- 753 a.C./509: origini e repubblica\n- 27 a.C.: Augusto\n- 117 d.C.: apogeo con Traiano\n- 235–284: crisi\n- 313 e 380: cristianesimo tollerato e poi religione di Stato\n- 395: divisione\n- 476: fine dell’Occidente\n\nUn punto chiave: il 476 non è la fine della cultura romana, che continuò a Bisanzio, nella Chiesa e nei regni successori.` }
     ],
     exercises: [
-      mc('Che cosa significa «principato» in età augustea?', ['Il potere del princeps, formalmente primo fra i cittadini', 'La monarchia ereditaria dichiarata', 'Il governo del senato', 'La democrazia'], 0, 'Augusto mantenne le istituzioni repubblicane ma controllava l’esercito.'),
+      mc('Che cosa significa «principato» in età augustea?', ['Il potere del princeps, formalmente primo fra i cittadini', 'La monarchia ereditaria dichiarata apertamente', 'Il governo diretto del senato, senza alcun imperatore e senza magistrati', 'La democrazia diretta dell’assemblea popolare'], 0, 'Augusto mantenne le istituzioni repubblicane ma controllava l’esercito.'),
       fill('Anno in cui Augusto riceve il titolo nel senato (a.C.)?', ['27'], '27 a.C.'),
       fill('Anno d.C. della morte di Augusto?', ['14'], '14 d.C.'),
       mc('Sotto quale imperatore l’impero raggiunge la massima estensione (117)?', ['Traiano', 'Augusto', 'Diocleziano', 'Costantino'], 0, 'Conquistò la Dacia (106) e province in Oriente.'),
-      mc('Che cosa stabilì Caracalla nel 212?', ['Cittadinanza a tutti gli abitanti liberi dell’impero', 'La divisione dell’impero', 'La libertà di culto', 'L’abolizione della schiavitù'], 0, 'È la Constitutio Antoniniana.'),
+      mc('Che cosa stabilì Caracalla nel 212?', ['Cittadinanza a tutti gli abitanti liberi dell’impero', 'La divisione dell’impero in Oriente e Occidente fra due imperatori', 'La libertà di culto per tutti i cristiani', 'L’abolizione della schiavitù in tutto l’impero'], 0, 'È la Constitutio Antoniniana.'),
       fill('La crisi del III secolo va dal 235 al 284. Quanti anni?', ['49'], '284 − 235 = 49.'),
-      mc('Che cos’è la tetrarchia di Diocleziano?', ['Governo di quattro sovrani: due Augusti e due Cesari', 'Un tipo di tassa', 'Un concilio', 'Un esercito'], 0, 'Istituita nel 293.'),
+      mc('Che cos’è la tetrarchia di Diocleziano?', ['Governo di quattro sovrani: due Augusti e due Cesari', 'Un tipo di tassa pagata dalle province', 'Un concilio di vescovi convocato dall’imperatore per fissare il dogma', 'Un esercito di frontiera sul Danubio'], 0, 'Istituita nel 293.'),
       fill('Anno dell’Editto di Milano?', ['313'], 'Costantino e Licinio.'),
       fill('Quanti anni passano dall’Editto di Milano (313) all’Editto di Tessalonica (380)?', ['67'], '380 − 313 = 67.'),
       mc('Chi depose Romolo Augusto nel 476?', ['Odoacre', 'Alarico', 'Attila', 'Teodorico'], 0, 'Il re dei Visigoti Alarico saccheggiò Roma nel 410.'),
@@ -154,11 +154,11 @@
     test: [
       mc('Quale capitale fonda Costantino nel 330?', ['Costantinopoli', 'Ravenna', 'Milano', 'Alessandria'], 0, 'Sorge sull’antica Bisanzio.'),
       fill('Dal 27 a.C. al 476 d.C. quanti anni passano (senza anno zero)?', ['502'], '27 + 476 − 1 = 502.'),
-      mc('Quale tesi vede nella caduta una lenta trasformazione più che un crollo?', ['Quella della «tarda antichità» (Peter Brown)', 'Quella di Gibbon', 'Quella di Tacito', 'Quella di Polibio'], 0, 'Enfatizza continuità e integrazione.'),
-      mc('Perché i contemporanei non vissero il 476 come una catastrofe?', ['L’amministrazione e la vita quotidiana continuarono in larga parte', 'Roma fu rasa al suolo', 'L’Oriente cadde nello stesso anno', 'Non ci fu alcun evento'], 0, 'Odoacre governò con strutture romane.'),
-      mc('Che effetto ebbe il concilio di Nicea (325)?', ['Definì una dottrina contro l’arianesimo', 'Pose fine alle persecuzioni', 'Divise l’impero', 'Condannò Costantino'], 0, 'Affermò la consustanzialità di Padre e Figlio.'),
+      mc('Quale tesi vede nella caduta una lenta trasformazione più che un crollo?', ['Quella della «tarda antichità» (Peter Brown)', 'Quella di Gibbon sul declino per colpa del cristianesimo', 'Quella di Tacito sulla corruzione dei costumi', 'Quella di Polibio sul ciclo delle forme di governo'], 0, 'Enfatizza continuità e integrazione.'),
+      mc('Perché i contemporanei non vissero il 476 come una catastrofe?', ['L’amministrazione e la vita quotidiana continuarono in larga parte', 'Roma fu rasa al suolo e restò disabitata', 'L’Oriente cadde nello stesso anno sotto gli stessi invasori germanici', 'Non ci fu alcun evento in quell’anno'], 0, 'Odoacre governò con strutture romane.'),
+      mc('Che effetto ebbe il concilio di Nicea (325)?', ['Definì una dottrina contro l’arianesimo', 'Pose fine alle persecuzioni dei cristiani', 'Divise l’impero tra i figli di Costantino', 'Condannò Costantino per le sue scelte'], 0, 'Affermò la consustanzialità di Padre e Figlio.'),
       fill('Quanti anni passano dalla morte di Augusto (14 d.C.) alla fine di Traiano (117 d.C.)?', ['103'], '117 − 14 = 103.'),
-      mc('Quale evento è del 410?', ['Il saccheggio di Roma da parte di Alarico', 'La battaglia di Adrianopoli', 'La caduta di Costantinopoli', 'L’editto di Tessalonica'], 0, 'Fu un grande shock simbolico.')
+      mc('Quale evento è del 410?', ['Il saccheggio di Roma da parte di Alarico', 'La battaglia di Adrianopoli contro i Visigoti', 'La caduta di Costantinopoli in mano ai Turchi', 'L’editto di Tessalonica sul cristianesimo'], 0, 'Fu un grande shock simbolico.')
     ]
   });
 
@@ -180,24 +180,24 @@
     exercises: [
       mc('Quale re guida gli Ostrogoti in Italia dal 493?', ['Teodorico', 'Alboino', 'Clodoveo', 'Odoacre'], 0, 'Governò fino al 526.'),
       fill('Anno del probabile battesimo di Clodoveo (circa)?', ['496'], 'Data discussa.'),
-      mc('Che cosa è il Corpus iuris civilis?', ['La raccolta del diritto romano di Giustiniano', 'Il Corano', 'Le leggi longobarde', 'Il codice di Carlo Magno'], 0, 'Fu compilato tra il 529 e il 534.'),
+      mc('Che cosa è il Corpus iuris civilis?', ['La raccolta del diritto romano di Giustiniano', 'Il Corano, il libro sacro dell’islam', 'Le leggi dei Longobardi raccolte dal re Rotari nel VII secolo', 'Il codice di leggi voluto da Carlo Magno'], 0, 'Fu compilato tra il 529 e il 534.'),
       fill('In quale anno i Longobardi entrano in Italia?', ['568'], 'Con Alboino.'),
-      mc('Che cosa segna l’Egira del 622?', ['Il trasferimento di Maometto dalla Mecca a Medina', 'La morte di Maometto', 'La conquista di Gerusalemme', 'La fondazione di Baghdad'], 0, 'È l’anno 1 del calendario islamico.'),
+      mc('Che cosa segna l’Egira del 622?', ['Il trasferimento di Maometto dalla Mecca a Medina', 'La morte di Maometto, a Medina', 'La conquista di Gerusalemme da parte dei musulmani', 'La fondazione della città di Baghdad'], 0, 'È l’anno 1 del calendario islamico.'),
       fill('Quanti anni passano dall’Egira (622) alla battaglia di Poitiers (732)?', ['110'], '732 − 622 = 110.'),
       mc('Quale titolo ottiene Carlo Magno nell’800?', ['Imperatore', 'Re dei Longobardi', 'Console', 'Califfo'], 0, 'Incoronato da papa Leone III.'),
       fill('Carlo Magno regnò dal 768 all’814: quanti anni?', ['46'], '814 − 768 = 46.'),
-      mc('Che cos’è un vassallo?', ['Chi riceve un feudo e giura fedeltà a un signore', 'Un contadino libero', 'Un monaco', 'Un califfo'], 0, 'Il rapporto era personale e reciproco.'),
+      mc('Che cos’è un vassallo?', ['Chi riceve un feudo e giura fedeltà a un signore', 'Un contadino libero proprietario di un campo e di una casa', 'Un monaco che vive in un monastero', 'Un califfo che governa un territorio islamico'], 0, 'Il rapporto era personale e reciproco.'),
       fill('Quanti anni passano dall’incoronazione di Carlo Magno (800) alla spartizione di Verdun (843)?', ['43'], '843 − 800 = 43.'),
       order('Ordina cronologicamente (dal più antico)', ['Morte di Teodorico', 'Giustiniano imperatore', 'Egira', 'Incoronazione di Carlo Magno', 'Ottone I imperatore'], '526, 527, 622, 800, 962.')
     ],
     test: [
-      mc('Perché la formula dei «secoli bui» è criticata?', ['Trascura continuità, monasteri e innovazioni', 'Perché il Medioevo non esistette', 'Perché non ci furono guerre', 'Perché la Chiesa scomparve'], 0, 'La realtà fu più articolata.'),
-      mc('Chi furono i missi dominici?', ['Ispettori inviati da Carlo Magno', 'Monaci copisti', 'Nobili vassalli', 'Generali arabi'], 0, 'Controllavano i conti.'),
+      mc('Perché la formula dei «secoli bui» è criticata?', ['Trascura continuità, monasteri e innovazioni', 'Perché il Medioevo non è mai esistito', 'Perché in quei secoli non ci furono guerre né invasioni', 'Perché la Chiesa scomparve per secoli'], 0, 'La realtà fu più articolata.'),
+      mc('Chi furono i missi dominici?', ['Ispettori inviati da Carlo Magno', 'Monaci copisti dei monasteri carolingi', 'Nobili vassalli dei conti di frontiera', 'Generali arabi inviati in Spagna'], 0, 'Controllavano i conti.'),
       fill('Dal 476 all’800 quanti anni passano?', ['324'], '800 − 476 = 324.'),
       mc('Qual era la capitale degli Abbasidi?', ['Baghdad', 'Damasco', 'La Mecca', 'Cordova'], 0, 'Fondata nel 762.'),
-      mc('Quale tesi di Pirenne è oggi discussa?', ['Che l’espansione islamica abbia rotto l’unità del Mediterraneo', 'Che Carlo Magno non sia esistito', 'Che il feudalesimo fosse sempre uguale', 'Che Bisanzio sia nata nel 1453'], 0, 'Fu criticata con dati archeologici.'),
+      mc('Quale tesi di Pirenne è oggi discussa?', ['Che l’espansione islamica abbia rotto l’unità del Mediterraneo', 'Che Carlo Magno non sia mai esistito davvero come imperatore dei Franchi', 'Che il feudalesimo fosse uguale in tutta Europa', 'Che Bisanzio sia nata solo nel 1453'], 0, 'Fu criticata con dati archeologici.'),
       fill('Anno dell’incoronazione imperiale di Ottone I?', ['962'], 'A Roma.'),
-      mc('Che cosa era la curtis?', ['Un’azienda agricola signorile', 'Una moneta', 'Un tribunale', 'Un ordine religioso'], 0, 'Base dell’economia rurale.')
+      mc('Che cosa era la curtis?', ['Un’azienda agricola signorile', 'Una moneta d’argento carolingia', 'Un tribunale per le cause dei nobili', 'Un ordine religioso di monaci contadini'], 0, 'Base dell’economia rurale.')
     ]
   });
 
@@ -217,26 +217,26 @@
       { h: 'Cultura medievale e mappa', b: `**Pensiero**: la **scolastica** cerca di conciliare fede e ragione; **Tommaso d’Aquino** (1225–1274) usa Aristotele nella *Summa theologiae*. **Francesco d’Assisi** (morto nel 1226) e **Domenico** fondano gli ordini mendicanti.\n\n**Arte**: il **romanico** (XI–XII secolo, archi a tutto sesto, pareti spesse) e il **gotico** (dal XII, archi a sesto acuto, vetrate, cattedrali come Notre-Dame, iniziata nel 1163). Nell’arte italiana **Giotto** (circa 1267–1337) apre la strada al realismo.\n\n**Letteratura in volgare**: **Dante Alighieri** (1265–1321) scrive la *Commedia* (composta circa 1306–1321); **Petrarca** (1304–1374) e **Boccaccio** (1313–1375) completano le «tre corone». Il volgare fiorentino diventa modello della lingua italiana.\n\n**Scienza e tecnica**: occhiali (fine Duecento), orologi meccanici, polvere da sparo, bussola; **Marco Polo** (1254–1324) racconta il suo viaggio in Asia (*Il Milione*, circa 1298).\n\n**Mappa**\n- 1077: Canossa; 1095: Clermont; 1099: Gerusalemme\n- 1176: Legnano; 1183: Costanza\n- 1215: Magna Carta\n- 1291: caduta di Acri\n- 1347–1351: peste nera\n- 1337–1453: guerra dei Cent’anni; 1453: Costantinopoli\n\nIl Medioevo dura circa mille anni: non ha un’unica fisionomia, e fu tutt’altro che immobile.` }
     ],
     exercises: [
-      mc('Che cosa sono i comuni italiani?', ['Città che si governano autonomamente da XI–XII secolo', 'Feudi ereditari', 'Ordini religiosi', 'Monasteri'], 0, 'Nacquero soprattutto nell’Italia centro-settentrionale.'),
+      mc('Che cosa sono i comuni italiani?', ['Città che si governano autonomamente da XI–XII secolo', 'Feudi ereditari assegnati da un re', 'Ordini religiosi nati in epoca crociata', 'Monasteri fortificati sulle vie di pellegrinaggio verso Roma'], 0, 'Nacquero soprattutto nell’Italia centro-settentrionale.'),
       fill('Anno della battaglia di Legnano?', ['1176'], 'Lega lombarda contro Barbarossa.'),
       fill('Quanti anni passano da Legnano (1176) alla Pace di Costanza (1183)?', ['7'], '1183 − 1176 = 7.'),
-      mc('Che cosa fu la lotta per le investiture?', ['Il conflitto su chi nominasse i vescovi', 'Una crociata', 'Una guerra tra comuni', 'Una rivolta contadina'], 0, 'Si chiuse con il Concordato di Worms (1122).'),
+      mc('Che cosa fu la lotta per le investiture?', ['Il conflitto su chi nominasse i vescovi', 'Una crociata bandita contro i Turchi', 'Una guerra tra comuni per il controllo di una città', 'Una rivolta contadina contro i signori feudali'], 0, 'Si chiuse con il Concordato di Worms (1122).'),
       fill('Quanti anni passano da Canossa (1077) al Concordato di Worms (1122)?', ['45'], '1122 − 1077 = 45.'),
       mc('Chi lanciò l’appello alla prima crociata a Clermont nel 1095?', ['Urbano II', 'Gregorio VII', 'Innocenzo III', 'Bonifacio VIII'], 0, 'Papa dal 1088 al 1099.'),
       fill('Anno della conquista di Gerusalemme da parte dei crociati?', ['1099'], 'Prima crociata.'),
-      mc('Quale conseguenza ebbe la peste nera?', ['Calo della popolazione e rialzo dei salari', 'Aumento della manodopera', 'Fine delle epidemie', 'Fine del feudalesimo in un anno'], 0, 'Fu un enorme trauma demografico.'),
+      mc('Quale conseguenza ebbe la peste nera?', ['Calo della popolazione e rialzo dei salari', 'Aumento della manodopera disponibile e calo dei salari', 'La fine definitiva di ogni epidemia in Europa', 'La fine del feudalesimo nel giro di un anno'], 0, 'Fu un enorme trauma demografico.'),
       fill('La guerra dei Cent’anni va dal 1337 al 1453. Quanti anni?', ['116'], '1453 − 1337 = 116.'),
       mc('Chi scrisse la Divina Commedia?', ['Dante Alighieri', 'Petrarca', 'Boccaccio', 'Tommaso d’Aquino'], 0, 'Composta nei primi decenni del Trecento.'),
       order('Ordina cronologicamente (dal più antico)', ['Canossa', 'Prima crociata: Gerusalemme', 'Pace di Costanza', 'Peste nera', 'Caduta di Costantinopoli'], '1077, 1099, 1183, 1347–1351, 1453.')
     ],
     test: [
-      mc('Perché la quarta crociata è considerata un episodio particolare?', ['Saccheggiò Costantinopoli, città cristiana', 'Riconquistò Gerusalemme', 'Fu guidata da Saladino', 'Non ebbe conseguenze'], 0, 'Nel 1204.'),
+      mc('Perché la quarta crociata è considerata un episodio particolare?', ['Saccheggiò Costantinopoli, città cristiana', 'Riconquistò Gerusalemme dopo la sconfitta', 'Fu guidata dal sultano Saladino contro i Franchi', 'Non ebbe alcuna conseguenza politica rilevante'], 0, 'Nel 1204.'),
       fill('Quanti anni durò la «cattività avignonese» (1309–1377)?', ['68'], '1377 − 1309 = 68.'),
-      mc('Perché la lettura risorgimentale di Legnano va presa con cautela?', ['I comuni difendevano autonomie locali e non una nazione', 'La battaglia non avvenne', 'Vinse l’imperatore', 'La Lega era anti-comunale'], 0, 'Molte città stavano con Federico.'),
+      mc('Perché la lettura risorgimentale di Legnano va presa con cautela?', ['I comuni difendevano autonomie locali e non una nazione', 'La battaglia non avvenne mai, è una leggenda inventata dopo', 'Vinse l’imperatore, che sconfisse la Lega', 'La Lega era un’alleanza contro i comuni'], 0, 'Molte città stavano con Federico.'),
       mc('Quale accusa colpì gli ebrei durante la peste nera?', ['Di avvelenare i pozzi', 'Di portare la peste con le navi', 'Di non pagare le tasse', 'Di essere crociati'], 0, 'Era falsa e provocò persecuzioni.'),
       mc('Chi è l’autore della Summa theologiae?', ['Tommaso d’Aquino', 'Dante', 'Agostino', 'Benedetto'], 0, 'Usa Aristotele per la teologia.'),
       fill('Quanti anni passano dalla conquista di Gerusalemme (1099) alla presa di Saladino (1187)?', ['88'], '1187 − 1099 = 88.'),
-      mc('Che cosa stabilì la Magna Carta (1215)?', ['Limiti al potere del re a favore dei baroni', 'La fine della monarchia', 'Il suffragio universale', 'La libertà religiosa'], 0, 'Un precedente per la limitazione del potere.')
+      mc('Che cosa stabilì la Magna Carta (1215)?', ['Limiti al potere del re a favore dei baroni', 'La fine della monarchia e la nascita della repubblica', 'Il suffragio universale maschile e femminile', 'La libertà religiosa per tutti i sudditi'], 0, 'Un precedente per la limitazione del potere.')
     ]
   });
 
@@ -257,13 +257,13 @@
       { h: 'Mappa mentale e interpretazioni', b: `**Date chiave**\n\n- 1440: Valla e la Donazione di Costantino\n- circa 1455: stampa di Gutenberg\n- 1453: Costantinopoli ai Turchi; 1454: pace di Lodi\n- 1492: Colombo; 1494: Tordesillas e discesa di Carlo VIII\n- 1498: Vasco da Gama in India\n- 1517: 95 tesi; 1521: Worms\n- 1534: Atto di supremazia\n- 1545–1563: Concilio di Trento\n- 1555: Pace di Augusta; 1559: Cateau-Cambrésis\n- 1571: Lepanto; 1600: Giordano Bruno; 1633: Galileo\n\n**Interpretazioni**: il 1492 come svolta dell’età moderna è convenzionale (altri propongono il 1453 o il 1517). Il Rinascimento è stato un’età di splendore, ma anche di guerre, violenze e disuguaglianze. Per quanto riguarda l’espansione europea, il dibattito oppone chi evidenzia progresso e connessione globale e chi sottolinea sfruttamento e distruzione di civiltà: la storiografia attuale cerca di tenere insieme i due aspetti. Riguardo alla Riforma, la storiografia dà peso sia alle cause religiose (richiesta di rinnovamento) sia a quelle politiche ed economiche (principi, stampa, nazionalismi).\n\nDal 1492 al 1522 (ritorno della spedizione Magellano-Elcano) passano **30 anni**.` }
     ],
     exercises: [
-      mc('Che cosa sono gli «studia humanitatis» dell’Umanesimo?', ['Studio dei classici e dell’uomo nelle sue capacità', 'Studio della sola teologia', 'Studio dei metalli', 'Studio della navigazione'], 0, 'Gli umanisti rivalutano la cultura antica e l’uomo.'),
+      mc('Che cosa sono gli «studia humanitatis» dell’Umanesimo?', ['Studio dei classici e dell’uomo nelle sue capacità', 'Lo studio della sola teologia cristiana', 'Lo studio dei metalli e della loro lavorazione nelle botteghe', 'Lo studio delle tecniche della navigazione'], 0, 'Gli umanisti rivalutano la cultura antica e l’uomo.'),
       fill('In che anno Lorenzo Valla dimostra falsa la Donazione di Costantino?', ['1440'], 'Con un’analisi linguistica.'),
-      mc('Quale invenzione di Gutenberg (circa 1455) diffuse i libri?', ['La stampa a caratteri mobili', 'La carta', 'La bussola', 'L’orologio'], 0, 'Magonza, Bibbia a 42 linee.'),
+      mc('Quale invenzione di Gutenberg (circa 1455) diffuse i libri?', ['La stampa a caratteri mobili', 'La carta, importata dalla Cina', 'La bussola magnetica per i naviganti', 'L’orologio meccanico da torre'], 0, 'Magonza, Bibbia a 42 linee.'),
       fill('Anno dello sbarco di Colombo ai Caraibi?', ['1492'], '12 ottobre.'),
       fill('Quanti anni passano dal viaggio di Colombo (1492) all’arrivo di Vasco da Gama in India (1498)?', ['6'], '1498 − 1492 = 6.'),
-      mc('Quale fattore fu determinante per il crollo demografico indigeno?', ['Le epidemie importate', 'Il clima', 'La mancanza di cibo', 'La peste nera'], 0, 'Vaiolo e morbillo.'),
-      mc('Quale scelta di Lutero scatenò la Riforma?', ['La contestazione delle indulgenze con le 95 tesi', 'La traduzione del Corano', 'La nascita dei gesuiti', 'L’Atto di supremazia'], 0, 'Wittenberg, 1517.'),
+      mc('Quale fattore fu determinante per il crollo demografico indigeno?', ['Le epidemie importate', 'Il clima', 'La mancanza di cibo e d’acqua', 'La peste nera'], 0, 'Vaiolo e morbillo.'),
+      mc('Quale scelta di Lutero scatenò la Riforma?', ['La contestazione delle indulgenze con le 95 tesi', 'La traduzione del Corano in tedesco', 'La fondazione dell’ordine dei gesuiti da parte di Ignazio', 'L’Atto di supremazia di Enrico VIII'], 0, 'Wittenberg, 1517.'),
       fill('Quanti anni dura (dal 1545 al 1563) il Concilio di Trento?', ['18'], '1563 − 1545 = 18.'),
       mc('Che cosa stabilì la pace di Augusta del 1555?', ['Cuius regio, eius religio', 'Libertà religiosa individuale', 'La fine del luteranesimo', 'La divisione dell’Italia'], 0, 'La religione del principe diventa quella dei sudditi.'),
       fill('Quanti anni passano dalla discesa di Carlo VIII (1494) a Cateau-Cambrésis (1559)?', ['65'], '1559 − 1494 = 65.'),
@@ -271,9 +271,9 @@
     ],
     test: [
       mc('Quale città fu il centro iniziale del Rinascimento?', ['Firenze', 'Parigi', 'Londra', 'Lisbona'], 0, 'Con i Medici e artisti come Brunelleschi.'),
-      mc('Che cosa conteneva il Trattato di Tordesillas?', ['La divisione delle zone d’influenza tra Spagna e Portogallo', 'La fine delle guerre d’Italia', 'La fondazione dei gesuiti', 'La pace di Augusta'], 0, 'Era del 1494.'),
+      mc('Che cosa conteneva il Trattato di Tordesillas?', ['La divisione delle zone d’influenza tra Spagna e Portogallo', 'La fine delle guerre d’Italia fra Francia, Spagna e Impero', 'La fondazione dell’ordine dei gesuiti', 'La pace di Augusta tra cattolici e luterani'], 0, 'Era del 1494.'),
       fill('Quanti anni passano dal 1517 (95 tesi) al 1555 (Pace di Augusta)?', ['38'], '1555 − 1517 = 38.'),
-      mc('Perché si parla di «incontro» e non solo di «scoperta»?', ['Perché le Americhe erano già abitate da popoli con civiltà proprie', 'Perché Colombo non partì', 'Perché i Vichinghi non esistevano', 'Perché non ci fu conquista'], 0, 'Evita una prospettiva solo europea.'),
+      mc('Perché si parla di «incontro» e non solo di «scoperta»?', ['Perché le Americhe erano già abitate da popoli con civiltà proprie', 'Perché Colombo non partì mai dalla Spagna', 'Perché i Vichinghi non esistevano ancora a quell’epoca, né navigavano', 'Perché non ci fu alcuna conquista militare'], 0, 'Evita una prospettiva solo europea.'),
       mc('Chi è l’autore de Il Principe?', ['Niccolò Machiavelli', 'Erasmo da Rotterdam', 'Tommaso Moro', 'Lorenzo de’ Medici'], 0, 'Scritto nel 1513.'),
       fill('Quanti anni passano da Colombo (1492) all’arrivo di Magellano-Elcano al ritorno (1522)?', ['30'], '1522 − 1492 = 30.'),
       mc('Quale ordine religioso fu approvato nel 1540?', ['I gesuiti', 'I benedettini', 'I francescani', 'I domenicani'], 0, 'Fondato da Ignazio di Loyola.')
@@ -297,26 +297,26 @@
       { h: 'Mappa mentale e fonti', b: `**Date chiave**\n\n- 1572: San Bartolomeo; 1598: Nantes\n- 1618–1648: guerra dei Trent’anni (30 anni)\n- 1643–1715: Luigi XIV (72 anni)\n- 1649: esecuzione di Carlo I; 1688–89: Gloriosa rivoluzione\n- 1687: Newton; 1713: Utrecht\n- 1748: Montesquieu; 1751: Enciclopedia; 1762: Rousseau; 1764: Beccaria\n- 1769: brevetto di Watt\n- 1776: Adam Smith; 1786: Toscana abolisce la pena di morte\n\n**Italia del Seicento–Settecento**: dopo Utrecht (1713) passa dalla Spagna all’Austria (Milano, Napoli), poi ai Borboni a Napoli (1734). Il Seicento italiano è spesso descritto come periodo di declino economico; ma è anche l’età di Galileo e del Barocco. Nel Settecento giungono riforme a Milano (Verri, Beccaria) e in Toscana.\n\n**Fonti e interpretazioni**: l’assolutismo è stato presentato come modello di Stato accentrato; storici recenti sottolineano i limiti reali del potere del re, che doveva negoziare con nobili e corpi locali. L’Illuminismo è stato letto come origine della modernità liberale; altri (Horkheimer e Adorno) ne hanno criticato gli aspetti di dominio della ragione.` }
     ],
     exercises: [
-      mc('Che cosa distingue l’assolutismo dalla monarchia limitata?', ['Nell’assolutismo il re concentra il potere', 'Il re è eletto', 'Non c’è un re', 'Il Parlamento governa da solo'], 0, 'In Inghilterra il re era limitato dal Parlamento.'),
+      mc('Che cosa distingue l’assolutismo dalla monarchia limitata?', ['Nell’assolutismo il re concentra il potere', 'Il re è eletto dai nobili ad ogni successione', 'Non c’è un re, ma solo un presidente', 'Il Parlamento governa da solo, senza alcun sovrano'], 0, 'In Inghilterra il re era limitato dal Parlamento.'),
       fill('Quanti anni dura la guerra dei Trent’anni (1618–1648)?', ['30'], '1648 − 1618 = 30.'),
       mc('Quale pace del 1648 conclude la guerra dei Trent’anni?', ['Westfalia', 'Utrecht', 'Augusta', 'Nantes'], 0, 'Riconosce l’indipendenza di Olanda e Svizzera.'),
       fill('Luigi XIV regna dal 1643 al 1715. Per quanti anni?', ['72'], '1715 − 1643 = 72.'),
-      mc('Che cosa stabilì l’Editto di Nantes (1598)?', ['Una tolleranza limitata per gli ugonotti', 'La fine del cattolicesimo', 'L’unità religiosa', 'La Rivoluzione'], 0, 'Fu revocato nel 1685.'),
-      mc('Che cosa sancì il Bill of Rights (1689)?', ['Il re non può imporre tasse senza il Parlamento', 'L’abolizione del Parlamento', 'Il suffragio universale', 'La repubblica'], 0, 'Nasce la monarchia costituzionale.'),
-      mc('Quale idea è di Montesquieu?', ['La separazione dei poteri', 'La volontà generale', 'La mano invisibile', 'Il dubbio metodico'], 0, 'Lo spirito delle leggi, 1748.'),
+      mc('Che cosa stabilì l’Editto di Nantes (1598)?', ['Una tolleranza limitata per gli ugonotti', 'La fine del cattolicesimo nel regno', 'L’unità religiosa imposta a tutti i sudditi', 'L’inizio della Rivoluzione francese'], 0, 'Fu revocato nel 1685.'),
+      mc('Che cosa sancì il Bill of Rights (1689)?', ['Il re non può imporre tasse senza il Parlamento', 'L’abolizione del Parlamento e dei suoi poteri legislativi', 'Il suffragio universale per tutti i cittadini', 'La repubblica al posto della monarchia'], 0, 'Nasce la monarchia costituzionale.'),
+      mc('Quale idea è di Montesquieu?', ['La separazione dei poteri', 'La volontà generale come fondamento dello Stato', 'La mano invisibile che regola il mercato', 'Il dubbio metodico come inizio della filosofia'], 0, 'Lo spirito delle leggi, 1748.'),
       fill('Anno di pubblicazione di «Dei delitti e delle pene» di Beccaria?', ['1764'], 'Contro tortura e pena di morte.'),
-      mc('Perché la rivoluzione industriale parte dalla Gran Bretagna?', ['Carbone, capitali, agricoltura produttiva e mercati', 'Perché non ci sono colonie', 'Perché non ha banche', 'Perché non c’è carbone'], 0, 'Fu una combinazione di fattori.'),
+      mc('Perché la rivoluzione industriale parte dalla Gran Bretagna?', ['Carbone, capitali, agricoltura produttiva e mercati', 'Perché non ha colonie con cui commerciare nel resto del mondo', 'Perché non possiede alcuna banca', 'Perché non dispone di carbone e di ferro'], 0, 'Fu una combinazione di fattori.'),
       fill('Quanti anni passano dal brevetto di Watt (1769) alla ferrovia Stockton–Darlington (1825)?', ['56'], '1825 − 1769 = 56.'),
       order('Ordina cronologicamente (dal più antico)', ['Editto di Nantes', 'Pace di Westfalia', 'Gloriosa rivoluzione', 'Pace di Utrecht', 'Enciclopedia: primo volume'], '1598, 1648, 1688, 1713, 1751.')
     ],
     test: [
       mc('Quale autore scrive il Leviatano (1651)?', ['Hobbes', 'Locke', 'Rousseau', 'Voltaire'], 0, 'Giustifica un forte potere sovrano.'),
-      mc('Che cosa significa «Sapere aude»?', ['Abbi il coraggio di servirti della tua intelligenza', 'Obbedisci al re', 'Cerca l’oro', 'Studia il latino'], 0, 'Motto dell’Illuminismo secondo Kant.'),
+      mc('Che cosa significa «Sapere aude»?', ['Abbi il coraggio di servirti della tua intelligenza', 'Obbedisci al re e ai suoi funzionari in ogni circostanza', 'Cerca l’oro nelle terre lontane', 'Studia il latino e il greco antico'], 0, 'Motto dell’Illuminismo secondo Kant.'),
       fill('Quanti anni passano dal 1687 (Principia di Newton) al 1762 (Contratto sociale)?', ['75'], '1762 − 1687 = 75.'),
       mc('Quale sovrano è definito «despota illuminato»?', ['Federico II di Prussia', 'Luigi XIV', 'Filippo II', 'Carlo I'], 0, 'Come Caterina II e Giuseppe II.'),
-      mc('Quale fu una conseguenza sociale della rivoluzione industriale?', ['Urbanizzazione e nascita di una classe operaia', 'Fine delle città', 'Eliminazione del lavoro minorile subito', 'Scomparsa delle banche'], 0, 'Con costi sociali pesanti.'),
+      mc('Quale fu una conseguenza sociale della rivoluzione industriale?', ['Urbanizzazione e nascita di una classe operaia', 'La fine delle città a favore della vita nelle campagne', 'Eliminazione immediata del lavoro minorile', 'Scomparsa delle banche e del credito'], 0, 'Con costi sociali pesanti.'),
       fill('Quanti anni passano dalla revoca dell’Editto di Nantes (1685) alla sua emanazione (1598)?', ['87'], '1685 − 1598 = 87.'),
-      mc('Cosa decise la pace di Utrecht (1713) per l’Italia?', ['Passaggio di Milano e Napoli all’Austria', 'Unificazione italiana', 'Domino francese', 'Fine dello Stato pontificio'], 0, 'La Spagna perse i possedimenti italiani.')
+      mc('Cosa decise la pace di Utrecht (1713) per l’Italia?', ['Passaggio di Milano e Napoli all’Austria', 'L’unificazione italiana sotto i Savoia', 'Il dominio della Francia sull’intera penisola', 'La fine dello Stato pontificio a Roma'], 0, 'La Spagna perse i possedimenti italiani.')
     ]
   });
 
@@ -337,24 +337,24 @@
       { h: 'Mappa mentale e interpretazioni', b: `**Date chiave**\n\n- 1776: Dichiarazione d’indipendenza americana; 1783: Parigi; 1787: Costituzione\n- 1789: Stati generali (5 maggio), Bastiglia (14 luglio), Dichiarazione dei diritti (26 agosto)\n- 1792: Repubblica; 1793: Luigi XVI giustiziato\n- 1794: caduta di Robespierre\n- 1799: Napoleone Primo console; 1804: Impero e Codice civile\n- 1812: Russia; 1815: Waterloo e Vienna\n\n**Interpretazioni**: la Rivoluzione francese è stata letta come nascita della democrazia moderna (idea di cittadinanza e diritti universali) e come origine delle derive totalitarie (Terrore). I due giudizi convivono: i valori proclamati furono universali, la pratica fu spesso violenta e incompleta.\n\n**Confronto**: la rivoluzione americana fu soprattutto una guerra d’indipendenza con una costituzione stabile; quella francese un rovesciamento radicale di società e istituzioni. Tutte e due ispirarono altri movimenti.\n\nDalla Dichiarazione americana (1776) a quella francese (1789) sono **13 anni**.` }
     ],
     exercises: [
-      mc('Quale slogan sintetizza la protesta dei coloni americani?', ['No taxation without representation', 'Libertà, uguaglianza, fraternità', 'Sapere aude', 'Dio lo vuole'], 0, 'Contro le tasse senza rappresentanza.'),
+      mc('Quale slogan sintetizza la protesta dei coloni americani?', ['No taxation without representation', 'Libertà, uguaglianza, fraternità', 'Sapere aude, abbi coraggio', 'Dio lo vuole, gridavano i crociati'], 0, 'Contro le tasse senza rappresentanza.'),
       fill('Anno della Dichiarazione d’indipendenza americana?', ['1776'], '4 luglio.'),
       fill('Quanti anni passano dalla Dichiarazione americana (1776) a quella dei diritti francese (1789)?', ['13'], '1789 − 1776 = 13.'),
-      mc('Chi componeva il terzo stato?', ['Tutti coloro che non erano clero né nobiltà', 'Solo contadini', 'I nobili', 'I sacerdoti'], 0, 'Circa il 97% della popolazione.'),
+      mc('Chi componeva il terzo stato?', ['Tutti coloro che non erano clero né nobiltà', 'Solo i contadini delle campagne e i lavoratori delle città', 'I nobili proprietari di terre', 'I sacerdoti e l’alto clero'], 0, 'Circa il 97% della popolazione.'),
       fill('In quale giorno e mese del 1789 i Parigini presero la Bastiglia? (indica solo il giorno)', ['14'], '14 luglio 1789.'),
-      mc('Che cosa proclama la Dichiarazione del 26 agosto 1789?', ['Diritti dell’uomo e del cittadino', 'La Repubblica', 'La fine della guerra', 'L’impero'], 0, 'Con la sovranità della nazione.'),
+      mc('Che cosa proclama la Dichiarazione del 26 agosto 1789?', ['Diritti dell’uomo e del cittadino', 'La Repubblica francese e la fine del re', 'La fine della guerra contro l’Austria', 'L’impero di Napoleone sull’Europa'], 0, 'Con la sovranità della nazione.'),
       mc('Che cosa avvenne il 21 gennaio 1793?', ['Esecuzione di Luigi XVI', 'Presa della Bastiglia', 'Colpo di Stato di Napoleone', 'Fuga a Varennes'], 0, 'Dopo la proclamazione della Repubblica.'),
       fill('Anno del colpo di Stato del 18 brumaio?', ['1799'], '9 novembre.'),
-      mc('Quale opera di Napoleone ebbe grande influenza giuridica?', ['Il Codice civile del 1804', 'Il Digesto', 'La Magna Carta', 'Le XII Tavole'], 0, 'Eguaglianza davanti alla legge e proprietà.'),
+      mc('Quale opera di Napoleone ebbe grande influenza giuridica?', ['Il Codice civile del 1804', 'Il Digesto', 'La Magna Carta', 'Le XII Tavole romane del V secolo'], 0, 'Eguaglianza davanti alla legge e proprietà.'),
       fill('Quanti anni passano tra l’incoronazione di Napoleone (1804) e Waterloo (1815)?', ['11'], '1815 − 1804 = 11.'),
       order('Ordina cronologicamente (dal più antico)', ['Dichiarazione d’indipendenza americana', 'Presa della Bastiglia', 'Proclamazione della Repubblica francese', 'Incoronazione di Napoleone', 'Congresso di Vienna'], '1776, 1789, 1792, 1804, 1814–15.')
     ],
     test: [
-      mc('Che cosa stabilì il principio di legittimità a Vienna?', ['Il ritorno dei sovrani legittimi', 'La fine delle monarchie', 'La nascita dell’Italia unita', 'La libertà di stampa'], 0, 'Insieme a equilibrio e restaurazione.'),
-      mc('Quale contraddizione ebbe la rivoluzione americana?', ['Proclamò l’uguaglianza ma mantenne la schiavitù', 'Abolì la proprietà', 'Rifiutò la costituzione', 'Eliminò i diritti'], 0, 'Fu abolita solo nell’Ottocento.'),
+      mc('Che cosa stabilì il principio di legittimità a Vienna?', ['Il ritorno dei sovrani legittimi', 'La fine definitiva di tutte le monarchie', 'La nascita di un’Italia unita e indipendente', 'La libertà di stampa in tutta Europa'], 0, 'Insieme a equilibrio e restaurazione.'),
+      mc('Quale contraddizione ebbe la rivoluzione americana?', ['Proclamò l’uguaglianza ma mantenne la schiavitù', 'Abolì la proprietà privata della terra', 'Rifiutò di darsi una costituzione scritta fin dall’inizio', 'Eliminò i diritti dei cittadini bianchi'], 0, 'Fu abolita solo nell’Ottocento.'),
       fill('Quanti anni dalla presa della Bastiglia (1789) alla presa del potere di Napoleone (1799)?', ['10'], '1799 − 1789 = 10.'),
-      mc('Che cos’è il blocco continentale?', ['Il divieto di commerciare con la Gran Bretagna', 'Un trattato di pace', 'Una costituzione', 'Una battaglia'], 0, 'Del 1806.'),
-      mc('Perché il Terrore è oggetto di dibattito?', ['Si discute se fu risposta a emergenze o deriva delle idee rivoluzionarie', 'Perché non ci fu', 'Perché non c’erano morti', 'Perché Napoleone lo cancellò'], 0, 'Le interpretazioni divergono.'),
+      mc('Che cos’è il blocco continentale?', ['Il divieto di commerciare con la Gran Bretagna', 'Un trattato di pace con l’Inghilterra', 'Una costituzione per gli Stati tedeschi e per la Prussia', 'Una battaglia vinta sul continente'], 0, 'Del 1806.'),
+      mc('Perché il Terrore è oggetto di dibattito?', ['Si discute se fu risposta a emergenze o deriva delle idee rivoluzionarie', 'Perché in realtà non ci fu mai', 'Perché non ci furono morti né condanne', 'Perché Napoleone lo cancellò con un colpo di stato appena preso il potere'], 0, 'Le interpretazioni divergono.'),
       fill('Anno in cui Haiti diventa indipendente?', ['1804'], 'Dopo la rivolta del 1791.'),
       mc('Dove fu sconfitto definitivamente Napoleone?', ['A Waterloo', 'A Lipsia', 'A Trafalgar', 'A Austerlitz'], 0, '18 giugno 1815.')
     ]
@@ -384,19 +384,19 @@
       mc('Dove avvenne l’incontro tra Garibaldi e Vittorio Emanuele II?', ['A Teano', 'A Marsala', 'A Quarto', 'A Novara'], 0, '26 ottobre 1860.'),
       fill('Data (anno) di proclamazione del Regno d’Italia?', ['1861'], '17 marzo.'),
       fill('Quanti anni passano dall’Unità (1861) alla presa di Roma (1870)?', ['9'], '1870 − 1861 = 9.'),
-      mc('Che cosa stabilì la Conferenza di Berlino del 1884–85?', ['Regole per la spartizione coloniale dell’Africa', 'La pace con la Francia', 'La fine della schiavitù', 'La nascita dell’ONU'], 0, 'Senza coinvolgere gli Africani.'),
+      mc('Che cosa stabilì la Conferenza di Berlino del 1884–85?', ['Regole per la spartizione coloniale dell’Africa', 'La pace con la Francia dopo la guerra franco-prussiana', 'La fine della schiavitù nei territori africani', 'La nascita dell’ONU e dei suoi organi'], 0, 'Senza coinvolgere gli Africani.'),
       mc('Quale sconfitta subì l’Italia nel 1896?', ['Adua', 'Caporetto', 'Custoza', 'Lissa'], 0, 'Contro l’Etiopia.'),
-      mc('Che cos’è la «questione sociale»?', ['Le condizioni di vita e di lavoro della classe operaia', 'Il problema dei confini', 'La questione religiosa', 'Il debito pubblico'], 0, 'Nasce con l’industrializzazione.'),
+      mc('Che cos’è la «questione sociale»?', ['Le condizioni di vita e di lavoro della classe operaia', 'Il problema dei confini fra gli Stati', 'La questione religiosa fra cattolici e protestanti in Europa', 'Il debito pubblico dei governi europei'], 0, 'Nasce con l’industrializzazione.'),
       order('Ordina cronologicamente (dal più antico)', ['Giovine Italia', 'Prima guerra d’indipendenza', 'Spedizione dei Mille', 'Presa di Roma', 'Rerum novarum'], '1831, 1848–49, 1860, 1870, 1891.')
     ],
     test: [
-      mc('Perché si dice che il Risorgimento non fu un movimento di massa?', ['Fu guidato da minoranze istruite e coinvolse solo in parte il popolo', 'Perché non ci furono combattimenti', 'Perché durò un solo anno', 'Perché era solo militare'], 0, 'Gli storici discutono il grado di partecipazione popolare.'),
+      mc('Perché si dice che il Risorgimento non fu un movimento di massa?', ['Fu guidato da minoranze istruite e coinvolse solo in parte il popolo', 'Perché in tutto il periodo non ci furono combattimenti, né battaglie, né volontari', 'Perché durò un solo anno, dal 1848 al 1849', 'Perché era soltanto un movimento militare'], 0, 'Gli storici discutono il grado di partecipazione popolare.'),
       fill('Quanti anni dal Congresso di Vienna (1815) all’Unità (1861)?', ['46'], '1861 − 1815 = 46.'),
-      mc('Che cosa avvenne il 20 settembre 1870?', ['La breccia di Porta Pia a Roma', 'L’unità della Germania', 'La battaglia di Solferino', 'L’incontro di Teano'], 0, 'Roma diventa capitale d’Italia.'),
-      mc('Qual è la lettura di Gramsci del Risorgimento?', ['Una «rivoluzione passiva» senza coinvolgere le masse', 'Una rivoluzione popolare', 'Un movimento religioso', 'Una guerra civile europea'], 0, 'È una delle interpretazioni classiche.'),
+      mc('Che cosa avvenne il 20 settembre 1870?', ['La breccia di Porta Pia a Roma', 'L’unità della Germania a Versailles', 'La battaglia di Solferino e San Martino', 'L’incontro di Teano fra Garibaldi e il re'], 0, 'Roma diventa capitale d’Italia.'),
+      mc('Qual è la lettura di Gramsci del Risorgimento?', ['Una «rivoluzione passiva» senza coinvolgere le masse', 'Una rivoluzione popolare di massa', 'Un movimento religioso di rinascita', 'Una guerra civile europea tra monarchie rivali e imperi'], 0, 'È una delle interpretazioni classiche.'),
       mc('In quale anno nasce l’Impero tedesco?', ['1871', '1848', '1861', '1914'], 0, 'Proclamato a Versailles.'),
       fill('Quanti anni dal Manifesto del Partito comunista (1848) alla Rerum novarum (1891)?', ['43'], '1891 − 1848 = 43.'),
-      mc('Quale fra questi fattori NON è tra le motivazioni dell’imperialismo?', ['La volontà di abolire i commerci', 'Materie prime', 'Prestigio', 'Mercati'], 0, 'Si cercava invece di ampliarli.')
+      mc('Quale fra questi fattori NON è tra le motivazioni dell’imperialismo?', ['La volontà di abolire i commerci', 'La ricerca di materie prime', 'Il prestigio internazionale delle potenze', 'Il bisogno di nuovi mercati'], 0, 'Si cercava invece di ampliarli.')
     ]
   });
 
@@ -417,25 +417,25 @@
       { h: 'Mappa mentale e interpretazioni', b: `**Date chiave**\n\n- 28 giugno 1914: Sarajevo; 24 maggio 1915: Italia in guerra\n- 1917: Stati Uniti, Rivoluzione russa; 4 novembre 1918: armistizio italiano\n- 1919: Versailles; 23 marzo 1919: Fasci di combattimento\n- 28 ottobre 1922: marcia su Roma\n- 1929: Patti Lateranensi, crisi di Wall Street\n- 30 gennaio 1933: Hitler cancelliere\n- 1° settembre 1939: invasione della Polonia\n- 1941: Barbarossa, Pearl Harbor\n- 25 luglio e 8 settembre 1943\n- 25 aprile / 8 maggio / agosto 1945\n\nDurata: l’Italia fu in guerra dal 24 maggio 1915 al 4 novembre 1918, circa **3 anni e mezzo**; la guerra mondiale 1914–1918 dura circa 4 anni e 3 mesi.\n\n**Interpretazioni**: la seconda guerra mondiale è stata letta come prosecuzione della prima («nuova guerra dei Trent’anni» in Europa, 1914–45), ma con caratteri specifici: ideologici e razziali. L’origine dei totalitarismi è oggetto di dibattito (Arendt, Nolte e la polemica degli storici in Germania negli anni Ottanta sulla comparabilità dei crimini nazisti e sovietici). Un’idea di fondo: la democrazia può essere fragile quando si uniscono crisi economica, risentimento e violenza politica.` }
     ],
     exercises: [
-      mc('Quale evento scatenò la crisi di luglio 1914?', ['L’attentato di Sarajevo a Francesco Ferdinando', 'La rivoluzione russa', 'L’invasione della Polonia', 'La battaglia della Marna'], 0, '28 giugno 1914.'),
+      mc('Quale evento scatenò la crisi di luglio 1914?', ['L’attentato di Sarajevo a Francesco Ferdinando', 'La rivoluzione russa di Lenin', 'L’invasione della Polonia da parte della Germania', 'La battaglia della Marna contro i Tedeschi'], 0, '28 giugno 1914.'),
       fill('Quanti giorni passano dal 28 giugno al 28 luglio 1914 (dall’attentato alla dichiarazione di guerra alla Serbia)?', ['30'], 'Giugno ha 30 giorni: dal 28 giugno al 28 luglio sono 30 giorni.'),
       fill('Anno in cui l’Italia entra nella Grande Guerra?', ['1915'], '24 maggio.'),
       mc('Quale sconfitta italiana avviene nell’ottobre 1917?', ['Caporetto', 'Vittorio Veneto', 'Adua', 'Custoza'], 0, 'Seguita dalla resistenza sul Piave.'),
       mc('Chi guidò i bolscevichi nella rivoluzione d’ottobre del 1917?', ['Lenin', 'Stalin', 'Kerenskij', 'Nicola II'], 0, 'Con Trotskij.'),
       mc('Che cosa avviene il 28 ottobre 1922?', ['La marcia su Roma', 'Il delitto Matteotti', 'I Patti Lateranensi', 'L’armistizio'], 0, 'Il 30 Mussolini ottiene l’incarico.'),
       fill('Anno del delitto Matteotti?', ['1924'], '10 giugno.'),
-      mc('Che cosa fu il New Deal?', ['Il programma di Roosevelt contro la Depressione', 'Un trattato europeo', 'Un piano nazista', 'Una guerra'], 0, 'Dal 1933.'),
+      mc('Che cosa fu il New Deal?', ['Il programma di Roosevelt contro la Depressione', 'Un trattato europeo di pace', 'Un piano nazista di riarmo', 'Una guerra economica contro il Giappone nel Pacifico'], 0, 'Dal 1933.'),
       fill('In che anno Hitler diventa cancelliere?', ['1933'], '30 gennaio.'),
-      mc('Che cosa accadde l’8 settembre 1943?', ['L’annuncio dell’armistizio con gli Alleati', 'La caduta di Berlino', 'La Liberazione', 'Lo sbarco in Normandia'], 0, 'Seguito dal caos e dall’occupazione tedesca.'),
+      mc('Che cosa accadde l’8 settembre 1943?', ['L’annuncio dell’armistizio con gli Alleati', 'La caduta di Berlino in mano all’Armata Rossa', 'La Liberazione di Milano e di Torino', 'Lo sbarco degli Alleati in Normandia'], 0, 'Seguito dal caos e dall’occupazione tedesca.'),
       order('Ordina cronologicamente (dal più antico)', ['Attentato di Sarajevo', 'Marcia su Roma', 'Crisi di Wall Street', 'Invasione della Polonia', 'Liberazione dell’Italia'], '1914, 1922, 1929, 1939, 1945.')
     ],
     test: [
       mc('Quale accordo concluse la Russia con la Germania nel marzo 1918?', ['Pace di Brest-Litovsk', 'Patto di Londra', 'Patto Molotov-Ribbentrop', 'Trattato di Versailles'], 0, 'La Russia uscì dalla guerra.'),
       fill('Quanti anni passano dal 1922 al 1943 (potere di Mussolini, calcolo per anni solari)?', ['21'], '1943 − 1922 = 21.'),
-      mc('Quale caratteristica non è tipica di un regime totalitario?', ['Pluralismo dei partiti', 'Partito unico', 'Propaganda di massa', 'Polizia politica'], 0, 'È il contrario.'),
-      mc('Che cosa sono le leggi di Norimberga (1935)?', ['Leggi antisemite che privavano gli ebrei dei diritti', 'Leggi sulla Costituzione', 'Leggi sul riarmo', 'Il processo ai criminali'], 0, 'Furono tappe della persecuzione.'),
+      mc('Quale caratteristica non è tipica di un regime totalitario?', ['Il pluralismo dei partiti', 'Il partito unico', 'La propaganda di massa organizzata', 'La polizia politica'], 0, 'È il contrario.'),
+      mc('Che cosa sono le leggi di Norimberga (1935)?', ['Leggi antisemite che privavano gli ebrei dei diritti', 'Leggi sulla Costituzione di Weimar', 'Leggi sul riarmo dell’esercito e sul servizio militare', 'Il processo ai criminali nazisti'], 0, 'Furono tappe della persecuzione.'),
       fill('Quanti milioni di ebrei furono uccisi nella Shoah (stima)?', ['6'], 'Circa 6 milioni.'),
-      mc('Perché la negazione della Shoah non è un’opinione storica?', ['Perché contraddice una massa enorme di prove', 'Perché è vietata ovunque', 'Perché è ancora ignota', 'Perché è antica'], 0, 'Documenti, testimonianze, processi.'),
+      mc('Perché la negazione della Shoah non è un’opinione storica?', ['Perché contraddice una massa enorme di prove', 'Perché è vietata in tutti i paesi', 'Perché è un fatto ancora ignoto agli storici', 'Perché è un’idea molto antica'], 0, 'Documenti, testimonianze, processi.'),
       mc('Quale data coincide con il Giorno della Memoria?', ['27 gennaio', '25 aprile', '2 giugno', '4 novembre'], 0, 'Liberazione di Auschwitz nel 1945.')
     ]
   });
@@ -457,26 +457,26 @@
       { h: 'Globalizzazione e mondo contemporaneo', b: `Dagli anni Novanta cresce la **globalizzazione**: intensificazione di scambi, finanza, persone e informazioni a livello mondiale, favorita da trasporti, Internet (World Wide Web, 1989–91), accordi commerciali e dalla caduta delle barriere politiche. L’ingresso della **Cina** nell’**OMC** (2001), dopo le riforme di Deng Xiaoping dal 1978, ne fa una potenza economica.\n\nVantaggi: riduzione della povertà estrema in molti Paesi (soprattutto in Asia), diffusione di tecnologie e beni a basso costo. Costi: disuguaglianze, delocalizzazione, vulnerabilità finanziarie e ambientali. Gli studiosi discutono il bilancio e la sua distribuzione.\n\nEventi:\n- **11 settembre 2001**: attacchi terroristici negli USA (circa 3 000 morti); guerra in Afghanistan (dal 2001) e in Iraq (dal 2003, molto controversa);\n- **2007–2008**: crisi finanziaria (fallimento di Lehman Brothers, 15 settembre 2008) e Grande recessione;\n- **cambiamento climatico**: Accordo di Parigi (2015), e transizione energetica;\n- **pandemia di COVID-19** dal 2020;\n- **21 febbraio 2022**: la Russia riconosce le repubbliche separatiste e il **24 febbraio** inizia l’invasione su larga scala dell’Ucraina.\n\nPer gli eventi recenti la distanza è ridotta: le fonti sono incomplete e il giudizio storico è provvisorio. Metodo: distinguere i fatti accertati dalle interpretazioni, e confrontare più fonti.` }
     ],
     exercises: [
-      mc('Che cosa fu la guerra fredda?', ['Lo scontro non armato diretto fra USA e URSS dopo il 1945', 'La guerra del Nord Europa', 'Una guerra solo climatica', 'La seconda guerra mondiale'], 0, 'Combattuta con diplomazia, propaganda, corsa agli armamenti e guerre per procura.'),
+      mc('Che cosa fu la guerra fredda?', ['Lo scontro non armato diretto fra USA e URSS dopo il 1945', 'La guerra combattuta nel Nord Europa', 'Un conflitto combattuto soltanto con armi atomiche tra USA e URSS', 'La seconda guerra mondiale in Europa'], 0, 'Combattuta con diplomazia, propaganda, corsa agli armamenti e guerre per procura.'),
       fill('Anno del Piano Marshall (annuncio)?', ['1947'], 'Aiuti americani per la ricostruzione dell’Europa.'),
       fill('Anno di costruzione del Muro di Berlino?', ['1961'], '13 agosto.'),
-      mc('Che cosa accadde il 2 giugno 1946?', ['Referendum monarchia-repubblica ed elezione della Costituente', 'Entrò in vigore la Costituzione', 'Si firmò il Trattato di Roma', 'Cadde il Muro'], 0, 'Per la prima volta votarono anche le donne a livello nazionale.'),
+      mc('Che cosa accadde il 2 giugno 1946?', ['Referendum monarchia-repubblica ed elezione della Costituente', 'Entrò in vigore la Costituzione, redatta dall’Assemblea Costituente', 'Si firmò il Trattato di Roma, a Roma', 'Cadde il Muro di Berlino'], 0, 'Per la prima volta votarono anche le donne a livello nazionale.'),
       fill('Quanti anni passano da Costituzione in vigore (1948) ai Trattati di Roma (1957)?', ['9'], '1957 − 1948 = 9.'),
       mc('Quale articolo della Costituzione dice che l’Italia è fondata sul lavoro?', ['L’articolo 1', 'L’articolo 11', 'L’articolo 138', 'L’articolo 139'], 0, 'È uno dei principi fondamentali.'),
       mc('Che cosa istituirono i Trattati di Roma del 1957?', ['La CEE', 'La NATO', 'L’ONU', 'L’euro'], 0, 'Insieme all’Euratom.'),
       fill('Anno del Trattato di Maastricht (firma)?', ['1992'], '7 febbraio; entra in vigore nel 1993.'),
       fill('Quanti anni dura il Muro di Berlino, dal 1961 al 1989?', ['28'], '1989 − 1961 = 28.'),
-      mc('Che cosa fu la perestrojka?', ['La ristrutturazione economico-politica avviata da Gorbačëv', 'Un trattato di pace', 'Una guerra', 'Il piano Marshall'], 0, 'Con glasnost, la trasparenza.'),
+      mc('Che cosa fu la perestrojka?', ['La ristrutturazione economico-politica avviata da Gorbačëv', 'Un trattato di pace tra le due Germanie e gli Stati dell’Europa orientale', 'Una guerra civile in Russia', 'Il piano Marshall per l’Europa'], 0, 'Con glasnost, la trasparenza.'),
       order('Ordina cronologicamente (dal più antico)', ['Piano Marshall', 'Entrata in vigore della Costituzione', 'Trattati di Roma', 'Caduta del Muro di Berlino', 'Introduzione fisica dell’euro'], '1947, 1948, 1957, 1989, 2002.')
     ],
     test: [
       mc('Quale paese nacque il 14 maggio 1948?', ['Israele', 'India', 'Algeria', 'Pakistan'], 0, 'Con una guerra con gli Stati arabi vicini.'),
       fill('Quanti anni dal 1945 al 1989?', ['44'], '1989 − 1945 = 44.'),
-      mc('Perché il conflitto israelo-palestinese va trattato con equilibrio?', ['Perché esistono narrazioni e sofferenze di entrambe le parti', 'Perché non esiste', 'Perché è finito', 'Perché riguarda un solo popolo'], 0, 'Distinguere fatti e posizioni.'),
+      mc('Perché il conflitto israelo-palestinese va trattato con equilibrio?', ['Perché esistono narrazioni e sofferenze di entrambe le parti', 'Perché in realtà non esiste alcun conflitto, ma solo propaganda', 'Perché è ormai finito da molti decenni', 'Perché riguarda in realtà un solo popolo'], 0, 'Distinguere fatti e posizioni.'),
       mc('Quale organo italiano, attivo dal 1956, controlla la conformità delle leggi alla Costituzione?', ['La Corte costituzionale', 'Il Senato', 'La Corte dei conti', 'Il CSM'], 0, 'Fu istituita dalla Costituzione.'),
       fill('Quanti anni passano dai Trattati di Roma (1957) a Maastricht (1992)?', ['35'], '1992 − 1957 = 35.'),
       mc('Quale fatto è del 26 dicembre 1991?', ['La dissoluzione dell’URSS', 'La caduta del Muro', 'La riunificazione tedesca', 'L’ingresso nell’euro'], 0, 'Dopo le dimissioni di Gorbačëv.'),
-      mc('Quale affermazione sulla «fine della storia» di Fukuyama è corretta?', ['È una tesi molto discussa e criticata', 'È una legge scientifica', 'Fu smentita dal Muro', 'Fu scritta nel 1950'], 0, 'La storia è proseguita con nuovi conflitti.')
+      mc('Quale affermazione sulla «fine della storia» di Fukuyama è corretta?', ['È una tesi molto discussa e criticata', 'È una legge scientifica dimostrata', 'Fu smentita dalla caduta del Muro', 'Fu scritta nel 1950, in piena guerra fredda'], 0, 'La storia è proseguita con nuovi conflitti.')
     ]
   });
 

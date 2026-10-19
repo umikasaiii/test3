@@ -20,16 +20,16 @@
       { h: 'Che cosa resta', b: `L’eredità antica è enorme.\n\n- **Metodo**: domandare, definire, argomentare (Socrate), classificare (Aristotele).\n- **Logica**: la tradizione aristotelica resta lo standard per quasi due millenni.\n- **Etica**: virtù (Aristotele), serenità (Epicuro), dovere e autocontrollo (stoici).\n- **Politica**: giustizia e governo dei migliori (Platone), l’uomo animale sociale (Aristotele).\n\n**Cronologia da ricordare:**\n\n> Talete VI sec. a.C. → Socrate 469–399 → Platone 428/427–348/347 → Aristotele 384–322 → Epicuro 341–270.\n\nDa Roma in poi (Cicerone, Seneca, Lucrezio), il pensiero greco viene tradotto e adattato: senza questo passaggio non arriverebbe al Medioevo. Nelle prossime lezioni vedremo come la filosofia cristiana lo riprende.` }
     ],
     exercises: [
-      mc('Che cosa cercavano i presocratici con il termine «archè»?', ['Il principio originario di tutte le cose', 'La legge scritta della città', 'Il metodo del sillogismo', 'La felicità individuale'], 0, 'L’archè è l’elemento o principio da cui tutto deriva.'),
+      mc('Che cosa cercavano i presocratici con il termine «archè»?', ['Il principio originario di ogni cosa', 'La legge scritta della città-stato', 'Il metodo del sillogismo aristotelico', 'La felicità individuale del saggio'], 0, 'L’archè è l’elemento o principio da cui tutto deriva.'),
       mc('Quale filosofo indicò nell’acqua il principio di tutto?', ['Talete', 'Eraclito', 'Democrito', 'Epicuro'], 0, 'Talete di Mileto, VI sec. a.C.'),
       fill('In che anno (a.C.) Socrate fu condannato a morte?', ['399'], 'Il processo e la condanna sono del 399 a.C.'),
-      mc('Che cosa significa «maieutica»?', ['L’arte di far partorire la verità dall’interlocutore', 'L’arte della retorica a pagamento', 'Il calcolo dei sillogismi', 'La sospensione del giudizio'], 0, 'Socrate si paragonava a una levatrice di idee.'),
-      mc('Nel mito della caverna i prigionieri vedono:', ['Ombre proiettate su un muro', 'Le idee pure', 'Il sole', 'Gli dèi'], 0, 'Le ombre rappresentano la realtà sensibile scambiata per vera.'),
+      mc('Che cosa significa «maieutica»?', ['L’arte di far nascere la verità dall’altro', 'L’arte della retorica insegnata a pagamento', 'Il calcolo delle premesse nei sillogismi', 'La sospensione del giudizio su ogni cosa'], 0, 'Socrate si paragonava a una levatrice di idee.'),
+      mc('Nel mito della caverna i prigionieri vedono:', ['Ombre proiettate su un muro', 'Le idee pure illuminate dal sole', 'Il sole e il mondo reale all’esterno', 'Gli dèi del pantheon greco'], 0, 'Le ombre rappresentano la realtà sensibile scambiata per vera.'),
       fill('Quanti anni passano tra la nascita di Socrate (469 a.C. circa) e la sua condanna (399 a.C.)?', ['70'], '469 − 399 = 70.'),
-      mc('Per Aristotele le forme delle cose sono:', ['Dentro le cose concrete, unite alla materia', 'In un mondo separato', 'Solo nomi', 'Illusioni dei sensi'], 0, 'È la critica a Platone: forma e materia formano la sostanza.'),
+      mc('Per Aristotele le forme delle cose sono:', ['Nelle cose concrete, unite alla materia', 'In un mondo separato dalle cose sensibili', 'Nomi che usiamo per classificare le cose', 'Illusioni dei sensi senza realtà propria'], 0, 'È la critica a Platone: forma e materia formano la sostanza.'),
       fill('Quante sono le cause per Aristotele (materiale, formale, efficiente, finale)?', ['4', 'quattro'], 'Le cause sono quattro.'),
       mc('Quale scuola ellenistica invita a distinguere ciò che dipende da noi da ciò che non dipende?', ['Lo stoicismo', 'L’epicureismo', 'Il sofismo', 'L’atomismo'], 0, 'È il cuore dell’etica stoica.'),
-      mc('Per Epicuro la morte:', ['Non è da temere, perché non la sperimentiamo', 'È il male maggiore', 'È una punizione divina', 'Va cercata'], 0, 'Dove c’è la morte non ci siamo noi, e viceversa.'),
+      mc('Per Epicuro la morte:', ['Non è da temere: non la sperimentiamo', 'È il male maggiore per ogni essere umano', 'È una punizione divina per i malvagi', 'Va cercata come liberazione dal corpo'], 0, 'Dove c’è la morte non ci siamo noi, e viceversa.'),
       order('Ordina cronologicamente dal più antico', ['Talete', 'Socrate', 'Platone', 'Aristotele', 'Epicuro'], 'VI sec. a.C.; 469–399; 428/427–348/347; 384–322; 341–270.')
     ],
     test: [
@@ -37,10 +37,10 @@
       mc('Per Parmenide la realtà vera è:', ['L’essere immutabile', 'Il divenire continuo', 'L’acqua', 'Il numero'], 0, 'Il divenire è per lui apparenza.'),
       fill('Quanti anni separano il 384 a.C. dal 322 a.C. (nascita e morte di Aristotele)?', ['62'], '384 − 322 = 62.'),
       mc('Chi fondò l’Accademia?', ['Platone', 'Aristotele', 'Epicuro', 'Zenone'], 0, 'Intorno al 387 a.C.'),
-      mc('Chi fu precettore di Alessandro Magno?', ['Aristotele', 'Platone', 'Socrate', 'Democrito'], 0, 'Aristotele, poi fondatore del Liceo.'),
+      mc('Chi fu precettore di Alessandro Magno?', ['Aristotele', 'Platone di Atene', 'Socrate di Atene', 'Democrito di Abdera'], 0, 'Aristotele, poi fondatore del Liceo.'),
       mc('Cosa vuol dire «epoché» per gli scettici?', ['Sospensione del giudizio', 'Piacere catastematico', 'Idea suprema', 'Principio di tutte le cose'], 0, 'Non pronunciarsi, per ottenere tranquillità.'),
-      mc('Quale affermazione su Socrate è corretta?', ['Non lasciò scritti: lo conosciamo da altri', 'Scrisse la Repubblica', 'Fondò il Liceo', 'Visse nel III sec. a.C.'], 0, 'Le fonti principali sono Platone e Senofonte.'),
-      mc('Il sillogismo è:', ['Un ragionamento che da due premesse trae una conclusione', 'Un mito', 'Una scuola', 'Una forma di governo'], 0, 'Esempio: tutti gli uomini sono mortali…')
+      mc('Quale affermazione su Socrate è corretta?', ['Non lasciò scritti, lo conosciamo da altri', 'Scrisse la Repubblica, il suo dialogo più celebre', 'Fondò il Liceo e insegnò passeggiando', 'Visse tra la fine del IV e il III secolo a.C.'], 0, 'Le fonti principali sono Platone e Senofonte.'),
+      mc('Il sillogismo è:', ['Un ragionamento con due premesse e una conclusione', 'Un mito sull’origine del mondo narrato dai poeti', 'Una scuola filosofica fondata ad Atene', 'Una forma di governo con più magistrati eletti'], 0, 'Esempio: tutti gli uomini sono mortali…')
     ]
   });
 
@@ -64,24 +64,24 @@
     exercises: [
       mc('Quale opera di Agostino è un’autobiografia spirituale?', ['Confessioni', 'Summa Theologiae', 'Leviatano', 'Etica'], 0, 'Scritta circa 397–400.'),
       fill('In che anno circa morì Agostino?', ['430'], 'Morì a Ippona nel 430.'),
-      mc('Che cosa fa Tommaso d’Aquino con Aristotele?', ['Lo integra nella teologia cristiana', 'Lo rifiuta', 'Lo ignora', 'Lo traduce in latino da solo'], 0, 'Sintesi scolastica di fede e ragione.'),
+      mc('Che cosa fa Tommaso d’Aquino con Aristotele?', ['Lo integra nella teologia cristiana', 'Lo rifiuta perché pagano e contrario alla fede', 'Lo ignora e segue la tradizione platonica', 'Lo traduce da solo in latino dal greco'], 0, 'Sintesi scolastica di fede e ragione.'),
       mc('Quante «vie» propone Tommaso per dimostrare l’esistenza di Dio?', ['Cinque', 'Tre', 'Sette', 'Dieci'], 0, 'Le cinque vie.'),
       fill('In che anno uscì il Discorso sul metodo di Cartesio?', ['1637'], 'Pubblicato nel 1637.'),
-      mc('Che cos’è il cogito cartesiano?', ['La certezza dell’esistenza di chi pensa, anche dubitando', 'Una prova del genio maligno', 'Un principio empirico', 'Una scuola medievale'], 0, 'Penso, dunque sono.'),
+      mc('Che cos’è il cogito cartesiano?', ['La certezza dell’esistenza di chi dubita', 'Una prova dell’esistenza del genio maligno', 'Un principio empirico ricavato dai sensi', 'Una scuola filosofica medievale di Parigi'], 0, 'Penso, dunque sono.'),
       mc('Per Locke la mente alla nascita è:', ['Una tabula rasa', 'Piena di idee innate', 'Una monade', 'Divina'], 0, 'Tutto viene dall’esperienza.'),
       fill('Quanti anni separano la nascita (1596) e la morte (1650) di Cartesio?', ['54'], '1650 − 1596 = 54.'),
       mc('Quale autore scrisse Leviatano (1651)?', ['Hobbes', 'Locke', 'Spinoza', 'Hume'], 0, 'Hobbes, sul potere dello Stato.'),
-      mc('Il problema dell’induzione di Hume riguarda:', ['Il passaggio da casi osservati a leggi generali', 'La prova dell’esistenza di Dio', 'Il dualismo', 'La libertà politica'], 0, 'Non c’è garanzia logica che il futuro somigli al passato.'),
+      mc('Il problema dell’induzione di Hume riguarda:', ['Il passaggio da casi osservati a leggi generali', 'La prova dell’esistenza di Dio dall’ordine del mondo', 'Il dualismo tra pensiero ed estensione', 'La libertà politica dei cittadini'], 0, 'Non c’è garanzia logica che il futuro somigli al passato.'),
       order('Ordina cronologicamente', ['Agostino', 'Tommaso d’Aquino', 'Cartesio', 'Locke', 'Hume'], '354–430; circa 1225–1274; 1596–1650; 1632–1704; 1711–1776.')
     ],
     test: [
       mc('Quale filosofo è razionalista?', ['Spinoza', 'Locke', 'Berkeley', 'Hume'], 0, 'Spinoza, come Cartesio e Leibniz.'),
       mc('La città di Dio fu scritta da Agostino dopo:', ['Il sacco di Roma del 410', 'La caduta di Costantinopoli', 'La scoperta dell’America', 'La Riforma'], 0, 'Fu occasionata dal sacco del 410.'),
       fill('Quanti anni passano tra la morte di Agostino (430) e quella di Tommaso (1274)?', ['844'], '1274 − 430 = 844.'),
-      mc('Che cosa sono le monadi?', ['Le unità semplici di cui, per Leibniz, è fatto il mondo', 'Gli atomi di Democrito', 'Le idee di Platone', 'I sensi di Hume'], 0, 'Concetto di Leibniz.'),
-      mc('Per Berkeley «esse est percipi» significa:', ['Essere è essere percepito', 'Il mondo è matematico', 'Dio non esiste', 'Pensare è esistere'], 0, 'Idealismo empirista.'),
+      mc('Che cosa sono le monadi?', ['Le unità semplici che compongono il mondo', 'Gli atomi indivisibili di Democrito nel vuoto', 'Le idee eterne nell’Iperuranio di Platone', 'Le impressioni dei sensi secondo Hume'], 0, 'Concetto di Leibniz.'),
+      mc('Per Berkeley «esse est percipi» significa:', ['Essere è essere percepito', 'Il mondo è fatto di matematica', 'Dio non esiste nella realtà', 'Pensare è la prova di esistere'], 0, 'Idealismo empirista.'),
       mc('Hume spiega la fiducia nella causalità con:', ['L’abitudine', 'Una prova geometrica', 'La rivelazione', 'Le idee innate'], 0, 'Osserviamo congiunzioni costanti.'),
-      mc('Quale tema è tipico del dualismo cartesiano?', ['Distinzione tra pensiero e materia', 'Unica sostanza', 'Negazione della mente', 'Rifiuto della matematica'], 0, 'Res cogitans e res extensa.')
+      mc('Quale tema è tipico del dualismo cartesiano?', ['Distinzione tra pensiero e materia', 'Un’unica sostanza, Dio o natura', 'Negazione dell’esistenza della mente', 'Rifiuto della matematica nello studio della natura'], 0, 'Res cogitans e res extensa.')
     ]
   });
 
@@ -105,23 +105,23 @@
     exercises: [
       mc('Qual è il motto dell’Illuminismo secondo Kant?', ['Sapere aude', 'Cogito ergo sum', 'Carpe diem', 'Panta rhei'], 0, 'Abbi il coraggio di servirti della tua intelligenza.'),
       fill('In che anno uscì la prima edizione della Critica della ragion pura?', ['1781'], 'Prima edizione 1781, seconda 1787.'),
-      mc('Chi teorizzò la separazione dei poteri?', ['Montesquieu', 'Rousseau', 'Voltaire', 'Hobbes'], 0, 'Lo spirito delle leggi, 1748.'),
-      mc('Quale opera di Beccaria critica la pena di morte e la tortura?', ['Dei delitti e delle pene', 'Il Caffè', 'Candido', 'Il Contratto sociale'], 0, 'Pubblicata nel 1764.'),
+      mc('Chi teorizzò la separazione dei poteri?', ['Montesquieu', 'Jean-Jacques Rousseau', 'Voltaire', 'Thomas Hobbes'], 0, 'Lo spirito delle leggi, 1748.'),
+      mc('Quale opera di Beccaria critica la pena di morte e la tortura?', ['Dei delitti e delle pene', 'Lo spirito delle leggi', 'Candido, ovvero l’ottimismo', 'Il Contratto sociale di Rousseau'], 0, 'Pubblicata nel 1764.'),
       fill('Quanti anni separano la nascita (1724) e la morte (1804) di Kant?', ['80'], '1804 − 1724 = 80.'),
       mc('Per Kant le forme a priori della sensibilità sono:', ['Spazio e tempo', 'Causa ed effetto', 'Dio e anima', 'Bene e male'], 0, 'Le categorie appartengono invece all’intelletto.'),
-      mc('Il noumeno è:', ['La cosa in sé, non conoscibile', 'Il fenomeno', 'Una categoria', 'Un imperativo ipotetico'], 0, 'Conosciamo solo i fenomeni.'),
-      mc('Quale formula è un imperativo categorico?', ['Agisci in modo da poter volere che la tua massima valga per tutti', 'Se vuoi guadagnare, sii onesto', 'Fai ciò che ti conviene', 'Obbedisci all’autorità'], 0, 'Imperativo senza condizioni.'),
+      mc('Il noumeno è:', ['La cosa in sé, non conoscibile', 'Il fenomeno, ciò che appare ai sensi', 'Una categoria dell’intelletto puro', 'Un imperativo ipotetico della ragion pratica'], 0, 'Conosciamo solo i fenomeni.'),
+      mc('Quale formula è un imperativo categorico?', ['Agisci secondo una massima valida per tutti', 'Se vuoi avere buona reputazione, sii onesto', 'Fai ciò che ti conviene per essere felice', 'Obbedisci all’autorità finché ti protegge'], 0, 'Imperativo senza condizioni.'),
       fill('In che anno uscì il primo volume dell’Encyclopédie (inizio della pubblicazione)?', ['1751'], 'L’opera uscì dal 1751 al 1772.'),
-      mc('Che cosa propone Kant in «Per la pace perpetua» (1795)?', ['Una federazione di Stati repubblicani', 'Un impero universale', 'Il dominio dei filosofi', 'La fine di ogni Stato'], 0, 'Una lega di Stati con diritto cosmopolitico.'),
+      mc('Che cosa propone Kant in «Per la pace perpetua» (1795)?', ['Una federazione di Stati repubblicani', 'Un impero universale guidato da un solo sovrano', 'Il dominio dei filosofi sulle nazioni europee', 'La fine di ogni forma di Stato'], 0, 'Una lega di Stati con diritto cosmopolitico.'),
       order('Ordina le Critiche di Kant', ['Critica della ragion pura', 'Critica della ragion pratica', 'Critica del giudizio'], '1781, 1788, 1790.')
     ],
     test: [
       mc('Chi scrisse Il contratto sociale (1762)?', ['Rousseau', 'Voltaire', 'Diderot', 'Beccaria'], 0, 'Jean-Jacques Rousseau.'),
       fill('Quanti anni passano tra la prima Critica (1781) e la Rivoluzione francese (1789)?', ['8'], '1789 − 1781 = 8.'),
-      mc('Perché promettere il falso viola l’imperativo categorico?', ['Perché non può diventare legge universale senza distruggere le promesse', 'Perché è illegale', 'Perché danneggia sempre qualcuno', 'Perché lo vieta la religione'], 0, 'La massima si autodistrugge se universalizzata.'),
-      mc('Chi diresse l’Encyclopédie?', ['Diderot e d’Alembert', 'Voltaire e Rousseau', 'Kant e Hume', 'Locke e Hobbes'], 0, 'Dal 1751 al 1772.'),
-      mc('Per Kant il valore morale di un’azione dipende soprattutto:', ['Dall’intenzione (agire per dovere)', 'Dalle conseguenze', 'Dal piacere provocato', 'Dalla tradizione'], 0, 'Etica del dovere.'),
-      mc('Che cosa intende Kant per «minorità»?', ['L’incapacità di usare il proprio intelletto senza guida altrui', 'La giovane età', 'La povertà', 'L’ignoranza della matematica'], 0, 'Colpa propria se manca coraggio, non intelligenza.'),
+      mc('Perché promettere il falso viola l’imperativo categorico?', ['Perché, resa universale, distruggerebbe le promesse', 'Perché è vietato dalle leggi dello Stato', 'Perché danneggia comunque qualcuno in concreto', 'Perché la tradizione dei padri lo condanna da sempre'], 0, 'La massima si autodistrugge se universalizzata.'),
+      mc('Chi diresse l’Encyclopédie?', ['Diderot e d’Alembert', 'Voltaire e Montesquieu', 'Kant e Hume', 'Locke e Hobbes'], 0, 'Dal 1751 al 1772.'),
+      mc('Per Kant il valore morale di un’azione dipende soprattutto:', ['Dall’intenzione (agire per dovere)', 'Dalle conseguenze dell’azione sulla società', 'Dal piacere provocato in chi agisce', 'Dalla tradizione della comunità'], 0, 'Etica del dovere.'),
+      mc('Che cosa intende Kant per «minorità»?', ['Incapacità di usare l’intelletto senza guida altrui', 'La povertà materiale che impedisce di studiare', 'La giovane età anagrafica di chi è sotto tutela', 'L’ignoranza della matematica e delle scienze'], 0, 'Colpa propria se manca coraggio, non intelligenza.'),
       mc('Quale critica fa la Dialettica dell’Illuminismo?', ['La ragione strumentale può diventare dominio', 'La ragione non esiste', 'Il progresso è sempre positivo', 'L’Illuminismo è stato un movimento religioso'], 0, 'Adorno e Horkheimer, 1947.')
     ]
   });
@@ -149,21 +149,21 @@
       mc('Per Schopenhauer l’essenza del mondo è:', ['Una volontà cieca', 'Lo Spirito assoluto', 'La materia economica', 'La scienza'], 0, 'Il mondo come volontà e rappresentazione.'),
       mc('I tre stadi di Kierkegaard sono:', ['Estetico, etico, religioso', 'Teologico, metafisico, positivo', 'Tesi, antitesi, sintesi', 'Apollineo, dionisiaco, umano'], 0, 'Aut-aut e altre opere.'),
       fill('In che anno uscì il Manifesto del partito comunista?', ['1848'], 'Marx ed Engels, 1848.'),
-      mc('Che cosa indica il «plusvalore» in Marx?', ['Il valore creato dal lavoro oltre il salario', 'Il prezzo di mercato', 'Il guadagno dello Stato', 'L’interesse bancario'], 0, 'È la fonte del profitto capitalistico.'),
+      mc('Che cosa indica il «plusvalore» in Marx?', ['Il valore del lavoro non pagato', 'Il prezzo di mercato di una merce', 'Il gettito fiscale incassato dallo Stato', 'L’interesse bancario sul capitale'], 0, 'È la fonte del profitto capitalistico.'),
       mc('La legge dei tre stadi è di:', ['Comte', 'Marx', 'Hegel', 'Nietzsche'], 0, 'Teologico, metafisico, positivo.'),
       fill('In che anno uscì L’origine delle specie di Darwin?', ['1859'], 'Pubblicata nel 1859.'),
-      mc('La «morte di Dio» in Nietzsche significa:', ['Il venir meno del cristianesimo come fondamento dei valori', 'Un invito alla violenza', 'La dimostrazione scientifica dell’ateismo', 'L’adesione al buddismo'], 0, 'È una diagnosi culturale.'),
+      mc('La «morte di Dio» in Nietzsche significa:', ['Il cristianesimo non regge più i valori', 'Un invito alla violenza contro i credenti', 'La dimostrazione scientifica dell’ateismo', 'L’adesione al buddismo e all’ascesi'], 0, 'È una diagnosi culturale.'),
       fill('Quanti anni separano la nascita (1844) e la morte (1900) di Nietzsche?', ['56'], '1900 − 1844 = 56.'),
       order('Ordina cronologicamente per data di nascita', ['Hegel', 'Schopenhauer', 'Kierkegaard', 'Marx', 'Nietzsche'], '1770, 1788, 1813, 1818, 1844.')
     ],
     test: [
-      mc('Chi, contro Hegel, difese il singolo e la scelta di fede?', ['Kierkegaard', 'Comte', 'Engels', 'Darwin'], 0, 'Søren Kierkegaard.'),
-      mc('Che cosa significa l’espressione «struttura e sovrastruttura»?', ['Economia e produzione condizionano cultura e politica', 'Edificio e tetto', 'Anima e corpo', 'Fede e ragione'], 0, 'Concetto del materialismo storico.'),
+      mc('Chi, contro Hegel, difese il singolo e la scelta di fede?', ['Kierkegaard', 'Auguste Comte', 'Friedrich Engels', 'Charles Darwin'], 0, 'Søren Kierkegaard.'),
+      mc('Che cosa significa l’espressione «struttura e sovrastruttura»?', ['Economia e produzione condizionano la cultura', 'Fondamenta e tetto di un edificio da costruire', 'Anima e corpo nell’antropologia cristiana', 'Fede e ragione secondo Tommaso d’Aquino'], 0, 'Concetto del materialismo storico.'),
       fill('In che anno uscì il primo libro del Capitale?', ['1867'], 'Il capitale, libro I, 1867.'),
-      mc('L’«eterno ritorno» in Nietzsche è:', ['Una prova per valutare l’affermazione della vita', 'Una teoria astronomica dimostrata', 'Il ritorno al cristianesimo', 'La teoria dei cicli di Marx'], 0, 'Vivere come se ogni istante dovesse ripetersi.'),
-      mc('La dialettica hegeliana è:', ['Sviluppo per contraddizioni superate', 'Una logica del sillogismo', 'Un metodo sperimentale', 'Il rifiuto della storia'], 0, 'Superamento che conserva.'),
+      mc('L’«eterno ritorno» in Nietzsche è:', ['Un test per valutare se affermi la vita', 'Una teoria astronomica dimostrata dai fisici', 'Il ritorno alla fede nel cristianesimo', 'La teoria dei cicli economici di Marx'], 0, 'Vivere come se ogni istante dovesse ripetersi.'),
+      mc('La dialettica hegeliana è:', ['Sviluppo per contraddizioni superate', 'Una logica del sillogismo aristotelico', 'Un metodo sperimentale delle scienze', 'Il rifiuto della storia come progresso'], 0, 'Superamento che conserva.'),
       mc('Quale filosofo italiano è esponente dell’idealismo novecentesco?', ['Benedetto Croce', 'Roberto Ardigò', 'Cesare Beccaria', 'Galileo'], 0, 'Croce (1866–1952).'),
-      mc('Il positivismo ritiene che:', ['Solo la scienza dia conoscenza valida', 'La religione sia l’unico sapere', 'La storia sia insensata', 'L’arte sia superiore alla scienza'], 0, 'Fiducia nel metodo scientifico.')
+      mc('Il positivismo ritiene che:', ['Solo la scienza dia conoscenza valida', 'La religione sia l’unico sapere affidabile', 'La storia sia priva di ogni senso', 'L’arte sia superiore alla scienza stessa'], 0, 'Fiducia nel metodo scientifico.')
     ]
   });
 
@@ -185,26 +185,26 @@
       { h: 'Riepilogo e cronologia', b: `**Date da ricordare**\n\n> *Tractatus* 1921 · *Essere e tempo* 1927 · *Logica della scoperta scientifica* 1934 · *L’essere e il nulla* 1943 · *Le origini del totalitarismo* 1951 · *Ricerche filosofiche* 1953 · *Struttura delle rivoluzioni scientifiche* 1962\n\nDifferenza tra anno di morte e di nascita: Popper 92, Wittgenstein 62, Arendt 69.\n\n**Collegamenti con altre lezioni**\n\n- Hume e l’induzione → Popper.\n- Kierkegaard e Nietzsche → esistenzialismo.\n- Kant e la libertà → Arendt e Rawls.\n\nQuando leggi un autore del Novecento chiediti: qual è il **problema** che vuole risolvere? A quale evento storico risponde? Quali critiche gli sono state fatte? Così eviti di imparare solo etichette.` }
     ],
     exercises: [
-      mc('Che cosa significa «intenzionalità» in Husserl?', ['La coscienza è sempre coscienza di qualcosa', 'La volontà di fare il bene', 'Il fine di ogni azione', 'L’intenzione di ingannare'], 0, 'Concetto cardine della fenomenologia.'),
+      mc('Che cosa significa «intenzionalità» in Husserl?', ['La coscienza è sempre rivolta a qualcosa', 'La volontà costante di fare il bene altrui', 'Il fine che si propone ogni azione umana', 'L’intenzione di ingannare chi ascolta'], 0, 'Concetto cardine della fenomenologia.'),
       fill('In che anno uscì Essere e tempo di Heidegger?', ['1927'], 'Pubblicato nel 1927.'),
       mc('La formula «l’esistenza precede l’essenza» è di:', ['Sartre', 'Wittgenstein', 'Popper', 'Frege'], 0, 'Sartre, esistenzialismo.'),
       fill('In che anno uscì Il secondo sesso di Simone de Beauvoir?', ['1949'], 'Il secondo sesso, 1949.'),
-      mc('Camus con «assurdo» intende:', ['Il contrasto tra la domanda di senso e il silenzio del mondo', 'Una teoria scientifica', 'La logica formale', 'Una dottrina politica'], 0, 'Il mito di Sisifo (1942).'),
-      mc('Nel Tractatus Wittgenstein conclude che:', ['Ciò di cui non si può parlare si deve tacere', 'Il linguaggio è un gioco', 'La verità è relativa', 'Il mondo è volontà'], 0, 'Ultima proposizione del Tractatus.'),
+      mc('Camus con «assurdo» intende:', ['Il contrasto tra domanda di senso e mondo muto', 'Una teoria scientifica sull’origine del caos nell’universo', 'La logica formale applicata alla vita quotidiana', 'Una dottrina politica di rifiuto del potere'], 0, 'Il mito di Sisifo (1942).'),
+      mc('Nel Tractatus Wittgenstein conclude che:', ['Ciò di cui non si può parlare si deve tacere', 'Il linguaggio è un insieme di giochi diversi', 'La verità è relativa ai punti di vista', 'Il mondo è volontà e rappresentazione'], 0, 'Ultima proposizione del Tractatus.'),
       mc('Per Popper una teoria è scientifica se è:', ['Falsificabile', 'Verificata una volta per tutte', 'Approvata dalla maggioranza', 'Antica'], 0, 'Deve poter essere smentita.'),
       fill('Quanti anni separano la nascita (1902) e la morte (1994) di Popper?', ['92'], '1994 − 1902 = 92.'),
       mc('Il «paradigma» è un concetto di:', ['Kuhn', 'Popper', 'Russell', 'Heidegger'], 0, 'La struttura delle rivoluzioni scientifiche, 1962.'),
-      mc('Che cosa intende Arendt con «banalità del male»?', ['Grandi crimini possono derivare da persone che non pensano e non giudicano', 'Il male è irrilevante', 'Eichmann era innocente', 'Il male non esiste'], 0, 'Dal processo a Eichmann, 1961.'),
+      mc('Che cosa intende Arendt con «banalità del male»?', ['Grandi crimini possono venire da persone che non pensano', 'Il male è un fenomeno irrilevante nella storia moderna del Novecento', 'Eichmann era innocente di ogni accusa mossa', 'Il male non esiste, è solo un’illusione'], 0, 'Dal processo a Eichmann, 1961.'),
       order('Ordina cronologicamente le opere', ['Tractatus logico-philosophicus', 'Essere e tempo', 'L’essere e il nulla', 'Le origini del totalitarismo'], '1921, 1927, 1943, 1951.')
     ],
     test: [
-      mc('Il principio di verificazione appartiene a:', ['Neopositivismo del Circolo di Vienna', 'Esistenzialismo', 'Fenomenologia', 'Ermeneutica'], 0, 'Un enunciato ha senso se verificabile.'),
-      mc('In Wittgenstein delle Ricerche il significato di una parola è:', ['Il suo uso nei giochi linguistici', 'Un oggetto del mondo', 'Un’idea innata', 'Un valore di verità'], 0, 'Seconda fase del pensiero.'),
+      mc('Il principio di verificazione appartiene a:', ['Neopositivismo del Circolo di Vienna', 'Esistenzialismo francese del dopoguerra', 'Fenomenologia di Husserl e Heidegger', 'Ermeneutica di Gadamer e Ricoeur'], 0, 'Un enunciato ha senso se verificabile.'),
+      mc('In Wittgenstein delle Ricerche il significato di una parola è:', ['Il suo uso nei giochi linguistici', 'Un oggetto del mondo a cui rimanda', 'Un’idea innata presente nella mente', 'Un valore di verità nella logica'], 0, 'Seconda fase del pensiero.'),
       fill('Quanti anni passano tra il Tractatus (1921) e le Ricerche filosofiche (1953)?', ['32'], '1953 − 1921 = 32.'),
       mc('Quale opera di Popper difende la democrazia e critica lo storicismo?', ['La società aperta e i suoi nemici', 'La struttura delle rivoluzioni scientifiche', 'Il secondo sesso', 'Il mito di Sisifo'], 0, 'Del 1945.'),
-      mc('Arendt descrive il totalitarismo come fondato su:', ['Ideologia, terrore e isolamento', 'Solo propaganda', 'Libere elezioni', 'Il mercato'], 0, 'Le origini del totalitarismo (1951).'),
-      mc('Che cosa è il «velo di ignoranza» di Rawls?', ['Scegliere i principi di giustizia ignorando la propria posizione sociale', 'Una tecnica di meditazione', 'Un paradosso logico', 'Una censura'], 0, 'Una teoria della giustizia (1971).'),
-      mc('Il Dasein di Heidegger indica:', ['L’esistenza umana come essere-nel-mondo', 'Dio', 'La materia', 'Il linguaggio'], 0, 'Esserci.')
+      mc('Arendt descrive il totalitarismo come fondato su:', ['Ideologia, terrore e isolamento', 'Soltanto la propaganda di regime', 'Libere elezioni e pluralismo dei partiti', 'Il libero mercato e la concorrenza'], 0, 'Le origini del totalitarismo (1951).'),
+      mc('Che cosa è il «velo di ignoranza» di Rawls?', ['Scegliere le regole ignorando la propria posizione sociale', 'Una tecnica di meditazione per liberare la mente dalle passioni', 'Un paradosso logico sui limiti della conoscenza', 'Una forma di censura sulle opinioni politiche'], 0, 'Una teoria della giustizia (1971).'),
+      mc('Il Dasein di Heidegger indica:', ['L’esistenza umana come essere-nel-mondo', 'Dio inteso come essere supremo', 'La materia di cui è fatto l’universo', 'Il linguaggio come strumento di comunicazione'], 0, 'Esserci.')
     ]
   });
 
@@ -226,26 +226,26 @@
       { h: 'Come argomentare su un dilemma', b: `Un metodo in cinque passi.\n\n1. **Fatti**: che cosa sappiamo e che cosa no.\n2. **Valori in conflitto**: chi è coinvolto, quali beni e doveri.\n3. **Opzioni**: ce ne sono più di due? (evita il falso dilemma).\n4. **Lenti etiche**: conseguenze, doveri/diritti, carattere.\n5. **Decisione motivata** e riconoscimento di ciò che si sacrifica.\n\n**Esempio svolto** — Un medico ha 5 pazienti che necessitano di organi e un paziente sano in visita. Prelevare i suoi organi salverebbe 5 vite. Utilitarismo ingenuo: 5 > 1. Ma: viola diritti fondamentali (deontologia), distrugge la fiducia nella medicina (anche un utilitarista della regola lo respinge), un medico virtuoso non lo farebbe.\n\nQuando teorie diverse convergono la conclusione è più solida; quando divergono, il dibattito è sul peso di ciascuna ragione. Rispettare chi la pensa diversamente fa parte dell’argomentare.` }
     ],
     exercises: [
-      mc('Un argomento valido ha:', ['Una forma per cui, se le premesse sono vere, la conclusione è necessaria', 'Premesse sempre vere', 'Una conclusione vera', 'Molte premesse'], 0, 'La validità riguarda la forma.'),
-      mc('«Se piove, la strada è bagnata. La strada è bagnata. Dunque piove.» È:', ['Affermazione del conseguente (invalida)', 'Modus ponens', 'Modus tollens', 'Un sillogismo valido'], 0, 'Può esserci un’altra causa.'),
+      mc('Un argomento valido ha:', ['Forma per cui premesse vere implicano conclusione vera', 'Premesse tutte vere e una conclusione vera', 'Una conclusione vera, qualunque siano le premesse', 'Molte premesse che sostengono la tesi'], 0, 'La validità riguarda la forma.'),
+      mc('«Se piove, la strada è bagnata. La strada è bagnata. Dunque piove.» È:', ['Affermazione del conseguente (invalida)', 'Modus ponens, forma valida', 'Modus tollens, forma valida', 'Un sillogismo valido con premessa maggiore'], 0, 'Può esserci un’altra causa.'),
       fill('Quante righe ha la tavola di verità di 3 proposizioni semplici?', ['8'], '2³ = 8.'),
       mc('«Non ascoltarlo: è un bugiardo» in risposta a un argomento è:', ['Ad hominem', 'Post hoc', 'Falso dilemma', 'Modus ponens'], 0, 'Attacca la persona e non l’argomento.'),
       mc('Quale di queste è un falso dilemma?', ['O con me o contro di me', 'Se piove prendo l’ombrello', 'Alcuni gatti sono neri', 'Tutti i cigni sono bianchi'], 0, 'Esclude le alternative.'),
       mc('Il modus tollens è:', ['Se P allora Q; non Q; dunque non P', 'Se P allora Q; Q; dunque P', 'P; dunque P', 'Se P allora Q; P; dunque Q'], 0, 'È una forma valida.'),
       fill('Quanti anni separano la nascita (1748) e la morte (1832) di Bentham?', ['84'], '1832 − 1748 = 84.'),
-      mc('L’utilitarismo giudica un’azione in base:', ['Alle conseguenze per il benessere complessivo', 'Al rispetto di un dovere astratto', 'Al carattere di chi agisce', 'Alla tradizione'], 0, 'È consequenzialista.'),
-      mc('Quale autore pubblicò L’utilitarismo nel 1861?', ['John Stuart Mill', 'Bentham', 'Kant', 'Aristotele'], 0, 'Mill.'),
+      mc('L’utilitarismo giudica un’azione in base:', ['Alle conseguenze per il benessere complessivo', 'Al rispetto di un dovere astratto e universale', 'Al carattere virtuoso di chi agisce', 'Alla tradizione e ai costumi della comunità'], 0, 'È consequenzialista.'),
+      mc('Quale autore pubblicò L’utilitarismo nel 1861?', ['John Stuart Mill', 'Jeremy Bentham', 'Immanuel Kant', 'Aristotele di Stagira'], 0, 'Mill.'),
       fill('Nel dilemma del carrello (5 vs 1) deviando si salvano 5 e ne muore 1: quante vite in più sono salve rispetto al non intervenire?', ['4'], '5 − 1 = 4.'),
       order('Ordina i passi dell’argomentazione su un dilemma', ['Raccogliere i fatti', 'Individuare i valori in conflitto', 'Elencare le opzioni', 'Applicare le lenti etiche', 'Decidere e motivare'], 'Dal chiarimento dei fatti alla decisione motivata.')
     ],
     test: [
-      mc('Per l’etica delle virtù il coraggio è:', ['Un giusto mezzo tra viltà e temerarietà', 'Un dovere assoluto', 'Il piacere più alto', 'Una convenzione'], 0, 'Aristotele.'),
+      mc('Per l’etica delle virtù il coraggio è:', ['Il giusto mezzo tra viltà e temerarietà', 'Un dovere assoluto imposto dalla ragione', 'Il piacere più alto che si possa provare', 'Una convenzione sociale del tempo'], 0, 'Aristotele.'),
       mc('Quale fallacia consiste nel dedurre una causa dalla sola successione temporale?', ['Post hoc', 'Uomo di paglia', 'Appello alla maggioranza', 'Petizione di principio'], 0, 'Post hoc ergo propter hoc.'),
       fill('Quante righe ha la tavola di verità di 4 proposizioni semplici?', ['16'], '2⁴ = 16.'),
-      mc('«Tutti dicono che questa dieta funziona, quindi funziona» è:', ['Appello alla maggioranza', 'Modus ponens', 'Ad hominem', 'Deduzione valida'], 0, 'Popolarità non è prova.'),
-      mc('Il nucleo dell’imperativo categorico kantiano nel caso della promessa falsa è:', ['La massima non è universalizzabile', 'Ne deriva meno piacere', 'Dipende dalle conseguenze', 'È illegale'], 0, 'Se tutti mentissero, le promesse perderebbero senso.'),
-      mc('Nel «ponte» (spingere un uomo per fermare il carrello) molti rifiutano perché:', ['Si userebbe direttamente una persona come mezzo', 'Il numero di vittime cambia', 'Non ci sono alternative', 'È illegale in ogni Paese'], 0, 'Il bilancio numerico è uguale, ma cambia la natura dell’atto.'),
-      mc('Un argomento solido è:', ['Valido e con premesse vere', 'Solo con conclusione vera', 'Solo ben scritto', 'Con molte premesse'], 0, 'Validità più verità delle premesse.')
+      mc('«Tutti dicono che questa dieta funziona, quindi funziona» è:', ['Appello alla maggioranza', 'Modus ponens, forma valida', 'Attacco ad hominem', 'Deduzione valida da premesse vere'], 0, 'Popolarità non è prova.'),
+      mc('Il nucleo dell’imperativo categorico kantiano nel caso della promessa falsa è:', ['La massima non è universalizzabile', 'Ne deriva meno piacere a chi mente', 'Dipende dalle conseguenze concrete', 'È vietata dalla legge dello Stato'], 0, 'Se tutti mentissero, le promesse perderebbero senso.'),
+      mc('Nel «ponte» (spingere un uomo per fermare il carrello) molti rifiutano perché:', ['Si userebbe direttamente una persona come mezzo', 'Il numero delle vittime cambierebbe nei due casi', 'Non esistono alternative praticabili al sacrificio', 'È vietato dalle leggi in ogni Paese'], 0, 'Il bilancio numerico è uguale, ma cambia la natura dell’atto.'),
+      mc('Un argomento solido è:', ['Valido e con premesse vere', 'Con una conclusione vera, qualunque sia la forma', 'Ben scritto e persuasivo per chi ascolta', 'Con molte premesse a sostegno della tesi'], 0, 'Validità più verità delle premesse.')
     ]
   });
 
@@ -269,23 +269,23 @@
       mc('Di quanti libri (canti) è composta l’Iliade?', ['24', '12', '48', '36'], 0, 'Come l’Odissea, ha 24 libri.'),
       mc('Quale tema apre l’Iliade?', ['L’ira di Achille', 'Il ritorno di Ulisse', 'La fondazione di Roma', 'La peste di Tebe'], 0, 'Achille e il conflitto con Agamennone.'),
       fill('Quanti anni rimase lontano da Itaca Ulisse (10 di guerra più 10 di viaggio)?', ['20', 'venti'], '10 + 10 = 20.'),
-      mc('Che cosa si intende con «questione omerica»?', ['Il dibattito su chi sia Omero e come siano nati i poemi', 'La data della guerra di Troia', 'La grammatica del greco', 'Il numero dei tragici'], 0, 'Autore, oralità, composizione.'),
+      mc('Che cosa si intende con «questione omerica»?', ['Il dibattito sull’identità di Omero e sui poemi', 'La data della guerra di Troia secondo gli storici', 'La grammatica del greco dei poemi omerici', 'Il numero dei tragici della Grecia antica'], 0, 'Autore, oralità, composizione.'),
       mc('Quale opera di Virgilio racconta la fuga di Enea da Troia?', ['Eneide', 'Georgiche', 'Bucoliche', 'Metamorfosi'], 0, 'In dodici libri.'),
       fill('Quanti libri ha l’Eneide?', ['12', 'dodici'], 'Sei odissiaci e sei iliadici.'),
       mc('Per Aristotele la tragedia produce:', ['Catarsi', 'Maieutica', 'Sillogismo', 'Ironia'], 0, 'Attraverso pietà e terrore.'),
       mc('Quale tragedia di Sofocle oppone Antigone e Creonte?', ['Antigone', 'Medea', 'Orestea', 'Baccanti'], 0, 'Legge della città e legge non scritta.'),
       fill('Quanti anni separano il 70 a.C. dal 19 a.C. (nascita e morte di Virgilio)?', ['51'], '70 − 19 = 51, approssimato.'),
-      mc('Chi è l’autore della Lisistrata?', ['Aristofane', 'Menandro', 'Euripide', 'Plauto'], 0, 'Commedia del 411 a.C.'),
+      mc('Chi è l’autore della Lisistrata?', ['Aristofane', 'Menandro di Atene', 'Euripide di Salamina', 'Tito Maccio Plauto'], 0, 'Commedia del 411 a.C.'),
       order('Ordina cronologicamente', ['Omero', 'Eschilo', 'Sofocle', 'Aristofane', 'Virgilio'], 'VIII sec. a.C.; 525–456; circa 496–406; circa 446–386; 70–19.')
     ],
     test: [
-      mc('La virtù tipica di Enea è:', ['La pietas, il dovere verso il destino e i suoi', 'L’astuzia', 'La collera', 'L’ironia'], 0, 'Dovere verso dèi, famiglia e compito.'),
+      mc('La virtù tipica di Enea è:', ['La pietas, dovere verso il destino e i suoi', 'L’astuzia nell’inganno dei nemici, come Ulisse', 'La collera funesta contro i compagni', 'L’ironia distaccata verso gli dèi'], 0, 'Dovere verso dèi, famiglia e compito.'),
       mc('Quale tragediografo scrisse la Medea (431 a.C.)?', ['Euripide', 'Eschilo', 'Sofocle', 'Aristofane'], 0, 'Euripide.'),
-      mc('L’Orestea di Eschilo mostra il passaggio:', ['Dalla vendetta di sangue al tribunale', 'Dalla repubblica all’impero', 'Dal mito alla storia', 'Dalla tragedia alla commedia'], 0, 'Il processo di Oreste in Atene.'),
+      mc('L’Orestea di Eschilo mostra il passaggio:', ['Dalla vendetta di sangue al tribunale', 'Dalla repubblica all’impero di Atene', 'Dal mito alla storia documentata', 'Dalla tragedia alla commedia satirica'], 0, 'Il processo di Oreste in Atene.'),
       fill('Quanti anni passano tra l’Orestea (458 a.C.) e la Medea (431 a.C.)?', ['27'], '458 − 431 = 27.'),
-      mc('Qual è il tratto della commedia nuova di Menandro?', ['Vicende private con caratteri tipici', 'Satira politica diretta', 'Racconti di dèi', 'Poesia lirica'], 0, 'Equivoci e riconoscimenti.'),
+      mc('Qual è il tratto della commedia nuova di Menandro?', ['Vicende private con caratteri tipici', 'Satira politica diretta contro i capi', 'Racconti di dèi ed eroi della mitologia', 'Poesia lirica corale in onore degli dèi'], 0, 'Equivoci e riconoscimenti.'),
       mc('Che cosa riecheggiano i primi sei libri dell’Eneide?', ['L’Odissea', 'L’Iliade', 'Le Georgiche', 'La Poetica'], 0, 'Il viaggio; gli ultimi sei riecheggiano l’Iliade.'),
-      mc('Perché Edipo re è un esempio di ironia tragica?', ['Il pubblico conosce la verità prima del protagonista', 'Edipo è comico', 'Non ci sono dèi', 'Il coro è assente'], 0, 'Il destino si compie mentre Edipo lo cerca.')
+      mc('Perché Edipo re è un esempio di ironia tragica?', ['Il pubblico sa la verità prima di Edipo', 'Edipo è comico e il pubblico ride di lui', 'Gli dèi non intervengono in nessuna scena', 'Il coro è assente per tutta la tragedia'], 0, 'Il destino si compie mentre Edipo lo cerca.')
     ]
   });
 
@@ -308,14 +308,14 @@
     ],
     exercises: [
       fill('Quanti canti ha la Divina Commedia?', ['100', 'cento'], '34 + 33 + 33 = 100.'),
-      mc('Qual è lo schema di rime della Commedia?', ['Terza rima (ABA BCB…)', 'Rima baciata', 'Ottava', 'Versi sciolti'], 0, 'Terzine incatenate di endecasillabi.'),
+      mc('Qual è lo schema di rime della Commedia?', ['Terza rima (ABA BCB…)', 'Rima baciata (AABB…)', 'Ottava (ABABABCC)', 'Versi sciolti, senza rima'], 0, 'Terzine incatenate di endecasillabi.'),
       mc('Chi guida Dante nel Purgatorio fino alla cima?', ['Virgilio', 'San Bernardo', 'Petrarca', 'Boccaccio'], 0, 'Poi subentra Beatrice.'),
       mc('Quale canto dell’Inferno è dedicato a Paolo e Francesca?', ['V', 'I', 'XXVI', 'XXXIII'], 0, 'Lussuriosi, secondo cerchio.'),
       fill('In che anno Dante fu condannato all’esilio?', ['1302'], 'Condanna nel 1302.'),
-      mc('Che cos’è il contrappasso?', ['La pena che corrisponde per analogia o contrasto alla colpa', 'Un tipo di rima', 'Una figura retorica', 'Un genere letterario'], 0, 'Legge dell’oltretomba dantesco.'),
+      mc('Che cos’è il contrappasso?', ['La pena legata alla colpa per analogia o contrasto', 'Un tipo di rima usata nei canti dell’Inferno', 'Una figura retorica tipica dei poemi medievali', 'Un genere letterario in volgare toscano'], 0, 'Legge dell’oltretomba dantesco.'),
       fill('Quanti componimenti ha il Canzoniere di Petrarca?', ['366'], 'Rerum vulgarium fragmenta.'),
       mc('Quando Petrarca ricevette l’incoronazione poetica in Campidoglio?', ['1341', '1300', '1374', '1327'], 0, 'È l’anno dell’alloro.'),
-      mc('Nel Decameron i giovani si rifugiano in campagna a causa:', ['Della peste del 1348', 'Di una guerra', 'Di una carestia', 'Di un terremoto'], 0, 'Cornice narrativa.'),
+      mc('Nel Decameron i giovani si rifugiano in campagna a causa:', ['Della peste del 1348', 'Di una guerra tra le città toscane', 'Di una carestia prolungata', 'Di un terremoto a Firenze'], 0, 'Cornice narrativa.'),
       fill('Quante novelle contiene il Decameron?', ['100', 'cento'], '10 giovani × 10 giornate.'),
       order('Ordina per data di nascita', ['Dante', 'Petrarca', 'Boccaccio'], '1265, 1304, 1313.')
     ],
@@ -324,9 +324,9 @@
       fill('Quanti anni separano la nascita (1304) e la morte (1374) di Petrarca?', ['70'], '1374 − 1304 = 70.'),
       mc('Quale opera di Dante è un prosimetro sull’amore per Beatrice?', ['Vita nova', 'Monarchia', 'Convivio', 'De vulgari eloquentia'], 0, 'Prosa e versi.'),
       mc('Il «folle volo» di Ulisse si trova in:', ['Inferno XXVI', 'Purgatorio I', 'Paradiso XXXIII', 'Inferno III'], 0, 'Consigliere fraudolento e viaggio oltre le colonne d’Ercole.'),
-      mc('Il Secretum di Petrarca è:', ['Un dialogo con sant’Agostino sui suoi conflitti interiori', 'Un poema epico', 'Una raccolta di novelle', 'Un trattato politico'], 0, 'Opera latina.'),
-      mc('Chi propose Petrarca e Boccaccio come modelli linguistici nel Cinquecento?', ['Pietro Bembo', 'Machiavelli', 'Ariosto', 'Tasso'], 0, 'Prose della volgar lingua (1525).'),
-      mc('L’ultimo verso della Commedia si riferisce a:', ['L’amore che muove il sole e le altre stelle', 'La selva oscura', 'La città di Dite', 'Il ritorno a Firenze'], 0, 'Chiude il Paradiso.')
+      mc('Il Secretum di Petrarca è:', ['Un dialogo con sant’Agostino sui conflitti interiori', 'Un poema epico su Scipione in esametri latini', 'Una raccolta di novelle ambientate a Firenze', 'Un trattato politico sul governo della città'], 0, 'Opera latina.'),
+      mc('Chi propose Petrarca e Boccaccio come modelli linguistici nel Cinquecento?', ['Pietro Bembo', 'Niccolò Machiavelli', 'Ludovico Ariosto', 'Torquato Tasso'], 0, 'Prose della volgar lingua (1525).'),
+      mc('L’ultimo verso della Commedia si riferisce a:', ['L’amore che muove il sole e le altre stelle', 'La selva oscura in cui si perde il poeta', 'La città di Dite e le sue mura infuocate', 'Il ritorno a Firenze dopo l’esilio'], 0, 'Chiude il Paradiso.')
     ]
   });
 
@@ -352,12 +352,12 @@
       fill('In che anno uscì l’edizione definitiva dell’Orlando furioso?', ['1532'], 'In 46 canti.'),
       mc('Il Principe di Machiavelli fu scritto nel:', ['1513', '1532', '1492', '1600'], 0, 'Pubblicato postumo nel 1532.'),
       mc('La coppia concettuale centrale del Principe è:', ['Virtù e fortuna', 'Fede e ragione', 'Dolore e piacere', 'Tesi e antitesi'], 0, 'Capacità politica e forza degli eventi.'),
-      mc('Quale poema di Tasso racconta la prima crociata?', ['Gerusalemme liberata', 'Aminta', 'Adone', 'Orlando innamorato'], 0, 'Con Goffredo, Tancredi e Armida.'),
+      mc('Quale poema di Tasso racconta la prima crociata?', ['Gerusalemme liberata', 'Aminta, favola pastorale', 'Adone, poema di Marino', 'Orlando innamorato di Boiardo'], 0, 'Con Goffredo, Tancredi e Armida.'),
       fill('Quanti anni passano tra la scoperta dell’America (1492) e la Riforma di Lutero (1517)?', ['25'], '1517 − 1492 = 25.'),
-      mc('Nel Saggiatore Galileo afferma che il libro della natura è scritto:', ['In lingua matematica', 'In latino', 'In greco', 'In lingua divina'], 0, 'Il Saggiatore, 1623.'),
+      mc('Nel Saggiatore Galileo afferma che il libro della natura è scritto:', ['In lingua matematica', 'In latino, lingua dei dotti', 'In greco, lingua dei filosofi', 'In lingua divina, nota ai teologi'], 0, 'Il Saggiatore, 1623.'),
       fill('In che anno Galileo abiurò davanti all’Inquisizione?', ['1633'], 'Dopo il Dialogo del 1632.'),
       mc('Quale tragedia di Shakespeare ha il celebre «Essere o non essere»?', ['Amleto', 'Macbeth', 'Otello', 'Re Lear'], 0, 'Atto III.'),
-      mc('Che cosa scambia Don Chisciotte per giganti?', ['I mulini a vento', 'Le greggi', 'Le torri', 'Le locande'], 0, 'Episodio celebre.'),
+      mc('Che cosa scambia Don Chisciotte per giganti?', ['I mulini a vento', 'Le greggi di pecore', 'Le torri del castello', 'Le locande lungo la strada'], 0, 'Episodio celebre.'),
       order('Ordina per anno di nascita', ['Machiavelli', 'Ariosto', 'Tasso', 'Galileo'], '1469, 1474, 1544, 1564.')
     ],
     test: [
@@ -365,9 +365,9 @@
       mc('Che cosa ritrova Astolfo sulla Luna?', ['Il senno di Orlando', 'La spada Durlindana', 'Angelica', 'La corona'], 0, 'Nell’ampolla.'),
       fill('Quanti anni separano la nascita (1544) e la morte (1595) di Tasso?', ['51'], '1595 − 1544 = 51.'),
       mc('Quale concilio avviò la risposta cattolica alla Riforma?', ['Il Concilio di Trento', 'Il Concilio di Nicea', 'Il Concilio di Costanza', 'Il Lateranense IV'], 0, '1545–1563.'),
-      mc('Il Globe era:', ['Il teatro della compagnia di Shakespeare', 'Una rivista', 'Un poema', 'Un college'], 0, 'Aperto nel 1599.'),
+      mc('Il Globe era:', ['Il teatro di Shakespeare', 'Una rivista letteraria di Londra', 'Un poema narrativo elisabettiano', 'Un college dell’università di Oxford'], 0, 'Aperto nel 1599.'),
       mc('Cervantes fu ferito nella battaglia di:', ['Lepanto', 'Pavia', 'Azincourt', 'Waterloo'], 0, '1571.'),
-      mc('Perché il Don Chisciotte è importante per la storia del romanzo?', ['Mescola ideale e realtà e riflette su se stesso', 'È il primo testo scritto', 'È un poema in ottave', 'È una tragedia'], 0, 'Parodia e metaletteratura.')
+      mc('Perché il Don Chisciotte è importante per la storia del romanzo?', ['Mescola ideale e realtà con ironia', 'È il primo testo scritto in castigliano', 'È un poema in ottave di materia cavalleresca', 'È una tragedia di ambientazione spagnola'], 0, 'Parodia e metaletteratura.')
     ]
   });
 
@@ -389,26 +389,26 @@
       { h: 'Ripasso', b: `**Cronologia**\n\n> Ortis 1802 · Sepolcri 1807 · Il cinque maggio 1821 · Operette morali 1827 · Promessi sposi (prima ed.) 1827 e (definitiva) 1840-42 · Canti 1831/1835 · Madame Bovary 1857 · Guerra e pace 1865-69 · I Malavoglia 1881\n\n**Per ciascun autore, una chiave**\n\n- Foscolo: la memoria dei morti e la poesia come civiltà.\n- Manzoni: il «vero» storico e morale, la Provvidenza.\n- Leopardi: desiderio, infinito, solidarietà.\n- Verga: la realtà sociale vista dal basso.\n- Flaubert, Dickens, Tolstoj: il romanzo come grande specchio sociale.\n\nUn confronto utile: sia Manzoni sia Verga scrivono di umili, ma Manzoni guarda con fiducia nella Provvidenza, Verga con scetticismo sulle possibilità di riscatto.\n\nAvanti: il Novecento rompe con le forme tradizionali.` }
     ],
     exercises: [
-      mc('Quale opera di Foscolo è un romanzo epistolare?', ['Ultime lettere di Jacopo Ortis', 'Dei Sepolcri', 'Le Grazie', 'A Zacinto'], 0, 'Del 1802.'),
+      mc('Quale opera di Foscolo è un romanzo epistolare?', ['Ultime lettere di Jacopo Ortis', 'Dei Sepolcri, carme in versi sciolti', 'Le Grazie, poemetto incompiuto', 'A Zacinto, sonetto dell’esilio'], 0, 'Del 1802.'),
       fill('In che anno uscì Dei Sepolcri?', ['1807'], 'Carme in endecasillabi sciolti.'),
       mc('I promessi sposi sono ambientati in Lombardia nel:', ['1628-1630', '1527', '1848', '1796'], 0, 'Dominio spagnolo, carestia e peste.'),
       mc('Quale personaggio manzoniano si converte dopo una notte di inquietudine?', ['L’Innominato', 'Don Rodrigo', 'Azzeccagarbugli', 'Renzo'], 0, 'È l’Innominato.'),
       fill('Quanti capitoli ha I promessi sposi?', ['38'], 'Edizione definitiva.'),
       fill('Quanti anni separano la nascita (1785) e la morte (1873) di Manzoni?', ['88'], '1873 − 1785 = 88.'),
       mc('Quale opera leopardiana è del 1819?', ['L’infinito', 'La ginestra', 'A Silvia', 'Operette morali'], 0, 'Composta nel 1819.'),
-      mc('Nella Ginestra Leopardi propone:', ['Solidarietà fra gli uomini contro la Natura', 'Il ritorno al mito', 'Il disprezzo del mondo', 'La fede nel progresso'], 0, 'La «social catena».'),
+      mc('Nella Ginestra Leopardi propone:', ['Solidarietà tra gli uomini contro la Natura', 'Il ritorno al mito e all’età antica', 'Il disprezzo di un mondo senza senso', 'La fede nel progresso e nella scienza'], 0, 'La «social catena».'),
       mc('Che cos’è l’impersonalità in Verga?', ['Il narratore sembra scomparire', 'L’uso della terza persona plurale', 'L’uso del dialetto', 'L’assenza di trama'], 0, 'Tecnica narrativa verista.'),
-      mc('Chi scrisse Madame Bovary (1857)?', ['Flaubert', 'Dickens', 'Tolstoj', 'Balzac'], 0, 'Fu processato e assolto.'),
+      mc('Chi scrisse Madame Bovary (1857)?', ['Gustave Flaubert', 'Charles Dickens', 'Lev Tolstoj', 'Honoré de Balzac'], 0, 'Fu processato e assolto.'),
       order('Ordina cronologicamente', ['Ultime lettere di Jacopo Ortis', 'Dei Sepolcri', 'Il cinque maggio', 'I Malavoglia'], '1802, 1807, 1821, 1881.')
     ],
     test: [
-      mc('Qual è il tema dei Malavoglia?', ['Una famiglia di pescatori e la «fiumana del progresso»', 'Una storia d’amore in corte', 'Un viaggio nell’Oltretomba', 'Una guerra civile'], 0, 'Aci Trezza.'),
+      mc('Qual è il tema dei Malavoglia?', ['Una famiglia di pescatori e la «fiumana»', 'Una storia d’amore alla corte del re', 'Un viaggio simbolico nell’Oltretomba', 'Una guerra civile in una città siciliana'], 0, 'Aci Trezza.'),
       fill('Quanti anni passano tra Ortis (1802) e Dei Sepolcri (1807)?', ['5'], '1807 − 1802 = 5.'),
-      mc('Che cos’è lo Zibaldone?', ['Un quaderno di pensieri di Leopardi', 'Una raccolta di novelle di Verga', 'Una rivista', 'Un romanzo di Manzoni'], 0, 'Pubblicato nel 1898-1900.'),
+      mc('Che cos’è lo Zibaldone?', ['Un quaderno di pensieri di Leopardi', 'Una raccolta di novelle di Verga', 'Una rivista fiorentina di primo Ottocento', 'Un romanzo storico di Manzoni'], 0, 'Pubblicato nel 1898-1900.'),
       mc('Quale scrittore denuncia la miseria urbana in Oliver Twist?', ['Dickens', 'Hugo', 'Verga', 'Stendhal'], 0, 'Oliver Twist 1837-1839.'),
       mc('Chi scrisse Guerra e pace?', ['Tolstoj', 'Dostoevskij', 'Flaubert', 'Balzac'], 0, '1865-1869.'),
-      mc('Che cosa rappresenta la «quarantana»?', ['L’edizione definitiva dei Promessi sposi (1840-42)', 'Un periodo di peste', 'Una raccolta di Leopardi', 'Il Ciclo dei Vinti'], 0, 'Con revisione linguistica.'),
-      mc('Quale autore inventò il romanzo storico moderno e influenzò Manzoni?', ['Walter Scott', 'Zola', 'Dickens', 'Hugo'], 0, 'Ivanhoe (1819).')
+      mc('Che cosa rappresenta la «quarantana»?', ['L’edizione definitiva dei Promessi sposi', 'Un periodo di peste a Milano nel Seicento', 'Una raccolta di liriche di Leopardi', 'Il Ciclo dei Vinti di Verga'], 0, 'Con revisione linguistica.'),
+      mc('Quale autore inventò il romanzo storico moderno e influenzò Manzoni?', ['Walter Scott', 'Émile Zola', 'Charles Dickens', 'Victor Hugo'], 0, 'Ivanhoe (1819).')
     ]
   });
 
@@ -432,7 +432,7 @@
     exercises: [
       mc('Chi è il protagonista de La coscienza di Zeno?', ['Zeno Cosini', 'Mattia Pascal', 'Gregor Samsa', 'Jacopo Ortis'], 0, 'Narratore inattendibile.'),
       fill('In che anno uscì La coscienza di Zeno?', ['1923'], 'Svevo, 1923.'),
-      mc('Quale opera di Pirandello mette in scena personaggi che chiedono di essere rappresentati?', ['Sei personaggi in cerca d’autore', 'Enrico IV', 'Il fu Mattia Pascal', 'Uno, nessuno e centomila'], 0, 'Del 1921.'),
+      mc('Quale opera di Pirandello mette in scena personaggi che chiedono di essere rappresentati?', ['Sei personaggi in cerca d’autore', 'Enrico IV, tragedia della follia', 'Il fu Mattia Pascal, romanzo del 1904', 'Uno, nessuno e centomila, romanzo del 1926'], 0, 'Del 1921.'),
       fill('In che anno Pirandello ricevette il Nobel?', ['1934'], 'Nobel per la letteratura 1934.'),
       mc('Quale verso è di Ungaretti?', ['M’illumino / d’immenso', 'Nel mezzo del cammin di nostra vita', 'Meriggiare pallido e assorto', 'Il cinque maggio'], 0, 'Mattina.'),
       mc('Quale raccolta di Montale è del 1925?', ['Ossi di seppia', 'Le occasioni', 'La bufera e altro', 'Satura'], 0, 'La prima.'),
@@ -444,11 +444,11 @@
     ],
     test: [
       mc('Quale giorno racconta l’Ulisse di Joyce?', ['16 giugno 1904', '1 gennaio 1900', '25 dicembre 1914', '14 luglio 1789'], 0, 'Il Bloomsday.'),
-      mc('Che cos’è il realismo magico?', ['Il meraviglioso narrato come normale', 'Un romanzo storico', 'Un genere teatrale', 'Un movimento poetico italiano'], 0, 'Cent’anni di solitudine.'),
+      mc('Che cos’è il realismo magico?', ['Il meraviglioso narrato come normale', 'Un romanzo storico ambientato nel Seicento', 'Un genere teatrale di inizio Novecento', 'Un movimento poetico italiano del dopoguerra'], 0, 'Cent’anni di solitudine.'),
       fill('Quanti anni separano la nascita (1883) e la morte (1924) di Kafka?', ['41'], '1924 − 1883 = 41.'),
-      mc('Che cosa è il «correlativo oggettivo» in Montale?', ['Un’emozione espressa tramite oggetti e immagini', 'Una rima', 'Un genere', 'Una figura retorica di suono'], 0, 'Le occasioni.'),
+      mc('Che cosa è il «correlativo oggettivo» in Montale?', ['Un’emozione resa con oggetti e immagini', 'Una rima particolare dei versi di Montale', 'Un genere poetico del primo Novecento', 'Una figura retorica di suono, come l’assonanza'], 0, 'Le occasioni.'),
       fill('Quanti anni passano tra Il fu Mattia Pascal (1904) e Uno, nessuno e centomila (1926)?', ['22'], '1926 − 1904 = 22.'),
-      mc('Chi curò e pubblicò postumi Il processo e Il castello?', ['Max Brod', 'Joyce', 'Svevo', 'Eco'], 0, 'Amico di Kafka.'),
+      mc('Chi curò e pubblicò postumi Il processo e Il castello?', ['Max Brod', 'James Joyce', 'Italo Svevo', 'Umberto Eco'], 0, 'Amico di Kafka.'),
       mc('Quale titolo non è di Calvino?', ['Il nome della rosa', 'Le città invisibili', 'Il barone rampante', 'Le cosmicomiche'], 0, 'È di Eco.')
     ]
   });
