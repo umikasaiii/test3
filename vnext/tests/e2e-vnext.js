@@ -16,6 +16,19 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(/Non ancora implementato/.test(txt), 'i laboratori non implementati sono dichiarati tali');
   ok(/L5/.test(txt) && /non è una valutazione psicometrica/.test(txt), 'livelli e avvertenza sul profilo');
   ok(await page.evaluate(() => { const r = document.querySelector('.sma-hub').getBoundingClientRect(); return r.width <= innerWidth; }), 'nessun overflow orizzontale a 360px');
+  // Deduction Lab: partita completa nell'interfaccia
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-deduction', {}); }); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => /Deduction Lab/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaDedOpen"]').length >= 4), 'il laboratorio elenca almeno 4 casi');
+  await page.click('[data-act="smaDedOpen"][data-id="ded-sito-lento"]'); await page.waitForTimeout(150);
+  await page.click('[data-act="smaDedReveal"][data-k="k2"]'); await page.waitForTimeout(100);
+  await page.click('[data-act="smaDedReveal"][data-k="k3"]'); await page.waitForTimeout(100);
+  ok(await page.evaluate(() => /Budget residuo: 3/.test(document.getElementById('app').innerText)), 'la richiesta di indizi consuma il budget');
+  await page.click('[data-act="smaDedPick"][data-h="img"]'); await page.waitForTimeout(100);
+  await page.click('[data-act="smaDedConf"][data-v="80"]'); await page.waitForTimeout(100);
+  await page.click('[data-act="smaDedFinish"]'); await page.waitForTimeout(200);
+  const res = await page.evaluate(() => document.getElementById('app').innerText);
+  ok(/Buona decisione/.test(res) && /Feedback sul processo/.test(res) && /Soluzione/.test(res), 'esito con feedback sul processo e soluzione');
+  ok(await page.evaluate(() => { const c = ST.app.state.sma.cases['ded-sito-lento']; return c && c.tries === 1 && ST.sma.profile(ST.app.state).deduction.n === 1; }), 'risultato salvato nello stato e nel profilo');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
