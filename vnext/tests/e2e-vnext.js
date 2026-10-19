@@ -159,6 +159,12 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-act="smaCvOpen"][data-id="cv-ja-konbini"]'); await page.waitForTimeout(150);
   ok(await page.evaluate(() => !/\[[^\]]*\|[^\]]*\]/.test(document.getElementById('app').innerText) && !!document.querySelector('#app ruby')), 'il testo giapponese mostra il furigana senza markup grezzo');
   ok(await page.evaluate(() => { const t = ST.sma.convo.byId('cv-ja-konbini'); return Object.values(t.nodes).some(n => n.task && n.task.kind === 'produce') && Object.values(t.nodes).some(n => n.task && n.task.kind === 'order'); }), 'riconoscimento, produzione e costruzione sono compiti distinti');
+  // Un modulo didattico si apre e si legge con le viste esistenti (argomento, lezione a pagine, esercizi)
+  const modId = await page.evaluate(() => ST.content.topicsOf('sma')[0].id);
+  await page.evaluate(id => { ST.app.stack = []; ST.app.go('topic', { id }); }, modId); await page.waitForTimeout(200);
+  ok(await page.evaluate(() => document.getElementById('app').innerText.length > 150), 'la scheda di un modulo si apre');
+  await page.evaluate(id => { ST.app.stack = []; ST.app.go('lesson', { id, page: 0 }); }, modId); await page.waitForTimeout(200);
+  ok(await page.evaluate(() => document.getElementById('app').innerText.length > 400), 'la lezione a pagine mostra il testo del modulo');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
