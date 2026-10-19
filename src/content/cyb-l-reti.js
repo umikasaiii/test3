@@ -111,7 +111,7 @@
       mc('Che cosa nasconde DoH a un osservatore sul percorso?', ['Il contenuto delle query DNS', 'L’indirizzo IP del server contattato dopo', 'Il tuo indirizzo MAC', 'La dimensione dei pacchetti'], 0, 'DoH cifra le query tra client e resolver, ma l’IP di destinazione successivo resta visibile.'),
       mc('Un indirizzo 169.254.x.x su un PC indica probabilmente che:', ['Il DHCP non ha risposto', 'Il PC è in VPN', 'È un indirizzo pubblico', 'Il DNS è firmato'], 0, 'È l’autoassegnazione link-local.'),
       mc('Quale record serve per SPF e DKIM?', ['TXT', 'A', 'NS', 'PTR'], 0, 'SPF, DKIM e DMARC si pubblicano come record TXT.'),
-      mc('Uno spoofing ARP può essere condotto efficacemente:', ['Solo nello stesso segmento locale', 'Da qualsiasi punto di Internet', 'Solo via Wi-Fi', 'Solo con DNSSEC attivo'], 0, 'L’ARP non attraversa i router.')
+      mc('Uno spoofing ARP può essere condotto efficacemente:', ['Solo nello stesso segmento locale', 'Da qualsiasi punto di Internet', 'Solo via Wi-Fi aperto', 'Solo con DNSSEC attivo sul resolver'], 0, 'L’ARP non attraversa i router.')
     ]
   });
 
@@ -131,7 +131,7 @@
     ],
     exercises: [
       mc('Quale proprietà NON è garantita dal solo lucchetto HTTPS?', ['L’onestà del sito', 'La cifratura dei dati', 'L’integrità dei dati', 'L’autenticità del dominio'], 0, 'Un sito di phishing può avere un certificato valido per il proprio dominio.'),
-      mc('Come viene cifrato il traffico HTTPS dopo l’handshake?', ['Con una chiave simmetrica di sessione', 'Con la chiave pubblica del client', 'Con la chiave privata della CA', 'Non è cifrato'], 0, 'L’asimmetrica serve per stabilire la chiave, poi si usa la simmetrica.'),
+      mc('Come viene cifrato il traffico HTTPS dopo l’handshake?', ['Con una chiave simmetrica di sessione', 'Con la chiave pubblica del client', 'Con la chiave privata della CA emittente', 'Non è cifrato in nessun caso'], 0, 'L’asimmetrica serve per stabilire la chiave, poi si usa la simmetrica.'),
       mc('Che cosa permette la forward secrecy?', ['Il traffico passato resta protetto anche se la chiave privata viene rubata', 'Di saltare il certificato', 'Di usare HTTP', 'Di rinnovare il certificato più tardi'], 0, 'Le chiavi di sessione sono effimere e non derivabili dalla chiave privata del server.'),
       mc('Quanti round trip richiede l’handshake base di TLS 1.3?', ['1', '2', '3', '0 sempre'], 0, 'TLS 1.3 ha un handshake 1-RTT; TLS 1.2 ne richiede 2.'),
       mc('Quale elemento di una catena è già presente nel trust store del browser?', ['La CA radice', 'Il certificato foglia', 'La CA intermedia', 'Nessuno'], 0, 'La radice è il punto di fiducia preinstallato.'),
@@ -145,7 +145,7 @@
       mc('Che cosa garantisce la firma della CA su un certificato?', ['Che la chiave pubblica appartiene al dominio indicato', 'Che il sito è sicuro da attacchi', 'Che il sito non farà phishing', 'Che il server non ha vulnerabilità'], 0, 'La CA certifica l’associazione tra nome e chiave pubblica.'),
       mc('Quale cifrario è di tipo AEAD?', ['AES-GCM', 'RC4', '3DES', 'DES'], 0, 'AES-GCM cifra e autentica; gli altri sono deboli o obsoleti.'),
       fill('Per quanti giorni vale max-age=31536000 in HSTS?', ['365'], '31 536 000 / 86 400 = 365 giorni.'),
-      mc('Perché l’HSTS preload è più forte del solo HSTS?', ['Protegge anche la prima visita', 'Cifra il DNS', 'Rimuove la CA', 'Funziona solo in HTTP'], 0, 'Il dominio è nell’elenco del browser prima di qualunque visita.'),
+      mc('Perché l’HSTS preload è più forte del solo HSTS?', ['Protegge anche la prima visita', 'Cifra anche le richieste DNS', 'Rimuove la CA dalla catena', 'Funziona solo su connessioni HTTP'], 0, 'Il dominio è nell’elenco del browser prima di qualunque visita.'),
       mc('Cosa vede un osservatore di rete con SNI in chiaro?', ['Il dominio visitato ma non il contenuto', 'Le password', 'I cookie', 'I percorsi delle pagine'], 0, 'Dominio sì; URL completo, intestazioni e contenuto no.'),
       mc('Un utente trova «certificato scaduto» sul sito della banca. Cosa fa?', ['Non prosegue e avvisa la banca', 'Accetta l’eccezione per fare in fretta', 'Inserisce comunque la password', 'Disattiva l’antivirus'], 0, 'Con credenziali o pagamenti non si ignora mai l’avviso.'),
       mc('Quale delle seguenti è una cattiva configurazione?', ['Lasciare attivo TLS 1.0', 'Rinnovo automatico dei certificati', 'Catena completa inviata dal server', 'Cookie con flag Secure'], 0, 'TLS 1.0 è deprecato e va disabilitato.')
@@ -168,7 +168,7 @@
     ],
     exercises: [
       mc('Quale firewall mantiene una tabella delle connessioni?', ['Stateful', 'Stateless', 'Nessuno', 'Solo l’IDS'], 0, 'Lo stateful traccia lo stato delle sessioni.'),
-      mc('Che cosa succede a un pacchetto che non corrisponde ad alcuna regola di una ACL?', ['È bloccato dal deny implicito', 'È ammesso', 'È inoltrato alla DMZ', 'È registrato e basta'], 0, 'In fondo a ogni ACL c’è un deny implicito.'),
+      mc('Che cosa succede a un pacchetto che non corrisponde ad alcuna regola di una ACL?', ['È bloccato dal deny implicito', 'È ammesso dall’ultima regola', 'È inoltrato direttamente alla DMZ', 'È registrato nei log e basta'], 0, 'In fondo a ogni ACL c’è un deny implicito.'),
       mc('ACL: 1) permit tcp any → 10.0.1.10:443, 2) deny ip any any. Un client prova 10.0.1.10:80. Esito?', ['Bloccato', 'Ammesso', 'Dipende dal client', 'Ammesso solo con ARP'], 0, 'La porta 80 non è prevista e la regola 2 nega tutto il resto.'),
       mc('ACL: 1) permit ip any any, 2) deny tcp any any porta 23. Il traffico Telnet è:', ['Ammesso, la regola 1 corrisponde per prima', 'Bloccato', 'Bloccato solo di notte', 'Registrato ma ammesso solo in DMZ'], 0, 'La prima regola che corrisponde vince: la 2 non viene mai raggiunta.'),
       mc('Qual è lo scopo principale di una DMZ?', ['Isolare i servizi pubblici dalla rete interna', 'Cifrare il traffico Wi-Fi', 'Sostituire il DNS', 'Assegnare indirizzi IP'], 0, 'Se un servizio esposto è compromesso, la LAN resta protetta.'),
@@ -184,8 +184,8 @@
       fill('Qual è il massimo VLAN ID utilizzabile in 802.1Q?', ['4094'], 'Gli ID vanno da 1 a 4094 (0 e 4095 sono riservati).'),
       mc('Che differenza c’è tra split tunnel e full tunnel?', ['Nel full tunnel passa dalla VPN tutto il traffico', 'Nello split tunnel non c’è cifratura', 'Il full tunnel non usa IP', 'Sono sinonimi'], 0, 'Lo split tunnel instrada via VPN solo il traffico aziendale.'),
       mc('Cosa fa il NAC con un dispositivo non conforme?', ['Lo isola in quarantena o ospiti', 'Gli assegna sempre accesso totale', 'Lo spegne', 'Cambia il suo MAC'], 0, 'Il NAC applica una VLAN o politica limitata.'),
-      mc('Quale principio sintetizza lo zero trust?', ['Mai fidarsi, verificare sempre', 'Fidarsi di chi è nella LAN', 'Solo il perimetro conta', 'Le password bastano'], 0, 'Ogni richiesta viene verificata, anche interna.'),
-      mc('Un falso negativo di un IDS è:', ['Una minaccia reale non segnalata', 'Un allarme senza minaccia', 'Un pacchetto cifrato', 'Un guasto dello switch'], 0, 'I falsi positivi sono invece allarmi inutili.')
+      mc('Quale principio sintetizza lo zero trust?', ['Mai fidarsi, verificare sempre', 'Fidarsi di chi è nella LAN interna', 'Solo il perimetro conta davvero', 'Le password bastano a verificare'], 0, 'Ogni richiesta viene verificata, anche interna.'),
+      mc('Un falso negativo di un IDS è:', ['Una minaccia reale non segnalata', 'Un allarme senza alcuna minaccia reale', 'Un pacchetto cifrato in transito sulla rete', 'Un guasto temporaneo dello switch di rete'], 0, 'I falsi positivi sono invece allarmi inutili.')
     ]
   });
 
@@ -205,24 +205,24 @@
     ],
     exercises: [
       mc('Quale proprietà della triade CIA colpisce principalmente un DDoS?', ['Disponibilità', 'Riservatezza', 'Integrità', 'Non ripudio'], 0, 'Il DDoS rende il servizio indisponibile.'),
-      mc('Che cosa distingue un attacco attivo da uno passivo?', ['L’attivo altera o inserisce traffico', 'Il passivo è sempre più rumoroso', 'L’attivo non lascia tracce', 'Il passivo richiede una botnet'], 0, 'I passivi osservano; gli attivi modificano o bloccano.'),
-      mc('Perché TLS ostacola un MITM?', ['Il client verifica il certificato del server', 'Perché cifra l’indirizzo MAC', 'Perché blocca ARP', 'Perché nasconde le porte'], 0, 'Chi sta in mezzo non ha un certificato valido per il dominio.'),
+      mc('Che cosa distingue un attacco attivo da uno passivo?', ['L’attivo altera o inserisce traffico', 'Il passivo è sempre il più rumoroso nei log', 'L’attivo non lascia mai alcuna traccia di rete', 'Il passivo richiede per forza una botnet'], 0, 'I passivi osservano; gli attivi modificano o bloccano.'),
+      mc('Perché TLS ostacola un MITM?', ['Il client verifica il certificato del server', 'Perché cifra anche l’indirizzo MAC del client', 'Perché impedisce le richieste ARP sulla rete', 'Perché nasconde le porte dei servizi esposti'], 0, 'Chi sta in mezzo non ha un certificato valido per il dominio.'),
       mc('Quale difesa è specifica contro i SYN flood?', ['SYN cookies', 'DNSSEC', 'HSTS', 'WPS'], 0, 'I SYN cookies evitano di riempire la tabella delle connessioni semi-aperte.'),
-      mc('Cosa differenzia un DDoS da un DoS?', ['Il traffico arriva da molte origini', 'Usa solo UDP', 'Colpisce solo il Wi-Fi', 'Non ha impatti'], 0, 'Nel DDoS la sorgente è distribuita, spesso una botnet.'),
-      mc('In una scansione, una porta «filtrata» indica probabilmente:', ['Un firewall che non risponde', 'Un servizio attivo', 'Un host spento', 'Una porta usata da DNS'], 0, 'Nessuna risposta: un filtro scarta i pacchetti.'),
-      mc('Quale segnale nei log suggerisce una scansione in corso?', ['Molte porte diverse contattate in poco tempo da un’unica origine', 'Una sola connessione sulla 443', 'Traffico DNS normale', 'Un aggiornamento del sistema'], 0, 'Il pattern «tante porte, breve tempo» è tipico della ricognizione.'),
+      mc('Cosa differenzia un DDoS da un DoS?', ['Il traffico arriva da molte origini', 'Sfrutta esclusivamente il protocollo UDP', 'Colpisce soltanto le reti wireless Wi-Fi', 'Non ha alcun impatto sul servizio'], 0, 'Nel DDoS la sorgente è distribuita, spesso una botnet.'),
+      mc('In una scansione, una porta «filtrata» indica probabilmente:', ['Un firewall che non risponde', 'Un servizio attivo che risponde', 'Un host spento o scollegato', 'Una porta riservata al solo DNS'], 0, 'Nessuna risposta: un filtro scarta i pacchetti.'),
+      mc('Quale segnale nei log suggerisce una scansione in corso?', ['Molte porte diverse contattate in poco tempo da un’unica origine', 'Una sola connessione ripetuta verso la porta 443 del server web', 'Un volume normale di richieste DNS dai client della rete interna', 'Un aggiornamento pianificato del sistema da un server noto'], 0, 'Il pattern «tante porte, breve tempo» è tipico della ricognizione.'),
       mc('Quale novità di WPA3 contrasta gli attacchi a dizionario offline?', ['SAE', 'WEP', 'WPS', 'SSID nascosto'], 0, 'SAE sostituisce lo scambio PSK vulnerabile all’attacco offline.'),
-      mc('Che cos’è un evil twin?', ['Un AP che imita un SSID legittimo', 'Un AP aziendale ridondante', 'Un firewall doppio', 'Un tipo di VPN'], 0, 'Imita il nome di una rete per attirare i client.'),
+      mc('Che cos’è un evil twin?', ['Un AP che imita un SSID legittimo', 'Un AP aziendale di riserva ridondante', 'Un firewall installato in coppia', 'Un tipo di tunnel VPN cifrato'], 0, 'Imita il nome di una rete per attirare i client.'),
       order('Ordina un ragionamento difensivo', ['identifico cosa proteggo', 'valuto le minacce', 'applico i controlli', 'monitoro i log', 'rispondo e miglioro'], 'Dal bene da proteggere al miglioramento continuo.')
     ],
     test: [
       mc('Quale dei seguenti Wi-Fi è da evitare del tutto?', ['WEP', 'WPA3', 'WPA2-AES con passphrase lunga', 'WPA3 Enterprise'], 0, 'WEP è violabile rapidamente.'),
-      mc('Quale difesa aiuta contro un AP clone senza richiedere password condivise?', ['WPA2/WPA3 Enterprise con validazione del certificato RADIUS', 'SSID nascosto', 'Cambiare canale', 'WPS attivo'], 0, 'Il client verifica il certificato del server di autenticazione.'),
+      mc('Quale difesa aiuta contro un AP clone senza richiedere password condivise?', ['WPA2/WPA3 Enterprise con validazione del certificato RADIUS', 'Nascondere il nome della rete (SSID nascosto) su tutti gli access point', 'Cambiare ogni settimana il canale radio usato dagli access point', 'Tenere attivo il WPS con PIN per associare i nuovi dispositivi'], 0, 'Il client verifica il certificato del server di autenticazione.'),
       mc('Quale protezione evita IP spoofing in ingresso su un router di bordo?', ['Filtri anti-spoofing (ingress/egress)', 'DoH', 'Port security', 'HSTS'], 0, 'Si scartano pacchetti con sorgenti impossibili per quell’interfaccia.'),
-      mc('Lo sniffing su Wi-Fi aperto è efficace perché:', ['Il mezzo radio è condiviso e non cifrato', 'Gli switch inoltrano tutto a tutti', 'Il DNS è firmato', 'Le porte sono filtrate'], 0, 'Senza cifratura chiunque in portata riceve i frame.'),
-      mc('Quale combinazione di SPF, DKIM e DMARC protegge?', ['Dallo spoofing dell’e-mail', 'Dai SYN flood', 'Dal MITM Wi-Fi', 'Dalle scansioni'], 0, 'Autenticano il dominio mittente della posta.'),
-      mc('Che cos’è un rogue AP?', ['Un access point non autorizzato collegato alla rete', 'Un AP con WPA3', 'Un router di backup approvato', 'Un tipo di IDS'], 0, 'Crea un accesso non controllato.'),
-      mc('Perché è utile effettuare scansioni delle porte sulla propria rete, con autorizzazione?', ['Per scoprire servizi esposti per errore', 'Per cifrare le porte', 'Per aumentare la banda', 'Per sostituire il firewall'], 0, 'Permette di chiudere ciò che non serve.')
+      mc('Lo sniffing su Wi-Fi aperto è efficace perché:', ['Il mezzo radio è condiviso e non cifrato', 'Gli switch inoltrano ogni frame a tutti i nodi', 'Le risposte DNS sono firmate da chiunque', 'Le porte dei client sono filtrate per tutti'], 0, 'Senza cifratura chiunque in portata riceve i frame.'),
+      mc('Quale combinazione di SPF, DKIM e DMARC protegge?', ['Dallo spoofing dell’e-mail', 'Dai SYN flood sul server di posta', 'Dal MITM sulle reti Wi-Fi aperte', 'Dalle scansioni delle porte esposte'], 0, 'Autenticano il dominio mittente della posta.'),
+      mc('Che cos’è un rogue AP?', ['Un access point non autorizzato collegato alla rete', 'Un access point aziendale configurato con cifratura WPA3', 'Un router di backup approvato e regolarmente documentato', 'Un sensore IDS wireless installato sulla rete interna'], 0, 'Crea un accesso non controllato.'),
+      mc('Perché è utile effettuare scansioni delle porte sulla propria rete, con autorizzazione?', ['Per scoprire servizi esposti per errore', 'Per cifrare le porte lasciate aperte', 'Per aumentare la banda disponibile', 'Per sostituire il firewall di perimetro'], 0, 'Permette di chiudere ciò che non serve.')
     ]
   });
 

@@ -180,7 +180,7 @@
       mc('Regola: «se una carta ha una vocale, dietro c’è un numero pari». Carte: E, K, 4, 7. Quali giri?', ['E e 7', 'E e 4', 'K e 4', 'E e K'], 0, 'E e 7 possono nascondere vocale + dispari.'),
       mc('Essere a Torino rispetto a essere in Piemonte è:', ['Sufficiente ma non necessario', 'Necessario ma non sufficiente', 'Necessario e sufficiente', 'Né necessario né sufficiente'], 0, 'Torino ⊂ Piemonte: basta Torino, ma si può essere in Piemonte altrove.'),
       mc('La negazione di «Se studi, passi» è:', ['Studi e non passi', 'Non studi e non passi', 'Non studi e passi', 'Se non studi, non passi'], 0, 'Un condizionale è falso solo con antecedente vero e conseguente falso.'),
-      mc('«Se è un quadrato, è un rettangolo». La conversa è:', ['Falsa: esistono rettangoli non quadrati', 'Vera', 'Equivalente all’originale', 'Una contrapposta'], 0, 'Un rettangolo 2 × 3 non è un quadrato.'),
+      mc('«Se è un quadrato, è un rettangolo». La conversa è:', ['Falsa: esistono rettangoli non quadrati', 'Vera: ogni rettangolo ha quattro angoli retti', 'Equivalente all’originale, perché ne scambia solo l’ordine', 'Una contrapposta, cioè la forma logicamente equivalente'], 0, 'Un rettangolo 2 × 3 non è un quadrato.'),
       mc('Il motore parte solo se c’è benzina. Il motore è partito. Dunque:', ['C’è benzina', 'Non c’è benzina', 'Potrebbe non esserci benzina', 'La benzina è sufficiente'], 0, '«Solo se» = parte → benzina, quindi modus ponens.'),
       mc('La negazione di «Nessun candidato ha superato la prova» è:', ['Almeno un candidato ha superato la prova', 'Tutti i candidati hanno superato la prova', 'Ogni candidato ha fallito', 'Pochi candidati hanno superato'], 0, 'Basta un caso positivo.'),
       mc('Non è vero che sono stanco o affamato. Significa:', ['Non sono stanco e non sono affamato', 'Non sono stanco o non sono affamato', 'Sono stanco e affamato', 'Sono stanco ma non affamato'], 0, 'De Morgan: ¬(A o B) = ¬A e ¬B.')
@@ -220,7 +220,7 @@
       mc('Da un mazzo di 52 carte, cosa è più probabile?', ['Un asso', 'Un asso di cuori', 'Sono ugualmente probabili', 'Dipende dal mazzo'], 0, '4/52 contro 1/52: l’evento più specifico è incluso nel generale.'),
       fill('3 gatti catturano 3 topi in 3 minuti. Quanti minuti servono a 100 gatti per catturare 100 topi?', ['3'], 'Ogni gatto cattura un topo ogni 3 minuti.'),
       mc('Una macchia raddoppia ogni ora e copre lo stagno in 30 ore. A metà copertura sono passate:', ['29 ore', '15 ore', '28 ore', '25 ore'], 0, 'Un’ora prima della copertura totale.'),
-      mc('Il pregiudizio di conferma è:', ['Cercare e privilegiare prove che confermano ciò che già crediamo', 'Credere che il caso compensi gli eventi passati', 'Ignorare quanto è comune un evento', 'Preferire una storia più dettagliata'], 0, 'Definizione.'),
+      mc('Il pregiudizio di conferma è:', ['Cercare e privilegiare prove che confermano ciò che già crediamo', 'Credere che il caso compensi gli eventi passati, riequilibrandoli', 'Ignorare quanto sia comune un evento nella popolazione di partenza', 'Preferire la spiegazione che contiene più dettagli e più passaggi'], 0, 'Definizione.'),
       mc('Quale sequenza di 6 lanci è più probabile?', ['Sono tutte ugualmente probabili (1/64)', 'TCTCTC', 'TTTTTT', 'TCCTCT'], 0, 'Ogni sequenza esatta ha probabilità (1/2)⁶ = 1/64.')
     ]
   });

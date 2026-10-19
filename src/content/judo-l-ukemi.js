@@ -45,17 +45,17 @@
     recap: ['Si parte sdraiati: zero altezza, tutta la forma.', 'Si batte con tutto il braccio, non solo la mano.'],
     ex: [
       X('Dove guarda il mento in ushiro ukemi?', 'Sul petto, verso la cintura', ['Verso il soffitto', 'A destra', 'Indietro, con la testa all’indietro'], 0, 'Il mento sul petto protegge la nuca.'),
-      X('Con che cosa si batte sul tappeto?', 'Con tutto il braccio, a 30–45° dal corpo', ['Solo con la mano', 'Con la testa', 'Con i gomiti stretti ai fianchi'], 1, 'Batte l’intero braccio, non solo la mano.'),
-      X('Quando espiri?', 'Nel momento della battuta', ['Prima di sdraiarti', 'Trattieni il respiro', 'Dopo essersi fermato'], 2, 'L’espirazione evita di bloccare il torace.'),
-      X('Su quale superficie ti alleni?', 'Tatami o tappeto spesso', ['Parquet', 'Cemento', 'Piastrelle'], 0, 'Mai su pavimento duro.'),
-      X('Quale errore è tipico di questo gradino?', 'Il mento che si stacca dal petto', ['Guardare la cintura', 'Battere a 30–45°', 'Espirare'], 1, 'Mento alto = nuca non protetta.'),
+      X('Con che cosa si batte sul tappeto?', 'Con tutto il braccio, a 30–45° dal corpo', ['Solo con la mano, tenendo il braccio rigido', 'Con i talloni, battendo con forza sul pavimento', 'Con i gomiti stretti ai fianchi, senza staccarli'], 1, 'Batte l’intero braccio, non solo la mano.'),
+      X('Quando espiri?', 'Nel momento della battuta', ['Prima di sdraiarti, a polmoni vuoti', 'Trattieni il respiro fino alla fine', 'Dopo essersi fermato del tutto'], 2, 'L’espirazione evita di bloccare il torace.'),
+      X('Su quale superficie ti alleni?', 'Tatami o tappeto spesso', ['Pavimento di cemento liscio', 'Parquet o piastrelle di casa', 'Erba alta su terreno duro'], 0, 'Mai su pavimento duro.'),
+      X('Quale errore è tipico di questo gradino?', 'Il mento che si stacca dal petto', ['Guardare la cintura con il mento basso', 'Battere con tutto il braccio a 30–45°', 'Espirare al momento della battuta'], 1, 'Mento alto = nuca non protetta.'),
       order('Metti in ordine i passi', ['sdraiati', 'mento', 'braccia', 'battuta', 'espira'], 'Prima la posizione, poi il mento, poi le braccia e la battuta con espirazione.'),
       fill('Quanti gradi (minimo) dal corpo deve avere la battuta del braccio?', ['30'], 'L’angolo corretto è 30–45°.'),
       fill('Con la testa che cosa si fa nei confronti del tappeto? Non la ___ mai.', ['tocca', 'appoggia', 'tocco'], 'La testa non tocca mai il tappeto.')
     ],
     te: [
       X('Che cosa NON fai in questo gradino?', 'Alzare la testa a scatti', ['Guardare la cintura', 'Battere con tutto il braccio', 'Espirare'], 2, 'Il collo non si alza e non si abbassa a scatti.'),
-      X('Che cosa serve per un buon ushiro ukemi da sdraiato?', 'Mento sul petto e battuta decisa', ['Gambe tese e rigide', 'Respiro bloccato', 'Braccia sotto la schiena'], 0, 'Sono le due costanti.'),
+      X('Che cosa serve per un buon ushiro ukemi da sdraiato?', 'Mento sul petto e battuta decisa', ['Gambe tese e rigide, tenute sollevate', 'Respiro bloccato per tutta la caduta', 'Braccia sotto la schiena, ben strette'], 0, 'Sono le due costanti.'),
       X('Dopo quante ripetizioni pulite sali di livello?', 'Dieci', ['Una', 'Nessuna, subito', 'Mille in una volta'], 1, 'Dieci pulite, poi si sale.'),
       X('Che cosa fai se senti dolore al collo?', 'Ti fermi', ['Ripeti più forte', 'Vai al gradino alto', 'Trattieni il respiro'], 0, 'Dolore al collo = stop.'),
       fill('Il mento va sul ___.', ['petto'], 'Mento sul petto, sguardo alla cintura.')
@@ -75,10 +75,10 @@
     recap: ['Si batte con il braccio basso, l’altro incrocia il petto.', 'Gambe divaricate, non unite.'],
     ex: [
       X('Che posizione hanno le gambe in yoko ukemi?', 'Leggermente divaricate', ['Unite e incrociate', 'Piegate sotto il corpo', 'Rigide e in aria'], 2, 'Gambe divaricate, morbide.'),
-      X('Quale braccio batte?', 'Il braccio basso, a contatto con il tappeto', ['Quello alto', 'Nessuno', 'Entrambi dietro la schiena'], 0, 'Batte il braccio basso.'),
+      X('Quale braccio batte?', 'Il braccio basso, a contatto con il tappeto', ['Quello alto, tenuto sopra la testa, a braccio teso', 'Nessuno: si batte solo con le gambe', 'Entrambi, incrociati dietro la schiena'], 0, 'Batte il braccio basso.'),
       X('A che angolo batte?', '30–45° dal corpo', ['0° attaccato al fianco', '90°', '180°'], 1, 'L’angolo giusto è 30–45°.'),
-      X('Dove va l’altro braccio?', 'Incrocia il petto', ['Dietro la testa', 'Sotto il corpo', 'In alto, teso'], 2, 'Incrocia il petto.'),
-      X('Dopo quale gradino si fa questo?', 'Ushiro ukemi da sdraiato consolidato', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro da in piedi'], 0, 'Prima ushiro 1.'),
+      X('Dove va l’altro braccio?', 'Incrocia il petto', ['Dietro la testa, intrecciato', 'Sotto il corpo, schiacciato', 'In alto, teso verso il soffitto'], 2, 'Incrocia il petto.'),
+      X('Dopo quale gradino si fa questo?', 'Ushiro ukemi da sdraiato consolidato', ['Mae ukemi in piedi consolidato bene', 'Nessuno: si parte da questo', 'Ushiro ukemi da in piedi, ben consolidato'], 0, 'Prima ushiro 1.'),
       order('Ordina', ['fianco', 'mento', 'battuta', 'espira', 'cambia lato'], 'Fianco, mento, battuta con espirazione, poi altro lato.'),
       fill('Le gambe vanno leggermente ___ (non unite).', ['divaricate', 'aperte'], 'Divaricate.'),
       fill('Il braccio basso batte con tutto l’___.', ['avambraccio', 'braccio'], 'Batte tutto il braccio/avambraccio.')
@@ -104,10 +104,10 @@
     check: ['la schiena si arrotonda', 'la testa non tocca il tappeto', 'la battuta avviene al contatto'],
     recap: ['Si rotola sulla schiena arrotondata, non sulla testa.', 'La battuta è nel momento del contatto.'],
     ex: [
-      X('Su quale parte del corpo si rotola?', 'Sulla schiena arrotondata', ['Sulla testa', 'Sul collo', 'Sulle spalle appuntite'], 0, 'Schiena arrotondata.'),
-      X('Quando si battono le braccia?', 'Nel momento del contatto', ['Prima di partire', 'Dopo essersi fermati', 'Mai'], 1, 'Nel contatto.'),
-      X('Che cosa fai se la testa tocca il tappeto?', 'Torni al gradino precedente', ['Insisti più forte', 'Aumenti l’altezza', 'Smetti di battere'], 2, 'Dopo un errore si torna indietro.'),
-      X('Come torni seduto?', 'Con lo slancio, senza forzare il collo', ['Tirando il collo', 'Con un salto', 'Aiutandoti con la testa'], 0, 'Slancio del rotolamento.'),
+      X('Su quale parte del corpo si rotola?', 'Sulla schiena arrotondata', ['Sulle spalle appuntite e rigide', 'Sul collo, con il mento alzato', 'Sulla nuca, con il collo teso'], 0, 'Schiena arrotondata.'),
+      X('Quando si battono le braccia?', 'Nel momento del contatto', ['Prima di partire, a braccia ferme', 'Dopo essersi fermati del tutto', 'Mai: le braccia restano ferme'], 1, 'Nel contatto.'),
+      X('Che cosa fai se la testa tocca il tappeto?', 'Torni al gradino precedente', ['Insisti più forte finché non passa', 'Aumenti l’altezza per correggere', 'Smetti di battere le braccia'], 2, 'Dopo un errore si torna indietro.'),
+      X('Come torni seduto?', 'Con lo slancio, senza forzare il collo', ['Tirando il collo in avanti con entrambe le mani', 'Con un salto improvviso verso l’alto', 'Aiutandoti con la testa contro il tappeto'], 0, 'Slancio del rotolamento.'),
       X('Quante ripetizioni prima del riposo?', 'Circa 5', ['50', '200', 'Nessuna'], 1, 'Serie breve.'),
       order('Ordina', ['seduto', 'mento', 'rotola', 'batti', 'torna'], 'Seduto, mento, rotolamento, battuta, ritorno.'),
       fill('La schiena deve essere ___.', ['arrotondata', 'rotonda'], 'Arrotondata.'),
@@ -115,9 +115,9 @@
     ],
     te: [
       X('Quale è un errore?', 'Schiena rigida', ['Mento sul petto', 'Battuta al contatto', 'Espirazione'], 1, 'Schiena rigida.'),
-      X('Dove si batte?', 'Con le braccia a 30–45°', ['Con la testa', 'Con i gomiti vicini', 'Non si batte'], 0, 'Battuta a 30–45°.'),
-      X('Prerequisito di questo gradino?', 'Yoko ukemi da sdraiato consolidato', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro in piedi'], 0, 'Gradino precedente consolidato.'),
-      X('Che succede alle braccia in fase iniziale (livello 1)?', 'Sono incrociate sul petto', ['Dietro la schiena', 'Sopra la testa', 'In tasca'], 1, 'Prima senza battere.'),
+      X('Dove si batte?', 'Con le braccia a 30–45°', ['Con la testa e le spalle', 'Con i gomiti vicini al corpo', 'Non si batte in questa fase'], 0, 'Battuta a 30–45°.'),
+      X('Prerequisito di questo gradino?', 'Yoko ukemi da sdraiato consolidato', ['Mae ukemi in piedi consolidato', 'Nessuno: si parte da qui', 'Ushiro ukemi da in piedi ben consolidato'], 0, 'Gradino precedente consolidato.'),
+      X('Che succede alle braccia in fase iniziale (livello 1)?', 'Sono incrociate sul petto', ['Dietro la schiena, strette', 'Sopra la testa, a braccia tese', 'In tasca o lungo i fianchi'], 1, 'Prima senza battere.'),
       fill('Il collo non va ___.', ['forzato', 'teso'], 'Non forzare il collo.')
     ]
   });
@@ -134,19 +134,19 @@
     check: ['il percorso è diagonale, non sulla colonna', 'la testa non entra sotto la spalla', 'la battuta arriva sull’anca opposta'],
     recap: ['Diagonale su braccio e spalla.', 'Testa verso l’anca, battuta a 45°.']
     , ex: [
-      X('Su quale linea si rotola?', 'In diagonale, lungo braccio e spalla', ['Sulla colonna', 'Sopra la testa', 'Sul collo'], 0, 'Diagonale.'),
+      X('Su quale linea si rotola?', 'In diagonale, lungo braccio e spalla', ['Sulla colonna, dritto lungo la schiena', 'Sopra la testa, in avanti', 'Sul collo, con le spalle alte'], 0, 'Diagonale.'),
       X('Dove guarda la testa?', 'Verso l’anca opposta', ['Verso il soffitto', 'Davanti', 'In basso, sotto la spalla'], 1, 'Verso l’anca.'),
       X('Da dove si parte?', 'In ginocchio', ['In piedi in corsa', 'Da un salto', 'Da seduto'], 2, 'In ginocchio.'),
       X('A che angolo batte il braccio?', '45°', ['0°', '180°', 'Non batte'], 0, 'Circa 45°.'),
-      X('Che gradino è consolidato prima?', 'Ushiro ukemi da seduto', ['Mae ukemi in piedi', 'Nessuno', 'Yoko in piedi'], 1, 'Gradino precedente.'),
-      X('Dopo un errore?', 'Torno al gradino precedente', ['Aumento la velocità', 'Salto di altezza', 'Proseguo uguale'], 2, 'Si torna indietro.'),
+      X('Che gradino è consolidato prima?', 'Ushiro ukemi da seduto', ['Mae ukemi da in piedi già consolidato', 'Nessuno: si parte da questo', 'Yoko ukemi da in piedi'], 1, 'Gradino precedente.'),
+      X('Dopo un errore?', 'Torno al gradino precedente', ['Aumento la velocità per compensare', 'Salto di altezza al giro dopo', 'Proseguo uguale con più attenzione'], 2, 'Si torna indietro.'),
       order('Ordina', ['ginocchio', 'arco', 'testa', 'rotola', 'batti'], 'Ginocchio, arco di braccio, testa, rotolamento, battuta.'),
       fill('Il rotolamento non è sulla ___.', ['colonna', 'testa'], 'Non sulla colonna/testa.')
     ],
     te: [
-      X('Quale è un errore?', 'Rotolare sulla colonna', ['Rotolare in diagonale', 'Mento sul petto', 'Battere a 45°'], 1, 'Sulla colonna.'),
-      X('Questo gradino è?', 'Da verificare con istruttore', ['Certificato dall’app', 'Senza rischi', 'Da fare su pavimento'], 0, 'Va verificato.'),
-      X('Che superficie?', 'Tappeto spesso', ['Cemento', 'Piastrelle', 'Parquet'], 2, 'Tappeto.'),
+      X('Quale è un errore?', 'Rotolare sulla colonna', ['Rotolare in diagonale lungo il braccio', 'Mento sul petto durante il giro', 'Battere a 45° dal corpo con il palmo in giù'], 1, 'Sulla colonna.'),
+      X('Questo gradino è?', 'Da verificare con istruttore', ['Certificato dall’app, senza istruttore', 'Senza rischi, anche da soli', 'Da fare su un pavimento duro'], 0, 'Va verificato.'),
+      X('Che superficie?', 'Tappeto spesso', ['Cemento liscio da garage', 'Piastrelle del bagno', 'Parquet della sala'], 2, 'Tappeto.'),
       X('Con giramenti di testa?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 0, 'Stop.'),
       fill('La testa non entra sotto la ___.', ['spalla'], 'Sotto la spalla.')
     ]
@@ -164,19 +164,19 @@
     check: ['la partenza è bassa', 'il braccio batte a 30–45°', 'le gambe non si incrociano'],
     recap: ['Accovacciato, peso su un’anca.', 'Gambe morbide e divaricate.']
     , ex: [
-      X('Da quale posizione si parte?', 'Accovacciato, talloni vicini al tappeto', ['In piedi', 'Da un salto', 'Da sdraiato'], 0, 'Accovacciato.'),
-      X('Che cosa si sposta?', 'Il peso su un’anca', ['La testa indietro', 'Le mani in alto', 'Nulla'], 1, 'Peso su un’anca.'),
+      X('Da quale posizione si parte?', 'Accovacciato, talloni vicini al tappeto', ['In piedi, con le gambe larghe e il busto eretto', 'Da un salto con i piedi uniti', 'Da sdraiato, con il fianco a terra'], 0, 'Accovacciato.'),
+      X('Che cosa si sposta?', 'Il peso su un’anca', ['La testa verso il tappeto', 'Le mani verso l’alto', 'Nulla: il corpo resta fermo'], 1, 'Peso su un’anca.'),
       X('Dove va il mento?', 'Sul petto', ['Al soffitto', 'Alla spalla', 'Indietro'], 2, 'Sul petto.'),
-      X('Le gambe sono?', 'Leggermente divaricate e morbide', ['Unite', 'Rigide', 'Incrociate'], 0, 'Divaricate.'),
-      X('Che cosa è consolidato prima?', 'Mae ukemi da in ginocchio', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro in piedi'], 1, 'Gradino precedente.'),
-      X('Se fai un errore?', 'Torno al gradino precedente', ['Insisto', 'Salgo', 'Salto'], 2, 'Torno.'),
+      X('Le gambe sono?', 'Leggermente divaricate e morbide', ['Unite e rigide, con le ginocchia tese', 'Incrociate una sull’altra', 'Rigide e molto divaricate'], 0, 'Divaricate.'),
+      X('Che cosa è consolidato prima?', 'Mae ukemi da in ginocchio', ['Mae ukemi da in piedi già consolidato', 'Nessuno: si parte da questo', 'Ushiro ukemi in piedi'], 1, 'Gradino precedente.'),
+      X('Se fai un errore?', 'Torno al gradino precedente', ['Insisto finché non riesce bene', 'Salgo al gradino successivo', 'Salto una serie e riprendo'], 2, 'Torno.'),
       order('Ordina', ['accovacciato', 'mento', 'peso', 'cadi', 'batti'], 'Sequenza corretta.'),
       fill('Il braccio basso batte a 30–___ gradi.', ['45'], '30–45°.')
     ],
     te: [
-      X('Errore tipico?', 'Partenza troppo alta', ['Mento sul petto', 'Battuta a 30–45°', 'Gambe morbide'], 0, 'Partenza alta.'),
+      X('Errore tipico?', 'Partenza troppo alta', ['Mento sul petto e sguardo alla cintura', 'Battuta a 30–45° dal corpo', 'Gambe morbide e leggermente piegate'], 0, 'Partenza alta.'),
       X('Gradino da verificare?', 'Con un istruttore', ['Con l’app soltanto', 'Mai', 'Con partner che spinge'], 1, 'Con istruttore.'),
-      X('Superficie?', 'Tappeto spesso', ['Cemento', 'Piastrelle', 'Parquet'], 2, 'Tappeto.'),
+      X('Superficie?', 'Tappeto spesso', ['Cemento liscio da garage', 'Piastrelle del bagno', 'Parquet della sala'], 2, 'Tappeto.'),
       X('Con dolore?', 'Stop', ['Più forte', 'Più alto', 'Più veloce'], 0, 'Stop.'),
       fill('Le gambe sono ___.', ['morbide', 'divaricate'], 'Morbide.')
     ]
@@ -195,19 +195,19 @@
     recap: ['Mento sul petto, schiena arrotondata.', 'Gambe sollevate, talloni leggeri.']
     , ex: [
       X('Quale gradino deve essere consolidato prima?', 'Ushiro ukemi da seduto', ['Mae ukemi in piedi', 'Nessuno', 'Ushiro ukemi in piedi'], 0, 'Seduto.'),
-      X('Che cosa fanno le gambe?', 'Restano sollevate e flesse', ['Spingono con i talloni', 'Sono tese a terra', 'Si incrociano'], 1, 'Sollevate.'),
-      X('Su cosa si rotola?', 'Sulla schiena arrotondata', ['Sulla testa', 'Sul collo', 'Sui talloni'], 2, 'Schiena.'),
+      X('Che cosa fanno le gambe?', 'Restano sollevate e flesse', ['Spingono forte con i talloni sul tappeto', 'Sono tese a terra e bloccate', 'Si incrociano sopra il bacino'], 1, 'Sollevate.'),
+      X('Su cosa si rotola?', 'Sulla schiena arrotondata', ['Sul collo, con il mento alzato', 'Sui talloni, piegando le gambe', 'Sulle spalle, con il busto teso'], 2, 'Schiena.'),
       X('Dove va il mento?', 'Sul petto', ['Al soffitto', 'A destra', 'Indietro'], 0, 'Sul petto.'),
-      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto', 'Salgo', 'Salto'], 1, 'Torno.'),
-      X('Questo gradino è?', 'Da verificare con istruttore', ['Certificato dall’app', 'Senza rischi', 'Per pavimento duro'], 2, 'Da verificare.'),
+      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto subito con più forza', 'Salgo subito al gradino successivo', 'Salto una serie e riprendo'], 1, 'Torno.'),
+      X('Questo gradino è?', 'Da verificare con istruttore', ['Certificato dall’app dopo l’autovalutazione', 'Senza rischi, se ben eseguito', 'Adatto a un pavimento duro'], 2, 'Da verificare.'),
       order('Ordina', ['accovacciato', 'mento', 'cadi', 'batti', 'torna'], 'Sequenza.'),
       fill('I ___ non battono sul tappeto.', ['talloni'], 'Talloni.')
     ],
     te: [
       X('Errore?', 'Talloni che battono', ['Mento sul petto', 'Battuta a 30–45°', 'Schiena arrotondata'], 0, 'Talloni.'),
-      X('Superficie?', 'Tappeto spesso', ['Cemento', 'Piastrelle', 'Parquet'], 1, 'Tappeto.'),
+      X('Superficie?', 'Tappeto spesso', ['Cemento liscio da garage', 'Piastrelle del bagno', 'Parquet della sala'], 1, 'Tappeto.'),
       X('Con giramenti?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 2, 'Stop.'),
-      X('Chi è assente in questo percorso?', 'Un partner che ti proietta', ['Il tappeto', 'Il mento sul petto', 'La battuta'], 1, 'Mai proiezioni subite.'),
+      X('Chi è assente in questo percorso?', 'Un partner che ti proietta', ['Il tappeto spesso sotto di te', 'Il mento sul petto durante la caduta', 'La battuta delle braccia a terra'], 1, 'Mai proiezioni subite.'),
       fill('Il mento va sul ___.', ['petto'], 'Petto.')
     ]
   });
@@ -224,20 +224,20 @@
     check: ['la testa non tocca', 'il bacino non batte', 'la battuta è al contatto'],
     recap: ['Alto = più rischio: tatami e istruttore.', 'Dopo un errore, gradino precedente.']
     , ex: [
-      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto con più forza', 'Aumento l’altezza', 'Smetto di battere'], 0, 'Torno.'),
-      X('Che superficie?', 'Tatami spesso', ['Cemento', 'Piastrelle', 'Parquet'], 1, 'Tatami.'),
+      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto con più forza e velocità', 'Aumento l’altezza di caduta', 'Smetto di battere le braccia'], 0, 'Torno.'),
+      X('Che superficie?', 'Tatami spesso', ['Cemento liscio da garage', 'Piastrelle del bagno', 'Parquet della sala'], 1, 'Tatami.'),
       X('Che cosa non deve battere?', 'Il bacino', ['Le braccia', 'Il tappeto', 'Il respiro'], 2, 'Il bacino.'),
-      X('Quanto ripeti per volta?', 'Una ripetizione con pausa', ['Dieci di fila veloci', 'Cento', 'Nessuna'], 0, 'Una.'),
-      X('Prerequisito?', 'Ushiro ukemi da accovacciato', ['Mae ukemi in piedi', 'Nessuno', 'Yoko in piedi'], 1, 'Gradino precedente.'),
-      X('Come è questo gradino?', 'Da verificare con istruttore', ['Certificato dall’app', 'Senza rischi', 'Per pavimento duro'], 2, 'Da verificare.'),
+      X('Quanto ripeti per volta?', 'Una ripetizione con pausa', ['Dieci di fila, molto veloci', 'Cento, senza pausa tra l’una e l’altra', 'Nessuna: si fa solo a mente'], 0, 'Una.'),
+      X('Prerequisito?', 'Ushiro ukemi da accovacciato', ['Mae ukemi da in piedi già consolidato', 'Nessuno: si parte da questo gradino', 'Yoko ukemi da in piedi consolidato'], 1, 'Gradino precedente.'),
+      X('Come è questo gradino?', 'Da verificare con istruttore', ['Certificato dall’app dopo l’autovalutazione', 'Senza rischi, se ben eseguito', 'Adatto a un pavimento duro'], 2, 'Da verificare.'),
       order('Ordina', ['in piedi', 'mento', 'accovacciati', 'cadi', 'batti'], 'Sequenza.'),
       fill('Il bacino non deve ___.', ['battere', 'sbattere'], 'Non sbatte.')
     ],
     te: [
       X('Errore?', 'Bacino che batte', ['Mento sul petto', 'Battuta a 30–45°', 'Schiena arrotondata'], 0, 'Bacino.'),
       X('Con un colpo alla testa?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 1, 'Stop.'),
-      X('Scendi in?', 'Accovacciata', ['Salto', 'Corsa', 'Volo'], 0, 'Accovacciata.'),
-      X('Chi certifica la sicurezza?', 'Nessuna app: serve un istruttore', ['L’app', 'Il video', 'Nessuno serve'], 2, 'L’istruttore.'),
+      X('Scendi in?', 'Accovacciata', ['Un salto con atterraggio', 'Una corsa in avanti', 'Un volo controllato'], 0, 'Accovacciata.'),
+      X('Chi certifica la sicurezza?', 'Nessuna app: serve un istruttore', ['L’app stessa, dopo un punteggio sufficiente', 'Il video che hai registrato tu', 'Nessuno serve: basta la pratica'], 2, 'L’istruttore.'),
       fill('Il mento va sul ___ prima di scendere.', ['petto'], 'Petto.')
     ]
   });
@@ -255,10 +255,10 @@
     recap: ['Alto, forma identica ai gradini bassi.', 'Tatami, pausa e stop con dolore.']
     , ex: [
       X('Quale parte non deve toccare il tappeto?', 'La testa', ['Il braccio che batte', 'L’anca', 'La schiena'], 0, 'La testa.'),
-      X('Gradino consolidato prima?', 'Ushiro ukemi in piedi', ['Mae ukemi in piedi', 'Nessuno', 'Yoko sdraiato'], 1, 'Gradino precedente nella lista.'),
-      X('Come sono le gambe?', 'Divaricate e morbide', ['Incrociate', 'Rigide', 'Unite'], 2, 'Morbide.'),
+      X('Gradino consolidato prima?', 'Ushiro ukemi in piedi', ['Mae ukemi in piedi già consolidato', 'Nessuno: si parte direttamente da qui', 'Yoko ukemi da sdraiato'], 1, 'Gradino precedente nella lista.'),
+      X('Come sono le gambe?', 'Divaricate e morbide', ['Incrociate e leggermente sollevate', 'Rigide e tese all’indietro', 'Unite e bloccate'], 2, 'Morbide.'),
       X('A che angolo batte?', '30–45°', ['0°', '90°', '180°'], 0, '30–45°.'),
-      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto', 'Salgo', 'Salto'], 1, 'Torno.'),
+      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto subito con più forza', 'Salgo subito al gradino successivo', 'Salto una serie e riprendo'], 1, 'Torno.'),
       X('Superficie?', 'Tatami', ['Cemento', 'Piastrelle', 'Parquet'], 2, 'Tatami.'),
       order('Ordina', ['in piedi', 'mento', 'anca', 'cadi', 'batti'], 'Sequenza.'),
       fill('Il mento va sul ___.', ['petto'], 'Petto.')
@@ -266,8 +266,8 @@
     te: [
       X('Errore?', 'Gambe incrociate', ['Mento sul petto', 'Battuta a 30–45°', 'Gambe morbide'], 0, 'Incrociate.'),
       X('Con giramenti?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 1, 'Stop.'),
-      X('Come è il gradino?', 'Da verificare con istruttore', ['Certificato dall’app', 'Senza rischi', 'Da fare su pavimento duro'], 2, 'Istruttore.'),
-      X('Con quale altezza si comincia?', 'Dal gradino più basso', ['Dalla più alta', 'Da un salto', 'Da un partner'], 0, 'Dal basso.'),
+      X('Come è il gradino?', 'Da verificare con istruttore', ['Certificato dall’app dopo l’autovalutazione', 'Senza rischi, se ben eseguito', 'Da fare su pavimento duro'], 2, 'Istruttore.'),
+      X('Con quale altezza si comincia?', 'Dal gradino più basso', ['Dalla più alta possibile', 'Da un salto con atterraggio', 'Da un partner che ti spinge'], 0, 'Dal basso.'),
       fill('La caduta è ___ (la fai tu).', ['autoiniziata', 'volontaria'], 'Solo autoiniziata.')
     ]
   });
@@ -284,20 +284,20 @@
     check: ['il percorso è diagonale', 'la testa non è sotto la spalla', 'l’arrivo è sull’anca'],
     recap: ['Diagonale e arco.', 'Rischio medio-alto: istruttore.']
     , ex: [
-      X('Come è il percorso?', 'In diagonale, sul braccio e sulla spalla', ['Sulla colonna', 'Sopra la testa', 'Sul collo'], 0, 'Diagonale.'),
-      X('Dove appoggi la mano?', 'Davanti al piede opposto', ['Dietro la schiena', 'Sulla testa', 'In tasca'], 1, 'Davanti al piede opposto.'),
+      X('Come è il percorso?', 'In diagonale, sul braccio e sulla spalla', ['Sulla colonna, dritto lungo tutta la schiena', 'Sopra la testa, in avanti e in alto', 'Sul collo, con le spalle alte'], 0, 'Diagonale.'),
+      X('Dove appoggi la mano?', 'Davanti al piede opposto', ['Dietro la schiena, bloccata', 'Sulla nuca, con le dita intrecciate', 'Nella tasca della giacca'], 1, 'Davanti al piede opposto.'),
       X('A che angolo batte?', '45°', ['0°', '180°', 'Non batte'], 2, '45°.'),
-      X('Dove guarda la testa?', 'Verso l’anca opposta', ['Al soffitto', 'Davanti', 'Sotto la spalla'], 0, 'Anca.'),
-      X('Rischio?', 'Medio-alto: verifica con istruttore', ['Nullo', 'Basso', 'Non esiste'], 1, 'Verifica.'),
-      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto', 'Salgo', 'Salto'], 2, 'Torno.'),
+      X('Dove guarda la testa?', 'Verso l’anca opposta', ['Verso il soffitto, con il collo teso', 'Davanti, verso il pavimento', 'Sotto la spalla opposta'], 0, 'Anca.'),
+      X('Rischio?', 'Medio-alto: verifica con istruttore', ['Nullo, perché l’app lo certifica in automatico', 'Basso, se ti alleni da solo', 'Non esiste: è una caduta naturale'], 1, 'Verifica.'),
+      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto subito con più forza', 'Salgo subito al gradino successivo', 'Salto una serie e riprendo'], 2, 'Torno.'),
       order('Ordina', ['accovacciato', 'arco', 'testa', 'rotola', 'batti'], 'Sequenza.'),
       fill('Il rotolamento è in ___.', ['diagonale'], 'Diagonale.')
     ],
     te: [
-      X('Errore?', 'Rotolare sulla colonna', ['In diagonale', 'Mento sul petto', 'Battuta a 45°'], 0, 'Colonna.'),
-      X('Superficie?', 'Tappeto spesso', ['Cemento', 'Piastrelle', 'Parquet'], 1, 'Tappeto.'),
+      X('Errore?', 'Rotolare sulla colonna', ['Rotolare in diagonale sul braccio', 'Mento sul petto durante il giro', 'Battuta a 45° con il palmo in giù'], 0, 'Colonna.'),
+      X('Superficie?', 'Tappeto spesso', ['Cemento liscio da garage', 'Piastrelle del bagno', 'Parquet della sala'], 1, 'Tappeto.'),
       X('Con giramenti?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 2, 'Stop.'),
-      X('Chi certifica?', 'Un istruttore, non l’app', ['L’app', 'Il video', 'Nessuno'], 0, 'Istruttore.'),
+      X('Chi certifica?', 'Un istruttore, non l’app', ['L’app, dopo un punteggio alto', 'Il video registrato da te', 'Nessuno: basta ripetere molto'], 0, 'Istruttore.'),
       fill('Alterni destra e ___.', ['sinistra'], 'Sinistra.')
     ]
   });
@@ -314,19 +314,19 @@
     check: ['il percorso è diagonale', 'le gambe non battono', 'il ritorno in stance è controllato'],
     recap: ['Gradino più alto: tatami e istruttore.', 'Ogni errore: gradino precedente.']
     , ex: [
-      X('Quale precauzione serve?', 'Tatami spesso e verifica di un istruttore', ['Pavimento duro', 'Velocità massima', 'Nessuna'], 0, 'Tatami e istruttore.'),
-      X('Percorso?', 'In diagonale, su braccio e spalla', ['Sulla colonna', 'Sopra la testa', 'Sul collo'], 1, 'Diagonale.'),
+      X('Quale precauzione serve?', 'Tatami spesso e verifica di un istruttore', ['Pavimento liscio con le scarpe ai piedi', 'Velocità massima per non fermarsi a metà caduta', 'Nessuna: è una caduta in piedi semplice'], 0, 'Tatami e istruttore.'),
+      X('Percorso?', 'In diagonale, su braccio e spalla', ['Sulla colonna, dritto lungo la schiena', 'Sopra la testa, a braccio teso', 'Sul collo, con le spalle sollevate'], 1, 'Diagonale.'),
       X('A che angolo batte?', '45°', ['0°', '180°', 'Non batte'], 2, '45°.'),
-      X('Gradino consolidato?', 'Mae ukemi da accovacciato', ['Nessuno', 'Ushiro sdraiato', 'Yoko sdraiato'], 0, 'Precedente.'),
-      X('Quanto ripeti per volta?', 'Una con pausa', ['Dieci veloci', 'Cento', 'Nessuna'], 1, 'Una.'),
-      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto', 'Salgo', 'Salto'], 2, 'Torno.'),
+      X('Gradino consolidato?', 'Mae ukemi da accovacciato', ['Nessuno: si parte da questo gradino', 'Ushiro ukemi da sdraiato', 'Yoko ukemi da sdraiato'], 0, 'Precedente.'),
+      X('Quanto ripeti per volta?', 'Una con pausa', ['Dieci veloci di fila', 'Cento senza pausa', 'Nessuna: si osserva soltanto'], 1, 'Una.'),
+      X('Dopo un errore?', 'Torno al gradino precedente', ['Insisto subito con più forza', 'Salgo subito al gradino successivo', 'Salto una serie e riprendo'], 2, 'Torno.'),
       order('Ordina', ['in piedi', 'arco', 'mento', 'rotola', 'batti'], 'Sequenza.'),
       fill('Le gambe non ___.', ['battono'], 'Non battono.')
     ],
     te: [
-      X('Errore?', 'Gambe che battono', ['Mento sul petto', 'Battuta a 45°', 'Diagonale'], 0, 'Battono.'),
+      X('Errore?', 'Gambe che battono', ['Mento sul petto, sguardo alla cintura', 'Battuta a 45° con il palmo in giù', 'Diagonale su braccio e spalla'], 0, 'Battono.'),
       X('Con giramenti?', 'Stop', ['Continuo', 'Più veloce', 'Più alto'], 1, 'Stop.'),
-      X('Chi certifica?', 'Un istruttore, non l’app', ['L’app', 'Il video', 'Nessuno'], 0, 'Istruttore.'),
+      X('Chi certifica?', 'Un istruttore, non l’app', ['L’app, dopo un punteggio alto', 'Il video registrato da te', 'Nessuno: basta ripetere molto'], 0, 'Istruttore.'),
       X('Superficie?', 'Tatami', ['Cemento', 'Piastrelle', 'Parquet'], 1, 'Tatami.'),
       fill('Il rotolamento è in ___.', ['diagonale'], 'Diagonale.')
     ]

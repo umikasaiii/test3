@@ -24,22 +24,22 @@
     ],
     exercises: [
       mc('Che tipo di tecnica è tai-otoshi nella classificazione del Kodokan?', ['Ashi-waza (gambe)', 'Te-waza (mano/braccio)', 'Koshi-waza (anca)', 'Sutemi-waza (sacrificio)'], 1, 'Tai-otoshi è classificato come te-waza.'),
-      mc('Che cosa fa la gamba destra in tai-otoshi nel gesto a vuoto?', ['Spazza in alto', 'Si tende davanti come blocco', 'Si piega sotto il corpo', 'Calcia verso un muro'], 1, 'È un blocco teso, a quota bassa, non un calcio.'),
+      mc('Che cosa fa la gamba destra in tai-otoshi nel gesto a vuoto?', ['Spazza in alto fino all’altezza del bacino', 'Si tende davanti come blocco', 'Si piega sotto il corpo come una molla', 'Si incrocia dietro l’altra gamba'], 1, 'È un blocco teso, a quota bassa, non un calcio.'),
       order('Metti in ordine le fasi', ['Kuzushi', 'Tsukuri', 'Kake', 'Ritorno in shizentai'], 'Prima squilibrio, poi entrata, esecuzione e ritorno in piedi.'),
       fill('Il blocco della gamba si fa a quota bassa, nell’aria, all’altezza della ___.', ['caviglia'], 'Il blocco è a quota caviglia, senza toccare nulla.'),
       mc('Dove si porta il peso del piede d’appoggio?', ['Sui talloni', 'Sull’avampiede', 'Sul bordo esterno', 'Non conta'], 1, 'Peso sui talloni è un errore: sbilancia indietro.'),
-      mc('Quale presa no-gi usi con la mano sinistra?', ['Al polso o al bicipite', 'Al bavero', 'Alla cintura', 'Ai capelli'], 0, 'Senza judogi si controlla il braccio al polso o al bicipite.'),
+      mc('Quale presa no-gi usi con la mano sinistra?', ['Al polso o al bicipite', 'Al bavero destro del partner', 'Alla cintura del partner', 'Alla caviglia del partner'], 0, 'Senza judogi si controlla il braccio al polso o al bicipite.'),
       order('Ordina il gesto', ['Presa', 'Kuzushi avanti', 'Due passi con rotazione', 'Blocco con la gamba tesa', 'Ritorno in piedi'], 'La sequenza parte dalla presa e termina sempre in piedi.'),
       fill('Se perdi l’equilibrio, il comportamento corretto è ___ e ripartire dalla postura.', ['fermarsi', 'interrompere', 'fermarti'], 'Interrompere e ricominciare, mai insistere.'),
-      mc('Quale errore indica una schiena curva?', ['Sguardo ai piedi e petto chiuso', 'Piedi paralleli', 'Gomiti dentro', 'Ginocchia morbide'], 0, 'La schiena curva si accompagna a sguardo in basso e petto chiuso.'),
-      mc('Che cosa non dimostra un video del tuo gesto?', ['La forma della postura', 'L’efficacia contro un partner che resiste', 'Il ritmo', 'La stabilità finale'], 1, 'Il video mostra la forma, non l’efficacia reale.')
+      mc('Quale errore indica una schiena curva?', ['Sguardo ai piedi e petto chiuso', 'Piedi paralleli e ginocchia morbide', 'Gomiti dentro e spalle basse', 'Peso sull’avampiede e sguardo avanti'], 0, 'La schiena curva si accompagna a sguardo in basso e petto chiuso.'),
+      mc('Che cosa non dimostra un video del tuo gesto?', ['La forma della postura e la stabilità finale', 'L’efficacia contro un partner che resiste', 'Il ritmo e la regolarità del gesto', 'La stabilità del piede d’appoggio'], 1, 'Il video mostra la forma, non l’efficacia reale.')
     ],
     test: [
       mc('Che cosa significa «tai-otoshi»?', ['Caduta del corpo', 'Spazzata del piede', 'Presa della manica', 'Rotolamento in avanti'], 0, 'Tai = corpo, otoshi = caduta.'),
-      mc('Verso dove si porta il partner immaginario nel kuzushi?', ['Indietro sul tallone', 'In avanti e verso il suo lato destro', 'Verso il basso', 'Non si porta'], 1),
+      mc('Verso dove si porta il partner immaginario nel kuzushi?', ['Indietro sul tallone, verso il suo lato sinistro', 'In avanti e verso il suo lato destro', 'Verso il basso, sulle ginocchia', 'Non si porta: il partner resta fermo'], 1),
       fill('Il gesto termina sempre in ___ (postura naturale).', ['shizentai', 'piedi', 'piedi in shizentai'], 'Si torna in shizentai, in piedi.'),
-      mc('Qual è la correzione per «gamba di blocco non tesa»?', ['Estendere il ginocchio davanti a te', 'Piegare di più le ginocchia', 'Chiudere gli occhi', 'Aumentare la velocità'], 0),
-      mc('Che cosa è consigliabile prima di fare lavoro con partner?', ['La verifica di un istruttore', 'Aumentare la forza', 'Saltare il riscaldamento', 'Niente'], 0),
+      mc('Qual è la correzione per «gamba di blocco non tesa»?', ['Estendere il ginocchio davanti a te', 'Piegare di più le ginocchia e il busto', 'Chiudere gli occhi e ripetere il gesto', 'Aumentare la velocità del movimento'], 0),
+      mc('Che cosa è consigliabile prima di fare lavoro con partner?', ['La verifica di un istruttore', 'Aumentare la forza delle braccia', 'Saltare il riscaldamento per ripetere', 'Niente: basta il video'], 0),
       order('Ordina le fasi della proiezione', ['Squilibrio', 'Entrata', 'Esecuzione'], 'Kuzushi, tsukuri, kake.')
     ] });
 
@@ -60,22 +60,22 @@
     ],
     exercises: [
       mc('A quale categoria del Kodokan appartiene harai-goshi?', ['Te-waza', 'Koshi-waza', 'Ma-sutemi-waza', 'Ukemi'], 1, 'Harai-goshi è una tecnica d’anca (koshi-waza).'),
-      mc('Che cosa conta di più nel gesto a vuoto?', ['L’altezza massima della gamba', 'L’equilibrio sul piede d’appoggio', 'La velocità', 'La forza delle braccia'], 1, 'Equilibrio e controllo sono prioritari.'),
+      mc('Che cosa conta di più nel gesto a vuoto?', ['L’altezza massima raggiunta dalla gamba', 'L’equilibrio sul piede d’appoggio', 'La velocità del gesto e la forza', 'La forza delle braccia nella presa'], 1, 'Equilibrio e controllo sono prioritari.'),
       order('Ordina il gesto', ['Kuzushi in avanti', 'Passo e pivot', 'Anca vicina', 'Spazzata bassa', 'Ritorno in shizentai'], 'La spazzata arriva dopo l’anca; il finale è sempre in piedi.'),
       fill('La gamba che spazza va a quota ___, mai molto alta.', ['moderata'], 'Si lavora a quota moderata, controllata.'),
       mc('Come deve essere il ginocchio della gamba d’appoggio?', ['Bloccato', 'Morbido', 'Piegato al massimo', 'Ruotato verso l’interno'], 1, 'Un ginocchio bloccato riduce l’equilibrio e stressa l’articolazione.'),
-      mc('Perché si dice che harai-goshi è «avanzata»?', ['Perché si usano molti passi', 'Perché richiede equilibrio su una gamba sola', 'Perché si fa solo con judogi', 'Perché è proibita'], 1),
+      mc('Perché si dice che harai-goshi è «avanzata»?', ['Perché si usano molti passi in avanti nel gesto', 'Perché richiede equilibrio su una gamba sola', 'Perché si fa solo con il judogi e la cintura', 'Perché è proibita nelle competizioni giovanili'], 1),
       fill('Per allenare l’equilibrio si può restare 2 secondi su una ___ dopo passo e pivot.', ['gamba', 'gamba sola'], 'Stop in equilibrio su una gamba.'),
-      mc('Che cosa succede se la gamba va troppo in alto?', ['Si guadagna forza', 'Si perde l’asse del corpo', 'Si migliora il kuzushi', 'Niente'], 1, 'L’ampiezza eccessiva sbilancia.'),
-      mc('Qual è il finale corretto del gesto?', ['Cadere sul tappeto', 'Piede a terra e ritorno in piedi in shizentai', 'Rotolare in avanti', 'Saltare'], 1, 'Nessuna caduta: si finisce sempre in piedi.'),
+      mc('Che cosa succede se la gamba va troppo in alto?', ['Si guadagna forza nella spazzata', 'Si perde l’asse del corpo', 'Si migliora il kuzushi', 'Non succede nulla di rilevante'], 1, 'L’ampiezza eccessiva sbilancia.'),
+      mc('Qual è il finale corretto del gesto?', ['Cadere sul tappeto dopo la spazzata', 'Piede a terra e ritorno in piedi in shizentai', 'Rotolare in avanti sulla spalla e rialzarsi di scatto', 'Saltare a piedi uniti per finire'], 1, 'Nessuna caduta: si finisce sempre in piedi.'),
       order('Ordina le parti della presa no-gi', ['Collar tie destro', 'Polso sinistro', 'Gomiti dentro', 'Petto vicino'], 'Presa compatta e vicina.')
     ],
     test: [
       mc('Che cosa significa «harai» nel nome?', ['Spazzare', 'Cadere', 'Afferrare', 'Ruotare'], 0, 'Harai = spazzare.'),
-      mc('Dove va la spazzata di harai-goshi?', ['All’indietro-in alto, a quota moderata', 'All’interno, a terra', 'In avanti', 'Dietro, sopra la testa'], 0),
+      mc('Dove va la spazzata di harai-goshi?', ['All’indietro-in alto, a quota moderata', 'All’interno, a livello del suolo, con il piede', 'In avanti, al livello della cintura', 'Dietro, sopra la testa, a gamba tesa'], 0),
       fill('Il tempo corretto di allenamento è ___ e controllato.', ['lento'], 'Tempo lento.'),
-      mc('Se vacilli sul piede d’appoggio, che cosa fai?', ['Accelero', 'Mi fermo e ripeto solo passo e pivot', 'Alzo di più la gamba', 'Chiudo gli occhi'], 1),
-      mc('Che cosa è consigliabile per verificare la forma?', ['Un istruttore qualificato', 'Un video e basta', 'Nulla', 'Solo la forza'], 0),
+      mc('Se vacilli sul piede d’appoggio, che cosa fai?', ['Accelero per finire il gesto', 'Mi fermo e ripeto solo passo e pivot', 'Alzo di più la gamba per riprendere l’equilibrio', 'Chiudo gli occhi e ripeto il gesto'], 1),
+      mc('Che cosa è consigliabile per verificare la forma?', ['Un istruttore qualificato', 'Il solo video che hai registrato', 'Nulla: basta la tua impressione', 'Solo la forza delle gambe'], 0),
       order('Metti in ordine', ['Rotazione sul piede d’appoggio', 'Spazzata', 'Piede a terra'], 'Rotazione, spazzata, ritorno.')
     ] });
 
@@ -95,22 +95,22 @@
       { h: 'Video, sicurezza e riepilogo', b: 'Filma da **davanti** e di **lato** a bassa velocità. Verifica altezza della gamba, linea della schiena e finale in piedi. Il video mostra la forma, **non** prova che la tecnica funzioni contro un avversario reale.\n\n**Sicurezza**: tecnica avanzata. Spazio libero 2 m × 2 m, tempo lento, mai oltre la tua stabilità. Fermati con dolore. Una verifica da parte di un **istruttore** è consigliabile.\n\n**Riepilogo**: kuzushi avanti/laterale; passo e pivot; gamba interna a quota moderata; finale in piedi.' }
     ],
     exercises: [
-      mc('Che cosa significa uchi-mata?', ['All’interno della coscia', 'Sopra la spalla', 'Sotto il piede', 'Alle spalle'], 0, 'Uchi = interno, mata = coscia.'),
+      mc('Che cosa significa uchi-mata?', ['All’interno della coscia', 'Sopra la spalla del partner', 'Sotto il piede d’appoggio', 'Alle spalle del partner'], 0, 'Uchi = interno, mata = coscia.'),
       mc('Quale categoria Kodokan include uchi-mata?', ['Ashi-waza', 'Te-waza', 'Koshi-waza', 'Ne-waza'], 0, 'È una tecnica di gamba.'),
       order('Ordina il gesto', ['Kuzushi avanti e laterale', 'Passo con il sinistro', 'Pivot e anca vicina', 'Gamba interna a quota moderata', 'Piede a terra e shizentai'], 'Il gesto termina sempre in piedi.'),
       fill('In uchi-mata la gamba sale all’___ della coscia immaginaria.', ['interno'], 'Uchi = interno.'),
-      mc('Che cosa distingue uchi-mata da harai-goshi?', ['La gamba sale all’interno invece di spazzare dietro', 'Non c’è kuzushi', 'Si usa il judogi', 'Si cade'], 0),
-      mc('Come deve essere l’altezza della gamba?', ['Moderata, non oltre il bacino', 'Il più alta possibile', 'Sopra la testa', 'Rasoterra senza controllo'], 0, 'L’altezza moderata mantiene l’asse.'),
+      mc('Che cosa distingue uchi-mata da harai-goshi?', ['La gamba sale all’interno invece di spazzare dietro', 'In uchi-mata non c’è kuzushi, ma solo sollevamento', 'Uchi-mata si fa solo con il judogi e la cintura', 'Uchi-mata si conclude sempre con una caduta in avanti'], 0),
+      mc('Come deve essere l’altezza della gamba?', ['Moderata, non oltre il bacino', 'Il più alta possibile, con forza', 'Sopra la testa, a gamba tesa', 'Rasoterra senza controllo'], 0, 'L’altezza moderata mantiene l’asse.'),
       fill('Se vacilli sul piede d’appoggio, ti ___ e ripeti più lentamente.', ['fermi', 'fermi subito', 'interrompi'], 'Interrompere è la scelta sicura.'),
-      mc('Dove va lo sguardo?', ['Ai piedi', 'In avanti, all’orizzonte', 'Al soffitto', 'A terra dietro di te'], 1, 'Sguardo ai piedi è un errore.'),
-      mc('Perché si ripete il gesto in tempo lento?', ['Per mettere in sicurezza l’equilibrio su una gamba sola', 'Perché è più facile da vedere', 'Per fare più forza', 'Non c’è motivo'], 0),
-      mc('Che cosa non può dimostrare questo modulo?', ['La memoria del gesto', 'Che la tecnica funziona su un avversario che resiste', 'Il ritmo', 'L’equilibrio'], 1)
+      mc('Dove va lo sguardo?', ['Ai piedi, per controllare il gesto', 'In avanti, all’orizzonte', 'Al soffitto, con il collo teso', 'A terra dietro di te'], 1, 'Sguardo ai piedi è un errore.'),
+      mc('Perché si ripete il gesto in tempo lento?', ['Per mettere in sicurezza l’equilibrio su una gamba sola', 'Perché è molto più facile da vedere per chi ti guarda dal video', 'Per fare più forza muscolare nelle gambe', 'Non c’è motivo: la velocità non cambia nulla'], 0),
+      mc('Che cosa non può dimostrare questo modulo?', ['La memoria del gesto, la sequenza e il controllo del ritmo', 'Che la tecnica funziona su un avversario che resiste', 'Il ritmo e la regolarità del movimento', 'L’equilibrio e la postura durante il gesto'], 1)
     ],
     test: [
-      mc('Verso dove si porta il partner immaginario?', ['In avanti e leggermente di lato', 'Indietro', 'Verso il basso', 'Non si porta'], 0),
+      mc('Verso dove si porta il partner immaginario?', ['In avanti e leggermente di lato', 'Indietro, sul tallone e verso l’alto', 'Verso il basso, sulle sue ginocchia', 'Non si porta: resta fermo'], 0),
       fill('Il piede d’appoggio sta sull’___, con il tallone leggero.', ['avampiede'], 'Peso sull’avampiede.'),
       mc('Qual è un errore da correggere?', ['Gamba troppo alta', 'Ginocchio morbido', 'Sguardo avanti', 'Respiro regolare'], 0),
-      mc('Che cosa è consigliabile per verificare la forma?', ['Un istruttore qualificato', 'Un’app che lo certifica', 'Niente', 'Aumentare la velocità'], 0),
+      mc('Che cosa è consigliabile per verificare la forma?', ['Un istruttore qualificato', 'Un’app che ne certifica la sicurezza', 'Niente: basta guardare un video', 'Aumentare la velocità dell’esecuzione'], 0),
       mc('Come finisce sempre il gesto?', ['In piedi, in shizentai', 'Con una caduta', 'Con una rotazione a terra', 'Con un salto'], 0, 'Nessuna caduta.'),
       order('Metti in ordine le fasi', ['Squilibrio', 'Entrata', 'Esecuzione'], 'Kuzushi, tsukuri, kake.')
     ] });
@@ -132,22 +132,22 @@
     ],
     exercises: [
       mc('Che cosa significa «gari»?', ['Spazzare', 'Agganciare', 'Afferrare', 'Cadere'], 0, 'Gari = spazzare.'),
-      mc('Che cosa significa «gake»?', ['Spazzare', 'Agganciare', 'Spingere', 'Ruotare'], 1, 'Gake = agganciare.'),
+      mc('Che cosa significa «gake»?', ['Sollevare in alto', 'Agganciare', 'Spingere con la mano', 'Ruotare sul posto'], 1, 'Gake = agganciare.'),
       order('Ordina il gesto', ['Kuzushi indietro', 'Piccolo passo', 'Piede basso sul tallone', 'Ritorno in shizentai'], 'Il gesto termina sempre in piedi.'),
       fill('Il piede lavora a quota ___, all’altezza del tallone.', ['bassissima', 'bassa'], 'Quota bassissima.'),
-      mc('Qual è la differenza principale fra gari e gake?', ['Il tempo di contatto: la spazzata passa, il gancio resta', 'La presa', 'La mano usata', 'Nessuna'], 0),
-      mc('Qual è la presa no-gi di questo gesto?', ['Collar tie destro e polso sinistro', 'Bavero e manica', 'Cintura', 'Nessuna presa'], 0, 'Senza judogi si usano nuca e polso.'),
-      mc('Quanto in alto sale il piede?', ['A pochi centimetri da terra', 'Sopra il ginocchio', 'All’altezza della testa', 'All’altezza del bacino'], 0),
+      mc('Qual è la differenza principale fra gari e gake?', ['Il tempo di contatto: la spazzata passa, il gancio resta', 'La presa: nel gari si usa il bavero, nel gake si afferra la cintura', 'La mano usata: la destra nel gari, la sinistra nel gake', 'Nessuna: sono due nomi della stessa tecnica di spazzata'], 0),
+      mc('Qual è la presa no-gi di questo gesto?', ['Collar tie destro e polso sinistro', 'Bavero destro e manica sinistra', 'Cintura con entrambe le mani', 'Nessuna presa: braccia lungo i fianchi'], 0, 'Senza judogi si usano nuca e polso.'),
+      mc('Quanto in alto sale il piede?', ['A pochi centimetri da terra', 'Sopra il ginocchio del partner', 'All’altezza della testa', 'All’altezza del bacino del partner'], 0),
       fill('Nel gake si fa una pausa di un ___ a fine gesto.', ['secondo'], 'Pausa di circa un secondo.'),
       mc('Che cosa è un errore tipico?', ['Peso sui talloni', 'Ginocchio morbido', 'Busto eretto', 'Piede basso'], 0),
       order('Ordina le parti della presa', ['Mano destra alla nuca', 'Mano sinistra al polso', 'Gomiti dentro'], 'Presa compatta.')
     ],
     test: [
       mc('A quale categoria Kodokan appartiene ko-soto-gari?', ['Ashi-waza', 'Te-waza', 'Koshi-waza', 'Sutemi-waza'], 0),
-      mc('Dove si porta il peso del partner immaginario?', ['Sul tallone destro, all’indietro', 'In avanti', 'In alto', 'Di lato'], 0),
+      mc('Dove si porta il peso del partner immaginario?', ['Sul tallone destro, all’indietro', 'Sul tallone sinistro, in avanti', 'In avanti, sull’avampiede destro', 'In alto, sulla punta di entrambi i piedi'], 0),
       fill('Il piede torna a terra ___ a te.', ['davanti'], 'Si torna in stance con controllo.'),
-      mc('Che cosa non devi mai fare con il piede?', ['Colpire oggetti o persone', 'Tenerlo basso', 'Tornare a terra', 'Usare il tallone'], 0),
-      mc('Che cosa non può dimostrare un gesto fluido a vuoto?', ['Che funzionerebbe contro un avversario', 'Che ricordi la sequenza', 'Che hai ritmo', 'Che hai equilibrio'], 0),
+      mc('Che cosa non devi mai fare con il piede?', ['Colpire oggetti o persone', 'Tenerlo basso e rilassato', 'Tornare a terra in equilibrio', 'Usare il tallone per agganciare'], 0),
+      mc('Che cosa non può dimostrare un gesto fluido a vuoto?', ['Che funzionerebbe contro un avversario', 'Che ricordi correttamente la sequenza dei passi', 'Che hai un buon ritmo nel gesto', 'Che mantieni l’equilibrio durante il gesto'], 0),
       order('Metti in ordine', ['Squilibrio', 'Entrata', 'Esecuzione'], 'Kuzushi, tsukuri, kake.')
     ] });
 
@@ -167,22 +167,22 @@
     ],
     exercises: [
       mc('Che cosa significa koshi-guruma?', ['Ruota dell’anca', 'Spazzata d’anca', 'Caduta del corpo', 'Ruota del piede'], 0, 'Koshi = anca, guruma = ruota.'),
-      mc('Che cosa avvolge il braccio destro in questa versione no-gi?', ['La vita', 'Il collo/nuca (neck wrap)', 'La gamba', 'Il braccio opposto'], 1, 'Il neck wrap è la presa caratteristica.'),
+      mc('Che cosa avvolge il braccio destro in questa versione no-gi?', ['La vita, come in o-goshi', 'Il collo/nuca (neck wrap)', 'La gamba di appoggio', 'Il braccio opposto del partner'], 1, 'Il neck wrap è la presa caratteristica.'),
       order('Ordina il gesto', ['Kuzushi in avanti', 'Passo avanti con il destro', 'Pivot con bacino sotto', 'Rotazione come ruota', 'Ritorno in shizentai'], 'Il finale è sempre in piedi.'),
       fill('Koshi-guruma è una tecnica di ___-waza (tecniche d’anca).', ['koshi'], 'Koshi = anca.'),
-      mc('Qual è la differenza con o-goshi?', ['Il braccio avvolge il collo invece della vita', 'Si usano i piedi', 'Non c’è kuzushi', 'Si cade'], 0),
-      mc('Dove sta il bacino?', ['Sotto il baricentro del partner immaginario', 'Molto indietro', 'Sopra la sua testa', 'Lontano da lui'], 0),
+      mc('Qual è la differenza con o-goshi?', ['Il braccio avvolge il collo invece della vita', 'Qui non c’è kuzushi, ma solo un sollevamento del partner', 'Si usano i piedi anziché le braccia', 'Si cade sempre in avanti sul tappeto'], 0),
+      mc('Dove sta il bacino?', ['Sotto il baricentro del partner immaginario', 'Molto indietro, lontano dal partner e con il busto flesso', 'Sopra la sua testa, con il busto flesso', 'Lontano da lui, con il busto ritto'], 0),
       mc('Come sono le ginocchia nell’entrata?', ['Flesse', 'Bloccate', 'Ruotate verso l’esterno', 'Alzate'], 0),
       fill('Il braccio al collo è solo ___: nessuno viene afferrato.', ['simulato'], 'Si lavora a vuoto.'),
       mc('Che cosa succede se carichi il peso in avanti?', ['Perdi equilibrio', 'Migliora la tecnica', 'Niente', 'Sei più veloce'], 0, 'Mai caricare il peso in avanti.'),
-      mc('Perché si ruota «come una ruota»?', ['Il peso passa sull’anca attorno a un asse stabile', 'Per saltare', 'Per cadere', 'Per tirare con le braccia'], 0)
+      mc('Perché si ruota «come una ruota»?', ['Il peso passa sull’anca attorno a un asse stabile', 'Per saltare più in alto e atterrare sempre con entrambi i piedi', 'Per cadere in avanti più facilmente', 'Per tirare di più con le braccia sul bavero'], 0)
     ],
     test: [
-      mc('A quale famiglia appartiene koshi-guruma?', ['Koshi-waza', 'Ashi-waza', 'Te-waza', 'Ne-waza'], 0),
-      mc('Qual è il finale corretto?', ['Piedi a terra, in piedi', 'Caduta', 'Rotolamento', 'Salto'], 0),
+      mc('A quale famiglia appartiene koshi-guruma?', ['Koshi-waza', 'Ashi-waza (gambe)', 'Te-waza (mani)', 'Ne-waza (terreno)'], 0),
+      mc('Qual è il finale corretto?', ['Piedi a terra, in piedi', 'Caduta controllata sul fianco', 'Rotolamento in avanti', 'Salto a piedi uniti'], 0),
       fill('La presa del polso sinistro serve a controllare il ___ immaginario.', ['braccio'], 'Il polso controlla il braccio.'),
-      mc('Quale errore corrisponde a «passi saltati»?', ['Passi troppo grandi e sbilanciati', 'Ginocchia morbide', 'Schiena dritta', 'Sguardo avanti'], 0),
-      mc('Che cosa è consigliabile per verificare la forma?', ['Un istruttore qualificato', 'Un video e basta', 'Nulla', 'Un’app di punteggio'], 0),
+      mc('Quale errore corrisponde a «passi saltati»?', ['Passi troppo grandi e sbilanciati', 'Ginocchia morbide e passi corti', 'Schiena dritta e sguardo avanti', 'Passi troppo piccoli e ravvicinati'], 0),
+      mc('Che cosa è consigliabile per verificare la forma?', ['Un istruttore qualificato', 'Il solo video che hai registrato', 'Un’app che assegna un punteggio', 'Nulla: basta la tua impressione'], 0),
       order('Metti in ordine le fasi', ['Squilibrio', 'Entrata', 'Esecuzione'], 'Kuzushi, tsukuri, kake.')
     ] });
 
