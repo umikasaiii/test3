@@ -1,0 +1,7 @@
+/* vNext — Strategic Mastery Academy (stesso stile dark/neon dell'app) */
+.sma-dim{display:grid;grid-template-columns:minmax(110px,1.2fr) 2fr;gap:4px 10px;align-items:center;margin:8px 0}
+.sma-dim small{grid-column:1/-1;color:var(--mute,#8a93b8)}
+.sma-bar{display:block;height:8px;border-radius:6px;background:rgba(130,140,200,.18);overflow:hidden}
+.sma-bar i{display:block;height:100%;background:linear-gradient(90deg,#5aa9ff,#b48cff)}
+.sma-hub h2{background:linear-gradient(90deg,#7aa2ff,#b48cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+@media (prefers-reduced-motion:reduce){.sma-bar i{transition:none}}

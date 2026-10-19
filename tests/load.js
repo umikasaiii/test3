@@ -13,7 +13,7 @@ module.exports = function load(opts) {
   ctx.location = { protocol: 'file:' };
   ctx.history = { pushState: noop, back: noop, state: null };
   vm.createContext(ctx);
-  sources().forEach(s => vm.runInContext(s.code, ctx, { filename: s.name + '.js' }));
+  sources().concat((opts && opts.extra) || []).forEach(s => vm.runInContext(s.code, ctx, { filename: s.name + '.js' }));
   ctx.ST.content.finalize();
   return ctx.ST;
 };
