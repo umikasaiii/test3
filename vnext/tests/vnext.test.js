@@ -253,3 +253,38 @@ test('strategos: laboratorio registrato; le evidenze finiscono nel profilo (appl
   const s = fresh(); fullMission(s, 'mis-tempo-settimana', 'limited', 'ext', 'ok', { source: 'il mio tutor' });
   const p = ST.sma.profile(s); assert.equal(p.application.n, 1); assert.equal(p.decision.n, 1); assert.equal(p.application.kinds.external, 1);
 });
+
+/* ---- Anime / Listening Lab ---- */
+const Li = ST.sma.listen;
+const SRT = '1\n00:00:01,000 --> 00:00:03,500\nおはようございます。\n\n2\n00:00:04,000 --> 00:00:04,900\nはい\n\n3\n00:00:05,100 --> 00:00:08,000\n<i>今日は学校で[テスト]があります。</i>\n\n4\n00:01:10,250 --> 00:01:12,000\nコーヒーを飲みましょう！\n';
+test('listening: parser SRT (tempi, tag HTML, ordine) e VTT con/ senza ore', () => {
+  const c = Li.parseSub(SRT, 'a.srt'); assert.equal(c.length, 4);
+  assert.equal(c[0].start, 1); assert.equal(c[0].end, 3.5); assert.equal(c[2].text, '今日は学校で[テスト]があります。'); assert.equal(c[3].start, 70.25);
+  const v = Li.parseSub('WEBVTT\n\n00:01.500 --> 00:03.000\nこんにちは\n\n01:00:00.000 --> 01:00:02.500 align:start\n長い動画', 'b.vtt');
+  assert.equal(v.length, 2); assert.equal(v[0].start, 1.5); assert.equal(v[1].start, 3600); assert.equal(v[1].text, '長い動画');
+});
+test('listening: parser ASS rimuove codici di formattazione e gestisce \\N', () => {
+  const ass = '[Script Info]\nTitle: x\n\n[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\nDialogue: 0,0:00:01.00,0:00:03.50,Default,,0,0,0,,{\\an8}おはよう\\Nございます\n';
+  const c = Li.parseSub(ass, 'c.ass'); assert.equal(c.length, 1); assert.equal(c[0].text, 'おはよう\nございます'); assert.equal(c[0].end, 3.5);
+});
+test('listening: segmentazione unisce le battute brevissime vicine e rispetta il massimo', () => {
+  const s = Li.segment(Li.parseSub(SRT, 'a.srt')); assert.equal(s.length, 3, 'la battuta «はい» (0,9 s) si unisce alla successiva? no: si unisce alla precedente se lo spazio < 0,6');
+  assert.ok(s[1].text.indexOf('はい') >= 0);
+  const f = Li.fixedSegments(12, 5); assert.equal(f.length, 3); assert.equal(f[2].end, 12);
+});
+test('listening: cloze con distrattori della stessa scrittura e una sola risposta giusta', () => {
+  const segs = Li.segment(Li.parseSub('1\n00:00:01,000 --> 00:00:03,000\n学校でコーヒーを飲みます\n\n2\n00:00:04,000 --> 00:00:06,000\n会社でテストをします\n\n3\n00:00:07,000 --> 00:00:09,000\n病院でレポートを書きます\n\n4\n00:00:10,000 --> 00:00:12,000\n図書館でジュースを飲みます', 'x.srt'));
+  const rng = (() => { let x = 3; return () => (x = (x * 16807) % 2147483647) / 2147483647; })();
+  for (let i = 0; i < segs.length; i++) { const c = Li.cloze(segs, i, rng); assert.ok(c, 'domanda ' + i); assert.equal(c.o.length, 4); assert.equal(new Set(c.o).size, 4); assert.equal(c.o[c.a], c.answer); assert.ok(c.q.indexOf('＿＿＿') >= 0); }
+  assert.equal(Li.cloze([{ text: 'はい', start: 0, end: 1 }], 0), null, 'senza abbastanza distrattori nessuna domanda');
+});
+test('listening: parole salvate con ripasso dilazionato (domani, poi ladder), senza duplicati', () => {
+  const s = fresh(); Li.save(s, '飲みましょう', 'コーヒーを飲みましょう'); Li.save(s, '飲みましょう'); assert.equal(Object.keys(Li.S(s).saved).length, 1);
+  assert.equal(Li.due(s).length, 0, 'non è dovuta oggi'); const c = Li.S(s).saved['L:飲みましょう']; assert.equal(c.due, ST.util.addDays(ST.util.today(), 1));
+  c.due = ST.util.today(); assert.equal(Li.due(s).length, 1);
+  const before = c.interval; Li.grade(s, 'L:飲みましょう', 2); assert.ok(Li.S(s).saved['L:飲みましょう'].interval >= before); assert.equal(Li.due(s).length, 0);
+});
+test('listening: il laboratorio è registrato e non dichiara valutazione automatica della pronuncia', () => {
+  assert.ok(ST.sma.labState('listening'));
+  assert.match(ST.views['sma-listen'].toString() + '', /non valuta la pronuncia/);
+});

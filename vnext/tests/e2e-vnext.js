@@ -13,7 +13,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   await page.click('[data-sma-tile]'); await page.waitForTimeout(250);
   const txt = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Strategic Mastery Academy/.test(txt) && /Detective Intelligence/.test(txt) && /Leadership & Decisions/.test(txt), 'il hub mostra i quattro percorsi');
-  ok((txt.match(/disponibile/g) || []).length === 7 && !/Non ancora implementato/.test(txt), 'sette laboratori disponibili e nessuno finto');
+  ok((txt.match(/disponibile/g) || []).length === 8 && !/Non ancora implementato/.test(txt), 'otto laboratori disponibili e nessuno finto');
   ok(/L5/.test(txt) && /non è una valutazione psicometrica/.test(txt), 'livelli e avvertenza sul profilo');
   ok(await page.evaluate(() => { const r = document.querySelector('.sma-hub').getBoundingClientRect(); return r.width <= innerWidth; }), 'nessun overflow orizzontale a 360px');
   // Deduction Lab: partita completa nell'interfaccia
@@ -62,6 +62,26 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => ST.app.state.sma.missions[0].obs.cls === 'self'), 'esito registrato come autodichiarato, non come verificato');
   await page.fill('#sma-learn', 'Ho imparato a lasciare margine'); await page.click('[data-act="smaMisRetro"]'); await page.waitForTimeout(150);
   ok(await page.evaluate(() => ST.app.state.sma.missions[0].status === 'closed' && /L1/.test(ST.sma.strategos.level(ST.app.state).level === 1 ? 'L1' : 'x')), 'missione chiusa; livello di transfer L1 (una sola evidenza non dichiarata reale)');
+  // Listening Lab: file locali (WAV sintetico + SRT)
+  const wav = (() => { const sr = 8000, n = sr * 10, b = Buffer.alloc(44 + n * 2); b.write('RIFF', 0); b.writeUInt32LE(36 + n * 2, 4); b.write('WAVEfmt ', 8); b.writeUInt32LE(16, 16); b.writeUInt16LE(1, 20); b.writeUInt16LE(1, 22); b.writeUInt32LE(sr, 24); b.writeUInt32LE(sr * 2, 28); b.writeUInt16LE(2, 32); b.writeUInt16LE(16, 34); b.write('data', 36); b.writeUInt32LE(n * 2, 40); for (let i = 0; i < n; i++) b.writeInt16LE(Math.round(8000 * Math.sin(2 * Math.PI * 440 * i / sr)), 44 + i * 2); return b; })();
+  const srt = '1\n00:00:01,000 --> 00:00:03,000\n学校でコーヒーを飲みます\n\n2\n00:00:04,000 --> 00:00:06,000\n会社でテストをします\n\n3\n00:00:07,000 --> 00:00:09,000\n病院でレポートを書きます\n\n4\n00:00:09,500 --> 00:00:9,900\n図書館でジュース\n';
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-listen', {}); }); await page.waitForTimeout(150);
+  await page.setInputFiles('#sma-f-media', { name: 'prova.wav', mimeType: 'audio/wav', buffer: wav });
+  await page.setInputFiles('#sma-f-sub', { name: 'prova.srt', mimeType: 'text/plain', buffer: Buffer.from(srt, 'utf8') });
+  await page.click('[data-act="smaLiLoad"]'); await page.waitForTimeout(700);
+  ok(await page.evaluate(() => ST.sma.listen.cur.segs.length >= 3 && !!document.querySelector('#sma-media audio')), 'file e sottotitoli caricati: segmenti e lettore presenti');
+  await page.click('[data-act="smaLiMode"][data-v="ja"]'); await page.waitForTimeout(100);
+  ok(await page.evaluate(() => /コーヒー/.test(document.getElementById('sma-cue').innerText)), 'modalità con sottotitoli giapponesi mostra la battuta');
+  await page.click('[data-act="smaLiSpeed"][data-v="0.5"]'); await page.waitForTimeout(100);
+  ok(await page.evaluate(() => document.querySelector('#sma-media audio').playbackRate === 0.5), 'la velocità di riproduzione è regolabile (0,5×)');
+  await page.click('[data-act="smaLiSpeed"][data-v="1.25"]'); await page.waitForTimeout(100);
+  await page.click('[data-act="smaLiPlay"]'); await page.waitForTimeout(2600);
+  const pl = await page.evaluate(() => { const a = document.querySelector('#sma-media audio'); return { t: a.currentTime, paused: a.paused, done: ST.sma.listen.cur.done }; });
+  ok(pl.paused && pl.done === 1 && pl.t >= 2.9 && pl.t <= 3.3, 'il segmento si ferma alla fine della battuta (t=' + pl.t.toFixed(2) + ')');
+  await page.click('[data-act="smaLiSaveW"]'); await page.waitForTimeout(100);
+  ok(await page.evaluate(() => Object.keys(ST.sma.listen.S(ST.app.state).saved).length === 1), 'una parola può essere salvata per il ripasso');
+  await page.click('[data-act="smaLiCloze"]'); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => document.querySelectorAll('[data-act="smaLiAns"]').length === 4), 'domanda di comprensione generata dai sottotitoli');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
