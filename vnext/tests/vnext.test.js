@@ -93,3 +93,31 @@ test('deduction: il salvataggio registra evidenze separate (deduzione, decisione
 test('deduction: il laboratorio risulta disponibile nell’hub', () => {
   assert.ok(ST.sma.labState('deduction'));
 });
+
+/* ---- Adaptive Opponent ---- */
+const O = ST.sma.opponent;
+const mv = (t, mine) => O.run(t, mine.split('')).hist.map(r => r[1]).join('');
+test('opponent: ogni avversario reagisce in modo verificabile alla storia', () => {
+  assert.equal(mv('aggr', 'CCCCCCCCCC'), 'DDDDDDDDDD', 'l’aggressivo defeziona sempre');
+  assert.equal(mv('cons', 'CCDCCCCCCC'), 'CCCDDDDDDD', 'il conservativo non perdona mai dopo la prima defezione');
+  assert.equal(mv('cons', 'CCCCCCCCCC'), 'CCCCCCCCCC');
+  assert.equal(mv('coop', 'CCDDCCCCCC').slice(0, 5), 'CCCDC', 'il cooperativo copia la tua ultima mossa e perdona al round 5');
+  assert.equal(mv('opp', 'CCCCCCCCCC'), 'CCDDDDDDDD', 'l’opportunista sfrutta chi coopera sempre');
+  assert.equal(mv('opp', 'CCDCCDCCDC').slice(0, 6), 'CCDDCD', 'sfrutta dopo due C, punisce una D, perdona una ripresa di cooperazione');
+  assert.equal(mv('ada', 'CCDDDDDDDD').slice(0, 5), 'CCCCD', 'l’adattivo segue la maggioranza delle ultime tre mosse');
+});
+test('opponent: determinismo (stessa sequenza, stesso esito)', () => {
+  const s = 'CDCDCCDDCD'; O.TYPE_IDS.forEach(t => assert.equal(JSON.stringify(O.run(t, s.split(''))), JSON.stringify(O.run(t, s.split('')))));
+});
+test('opponent: il massimo è davvero un massimo (nessuna sequenza lo supera) e la strategia ovvia non è sempre ottimale', () => {
+  O.TYPE_IDS.forEach(t => { const b = O.bestOf(t); [Array(10).fill('C'), Array(10).fill('D'), 'CDCDCDCDCD'.split('')].forEach(q => assert.ok(O.run(t, q).score <= b.score)); });
+  assert.ok(O.bestOf('cons').score > O.run('cons', Array(10).fill('D')).score, 'contro il rancoroso tradire sempre rende meno');
+  assert.equal(O.bestOf('aggr').score, 10);
+  assert.ok(O.bestOf('opp').score > O.run('opp', Array(10).fill('D')).score && O.bestOf('opp').score > O.run('opp', Array(10).fill('C')).score, 'contro l’opportunista né cooperare sempre né tradire sempre è ottimale');
+});
+test('opponent: partita completa, punteggio e risultato coerenti', () => {
+  const st = O.start('cons'); for (let i = 0; i < 10; i++) O.play(st, 'C');
+  assert.ok(O.done(st)); assert.equal(O.play(st, 'C'), null);
+  const r = O.result(st); assert.equal(r.you, 30); assert.equal(r.them, 30); assert.equal(r.best, 32); assert.ok(r.eff > 0.9);
+});
+test('opponent: il laboratorio è registrato', () => { assert.ok(ST.sma.labState('opponent')); });

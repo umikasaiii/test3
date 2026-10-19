@@ -29,6 +29,14 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   const res = await page.evaluate(() => document.getElementById('app').innerText);
   ok(/Buona decisione/.test(res) && /Feedback sul processo/.test(res) && /Soluzione/.test(res), 'esito con feedback sul processo e soluzione');
   ok(await page.evaluate(() => { const c = ST.app.state.sma.cases['ded-sito-lento']; return c && c.tries === 1 && ST.sma.profile(ST.app.state).deduction.n === 1; }), 'risultato salvato nello stato e nel profilo');
+  // Adaptive Opponent: dieci round nell'interfaccia
+  await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-opponent', {}); }); await page.waitForTimeout(150);
+  ok(await page.evaluate(() => document.querySelectorAll('[data-act="smaOppOpen"]').length === 5), 'cinque avversari elencati senza rivelarne il tipo');
+  await page.click('[data-act="smaOppOpen"][data-t="cons"]'); await page.waitForTimeout(150);
+  for (let i = 0; i < 10; i++) { await page.click('[data-act="smaOppMove"][data-m="C"]'); await page.waitForTimeout(40); }
+  const og = await page.evaluate(() => document.getElementById('app').innerText);
+  ok(/Conservativo/.test(og) && /il massimo possibile/.test(og) && /30/.test(og), 'a fine partita compaiono regola, punteggio e massimo possibile');
+  ok(await page.evaluate(() => { const e = ST.app.state.sma.sims['opp:cons']; return e && e.tries === 1; }), 'risultato salvato');
   // regressione: le viste esistenti continuano ad aprirsi
   for (const v of [['subject', { id: 'str' }], ['subject', { id: 'mnt' }], ['optlab', {}], ['transfer', {}]]) {
     await page.evaluate(([n, p]) => { ST.app.stack = []; ST.app.go(n, p); }, v); await page.waitForTimeout(120);
