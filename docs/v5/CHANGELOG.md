@@ -23,7 +23,9 @@ Consegna del mandato «V5». Il lavoro è stato fatto sui **sorgenti del reposit
 ## Riquadri rimossi
 Rimossi il rendering **e** i dati (`stageNote`) dei riquadri sui livelli didattici in Inglese, Giapponese, Judo e Strategic Mastery; il riquadro «indicatori in-app / B2» della schermata Prove B2; i riquadri su pronuncia/scrittura in Shadowing, Risposta spontanea e Scrittura; le frasi sul significato degli stage in Progresso e nell'hub Judo. **Le regole non sono cambiate**: completare le lezioni non assegna il B2 (verificato da test).
 
-**Conservati di proposito** (sicurezza o limiti specifici di uno strumento): gesti judo da verificare con un istruttore, stop in caso di dolore, ambiente isolato del Cyber Lab, sicurezza del Combat Lab, disclaimer medico dello Sport Lab, modello sintetico dell'F1 Lab, limiti del controllo automatico nella Conversazione, «l'app non misura la pronuncia» nel Lab Audio, Python non disponibile, avvisi file:// e voci mancanti, nota dinamica sui minuti del piano (es. «inglese mantenuto a 25′»). Se vuoi eliminare anche alcuni di questi, è una modifica di poche righe.
+**Rimossi anche, su richiesta successiva dell'utente:** avvisi di sicurezza e di limite degli strumenti (gesti judo da verificare con un istruttore, stop in caso di dolore, ambiente isolato del Cyber Lab, Combat Lab, disclaimer Sport Lab e F1 Lab, limiti della Conversazione, nota del Lab Audio).
+
+**Restano** soltanto avvisi tecnici operativi: file://, voci di sintesi mancanti, Python non disponibile, nota dinamica sui minuti del piano.
 
 ## Test eseguiti (reali)
 Vedi `docs/v5/TEST-REPORT.md`.

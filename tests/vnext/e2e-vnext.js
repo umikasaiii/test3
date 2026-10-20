@@ -87,14 +87,14 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => document.querySelectorAll('[data-act="smaLiAns"]').length === 4), 'domanda di comprensione generata dai sottotitoli');
   // Combat Tactical Recognition
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-combat', {}); }); await page.waitForTimeout(150);
-  ok(await page.evaluate(() => /istruttore qualificato/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaCmbOpen"]').length === 8), 'situazioni elencate con avviso di sicurezza');
+  ok(await page.evaluate(() => document.querySelectorAll('[data-act="smaCmbOpen"]').length === 8), 'situazioni elencate elencate');
   await page.click('[data-act="smaCmbOpen"][data-id="cmb-l2-kuzushi"]'); await page.waitForTimeout(150);
   ok(await page.evaluate(() => !!document.querySelector('svg[aria-label^="Schema"] marker')), 'lo schema dall\'alto è disegnato');
   for (let i = 0; i < 3; i++) { await page.click('[data-act="smaCmbPick"][data-o="0"]'); await page.waitForTimeout(80); await page.click('[data-act="smaCmbNext"]'); await page.waitForTimeout(80); }
   ok(await page.evaluate(() => /Risultato: 100%/.test(document.getElementById('app').innerText) && ST.app.state.sma.combat.theory['cmb-l2-kuzushi'].tries === 1 && ST.app.state.sma.combat.motor.length === 0), 'risultato teorico salvato senza alcun progresso motorio');
   // Cybersecurity Practical Lab: terminale simulato
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-cyber', {}); }); await page.waitForTimeout(150);
-  ok(await page.evaluate(() => /Ambiente simulato e isolato/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaCybOpen"]').length === 10), 'dieci esercizi con avviso di ambiente simulato');
+  ok(await page.evaluate(() => document.querySelectorAll('[data-act="smaCybOpen"]').length === 10), 'dieci esercizi elencati');
   await page.click('[data-act="smaCybOpen"][data-id="cyb-perms-key"]'); await page.waitForTimeout(150);
   await page.fill('#sma-cmd', 'ls -l /home/user/.ssh'); await page.press('#sma-cmd', 'Enter'); await page.waitForTimeout(120);
   ok(await page.evaluate(() => /-rw-r--r--/.test(document.getElementById('sma-term').innerText)), 'un comando inviato con Invio produce output nel terminale');
@@ -116,7 +116,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => /XOR[^\n]*non può imparare/.test(document.getElementById('app').innerText)), 'esperimento di AI: il perceptron non impara XOR');
   // Formula 1 Strategy Lab
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-f1', {}); }); await page.waitForTimeout(150);
-  ok(await page.evaluate(() => /SINTETICI/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaF1Open"]').length === 5), 'cinque scenari con modello dichiarato sintetico');
+  ok(await page.evaluate(() => document.querySelectorAll('[data-act="smaF1Open"]').length === 5), 'cinque scenari elencati');
   await page.click('[data-act="smaF1Open"][data-id="f1-piano-asciutto"]'); await page.waitForTimeout(150);
   await page.click('[data-act="smaF1Add"]'); await page.waitForTimeout(100); await page.click('[data-act="smaF1Run"]'); await page.waitForTimeout(400);
   ok(await page.evaluate(() => /Tempo totale/.test(document.getElementById('app').innerText) && /Ottimo del modello/.test(document.getElementById('app').innerText) && !!document.querySelector('svg[aria-label^="Tempi"]')), 'piano simulato: tempo, ottimo del modello e telemetria sintetica');
@@ -142,7 +142,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => document.getElementById('app').innerText.length > 40), 'il Cognitive Performance Lab esistente si avvia dall’Academy');
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-audio', {}); }); await page.waitForTimeout(150);
   await page.click('[data-act="smaAuDiag"]'); await page.waitForTimeout(1800);
-  ok(await page.evaluate(() => /Sintesi vocale:/.test(document.getElementById('app').innerText) && /Registrazione/.test(document.getElementById('app').innerText) && /non misura la pronuncia/.test(document.getElementById('app').innerText)), 'diagnostica audio reale e dichiarazione sul feedback di pronuncia');
+  ok(await page.evaluate(() => /Sintesi vocale:/.test(document.getElementById('app').innerText) && /Registrazione/.test(document.getElementById('app').innerText) && !document.querySelector('#app .warn')), 'diagnostica audio reale, nessun riquadro giallo');
   // Moduli didattici e verifica del livello
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('subject', { id: 'sma' }); }); await page.waitForTimeout(200);
   ok(await page.evaluate(() => /24 moduli|6 moduli/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaLvCheck"]').length === 6), 'sei livelli con verifica; ogni pilastro mostra i suoi moduli');
@@ -150,7 +150,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? '  ✓ ' : '  ✗ ') + m)
   ok(await page.evaluate(() => /Verifica L0/.test(document.getElementById('app').innerText)), 'la verifica del livello parte nel runner esistente');
   // English Conversation Lab
   await page.evaluate(() => { ST.app.stack = []; ST.app.go('sma-conv-en', {}); }); await page.waitForTimeout(150);
-  ok(await page.evaluate(() => /Controlli automatici limitati/.test(document.getElementById('app').innerText) && document.querySelectorAll('[data-act="smaCvOpen"]').length === 8), 'otto scenari e dichiarazione dei limiti dei controlli');
+  ok(await page.evaluate(() => document.querySelectorAll('[data-act="smaCvOpen"]').length === 8), 'otto scenari');
   await page.click('[data-act="smaCvOpen"][data-id="cv-en-a2-cafe"]'); await page.waitForTimeout(150);
   await page.click('[data-act="smaCvPick"][data-o="0"]'); await page.waitForTimeout(100); await page.click('[data-act="smaCvNext"]'); await page.waitForTimeout(100);
   await page.click('[data-act="smaCvPick"][data-o="0"]'); await page.waitForTimeout(100); await page.click('[data-act="smaCvNext"]'); await page.waitForTimeout(100);

@@ -173,7 +173,7 @@ test('Home: la sezione «Pratica consigliata» è nascosta se non c’è nulla, 
   assert.match(h, /~\d+ min/); assert.match(h, /Da iniziare/);
 });
 
-test('riquadri informativi sui livelli rimossi da tutte le materie; avvisi di sicurezza conservati', () => {
+test('riquadri informativi e avvisi rimossi su richiesta; regole sottostanti invariate', () => {
   const s = ST.app.state = fresh();
   ['eng', 'jpn', 'cyb', 'sport', 'moto', 'f1', 'str', 'sec', 'sma', 'grp', 'mnt'].forEach(sid => {
     const h = (ST.views.subject({ id: sid }) || '');
@@ -181,11 +181,7 @@ test('riquadri informativi sui livelli rimossi da tutte le materie; avvisi di si
     assert.doesNotMatch(h, /Completare le lezioni NON assegna|non equivalgono|livelli didattici interni|non una cintura/, sid);
   });
   assert.equal(C.subject('eng').stageNote, undefined); assert.equal(C.subject('jpn').stageNote, undefined);
-  // sicurezza: il gesto che richiede un istruttore e l'ambiente isolato del Cyber Lab restano
-  const src = require('fs').readFileSync(require('path').join(__dirname, '..', '..', 'src', 'ui', 'mission.js'), 'utf8');
-  assert.match(src, /verificato da un istruttore/); assert.match(src, /Stop immediato in caso di dolore/);
-  assert.match(require('fs').readFileSync(require('path').join(__dirname, '..', '..', 'src', 'vnext', '60-cyberlab.js'), 'utf8'), /Ambiente simulato e isolato/);
-  assert.match(ST.views['sma-combat']({}) || '', /sicurezza|Sicurezza|rischio|partner|istruttore/i);
+  ['sma-combat', 'sma-cyber', 'sma-sport', 'sma-f1', 'sma-conv-en', 'sma-audio'].forEach(v => assert.doesNotMatch(ST.views[v]({}) || '', /class="warn/, v));
   // le regole sottostanti: nessuna certificazione assegnata dal solo completamento delle lezioni
   const s3 = fresh(); C.topicsOf('eng').forEach(t => { studyNow(s3, t.id, 0); }); assert.equal(PL.minutes(s3).b2, false);
 });

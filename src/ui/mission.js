@@ -209,8 +209,6 @@
   V.technique = p => {
     const t = M.def(p.id), r = A.state.motor[p.id], J = C.judo;
     let h = '<div class="row"><button class="btn alt sm" data-act="back">← Indietro</button></div><h1>' + E(t.name) + '</h1><p class="mute">' + E(t.jp) + ' · ' + E(t.stage) + ' · spazio: ' + E(t.space) + '</p><p><span class="tag">' + (t.gi === 'gi' ? 'con judogi' : 'NO-GI') + '</span>' + (t.track === 'lotta' ? '<span class="tag">lotta</span>' : t.track === 'clinch' ? '<span class="tag">clinch</span>' : '') + '</p>' + (C.topic('jud-' + t.id) ? '<button class="btn alt" data-act="go" data-view="topic" data-p=\'{"id":"jud-' + t.id + '"}\'>📖 Lezione approfondita, esercizi e verifica</button>' : '') +
-      (t.instructor ? '<p class="warn small">Questo gesto va <b>verificato da un istruttore</b>. Qui si allena solo forma, ritmo e fluidità (a vuoto o in progressione di sicurezza).</p>' : '') +
-      (t.warn ? '<p class="warn small">⚠ ' + E(t.warn) + '</p>' : '') +
       '<div class="card"><h3>Indicazioni</h3><ol>' + t.cues.map(c => '<li>' + E(c) + '</li>').join('') + '</ol></div>' +
       '<div class="card"><h3>Errori comuni da controllare</h3><p>' + t.errors.map(e => '<span class="tag">' + E(e[1]) + '</span>').join(' ') + '</p></div>' +
       '<div class="card"><h3>Varianti</h3><ul>' + t.variants.map(v => '<li>' + E(v) + '</li>').join('') + '</ul></div>';
@@ -295,13 +293,13 @@
       const cur = a.cur || (a.cur = { q: 3, d: 3, err: [] });
       return '<h1>' + E(t.name) + '</h1><div class="card"><h3>Come è andata? (autovalutazione)</h3><p class="mute small">Qualità tecnica percepita (1 = molto incerta, 5 = fluida e precisa)</p><div class="chips">' + stars(cur.q, 'q') + '</div><p class="mute small">Difficoltà percepita (1 = facile, 5 = molto faticosa)</p><div class="chips">' + stars(cur.d, 'd') + '</div>' +
         '<p class="mute small">Errori notati</p><div class="chips">' + t.errors.map(e => '<button class="chip' + (cur.err.includes(e[0]) ? ' sel' : '') + '" data-act="jerr" data-e="' + e[0] + '" style="' + (cur.err.includes(e[0]) ? 'border-color:var(--bad)' : '') + '">' + E(e[1]) + '</button>').join('') + '</div>' +
-        '<p class="warn small">Se hai sentito dolore, fermati e non aumentare la difficoltà. Una buona sensazione solitaria non dimostra che la tecnica funzioni con un partner.</p><button class="btn block" data-act="jsave">' + (a.i + 1 < a.items.length ? 'Salva e prossima tecnica' : 'Salva e concludi') + '</button></div>';
+        '<button class="btn block" data-act="jsave">' + (a.i + 1 < a.items.length ? 'Salva e prossima tecnica' : 'Salva e concludi') + '</button></div>';
     }
     const ph = a.defs[a.ph];
     return '<div class="row"><button class="btn alt sm" data-act="jabort">✕ Interrompi</button><span class="sp"></span><span class="mute small">' + (a.i + 1) + '/' + a.items.length + '</span></div><h1>' + E(t.name) + '</h1><p class="mute small">' + E(t.jp) + ' · spazio: ' + E(t.space) + '</p>' +
       '<div class="phase"><div class="mute small">Fase ' + (a.ph + 1) + '/4</div><h2 style="margin:4px 0">' + E(ph.name) + '</h2><div class="timer" id="jleft">' + Math.floor(a.left / 60) + ':' + String(a.left % 60).padStart(2, '0') + '</div><p>' + E(ph.text) + '</p></div>' +
       (ph.showCues ? '<div class="card"><h3>Indicazioni</h3><ol>' + t.cues.map(c => '<li>' + E(c) + '</li>').join('') + '</ol></div>' : '<div class="card"><p class="mute">Indicazioni nascoste: rifai il movimento a memoria.</p></div>') +
-      '<div class="row"><button class="btn alt" data-act="jskip">Salta fase →</button></div><p class="warn small">Stop immediato in caso di dolore. Nessuna proiezione, nessuna caduta, nessun contatto: solo movimento a vuoto.</p>';
+      '<div class="row"><button class="btn alt" data-act="jskip">Salta fase →</button></div>';
   };
   X.jskip = () => nextPhase();
   X.jabort = () => { if (confirm('Interrompere la sessione di judo?')) { clearInterval(jt); A.act = null; A.back(); } };

@@ -139,9 +139,9 @@ const SUBJECTS = ['eng', 'jpn', 'grp', 'cyb', 'moto', 'sport', 'f1', 'str', 'mnt
 
   // 11. Sicurezza e riquadri
   await go('technique', { id: await page.evaluate(() => ST.content.judo.techniques.find(t => t.instructor).id) });
-  ok(/verificato da un istruttore/.test(await txt()), 'avviso di sicurezza judo conservato (gesti da verificare con un istruttore)');
-  await go('sma-cyber', {}); ok(/Ambiente simulato e isolato/.test(await txt()), 'avviso del Cyber Lab (solo ambienti simulati/autorizzati) conservato');
-  await go('sma-combat', {}); ok(/sicurezza|partner|istruttore/i.test(await txt()), 'avviso di sicurezza del Combat Lab conservato');
+  ok(!/verificato da un istruttore/.test(await txt()) && !(await page.evaluate(() => document.querySelector('#app .warn'))), 'scheda tecnica judo senza riquadri gialli (rimossi su richiesta)');
+  await go('sma-cyber', {}); ok(!(await page.evaluate(() => document.querySelector('#app .warn'))), 'Cyber Lab senza riquadro giallo');
+  await go('sma-combat', {}); ok(!(await page.evaluate(() => document.querySelector('#app .warn'))), 'Combat Lab senza riquadro giallo');
   for (const [v, rx] of [['b2', /Prove B2/], ['subject:eng', /Inglese/]]) {
     const [name, id] = v.split(':'); await go(name, id ? { id } : {}); const w = await page.evaluate(() => [...document.querySelectorAll('#app .warn')].map(e => e.textContent).join(' | '));
     ok(rx.test(await txt()) && !/indicatori in-app|non assegna|CEFR/.test(w), v + ': nessun riquadro giallo sui livelli/certificazioni');
